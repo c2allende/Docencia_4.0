@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducción Módulo 1 | Docencia 4.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+<style>
+:root {
+--primary: #00C2FF;
+--secondary: #FF8D5C;
+--tertiary: #FF9E2A;
+--neutral-dark: #0A192F;
+--primary-gradient: linear-gradient(135deg, #00C2FF 0%, #0099CC 100%);
+--accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+--bg-soft: #F1F8FF;
+--nav-height: 80px;
+}
+
+body {
+background: var(--bg-soft);
+color: var(--neutral-dark);
+line-height: 1.8;
+font-family: 'Manrope', sans-serif;
+padding-top: var(--nav-height);
+margin: 0;
+}
+
+/* NAVBAR SUPERIOR */
+.top-nav {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+height: var(--nav-height);
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(20px);
+border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 40px;
+z-index: 1000;
+}
+
+.nav-left { display: flex; align-items: center; gap: 20px; }
+.logo-container img { height: 48px; width: auto; }
+
+h1, h2, h3 {
+font-family: 'Plus Jakarta Sans', sans-serif;
+background: linear-gradient(135deg, #0056b3, #00a1ff);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+display: inline-block;
+margin-top: 0;
+}
+
+.module-title-nav {
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-weight: 800;
+font-size: 1.1rem;
+background: linear-gradient(135deg, #0056b3, #00a1ff);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+border-left: 2px solid var(--primary);
+padding-left: 20px;
+}
+
+/* MENÚ LATERAL */
+.sidebar {
+position: fixed;
+top: 0;
+left: -320px;
+width: 320px;
+height: 100vh;
+background: var(--neutral-dark);
+color: white;
+box-shadow: 20px 0 50px rgba(0,0,0,0.2);
+transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+z-index: 2000;
+padding: 40px 30px;
+}
+
+.sidebar.active { left: 0; }
+
+.sidebar-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(10, 25, 47, 0.6);
+backdrop-filter: blur(4px);
+display: none;
+z-index: 1999;
+}
+
+.sidebar-overlay.active { display: block; }
+
+.menu-btn {
+background: rgba(0, 194, 255, 0.1);
+border: 1px solid rgba(0, 194, 255, 0.2);
+padding: 12px;
+border-radius: 14px;
+cursor: pointer;
+color: var(--primary);
+transition: all 0.3s ease;
+}
+
+.menu-btn:hover { background: var(--primary); color: white; }
+
+.side-menu-title {
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-weight: 800;
+font-size: 1.5rem;
+margin-bottom: 35px;
+color: white;
+}
+
+.menu-links { list-style: none; padding: 20px 0; }
+.menu-links li { margin-bottom: 12px; }
+.menu-links a {
+display: flex;
+align-items: center;
+gap: 15px;
+text-decoration: none;
+color: rgba(255, 255, 255, 0.7);
+font-weight: 600;
+padding: 14px 20px;
+border-radius: 15px;
+transition: all 0.3s;
+}
+
+.menu-links a:hover {
+background: rgba(255, 255, 255, 0.1);
+color: var(--primary);
+}
+
+.menu-links a.active {
+background: var(--primary);
+color: var(--neutral-dark);
+font-weight: 800;
+}
+
+/* CONTENIDO */
+.content-wrapper {
+max-width: 950px;
+margin: 40px auto 100px auto;
+padding: 0 25px;
+}
+
+.intro-card {
+background: white;
+border-radius: 35px;
+padding: 4.5rem;
+box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+border: 1px solid rgba(0, 194, 255, 0.05);
+}
+
+.resumen-section {
+background: #F8FBFF;
+padding: 2.5rem;
+border-radius: 28px;
+border: 1px solid rgba(0, 194, 255, 0.15);
+margin-bottom: 3.5rem;
+color: var(--neutral-dark);
+}
+
+.audio-section {
+background: #F1F5F9;
+padding: 1.2rem 2rem;
+border-radius: 20px;
+display: flex;
+align-items: center;
+gap: 20px;
+margin: 2.5rem 0;
+border-left: 6px solid var(--primary);
+}
+
+.pilar-card {
+background: #fff;
+padding: 2.2rem;
+border-radius: 24px;
+margin-bottom: 1.8rem;
+border: 1px solid #EDF2F7;
+transition: transform 0.3s ease;
+}
+
+.pilar-card:hover { transform: translateX(8px); border-color: var(--primary); }
+
+.obj-list { padding-left: 20px; margin: 2rem 0; }
+.obj-list li { margin-bottom: 14px; position: relative; list-style: none; }
+.obj-list li::before {
+content: '→';
+position: absolute;
+left: -25px;
+color: var(--primary);
+font-weight: 800;
+}
+
+.reflection-banner {
+background: var(--accent-gradient);
+color: white;
+padding: 3.5rem;
+border-radius: 35px;
+text-align: center;
+margin-top: 5rem;
+box-shadow: 0 15px 35px rgba(255, 141, 92, 0.3);
+}
+
+.image-integration {
+float: right;
+width: 44%;
+margin: 0 0 2.5rem 3rem;
+border-radius: 28px;
+overflow: hidden;
+box-shadow: 0 25px 50px rgba(10, 25, 47, 0.15);
+border: 2px solid white;
+}
+
+.image-integration img { width: 100%; display: block; cursor: zoom-in; }
+
+.nav-footer {
+display: flex;
+justify-content: space-between;
+margin-top: 6rem;
+border-top: 1px solid #f1f5f9;
+padding-top: 3rem;
+}
+
+.btn-primary-action {
+background: var(--primary-gradient);
+color: white;
+padding: 18px 45px;
+border-radius: 35px;
+text-decoration: none;
+font-weight: 700;
+transition: all 0.3s ease;
+}
+
+.btn-primary-action:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 161, 255, 0.2); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+<div class="nav-left">
+<button class="menu-btn" onclick="toggleSidebar()">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+</button>
+<div class="logo-container">
+<img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+</div>
+<span class="module-title-nav">Módulo 1: Introducción</span>
+</div>
+</nav>
+
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+<h2 class="side-menu-title">Navegación</h2>
+<ul class="menu-links">
+<li><a href="dashboard.html">🏠 Dashboard</a></li>
+<li><a href="modulo1_intro.html" class="active">📍 Inicio Módulo 1</a></li>
+<li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
+</ul>
+</div>
+
+<main class="content-wrapper">
+<div class="intro-card">
+<h1 style="font-size: 2.2rem; line-height: 1.3; margin-bottom: 3rem;">Módulo 1: Fundamentos, potencial pedagógico y ética de los LLM en la gestión docente</h1>
+
+<p><strong>Resumen:</strong></p>
+<div class="resumen-section">
+El módulo 1 ofrece una base sólida para comprender qué es un LLM, diferenciándolo claramente de los buscadores tradicionales y de los bots o apps que lo utilizan. Presenta usos estratégicos por área de contenido, mostrando cómo estas tecnologías pueden apoyar la generación de problemas, análisis de textos, adaptación de niveles de lectura y redacción de PEI. Finalmente, introduce el marco ético legal (FERPA y normativas del DEPR), los riesgos de sesgos y dependencia tecnológica, y el rol del docente como “human in the loop” que, valida, corrige y decide sobre todo lo que la IA genera.
+</div>
+
+<p><strong>Bienvenida al módulo 1</strong></p>
+<div class="audio-section">
+<span style="font-weight: 700; font-size: 0.8rem; color: #64748b;">REPRODUCIR</span>
+<audio controls style="flex-grow: 1; height: 35px;">
+<source src="../LLM-DEPR/LLM_M1_Bienvenida Módulo 1_ Fundamentos, Potencial Pedagógico y Ética de los LLM_audio.mp3" type="audio/mpeg">
+</audio>
+</div>
+
+<p>Bienvenidos y bienvenidas al primer módulo de este programa de formación profesional. En los últimos dos años, hemos presenciado cambios sin precedentes en el panorama educativo global. Las herramientas de inteligencia artificial, en particular los Modelos de Lenguaje de Gran Tamaño (LLM), han dejado de ser ciencia ficción para convertirse en tecnología accesible en nuestras aulas, oficinas y hogares.</p>
+
+<p>Pero aquí surge una pregunta fundamental que quizás muchos de ustedes se han hecho:</p>
+
+<p style="text-align: center; color: #0056b3; font-style: italic; font-size: 1.1rem; padding: 1.5rem 0;">"¿Qué es exactamente un LLM? ¿Cómo y dónde funciona? ¿Es una herramienta que puedo usar responsablemente en mi práctica docente, o debo tener precaución?"</p>
+
+<p>Este módulo responde esas preguntas, no desde una perspectiva de tecnicismo informático, sino desde una óptica pedagógica y práctica. Lo que proponemos es que transiten de la incertidumbre o rechazo inicial a una comprensión clara y fundamentada de qué es un LLM como tecnología base, cómo se diferencia de un bot o aplicación que lo usa, qué pueden hacer en favor de su gestión docente, y lo más importante, qué no deben hacer sin su vigilancia y criterio profesional.</p>
+
+<p>Como maestros y maestras, ustedes ya enfrentan una realidad que los números confirman: <strong>la sobrecarga administrativa</strong>. Planificaciones, rúbricas, informes de progreso, correos a padres, actualizaciones de expedientes, reuniones... Todo esto suma horas que podrían dedicarse a lo que realmente transforma vidas: la interacción pedagógica con sus estudiantes y el mentorado de futuros maestros.</p>
+
+<p>Paralelamente, sus estudiantes, especialmente en niveles más altos, ya están usando aplicaciones basadas en LLM, como chatbots y asistentes de escritura. Algunos lo hacen responsablemente; otros, sin enterarse de los riesgos o sin guía sobre la ética. Como educadores, tienen la responsabilidad y la oportunidad de <strong>modelar un uso informado, crítico y ético</strong> de estos recursos.</p>
+
+<p>Por eso, este módulo se fundamenta en tres pilares teóricos que ustedes, como docentes reflexivos, conocen bien:</p>
+
+<div class="pilar-card">
+<strong>1. La Teoría Sociocultural de Vygotsky:</strong> Los LLM pueden actuar como un "andamiaje" (scaffolding) que les permite trabajar en una Zona de Desarrollo Próximo superior, liberando tiempo y energía de tareas mecánicas para invertir en decisiones pedagógicas profundas.
+</div>
+
+<div class="pilar-card">
+<strong>2. El Modelo de Aceptación Tecnológica (TAM):</strong> Entenderemos no solo cómo funcionan estas herramientas, sino por qué vale la pena usarlas: qué tan útil es para su trabajo real (utilidad percibida) y qué tan fácil será aprender a usarla (facilidad de uso).
+</div>
+
+<div class="pilar-card">
+<strong>3. Capital Profesional (Hargreaves & Fullan):</strong> Este programa no busca reemplazar su expertise. Al contrario, busca que sean más expertos aún: que amplíen su capacidad de tomar decisiones profesionales y que mentoreen a otros (estudiantes practicantes, colegas) en el uso responsable de la IA.
+</div>
+
+<h2 style="margin-top: 4rem;">Objetivo general</h2>
+<p>Capacitar a los maestros cooperadores para que comprendan de forma pedagógica qué es un LLM, lo distingan de los bots, aplicaciones o recursos tecnológicos que lo utilizan (como ChatGPT, Copilot u otras herramientas educativas), reconozcan sus riesgos éticos y legales, y asuman el rol de experto validador que utiliza la IA como apoyo manteniendo siempre el control, la revisión crítica y la responsabilidad profesional.</p>
+
+<h2 style="margin-top: 3rem;">Objetivos específicos</h2>
+<p>Al finalizar este módulo, usted:</p>
+<ul class="obj-list">
+<li>Comprenderá qué es un LLM en términos que tengan sentido pedagógico (sin tecnicismos innecesarios).</li>
+<li>Diferenciará entre un LLM como tecnología base de lenguaje y las aplicaciones que lo utilizan (por ejemplo, bots conversacionales o asistentes integrados en otras plataformas).</li>
+<li>Diferenciará entre un LLM y otros recursos tecnológicos que quizás ya usa (buscadores web, plataformas LMS, aplicaciones de productividad).</li>
+<li>Identificará aplicaciones educativas concretas basadas en LLM según su área de enseñanza (Matemáticas, español, educación especial, etc.).</li>
+<li>Reconocerá los riesgos éticos y legales asociados al uso de LLM y de las aplicaciones que los incorporan (privacidad de datos, sesgos, dependencia tecnológica).</li>
+<li>Adoptará el rol de "experto validador": alguien que utiliza la IA como apoyo, pero mantiene el control, la revisión crítica y la responsabilidad profesional sobre todas las decisiones pedagógicas.</li>
+</ul>
+
+<div style="margin-top: 4rem; display: flow-root;">
+    <div class="image-integration">
+        <img src="../assets/LLM_M1_Intro_guia_uso_responsable_LLM_imagen.png" alt="Guia de uso responsable" onclick="openZoom(this.src)">
+        <p style="text-align: center; color: #94a3b8; font-size: 0.7rem; padding: 10px;">Guía de Uso Responsable</p>
+    </div>
+
+    <p style="margin-top: 0;">Este módulo no busca que se conviertan en "expertos en IA". Busca que se conviertan en <strong>docentes informados y críticos</strong> que puedan:</p>
+    <ul class="obj-list">
+    <li>Evaluar cuándo un LLM es útil en su práctica y cuándo es más apropiado utilizar una aplicación concreta basada en LLM (por ejemplo, un bot conversacional, un asistente en el procesador de texto o un generador de rúbricas).</li>
+    <li>Formular solicitudes claras ("prompts") para obtener lo que necesitan.</li>
+    <li>Revisar el resultado con ojos de pedagogo y experto en su materia.</li>
+    <li>Enseñar a otros (estudiantes, colegas, practicantes) a hacer lo mismo de forma responsable.</li>
+    </ul>
+</div>
+
+<div class="reflection-banner">
+<p><strong>Pregunta reflexiva para iniciar</strong></p>
+<p style="font-weight: 500; font-size: 1.1rem; margin-bottom: 1.5rem;">Antes de profundizar en los contenidos, reflexionen por un momento:</p>
+<p style="font-style: italic; font-size: 1.3rem;">"¿Qué tarea de mi gestión docente me toma más tiempo cada semana? ¿Podría un recurso como un LLM o una aplicación basada en LLM ayudarme a hacerla mejor o más rápido, sin sacrificar calidad o creatividad pedagógica?"</p>
+<p style="font-size: 0.95rem; margin-top: 1.5rem; opacity: 0.9;">No hay respuesta "correcta"; la intención es que vean de inmediato la pertinencia práctica de lo que van a aprender.</p>
+</div>
+
+<div class="nav-footer">
+<a href="dashboard.html" style="text-decoration: none; color: #64748b; font-weight: 700;">← Volver al Dashboard</a>
+<a href="leccion1_1.html" class="btn-primary-action">Iniciar Módulo 1 →</a>
+</div>
+</div>
+</main>
+
+<div id="zoomModal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center;" onclick="this.style.display='none'">
+<img id="zoomedImg" style="max-height: 90%; max-width: 90%; border-radius: 12px;">
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('active');
+document.getElementById('overlay').classList.toggle('active');
+}
+function openZoom(src) {
+document.getElementById('zoomModal').style.display = 'flex';
+document.getElementById('zoomedImg').src = src;
+}
+</script>
+
+</body>
+</html>

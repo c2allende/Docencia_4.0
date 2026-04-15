@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 1.1 | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C2FF;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F1F8FF;
+            --nav-height: 80px;
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.8;
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 48px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 320px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            padding: 40px 30px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            z-index: 1999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .side-menu-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 35px;
+            color: white;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-links li {
+            margin-bottom: 12px;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--neutral-dark);
+            font-weight: 800;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 40px auto 100px auto;
+            padding: 0 25px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 35px;
+            padding: 4.5rem;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-player-container {
+            background: #F8FBFF;
+            padding: 2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .audio-label {
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* IMÁGENES INDENTADAS */
+        .img-editorial-right {
+            float: right;
+            width: 380px;
+            margin: 10px 0 30px 40px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
+            border: 1px solid #f1f5f9;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .img-editorial-left {
+            float: left;
+            width: 380px;
+            margin: 10px 40px 30px 0;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
+            border: 1px solid #f1f5f9;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .img-editorial-right:hover,
+        .img-editorial-left:hover {
+            transform: scale(1.02);
+        }
+
+        .img-editorial-right img,
+        .img-editorial-left img {
+            width: 100%;
+            display: block;
+        }
+
+        .text-section {
+            margin-bottom: 3rem;
+            clear: both;
+        }
+
+        .text-section:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .highlight-box {
+            background: #F1F8FF;
+            border-left: 6px solid var(--primary);
+            padding: 2.5rem;
+            border-radius: 0 25px 25px 0;
+            margin: 3rem 0;
+            font-style: italic;
+            clear: both;
+        }
+
+        /* COMPARISON */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 3rem 0;
+            clear: both;
+        }
+
+        .comp-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 30px;
+            border: 1px solid #EDF2F7;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.02);
+        }
+
+        .comp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 45px rgba(0, 194, 255, 0.08);
+        }
+
+        .comp-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 194, 255, 0.1);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        /* SLIDER DE CONCEPTOS */
+        .slider-section {
+            margin: 5rem 0;
+            padding: 4rem;
+            background: #F8FBFF;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            position: relative;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: 10px;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 30px;
+        }
+
+        .slider-item {
+            min-width: calc(100% - 20px);
+            background: white;
+            padding: 3.5rem;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(10, 25, 47, 0.05);
+            border: 1px solid #EDF2F7;
+            box-sizing: border-box;
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 194, 255, 0.2);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .control-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .quiz-container {
+            background: var(--accent-gradient);
+            padding: 4.5rem;
+            border-radius: 45px;
+            color: white;
+            text-align: center;
+            margin-top: 6rem;
+            box-shadow: 0 30px 60px rgba(255, 141, 92, 0.2);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 7rem;
+            padding-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-footer {
+            padding: 20px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back {
+            color: var(--neutral-dark);
+            background: rgba(0, 194, 255, 0.1);
+        }
+
+        .btn-next {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
+        }
+
+        /* MODAL DE ZOOM */
+        #zoomModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #zoomModal img {
+            max-height: 90%;
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(0, 194, 255, 0.3);
+        }
+
+        @media (max-width: 900px) {
+
+            .img-editorial-right,
+            .img-editorial-left {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+
+            .lesson-card {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+            </div>
+            <span class="module-title-nav">Lección 1.1: Conceptos y Panorama</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
+            <li><a href="leccion1_1.html" class="active">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
+        </ul>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="lesson-card">
+            <h1>Lección 1.1: Conceptualización y panorama tecnológico</h1>
+
+            <div class="audio-player-container">
+                <span class="audio-label">Escuchar Lección 1.1</span>
+                <audio controls style="width: 100%;">
+                    <source src="../LLM-DEPR/LLM_M1_Leccion_1.1_ Conceptualización y Panorama Tecnológico_audio.mp3"
+                        type="audio/mpeg">
+                </audio>
+            </div>
+
+            <section class="text-section">
+                <h2>¿Qué es un Modelo de Lenguaje de Gran Tamaño (LLM)?</h2>
+
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
+                    <img src="../assets/LLM_M1_Ilustración_1.1_Ubicación_LLM_imagen.png"
+                        alt="Ubicación de los LLM en la IA">
+                </div>
+
+                <p>Un Modelo de Lenguaje de Gran Tamaño es un sistema de inteligencia artificial entrenado con enormes
+                    cantidades de texto para predecir la siguiente palabra más probable en una secuencia (Zhao et al.,
+                    2023). Para lograrlo, estos modelos utilizan la arquitectura <strong>Transformer</strong>, que
+                    permite analizar relaciones entre palabras en distintos puntos de una oración o un texto extenso,
+                    capturando tanto significado como contexto.</p>
+
+                <p>Desde la perspectiva de la inteligencia artificial, los LLM se sitúan dentro de la IA generativa y
+                    del aprendizaje profundo: utilizan técnicas de Deep Learning para realizar tareas de procesamiento
+                    del lenguaje natural, como clasificación, resumen y generación de textos, ampliando de forma notable
+                    la capacidad de los sistemas para trabajar con lenguaje humano en múltiples idiomas y temas (Oyarzo
+                    Espinosa & Usero Aragonés, 2024).</p>
+
+                <p>Durante el entrenamiento, el modelo ve millones de ejemplos de lenguaje y ajusta sus parámetros
+                    internos para minimizar el error en la predicción de las próximas palabras; al finalizar, puede
+                    generar respuestas coherentes, redactar textos, resumir, traducir y responder preguntas a partir de
+                    instrucciones en lenguaje natural (Zhao et al., 2023). Esta lógica de “predicción probabilística”
+                    explica por qué los LLM a veces “alucinan”: cuando no tienen suficiente base factual o el
+                    <em>prompt</em> es ambiguo, el modelo sigue produciendo la palabra “más probable” según sus
+                    estadísticas, aunque el contenido no sea verdadero (Russell & Norvig, 2020).
+                </p>
+
+                <div class="highlight-box">
+                    "La tokenización permite manejar textos extensos, adaptarse a distintos idiomas y generar respuestas
+                    continuas."
+                </div>
+
+                <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
+                    <img src="../assets/LLM_M1_Ilustración_1.1_Tokenización_imagen.png" alt="Proceso de Tokenización">
+                </div>
+
+                <p>En términos de funcionamiento interno, los LLM descomponen la entrada en unidades más pequeñas
+                    llamadas <strong>tokens</strong> (fragmentos de palabras, palabras completas o grupos de palabras),
+                    que son procesados por la red neuronal para calcular la probabilidad de cada token siguiente. Este
+                    proceso de tokenización permite manejar textos extensos, adaptarse a distintos idiomas y generar
+                    respuestas continuas, lo que explica su capacidad para sostener “conversaciones” o redactar textos
+                    largos en el ámbito académico (Oyarzo Espinosa & Usero Aragonés, 2024).</p>
+
+                <p>En educación, esta capacidad de generar texto permite que el LLM funcione como “motor de lenguaje”
+                    que impulsa distintas aplicaciones, capaz de:</p>
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li style="margin-bottom: 15px;">🔵 proponer actividades y materiales,</li>
+                    <li style="margin-bottom: 15px;">🔵 sugerir explicaciones alternativas,</li>
+                    <li style="margin-bottom: 15px;">🔵 redactar borradores de retroalimentación,</li>
+                </ul>
+                <p>siempre bajo la revisión crítica del docente (Damiano et al., 2024).</p>
+                <p>Además, los LLM se usan para automatizar tareas repetitivas (corrección preliminar, elaboración de
+                    planes de aprendizaje, generación de preguntas evaluativas) y ofrecer apoyo en investigación
+                    mediante resúmenes y sugerencias de fuentes, lo que puede optimizar el tiempo del profesorado
+                    (Oyarzo Espinosa & Usero Aragonés, 2024).</p>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>La evolución de los modelos de lenguaje</h2>
+
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)"
+                    style="width: 450px;">
+                    <img src="../assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen.png"
+                        alt="Línea de tiempo evolución IA">
+                </div>
+
+                <p>La evolución de la inteligencia artificial aplicada al lenguaje ha transformado radicalmente la forma
+                    en que las máquinas procesan la información, pasando de sistemas rígidos a modelos con capacidades
+                    de razonamiento casi humano. Este recorrido histórico se puede sintetizar en cuatro grandes etapas:
+                </p>
+
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 25px;"><strong>📅 Modelos Basados en Reglas (Pre-1990):</strong> Definidos
+                        por la IA Simbólica, dependían de reglas manuales y estructuras frágiles como las de ELIZA o
+                        SHRDLU.</li>
+                    <li style="margin-bottom: 25px;"><strong>📅 Modelos Estadísticos (1990 - 2000s):</strong>
+                        Introdujeron el aprendizaje basado en datos mediante n-gramas y modelos probabilísticos,
+                        convirtiendo la IA en algo más flexible.</li>
+                    <li style="margin-bottom: 25px;"><strong>📅 Modelos de Lenguaje Neuronales (2000s - 2017):</strong>
+                        El auge del Deep Learning y el uso de vectores permitió capturar relaciones semánticas profundas
+                        a través de arquitecturas como LSTM y GRU.</li>
+                    <li style="margin-bottom: 25px;"><strong>📅 La Era de los Transformers y LLMs (2017 -
+                            Presente):</strong> Iniciada por el mecanismo de "Atención", esta fase marca el punto de
+                        inflexión con la democratización de ChatGPT en 2022, el surgimiento del razonamiento de "Sistema
+                        2" en 2024 y la consolidación de modelos de pesos abiertos de alta calidad en 2025.</li>
+                </ul>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>LLM vs. buscador tradicional: ¿cuándo usar cuál?</h2>
+
+                <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)" style="width: 400px;">
+                    <img src="../assets/LLM_M1_Contenido_1.1_LLM&Bot&Buscador_imagen.png"
+                        alt="Comparativa LLM vs Bot vs Buscador">
+                </div>
+
+                <p>Es importante que el docente distinga entre LLM, bot y buscador, ya que cumplen roles distintos y se
+                    complementan. Un LLM es el “cerebro de lenguaje”, el bot es la aplicación que usa ese “cerebro” para
+                    interactuar con el usuario, y el buscador es el “localizador de fuentes en la web”. En otras
+                    palabras, debe diferenciar entre el LLM como tecnología subyacente, las aplicaciones que lo utilizan
+                    y los buscadores tradicionales que ofrecen acceso directo a las fuentes de información.</p>
+
+                <div class="comparison-grid">
+                    <div class="comp-card">
+                        <div class="comp-icon">🧠</div>
+                        <h3>LLM</h3>
+                        <p>Modelo de IA que genera texto a partir de instrucciones, pero no es, por sí mismo, una app de
+                            uso docente; es la tecnología base.</p>
+                    </div>
+                    <div class="comp-card">
+                        <div class="comp-icon">📱</div>
+                        <h3>Bot o app con LLM</h3>
+                        <p>Recurso tecnológico concreto (ChatGPT, Copilot, un asistente en un LMS) que usa un LLM y
+                            añade interfaz, configuraciones, accesos a datos y reglas de uso.</p>
+                    </div>
+                    <div class="comp-card">
+                        <div class="comp-icon">🔍</div>
+                        <h3>Buscador tradicional</h3>
+                        <p>Servicio que indexa la web y responde con enlaces (Google, Bing, Perplexity, motores
+                            académicos), mostrando fuentes, fechas y procedencia.</p>
+                    </div>
+                </div>
+
+                <h3>¿Cuándo usar el LLM (como capacidad)?</h3>
+                <p>En la práctica, el docente no “usa el LLM puro”, sino su capacidad dentro de una app, cuando
+                    necesita:</p>
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li>🧠 Generar borradores de textos: cartas a familias, rúbricas, instrucciones, descripciones de
+                        actividades.</li>
+                    <li>🧠 Reformular o adaptar: simplificar un texto, ajustar a distintos niveles de lectura, traducir
+                        con matiz pedagógico.</li>
+                    <li>🧠 Crear ideas y variaciones: ejemplos, preguntas, casos, explicaciones alternativas.</li>
+                </ul>
+                <p>Aquí lo clave es ver el LLM como motor generador de lenguaje que se usa para producir y transformar
+                    texto, siempre con revisión crítica.</p>
+
+                <h3>¿Cuándo usar un bot o app con LLM?</h3>
+                <p>Se recurre a un bot o app con LLM cuando, además de generar texto, necesitas un contexto y unas
+                    funciones concretas:</p>
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li>📱 Un bot conversacional (como ChatGPT).</li>
+                    <li>📱 Explorar ideas en diálogo, pedir aclaraciones, iterar una planificación.</li>
+                    <li>📱 Probar prompts, diseñar actividades, cocrear materiales fuera del entorno institucional.</li>
+                    <li>📱 Un asistente integrado (como Copilot en Word, PowerPoint, LMS, etc.).</li>
+                    <li>📱 Trabajar directamente sobre tus documentos: resumir actas, crear borradores de informes,
+                        extraer listas de tareas.</li>
+                    <li>📱 Generar presentaciones, esquemas o tablas usando archivos y datos que ya tienes en la
+                        plataforma.</li>
+                </ul>
+                <p>En resumen: usas el bot cuando necesitas una herramienta concreta, con interfaz y funciones
+                    específicas, que aplica la capacidad del LLM a tu contexto real de trabajo.</p>
+
+
+                <h3>¿Cuándo usar un buscador tradicional? </h3>
+                <p>El buscador sigue siendo insustituible cuando lo importante es la fuente:</p>
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li>🎯 Buscar información actualizada (fechas, estadísticas recientes, cambios de currículo,
+                        normativa vigente).</li>
+                    <li>🎯 Localizar y citar fuentes primarias (artículos científicos, documentos oficiales, comunicados
+                        de agencia).</li>
+                    <li>🎯 Verificar datos que el bot/LLM ha generado o sospechas que pueden estar desactualizados o ser
+                        erróneos.</li>
+                </ul>
+
+                <p>Aquí el foco no es que alguien “escriba por ti”, sino encontrar quién lo dijo, cuándo y dónde.</p>
+                <p>La literatura reciente subraya que, en contextos educativos, la combinación de estos enfoques,
+                    primero localizar fuentes confiables y luego usar aplicaciones basadas en LLM para ayudar a
+                    sintetizar, adaptar o explicar, ofrece más precisión y control pedagógico.</p>
+
+                <div class="highlight-box">
+                    <strong>Desde esta perspectiva, una regla práctica para docentes puede formularse
+                        así:</strong><br><br>
+                    • Si necesitas información comprobable y citada → empieza por el buscador.<br>
+                    • Si necesitas texto, ideas o adaptaciones a partir de esa información → usa un bot/app con LLM.<br>
+                    • Si quieres entender la tecnología y sus límites, enseñar su funcionamiento o decidir qué recurso
+                    tecnológico adoptar → piensa en el LLM como el “motor” que está detrás y en cómo se integra en las
+                    aplicaciones que tus estudiantes y tú ya usan.
+                </div>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>Ecosistema actual: ChatGPT y Microsoft Copilot</h2>
+                <p>Dos herramientas son especialmente relevantes para docentes por su presencia en entornos educativos y
+                    administrativos:</p>
+
+                <div class="comparison-grid">
+                    <div class="comp-card" style="border-left: 6px solid #10a37f;">
+                        <span class="concept-tag" style="background: #10a37f;">ChatGPT (OpenAI)</span>
+                        <p>Funciona como asistente conversacional general (bot) construido sobre LLM de la familia GPT.
+                            En su modelo <strong>GPT-4o</strong>, ofrece capacidades multimodales (texto, imágenes,
+                            archivos) con un gran equilibrio entre velocidad y calidad. Ideal para experimentación y
+                            diseño textual "neutro".</p>
+                    </div>
+
+                    <div class="comp-card" style="border-left: 6px solid #00a1ff;">
+                        <span class="concept-tag" style="background: #00a1ff;">Microsoft Copilot</span>
+                        <p>Integrado directamente en Microsoft 365 (Word, PowerPoint, Excel). Se conecta con tus
+                            archivos institucionales y correos, lo que facilita automatizar informes, minutas y
+                            presentaciones directamente sobre tus datos, reduciendo significativamente la carga
+                            administrativa.</p>
+                    </div>
+                </div>
+
+                <p>La diferencia práctica es que ChatGPT es un "espacio neutro", mientras que Copilot se integra en el
+                    flujo real de trabajo de las escuelas que usan Office 365. Esto es fundamental para las
+                    instituciones que ya han invertido en el ecosistema de productividad de Microsoft, sobre todo en
+                    escuelas que ya usan Microsoft 365 como plataforma base.</p>
+            </section>
+
+            <!-- SECCIÓN DE CONCEPTOS DESLIZANTE -->
+            <section class="slider-section">
+                <div class="slider-header">
+                    <h2>Conceptos a repasar</h2>
+                    <div class="slider-controls">
+                        <button class="control-btn" id="prevBtn">←</button>
+                        <button class="control-btn" id="nextBtn">→</button>
+                    </div>
+                </div>
+
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <!-- Concepto 1 -->
+                        <div class="slider-item">
+                            <h3>Modelo de Lenguaje de Gran Tamaño (LLM)</h3>
+                            <p>Un Modelo de Lenguaje de Gran Tamaño (LLM) es un modelo de inteligencia artificial basado
+                                en aprendizaje profundo que se preentrena con enormes volúmenes de texto para comprender
+                                y generar lenguaje natural, utilizando arquitecturas tipo Transformer con miles de
+                                millones de parámetros. Estos modelos aprenden patrones estadísticos de sintaxis y
+                                semántica para realizar tareas como generación de texto, resumen, traducción, respuesta
+                                a preguntas y diálogo conversacional, constituyendo la base técnica de muchos chatbots y
+                                asistentes educativos actuales.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Amazon Web Services. (2026). ¿Qué es un LLM (modelo de
+                                lenguaje de gran tamaño)? AWS.
+                                https://aws.amazon.com/es/what-is/large-language-model/</small>
+                        </div>
+                        <!-- Concepto 2 -->
+                        <div class="slider-item">
+
+                            <h3>Bot o aplicación basada en LLM</h3>
+                            <p>Programa o servicio que integra un modelo de lenguaje de gran tamaño como componente
+                                central para procesar entradas en lenguaje natural y generar respuestas, contenidos o
+                                asistencia contextual a usuarios finales. A diferencia del LLM “en bruto”, estas
+                                aplicaciones añaden capa de interfaz (chat, panel, integración en LMS u ofimática),
+                                reglas de uso, controles de seguridad y conexión a datos específicos (por ejemplo,
+                                documentos institucionales), lo que las hace utilizables pedagógicamente como asistentes
+                                de escritura, tutores virtuales o generadores de materiales en contextos educativos.
+                            </p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: Product Talk. (2025). LLM app: Definition and
+                                overview. https://www.producttalk.org/glossary-ai-llm-app/</small>
+                        </div>
+                        <!-- Concepto 3 -->
+                        <div class="slider-item">
+
+                            <h3>Chain of Thought (CoT)</h3>
+                            <p>Técnica de ingeniería de prompts que guía a los modelos de lenguaje a producir una
+                                secuencia explícita de pasos de razonamiento intermedios antes de dar la respuesta
+                                final, en lugar de responder directamente en una sola frase. Al pedir al modelo que
+                                “explique su respuesta paso a paso”, CoT ayuda a descomponer problemas multietapa
+                                (cálculo, lógica, decisiones) en subpasos lógicos, lo que mejora la exactitud en tareas
+                                complejas y hace el proceso más transparente y evaluable para docentes y estudiantes.
+                            </p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: TechTarget. (2025). What is chain-of-thought
+                                prompting (CoT)? TechTarget.
+                                https://www.techtarget.com/searchenterpriseai/definition/chain-of-thought-prompting</small>
+                        </div>
+                        <!-- Concepto 4 -->
+                        <div class="slider-item">
+
+                            <h3>Andamiaje (scaffolding) con LLM</h3>
+                            <p>Uso de un modelo de lenguaje grande y de los bots que lo incorporan para proporcionar
+                                apoyos temporales y graduados (explicaciones, ejemplos, descomposición de tareas,
+                                preguntas guiadas) que ayudan al estudiante a realizar actividades que aún no podría
+                                completar de manera independiente, dentro de su Zona de Desarrollo Próximo, retirando
+                                esos apoyos a medida que aumenta su dominio. En la práctica educativa, el LLM funciona
+                                como un “andamio digital” que el docente configura mediante prompts (por ejemplo, pedir
+                                pasos intermedios o pistas en lugar de respuestas finales) para reforzar la comprensión
+                                y promover la autonomía, sin sustituir la mediación pedagógica human.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: The Glossary of Education Reform. (2015).
+                                Scaffolding. Great Schools Partnership. https://www.edglossary.org/scaffolding/</small>
+                        </div>
+                        <!-- Concepto 5 -->
+                        <div class="slider-item">
+
+                            <h3>Buscador tradicional</h3>
+                            <p>(Motor de búsqueda web) es un sistema de software que explora, indexa y clasifica
+                                contenido en la web y, ante una consulta del usuario, devuelve una lista ordenada de
+                                páginas o documentos relevantes, generalmente en forma de enlaces acompañados de
+                                fragmentos de texto descriptivo. Técnicamente, combina procesos de rastreo (crawling),
+                                indexación y ranking basados en algoritmos de recuperación de información para localizar
+                                fuentes primarias; en educación se utiliza para encontrar información actualizada,
+                                documentos oficiales y literatura académica que luego pueden ser analizados, resumidos o
+                                adaptados con ayuda de LLM y bots.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: TechTarget. (2022). What is a search engine?
+                                TechTarget. https://www.techtarget.com/whatis/definition/search-engine</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quiz-container">
+                <h2 style="background: none; -webkit-text-fill-color: white; color: white;">🎉 ¡Felicidades!</h2>
+                <p style="font-size: 1.15rem; margin-bottom: 3.5rem;">Has culminado la lección 1.1 del programa de
+                    formación profesional. Has dado un paso clave al comprender qué es un LLM, cómo funciona como motor
+                    de lenguaje y cuándo conviene usarlo frente a un buscador tradicional.</p>
+
+                <div style="background: white; padding: 3rem; border-radius: 40px; color: var(--neutral-dark);">
+                    <h3
+                        style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem;">
+                        Checkpoint de Saberes</h3>
+                    <p style="color: #64748b; margin-bottom: 3rem;">Responde a este breve quiz para clarificar tus ideas
+                        sobre LLM, bots y buscadores.</p>
+
+                    <div
+                        style="width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                        <div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0;">
+                            <iframe title="Contenido 1.1: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                src="https://view.genially.com/69adb05030c4d6416b2c3cb5" type="text/html"
+                                allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                                allownetworking="all"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="references-section">
+                <h3 style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--neutral-dark);">Referencias de la
+                    Lección</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 15px;">• Damiano, R. F., et al. (2024). Early perceptions of teaching and
+                        learning using generative AI in higher education.</li>
+                    <li style="margin-bottom: 15px;">• Hargreaves, A., & Fullan, M. (2012). Professional capital:
+                        Transforming teaching in every school.</li>
+                    <li style="margin-bottom: 15px;">• Oyarzo Espinosa, J., & Usero Aragonés, L. (2024). Grandes modelos
+                        lingüísticos. Guía Práctica.</li>
+                    <li style="margin-bottom: 15px;">• Zhao, W. X., et al. (2023). A survey of large language models.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <a href="modulo1_intro.html" class="btn-footer btn-back">← Volver a la Introducción</a>
+                <a href="leccion1_2.html" class="btn-footer btn-next">Ir a la Lección 1.2 →</a>
+            </div>
+        </div>
+    </main>
+
+    <div id="zoomModal" onclick="this.style.display='none'">
+        <img id="zoomedImg" src="" alt="Zoomet Image">
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function openZoom(src) {
+            document.getElementById('zoomModal').style.display = 'flex';
+            document.getElementById('zoomedImg').src = src;
+        }
+
+        // Lógica del Slider
+        const track = document.getElementById('sliderTrack');
+        const items = document.querySelectorAll('.slider-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+
+        function updateSlider() {
+            const itemWidth = track.parentElement.offsetWidth;
+            track.style.transform = `translateX(-${currentIndex * (itemWidth + 0)}px)`;
+
+            prevBtn.classList.toggle('disabled', currentIndex === 0);
+            nextBtn.classList.toggle('disabled', currentIndex === items.length - 1);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < items.length - 1) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        window.addEventListener('resize', updateSlider);
+
+        // Inicializar slider con slide width correcto
+        setTimeout(updateSlider, 500); 
+    </script>
+
+</body>
+
+</html>

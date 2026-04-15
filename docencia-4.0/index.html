@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docencia 4.0 | Academia de LLM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top right, var(--surface-container-low), var(--surface));
+            padding: var(--spacing-md);
+        }
+
+        .login-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            max-width: 1200px;
+            align-items: center;
+        }
+
+        .hero-section {
+            padding-right: var(--spacing-lg);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(to bottom right, var(--primary), var(--primary-container));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--on-surface-variant);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            padding: var(--spacing-lg);
+            border: 1px solid var(--outline-variant);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--primary-container);
+        }
+
+        .logo-container {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--on-primary-fixed);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--surface-container-highest);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            background: var(--surface-container-lowest);
+            box-shadow: 0 0 0 2px var(--primary-container);
+        }
+
+        @media (max-width: 968px) {
+            .login-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-section {
+                padding-right: 0;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .login-card {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-grid container">
+            <div class="hero-section animate-fade-in">
+                <div class="logo-container">
+                    <!-- Path relative to the app root, we'll copy it later -->
+                    <img src="../LLM-DEPR/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo" class="logo-img">
+                </div>
+                <h1 class="hero-title">¡Hola Bienvenid@! <br>Programa de formación profesional en LLM</h1>
+                <p class="hero-subtitle">Únete a la academia líder donde los educadores aprenden a integrar la Inteligencia Artificial Generativa en el aula de forma ética y efectiva.</p>
+                <div class="card" style="padding: 1rem 2rem; display: inline-block;">
+                    <p style="font-weight: 600; color: var(--primary);">Educadores transformando su enseñanza hoy.</p>
+                </div>
+            </div>
+
+            <div class="login-card card animate-fade-in" style="animation-delay: 0.2s">
+                <h2 style="margin-bottom: var(--spacing-sm);">Iniciar Sesión</h2>
+                <p style="color: var(--on-surface-variant); margin-bottom: var(--spacing-lg);">Accede a tu panel de aprendizaje personalizado en Docencia 4.0</p>
+                
+                <form action="dashboard.html">
+                    <div class="form-group">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-input" placeholder="ejemplo@correo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <div style="text-align: right; margin-bottom: var(--spacing-md);">
+                        <a href="#" style="color: var(--primary); font-size: 0.875rem; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar a la Academia</button>
+                </form>
+
+                <div style="margin-top: var(--spacing-lg); text-align: center; font-size: 0.875rem;">
+                    ¿Aún no tienes una cuenta? <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">Regístrate ahora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

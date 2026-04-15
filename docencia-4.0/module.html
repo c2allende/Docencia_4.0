@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .module-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: var(--surface-container-lowest);
+            border-right: 1px solid var(--outline-variant);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--outline-variant);
+        }
+
+        .sidebar-nav {
+            padding: var(--spacing-md) 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem var(--spacing-md);
+            text-decoration: none;
+            color: var(--on-surface-variant);
+            font-family: var(--font-display);
+            font-weight: 600;
+            transition: all 0.2s ease;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-container-low);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-container);
+            color: var(--on-primary-container);
+            border-right: 4px solid var(--primary);
+        }
+
+        .nav-item-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: var(--surface-container-highest);
+            font-size: 0.75rem;
+        }
+
+        .nav-item.active .nav-item-icon {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Content Styles */
+        .content-area {
+            background: var(--surface);
+            padding: var(--spacing-lg);
+            overflow-y: auto;
+        }
+
+        .module-header {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--on-surface-variant);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-card {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+            min-height: 600px;
+        }
+
+        .lesson-metadata {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            font-size: 0.875rem;
+            color: var(--on-surface-variant);
+        }
+
+        .action-footer {
+            margin-top: var(--spacing-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--outline-variant);
+            padding-top: var(--spacing-md);
+        }
+
+        @media (max-width: 992px) {
+            .module-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none; /* Mobile navigation would go here */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="module-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem">←</span>
+                    <span style="font-weight: 700; font-family: var(--font-display)">Docencia 4.0</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" onclick="navigate('intro')">
+                    <span class="nav-item-icon">1</span>
+                    Introducción al Módulo
+                </div>
+                <div class="nav-item" onclick="navigate('lesson1')">
+                    <span class="nav-item-icon">2</span>
+                    Lección 1
+                </div>
+                <div class="nav-item" onclick="navigate('lesson2')">
+                    <span class="nav-item-icon">3</span>
+                    Lección 2
+                </div>
+                <div class="nav-item" onclick="navigate('lesson3')">
+                    <span class="nav-item-icon">4</span>
+                    Lección 3
+                </div>
+                <div class="nav-item" onclick="navigate('lesson4')">
+                    <span class="nav-item-icon">5</span>
+                    Lección 4
+                </div>
+                <div style="height: 1px; background: var(--outline-variant); margin: 1rem 0;"></div>
+                <div class="nav-item" onclick="navigate('activities')">
+                    <span class="nav-item-icon">📝</span>
+                    Actividades
+                </div>
+                <div class="nav-item" onclick="navigate('resources')">
+                    <span class="nav-item-icon">📚</span>
+                    Recursos Didácticos
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <div class="module-header">
+                <div class="breadcrumb" id="module-breadcrumb">Módulo 1 / Introducción</div>
+                <h1 id="module-title">Fundamentos del Módulo</h1>
+            </div>
+
+            <div class="card content-card animate-fade-in" id="content-container">
+                <div class="lesson-metadata">
+                    <span>⏱️ 15 min de lectura</span>
+                    <span>🏷️ Nivel: Inicial</span>
+                </div>
+                
+                <div id="lesson-content">
+                    <h2>Bienvenido al Módulo de Aprendizaje</h2>
+                    <p style="margin-top: 1rem">Selecciona una lección en el panel lateral para comenzar tu viaje educativo en el mundo de los Large Language Models.</p>
+                    
+                    <div style="margin-top: var(--spacing-lg); text-align: center;">
+                        <img src="../LLM-DEPR/LLM_M1_Ilustración_objetivos_general&especificos_imagen.png" alt="Objetivos" style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-ambient)">
+                    </div>
+                </div>
+
+                <div class="action-footer">
+                    <button class="btn" style="background: var(--surface-container-highest)">Anterior</button>
+                    <button class="btn btn-primary" onclick="nextLesson()">Siguiente Lección</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        function navigate(path) {
+            // Update active state in sidebar
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // In a real app, this would load content dynamically
+            console.log('Navigating to:', path);
+            document.getElementById('module-breadcrumb').textContent = `Módulo 1 / ${path.charAt(0).toUpperCase() + path.slice(1)}`;
+        }
+
+        function nextLesson() {
+            alert('¡Buen trabajo! Pasando a la siguiente lección...');
+        }
+    </script>
+</body>
+</html>
