@@ -34,8 +34,8 @@ jobs:
       - name: 📦 Subir los archivos estáticos
         uses: actions/upload-pages-artifact@v3
         with:
-          # Le indicamos que suba específicamente el contenido de esta carpeta
-          path: './docencia-4.0'
+          # Subimos todo el repositorio para que los assets carguen bien
+          path: '.'
           
       - name: 🚀 Desplegar en GitHub Pages
         id: deployment
