@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 1.2 | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C2FF;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F1F8FF;
+            --nav-height: 80px;
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.8;
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 48px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 320px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            padding: 40px 30px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            z-index: 1999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .side-menu-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 35px;
+            color: white;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-links li {
+            margin-bottom: 12px;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--neutral-dark);
+            font-weight: 800;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 40px auto 100px auto;
+            padding: 0 25px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 35px;
+            padding: 4.5rem;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-player-container {
+            background: #F8FBFF;
+            padding: 2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .audio-label {
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* IMÁGENES INDENTADAS */
+        .img-editorial-right {
+            float: right;
+            width: 380px;
+            margin: 10px 0 30px 40px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
+            border: 1px solid #f1f5f9;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .img-editorial-left {
+            float: left;
+            width: 380px;
+            margin: 10px 40px 30px 0;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
+            border: 1px solid #f1f5f9;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .img-editorial-right:hover,
+        .img-editorial-left:hover {
+            transform: scale(1.02);
+        }
+
+        .img-editorial-right img,
+        .img-editorial-left img {
+            width: 100%;
+            display: block;
+        }
+
+        .text-section {
+            margin-bottom: 3rem;
+            clear: both;
+        }
+
+        .text-section:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .highlight-box {
+            background: #F1F8FF;
+            border-left: 6px solid var(--primary);
+            padding: 2.5rem;
+            border-radius: 0 25px 25px 0;
+            margin: 3rem 0;
+            font-style: italic;
+            clear: both;
+        }
+
+        /* SLIDER DE CONCEPTOS */
+        .slider-section {
+            margin: 5rem 0;
+            padding: 4rem;
+            background: #F8FBFF;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            position: relative;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: 10px;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 30px;
+        }
+
+        .slider-item {
+            min-width: calc(100% - 20px);
+            background: white;
+            padding: 3.5rem;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(10, 25, 47, 0.05);
+            border: 1px solid #EDF2F7;
+            box-sizing: border-box;
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 194, 255, 0.2);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .control-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .quiz-container {
+            background: var(--accent-gradient);
+            padding: 4.5rem;
+            border-radius: 45px;
+            color: white;
+            text-align: center;
+            margin-top: 6rem;
+            box-shadow: 0 30px 60px rgba(255, 141, 92, 0.2);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 7rem;
+            padding-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-footer {
+            padding: 20px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back {
+            color: var(--neutral-dark);
+            background: rgba(0, 194, 255, 0.1);
+        }
+
+        .btn-next {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
+        }
+
+        /* MODAL DE ZOOM */
+        #zoomModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #zoomModal img {
+            max-height: 90%;
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(0, 194, 255, 0.3);
+        }
+
+        @media (max-width: 900px) {
+
+            .img-editorial-right,
+            .img-editorial-left {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+
+            .lesson-card {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+            </div>
+            <span class="module-title-nav">Lección 1.2: Aplicaciones estratégicas por áreas de contenido</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
+            <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html" class="active">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
+        </ul>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="lesson-card">
+            <h1>Lección 1.2: Aplicaciones estratégicas por áreas de contenido</h1>
+
+            <div class="audio-player-container">
+                <span class="audio-label">Escuchar Lección 1.2</span>
+                <audio controls style="width: 100%;">
+                    <source src="../LLM-DEPR/LLM_M1_Leccion_1.2_Aplicaciones por Áreas de Contenido_audio.mp3"
+                        type="audio/mpeg">
+                </audio>
+            </div>
+
+            <section class="text-section">
+                <p>La integración de los modelos de lenguaje de gran tamaño (LLM) no ocurre de la misma manera en todas
+                    las disciplinas. Cada área académica presenta desafíos cognitivos particulares que los LLM pueden
+                    abordar mediante estrategias de <em>reasoning</em> (razonamiento), generación de texto y adaptación
+                    de contenidos. A continuación, se detallan oportunidades de uso específicas validadas por la
+                    investigación reciente.</p>
+
+                <h2>Ciencias y Matemáticas: razonamiento paso a paso</h2>
+
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
+                    <!-- Nota para el usuario: He generado esta imagen para mantener la estética premium -->
+                    <img src="../assets/leccion_1_2_stem.png" alt="Razonamiento STEM y Chain of Thought">
+                </div>
+
+                <p>En disciplinas STEM (Ciencia, Tecnología, Ingeniería y Matemáticas), el principal valor de los LLM
+                    reside en su capacidad para desglosar problemas complejos en pasos lógicos manejables.</p>
+
+                <p><strong>• Generación de problemas verbales contextualizados:</strong> Los docentes pueden solicitar a
+                    un bot o aplicación basada en LLM que diseñe problemas matemáticos situados en contextos de interés
+                    para sus estudiantes (ej. deportes locales, música popular), lo que aumenta la relevancia y el
+                    compromiso. La literatura sobre <strong>Chain-of-Thought (CoT)</strong> o "cadena de pensamiento"
+                    demuestra que cuando se pide al modelo que genere explicaciones paso a paso, no solo mejora la
+                    precisión de la respuesta, sino que proporciona un andamiaje didáctico que el maestro puede usar
+                    para modelar el pensamiento lógico en clase (Wait et al., 2024; Yao et al., 2023).</p>
+
+                <p><strong>• Explicación de procesos:</strong> En lugar de simplemente dar una respuesta numérica,
+                    herramientas como ChatGPT pueden generar explicaciones detalladas de por qué ocurre un fenómeno
+                    científico o cómo se llega a una solución matemática. Investigaciones recientes sugieren que el uso
+                    de LLM para generar múltiples vías de razonamiento permite a los estudiantes ver diferentes
+                    enfoques para un mismo problema, fomentando la flexibilidad cognitiva (Yao et al., 2023; Wei et al.,
+                    2022).</p>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>Español e Historia: análisis textual y síntesis crítica</h2>
+
+                <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
+                    <img src="../assets/leccion_1_2_humanidades.png" alt="Análisis textual en Humanidades">
+                </div>
+
+                <p>En las humanidades, los LLM funcionan como motores de lenguaje que impulsan bots y asistentes de
+                    lectura y escritura avanzada, permitiendo trabajar competencias de análisis y síntesis con mayor
+                    profundidad.</p>
+
+                <p><strong>• Análisis de textos y comprensión lectora:</strong> Los docentes pueden ingresar textos
+                    complejos (ej. documentos históricos primarios o fragmentos literarios) y pedir a una aplicación
+                    basada en LLM que genere preguntas de inferencia, identifique temas centrales o contraste el tono
+                    con otro documento. Esto apoya la creación rápida de material de práctica para comprensión crítica
+                    (Damiano et al., 2024).</p>
+
+                <p><strong>• Generación de ensayos modelo y contra-argumentos:</strong> Para enseñar escritura
+                    argumentativa, el docente puede pedir a un bot conversacional que redacte un ensayo con una postura
+                    específica y luego trabajar con los estudiantes para criticar ese texto: identificar falacias,
+                    mejorar el vocabulario o fortalecer la evidencia. Este uso de la IA como <strong>"borrador
+                        imperfecto"</strong> promueve el pensamiento crítico y reduce el miedo a la página en blanco
+                    (Valli & Zafiropoulos, 2024).</p>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>Educación Especial: adaptación y accesibilidad</h2>
+
+                <div class="highlight-box">
+                    <h3>El potencial de la diferenciación masiva</h3>
+                    <p>El potencial de los LLM para la educación inclusiva es una de sus aplicaciones más prometedoras,
+                        actuando como una herramienta de diferenciación masiva y accesible.</p>
+
+                    <ul style="list-style: none; padding: 0; margin-top: 20px;">
+                        <li style="margin-bottom: 20px;">
+                            <strong>🎨 Adaptación de niveles de lectura (DUA):</strong> Un LLM puede reescribir un mismo
+                            texto académico en múltiples niveles de complejidad (ej. nivel Lexile bajo, medio y alto) en
+                            segundos, permitiendo que estudiantes con diversas capacidades lectoras accedan al mismo
+                            contenido curricular sin estigmatización. Esta capacidad de personalización apoya
+                            directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong>.
+                        </li>
+                        <li style="margin-bottom: 20px;">
+                            <strong>🎯 Creación de PEI asistidos (Objetivos SMART):</strong> En la redacción de Programas
+                            Educativos Individualizados (PEI), los asistentes basados en LLM pueden ayudar a los
+                            maestros a redactar objetivos <strong>SMART</strong> (Específicos, Medibles, Alcanzables,
+                            Relevantes y Temporales) basados en las necesidades observadas del estudiante. Aunque la
+                            decisión final siempre depende del humano (<em>human in the loop</em>), la IA puede sugerir
+                            estrategias de acomodo razonable y redacción técnica que ahorran tiempo administrativo
+                            valioso (Dahri et al., 2025).
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)" style="width: 300px; float: right; margin-top: -100px; position: relative; z-index: 10;">
+                     <img src="../assets/leccion_1_2_inclusion.png" alt="Inclusión y accesibilidad con IA">
+                </div>
+            </section>
+
+            <!-- SECCIÓN DE CONCEPTOS DESLIZANTE -->
+            <section class="slider-section">
+                <div class="slider-header">
+                    <h2>Conceptos a repasar</h2>
+                    <div class="slider-controls">
+                        <button class="control-btn" id="prevBtn">←</button>
+                        <button class="control-btn" id="nextBtn">→</button>
+                    </div>
+                </div>
+
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <!-- ítem 1 -->
+                        <div class="slider-item">
+                            <h3>Generación de problemas contextualizados</h3>
+                            <p>Es el diseño (manual o asistido por IA) de problemas, especialmente matemáticos, que
+                                sitúan las tareas numéricas dentro de escenarios o narrativas de la vida real relevantes
+                                para el estudiante (por ejemplo, deportes, compras, eventos locales), de modo que
+                                mantengan la misma estructura y dificultad matemática, pero aumenten significado y
+                                motivación. Cuando se realiza con LLM, el modelo toma instrucciones sobre el contenido
+                                matemático y el contexto deseado y produce enunciados tipo “problema verbal” que
+                                preservan la intención didáctica original.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: Hwang & Utami (2024).</small>
+                        </div>
+                        <!-- ítem 2 -->
+                        <div class="slider-item">
+                            <h3>Explicación paso a paso en STEM</h3>
+                            <p>Estrategia en la que un modelo de lenguaje descompone la resolución de un problema de
+                                Ciencia, Tecnología, Ingeniería o Matemáticas en una secuencia ordenada de pasos
+                                intermedios, mostrando operaciones, justificaciones y decisiones antes de presentar la
+                                respuesta final. Implementada con LLM mediante técnicas como Chain of Thought, esta
+                                explicación detallada funciona como ejemplo trabajado (worked example) que reduce la
+                                carga cognitiva y hace visibles los procesos de razonamiento.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: DataCamp (2024).</small>
+                        </div>
+                        <!-- ítem 3 -->
+                        <div class="slider-item">
+                            <h3>Asistente de lectura y escritura</h3>
+                            <p>Herramienta de software, generalmente impulsada por LLM, que analiza y genera texto para
+                                apoyar procesos de comprensión lectora y producción escrita, ofreciendo sugerencias,
+                                explicaciones y retroalimentación en tiempo real. En educación, estos asistentes ayudan
+                                a estudiantes a mejorar gramática, vocabulario, coherencia y claridad, así como a
+                                comprender textos complejos mediante resúmenes y preguntas guiadas.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: AIContentfy (2023).</small>
+                        </div>
+                        <!-- ítem 4 -->
+                        <div class="slider-item">
+                            <h3>Diseño Universal para el Aprendizaje (DUA) con LLM</h3>
+                            <p>Aplicación del marco de Diseño Universal para el Aprendizaje utilizando modelos de
+                                lenguaje grandes para generar versiones alternativas y personalizadas de los materiales.
+                                Implica usar LLM para re-nivelar textos (Lexile), cambiar formatos (resúmenes,
+                                esquemas), ofrecer explicaciones alternativas y proponer diversas formas de demostrar el
+                                aprendizaje, reduciendo barreras y optimizando el acceso para todos.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: CAST (2024).</small>
+                        </div>
+                        <!-- ítem 5 -->
+                        <div class="slider-item">
+                            <h3>Apoyo a Programas Educativos Individualizados (PEI)</h3>
+                            <p>Uso de LLM para asistir en la redacción y revisión de borradores de Programas Educativos
+                                Individualizados (IEP), generando propuestas de metas, apoyos y adaptaciones a partir de
+                                la información que provee el docente. La IA se usa como herramienta de apoyo para
+                                formular objetivos SMART y descripciones técnicas más eficientes, que luego deben ser
+                                revisadas y aprobadas por el equipo profesional.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: Understood (2023).</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quiz-container">
+                <h2 style="background: none; -webkit-text-fill-color: white; color: white;">🎉 Checkpoint de Saberes</h2>
+                <p style="font-size: 1.15rem; margin-bottom: 3.5rem;">Para cerrar este bloque, te invito a realizar esta
+                    evaluación formativa breve sobre las aplicaciones de los LLM en tu área de enseñanza.</p>
+
+                <div style="background: white; padding: 3rem; border-radius: 40px; color: var(--neutral-dark);">
+                    <div
+                        style="width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                        <div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0;">
+                            <iframe title="Contenido 1.2: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                src="https://view.genially.com/69adc3837b9712bda8dc3d6f" type="text/html"
+                                allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                                allownetworking="all"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="references-section" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                <h3 style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--neutral-dark);">Referencias de la
+                    Lección</h3>
+                <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: #64748b;">
+                    <li style="margin-bottom: 10px;">• Dahri, N. A., et al. (2025). Ethical Governance of Artificial Intelligence Hallucinations in Legal Practice.</li>
+                    <li style="margin-bottom: 10px;">• Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in higher education.</li>
+                    <li style="margin-bottom: 10px;">• Sarkar, P., et al. (2024). Step-Aware Policy Optimization for Reasoning in Diffusion Large Language Models.</li>
+                    <li style="margin-bottom: 10px;">• Valli, P., & Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI tools by teachers.</li>
+                    <li style="margin-bottom: 10px;">• Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models.</li>
+                    <li style="margin-bottom: 10px;">• Yao, S., et al. (2023). Tree of Thoughts: Deliberate Problem Solving with Large Language Models.</li>
+                    <li style="margin-bottom: 10px;">• Zhang, H., et al. (2024). Step-By-Step Coding for Improving Mathematical Olympiad Performance.</li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <a href="leccion1_1.html" class="btn-footer btn-back">← Volver a la Lección 1.1</a>
+                <a href="leccion1_3.html" class="btn-footer btn-next">Ir a la Lección 1.3 →</a>
+            </div>
+        </div>
+    </main>
+
+    <div id="zoomModal" onclick="this.style.display='none'">
+        <img id="zoomedImg" src="" alt="Zoomed Image">
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function openZoom(src) {
+            document.getElementById('zoomModal').style.display = 'flex';
+            document.getElementById('zoomedImg').src = src;
+        }
+
+        // Lógica del Slider
+        const track = document.getElementById('sliderTrack');
+        const items = document.querySelectorAll('.slider-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+
+        function updateSlider() {
+            const containerWidth = track.parentElement.offsetWidth;
+            const itemWidth = items[0].offsetWidth;
+            const totalWidth = itemWidth + 30; // 30 is the gap
+            track.style.transform = `translateX(-${currentIndex * totalWidth}px)`;
+
+            prevBtn.classList.toggle('disabled', currentIndex === 0);
+            nextBtn.classList.toggle('disabled', currentIndex === items.length - 1);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < items.length - 1) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        window.addEventListener('resize', updateSlider);
+        setTimeout(updateSlider, 500);
+    </script>
+
+</body>
+
+</html>
