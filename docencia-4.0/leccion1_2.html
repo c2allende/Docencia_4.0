@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lección 1.2 de Docencia 4.0: Aplicaciones estratégicas por áreas de contenido. Explora el uso de LLM en STEM, humanidades y educación especial.">
+    <meta name="description"
+        content="Lección 1.2 de Docencia 4.0: Aplicaciones estratégicas por áreas de contenido. Explora el uso de LLM en STEM, humanidades y educación especial.">
     <meta name="keywords" content="LLM, STEM, Humanidades, Educación Especial, DUA, PEI, Docencia 4.0">
     <title>Lección 1.2 | Docencia 4.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -400,7 +401,7 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            box-shadow: 0 10px 20px rgba(0,194,255,0.2);
+            box-shadow: 0 10px 20px rgba(0, 194, 255, 0.2);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
@@ -555,6 +556,11 @@
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
                 <h2>Educación Especial: adaptación y accesibilidad (PEI)</h2>
 
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)"
+                    style="width: 300px; float: right; margin-top: -100px; position: relative; z-index: 10;">
+                    <img src="../assets/LLM_M1_Ilustracion_1.2_inclusion.png" alt="Inclusión y accesibilidad con IA">
+                </div>
+
                 <div class="highlight-box">
                     <h3>El potencial de la diferenciación masiva</h3>
                     <p>El potencial de los LLM para la educación inclusiva es una de sus aplicaciones más prometedoras,
@@ -566,11 +572,13 @@
                             texto académico en múltiples niveles de complejidad (ej. nivel Lexile bajo, medio y alto) en
                             segundos, permitiendo que estudiantes con diversas capacidades lectoras accedan al mismo
                             contenido curricular sin estigmatización. Esta capacidad de personalización apoya
-                            directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong> (Sarkar et al., 2024).
+                            directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong>
+                            (Sarkar et al., 2024).
                         </li>
                         <li style="margin-bottom: 20px;">
                             <strong>🎯 Creación de PEI asistidos (Objetivos SMART):</strong> En la redacción de
-                            Programas Educativos Individualizados (PEI), los asistentes basados en LLM pueden ayudar a los
+                            Programas Educativos Individualizados (PEI), los asistentes basados en LLM pueden ayudar a
+                            los
                             maestros a redactar objetivos <strong>SMART</strong> (Específicos, Medibles, Alcanzables,
                             Relevantes y Temporales) basados en las necesidades observadas del estudiante. Aunque la
                             decisión final siempre depende del humano (<em>human in the loop</em>), la IA puede sugerir
@@ -580,10 +588,6 @@
                     </ul>
                 </div>
 
-                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)"
-                    style="width: 300px; float: right; margin-top: -100px; position: relative; z-index: 10;">
-                    <img src="../assets/LLM_M1_Ilustracion_1.2_inclusion.png" alt="Inclusión y accesibilidad con IA">
-                </div>
             </section>
 
             <!-- SECCIÓN DE CONCEPTOS DESLIZANTE -->
@@ -684,12 +688,20 @@
 
             <!-- SECCIÓN DE CIERRE -->
             <section class="text-section" style="margin-top: 5rem;">
-                <div style="background: white; border-radius: 35px; border: 1px solid rgba(0, 194, 255, 0.1); padding: 3rem; position: relative;">
-                    <div style="position: absolute; top: -20px; right: 40px; background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 0.9rem;">META ALCANZADA</div>
-                    
+                <div
+                    style="background: white; border-radius: 35px; border: 1px solid rgba(0, 194, 255, 0.1); padding: 3rem; position: relative;">
+                    <div
+                        style="position: absolute; top: -20px; right: 40px; background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 0.9rem;">
+                        META ALCANZADA</div>
+
                     <h2 style="font-size: 2.2rem; margin-bottom: 25px;">¡Felicidades!</h2>
-                    <p style="font-size: 1.1rem; color: #475569;">Has culminado la lección 1.2 del programa de formación profesional.</p>
-                    <p style="font-size: 1.1rem; color: #475569;">Al completar este contenido, has dado un paso importante hacia una integración más estratégica de los LLM en tu práctica: ahora reconoces que cada área (STEM, humanidades y educación especial) plantea oportunidades y cuidados distintos. Este mapa de aplicaciones te permitirá decidir con mayor intención donde la IA aporta valor real al aprendizaje.</p>
+                    <p style="font-size: 1.1rem; color: #475569;">Has culminado la lección 1.2 del programa de formación
+                        profesional.</p>
+                    <p style="font-size: 1.1rem; color: #475569;">Al completar este contenido, has dado un paso
+                        importante hacia una integración más estratégica de los LLM en tu práctica: ahora reconoces que
+                        cada área (STEM, humanidades y educación especial) plantea oportunidades y cuidados distintos.
+                        Este mapa de aplicaciones te permitirá decidir con mayor intención donde la IA aporta valor real
+                        al aprendizaje.</p>
                 </div>
             </section>
 
@@ -807,14 +819,14 @@
 </body>
 
 </html>
-          currentIndex--;
-                updateSlider();
-            }
-        });
+currentIndex--;
+updateSlider();
+}
+});
 
-        window.addEventListener('resize', updateSlider);
-        setTimeout(updateSlider, 500);
-    </script>
+window.addEventListener('resize', updateSlider);
+setTimeout(updateSlider, 500);
+</script>
 
 </body>
 
