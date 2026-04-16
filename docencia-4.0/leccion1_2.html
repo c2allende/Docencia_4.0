@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lección 1.2 de Docencia 4.0: Aplicaciones estratégicas por áreas de contenido. Explora el uso de LLM en STEM, humanidades y educación especial.">
+    <meta name="keywords" content="LLM, STEM, Humanidades, Educación Especial, DUA, PEI, Docencia 4.0">
     <title>Lección 1.2 | Docencia 4.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,6 +32,7 @@
             padding-top: var(--nav-height);
             margin: 0;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         h1,
@@ -383,6 +386,32 @@
             box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
         }
 
+        /* BOTÓN SUBIR */
+        .btn-scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0,194,255,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* MODAL DE ZOOM */
         #zoomModal {
             display: none;
@@ -471,11 +500,10 @@
                     de contenidos. A continuación, se detallan oportunidades de uso específicas validadas por la
                     investigación reciente.</p>
 
-                <h2>Ciencias y Matemáticas: razonamiento paso a paso</h2>
+                <h2>Ciencias y Matemáticas: razonamiento paso a paso y resolución de problemas</h2>
 
                 <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
-                    <!-- Nota para el usuario: He generado esta imagen para mantener la estética premium -->
-                    <img src="../assets/leccion_1_2_stem.png" alt="Razonamiento STEM y Chain of Thought">
+                    <img src="../assets/LLM_M1_Ilustracion_1.2_stem.png" alt="Razonamiento STEM y Chain of Thought">
                 </div>
 
                 <p>En disciplinas STEM (Ciencia, Tecnología, Ingeniería y Matemáticas), el principal valor de los LLM
@@ -487,7 +515,7 @@
                     compromiso. La literatura sobre <strong>Chain-of-Thought (CoT)</strong> o "cadena de pensamiento"
                     demuestra que cuando se pide al modelo que genere explicaciones paso a paso, no solo mejora la
                     precisión de la respuesta, sino que proporciona un andamiaje didáctico que el maestro puede usar
-                    para modelar el pensamiento lógico en clase (Wait et al., 2024; Yao et al., 2023).</p>
+                    para modelar el pensamiento lógico en clase (Zhang et al., 2024; Yao et al., 2023).</p>
 
                 <p><strong>• Explicación de procesos:</strong> En lugar de simplemente dar una respuesta numérica,
                     herramientas como ChatGPT pueden generar explicaciones detalladas de por qué ocurre un fenómeno
@@ -502,7 +530,7 @@
                 <h2>Español e Historia: análisis textual y síntesis crítica</h2>
 
                 <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/leccion_1_2_humanidades.png" alt="Análisis textual en Humanidades">
+                    <img src="../assets/LLM_M1_Ilustracion_1.2_humanidades.png" alt="Análisis textual en Humanidades">
                 </div>
 
                 <p>En las humanidades, los LLM funcionan como motores de lenguaje que impulsan bots y asistentes de
@@ -525,7 +553,7 @@
 
             <section class="text-section">
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
-                <h2>Educación Especial: adaptación y accesibilidad</h2>
+                <h2>Educación Especial: adaptación y accesibilidad (PEI)</h2>
 
                 <div class="highlight-box">
                     <h3>El potencial de la diferenciación masiva</h3>
@@ -538,22 +566,23 @@
                             texto académico en múltiples niveles de complejidad (ej. nivel Lexile bajo, medio y alto) en
                             segundos, permitiendo que estudiantes con diversas capacidades lectoras accedan al mismo
                             contenido curricular sin estigmatización. Esta capacidad de personalización apoya
-                            directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong>.
+                            directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong> (Sarkar et al., 2024).
                         </li>
                         <li style="margin-bottom: 20px;">
-                            <strong>🎯 Creación de PEI asistidos (Objetivos SMART):</strong> En la redacción de Programas
-                            Educativos Individualizados (PEI), los asistentes basados en LLM pueden ayudar a los
+                            <strong>🎯 Creación de PEI asistidos (Objetivos SMART):</strong> En la redacción de
+                            Programas Educativos Individualizados (PEI), los asistentes basados en LLM pueden ayudar a los
                             maestros a redactar objetivos <strong>SMART</strong> (Específicos, Medibles, Alcanzables,
                             Relevantes y Temporales) basados en las necesidades observadas del estudiante. Aunque la
                             decisión final siempre depende del humano (<em>human in the loop</em>), la IA puede sugerir
                             estrategias de acomodo razonable y redacción técnica que ahorran tiempo administrativo
-                            valioso (Dahri et al., 2025).
+                            valioso (Dahri et al., 2025; Sarkar et al., 2024).
                         </li>
                     </ul>
                 </div>
-                
-                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)" style="width: 300px; float: right; margin-top: -100px; position: relative; z-index: 10;">
-                     <img src="../assets/leccion_1_2_inclusion.png" alt="Inclusión y accesibilidad con IA">
+
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)"
+                    style="width: 300px; float: right; margin-top: -100px; position: relative; z-index: 10;">
+                    <img src="../assets/LLM_M1_Ilustracion_1.2_inclusion.png" alt="Inclusión y accesibilidad con IA">
                 </div>
             </section>
 
@@ -578,61 +607,95 @@
                                 mantengan la misma estructura y dificultad matemática, pero aumenten significado y
                                 motivación. Cuando se realiza con LLM, el modelo toma instrucciones sobre el contenido
                                 matemático y el contexto deseado y produce enunciados tipo “problema verbal” que
-                                preservan la intención didáctica original.</p>
+                                preservan la intención didáctica original, permitiendo personalizar los problemas a
+                                intereses y niveles de los alumnos sin rediseñar cada ítem desde cero.</p>
                             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                            <small style="color: #64748b;">Referencia: Hwang & Utami (2024).</small>
+                            <small style="color: #64748b;">Referencia: Hwang, W. Y., & Utami, I. Q. (2024, March).
+                                Contextualized and Personalized Math Word Problem Generation Using GPT and Authentic
+                                Contextual Recognition. In 2024 12th International Conference on Information and
+                                Education Technology (ICIET) (pp. 177-181). IEEE.</small>
                         </div>
                         <!-- ítem 2 -->
                         <div class="slider-item">
                             <h3>Explicación paso a paso en STEM</h3>
-                            <p>Estrategia en la que un modelo de lenguaje descompone la resolución de un problema de
-                                Ciencia, Tecnología, Ingeniería o Matemáticas en una secuencia ordenada de pasos
-                                intermedios, mostrando operaciones, justificaciones y decisiones antes de presentar la
-                                respuesta final. Implementada con LLM mediante técnicas como Chain of Thought, esta
-                                explicación detallada funciona como ejemplo trabajado (worked example) que reduce la
-                                carga cognitiva y hace visibles los procesos de razonamiento.</p>
+                            <p>Estrategia en la que un modelo de lenguaje (o el docente) descompone la resolución de un
+                                problema de Ciencia, Tecnología, Ingeniería o Matemáticas en una secuencia ordenada de
+                                pasos intermedios, mostrando operaciones, justificaciones y decisiones antes de
+                                presentar la respuesta final. Implementada con LLM mediante técnicas como Chain of
+                                Thought, esta explicación detallada funciona como ejemplo trabajado (worked example) que
+                                reduce la carga cognitiva, hace visibles los procesos de razonamiento y facilita la
+                                retroalimentación formativa sobre dónde se producen errores o malentendidos en el
+                                aprendizaje de STEM.</p>
                             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                            <small style="color: #64748b;">Referencia: DataCamp (2024).</small>
+                            <small style="color: #64748b;">Referencia: DataCamp. (2024). Chain-of-thought prompting:
+                                Step-by-step reasoning with large language models.
+                                https://www.datacamp.com/tutorial/chain-of-thought-prompting.</small>
                         </div>
                         <!-- ítem 3 -->
                         <div class="slider-item">
                             <h3>Asistente de lectura y escritura</h3>
-                            <p>Herramienta de software, generalmente impulsada por LLM, que analiza y genera texto para
-                                apoyar procesos de comprensión lectora y producción escrita, ofreciendo sugerencias,
-                                explicaciones y retroalimentación en tiempo real. En educación, estos asistentes ayudan
-                                a estudiantes a mejorar gramática, vocabulario, coherencia y claridad, así como a
-                                comprender textos complejos mediante resúmenes y preguntas guiadas.</p>
+                            <p>Herramienta de software, generalmente impulsada por modelos de lenguaje (LLM), que
+                                analiza y genera texto para apoyar procesos de comprensión lectora y producción escrita,
+                                ofreciendo sugerencias, explicaciones y retroalimentación en tiempo real. En educación,
+                                estos asistentes ayudan a estudiantes a mejorar gramática, vocabulario, coherencia y
+                                claridad, así como a comprender textos complejos mediante resúmenes, definiciones y
+                                preguntas guiadas, mientras proporcionan a los docentes información diagnóstica sobre el
+                                desarrollo de habilidades de lectura y escritura.</p>
                             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                            <small style="color: #64748b;">Referencia: AIContentfy (2023).</small>
+                            <small style="color: #64748b;">Referencia: AIContentfy. (2023). AI writing assistants in
+                                education: Revolutionizing learning and writing processes. AIContentfy.
+                                https://aicontentfy.com/en/blog/ai-writing-assistants-in-education-revolutionizing-learning-and-writing-processes.</small>
                         </div>
                         <!-- ítem 4 -->
                         <div class="slider-item">
                             <h3>Diseño Universal para el Aprendizaje (DUA) con LLM</h3>
-                            <p>Aplicación del marco de Diseño Universal para el Aprendizaje utilizando modelos de
-                                lenguaje grandes para generar versiones alternativas y personalizadas de los materiales.
-                                Implica usar LLM para re-nivelar textos (Lexile), cambiar formatos (resúmenes,
-                                esquemas), ofrecer explicaciones alternativas y proponer diversas formas de demostrar el
-                                aprendizaje, reduciendo barreras y optimizando el acceso para todos.</p>
+                            <p>Aplicación del marco de Diseño Universal para el Aprendizaje, que propone ofrecer
+                                múltiples medios de representación, acción/expresión y compromiso para atender la
+                                variabilidad del alumnado, utilizando modelos de lenguaje grandes para generar versiones
+                                alternativas y personalizadas de los materiales. En la práctica, esto implica usar LLM
+                                para re nivelar textos (distintos niveles de lectura), cambiar formatos (resúmenes,
+                                esquemas, ejemplos adicionales), ofrecer explicaciones alternativas y proponer diversas
+                                formas de demostrar el aprendizaje, de manera que se reduzcan barreras y se optimice el
+                                acceso al currículo para todos los estudiantes.</p>
                             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                            <small style="color: #64748b;">Referencia: CAST (2024).</small>
+                            <small style="color: #64748b;">Referencia: CAST. (2024). Universal Design for Learning (UDL)
+                                guidelines. CAST. https://udlguidelines.cast.org.</small>
                         </div>
                         <!-- ítem 5 -->
                         <div class="slider-item">
                             <h3>Apoyo a Programas Educativos Individualizados (PEI)</h3>
-                            <p>Uso de LLM para asistir en la redacción y revisión de borradores de Programas Educativos
-                                Individualizados (IEP), generando propuestas de metas, apoyos y adaptaciones a partir de
-                                la información que provee el docente. La IA se usa como herramienta de apoyo para
-                                formular objetivos SMART y descripciones técnicas más eficientes, que luego deben ser
-                                revisadas y aprobadas por el equipo profesional.</p>
+                            <p>Uso de LLM y de las aplicaciones que los incorporan para asistir en la redacción y
+                                revisión de borradores de Programas Educativos Individualizados (en el contexto de EE.
+                                UU., Individualized Education Programs, IEP), generando propuestas de metas, apoyos y
+                                adaptaciones a partir de la información que provee el docente, sin reemplazar el juicio
+                                del equipo interdisciplinario. Un PEI/IEP es un documento legal que detalla la
+                                instrucción especial, servicios relacionados, metas medibles y acomodos que un
+                                estudiante con discapacidad necesita para acceder a una educación pública, gratuita y
+                                apropiada; la IA se usa como herramienta de apoyo para formular objetivos SMART y
+                                descripciones técnicas más eficientes, que luego deben ser revisadas, ajustadas y
+                                aprobadas por el equipo profesional y la familia.</p>
                             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                            <small style="color: #64748b;">Referencia: Understood (2023).</small>
+                            <small style="color: #64748b;">Referencia: Understood. (2023). What is an IEP?
+                                Understood.org. https://www.understood.org/en/articles/what-is-an-iep.</small>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section class="quiz-container">
-                <h2 style="background: none; -webkit-text-fill-color: white; color: white;">🎉 Checkpoint de Saberes</h2>
+            <!-- SECCIÓN DE CIERRE -->
+            <section class="text-section" style="margin-top: 5rem;">
+                <div style="background: white; border-radius: 35px; border: 1px solid rgba(0, 194, 255, 0.1); padding: 3rem; position: relative;">
+                    <div style="position: absolute; top: -20px; right: 40px; background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 0.9rem;">META ALCANZADA</div>
+                    
+                    <h2 style="font-size: 2.2rem; margin-bottom: 25px;">¡Felicidades!</h2>
+                    <p style="font-size: 1.1rem; color: #475569;">Has culminado la lección 1.2 del programa de formación profesional.</p>
+                    <p style="font-size: 1.1rem; color: #475569;">Al completar este contenido, has dado un paso importante hacia una integración más estratégica de los LLM en tu práctica: ahora reconoces que cada área (STEM, humanidades y educación especial) plantea oportunidades y cuidados distintos. Este mapa de aplicaciones te permitirá decidir con mayor intención donde la IA aporta valor real al aprendizaje.</p>
+                </div>
+            </section>
+
+            <section class="quiz-container" id="checkpoint">
+                <h2 style="background: none; -webkit-text-fill-color: white; color: white;">🎉 Checkpoint de Saberes
+                </h2>
                 <p style="font-size: 1.15rem; margin-bottom: 3.5rem;">Para cerrar este bloque, te invito a realizar esta
                     evaluación formativa breve sobre las aplicaciones de los LLM en tu área de enseñanza.</p>
 
@@ -654,13 +717,20 @@
                 <h3 style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--neutral-dark);">Referencias de la
                     Lección</h3>
                 <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: #64748b;">
-                    <li style="margin-bottom: 10px;">• Dahri, N. A., et al. (2025). Ethical Governance of Artificial Intelligence Hallucinations in Legal Practice.</li>
-                    <li style="margin-bottom: 10px;">• Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in higher education.</li>
-                    <li style="margin-bottom: 10px;">• Sarkar, P., et al. (2024). Step-Aware Policy Optimization for Reasoning in Diffusion Large Language Models.</li>
-                    <li style="margin-bottom: 10px;">• Valli, P., & Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI tools by teachers.</li>
-                    <li style="margin-bottom: 10px;">• Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models.</li>
-                    <li style="margin-bottom: 10px;">• Yao, S., et al. (2023). Tree of Thoughts: Deliberate Problem Solving with Large Language Models.</li>
-                    <li style="margin-bottom: 10px;">• Zhang, H., et al. (2024). Step-By-Step Coding for Improving Mathematical Olympiad Performance.</li>
+                    <li style="margin-bottom: 10px;">• Dahri, N. A., et al. (2025). Ethical Governance of Artificial
+                        Intelligence Hallucinations in Legal Practice.</li>
+                    <li style="margin-bottom: 10px;">• Damiano, R. F., et al. (2024). Early perceptions of teaching and
+                        learning using generative AI in higher education.</li>
+                    <li style="margin-bottom: 10px;">• Sarkar, P., et al. (2024). Step-Aware Policy Optimization for
+                        Reasoning in Diffusion Large Language Models.</li>
+                    <li style="margin-bottom: 10px;">• Valli, P., & Zafiropoulos, K. (2024). Factors that affect the
+                        acceptance of educational AI tools by teachers.</li>
+                    <li style="margin-bottom: 10px;">• Wei, J., et al. (2022). Chain-of-thought prompting elicits
+                        reasoning in large language models.</li>
+                    <li style="margin-bottom: 10px;">• Yao, S., et al. (2023). Tree of Thoughts: Deliberate Problem
+                        Solving with Large Language Models.</li>
+                    <li style="margin-bottom: 10px;">• Zhang, H., et al. (2024). Step-By-Step Coding for Improving
+                        Mathematical Olympiad Performance.</li>
                 </ul>
             </div>
 
@@ -670,6 +740,8 @@
             </div>
         </div>
     </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn">↑</a>
 
     <div id="zoomModal" onclick="this.style.display='none'">
         <img id="zoomedImg" src="" alt="Zoomed Image">
@@ -694,6 +766,7 @@
         let currentIndex = 0;
 
         function updateSlider() {
+            if (!items.length) return;
             const containerWidth = track.parentElement.offsetWidth;
             const itemWidth = items[0].offsetWidth;
             const totalWidth = itemWidth + 30; // 30 is the gap
@@ -713,6 +786,28 @@
         prevBtn.addEventListener('click', () => {
             if (currentIndex > 0) {
                 currentIndex--;
+                updateSlider();
+            }
+        });
+
+        // Botón Scroll Top
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        window.addEventListener('resize', updateSlider);
+        setTimeout(updateSlider, 500);
+    </script>
+
+</body>
+
+</html>
+          currentIndex--;
                 updateSlider();
             }
         });
