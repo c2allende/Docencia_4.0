@@ -460,6 +460,7 @@
                 padding: 2.5rem;
             }
         }
+
         /* --- ESTILOS COMPONENTE INTERACTIVO ECO SISTEMA LLM --- */
         .llm-interactive-card {
             float: right;
@@ -517,33 +518,73 @@
             font-weight: 800;
             color: white;
             position: absolute;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .box-node:hover { 
-            transform: scale(1.03) translateY(-2px); 
+        .box-node:hover {
+            transform: scale(1.03) translateY(-2px);
             filter: brightness(1.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             z-index: 10 !important;
         }
 
-        #ia-node { width: 100%; height: 100%; background: var(--ia-clr); z-index: 1; }
-        #ml-node { width: 85%; height: 80%; background: var(--ml-clr); z-index: 2; top: 15%; }
-        #dl-node { width: 70%; height: 60%; background: var(--dl-clr); z-index: 3; top: 30%; }
-        #gen-node { width: 55%; height: 40%; background: var(--gen-clr); z-index: 4; top: 45%; }
-        #llm-node { 
-            width: 40%; height: 20%; background: var(--llm-clr); z-index: 5; top: 60%; 
-            color: #1a237e; animation: pulse-llm 2s infinite;
+        #ia-node {
+            width: 100%;
+            height: 100%;
+            background: var(--ia-clr);
+            z-index: 1;
+        }
+
+        #ml-node {
+            width: 85%;
+            height: 80%;
+            background: var(--ml-clr);
+            z-index: 2;
+            top: 15%;
+        }
+
+        #dl-node {
+            width: 70%;
+            height: 60%;
+            background: var(--dl-clr);
+            z-index: 3;
+            top: 30%;
+        }
+
+        #gen-node {
+            width: 55%;
+            height: 40%;
+            background: var(--gen-clr);
+            z-index: 4;
+            top: 45%;
+        }
+
+        #llm-node {
+            width: 40%;
+            height: 20%;
+            background: var(--llm-clr);
+            z-index: 5;
+            top: 60%;
+            color: #1a237e;
+            animation: pulse-llm 2s infinite;
         }
 
         @keyframes pulse-llm {
-            0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 230, 118, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 230, 118, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
+            }
         }
 
         .info-panel-llm {
@@ -557,16 +598,17 @@
             transition: all 0.3s ease;
         }
 
-        .info-title-llm { 
-            font-weight: 800; 
-            font-size: 1.1rem; 
-            color: var(--ia-clr); 
+        .info-title-llm {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--ia-clr);
             margin-bottom: 8px;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .info-desc-llm { 
-            line-height: 1.6; 
-            color: #475569; 
+
+        .info-desc-llm {
+            line-height: 1.6;
+            color: #475569;
             font-size: 0.9rem;
         }
 
@@ -577,6 +619,7 @@
                 margin: 2rem 0;
             }
         }
+
         /* --- ESTILOS SIMULADOR TOKENIZACIÓN --- */
         .tokenization-simulator {
             width: 100%;
@@ -609,7 +652,9 @@
         }
 
         @media (max-width: 850px) {
-            .token-grid { grid-template-columns: 1fr; }
+            .token-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .token-card {
@@ -645,9 +690,9 @@
             line-height: 1.6;
         }
 
-        .token-textarea:focus { 
-            border-color: var(--primary); 
-            box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.1); 
+        .token-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.1);
         }
 
         .token-count-pill {
@@ -661,10 +706,10 @@
             border: 1px solid #EDF2F7;
         }
 
-        #tokenCount { 
-            font-size: 1.8rem; 
-            font-weight: 800; 
-            color: #ec4899; 
+        #tokenCount {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ec4899;
         }
 
         .token-visualizer {
@@ -686,7 +731,7 @@
             font-family: 'Courier New', monospace;
             font-size: 14px;
             font-weight: 700;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .token-ids-box {
@@ -767,7 +812,7 @@
                 <div class="llm-interactive-card">
                     <h3>¿Dónde se sitúan los LLM?</h3>
                     <p class="desc-p">Haz clic en cada capa para descubrir la jerarquía de la IA.</p>
-                    
+
                     <div class="hierarchy-container">
                         <div id="ia-node" class="box-node" onclick="showEcoInfo('ia')">Inteligencia Artificial</div>
                         <div id="ml-node" class="box-node" onclick="showEcoInfo('ml')">Machine Learning</div>
@@ -778,7 +823,8 @@
 
                     <div class="info-panel-llm" id="infoPanelEco">
                         <div class="info-title-llm" id="infoTitleEco">Instrucción</div>
-                        <div class="info-desc-llm" id="infoDescEco">Selecciona una categoría en el diagrama superior para entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
+                        <div class="info-desc-llm" id="infoDescEco">Selecciona una categoría en el diagrama superior
+                            para entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
                     </div>
                 </div>
 
@@ -811,16 +857,19 @@
                 <div class="tokenization-simulator">
                     <div class="token-header">
                         <h3>Simulador de Tokenización</h3>
-                        <p>Escribe cualquier idea abajo para ver cómo la IA descompone el lenguaje en piezas procesables (tokens).</p>
+                        <p>Escribe cualquier idea abajo para ver cómo la IA descompone el lenguaje en piezas procesables
+                            (tokens).</p>
                     </div>
 
                     <div class="token-grid">
                         <div class="token-card">
                             <span class="token-label">Bloque de Entrada</span>
-                            <textarea id="tokenInput" class="token-textarea" placeholder="Escribe algo aquí...">En educación, la tokenización permite que los modelos comprendan contextos complejos y generen respuestas personalizadas para cada estudiante.</textarea>
-                            
+                            <textarea id="tokenInput" class="token-textarea"
+                                placeholder="Escribe algo aquí...">En educación, la tokenización permite que los modelos comprendan contextos complejos y generen respuestas personalizadas para cada estudiante.</textarea>
+
                             <div class="token-tip">
-                                <strong>💡 ¿Cómo funciona?</strong> Los LLM agrupan fragmentos de caracteres para "mapear" el significado. Nota cómo los espacios y signos también cuentan.
+                                <strong>💡 ¿Cómo funciona?</strong> Los LLM agrupan fragmentos de caracteres para
+                                "mapear" el significado. Nota cómo los espacios y signos también cuentan.
                             </div>
                         </div>
 
@@ -1205,7 +1254,7 @@
         window.addEventListener('resize', updateSlider);
 
         // Inicializar slider con slide width correcto
-        setTimeout(updateSlider, 500); 
+        setTimeout(updateSlider, 500);
 
         // --- Lógica de Ecosistema LLM ---
         const ecoData = {
@@ -1240,7 +1289,7 @@
             const panel = document.getElementById('infoPanelEco');
             const title = document.getElementById('infoTitleEco');
             const desc = document.getElementById('infoDescEco');
-            
+
             title.innerText = ecoData[key].title;
             desc.innerText = ecoData[key].desc;
             panel.style.borderLeftColor = ecoData[key].color;
@@ -1277,7 +1326,7 @@
         function updateTokenView() {
             const text = tokenInput.value;
             const tokens = simulateTokens(text);
-            
+
             tokenVisualizer.innerHTML = '';
             const ids = [];
 

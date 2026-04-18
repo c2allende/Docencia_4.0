@@ -7,7 +7,9 @@
     <title>Lección 2.2 | Docencia 4.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #00c2ff;
@@ -97,11 +99,11 @@
             left: -320px;
             width: var(--sidebar-width);
             height: 100vh;
-            background: var(--white);
+            background: var(--neutral-dark);
             z-index: 1100;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 2rem;
-            box-shadow: 20px 0 60px rgba(0, 0, 0, 0.05);
+            box-shadow: 20px 0 60px rgba(0, 0, 0, 0.2);
         }
 
         .sidebar.active {
@@ -132,37 +134,41 @@
             font-size: 1.4rem;
             font-weight: 800;
             margin-bottom: 2rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-bottom: 1px solid rgba(0, 194, 255, 0.1);
+            color: var(--white);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 1rem;
         }
 
         .menu-links {
             list-style: none;
+            padding-top: 1rem;
         }
 
         .menu-links li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .menu-links a {
             text-decoration: none;
-            color: var(--neutral-mid);
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 600;
             display: flex;
             align-items: center;
-            padding: 12px 18px;
-            border-radius: 14px;
+            padding: 14px 20px;
+            border-radius: 16px;
             transition: all 0.3s;
         }
 
-        .menu-links a:hover,
-        .menu-links a.active {
-            background: var(--primary-light);
-            color: var(--primary);
+        .menu-links a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
             transform: translateX(5px);
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 10px 20px rgba(0, 194, 255, 0.3);
         }
 
         /* CONTENT LAYOUT */
@@ -270,50 +276,62 @@
         /* SLIDER COMPONENT */
         .slider-section {
             margin: 5rem 0;
-            background: var(--neutral-dark);
+            background: transparent;
             border-radius: 35px;
-            padding: 3.5rem;
-            color: white;
+            padding: 0;
             position: relative;
-            overflow: hidden;
         }
 
         .slider-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .slider-header h2 {
+            margin: 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2rem;
+            font-weight: 800;
         }
 
         .slider-controls {
             display: flex;
-            gap: 1rem;
+            gap: 15px;
         }
 
-        .control-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
+        .slider-btn {
             width: 50px;
             height: 50px;
-            border-radius: 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            background: white;
+            color: var(--primary);
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 194, 255, 0.1);
         }
 
-        .control-btn:hover {
+        .slider-btn:hover {
             background: var(--primary);
-            border-color: var(--primary);
-            transform: scale(1.05);
+            color: white;
+            transform: translateY(-2px);
         }
 
         .slider-container {
-            overflow: hidden;
+            position: relative;
             width: 100%;
+            overflow: hidden;
+            border-radius: 35px;
+            background: white;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.05);
+            border: 1px solid rgba(0, 194, 255, 0.1);
         }
 
         .slider-track {
@@ -321,15 +339,34 @@
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .slider-item {
+        .concept-card {
             min-width: 100%;
-            padding-right: 20px;
+            padding: 4.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        .slider-item h3 {
+        .concept-card h3 {
             font-size: 1.8rem;
-            margin-bottom: 1rem;
             color: var(--primary);
+            background: none;
+            -webkit-text-fill-color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card p {
+            font-size: 1.15rem;
+            color: #4A5568;
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+
+        .concept-ref {
+            font-size: 0.9rem;
+            color: #A0AEC0;
+            margin-top: 1rem;
+            font-style: italic;
         }
 
         /* QUIZ CARD */
@@ -350,6 +387,188 @@
             margin-top: 0;
             background: none !important;
             -webkit-text-fill-color: white !important;
+        }
+
+        /* INTERACTIVE APP STYLES - PRO VERSION */
+        .interactive-app-wrapper {
+            margin: 4rem 0;
+            padding: 2.5rem;
+            background: #f8fafc;
+            border-radius: 35px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .app-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #6366f1, #4338ca);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            background: none;
+            -webkit-text-fill-color: white;
+            color: white !important;
+        }
+
+        .ai-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .stepper {
+            display: flex;
+            background: #f1f5f9;
+            padding: 15px;
+            overflow-x: auto;
+            gap: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #64748b;
+            min-width: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step.active {
+            color: #6366f1;
+            font-weight: bold;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+        }
+
+        .active .step-dot {
+            background: #6366f1;
+            transform: scale(1.2);
+        }
+
+        .app-main-content {
+            padding: 25px;
+            min-height: 420px;
+            text-align: left;
+        }
+
+        .app-main-content h2 {
+            color: #4338ca;
+            font-size: 1.2rem;
+            margin-top: 0;
+            background: none;
+            -webkit-text-fill-color: #4338ca;
+        }
+
+        .app-input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .app-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .app-input-group input,
+        .app-input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .option-card {
+            border: 2px solid #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fff;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .option-card:hover {
+            border-color: #6366f1;
+            background: #f5f3ff;
+        }
+
+        .option-card.selected {
+            border-color: #6366f1;
+            background: #eef2ff;
+            position: relative;
+        }
+
+        .judgment-alert {
+            background: #fff7ed;
+            border: 1px solid #ffedd5;
+            color: #9a3412;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-footer {
+            padding: 15px 25px;
+            background: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .summary-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: left;
         }
 
         /* REFERENCES SHAPE */
@@ -414,31 +633,102 @@
             <div class="audio-player-container">
                 <span class="audio-label">🎧 Escuchar Lección</span>
                 <audio controls style="width: 100%;">
-                    <source src="../LLM-DEPR/LLM_M2_Leccion_2.2_Del estándar a la planificación con IA_audio.mp3" type="audio/mpeg">
+                    <source src="../LLM-DEPR/LLM_M2_Leccion_2.2_Del estándar a la planificación con IA_audio.mp3"
+                        type="audio/mpeg">
                     Tu navegador no soporta el elemento de audio.
                 </audio>
             </div>
 
             <h2>Planificación didáctica con apoyo de LLM</h2>
-            <p>La planificación didáctica sigue siendo una de las tareas más exigentes y determinantes en la labor docente: implica traducir estándares curriculares en objetivos claros, seleccionar contenidos, diseñar actividades y prever estrategias de evaluación coherentes con esos objetivos. La literatura en diseño instruccional insiste en la importancia de la “alineación constructiva” entre resultados de aprendizaje, actividades y evidencias de evaluación para garantizar coherencia pedagógica.</p>
-            
-            <p>En este contexto, los modelos de lenguaje de gran tamaño (LLM) no sustituyen el juicio profesional del docente, pero pueden apoyar fuertemente la fase de redacción y generación de ideas. Estudios recientes sobre el uso de bots y aplicaciones basadas en LLM, como ChatGPT, en educación muestran que los docentes lo emplean para proponer actividades, formular preguntas y elaborar borradores de planes de clase, especialmente cuando enfrentan limitaciones de tiempo (Damiano et al., 2024; Hsu, 2023). Estos trabajos coinciden en que la calidad de la planificación generada por IA depende de que el docente formule instrucciones claras y revise de manera crítica el producto antes de utilizarlo en el aula.</p>
-            
-            <p>Investigaciones centradas en apoyo a docentes a través de LLM describen sistemas que ayudan a construir planes de lección paso a paso, integrando principios de diseño instruccional como los “nueve eventos de instrucción” de Gagné o estructuras de lección guiadas (Jia et al., 2024). Estos sistemas permiten a los maestros partir de los objetivos o estándares y, mediante interacción con una aplicación basada en LLM, ir completando componentes como actividades de inicio, desarrollo, cierre y evaluación. La lección clave para este módulo es que los LLM pueden acelerar la generación de opciones, pero la decisión final sobre qué actividades se ajustan a la realidad del grupo, al tiempo disponible y a la cultura escolar sigue siendo una responsabilidad docente.</p>
+            <p>La planificación didáctica sigue siendo una de las tareas más exigentes y determinantes en la labor
+                docente: implica traducir estándares curriculares en objetivos claros, seleccionar contenidos, diseñar
+                actividades y prever estrategias de evaluación coherentes con esos objetivos. La literatura en diseño
+                instruccional insiste en la importancia de la “alineación constructiva” entre resultados de aprendizaje,
+                actividades y evidencias de evaluación para garantizar coherencia pedagógica.</p>
+
+            <p>En este contexto, los modelos de lenguaje de gran tamaño (LLM) no sustituyen el juicio profesional del
+                docente, pero pueden apoyar fuertemente la fase de redacción y generación de ideas. Estudios recientes
+                sobre el uso de bots y aplicaciones basadas en LLM, como ChatGPT, en educación muestran que los docentes
+                lo emplean para proponer actividades, formular preguntas y elaborar borradores de planes de clase,
+                especialmente cuando enfrentan limitaciones de tiempo (Damiano et al., 2024; Hsu, 2023). Estos trabajos
+                coinciden en que la calidad de la planificación generada por IA depende de que el docente formule
+                instrucciones claras y revise de manera crítica el producto antes de utilizarlo en el aula.</p>
+
+            <p>Investigaciones centradas en apoyo a docentes a través de LLM describen sistemas que ayudan a construir
+                planes de lección paso a paso, integrando principios de diseño instruccional como los “nueve eventos de
+                instrucción” de Gagné o estructuras de lección guiadas (Jia et al., 2024). Estos sistemas permiten a los
+                maestros partir de los objetivos o estándares y, mediante interacción con una aplicación basada en LLM,
+                ir completando componentes como actividades de inicio, desarrollo, cierre y evaluación. La lección clave
+                para este módulo es que los LLM pueden acelerar la generación de opciones, pero la decisión final sobre
+                qué actividades se ajustan a la realidad del grupo, al tiempo disponible y a la cultura escolar sigue
+                siendo una responsabilidad docente.</p>
+
+            <div class="interactive-app-wrapper">
+                <div class="app-container">
+                    <div class="app-header">
+                        <span class="ai-tag">CO-CREACIÓN CON LLM</span>
+                        <h1>Diseño de Lección Paso a Paso</h1>
+                    </div>
+
+                    <div class="stepper" id="stepper">
+                        <div class="step active" id="st1">
+                            <div class="step-dot"></div>Metas
+                        </div>
+                        <div class="step" id="st2">
+                            <div class="step-dot"></div>Inicio
+                        </div>
+                        <div class="step" id="st3">
+                            <div class="step-dot"></div>Desarrollo
+                        </div>
+                        <div class="step" id="st4">
+                            <div class="step-dot"></div>Cierre
+                        </div>
+                        <div class="step" id="st5">
+                            <div class="step-dot"></div>Evaluación
+                        </div>
+                        <div class="step" id="st6">
+                            <div class="step-dot"></div>Final
+                        </div>
+                    </div>
+
+                    <div class="app-main-content" id="appContent">
+                        <!-- Render dinámico -->
+                    </div>
+
+                    <div class="app-footer">
+                        <button class="btn-footer btn-prev" id="appPrevBtn" onclick="changeAppStep(-1)"
+                            style="margin:0; padding: 0.8rem 1.5rem;" disabled>Anterior</button>
+                        <button class="btn-footer btn-next" id="appNextBtn" onclick="changeAppStep(1)"
+                            style="margin:0; padding: 0.8rem 1.5rem;">Siguiente</button>
+                    </div>
+                </div>
+            </div>
 
             <h2>Alineación con Estándares y Expectativas</h2>
-            <p>Uno de los riesgos del uso indiscriminado de LLM es generar planificaciones “genéricas” que no responden a un currículo concreto. Diversos trabajos subrayan que, si no se especifican los resultados de aprendizaje o estándares de referencia, los modelos tienden a producir actividades desalineadas o demasiado superficiales (Fan et al., 2024; LessonPlanner, 2024). Por ello, incorporar explícitamente los Estándares y Expectativas del DEPR en el prompt es una condición crítica para asegurar que la planificación generada por IA tenga relevancia curricular.</p>
-            
-            <p>En investigaciones sobre diseño automatizado de planes de lección se ha observado que la calidad mejora cuando el sistema recibe como entrada los objetivos de aprendizaje o descriptores curriculares, en lugar de solo el tema general (Zhang, 2025). Estos estudios reportan que, al “anclar” el diseño en estándares concretos, se incrementa la pertinencia de las propuestas de actividades y se facilita la evaluación posterior del alineamiento.</p>
-            
-            <p>Aplicado al contexto del DEPR, esto implica que, al solicitar a un bot basado en LLM un plan de clase o de unidad, el docente incluya en el prompt:</p>
+            <p>Uno de los riesgos del uso indiscriminado de LLM es generar planificaciones “genéricas” que no responden
+                a un currículo concreto. Diversos trabajos subrayan que, si no se especifican los resultados de
+                aprendizaje o estándares de referencia, los modelos tienden a producir actividades desalineadas o
+                demasiado superficiales (Fan et al., 2024; LessonPlanner, 2024). Por ello, incorporar explícitamente los
+                Estándares y Expectativas del DEPR en el prompt es una condición crítica para asegurar que la
+                planificación generada por IA tenga relevancia curricular.</p>
+
+            <p>En investigaciones sobre diseño automatizado de planes de lección se ha observado que la calidad mejora
+                cuando el sistema recibe como entrada los objetivos de aprendizaje o descriptores curriculares, en lugar
+                de solo el tema general (Zhang, 2025). Estos estudios reportan que, al “anclar” el diseño en estándares
+                concretos, se incrementa la pertinencia de las propuestas de actividades y se facilita la evaluación
+                posterior del alineamiento.</p>
+
+            <p>Aplicado al contexto del DEPR, esto implica que, al solicitar a un bot basado en LLM un plan de clase o
+                de unidad, el docente incluya en el prompt:</p>
             <ul style="margin-bottom: 2rem; padding-left: 2rem; color: var(--neutral-mid);">
                 <li>El estándar o expectativa específica copiada literalmente.</li>
                 <li>El grado, materia y tiempo lectivo.</li>
-                <li>Cualquier restricción relevante (por ejemplo, recursos limitados, modalidad presencial o híbrida).</li>
+                <li>Cualquier restricción relevante (por ejemplo, recursos limitados, modalidad presencial o híbrida).
+                </li>
             </ul>
 
-            <p>La función del LLM es entonces proponer una estructura inicial (objetivos operacionales, secuencia de actividades, posibles materiales), que el maestro revisa para verificar que:</p>
+            <p>La función del LLM es entonces proponer una estructura inicial (objetivos operacionales, secuencia de
+                actividades, posibles materiales), que el maestro revisa para verificar que:</p>
             <ul style="margin-bottom: 2rem; padding-left: 2rem; color: var(--neutral-mid);">
                 <li>Los objetivos estén formulados de forma coherente con el estándar del DEPR.</li>
                 <li>Las actividades ayuden efectivamente a evidenciar el logro de esos objetivos.</li>
@@ -446,68 +736,163 @@
             </ul>
 
             <h2>Del estándar al plan diario y de unidad</h2>
-            <p>Distintos estudios muestran que los docentes suelen necesitar apoyo tanto para el diseño de la “microplanificación” (clase diaria) como para la “macroplanificación” (unidades o secuencias didácticas) (Fan et al., 2024; Zubiaga, 2024). Los LLM pueden intervenir en ambos niveles, pero la forma de formular el prompt y de revisar los resultados varía.</p>
-            
-            <p>Para la clase diaria, investigaciones sobre herramientas como LessonPlanner reportan que la generación asistida de planes en pasos (por ejemplo, activar conocimientos previos, presentar el contenido, guiar la práctica, evaluar) puede ayudar especialmente a docentes noveles a no olvidar fases clave de la lección (LessonPlanner, 2024).</p>
-            
-            <p>En este módulo, esto se traduce en prompts que piden explícitamente objetivos específicos para la sesión, actividades breves de inicio, desarrollo y cierre con tiempo estimado e indicaciones sobre recursos mínimos necesarios (pizarra, hojas, dispositivos).</p>
-            
-            <p>Para la unidad didáctica, estudios de diseño instruccional asistido por IA destacan la utilidad de los LLM para proponer mapas de secuencias de varias sesiones, sugiriendo la progresión conceptual, posibles proyectos o tareas integradoras y formas de distribuir los contenidos a lo largo de semanas (Jia et al., 2024). En este nivel, los prompts deben orientar al modelo indicando la duración total de la unidad, el número de sesiones, los objetivos globales vinculados al currículo y los componentes transversales.</p>
-            
-            <p>En ambos casos, la recomendación recurrente en la literatura es que el docente actúe como **“editor experto”**: realiza ajustes en lenguaje, ejemplos, tiempos y tipos de actividad para garantizar que la planificación no solo esté alineada al estándar, sino también a las características del grupo y a la cultura escolar (Damiano et al., 2024; Hsu, 2023).</p>
+            <p>Distintos estudios muestran que los docentes suelen necesitar apoyo tanto para el diseño de la
+                “microplanificación” (clase diaria) como para la “macroplanificación” (unidades o secuencias didácticas)
+                (Fan et al., 2024; Zubiaga, 2024). Los LLM pueden intervenir en ambos niveles, pero la forma de formular
+                el prompt y de revisar los resultados varía.</p>
+
+            <p>Para la clase diaria, investigaciones sobre herramientas como LessonPlanner reportan que la generación
+                asistida de planes en pasos (por ejemplo, activar conocimientos previos, presentar el contenido, guiar
+                la práctica, evaluar) puede ayudar especialmente a docentes noveles a no olvidar fases clave de la
+                lección (LessonPlanner, 2024).</p>
+
+            <p>En este módulo, esto se traduce en prompts que piden explícitamente:</p>
+            <ul style="margin-bottom: 2rem; padding-left: 2rem; color: var(--neutral-mid);">
+                <li>objetivos específicos para la sesión,</li>
+                <li>actividades breves de inicio, desarrollo y cierre con tiempo estimado,</li>
+                <li>indicaciones sobre recursos mínimos necesarios (pizarra, hojas, dispositivos).</li>
+            </ul>
+
+            <p>Para la unidad didáctica, estudios de diseño instruccional asistido por IA destacan la utilidad de los
+                LLM para proponer mapas de secuencias de varias sesiones, sugiriendo la progresión conceptual, posibles
+                proyectos o tareas integradoras y formas de distribuir los contenidos a lo largo de semanas (Jia et al.,
+                2024). En este nivel, los prompts deben orientar al modelo indicando:</p>
+            <ul style="margin-bottom: 2rem; padding-left: 2rem; color: var(--neutral-mid);">
+                <li>duración total de la unidad (por ejemplo, 3–4 semanas),</li>
+                <li>número de sesiones disponibles,</li>
+                <li>objetivos globales de la unidad vinculados al currículo,</li>
+                <li>y, cuando sea pertinente, componentes transversales (competencias, temas integradores).</li>
+            </ul>
+
+            <p>En ambos casos, la recomendación recurrente en la literatura es que el docente actúe como **“editor
+                experto”**: realiza ajustes en lenguaje, ejemplos, tiempos y tipos de actividad para garantizar que la
+                planificación no solo esté alineada al estándar, sino también a las características del grupo y a la
+                cultura escolar (Damiano et al., 2024; Hsu, 2023).</p>
 
             <h2>Personalización de actividades y viabilidad en el tiempo lectivo real</h2>
-            <p>Aunque un plan pueda estar muy bien estructurado en papel, su valor depende de la viabilidad en el tiempo real de clase y de la pertinencia para estudiantes concretos. Los estudios sobre integración de LLM en planificación docente resaltan que muchos productos generados inicialmente son “ambiciosos” o poco realistas en cuanto a cantidad de actividades y tiempos (Fan et al., 2024).</p>
-            
-            <p>Por ello, se propone utilizar a la IA no solo para generar, sino también para recortar, adaptar y priorizar. Algunas investigaciones describen procesos en los que el docente pide al LLM versiones “simplificadas” de un plan, ajustadas a 40–50 minutos de clase o adaptadas a grupos con necesidades específicas (Zhang, 2025; Zubiaga, 2024).</p>
-            
-            <p>Este tipo de interacción convierte al LLM en un aliado para afinar la planificación, siempre bajo el filtro profesional del docente y en coherencia con los Estándares y Expectativas del DEPR.</p>
+            <p>Aunque un plan pueda estar muy bien estructurado en papel, su valor depende de la viabilidad en el tiempo
+                real de clase y de la pertinencia para estudiantes concretos. Los estudios sobre integración de LLM en
+                planificación docente resaltan que muchos productos generados inicialmente son “ambiciosos” o poco
+                realistas en cuanto a cantidad de actividades y tiempos (Fan et al., 2024).</p>
 
-            <div class="slider-section">
+            <p>Por ello, se propone utilizar a la IA no solo para generar, sino también para recortar, adaptar y
+                priorizar. Algunas investigaciones describen procesos en los que el docente pide al LLM versiones
+                “simplificadas” de un plan, ajustadas a 40–50 minutos de clase o adaptadas a grupos con necesidades
+                específicas (Zhang, 2025; Zubiaga, 2024). En estos casos, la IA actúa como asistente de edición,
+                mientras que el docente decide qué mantener y qué eliminar.</p>
+
+            <p>La evidencia en educación sugiere que, cuando los docentes evalúan críticamente la factibilidad de las
+                propuestas generadas por IA —considerando tiempo, recursos y características de los estudiantes—, se
+                incrementa la probabilidad de que la planificación resultante sea implementable y no quede solo como
+                documento teórico (Damiano et al., 2024).</p>
+
+            <p>En términos prácticos, esto implica preguntar a un bot o app con LLM, por ejemplo:</p>
+            <ul style="margin-bottom: 2rem; padding-left: 2rem; color: var(--neutral-mid);">
+                <li>“Reduce este plan a tres actividades clave que pueda realizar en 45 minutos.”</li>
+                <li>“Ajusta este plan para un grupo con dificultades de lectura, proponiendo actividades más guiadas y
+                    menos dependientes de textos extensos.”</li>
+            </ul>
+
+            <p>Este tipo de interacción convierte al LLM en un aliado para afinar la planificación, siempre bajo el
+                filtro profesional del docente y en coherencia con los Estándares y Expectativas del DEPR.</p>
+
+            <section class="slider-section">
                 <div class="slider-header">
                     <h2>Conceptos a Repasar</h2>
                     <div class="slider-controls">
-                        <button class="control-btn" onclick="moveSlider(-1)" id="prevBtn">←</button>
-                        <button class="control-btn" onclick="moveSlider(1)" id="nextBtn">→</button>
+                        <button class="slider-btn" onclick="moveSlider(-1)">←</button>
+                        <button class="slider-btn" onclick="moveSlider(1)">→</button>
                     </div>
                 </div>
+
                 <div class="slider-container">
                     <div class="slider-track" id="sliderTrack">
-                        <!-- CONCEPT 1 -->
-                        <div class="slider-item">
+                        <!-- Alineación Constructiva -->
+                        <div class="concept-card">
                             <h3>Alineación constructiva</h3>
-                            <p>Enfoque de diseño curricular en el que los resultados de aprendizaje, las actividades de enseñanza y las evaluaciones se planifican de forma coherente. Supone definir resultados observables, seleccionar tareas que demuestren esos resultados y diseñar instrumentos que valoren precisamente esas actuaciones.</p>
-                            <p style="font-size: 0.8rem; opacity: 0.7;">Ref: Biggs, J. (1996). Enhancing teaching through constructive alignment. Higher Education, 32(3), 347–364.</p>
+                            <p>Enfoque de diseño curricular en el que los resultados de aprendizaje, las actividades de
+                                enseñanza y las evaluaciones se planifican de forma coherente y mutuamente consistente,
+                                de modo que todo el sistema instruccional “empuje” al estudiante hacia las mismas metas
+                                de desempeño. En términos técnicos, supone: (1) definir resultados de aprendizaje
+                                observables y medibles; (2) seleccionar tareas y experiencias de aprendizaje que
+                                requieran demostrar esos resultados; y (3) diseñar criterios e instrumentos de
+                                evaluación que valoren precisamente esas actuaciones, evitando desajustes entre lo que
+                                se declara, lo que se enseña y lo que se evalúa.</p>
+                            <span class="concept-ref">Ref: Biggs, J. (1996). Enhancing teaching through constructive
+                                alignment. Higher Education, 32(3), 347–364.</span>
                         </div>
-                        <!-- CONCEPT 2 -->
-                        <div class="slider-item">
-                            <h3>LessonPlanner (Asistente LLM)</h3>
-                            <p>Asistente interactivo que utiliza modelos como GPT-4 para ayudar a docentes a construir planes de lección guiados por principios pedagógicos (ej. eventos de Gagné). Permite iterar sobre actividades y recursos, reduciendo la carga de trabajo y mejorando la calidad pedagógica.</p>
-                            <p style="font-size: 0.8rem; opacity: 0.7;">Ref: Fan, H., et al. (2024). LessonPlanner: Assisting novice teachers. Proceedings of UIST 2024.</p>
+
+                        <!-- LessonPlanner -->
+                        <div class="concept-card">
+                            <h3>LessonPlanner (asistente de planificación con LLM)</h3>
+                            <p>Asistente interactivo de planificación didáctica que utiliza un modelo de lenguaje grande
+                                (LLM) para ayudar a las personas docentes a construir planes de lección guiados por
+                                principios pedagógicos, generando de forma adaptativa objetivos, actividades,
+                                estrategias y recursos a partir de información básica sobre el curso y la sesión (por
+                                ejemplo, tema, duración, nivel del estudiantado). Técnicamente, integra un LLM (GPT 4)
+                                en una interfaz web que organiza el contenido según marcos instruccionales como los
+                                nueve eventos de Gagné, permite iterar sobre cada sección del plan con sugerencias de
+                                actividades y materiales, y ha mostrado en estudios experimentales reducir la carga de
+                                trabajo percibida y mejorar la calidad de los planes de clase elaborados por docentes
+                                noveles frente a un uso genérico de ChatGPT.</p>
+                            <span class="concept-ref">Ref: Fan, H., Chen, G., Wang, X., & Peng, Z. (2024).
+                                LessonPlanner: Assisting novice teachers to prepare pedagogy-driven lesson plans with
+                                large language models. Proceedings of the 37th.</span>
+                            <span class="concept-ref">Ref: Annual ACM Symposium on User Interface
+                                Software and Technology (UIST 2024). https://doi.org/10.1145/3654777.3676390. </span>
                         </div>
-                        <!-- CONCEPT 3 -->
-                        <div class="slider-item">
+
+                        <!-- Microplanificación -->
+                        <div class="concept-card">
                             <h3>Microplanificación</h3>
-                            <p>Organización detallada y anticipada de una sesión específica de aula. Precisa objetivos, contenidos, actividades, recursos y tiempos para un grupo concreto en un día determinado, buscando reducir la incertidumbre en la ejecución de la clase.</p>
-                            <p style="font-size: 0.8rem; opacity: 0.7;">Ref: AI Lesson Planner | ITC ThinkDrive (2025) / Molina, Z. (1997).</p>
+                            <p>La microplanificación (en el sentido de clase diaria) es la planificación didáctica a
+                                nivel de aula en la que el docente organiza de manera detallada y anticipada una sesión
+                                específica, precisando objetivos de aprendizaje, contenidos, actividades, recursos,
+                                tiempos y formas de evaluación para un grupo concreto de estudiantes en un día
+                                determinado. Se considera el nivel más fino de la planificación educativa (derivado de
+                                la macro y mesoplanificación), pues busca reducir la incertidumbre en la ejecución de la
+                                clase y asegurar la coherencia entre lo que se pretende lograr, las estrategias que se
+                                emplean y la evaluación de los aprendizajes.</p>
+                            <span class="concept-ref">Ref: AI Lesson Planner | ITC ThinkDrive. (2025).
+                                https://itcthinkdrive.com.au/ai-lesson-planner.</span>
+                            <span class="concept-ref">Ref: Molina, Z. (1997). Planeamiento
+                                didáctico. Fundamentos, principios, estrategias y procedimientos para su desarrollo.
+                                Costa Rica, UNAED.</span>
                         </div>
-                        <!-- CONCEPT 4 -->
-                        <div class="slider-item">
+
+                        <!-- Macroplanificación -->
+                        <div class="concept-card">
                             <h3>Macroplanificación</h3>
-                            <p>Nivel de planificación donde se articulan objetivos y contenidos en un período mediano (unidad o módulo). Establece la progresión lógica y temporal de los aprendizajes, funcionando como puente entre el currículo general y la práctica de aula.</p>
-                            <p style="font-size: 0.8rem; opacity: 0.7;">Ref: LessonPlanner (2024) / Molina, Z. (1997).</p>
+                            <p>Entendida como unidad o secuencia didáctica, es el nivel de planificación curricular en
+                                el que se organizan y articulan de manera coherente varios objetivos, contenidos,
+                                actividades y evaluaciones en un período mediano de tiempo (por ejemplo, una unidad,
+                                bloque o módulo), de forma alineada con el currículo oficial y el proyecto educativo
+                                institucional. En términos técnicos, establece la progresión de aprendizajes, la
+                                secuencia lógica de temas, la distribución temporal, los recursos y criterios de
+                                evaluación que luego se concretan en la microplanificación de las clases diarias,
+                                funcionando como puente entre las orientaciones curriculares generales y la práctica de
+                                aula.</p>
+                            <span class="concept-ref">Ref: LessonPlanner: Assisting Novice Teachers to Prepare
+                                Pedagogy-Driven Lesson Plans with Large Language Models. (2024).
+                                https://arxiv.org/html/2408.01102v1.</span>
+                            <span class="concept-ref">Ref: Molina, Z. (1997). Planeamiento didáctico.
+                                Fundamentos, principios, estrategias y procedimientos para su desarrollo. Costa Rica,
+                                UNAED.</span>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </section>
             <div class="quiz-card">
                 <h2>¡Felicidades!</h2>
-                <p style="color: white; font-size: 1.1rem; margin-bottom: 2.5rem;">Has culminado la lección 2.2 del programa de formación profesional. Al completar este contenido, has fortalecido una competencia clave: pasar de los Estándares y Expectativas del DEPR a planes de clase apoyados por IA.</p>
-                
+                <p style="color: white; font-size: 1.1rem; margin-bottom: 2.5rem;">Has culminado la lección 2.2 del
+                    programa de formación profesional. Al completar este contenido, has fortalecido una competencia
+                    clave: pasar de los Estándares y Expectativas del DEPR a planes de clase apoyados por IA.</p>
+
                 <div style="width: 100%; border-radius: 25px; overflow: hidden; background: white; padding: 10px;">
                     <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-                        <iframe title="Contenido 2.2: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/69add5e230c4d6416b397b59" allowfullscreen="true"></iframe>
+                        <iframe title="Contenido 2.2: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            src="https://view.genially.com/69add5e230c4d6416b397b59" allowfullscreen="true"></iframe>
                     </div>
                 </div>
             </div>
@@ -515,13 +900,28 @@
             <div class="references-section">
                 <h3>Referencias Bibliográficas (APA 7)</h3>
                 <ul class="ref-list">
-                    <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., & Zhao, N. (2024). Early perceptions of teaching and learning using generative AI in higher education. <em>Journal of Educational Technology Systems</em>, 52(3), 346-375.</li>
-                    <li>Fan, H., Chen, G., Wang, X., & Peng, Z. (2024, October). LessonPlanner: Assisting novice teachers to prepare pedagogy-driven lesson plans with large language models. In <em>Proceedings of the 37th Annual ACM Symposium on User Interface Software and Technology</em> (pp. 1-20).</li>
-                    <li>Hsu, H. P. (2023). Can generative artificial intelligence write an academic journal article? Opportunities, challenges, and implications. <em>The Irish Journal of Technology Enhanced Learning</em>, 7(2), 158–171.</li>
-                    <li>Jia, L., Qi, C., Wei, Y., Sun, H., & Yang, X. (2025). Fine-Tuning Large Language Models for Educational Support: Leveraging Gagne's Nine Events of Instruction for Lesson Planning. <em>arXiv preprint arXiv:2503.09276</em>.</li>
-                    <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... & Wen, J. R. (2023). A survey of large language models. <em>arXiv preprint arXiv:2303.18223</em>.</li>
-                    <li>Zhang, X., Zhang, C., Sun, J., Xiao, J., Yang, Y., & Luo, Y. (2025). Eduplanner: Llm-based multi-agent systems for customized and intelligent instructional design. <em>IEEE Transactions on Learning Technologies</em>.</li>
-                    <li>Zubiaga, A. (2024). Natural language processing in the era of large language models. <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.</li>
+                    <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., & Zhao, N. (2024). Early perceptions of teaching
+                        and learning using generative AI in higher education. <em>Journal of Educational Technology
+                            Systems</em>, 52(3), 346-375.</li>
+                    <li>Fan, H., Chen, G., Wang, X., & Peng, Z. (2024, October). LessonPlanner: Assisting novice
+                        teachers to prepare pedagogy-driven lesson plans with large language models. In <em>Proceedings
+                            of the 37th Annual ACM Symposium on User Interface Software and Technology</em> (pp. 1-20).
+                    </li>
+                    <li>Hsu, H. P. (2023). Can generative artificial intelligence write an academic journal article?
+                        Opportunities, challenges, and implications. <em>The Irish Journal of Technology Enhanced
+                            Learning</em>, 7(2), 158–171.</li>
+                    <li>Jia, L., Qi, C., Wei, Y., Sun, H., & Yang, X. (2025). Fine-Tuning Large Language Models for
+                        Educational Support: Leveraging Gagne's Nine Events of Instruction for Lesson Planning.
+                        <em>arXiv preprint arXiv:2503.09276</em>.
+                    </li>
+                    <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... & Wen, J. R. (2023). A survey of
+                        large language models. <em>arXiv preprint arXiv:2303.18223</em>.</li>
+                    <li>Zhang, X., Zhang, C., Sun, J., Xiao, J., Yang, Y., & Luo, Y. (2025). Eduplanner: Llm-based
+                        multi-agent systems for customized and intelligent instructional design. <em>IEEE Transactions
+                            on Learning Technologies</em>.</li>
+                    <li>Zubiaga, A. (2024). Natural language processing in the era of large language models.
+                        <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.
+                    </li>
                 </ul>
             </div>
 
@@ -539,21 +939,116 @@
         }
 
         let currentSlide = 0;
-        const track = document.getElementById('sliderTrack');
         const totalSlides = 4;
+        const track = document.getElementById('sliderTrack');
 
         function moveSlider(direction) {
             currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
-            updateButtons();
         }
 
-        function updateButtons() {
-            document.getElementById('prevBtn').classList.toggle('disabled', currentSlide === 0);
-            document.getElementById('nextBtn').classList.toggle('disabled', currentSlide === totalSlides - 1);
+        /* INTERACTIVE APP LOGIC - PRO VERSION */
+        let currentAppStep = 1;
+        let plan = { topic: "", obj: "", start: "", dev: "", end: "", eval: "" };
+
+        const sections = {
+            1: {
+                title: "1. Metas de Aprendizaje",
+                html: `
+                <div class="app-input-group">
+                    <label>Tema de la clase:</label>
+                    <input type="text" id="tInp" placeholder="Ej. Fracciones equivalentes" oninput="plan.topic=this.value">
+                </div>
+                <div class="app-input-group">
+                    <label>Objetivo (Escríbelo tú):</label>
+                    <textarea id="oInp" rows="3" placeholder="¿Qué lograrán los estudiantes?" oninput="plan.obj=this.value"></textarea>
+                </div>`
+            },
+            2: {
+                title: "2. Inicio (Motivación)",
+                html: `
+                <p>Propuestas de la IA para iniciar la clase:</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setAppOpt('start', 'Pregunta provocadora relacionada con el contexto real.', this)"><b>Contextual:</b> Pregunta desafío basada en la vida diaria.</div>
+                    <div class="option-card" onclick="setAppOpt('start', 'Mini-juego de descubrimiento o acertijo.', this)"><b>Lúdico:</b> Gamificación rápida para captar atención.</div>
+                </div>`
+            },
+            3: {
+                title: "3. Desarrollo (Actividad)",
+                html: `
+                <p>Estructuras de clase sugeridas por LLM:</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setAppOpt('dev', 'Aprendizaje Basado en Problemas (ABP) en equipos.', this)"><b>Colaborativo:</b> Los alumnos resuelven un reto juntos.</div>
+                    <div class="option-card" onclick="setAppOpt('dev', 'Instrucción directa seguida de práctica independiente.', this)"><b>Tradicional+:</b> Explicación clara y aplicación práctica.</div>
+                </div>`
+            },
+            4: {
+                title: "4. Cierre (Síntesis)",
+                html: `
+                <p>Ideas para consolidar lo aprendido:</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setAppOpt('end', 'Ticket de salida: Escribe una cosa que aprendiste hoy.', this)"><b>Ticket de Salida:</b> Evaluación rápida antes de salir.</div>
+                    <div class="option-card" onclick="setAppOpt('end', 'Mapa mental relámpago en el pizarrón.', this)"><b>Visual:</b> Resumen gráfico colectivo.</div>
+                </div>`
+            },
+            5: {
+                title: "5. Evaluación (Juicio Profesional)",
+                html: `
+                <p>¿Cómo medirás el éxito? Selecciona una base para editar:</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setAppOpt('eval', 'Rúbrica de 3 niveles: Logrado, En Proceso e Inicio.', this)"><b>Rúbrica IA:</b> Criterios generados automáticamente.</div>
+                    <div class="option-card" onclick="setAppOpt('eval', 'Cuestionario de autoevaluación metacognitiva.', this)"><b>Metacognición:</b> Que el alumno evalúe su proceso.</div>
+                </div>
+                <div class="judgment-alert">
+                    <span>💡</span>
+                    <p>La IA puede redactar la rúbrica, pero tú decides si los criterios son justos para tu contexto.</p>
+                </div>`
+            },
+            6: {
+                title: "Planificación Completa",
+                html: `<div class="summary-box" id="summary"></div>`
+            }
+        };
+
+        function setAppOpt(key, val, el) {
+            plan[key] = val;
+            el.closest('.options-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
         }
 
-        updateButtons();
+        function renderApp() {
+            const s = sections[currentAppStep];
+            document.getElementById('appContent').innerHTML = `<h2>${s.title}</h2>${s.html}`;
+            document.getElementById('appPrevBtn').disabled = currentAppStep === 1;
+            document.getElementById('appNextBtn').innerText = currentAppStep === 6 ? "Finalizar" : "Siguiente";
+
+            document.querySelectorAll('.step').forEach((st, i) => st.classList.toggle('active', i + 1 === currentAppStep));
+
+            if (currentAppStep === 6) {
+                document.getElementById('summary').innerHTML = `
+                <b>Tema:</b> ${plan.topic || '---'}<br>
+                <b>Objetivo:</b> ${plan.obj || '---'}<hr style="margin:10px 0; border:none; border-top:1px solid #e2e8f0;">
+                <b>Inicio:</b> ${plan.start || '---'}<br>
+                <b>Desarrollo:</b> ${plan.dev || '---'}<br>
+                <b>Cierre:</b> ${plan.end || '---'}<br>
+                <b>Evaluación:</b> ${plan.eval || '---'}
+            `;
+            }
+        }
+
+        function changeAppStep(dir) {
+            if (dir === 1 && currentAppStep < 6) {
+                currentAppStep++;
+                renderApp();
+            } else if (dir === -1 && currentAppStep > 1) {
+                currentAppStep--;
+                renderApp();
+            } else if (dir === 1 && currentAppStep === 6) {
+                alert("¡Plan listo para implementar!");
+            }
+        }
+
+        renderApp();
     </script>
 </body>
 
