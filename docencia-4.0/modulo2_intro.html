@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción Módulo 2 | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00C2FF;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #00C2FF 0%, #0099CC 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F1F8FF;
+            --nav-height: 80px;
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.9; /* Un poco más de aire para mejorar legibilidad */
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+        }
+
+        p {
+            margin-bottom: 1.8rem; /* Espaciado generoso entre párrafos */
+            color: #2D3748; /* Un tono ligeramente más suave para el cuerpo */
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 48px;
+            width: auto;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0056b3, #00a1ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #0056b3, #00a1ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -340px;
+            width: 320px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            box-shadow: none;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+            z-index: 2000;
+            padding: 40px 30px;
+        }
+
+        .sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            z-index: 1999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .side-menu-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 35px;
+            color: white;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-links li {
+            margin-bottom: 12px;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--neutral-dark);
+            font-weight: 800;
+        }
+
+        /* CONTENIDO */
+        .content-wrapper {
+            max-width: 950px;
+            margin: 40px auto 100px auto;
+            padding: 0 25px;
+        }
+
+        .intro-card {
+            background: white;
+            border-radius: 35px;
+            padding: 4.5rem;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+            border: 1px solid rgba(0, 194, 255, 0.05);
+        }
+
+        .resumen-section {
+            background: #F8FBFF;
+            padding: 2.5rem;
+            border-radius: 28px;
+            border: 1px solid rgba(0, 194, 255, 0.15);
+            margin-bottom: 3.5rem;
+            color: var(--neutral-dark);
+        }
+
+        .audio-section {
+            background: #F1F5F9;
+            padding: 1.2rem 2rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 2.5rem 0;
+            border-left: 6px solid var(--primary);
+        }
+
+        .obj-list {
+            padding-left: 20px;
+            margin: 2rem 0;
+        }
+
+        .obj-list li {
+            margin-bottom: 14px;
+            position: relative;
+            list-style: none;
+        }
+
+        .obj-list li::before {
+            content: '→';
+            position: absolute;
+            left: -25px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .reflection-banner {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 3.5rem;
+            border-radius: 35px;
+            text-align: center;
+            margin-top: 5rem;
+            box-shadow: 0 15px 35px rgba(255, 141, 92, 0.3);
+            clear: both; /* Asegura que el banner siempre empiece debajo de elementos flotantes */
+        }
+
+        .image-integration {
+            float: right;
+            width: 44%;
+            margin: 0 0 2.5rem 3rem;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(10, 25, 47, 0.15);
+            border: 2px solid white;
+        }
+
+        .image-integration img {
+            width: 100%;
+            display: block;
+            cursor: zoom-in;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6rem;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 3rem;
+        }
+
+        .btn-primary-action {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 161, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menú de navegación">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+            </div>
+            <span class="module-title-nav">Módulo 2: Optimización de la planificación y diseño de recursos</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="modulo1_intro.html">📍 Módulo 1: Fundamentos</a></li>
+            <li><a href="modulo2_intro.html" class="active">📍 Inicio Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="recursos_m2.html">📚 Recursos Módulo 2</a></li>
+        </ul>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="intro-card">
+            <h1 style="font-size: 2.2rem; line-height: 1.3; margin-bottom: 3rem;">Módulo 2: Optimización de la
+                planificación y diseño de recursos didácticos con IA</h1>
+
+            <p><strong>Resumen:</strong></p>
+            <div class="resumen-section">
+                El módulo 2 se centra en el “arte de pedirle bien” a la IA. Introduce qué es un prompt y por qué su
+                diseño es clave para que los LLM y los bots que los usan generen respuestas útiles en educación.
+                Presenta la fórmula Rol–Contexto–Tarea–Formato–Restricciones y muestra cómo convertirla en plantillas
+                adaptadas al DEPR para planificar clases, actividades y materiales. Luego trabaja la iteración y el
+                refinamiento y, finalmente, cómo usar estos prompts dentro de procesos de planificación: pasar de
+                estándares a planes diarios y de unidad, diferenciar actividades con DUA y generar instrumentos de
+                evaluación validados con una lista de verificación docente.
+            </div>
+
+            <p><strong>Bienvenida al módulo 2</strong></p>
+            <div class="audio-section">
+                <span style="font-weight: 700; font-size: 0.8rem; color: #64748b;">REPRODUCIR</span>
+                <audio controls style="flex-grow: 1; height: 35px;">
+                    <source
+                        src="../LLM-DEPR/LLM_M2_Bienvenida Módulo 2_ Optimización de Planificación y Diseño de Recursos Didácticos con IA_audio.mp3"
+                        type="audio/mpeg">
+                </audio>
+            </div>
+
+            <p>Bienvenidos y bienvenidas al segundo módulo de este programa de formación profesional. En el primer
+                encuentro exploramos qué es un Modelo de Lenguaje de Gran Tamaño (LLM), sus posibilidades pedagógicas y
+                los riesgos éticos asociados a su uso en la gestión docente. En este módulo daremos un paso más:
+                llevaremos la IA directamente al corazón de su práctica académica.</p>
+
+            <p>Llevaremos la IA al corazón de la práctica cotidiana de planificación, diseño de materiales y evaluación,
+                con el objetivo de transformar la manera en que organizan y preparan su enseñanza, sin perder de vista
+                su juicio profesional como docentes.</p>
+
+            <p><strong>Pero aquí surge una nueva pregunta que quizás muchos de ustedes se han hecho:</strong></p>
+
+            <p style="text-align: center; color: #0056b3; font-style: italic; font-size: 1.1rem; padding: 1.5rem 0;">
+                “¿Cómo le pido exactamente a un bot o aplicación basada en LLM lo que necesito para mi clase? ¿Puede
+                ayudarme a planificar y diferenciar sin que yo pierda el control pedagógico? ¿Hasta qué punto es seguro
+                confiar en lo que genera?”</p>
+
+            <p>Este módulo no se centra en más teoría sobre IA, sino en una óptica pedagógica y práctica de uso: cómo
+                traducir sus estándares, objetivos y necesidades reales de aula en instrucciones claras (prompts), cómo
+                revisar críticamente lo que devuelve la aplicación basada en LLM y cómo convertir esos borradores en
+                recursos didácticos de calidad.</p>
+
+            <p>Lo que proponemos es que transiten de la curiosidad o el uso ocasional a una comprensión clara y
+                fundamentada de cómo integrar los LLM y los bots que los utilizan en su planificación, qué pueden
+                hacer en favor de su trabajo diario y, sobre todo, qué no deben delegar nunca sin su vigilancia y
+                criterio profesional.</p>
+
+            <p>Como maestros y maestras, ustedes ya enfrentan una realidad de alta demanda: planificaciones
+                detalladas, actividades diferenciadas, instrumentos de evaluación, materiales para practicantes y
+                documentación para supervisión. Cada uno de estos componentes exige tiempo de redacción técnica que,
+                muchas veces, compite con el tiempo disponible para observar, acompañar y retroalimentar a sus
+                estudiantes y futuros docentes. Este módulo se diseña precisamente para aliviar esa carga de
+                producción inicial, sin renunciar a la calidad ni a la autonomía docente.</p>
+
+            <p>Paralelamente, el contexto educativo se mueve rápido: bots y aplicaciones basadas en LLM, como
+                ChatGPT y Microsoft Copilot, ya forman parte del ecosistema de trabajo de muchos docentes y
+                estudiantes. Algunos los usan de forma estratégica; otros, sin criterios claros de alineación
+                curricular o sin atender a la diversidad del grupo. En este escenario, ustedes tienen la
+                responsabilidad y la oportunidad de modelar un uso informado, crítico y ético de estos recursos,
+                mostrando cómo la IA puede apoyar la planificación y el diseño, pero nunca sustituir la mirada
+                profesional del maestro.</p>
+
+            <p>Como maestros y maestras, ustedes sostienen simultáneamente la planificación diaria, la mentoría a
+                practicantes y la atención a grupos heterogéneos de estudiantes. En ese contexto, la evidencia
+                reciente muestra que los LLM se están utilizando para “generar ideas, redactar borradores y apoyar
+                la comprensión”, pero persisten dudas sobre cómo alinearlos al currículo, diferenciar materiales y
+                mantener la calidad pedagógica (Damiano et al., 2024).</p>
+
+            <p>Este módulo aparece en el momento clave en que ya conocen los fundamentos y la ética de los LLM, y
+                necesitan herramientas operativas concretas: cómo pedirle a un bot o app con LLM lo que realmente
+                necesitan (ingeniería de prompts), cómo convertir estándares del DEPR en planificaciones completas y
+                cómo adaptar un mismo contenido a distintos niveles y contextos de aula. La intención es que los LLM
+                dejen de ser una curiosidad tecnológica y se conviertan en aliados estratégicos para reducir la
+                carga de redacción “desde cero” y aumentar el tiempo disponible para el trabajo pedagógico profundo.
+            </p>
+        </div>
+
+        <h2 style="margin-top: 4rem;">Objetivo general</h2>
+        <p>Desarrollar en los maestros la capacidad de utilizar modelos de lenguaje de gran tamaño y las
+            aplicaciones que los incorporan para diseñar, adaptar y evaluar recursos didácticos alineados al
+            currículo del DEPR, mediante el dominio de estrategias avanzadas de ingeniería de prompts,
+            planificación, diferenciación e instrumentación evaluativa.</p>
+
+        <h2 style="margin-top: 3rem;">Objetivos específicos</h2>
+        <p>Al finalizar este módulo, usted:</p>
+        <ul class="obj-list">
+            <li>Reconocerá los componentes de un prompt efectivo (Rol, Contexto, Tarea, Formato y Restricciones) y
+                su impacto en la calidad de las respuestas generadas por la IA.</li>
+            <li>Comprenderá los principios básicos de alineación curricular entre los productos generados por IA y
+                los Estándares y Expectativas del DEPR.</li>
+            <li>Formulará prompts avanzados, utilizando iteración y estrategias como el few-shot prompting, para obtener
+                planificaciones, actividades y recursos acordes al nivel y contexto de su grupo.</li>
+            <li>Generará borradores de planes de clase (diarios y de unidad) con apoyo de aplicaciones basadas en LLM y
+                ajustado esos borradores al tiempo lectivo real y a los objetivos de aprendizaje establecidos.</li>
+            <li>Utilizará LLM, a través de bots y asistentes, para nivelar textos y producir versiones diferenciadas de
+                un mismo contenido, atendiendo a distintos niveles de comprensión lectora, educación especial y
+                aprendices de un segundo idioma.</li>
+            <li>Diseñará, con apoyo de aplicaciones basadas en LLM, bancos de reactivos, ejercicios de práctica y casos
+                de estudio, así como rúbricas analíticas y listas de cotejo alineadas a los objetivos de la lección.
+            </li>
+            <li>Fortalecerá su disposición crítica hacia el uso de LLM y de los bots que los implementan, asumiendo su
+                rol como curador y editor de los materiales generados, más que como usuario pasivo de la herramienta.
+            </li>
+        </ul>
+
+            <div style="margin-top: 3rem;">
+                <div class="image-integration">
+                    <img src="../assets/LLM_M2-Grafico_introduccion.png"
+                        alt="Human in the loop: Revisión de todo lo que generera la IA" onclick="openZoom(this.src)">
+                    <p style="text-align: center; color: #94a3b8; font-size: 0.7rem; padding: 10px;">Human in the Loop: El Docente como Validador</p>
+                </div>
+
+                <p>Al igual que en el Módulo 1, este módulo no busca que usted delegue la planificación en la IA, sino que transforme su rol: de “productor solitario desde cero” a arquitecto de aprendizaje que aprovecha los borradores de la IA para ganar tiempo, pero mantiene la decisión profesional sobre qué se usa, qué se ajusta y qué se descarta. El compromiso clave es mantener siempre la lógica de human in the loop: nada generado por un bot o app con LLM se utiliza con estudiantes sin pasar por su revisión curricular, ética y contextual.</p>
+
+                <p>Esto implica: verificar exactitud factual, ajustar el lenguaje al nivel del grupo, asegurar pertinencia cultural a la realidad puertorriqueña y alinear cada recurso a los Estándares y Expectativas del DEPR antes de integrarlo a su planificación.</p>
+            </div>
+
+            <div class="reflection-banner">
+                <p><strong>Pregunta reflexiva para iniciar</strong></p>
+                <p style="font-weight: 500; font-size: 1.1rem; margin-bottom: 1.5rem;">Antes de profundizar en los contenidos, tómese un momento para pensar:</p>
+                <p style="font-style: italic; font-size: 1.3rem;">“Si pudiera automatizar solo UNA parte de mi proceso de planificación (objetivos, actividades, lecturas, rúbricas), ¿cuál elegiría y por qué? ¿Qué esperaría de la IA para que ese apoyo respete mi criterio profesional?”</p>
+                <p style="font-size: 0.95rem; margin-top: 1.5rem; opacity: 0.9;">No hay respuestas "correctas"; buscamos conectar la tecnología con las tareas que más tiempo le consumen en su práctica docente diaria.</p>
+            </div>
+
+            <div class="nav-footer">
+                <a href="dashboard.html" style="text-decoration: none; color: #64748b; font-weight: 700;">← Volver al Dashboard</a>
+                <a href="leccion2_1.html" class="btn-primary-action">Iniciar Módulo 2 →</a>
+            </div>
+    </main>
+
+    <div id="zoomModal"
+        style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center;"
+        onclick="this.style.display='none'">
+        <img id="zoomedImg" style="max-height: 90%; max-width: 90%; border-radius: 12px;">
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+        function openZoom(src) {
+            document.getElementById('zoomModal').style.display = 'flex';
+            document.getElementById('zoomedImg').src = src;
+        }
+    </script>
+
+</body>
+
+</html>
