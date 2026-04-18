@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Actividad 2.1 de Docencia 4.0: Taller práctico 'Del prompt al recurso validado'. Diseño de prompts, generación de recursos y validación curricular.">
+    <title>Actividad 2.1 | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00C2FF;
+            --primary-dark: #0088cc;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #00C2FF 0%, #0072FF 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F9FAFB;
+            --nav-height: 85px;
+            --card-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.8;
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 2.5rem;
+            color: var(--neutral-dark);
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.8rem;
+            margin: 3.5rem 0 2rem 0;
+            color: var(--neutral-dark);
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo-container img {
+            height: 52px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--neutral-dark);
+            border-left: 2px solid var(--primary);
+            padding-left: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -360px;
+            width: 340px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            padding: 60px 40px;
+        }
+
+        .sidebar.active {
+            left: 0;
+            box-shadow: 30px 0 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.4);
+            backdrop-filter: blur(8px);
+            display: none;
+            z-index: 1999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .side-menu-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 45px;
+            color: white;
+            font-weight: 800;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: 12px;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-links a.active {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0, 114, 255, 0.3);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 60px auto 120px auto;
+            padding: 0 30px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 45px;
+            padding: clamp(2rem, 8vw, 5.5rem);
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-left: 12px solid var(--primary);
+        }
+
+        /* FICHA TÉCNICA GRID */
+        .technical-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+            background: #F8FBFF;
+            padding: 3.5rem;
+            border-radius: 35px;
+            border: 1px solid rgba(0, 194, 255, 0.08);
+            margin: 4rem 0;
+        }
+
+        .tech-item h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+        }
+
+        .tech-item ul {
+            padding-left: 20px;
+            margin: 0;
+            color: #4A5568;
+        }
+
+        .tech-item p {
+            margin: 5px 0;
+            font-weight: 600;
+            color: #2D3748;
+        }
+
+        /* INSTRUCCIONES SECTION */
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 25px;
+            border: 1px solid #EDF2F7;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .instruction-step:hover {
+            transform: translateX(15px);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 35px rgba(255, 141, 92, 0.1);
+        }
+
+        .step-icon {
+            font-size: 2.2rem;
+            min-width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 141, 92, 0.1);
+            border-radius: 18px;
+        }
+
+        .step-text h4 {
+            margin: 0 0 8px 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--neutral-dark);
+            font-size: 1.2rem;
+        }
+
+        .step-text p {
+            margin: 0;
+            color: #4A5568;
+            font-size: 1.05rem;
+        }
+
+        /* PADLET CONTAINER */
+        .padlet-wrapper {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 40px;
+            border: 1px solid #E2E8F0;
+            margin: 5rem 0;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        /* FOOTER NAV */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8rem;
+            padding-top: 5rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .btn-footer {
+            padding: 20px 40px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn-prev {
+            color: #718096;
+            background: white;
+            border: 1px solid #E2E8F0;
+        }
+
+        .btn-prev:hover {
+            background: #F7FAFC;
+            transform: translateX(-8px);
+        }
+
+        .btn-next {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 15px 35px rgba(255, 141, 92, 0.25);
+        }
+
+        .btn-next:hover {
+            transform: translateX(8px);
+            box-shadow: 0 25px 50px rgba(255, 141, 92, 0.35);
+        }
+
+        @media (max-width: 992px) {
+            .technical-grid { grid-template-columns: 1fr; }
+            .top-nav { padding: 0 25px; }
+            .module-title-nav { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- MENÚ LATERAL -->
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <aside class="sidebar" id="sidebar">
+        <h2 class="side-menu-title">Docencia 4.0</h2>
+        <ul class="menu-links">
+            <li><a href="index.html">🏠 Inicio</a></li>
+            <li><a href="modulo2_intro.html">📍 Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html" class="active">🛠️ Actividad 2.1</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos Módulo 1</a></li>
+        </ul>
+    </aside>
+
+    <!-- NAVBAR SUPERIOR -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Abrir menú">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+            </div>
+            <div class="module-title-nav">Actividad 2.1: Taller práctico: "Del prompt al recurso validado"</div>
+        </div>
+    </nav>
+
+    <main class="content-wrapper">
+        <div class="lesson-card">
+            <h1>Ejercicio: <span>"Hola mundo pedagógico"</span></h1>
+
+            <div class="technical-grid">
+                <div class="tech-item">
+                    <h4>Objetivos de la actividad</h4>
+                    <ul>
+                        <li>Diseñar prompts efectivos usando la fórmula <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong>.</li>
+                        <li>Generar una planificación semanal y un recurso didáctico a partir de un estándar real del DEPR.</li>
+                        <li>Validar críticamente los materiales generados utilizando una Lista de Cotejo de Validación Curricular.</li>
+                        <li>Refinar prompts de manera iterativa para mejorar la calidad e inclusión.</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Ficha del Taller</h4>
+                    <p><strong>⏱️ Duración:</strong> 60 minutos</p>
+                    <p><strong>💻 Requisitos:</strong> Dispositivos con internet.</p>
+                    <p><strong>📚 Materiales:</strong> Estándares DEPR, Acceso a LLM (ChatGPT/Copilot).</p>
+                </div>
+            </div>
+
+            <section class="text-section">
+                <h2>Pasos para el Taller</h2>
+                
+                <div class="instruction-step">
+                    <div class="step-icon">🎯</div>
+                    <div class="step-text">
+                        <h4>Fase 1: Diseño de Prompt</h4>
+                        <p>Aplica la fórmula aprendida para solicitar a la IA una estructura de clase basada en un estándar específico de tu materia.</p>
+                    </div>
+                </div>
+
+                <div class="instruction-step">
+                    <div class="step-icon">⚙️</div>
+                    <div class="step-text">
+                        <h4>Fase 2: Generación de Recursos</h4>
+                        <p>Interactúa con el LLM para producir tanto la planificación como un material complementario (ejercicio, lectura o rúbrica).</p>
+                    </div>
+                </div>
+
+                <div class="instruction-step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-text">
+                        <h4>Fase 3: Validación Curricular</h4>
+                        <p>Utiliza la lista de cotejo para verificar que el contenido sea preciso, culturalmente pertinente y libre de sesgos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <h2>Muro Colaborativo de Resultados</h2>
+                <p>Publica aquí tus prompts más exitosos o los recursos validados que has generado. Observa y comenta los trabajos de tus colegas.</p>
+
+                <div class="padlet-wrapper">
+                    <div class="padlet-embed" style="border:none;padding:0;margin:0;width:100%;height:600px;overflow:hidden">
+                        <iframe src="https://padlet.com/embed/4txmilqn2bqet125" 
+                                style="width:100%;height:100%;display:block;padding:0;margin:0" 
+                                frameborder="0"
+                                allow="camera;microphone;geolocation"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <div class="nav-footer">
+                <a href="leccion2_3.html" class="btn-footer btn-prev">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Lección 2.3
+                </a>
+                <a href="recursos_m2.html" class="btn-footer btn-next">
+                    Ver Recursos Módulo 2
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
