@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 1.3 de Docencia 4.0: Ética, seguridad y responsabilidad (el “Human in the Loop”). Explore la privacidad de datos, sesgos y el rol del docente como experto validador.">
+    <meta name="keywords" content="Ética IA, Seguridad de Datos, Human in the Loop, FERPA, PII, Sesgo Algorítmico, Docencia 4.0">
+    <title>Lección 1.3 | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C2FF;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F1F8FF;
+            --nav-height: 80px;
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.8;
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 48px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 320px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            padding: 40px 30px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            z-index: 1999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .side-menu-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 35px;
+            color: white;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-links li {
+            margin-bottom: 12px;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--neutral-dark);
+            font-weight: 800;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 40px auto 100px auto;
+            padding: 0 25px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 35px;
+            padding: 4.5rem;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-player-container {
+            background: #F8FBFF;
+            padding: 2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .audio-label {
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* IMÁGENES INDENTADAS */
+        .img-editorial-right {
+            float: right;
+            width: 380px;
+            margin: 10px 0 30px 40px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
+            border: 1px solid #f1f5f9;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .img-editorial-left {
+            float: left;
+            width: 380px;
+            margin: 10px 40px 30px 0;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
+            border: 1px solid #f1f5f9;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .img-editorial-right:hover,
+        .img-editorial-left:hover {
+            transform: scale(1.02);
+        }
+
+        .img-editorial-right img,
+        .img-editorial-left img {
+            width: 100%;
+            display: block;
+        }
+
+        .text-section {
+            margin-bottom: 3rem;
+            clear: both;
+        }
+
+        .text-section:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .highlight-box {
+            background: #F1F8FF;
+            border-left: 6px solid var(--primary);
+            padding: 2.5rem;
+            border-radius: 0 25px 25px 0;
+            margin: 3rem 0;
+            font-style: italic;
+            clear: both;
+        }
+
+        /* COMPARISON GRID */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 3rem 0;
+            clear: both;
+        }
+
+        .comp-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 30px;
+            border: 1px solid #EDF2F7;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 45px rgba(0, 194, 255, 0.08);
+        }
+
+        .comp-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 194, 255, 0.1);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        /* RECOMMENDATIONS BOX */
+        .recommendations-box {
+            background: #f8fafc;
+            border-radius: 30px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 1px dashed var(--primary);
+        }
+
+        .recommendations-title {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* SLIDER DE CONCEPTOS */
+        .slider-section {
+            margin: 5rem 0;
+            padding: 4rem;
+            background: #F8FBFF;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            position: relative;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: 10px;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 30px;
+        }
+
+        .slider-item {
+            min-width: calc(100% - 20px);
+            background: white;
+            padding: 3.5rem;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(10, 25, 47, 0.05);
+            border: 1px solid #EDF2F7;
+            box-sizing: border-box;
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 194, 255, 0.2);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .control-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .quiz-container {
+            background: var(--accent-gradient);
+            padding: 4.5rem;
+            border-radius: 45px;
+            color: white;
+            text-align: center;
+            margin-top: 6rem;
+            box-shadow: 0 30px 60px rgba(255, 141, 92, 0.2);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 7rem;
+            padding-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-footer {
+            padding: 20px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back {
+            color: var(--neutral-dark);
+            background: rgba(0, 194, 255, 0.1);
+        }
+
+        .btn-next {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
+        }
+
+        /* BOTÓN SUBIR */
+        .btn-scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0, 194, 255, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* MODAL DE ZOOM */
+        #zoomModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #zoomModal img {
+            max-height: 90%;
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(0, 194, 255, 0.3);
+        }
+
+        @media (max-width: 900px) {
+
+            .img-editorial-right,
+            .img-editorial-left {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+
+            .lesson-card {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+            </div>
+            <span class="module-title-nav">Lección 1.3: Ética, seguridad y responsabilidad (el “Human in the Loop”)</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
+            <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html" class="active">📖 Lección 1.3</a></li>
+        </ul>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="lesson-card">
+            <h1>Lección 1.3: Ética, seguridad y responsabilidad (el “Human in the Loop”)</h1>
+
+            <div class="audio-player-container">
+                <span class="audio-label">Escuchar Lección 1.3</span>
+                <audio controls style="width: 100%;">
+                    <source src="../LLM-DEPR/LLM_M1_Leccion_1.3_Ética, seguridad y responsabilidad_audio.mp3"
+                        type="audio/mpeg">
+                </audio>
+            </div>
+
+            <section class="text-section">
+                <h2>Marco legal básico: privacidad de datos estudiantiles</h2>
+
+                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
+                    <img src="../assets/LLM_M1_Contenido_1.3_privasidad_datos_imagen.png" alt="Privacidad de datos estudiantiles">
+                </div>
+
+                <p>Al usar aplicaciones basadas en LLM en contextos educativos, uno de los puntos más sensibles es la protección de la información personal identificable (PII) de los estudiantes. En Estados Unidos, la normativa clave es la Family Educational Rights and Privacy Act (FERPA), que protege los expedientes educativos y regula quién puede acceder a ellos y con qué fines. La discusión sobre privacidad en entornos digitales es crítica; Im y Chee (2012) advierten sobre la importancia de proteger la identidad de los sujetos en investigaciones y prácticas mediadas por internet, principio aplicable al manejo de datos estudiantiles en plataformas de IA.</p>
+                
+                <p>Desde la perspectiva docente, esto implica que:</p>
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li style="margin-bottom: 15px;">🔒 <strong>No se deben introducir</strong> en bots, asistentes o formularios que usen LLM nombres completos de estudiantes, números de identificación, direcciones u otra PII cuando se redactan informes, comentarios o planes de intervención.</li>
+                    <li style="margin-bottom: 15px;">🔒 <strong>Es preferible anonimizar</strong> o generalizar la información (por ejemplo, “Estudiante A con dificultad en lectura” en lugar de nombre y apellido), incluso cuando la plataforma promete cumplir estándares de seguridad.</li>
+                </ul>
+
+                <p>En Puerto Rico, además de FERPA, el Departamento de Educación emite cartas circulares y reglamentos que regulan el manejo de expedientes y datos digitales de estudiantes; estas políticas suelen exigir confidencialidad, uso de canales institucionales y protección contra accesos no autorizados. Para los LLM, esto se traduce en que deben verse como herramientas de redacción y apoyo, no como repositorios de datos sensibles.</p>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>Sesgos algorítmicos y dependencia tecnológica</h2>
+                <p>La investigación en ética de IA ha mostrado que los LLM pueden reproducir sesgos presentes en los datos con los que fueron entrenados, lo que puede reflejar estereotipos de género, raza, idioma o contexto socioeconómico (Russell & Norvig, 2020). En educación, esto puede aparecer en:</p>
+                <ul style="margin-left: 20px; list-style-type: disc;">
+                    <li>Ejemplos que privilegian ciertas culturas o realidades.</li>
+                    <li>Respuestas que minimizan o distorsionan experiencias de minorías.</li>
+                    <li>Sugerencias de actividades que no encajan en el contexto local de la escuela.</li>
+                </ul>
+
+                <h3>Sesgos y Dependencia</h3>
+                <div class="comparison-grid">
+                    <div class="comp-card">
+                        <div class="comp-icon">⚖️</div>
+                        <h3>Sesgo Algorítmico</h3>
+                        <p>Presencia de errores sistemáticos o resultados desbalanceados en las salidas de un sistema automatizado (como un LLM) que generan efectos injustos o discriminatorios hacia ciertos grupos, producto de datos de entrenamiento sesgados o decisiones de diseño del algoritmo.</p>
+                    </div>
+                    <div class="comp-card">
+                        <div class="comp-icon">🔗</div>
+                        <h3>Dependencia Tecnológica</h3>
+                        <p>Grado en que una persona, grupo u organización requiere del uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta el punto de ver mermadas su autonomía, juicio o desempeño cuando dichas tecnologías no están disponibles.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <p>Existe el riesgo de dependencia tecnológica, en la que el docente delega cada vez más la creatividad y el juicio pedagógico al sistema. Hargreaves y Fullan (2012) discuten la importancia del capital profesional y advierten contra la erosión de la autonomía docente si las herramientas externas reemplazan el juicio experto en lugar de aumentarlo. Valli y Zafiropoulos (2024) añaden que la aceptación de estas herramientas depende de su utilidad percibida, pero debe equilibrarse para evitar una confianza ciega en la automatización.</p>
+                </div>
+
+                <div class="recommendations-box">
+                    <div class="recommendations-title">🏛️ Recomendaciones Institucionales</div>
+                    <p>Las instituciones deben formar a los docentes en:</p>
+                    <ul style="margin-left: 20px; list-style-type: none;">
+                        <li style="margin-bottom: 10px;">✅ <strong>Reconocer</strong> posibles sesgos en las respuestas de la IA.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong>Contrastar</strong> con fuentes diversas y con la realidad del estudiantado.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong>Mantener</strong> un uso crítico y consciente, evitando la sustitución total de la reflexión pedagógica por sugerencias automáticas.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 4rem 0;">
+                <h2>El Docente como “experto validador” (Human in the Loop)</h2>
+                
+                <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
+                    <img src="../assets/LLM_M1_Ilustracion_1.3_Human_in_the_Loop.png" alt="Docente como experto validador (HITL)">
+                </div>
+
+                <p>Muchos marcos actuales de uso responsable de IA en educación promueven el modelo de 'human in the loop' (Alhalthli et al., 2025; Seufert et al., 2022), donde la tecnología asume tareas de apoyo, pero la decisión final recae siempre en la persona profesional. En el caso de los LLM, esto significa que el maestro cooperador:</p>
+                
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li style="margin-bottom: 15px;">📝 <strong>Genera borradores:</strong> Usa bots y asistentes basados en LLM para generar borradores de planificaciones, actividades, rúbricas o retroalimentación.</li>
+                    <li style="margin-bottom: 15px;">🔍 <strong>Revisa cuidadosamente el contenido:</strong> Exactitud factual, alineación curricular, pertinencia cultural, adecuación al nivel del grupo, tono y lenguaje.</li>
+                    <li style="margin-bottom: 15px;">🎯 <strong>Decide y adapta:</strong> Corrige, adapta o descarta según su criterio profesional, antes de que ese material llegue a estudiantes, familias o documentos oficiales.</li>
+                </ul>
+
+                <p>En términos pedagógicos, el rol del maestro pasa de ser solo “productor desde cero” a ser curador y editor experto, que sabe formular buenas solicitudes (prompts), evaluar el resultado y decidir qué se incorpora y qué no. Esto preserva la centralidad del juicio docente, fortaleciendo su capital profesional (Hargreaves & Fullan, 2012), y reduce el riesgo de que “salga del LLM” información no verificada o inapropiada para el contexto escolar.</p>
+            </section>
+
+            <!-- SECCIÓN DE CONCEPTOS DESLIZANTE -->
+            <section class="slider-section">
+                <div class="slider-header">
+                    <h2>Conceptos a repasar</h2>
+                    <div class="slider-controls">
+                        <button class="control-btn" id="prevBtn">←</button>
+                        <button class="control-btn" id="nextBtn">→</button>
+                    </div>
+                </div>
+
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <!-- Concepto 1 -->
+                        <div class="slider-item">
+                            <h3>Privacidad de datos estudiantiles / FERPA</h3>
+                            <p>Se refiere al marco legal que protege la confidencialidad de los expedientes educativos y de la información personal identificable de los estudiantes. FERPA (Family Educational Rights and Privacy Act) es una ley federal de EE. UU. que otorga a los padres y, luego, a los estudiantes elegibles, el derecho a acceder a sus registros educativos, solicitar su corrección y controlar, con ciertas excepciones, la divulgación de información identificable contenida en esos registros.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: U.S. Department of Education. (2011). FERPA – Protecting student privacy.</small>
+                        </div>
+                        <!-- Concepto 2 -->
+                        <div class="slider-item">
+                            <h3>Información personal identificable (PII)</h3>
+                            <p>Cualquier dato que puede usarse para distinguir o rastrear la identidad de una persona, ya sea de forma directa (por ejemplo, nombre, número de identificación, dirección) o indirecta (como fecha y lugar de nacimiento, combinación de características), especialmente cuando estos datos se mantienen en registros educativos.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: U.S. Department of Education. Personally identifiable information for education records.</small>
+                        </div>
+                        <!-- Concepto 3 -->
+                        <div class="slider-item">
+                            <h3>Sesgo algorítmico</h3>
+                            <p>Presencia de errores sistemáticos o resultados desbalanceados en las salidas de un sistema automatizado (como un LLM) que generan efectos injustos o discriminatorios hacia ciertos grupos, producto de datos de entrenamiento sesgados o decisiones de diseño del algoritmo.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: IBM. (2024). What is algorithmic bias?</small>
+                        </div>
+                        <!-- Concepto 4 -->
+                        <div class="slider-item">
+                            <h3>Dependencia tecnológica</h3>
+                            <p>Grado en que una persona, grupo u organización requiere del uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta el punto de ver mermadas su autonomía, juicio o desempeño cuando dichas tecnologías no están disponibles.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: Hussain, A. (2013). Technological dependence.</small>
+                        </div>
+                        <!-- Concepto 5 -->
+                        <div class="slider-item">
+                            <h3>Capital Profesional</h3>
+                            <p>Conjunto integrado de capital humano, social y decisional de la profesión docente: el talento y la preparación individual de los profesores, la calidad de sus redes y colaboración entre colegas y la capacidad colectiva de tomar juicios pedagógicos sólidos en contextos complejos (Hargreaves & Fullan, 2012).</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: Hargreaves, A., & Fullan, M. (2012). Professional capital.</small>
+                        </div>
+                        <!-- Concepto 6 -->
+                        <div class="slider-item">
+                            <h3>Human in the Loop (HITL)</h3>
+                            <p>Enfoque de diseño de sistemas de IA en el que la intervención humana se integra de forma explícita en momentos clave del ciclo de vida del modelo, de modo que las personas supervisan, validan, corrigen o aprueban las salidas antes de que se tomen decisiones automatizadas.</p>
+                            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                            <small style="color: #64748b;">Referencia: Google Cloud. (2026). What is Human-in-the-Loop (HITL)?</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN DE CIERRE -->
+            <section class="text-section" style="margin-top: 5rem;">
+                <div
+                    style="background: white; border-radius: 35px; border: 1px solid rgba(0, 194, 255, 0.1); padding: 3rem; position: relative;">
+                    <div
+                        style="position: absolute; top: -20px; right: 40px; background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 0.9rem;">
+                        META ALCANZADA</div>
+
+                    <h2 style="font-size: 2.2rem; margin-bottom: 25px;">¡Felicidades!</h2>
+                    <p style="font-size: 1.1rem; color: #475569;">Has culminado la lección 1.3 del programa de formación profesional.</p>
+                    <p style="font-size: 1.1rem; color: #475569;">Al completar el contenido 1.3 has dado un paso crucial: no solo comprendes lo que los LLM pueden hacer, sino también lo que no deben hacer en términos de privacidad, sesgos y responsabilidad profesional. Este marco ético fortalece tu rol como docente, porque te permite integrar la IA con mayor seguridad, defendiendo siempre la confidencialidad de tus estudiantes y la calidad de tus decisiones pedagógicas.</p>
+                </div>
+            </section>
+
+            <section class="quiz-container" id="checkpoint">
+                <h2 style="background: none; -webkit-text-fill-color: white; color: white;">🎉 Checkpoint de Saberes</h2>
+                <p style="font-size: 1.15rem; margin-bottom: 3.5rem;">Para cerrar este bloque, te invito a realizar el Checkpoint de Saberes, una evaluación formativa breve y no punitiva centrada en tres ejes: privacidad de datos estudiantiles, sesgos y dependencia tecnológica, y el rol del docente como “Human in the Loop”.</p>
+
+                <div style="background: white; padding: 3rem; border-radius: 40px; color: var(--neutral-dark);">
+                    <div
+                        style="width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                        <div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0;">
+                            <iframe title="Contenido 1.3: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                src="https://view.genially.com/69adcaa514c7191a9da873a6" type="text/html"
+                                allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                                allownetworking="all"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="references-section" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                <h3 style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--neutral-dark);">Referencias de la
+                    Lección</h3>
+                <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: #64748b;">
+                    <li style="margin-bottom: 10px;">• Hargreaves, A., & Fullan, M. (2012). Professional capital: Transforming teaching in every school. Teachers College Press.</li>
+                    <li style="margin-bottom: 10px;">• Russell, S. J., & Norvig, P. (2020). Artificial intelligence: A modern approach (4th ed.). Pearson.</li>
+                    <li style="margin-bottom: 10px;">• Valli, P., & Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI tools by teachers. Education and Information Technologies, 29, 123–145.</li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <a href="leccion1_2.html" class="btn-footer btn-back">← Volver a la Lección 1.2</a>
+                <a href="modulo1_cierre.html" class="btn-footer btn-next">Ir al Cierre del Módulo →</a>
+            </div>
+        </div>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn">↑</a>
+
+    <div id="zoomModal" onclick="this.style.display='none'">
+        <img id="zoomedImg" src="" alt="Zoomed Image">
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function openZoom(src) {
+            document.getElementById('zoomModal').style.display = 'flex';
+            document.getElementById('zoomedImg').src = src;
+        }
+
+        // Scroll top button
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        };
+
+        // Lógica del Slider
+        const track = document.getElementById('sliderTrack');
+        const items = document.querySelectorAll('.slider-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+
+        function updateSlider() {
+            if (!items.length) return;
+            const containerWidth = track.parentElement.offsetWidth;
+            const itemWidth = items[0].offsetWidth;
+            const totalWidth = itemWidth + 30; // 30 is the gap
+            track.style.transform = `translateX(-${currentIndex * totalWidth}px)`;
+
+            prevBtn.classList.toggle('disabled', currentIndex === 0);
+            nextBtn.classList.toggle('disabled', currentIndex === items.length - 1);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < items.length - 1) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        window.addEventListener('resize', updateSlider);
+        updateSlider();
+    </script>
+</body>
+
+</html>
