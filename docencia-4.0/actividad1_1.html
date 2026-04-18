@@ -21,7 +21,7 @@
             --neutral-dark: #0A192F;
             --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
             --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
-            --bg-soft: #F1F8FF;
+            --bg-soft: #F8FAFC;
             --nav-height: 80px;
         }
 
@@ -36,15 +36,23 @@
             scroll-behavior: smooth;
         }
 
-        /* Encabezados con Gradiente de Actividad (Naranja) */
-        h1,
-        h2,
-        h3 {
+        /* Encabezados Estilo Dashboard */
+        h1 {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
+            color: var(--neutral-dark);
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        h1 span {
+            color: var(--primary);
+        }
+
+        h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--neutral-dark);
             margin-top: 0;
         }
 
@@ -57,7 +65,7 @@
             height: var(--nav-height);
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(255, 141, 92, 0.1);
+            border-bottom: 1px solid #E2E8F0;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -80,14 +88,12 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
             font-size: 1.1rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-left: 2px solid var(--secondary);
+            color: var(--neutral-dark);
+            border-left: 2px solid var(--primary);
             padding-left: 20px;
         }
 
-        /* MENÚ LATERAL */
+        /* MENÚ LATERAL (Consistente con Lecciones) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -123,17 +129,17 @@
         }
 
         .menu-btn {
-            background: rgba(255, 141, 92, 0.1);
-            border: 1px solid rgba(255, 141, 92, 0.2);
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
             padding: 12px;
             border-radius: 14px;
             cursor: pointer;
-            color: var(--secondary);
+            color: var(--primary);
             transition: all 0.3s ease;
         }
 
         .menu-btn:hover {
-            background: var(--secondary);
+            background: var(--primary);
             color: white;
         }
 
@@ -168,12 +174,12 @@
 
         .menu-links a:hover {
             background: rgba(255, 255, 255, 0.1);
-            color: var(--secondary);
+            color: var(--primary);
         }
 
         .menu-links a.active {
-            background: var(--accent-gradient);
-            color: white;
+            background: var(--primary);
+            color: var(--neutral-dark);
             font-weight: 800;
         }
 
@@ -189,7 +195,8 @@
             border-radius: 35px;
             padding: 4.5rem;
             box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
-            border: 1px solid rgba(255, 141, 92, 0.05);
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            border-left: 8px solid var(--primary); /* Acento turquesa del dashboard */
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
@@ -346,7 +353,7 @@
 
     <main class="content-wrapper">
         <div class="lesson-card">
-            <h1>Ejercicio: "Hola mundo pedagógico"</h1>
+            <h1>Ejercicio: <span>"Hola mundo pedagógico"</span></h1>
 
             <div class="technical-grid">
                 <div class="tech-item">
