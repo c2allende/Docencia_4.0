@@ -177,6 +177,137 @@
             font-weight: 800;
         }
 
+        /* INFOGRAFÍAS GRID ESPECÍFICO */
+        .infographics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 25px;
+            padding: 1.5rem;
+            border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.03);
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--neutral-dark);
+            text-align: center;
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #F8FBFF;
+            color: var(--primary);
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn-download:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* BIBLIOGRAFÍA */
+        .biblio-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .biblio-item {
+            background: #fff;
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s;
+        }
+
+        .biblio-item:hover {
+            border-color: var(--primary);
+            background: #F8FBFF;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.08);
+        }
+
+        .biblio-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .biblio-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .biblio-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(0, 194, 255, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        .biblio-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--neutral-dark);
+        }
+
+        .biblio-apa {
+            font-size: 0.85rem;
+            color: #718096;
+            font-style: italic;
+            line-height: 1.5;
+            padding-left: 15px;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .biblio-summary {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0;
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
         /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
@@ -461,27 +592,126 @@
                     <h2>Infografías y Visualizaciones</h2>
                 </div>
 
-                <div class="grid-resources">
-                    <div class="resource-card">
+                <div class="infographics-grid">
+                    <!-- Infografía 1 -->
+                    <div class="info-card">
                         <h3>LLM VS BOT</h3>
-                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)">
+                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)" style="margin: 0;">
                             <img src="../assets/LLM_M1_LLM_VS_BOT_imagen.png" alt="LLM VS BOT">
                         </div>
+                        <a href="../assets/LLM_M1_LLM_VS_BOT_imagen.png" download="Infografia_LLM_VS_BOT.png" target="_blank" class="btn-download">
+                            <span>📥 Descargar Imagen</span>
+                        </a>
                     </div>
 
-                    <div class="resource-card">
-                        <h3>Privacidad Estudiantil y la IA</h3>
-                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)">
+                    <!-- Infografía 2 -->
+                    <div class="info-card">
+                        <h3>Privacidad y la IA</h3>
+                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)" style="margin: 0;">
                             <img src="../assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png" alt="Privacidad Estudiantil">
                         </div>
+                        <a href="../assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png" download="Infografia_Privacidad_IA.png" target="_blank" class="btn-download">
+                            <span>📥 Descargar Imagen</span>
+                        </a>
                     </div>
 
-                    <div class="resource-card" style="grid-column: 1 / -1;">
-                        <h3>El Diario de LLM Educativo</h3>
-                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)">
+                    <!-- Infografía 3 -->
+                    <div class="info-card">
+                        <h3>El Diario LLM</h3>
+                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)" style="margin: 0;">
                             <img src="../assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png" alt="Diario LLM">
                         </div>
+                        <a href="../assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png" download="Infografia_Diario_LLM.png" target="_blank" class="btn-download">
+                            <span>📥 Descargar Imagen</span>
+                        </a>
                     </div>
+                </div>
+            </section>
+
+            <!-- RECURSOS BIBLIOGRÁFICOS -->
+            <section class="resource-section">
+                <div class="resource-header">
+                    <div class="resource-icon">📚</div>
+                    <h2>Recursos Bibliográficos de Referencia</h2>
+                </div>
+                <div class="resource-card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                    <ul class="biblio-list">
+                        <!-- Articulo 1 -->
+                        <li class="biblio-item">
+                            <div class="biblio-header">
+                                <div class="biblio-info">
+                                    <span class="biblio-tag">ARTÍCULO DE INVESTIGACIÓN (2026)</span>
+                                    <span class="biblio-name">Classroom AI: Large Language Models as Grade-Specific Teachers</span>
+                                    <div class="biblio-apa">
+                                        Oh, J., Whang, S. E., Evans, J., & Wang, J. (2026). Classroom AI: large language models as grade-specific teachers. Npj Artificial Intelligence, 2(1). https://doi.org/10.1038/s44387-026-00081-7
+                                    </div>
+                                </div>
+                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 Descargar PDF
+                                </a>
+                            </div>
+                            <p class="biblio-summary">
+                                Este artículo analiza cómo los modelos de lenguaje de gran tamaño pueden ser refinados para actuar como tutores especializados por nivel escolar. Explora la efectividad pedagógica de la IA cuando se alinea con las capacidades cognitivas y curriculares específicas de cada grado académico.
+                            </p>
+                        </li>
+
+                        <!-- Articulo 2 -->
+                        <li class="biblio-item">
+                            <div class="biblio-header">
+                                <div class="biblio-info">
+                                    <span class="biblio-tag">ESTUDIO CRÍTICO (2025)</span>
+                                    <span class="biblio-name">“Don’t Forget the Teachers”: Educator-Centered Understanding of LLM Harms</span>
+                                    <div class="biblio-apa">
+                                        Harvey, E., Koenecke, A., & Kizilcec, R. F. (2025). “Don’t Forget the Teachers”: Towards an Educator-Centered Understanding of Harms from large language Models in education. arXiv:2502.14592v1 [cs.CY]. https://doi.org/10.1145/3706598.3713210
+                                    </div>
+                                </div>
+                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 Descargar PDF
+                                </a>
+                            </div>
+                            <p class="biblio-summary">
+                                Una investigación fundamental que aboga por incluir la perspectiva del docente en la implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso desmedido de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la autonomía del educador.
+                            </p>
+                        </li>
+
+                        <!-- Articulo 3 -->
+                        <li class="biblio-item">
+                            <div class="biblio-header">
+                                <div class="biblio-info">
+                                    <span class="biblio-tag">ÉTICA Y MARCO LEGAL (2023)</span>
+                                    <span class="biblio-name">Ética y Responsabilidad en la Implementación de la IA en la Educación</span>
+                                    <div class="biblio-apa">
+                                        Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T., Morrillo, C. F. S., & Salazar, A. J. (2023). Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación. Ciencia Latina Revista Científica Multidisciplinar, 7(6), 2054–2076. https://doi.org/10.37811/cl_rcm.v7i6.8833
+                                    </div>
+                                </div>
+                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 Descargar PDF
+                                </a>
+                            </div>
+                            <p class="biblio-summary">
+                                Estudio multidisciplinar sobre los pilares éticos necesarios para una integración segura de la IA en el aula. Se enfoca en la privacidad de los datos estudiantiles, la equidad en el acceso y la responsabilidad institucional de los centros educativos.
+                            </p>
+                        </li>
+
+                        <!-- Articulo 4 -->
+                        <li class="biblio-item">
+                            <div class="biblio-header">
+                                <div class="biblio-info">
+                                    <span class="biblio-tag">GUÍA DOCENTE</span>
+                                    <span class="biblio-name">Inteligencia Artificial Generativa: Aplicaciones para la Docencia e Investigación</span>
+                                    <div class="biblio-apa">
+                                        Edunet UAH (n.d.). Inteligencia Artificial generativa – Aplicaciones para la docencia y la investigación de Modelos Lingüísticos (LLM). https://edunet.uah.es/wp/ia/
+                                    </div>
+                                </div>
+                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 Descargar PDF
+                                </a>
+                            </div>
+                            <p class="biblio-summary">
+                                Un recurso práctico y completo que recorre las herramientas de IA generativa disponibles para el profesorado. Ofrece estrategias concretas para mejorar la preparación de clases, la personalización del aprendizaje y la optimización de procesos de investigación académica.
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </section>
 
