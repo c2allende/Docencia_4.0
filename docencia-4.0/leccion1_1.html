@@ -460,7 +460,261 @@
                 padding: 2.5rem;
             }
         }
+        /* --- ESTILOS COMPONENTE INTERACTIVO ECO SISTEMA LLM --- */
+        .llm-interactive-card {
+            float: right;
+            width: 440px;
+            margin: 10px 0 40px 40px;
+            background: white;
+            border-radius: 35px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.08);
+            position: relative;
+            overflow: hidden;
+            --ia-clr: #1a237e;
+            --ml-clr: #283593;
+            --dl-clr: #3949ab;
+            --gen-clr: #5c6bc0;
+            --llm-clr: #00e676;
+        }
+
+        .llm-interactive-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--ia-clr);
+            background: none;
+            -webkit-text-fill-color: initial;
+            display: block;
+        }
+
+        .llm-interactive-card .desc-p {
+            line-height: 1.5;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .hierarchy-container {
+            position: relative;
+            margin: 0 auto;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box-node {
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15px;
+            font-weight: 800;
+            color: white;
+            position: absolute;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .box-node:hover { 
+            transform: scale(1.03) translateY(-2px); 
+            filter: brightness(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 10 !important;
+        }
+
+        #ia-node { width: 100%; height: 100%; background: var(--ia-clr); z-index: 1; }
+        #ml-node { width: 85%; height: 80%; background: var(--ml-clr); z-index: 2; top: 15%; }
+        #dl-node { width: 70%; height: 60%; background: var(--dl-clr); z-index: 3; top: 30%; }
+        #gen-node { width: 55%; height: 40%; background: var(--gen-clr); z-index: 4; top: 45%; }
+        #llm-node { 
+            width: 40%; height: 20%; background: var(--llm-clr); z-index: 5; top: 60%; 
+            color: #1a237e; animation: pulse-llm 2s infinite;
+        }
+
+        @keyframes pulse-llm {
+            0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 230, 118, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+        }
+
+        .info-panel-llm {
+            margin-top: 30px;
+            min-height: 120px;
+            padding: 20px;
+            border-radius: 18px;
+            background: #f8fbff;
+            border-left: 6px solid var(--ia-clr);
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .info-title-llm { 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+            color: var(--ia-clr); 
+            margin-bottom: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .info-desc-llm { 
+            line-height: 1.6; 
+            color: #475569; 
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .llm-interactive-card {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+        }
+        /* --- ESTILOS SIMULADOR TOKENIZACIÓN --- */
+        .tokenization-simulator {
+            width: 100%;
+            background: white;
+            padding: 3rem;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.05);
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            margin: 4rem 0;
+            clear: both;
+        }
+
+        .token-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .token-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .token-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .token-grid { grid-template-columns: 1fr; }
+        }
+
+        .token-card {
+            background: #F8FBFF;
+            padding: 2rem;
+            border-radius: 25px;
+            border: 1px solid #EDF2F7;
+        }
+
+        .token-label {
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .token-textarea {
+            width: 100%;
+            height: 220px;
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            font-size: 1rem;
+            font-family: 'Manrope', sans-serif;
+            resize: none;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+            line-height: 1.6;
+        }
+
+        .token-textarea:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.1); 
+        }
+
+        .token-count-pill {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #EDF2F7;
+        }
+
+        #tokenCount { 
+            font-size: 1.8rem; 
+            font-weight: 800; 
+            color: #ec4899; 
+        }
+
+        .token-visualizer {
+            min-height: 120px;
+            line-height: 2.2;
+            padding: 1.5rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            background: white;
+            margin-bottom: 25px;
+            word-wrap: break-word;
+        }
+
+        .token-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin: 0 2px;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .token-ids-box {
+            font-family: 'Courier New', monospace;
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 1.5rem;
+            border-radius: 20px;
+            font-size: 13px;
+            max-height: 150px;
+            overflow-y: auto;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
+        .token-tip {
+            margin-top: 20px;
+            background: rgba(0, 194, 255, 0.05);
+            border-left: 5px solid var(--primary);
+            padding: 1.2rem;
+            border-radius: 0 15px 15px 0;
+            font-size: 0.9rem;
+            color: #475569;
+        }
     </style>
+
+
+
 </head>
 
 <body>
@@ -509,9 +763,22 @@
             <section class="text-section">
                 <h2>¿Qué es un Modelo de Lenguaje de Gran Tamaño (LLM)?</h2>
 
-                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/LLM_M1_Ilustración_1.1_Ubicación_LLM_imagen.png"
-                        alt="Ubicación de los LLM en la IA">
+                <div class="llm-interactive-card">
+                    <h3>¿Dónde se sitúan los LLM?</h3>
+                    <p class="desc-p">Haz clic en cada capa para descubrir la jerarquía de la IA.</p>
+                    
+                    <div class="hierarchy-container">
+                        <div id="ia-node" class="box-node" onclick="showEcoInfo('ia')">Inteligencia Artificial</div>
+                        <div id="ml-node" class="box-node" onclick="showEcoInfo('ml')">Machine Learning</div>
+                        <div id="dl-node" class="box-node" onclick="showEcoInfo('dl')">Deep Learning</div>
+                        <div id="gen-node" class="box-node" onclick="showEcoInfo('gen')">IA Generativa</div>
+                        <div id="llm-node" class="box-node" onclick="showEcoInfo('llm')">LLM</div>
+                    </div>
+
+                    <div class="info-panel-llm" id="infoPanelEco">
+                        <div class="info-title-llm" id="infoTitleEco">Instrucción</div>
+                        <div class="info-desc-llm" id="infoDescEco">Selecciona una categoría en el diagrama superior para entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
+                    </div>
                 </div>
 
                 <p>Un Modelo de Lenguaje de Gran Tamaño es un sistema de inteligencia artificial entrenado con enormes
@@ -540,8 +807,35 @@
                     continuas."
                 </div>
 
-                <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/LLM_M1_Ilustración_1.1_Tokenización_imagen.png" alt="Proceso de Tokenización">
+                <div class="tokenization-simulator">
+                    <div class="token-header">
+                        <h3>Simulador de Tokenización</h3>
+                        <p>Escribe cualquier idea abajo para ver cómo la IA descompone el lenguaje en piezas procesables (tokens).</p>
+                    </div>
+
+                    <div class="token-grid">
+                        <div class="token-card">
+                            <span class="token-label">Bloque de Entrada</span>
+                            <textarea id="tokenInput" class="token-textarea" placeholder="Escribe algo aquí...">En educación, la tokenización permite que los modelos comprendan contextos complejos y generen respuestas personalizadas para cada estudiante.</textarea>
+                            
+                            <div class="token-tip">
+                                <strong>💡 ¿Cómo funciona?</strong> Los LLM agrupan fragmentos de caracteres para "mapear" el significado. Nota cómo los espacios y signos también cuentan.
+                            </div>
+                        </div>
+
+                        <div class="token-card">
+                            <div class="token-count-pill">
+                                <span class="token-label" style="margin: 0;">Total Tokens:</span>
+                                <div id="tokenCount">0</div>
+                            </div>
+
+                            <span class="token-label">Visualización Gráfica</span>
+                            <div id="tokenVisualizer" class="token-visualizer"></div>
+
+                            <span class="token-label">Representación Numérica (IDs)</span>
+                            <div id="tokenIdList" class="token-ids-box"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <p>En términos de funcionamiento interno, los LLM descomponen la entrada en unidades más pequeñas
@@ -911,7 +1205,99 @@
 
         // Inicializar slider con slide width correcto
         setTimeout(updateSlider, 500); 
+
+        // --- Lógica de Ecosistema LLM ---
+        const ecoData = {
+            ia: {
+                title: "Inteligencia Artificial (IA)",
+                desc: "El campo más amplio: sistemas que intentan imitar capacidades cognitivas humanas para realizar tareas.",
+                color: "#1a237e"
+            },
+            ml: {
+                title: "Machine Learning (Aprendizaje Automático)",
+                desc: "Subconjunto de la IA que permite que las máquinas aprender de los datos sin ser programadas explícitamente.",
+                color: "#283593"
+            },
+            dl: {
+                title: "Deep Learning (Aprendizaje Profundo)",
+                desc: "Utiliza redes neuronales artificiales de muchas capas para procesar información compleja, como audio o texto.",
+                color: "#3949ab"
+            },
+            gen: {
+                title: "IA Generativa",
+                desc: "Una rama del Deep Learning enfocada en CREAR contenido nuevo (texto, imágenes, código) en lugar de solo clasificar datos.",
+                color: "#5c6bc0"
+            },
+            llm: {
+                title: "Modelo de Lenguaje de Gran Tamaño (LLM)",
+                desc: "¡Aquí estamos! Son IAs Generativas entrenadas con Deep Learning específicamente para dominar el lenguaje humano: resumen, traducción y creación de textos.",
+                color: "#00e676"
+            }
+        };
+
+        function showEcoInfo(key) {
+            const panel = document.getElementById('infoPanelEco');
+            const title = document.getElementById('infoTitleEco');
+            const desc = document.getElementById('infoDescEco');
+            
+            title.innerText = ecoData[key].title;
+            desc.innerText = ecoData[key].desc;
+            panel.style.borderLeftColor = ecoData[key].color;
+            title.style.color = ecoData[key].color;
+
+            // Efecto visual de selección
+            document.querySelectorAll('.box-node').forEach(el => el.style.opacity = "0.5");
+            document.getElementById(key + '-node').style.opacity = "1";
+        }
+
+        // --- Lógica del Simulador de Tokenización ---
+        const tokenInput = document.getElementById('tokenInput');
+        const tokenVisualizer = document.getElementById('tokenVisualizer');
+        const tokenIdList = document.getElementById('tokenIdList');
+        const tokenCountDisplay = document.getElementById('tokenCount');
+
+        const tokenColors = [
+            '#ffd1dc', '#d1e9ff', '#d1ffd6', '#fff4d1', '#e8d1ff', '#ffd1e1', '#d1fff0'
+        ];
+
+        function simulateTokens(text) {
+            return text.match(/(\s+|[^\s\w]|[\wáéíóúÁÉÍÓÚñÑ]+)/g) || [];
+        }
+
+        function generateTokenHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash % 99999);
+        }
+
+        function updateTokenView() {
+            const text = tokenInput.value;
+            const tokens = simulateTokens(text);
+            
+            tokenVisualizer.innerHTML = '';
+            const ids = [];
+
+            tokens.forEach((token, index) => {
+                const badge = document.createElement('span');
+                badge.className = 'token-badge';
+                badge.textContent = token;
+                badge.style.backgroundColor = tokenColors[index % tokenColors.length];
+                tokenVisualizer.appendChild(badge);
+                ids.push(generateTokenHash(token));
+            });
+
+            tokenIdList.textContent = ids.join(', ');
+            tokenCountDisplay.textContent = tokens.length;
+        }
+
+        tokenInput.addEventListener('input', updateTokenView);
+        updateTokenView();
     </script>
+
+
 
 </body>
 
