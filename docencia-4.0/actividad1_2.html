@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Actividad 1.1 de Docencia 4.0: Taller Práctico 'Rompiendo el Hielo'. Primer contacto con LLM, configuración de privacidad y generación de productos pedagógicos.">
-    <meta name="keywords" content="Taller IA, Docencia 4.0, LLM, Práctica Docente, Padlet, Hola Mundo Pedagógico">
-    <title>Actividad 1.1 | Docencia 4.0</title>
+        content="Actividad 1.2 de Docencia 4.0: Análisis de escenarios. Identificación de oportunidades para integrar LLM en la materia.">
+    <meta name="keywords" content="Análisis de Escenarios, Docencia 4.0, LLM, Práctica Docente, Padlet">
+    <title>Actividad 1.2 | Docencia 4.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -25,6 +25,7 @@
             --neutral-dark: #0A192F;
             --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
             --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --tertiary-gradient: linear-gradient(135deg, #FF9E2A 0%, #FFB357 100%);
             --bg-soft: #F8FAFC;
             --nav-height: 80px;
         }
@@ -51,7 +52,7 @@
         }
 
         h1 span {
-            color: var(--primary);
+            color: var(--tertiary);
         }
 
         h2,
@@ -94,11 +95,11 @@
             font-weight: 800;
             font-size: 1.1rem;
             color: var(--neutral-dark);
-            border-left: 2px solid var(--primary);
+            border-left: 2px solid var(--tertiary);
             padding-left: 20px;
         }
 
-        /* MENÚ LATERAL (Consistente con Lecciones) */
+        /* MENÚ LATERAL */
         .sidebar {
             position: fixed;
             top: 0;
@@ -135,17 +136,17 @@
         }
 
         .menu-btn {
-            background: rgba(0, 194, 255, 0.1);
-            border: 1px solid rgba(0, 194, 255, 0.2);
+            background: rgba(255, 158, 42, 0.1);
+            border: 1px solid rgba(255, 158, 42, 0.2);
             padding: 12px;
             border-radius: 14px;
             cursor: pointer;
-            color: var(--primary);
+            color: var(--tertiary);
             transition: background 0.3s ease, color 0.3s ease;
         }
 
         .menu-btn:hover {
-            background: var(--primary);
+            background: var(--tertiary);
             color: white;
         }
 
@@ -179,12 +180,12 @@
         }
 
         .menu-links a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--primary);
+            background: rgba(255, 158, 42, 0.1);
+            color: var(--tertiary);
         }
 
         .menu-links a.active {
-            background: var(--primary);
+            background: var(--tertiary);
             color: var(--neutral-dark);
             font-weight: 800;
         }
@@ -201,9 +202,8 @@
             border-radius: 35px;
             padding: 4.5rem;
             box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
-            border: 1px solid rgba(0, 194, 255, 0.05);
-            border-left: 8px solid var(--primary);
-            /* Acento turquesa del dashboard */
+            border: 1px solid rgba(255, 158, 42, 0.05);
+            border-left: 8px solid var(--tertiary); /* Identidad Naranja */
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
@@ -214,17 +214,17 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            background: #FFF9F6;
+            background: #FFFBF6;
             padding: 2.5rem;
             border-radius: 25px;
-            border: 1px solid rgba(255, 141, 92, 0.1);
+            border: 1px solid rgba(255, 158, 42, 0.1);
             margin: 3rem 0;
         }
 
         .tech-item h4 {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
-            color: var(--secondary);
+            color: var(--tertiary);
             margin-bottom: 10px;
             text-transform: uppercase;
             font-size: 0.85rem;
@@ -257,12 +257,13 @@
             background: white;
             border-radius: 20px;
             border: 1px solid #f1f5f9;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .instruction-step:hover {
             transform: translateX(10px);
-            border-color: var(--secondary);
+            border-color: var(--tertiary);
+            box-shadow: 0 10px 30px rgba(255, 158, 42, 0.1);
         }
 
         .step-icon {
@@ -272,7 +273,7 @@
 
         .step-text h4 {
             margin: 0 0 5px 0;
-            background: var(--accent-gradient);
+            background: var(--tertiary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -300,18 +301,18 @@
 
         .btn-back {
             color: var(--neutral-dark);
-            background: rgba(255, 141, 92, 0.1);
+            background: rgba(255, 158, 42, 0.1);
         }
 
         .btn-next {
-            background: var(--accent-gradient);
+            background: var(--tertiary-gradient);
             color: white;
-            box-shadow: 0 15px 35px rgba(255, 141, 92, 0.2);
+            box-shadow: 0 15px 35px rgba(255, 158, 42, 0.2);
         }
 
         .btn-next:hover {
             transform: translateX(5px);
-            box-shadow: 0 20px 45px rgba(255, 141, 92, 0.3);
+            box-shadow: 0 20px 45px rgba(255, 158, 42, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -341,7 +342,7 @@
             <div class="logo-container">
                 <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
             </div>
-            <span class="module-title-nav">Actividad 1.1: Taller Práctico "Rompiendo el Hielo"</span>
+            <span class="module-title-nav">Actividad 1.2: Análisis de escenarios</span>
         </div>
     </nav>
 
@@ -354,70 +355,63 @@
             <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
             <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
             <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
-            <li><a href="actividad1_1.html" class="active">🛠️ Actividad 1.1</a></li>
-            <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
+            <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
+            <li><a href="actividad1_2.html" class="active">🛠️ Actividad 1.2</a></li>
         </ul>
     </div>
 
     <main class="content-wrapper">
         <div class="lesson-card">
-            <h1>Ejercicio: <span>"Hola mundo pedagógico"</span></h1>
+            <h1>Ejercicio: <span>"Descubriendo la IA en mi materia"</span></h1>
 
             <div class="technical-grid">
                 <div class="tech-item">
                     <h4>Objetivo</h4>
-                    <p>Lograr el primer acceso exitoso a un LLM, configurar privacidad y generar un producto útil en
-                        &lt; 5 minutos.</p>
+                    <p>Identificar al menos una oportunidad concreta y viable de integrar un LLM en la práctica docente actual según la disciplina.</p>
                 </div>
                 <div class="tech-item">
                     <h4>Detalles</h4>
-                    <p>Duración: 30-40 minutos | Requisitos: Dispositivos con internet.</p>
+                    <p>Duración: 40-50 minutos | Dinámica: Trabajo en subgrupos por áreas de contenido.</p>
                 </div>
             </div>
 
             <section class="text-section">
-                <h2>Instrucciones del Taller</h2>
-                <p>Sigue estos pasos para completar tu primera interacción guiada con un Modelo de Lenguaje de Gran
-                    Tamaño:</p>
+                <h2>Instrucciones de la Actividad</h2>
+                <p>En grupos especializados, exploren el potencial de los LLM aplicados a sus materias específicas:</p>
 
                 <div class="instruction-step">
-                    <div class="step-icon">🚀</div>
+                    <div class="step-icon">👥</div>
                     <div class="step-text">
-                        <h4>Acceso</h4>
-                        <p>Entra al LLM seleccionado (ChatGPT, Microsoft Copilot o Google Gemini) utilizando tu cuenta
-                            institucional o personal autorizada.</p>
+                        <h4>Formación de Grupos</h4>
+                        <p>Agrúpense por área o especialidad pedagógica para compartir retos comunes.</p>
                     </div>
                 </div>
 
                 <div class="instruction-step">
-                    <div class="step-icon">🔒</div>
+                    <div class="step-icon">💡</div>
                     <div class="step-text">
-                        <h4>Privacidad</h4>
-                        <p>Configura las opciones básicas de protección de datos: asegúrate de desactivar el
-                            entrenamiento con tus datos si la plataforma lo permite y verifica que no estás ingresando
-                            PII.</p>
+                        <h4>Lluvia de Ideas</h4>
+                        <p>Discutan procesos o explicaciones complejas que se miren beneficiadas por el apoyo de un LLM.</p>
                     </div>
                 </div>
 
                 <div class="instruction-step">
-                    <div class="step-icon">📝</div>
+                    <div class="step-icon">📌</div>
                     <div class="step-text">
-                        <h4>Generación</h4>
-                        <p>Crea un producto pedagógico inmediato (un plan de clase simple, una lista de 5 ejemplos para
-                            un tema complejo o un borrador de correo). ¡Experimenta con el resultado!</p>
+                        <h4>Definición de Escenario</h4>
+                        <p>Definan la solicitud (prompt) que harían al bot y el método que usarán para validar su respuesta.</p>
                     </div>
                 </div>
             </section>
 
             <section class="text-section">
-                <h2>Muro Colaborativo</h2>
-                <p>Comparte tus capturas de pantalla, reflexiones o productos generados en el siguiente muro de Padlet
-                    para recibir retroalimentación del grupo:</p>
+                <h2>Muro Colaborativo de Escenarios</h2>
+                <p>Compartan los escenarios diseñados por su grupo para que otros colegas puedan aprender de su propuesta:</p>
 
                 <div class="padlet-wrapper">
                     <div class="padlet-embed"
                         style="border:none;padding:0;margin:0;width:100%;height:600px;overflow:hidden">
-                        <iframe src="https://padlet.com/padlets/rhh9pzzm2aj969bs/embeds/preview_embed" frameborder="0"
+                        <iframe src="https://padlet.com/padlets/o6hvutesyg1t5yhs/embeds/preview_embed" frameborder="0"
                             allow="camera;microphone;geolocation"
                             style="width:100%;height:600px;display:block;padding:0;margin:0"></iframe>
                     </div>
@@ -425,16 +419,16 @@
             </section>
 
             <div class="footer-nav">
-                <a href="modulo1_intro.html" class="btn-footer btn-back">
+                <a href="actividad1_1.html" class="btn-footer btn-back">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                    Introducción Módulo 1
+                    Actividad 1.1
                 </a>
-                <a href="actividad1_2.html" class="btn-footer btn-next">
-                    Actividad 1.2
+                <a href="recursos_didacticos.html" class="btn-footer btn-next">
+                    Recursos Didácticos
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>

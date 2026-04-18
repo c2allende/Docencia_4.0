@@ -14,6 +14,10 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
         rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         :root {
             --primary: #00C2FF;
             --secondary: #FF8D5C;
@@ -90,19 +94,20 @@
         .sidebar {
             position: fixed;
             top: 0;
-            left: -320px;
+            left: -340px;
             width: 320px;
             height: 100vh;
             background: var(--neutral-dark);
             color: white;
-            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: none;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
             z-index: 2000;
             padding: 40px 30px;
         }
 
         .sidebar.active {
             left: 0;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar-overlay {
@@ -128,7 +133,7 @@
             border-radius: 14px;
             cursor: pointer;
             color: var(--primary);
-            transition: all 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .menu-btn:hover {
@@ -455,7 +460,7 @@
 
     <nav class="top-nav">
         <div class="nav-left">
-            <button class="menu-btn" onclick="toggleSidebar()">
+            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menú de navegación">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
