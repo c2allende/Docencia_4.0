@@ -88,8 +88,13 @@ Has culminado la lección 1.1 del programa de formación profesional.
 Has dado un paso clave al comprender qué es un LLM, cómo funciona como motor de lenguaje y cuándo conviene usarlo frente a un buscador tradicional. Este conocimiento te coloca en una posición estratégica para tomar decisiones pedagógicas más informadas y éticas sobre el uso de IA en tu práctica docente, manteniendo siempre tu criterio profesional en el centro.
 Invitación al checkpoint de saberes
 Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes, una evaluación formativa breve y no punitiva diseñada para ayudarte a responder a dos preguntas clave: ¿qué entendí? y ¿qué necesito reforzar?, de modo que puedas clarificar tus ideas sobre LLM, bots y buscadores y orientar tus siguientes pasos de aprendizaje con enfoque de mejora continua.
-Enlace: 
-<div style="width: 100%;"><div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0;"><iframe title="Contenido 1.1: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/69adb05030c4d6416b2c3cb5" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> </div> </div>
+
+Desafío 1: Trivia Interactiva
+<div style="width: 100%;"><iframe title="Trivia IA: El Cerebro Digital" frameborder="0" width="100%" height="500" src="trivia_1_1.html" type="text/html" allowfullscreen="true"></iframe></div>
+
+Desafío 2: Exploración Detallada
+<div style="width: 100%;"><div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0;"><iframe title="Contenido 1.1: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="../assets/genially_leccion1_1/genially.html" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> </div> </div>
+
 Referencias
 Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in higher education. Computers & Education: Artificial Intelligence, 100157.
 Hargreaves, A., & Fullan, M. (2012). Professional capital: Transforming teaching in every school. Teachers College Press.
