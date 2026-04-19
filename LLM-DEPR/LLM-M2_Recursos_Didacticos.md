@@ -19,3 +19,20 @@ LLM_M2_Recurso_La Lupa del Maestro- Lista de cotejo de validación_word
 
 
 Video: https://youtu.be/C73JIUeOoLw?si=7FxyiLmPfAcsTSp3
+
+Bibliografia de referencia
+LLM_M2_Recurso_Articulo_Realizing the possibilities of the large language models  Strategies for prompt engineering in educational inquiries
+Referencia: Ana-Paula Correia, Sean Hickey & Fan Xu (2025) Realizing the possibilities of the large language models: Strategies for prompt engineering in educational inquiries, Theory Into Practice, 64:4, 434-447, DOI: 10.1080/00405841.2025.2528545
+
+LLM_M2_Recurso_Articulo_El diseño de prompts como competencia emergente (CRETA+R)
+Referencia: García-Beltrán, E. (2025). No es magia, es prompting: el diseño de prompts como competencia emergente en la formación docente. Un estudio desde el modelo CRETA+R. Pixel-Bit Revista De Medios Y Educación, 75, 1–18. https://doi.org/10.12795/pixelbit.115487
+
+LLM_M2_Recurso_Articulo_Prompt engineering as a new 21st century skill
+Referencia: Federiakin, D., Molerov, D., Zlatkin-Troitschanskaia, O., & Maur, A. (2024). Prompt engineering as a new 21st century skill. Frontiers in Education, 9. https://doi.org/10.3389/feduc.2024.1366434
+
+LLM_M2_Recurso_Articulo_Prompt Engineering for LLMs Educational Alignment
+Referencia: Barbero, G., Preuss, M., & Leiden University. (2025). Prompt engineering for LLMs educational alignment. In CEUR Workshop Proceedings (pp. 1–18) [Journal-article]. CEUR. https://ceur-ws.org/Vol-4138/paper1.pdf
+
+LLM_M2_Recurso_Articulo_A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education
+Referencia: Chen, E., Wang, D., Xu, L., Cao, C., Fang, X., & Lin, J. (2024, October 14). A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education. arXiv.org. https://arxiv.org/abs/2410.11123
+

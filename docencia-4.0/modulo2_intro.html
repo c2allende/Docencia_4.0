@@ -30,15 +30,18 @@
         body {
             background: var(--bg-soft);
             color: var(--neutral-dark);
-            line-height: 1.9; /* Un poco más de aire para mejorar legibilidad */
+            line-height: 1.9;
+            /* Un poco más de aire para mejorar legibilidad */
             font-family: 'Manrope', sans-serif;
             padding-top: var(--nav-height);
             margin: 0;
         }
 
         p {
-            margin-bottom: 1.8rem; /* Espaciado generoso entre párrafos */
-            color: #2D3748; /* Un tono ligeramente más suave para el cuerpo */
+            margin-bottom: 1.8rem;
+            /* Espaciado generoso entre párrafos */
+            color: #2D3748;
+            /* Un tono ligeramente más suave para el cuerpo */
         }
 
         /* NAVBAR SUPERIOR */
@@ -244,7 +247,8 @@
             text-align: center;
             margin-top: 5rem;
             box-shadow: 0 15px 35px rgba(255, 141, 92, 0.3);
-            clear: both; /* Asegura que el banner siempre empiece debajo de elementos flotantes */
+            clear: both;
+            /* Asegura que el banner siempre empiece debajo de elementos flotantes */
         }
 
         .image-integration {
@@ -312,11 +316,15 @@
         <h2 class="side-menu-title">Navegación</h2>
         <ul class="menu-links">
             <li><a href="dashboard.html">🏠 Dashboard</a></li>
-            <li><a href="modulo1_intro.html">📍 Módulo 1: Fundamentos</a></li>
+            <li style="padding: 15px 20px 5px; font-size: 0.7rem; color: #00C2FF; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; opacity: 0.8;">Módulo 1</li>
+            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos Módulo 1</a></li>
+            <li style="padding: 15px 20px 5px; font-size: 0.7rem; color: #00C2FF; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; opacity: 0.8;">Módulo 2</li>
             <li><a href="modulo2_intro.html" class="active">📍 Inicio Módulo 2</a></li>
             <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
             <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
             <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
             <li><a href="recursos_m2.html">📚 Recursos Módulo 2</a></li>
         </ul>
     </div>
@@ -431,29 +439,42 @@
             </li>
         </ul>
 
-            <div style="margin-top: 3rem;">
-                <div class="image-integration">
-                    <img src="../assets/LLM_M2-Grafico_introduccion.png"
-                        alt="Human in the loop: Revisión de todo lo que generera la IA" onclick="openZoom(this.src)">
-                    <p style="text-align: center; color: #94a3b8; font-size: 0.7rem; padding: 10px;">Human in the Loop: El Docente como Validador</p>
-                </div>
-
-                <p>Al igual que en el Módulo 1, este módulo no busca que usted delegue la planificación en la IA, sino que transforme su rol: de “productor solitario desde cero” a arquitecto de aprendizaje que aprovecha los borradores de la IA para ganar tiempo, pero mantiene la decisión profesional sobre qué se usa, qué se ajusta y qué se descarta. El compromiso clave es mantener siempre la lógica de human in the loop: nada generado por un bot o app con LLM se utiliza con estudiantes sin pasar por su revisión curricular, ética y contextual.</p>
-
-                <p>Esto implica: verificar exactitud factual, ajustar el lenguaje al nivel del grupo, asegurar pertinencia cultural a la realidad puertorriqueña y alinear cada recurso a los Estándares y Expectativas del DEPR antes de integrarlo a su planificación.</p>
+        <div style="margin-top: 3rem;">
+            <div class="image-integration">
+                <img src="../assets/LLM_M2-Grafico_introduccion.png"
+                    alt="Human in the loop: Revisión de todo lo que generera la IA" onclick="openZoom(this.src)">
+                <p style="text-align: center; color: #94a3b8; font-size: 0.7rem; padding: 10px;">Human in the Loop: El
+                    Docente como Validador</p>
             </div>
 
-            <div class="reflection-banner">
-                <p><strong>Pregunta reflexiva para iniciar</strong></p>
-                <p style="font-weight: 500; font-size: 1.1rem; margin-bottom: 1.5rem;">Antes de profundizar en los contenidos, tómese un momento para pensar:</p>
-                <p style="font-style: italic; font-size: 1.3rem;">“Si pudiera automatizar solo UNA parte de mi proceso de planificación (objetivos, actividades, lecturas, rúbricas), ¿cuál elegiría y por qué? ¿Qué esperaría de la IA para que ese apoyo respete mi criterio profesional?”</p>
-                <p style="font-size: 0.95rem; margin-top: 1.5rem; opacity: 0.9;">No hay respuestas "correctas"; buscamos conectar la tecnología con las tareas que más tiempo le consumen en su práctica docente diaria.</p>
-            </div>
+            <p>Al igual que en el Módulo 1, este módulo no busca que usted delegue la planificación en la IA, sino que
+                transforme su rol: de “productor solitario desde cero” a arquitecto de aprendizaje que aprovecha los
+                borradores de la IA para ganar tiempo, pero mantiene la decisión profesional sobre qué se usa, qué se
+                ajusta y qué se descarta. El compromiso clave es mantener siempre la lógica de human in the loop: nada
+                generado por un bot o app con LLM se utiliza con estudiantes sin pasar por su revisión curricular, ética
+                y contextual.</p>
 
-            <div class="nav-footer">
-                <a href="dashboard.html" style="text-decoration: none; color: #64748b; font-weight: 700;">← Volver al Dashboard</a>
-                <a href="leccion2_1.html" class="btn-primary-action">Iniciar Módulo 2 →</a>
-            </div>
+            <p>Esto implica: verificar exactitud factual, ajustar el lenguaje al nivel del grupo, asegurar pertinencia
+                cultural a la realidad puertorriqueña y alinear cada recurso a los Estándares y Expectativas del DEPR
+                antes de integrarlo a su planificación.</p>
+        </div>
+
+        <div class="reflection-banner">
+            <p><strong>Pregunta reflexiva para iniciar</strong></p>
+            <p style="font-weight: 500; font-size: 1.1rem; margin-bottom: 1.5rem;">Antes de profundizar en los
+                contenidos, tómese un momento para pensar:</p>
+            <p style="font-style: italic; font-size: 1.3rem;">“Si pudiera automatizar solo UNA parte de mi proceso de
+                planificación (objetivos, actividades, lecturas, rúbricas), ¿cuál elegiría y por qué? ¿Qué esperaría de
+                la IA para que ese apoyo respete mi criterio profesional?”</p>
+            <p style="font-size: 0.95rem; margin-top: 1.5rem; opacity: 0.9;">No hay respuestas "correctas"; buscamos
+                conectar la tecnología con las tareas que más tiempo le consumen en su práctica docente diaria.</p>
+        </div>
+
+        <div class="nav-footer">
+            <a href="dashboard.html" style="text-decoration: none; color: #64748b; font-weight: 700;">← Volver al
+                Dashboard</a>
+            <a href="leccion2_1.html" class="btn-primary-action">Iniciar Módulo 2 →</a>
+        </div>
     </main>
 
     <div id="zoomModal"

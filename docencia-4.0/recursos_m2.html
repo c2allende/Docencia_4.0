@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos Didácticos Módulo 1 | Docencia 4.0</title>
+    <title>Recursos Didácticos Módulo 2 | Docencia 4.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -180,7 +180,7 @@
         /* INFOGRAFÍAS GRID ESPECÍFICO */
         .infographics-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 2rem;
         }
@@ -208,6 +208,10 @@
             margin: 0;
             color: var(--neutral-dark);
             text-align: center;
+            background: none;
+            -webkit-text-fill-color: initial;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
         }
 
         .btn-download {
@@ -362,13 +366,6 @@
             transform: translateY(-5px);
         }
 
-        /* Estilos específicos para Book Creator Embed */
-        .book-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
         /* Estilos para imágenes de recursos */
         .resource-img-container {
             width: 100%;
@@ -378,6 +375,7 @@
             margin: 20px 0;
             border: 1px solid #EDF2F7;
             cursor: zoom-in;
+            background: #fdfdfd;
         }
 
         .resource-img-container img {
@@ -423,6 +421,14 @@
         @media (max-width: 600px) {
             .grid-resources {
                 grid-template-columns: 1fr;
+            }
+
+            .infographics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-card {
+                padding: 2rem;
             }
         }
 
@@ -484,6 +490,16 @@
             border-radius: 20px;
             box-shadow: 0 0 100px rgba(0, 194, 255, 0.3);
         }
+
+        .padlet-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
 
@@ -502,7 +518,7 @@
             <div class="logo-container">
                 <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
             </div>
-            <span class="module-title-nav">Recursos Didácticos Módulo 1</span>
+            <span class="module-title-nav">Recursos Didácticos Módulo 2</span>
         </div>
     </nav>
 
@@ -511,280 +527,213 @@
         <h2 class="side-menu-title">Navegación</h2>
         <ul class="menu-links">
             <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li style="padding: 15px 20px 5px; font-size: 0.7rem; color: #00C2FF; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; opacity: 0.8;">Módulo 1</li>
             <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
-            <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
-            <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
-            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
-            <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
-            <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
-            <li><a href="recursos_m1.html" class="active">📚 Recursos Módulo 1</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos Módulo 1</a></li>
+            <li style="padding: 15px 20px 5px; font-size: 0.7rem; color: #00C2FF; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; opacity: 0.8;">Módulo 2</li>
+            <li><a href="modulo2_intro.html">📍 Inicio Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
+            <li><a href="recursos_m2.html" class="active">📚 Recursos Módulo 2</a></li>
         </ul>
     </div>
 
     <main class="content-wrapper">
         <div class="lesson-card">
-            <h1>Recursos Didácticos Complementarios - Módulo 1</h1>
-            <p>Explora materiales adicionales diseñados para profundizar en los conceptos de LLM, ética y aplicaciones
-                pedagógicas presentados en este módulo.</p>
+            <h1>Recursos Didácticos Módulo 2: Prompt Engineering</h1>
+            <p>Este banco de materiales está diseñado para fortalecer tus competencias en la ingeniería de prompts,
+                facilitando la creación de interacciones efectivas con la IA en entornos educativos.</p>
 
-            <!-- GUÍA DIGITAL -->
+            <!-- BANCO DE PROMPTS PADLET -->
             <section class="resource-section">
                 <div class="resource-header">
-                    <div class="resource-icon">📖</div>
-                    <h2>Guía Digital interactiva</h2>
+                    <div class="resource-icon">💡</div>
+                    <h2>Banco de Prompts Interactivo</h2>
                 </div>
-                <div class="resource-card" style="display: flex; justify-content: center; background: white;">
-                    <div
-                        style="display:inline-block;vertical-align:top;width:300px;margin:20px auto;color:#333;background:#fff;border:1px solid #ddd;line-height:1.2;text-decoration:none;padding:0">
-                        <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                            style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                            target="_blank" rel="noreferrer"><img
-                                src="https://assets.api.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/books/JhvIDoawQDKJGBbkS4xDzQ/cover/share"
-                                style="max-height:300px;max-width:100%;display:block;margin:0 auto;padding:0;border:none"
-                                alt="Guía digital sobre LLM" /></a>
-                        <div
-                            style="display:block;padding:20px;overflow:hidden;overflow-x:hidden;border-top:1px solid #ddd">
-                            <div
-                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal;font-size:21px;margin:0 0 0.25em">
-                                <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                                    style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                                    target="_blank" rel="noreferrer">Guía digital sobre LLM</a>
-                            </div>
-                            <div
-                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal;font-size:16px;margin:0 0 0.5em">
-                                <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                                    style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                                    target="_blank" rel="noreferrer">Click to read this book, made with Book Creator</a>
-                            </div>
-                            <div
-                                style="display:block;color:#455a64;line-height:1.2;text-decoration:none;padding:0;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px">
-                                <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                                    style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                                    target="_blank" rel="noreferrer">read.bookcreator.com</a>
-                            </div>
+                <div class="resource-card" style="background: white;">
+                    <p style="margin-bottom: 1.5rem;">Explora y colabora en nuestro repositorio dinámico de prompts
+                        específicamente curados para docentes.</p>
+                    <div class="padlet-container">
+                        <div class="padlet-embed"
+                            style="border:1px solid rgba(0,0,0,0.1);border-radius:2px;box-sizing:border-box;overflow:hidden;position:relative;width:100%;height:450px;">
+                            <iframe src="https://padlet.com/padlets/vcbkosovob1f8fo9/embeds/preview_embed"
+                                style="width:100%;height:100%;display:block;padding:0;margin:0"
+                                frameborder="0"></iframe>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- VIDEOS -->
-            <section class="resource-section">
-                <div class="resource-header">
-                    <div class="resource-icon">🎥</div>
-                    <h2>Videos de Apoyo</h2>
-                </div>
-
-                <div class="resource-card">
-                    <h3>Uso de Copilot en Educación</h3>
-                    <div class="video-wrapper">
-                        <video controls>
-                            <source src="../LLM-DEPR/LLM_M1_Recurso_Uso de Copilot_video.mp4" type="video/mp4">
-                            Tu navegador no soporta el tag de video.
-                        </video>
-                    </div>
-                </div>
-
-                <div class="grid-resources">
-                    <div class="resource-card">
-                        <h3>¿Qué son los LLM? (Explicación)</h3>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/LPZh9BOjkQs" title="¿Qué son los LLM?"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
-                        </div>
-                        <a href="https://youtu.be/LPZh9BOjkQs" target="_blank"
-                            style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
-                            Ver directamente en YouTube</a>
-                    </div>
-                    <div class="resource-card">
-                        <h3>IA en el Aula</h3>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/lVGV5-5TdTU" title="IA en el Aula"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
-                        </div>
-                        <a href="https://youtu.be/lVGV5-5TdTU" target="_blank"
-                            style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
-                            Ver directamente en YouTube</a>
-                    </div>
-                    <div class="resource-card">
-                        <h3>Ética y Futuro de la IA</h3>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/PxYA2NLVdbc" title="Ética y Futuro de la IA"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
-                        </div>
-                        <a href="https://youtu.be/PxYA2NLVdbc" target="_blank"
-                            style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
-                            Ver directamente en YouTube</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- INFOGRAFÍAS -->
+            <!-- INFOGRAFÍAS Y GUÍAS -->
             <section class="resource-section">
                 <div class="resource-header">
                     <div class="resource-icon">📊</div>
-                    <h2>Infografías y Visualizaciones</h2>
+                    <h2>Infografías y Guías de Implementación</h2>
                 </div>
 
                 <div class="infographics-grid">
-                    <!-- Infografía 1 -->
+                    <!-- Guía 200+1 Prompts -->
                     <div class="info-card">
-                        <h3>LLM VS BOT</h3>
+                        <h3>200+1 Prompts para Educación</h3>
                         <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
                             style="margin: 0;">
-                            <img src="../assets/LLM_M1_LLM_VS_BOT_imagen.png" alt="LLM VS BOT">
+                            <img src="../assets/LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_imagen.png"
+                                alt="200+1 Prompts para Educación">
                         </div>
-                        <a href="../assets/LLM_M1_LLM_VS_BOT_imagen.png" download="Infografia_LLM_VS_BOT.png"
-                            target="_blank" class="btn-download">
-                            <span>📥 Descargar Imagen</span>
+                        <a href="../LLM-DEPR/LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_pdf.pdf"
+                            download target="_blank" class="btn-download">
+                            <span>📥 Descargar PDF Completo</span>
                         </a>
                     </div>
 
-                    <!-- Infografía 2 -->
+                    <!-- Easy Guide Prompt Engineering -->
                     <div class="info-card">
-                        <h3>Privacidad y la IA</h3>
+                        <h3>Easy Guide to Prompt Engineering</h3>
                         <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
                             style="margin: 0;">
-                            <img src="../assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png"
-                                alt="Privacidad Estudiantil">
+                            <img src="../assets/LLM_M2_Resurso_an easy guide to Prompt Engineering for EDU_imagen.png"
+                                alt="An easy guide to Prompt Engineering">
                         </div>
-                        <a href="../assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png"
-                            download="Infografia_Privacidad_IA.png" target="_blank" class="btn-download">
-                            <span>📥 Descargar Imagen</span>
+                        <a href="../LLM-DEPR/LLM_M2_Recurso_an_easy_guide_to_prompt_engineering_for_edu_pdf.pdf"
+                            download target="_blank" class="btn-download">
+                            <span>📥 Descargar Guía (PDF)</span>
                         </a>
                     </div>
 
-                    <!-- Infografía 3 -->
+                    <!-- 30 Comandos ChatGPT -->
                     <div class="info-card">
-                        <h3>El Diario LLM</h3>
+                        <h3>30 Comandos para ChatGPT</h3>
                         <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
                             style="margin: 0;">
-                            <img src="../assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png" alt="Diario LLM">
+                            <img src="../assets/LLM_M2_Resurso_30 comandos para ChatGPT_imagen.png"
+                                alt="30 comandos para ChatGPT">
                         </div>
-                        <a href="../assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png"
-                            download="Infografia_Diario_LLM.png" target="_blank" class="btn-download">
-                            <span>📥 Descargar Imagen</span>
+                        <a href="../LLM-DEPR/LLM_M2_Recurso_30 COMANDOS PARA CHATGPT_pdf.pdf" download target="_blank"
+                            class="btn-download">
+                            <span>📥 Descargar Lista (PDF)</span>
+                        </a>
+                    </div>
+
+                    <!-- Lupa del Maestro -->
+                    <div class="info-card">
+                        <h3>La Lupa del Maestro: Validación</h3>
+                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
+                            style="margin: 0;">
+                            <img src="../assets/LLM_M2_Recurso_La Lupa del Maestro - Lista de cotejo de validación_imagen.png"
+                                alt="La Lupa del Maestro">
+                        </div>
+                        <a href="../LLM-DEPR/LLM_M2_Recurso_La Lupa del Maestro- Lista de cotejo de validación_word.docx"
+                            download target="_blank" class="btn-download">
+                            <span>📥 Descargar Checkbox (Word)</span>
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- RECURSOS BIBLIOGRÁFICOS -->
+            <!-- VÍDEO DE APOYO -->
+            <section class="resource-section">
+                <div class="resource-header">
+                    <div class="resource-icon">🎥</div>
+                    <h2>Video Tutorial: Estrategias de Prompting</h2>
+                </div>
+                <div class="resource-card">
+                    <h3>¿Qué es... PROMPT?</h3>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/C73JIUeOoLw" title="Estrategias de Prompting"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <a href="https://youtu.be/C73JIUeOoLw" target="_blank"
+                        style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
+                        Ver en YouTube</a>
+                </div>
+            </section>
+
+            <!-- BIBLIOGRAFÍA M2 -->
             <section class="resource-section">
                 <div class="resource-header">
                     <div class="resource-icon">📚</div>
-                    <h2>Recursos Bibliográficos de Referencia</h2>
+                    <h2>Bibliografía Recomendada Módulo 2</h2>
                 </div>
                 <div class="resource-card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
                     <ul class="biblio-list">
-                        <!-- Articulo 1 -->
+                        <!-- Artículo 1: Systematic Review -->
                         <li class="biblio-item">
                             <div class="biblio-header">
                                 <div class="biblio-info">
-                                    <span class="biblio-tag">ARTÍCULO DE INVESTIGACIÓN (2026)</span>
-                                    <span class="biblio-name">Classroom AI: Large Language Models as Grade-Specific
-                                        Teachers</span>
+                                    <span class="biblio-tag">REVISIÓN SISTEMÁTICA (2024)</span>
+                                    <span class="biblio-name">A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education</span>
                                     <div class="biblio-apa">
-                                        Oh, J., Whang, S. E., Evans, J., & Wang, J. (2026). Classroom AI: large language
-                                        models as grade-specific teachers. Npj Artificial Intelligence, 2(1).
-                                        https://doi.org/10.1038/s44387-026-00081-7
+                                        Chen, E., Wang, D., Xu, L., Cao, C., Fang, X., & Lin, J. (2024, October 14). A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education. arXiv.org. https://arxiv.org/abs/2410.11123
                                     </div>
                                 </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
+                                <a href="../LLM-DEPR/LLM_M2_Recurso_Articulo_A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 PDF
                                 </a>
                             </div>
                             <p class="biblio-summary">
-                                Este artículo analiza cómo los modelos de lenguaje de gran tamaño pueden ser refinados
-                                para actuar como tutores especializados por nivel escolar. Explora la efectividad
-                                pedagógica de la IA cuando se alinea con las capacidades cognitivas y curriculares
-                                específicas de cada grado académico.
+                                Este estudio analiza exhaustivamente cómo la ingeniería de prompts influye en la enseñanza de áreas STEM en los niveles primario y secundario. Ofrece un marco de referencia sobre las estrategias más efectivas para personalizar el aprendizaje en ciencias y matemáticas.
                             </p>
                         </li>
 
-                        <!-- Articulo 2 -->
+                        <!-- Artículo 2: García-Beltrán -->
                         <li class="biblio-item">
                             <div class="biblio-header">
                                 <div class="biblio-info">
-                                    <span class="biblio-tag">ESTUDIO CRÍTICO (2025)</span>
-                                    <span class="biblio-name">“Don’t Forget the Teachers”: Educator-Centered
-                                        Understanding of LLM Harms</span>
+                                    <span class="biblio-tag">ESTUDIO DOCENTE (2025)</span>
+                                    <span class="biblio-name">El diseño de prompts como competencia emergente en la formación docente (Modelo CRETA+R)</span>
                                     <div class="biblio-apa">
-                                        Harvey, E., Koenecke, A., & Kizilcec, R. F. (2025). “Don’t Forget the Teachers”:
-                                        Towards an Educator-Centered Understanding of Harms from large language Models
-                                        in education. arXiv:2502.14592v1 [cs.CY].
-                                        https://doi.org/10.1145/3706598.3713210
+                                        García-Beltrán, E. (2025). No es magia, es prompting: el diseño de prompts como competencia emergente en la formación docente. Un estudio desde el modelo CRETA+R. Pixel-Bit Revista De Medios Y Educación, 75, 1–18. https://doi.org/10.12795/pixelbit.115487
                                     </div>
                                 </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
+                                <a href="../LLM-DEPR/LLM_M2_Recurso_Articulo_El diseño de prompts como competencia emergente (CRETA+R).pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 PDF
                                 </a>
                             </div>
                             <p class="biblio-summary">
-                                Una investigación fundamental que aboga por incluir la perspectiva del docente en la
-                                implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso desmedido
-                                de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la
-                                autonomía del educador.
+                                Propone el modelo CRETA+R como una estructura pedagógica para que los educadores desarrollen habilidades críticas en la creación de prompts, transformando la IA en un asistente de enseñanza eficiente y alineado con los objetivos curriculares.
                             </p>
                         </li>
 
-                        <!-- Articulo 3 -->
+                        <!-- Artículo 3: 21st Century Skill -->
                         <li class="biblio-item">
                             <div class="biblio-header">
                                 <div class="biblio-info">
-                                    <span class="biblio-tag">ÉTICA Y MARCO LEGAL (2023)</span>
-                                    <span class="biblio-name">Ética y Responsabilidad en la Implementación de la IA en
-                                        la Educación</span>
-                                    <div class="biblio-apa">
-                                        Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T., Morrillo, C. F. S., &
-                                        Salazar, A. J. (2023). Ética y Responsabilidad en la Implementación de la
-                                        Inteligencia Artificial en la Educación. Ciencia Latina Revista Científica
-                                        Multidisciplinar, 7(6), 2054–2076. https://doi.org/10.37811/cl_rcm.v7i6.8833
+                                    <span class="biblio-tag">ALFABETIZACIÓN DIGITAL (2024)</span>
+                                    <span class="biblio-name">Prompt engineering as a new 21st century skill</span>
+                                    <div class="biblio-info">
+                                        <div class="biblio-apa">
+                                            Federiakin, D., Molerov, D., Zlatkin-Troitschanskaia, O., & Maur, A. (2024). Prompt engineering as a new 21st century skill. Frontiers in Education, 9. https://doi.org/10.3389/feduc.2024.1366434
+                                        </div>
                                     </div>
                                 </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
+                                <a href="../LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt engineering as a new 21st century skill.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 PDF
                                 </a>
                             </div>
                             <p class="biblio-summary">
-                                Estudio multidisciplinar sobre los pilares éticos necesarios para una integración segura
-                                de la IA en el aula. Se enfoca en la privacidad de los datos estudiantiles, la equidad
-                                en el acceso y la responsabilidad institucional de los centros educativos.
+                                Sitúa la ingeniería de prompts como una competencia transversal e indispensable para la era actual. El artículo debate la importancia de integrar esta habilidad en la educación superior y profesional para asegurar la adaptabilidad tecnológica.
                             </p>
                         </li>
 
-                        <!-- Articulo 4 -->
+                        <!-- Artículo 4: Educational Alignment -->
                         <li class="biblio-item">
                             <div class="biblio-header">
                                 <div class="biblio-info">
-                                    <span class="biblio-tag">GUÍA DOCENTE</span>
-                                    <span class="biblio-name">Inteligencia Artificial Generativa: Aplicaciones para la
-                                        Docencia e Investigación</span>
+                                    <span class="biblio-tag">ALINEACIÓN PEDAGÓGICA (2025)</span>
+                                    <span class="biblio-name">Prompt engineering for LLMs educational alignment</span>
                                     <div class="biblio-apa">
-                                        Edunet UAH (n.d.). Inteligencia Artificial generativa – Aplicaciones para la
-                                        docencia y la investigación de Modelos Lingüísticos (LLM).
-                                        https://edunet.uah.es/wp/ia/
+                                        Barbero, G., Preuss, M., & Leiden University. (2025). Prompt engineering for LLMs educational alignment. In CEUR Workshop Proceedings (pp. 1–18). CEUR. https://ceur-ws.org/Vol-4138/paper1.pdf
                                     </div>
                                 </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
+                                <a href="../LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt Engineering for LLMs Educational Alignment.pdf" download target="_blank" class="btn-download" style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
+                                    📥 PDF
                                 </a>
                             </div>
                             <p class="biblio-summary">
-                                Un recurso práctico y completo que recorre las herramientas de IA generativa disponibles
-                                para el profesorado. Ofrece estrategias concretas para mejorar la preparación de clases,
-                                la personalización del aprendizaje y la optimización de procesos de investigación
-                                académica.
+                                Explora metodologías técnicas para "domar" y alinear las salidas de los modelos de lenguaje con estándares educativos y éticos, garantizando que el contenido generado sea académicamente válido y seguro.
                             </p>
                         </li>
                     </ul>
@@ -792,8 +741,8 @@
             </section>
 
             <div class="footer-nav">
-                <a href="modulo1_intro.html" class="btn-footer btn-back">← Volver a la Introducción</a>
-                <a href="modulo2_intro.html" class="btn-footer btn-next">Ir al Módulo 2 →</a>
+                <a href="leccion2_3.html" class="btn-footer btn-back">← Volver a la Lección 2.3</a>
+                <a href="modulo3_intro.html" class="btn-footer btn-next">Ir al Módulo 3 →</a>
             </div>
         </div>
     </main>

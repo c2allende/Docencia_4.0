@@ -349,9 +349,17 @@
         }
 
         @media (max-width: 992px) {
-            .technical-grid { grid-template-columns: 1fr; }
-            .top-nav { padding: 0 25px; }
-            .module-title-nav { display: none; }
+            .technical-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-nav {
+                padding: 0 25px;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -362,7 +370,8 @@
     <aside class="sidebar" id="sidebar">
         <h2 class="side-menu-title">Docencia 4.0</h2>
         <ul class="menu-links">
-            <li><a href="index.html">🏠 Inicio</a></li>
+            <!---🏠 Inicio -->
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
             <li><a href="modulo2_intro.html">📍 Módulo 2</a></li>
             <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
             <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
@@ -398,9 +407,12 @@
                 <div class="tech-item">
                     <h4>Objetivos de la actividad</h4>
                     <ul>
-                        <li>Diseñar prompts efectivos usando la fórmula <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong>.</li>
-                        <li>Generar una planificación semanal y un recurso didáctico a partir de un estándar real del DEPR.</li>
-                        <li>Validar críticamente los materiales generados utilizando una Lista de Cotejo de Validación Curricular.</li>
+                        <li>Diseñar prompts efectivos usando la fórmula <strong>Rol + Contexto + Tarea + Formato +
+                                Restricciones</strong>.</li>
+                        <li>Generar una planificación semanal y un recurso didáctico a partir de un estándar real del
+                            DEPR.</li>
+                        <li>Validar críticamente los materiales generados utilizando una Lista de Cotejo de Validación
+                            Curricular.</li>
                         <li>Refinar prompts de manera iterativa para mejorar la calidad e inclusión.</li>
                     </ul>
                 </div>
@@ -414,12 +426,13 @@
 
             <section class="text-section">
                 <h2>Pasos para el Taller</h2>
-                
+
                 <div class="instruction-step">
                     <div class="step-icon">🎯</div>
                     <div class="step-text">
                         <h4>Fase 1: Diseño de Prompt</h4>
-                        <p>Aplica la fórmula aprendida para solicitar a la IA una estructura de clase basada en un estándar específico de tu materia.</p>
+                        <p>Aplica la fórmula aprendida para solicitar a la IA una estructura de clase basada en un
+                            estándar específico de tu materia.</p>
                     </div>
                 </div>
 
@@ -427,7 +440,8 @@
                     <div class="step-icon">⚙️</div>
                     <div class="step-text">
                         <h4>Fase 2: Generación de Recursos</h4>
-                        <p>Interactúa con el LLM para producir tanto la planificación como un material complementario (ejercicio, lectura o rúbrica).</p>
+                        <p>Interactúa con el LLM para producir tanto la planificación como un material complementario
+                            (ejercicio, lectura o rúbrica).</p>
                     </div>
                 </div>
 
@@ -435,33 +449,41 @@
                     <div class="step-icon">✅</div>
                     <div class="step-text">
                         <h4>Fase 3: Validación Curricular</h4>
-                        <p>Utiliza la lista de cotejo para verificar que el contenido sea preciso, culturalmente pertinente y libre de sesgos.</p>
+                        <p>Utiliza la lista de cotejo para verificar que el contenido sea preciso, culturalmente
+                            pertinente y libre de sesgos.</p>
                     </div>
                 </div>
             </section>
 
             <section class="text-section">
                 <h2>Muro Colaborativo de Resultados</h2>
-                <p>Publica aquí tus prompts más exitosos o los recursos validados que has generado. Observa y comenta los trabajos de tus colegas.</p>
+                <p>Publica aquí tus prompts más exitosos o los recursos validados que has generado. Observa y comenta
+                    los trabajos de tus colegas.</p>
 
                 <div class="padlet-wrapper">
-                    <div class="padlet-embed" style="border:none;padding:0;margin:0;width:100%;height:600px;overflow:hidden">
-                        <iframe src="https://padlet.com/embed/4txmilqn2bqet125" 
-                                style="width:100%;height:100%;display:block;padding:0;margin:0" 
-                                frameborder="0"
-                                allow="camera;microphone;geolocation"></iframe>
+                    <div class="padlet-embed"
+                        style="border:none;padding:0;margin:0;width:100%;height:600px;overflow:hidden">
+                        <iframe src="https://padlet.com/embed/4txmilqn2bqet125"
+                            style="width:100%;height:100%;display:block;padding:0;margin:0" frameborder="0"
+                            allow="camera;microphone;geolocation"></iframe>
                     </div>
                 </div>
             </section>
 
             <div class="nav-footer">
                 <a href="leccion2_3.html" class="btn-footer btn-prev">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
                     Lección 2.3
                 </a>
                 <a href="recursos_m2.html" class="btn-footer btn-next">
                     Ver Recursos Módulo 2
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
                 </a>
             </div>
         </div>
