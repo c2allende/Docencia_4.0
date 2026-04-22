@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 3.1: Taller práctico - IA al servicio de la evaluación y gestión | Docencia 4.0</title>
+    <meta name="description" content="Taller práctico sobre el diseño de instrumentos de evaluación y automatización administrativa con IA en el proyecto Docencia 4.0.">
+    <meta name="keywords" content="IA, Educación, Evaluación, Gestión Docente, Anonimización, Padlet, Docencia 4.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        :root {
+            --primary: #00C2FF;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F1F8FF;
+            --nav-height: 80px;
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.8;
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 48px;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -340px;
+            width: 320px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            transition: left 0.4s ease;
+            z-index: 2000;
+            padding: 40px 30px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            display: none;
+            z-index: 1999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--neutral-dark);
+            font-weight: 800;
+        }
+
+        /* MAIN CONTENT */
+        .content-wrapper {
+            max-width: 1000px;
+            margin: 40px auto 100px;
+            padding: 0 25px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 40px;
+            padding: 5rem;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.05);
+        }
+
+        h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* TECHNICAL GRID */
+        .technical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 3rem 0;
+        }
+
+        .tech-item {
+            padding: 2.5rem;
+            border-radius: 30px;
+            background: #f8fbff;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+        }
+
+        .tech-item h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--primary);
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* INSTRUCTION STEPS */
+        .instruction-step {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 25px;
+            border: 1px solid #edf2f7;
+            transition: transform 0.3s ease;
+        }
+
+        .instruction-step:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+        }
+
+        /* PADLET WRAPPER */
+        .padlet-wrapper {
+            margin: 4rem 0;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 194, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        /* FOOTER NAV */
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5rem;
+            padding-top: 3rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-footer {
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn-back {
+            background: #fff;
+            color: var(--neutral-dark);
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-next {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-next:hover {
+            transform: translateX(10px);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Actividad 3.1: Taller práctico</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="modulo3_intro.html">📍 Inicio Módulo 3</a></li>
+            <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
+            <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
+            <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
+            <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
+            <li><a href="actividad3_1.html" class="active">🛠️ Actividad 3.1</a></li>
+            <li><a href="recursos_m3.html">📚 Recursos Módulo 3</a></li>
+        </ul>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="lesson-card">
+            <h1><span>Actividad 3.1</span><br>Taller práctico: “IA al servicio de la evaluación y la gestión docente”</h1>
+
+            <div class="technical-grid">
+                <div class="tech-item">
+                    <h4>Objetivo de la actividad</h4>
+                    <p>Que los maestros cooperadores aprendan a:</p>
+                    <ul style="padding-left: 20px; margin: 0;">
+                        <li>Diseñar instrumentos de evaluación e integrarlos a flujos de trabajo digitales.</li>
+                        <li>Generar retroalimentación formativa empática a partir de notas numéricas y análisis de errores.</li>
+                        <li>Automatizar documentos administrativos clave.</li>
+                        <li>Practicar la anonimización de datos con una lista de verificación ética antes de usar IA.</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Detalles</h4>
+                    <p><strong>Duración estimada:</strong></p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 15px;">
+                        <li>⏱️ Parte sincrónica: 2.5–3 horas.</li>
+                        <li>💻 Parte asincrónica: 1–2 horas adicionales en Padlet.</li>
+                    </ul>
+                    <p><strong>Requisitos:</strong><br>Dispositivos con internet (Laptops, Tablets o Celulares)</p>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-icon">📦</div>
+                <div class="step-content">
+                    <h4>Materiales necesarios</h4>
+                    <p>Para el desarrollo óptimo de este taller, asegúrate de contar con:</p>
+                    <ul style="margin: 0;">
+                        <li>Dispositivos con acceso a internet.</li>
+                        <li>Acceso a un LLM (ChatGPT o Copilot).</li>
+                        <li>Estándares y Expectativas del DEPR (impresos o digitales).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="instruction-step">
+                <div class="step-icon">🤝</div>
+                <div class="step-content">
+                    <h4>Muro Colaborativo</h4>
+                    <p>Accede al siguiente espacio para compartir tus instrumentos diseñados, reflexiones y documentos administrativos anonimizados con el resto de la comunidad docente.</p>
+                </div>
+            </div>
+
+            <div class="padlet-wrapper">
+                <div class="padlet-embed" style="border:none;box-sizing:border-box;overflow:hidden;position:relative;width:100%;height:600px;">
+                    <iframe src="https://padlet.com/padlets/2osbq8uakrbcmtm8/embeds/preview_embed" style="width:100%;height:100%;display:block;padding:0;margin:0" frameborder="0"></iframe>
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                <a href="leccion3_4.html" class="btn-footer btn-back">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Lección 3.4
+                </a>
+                <a href="recursos_m3.html" class="btn-footer btn-next">
+                    Recursos Módulo 3
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
