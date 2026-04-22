@@ -434,6 +434,7 @@
             .lesson-card {
                 padding: 2.5rem;
             }
+
             .img-editorial-right {
                 float: none;
                 width: 100%;
@@ -471,6 +472,7 @@
             <li><a href="leccion3_1.html" class="active">📖 Lección 3.1</a></li>
             <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
             <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
+            <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
             <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
             <li><a href="recursos_m3.html">📚 Recursos Módulo 3</a></li>
         </ul>
@@ -481,7 +483,9 @@
             <div class="audio-player-container">
                 <span class="audio-label">Escuchar lección completa</span>
                 <audio controls style="width: 100%;">
-                    <source src="../LLM-DEPR/LLM_M3_Leccion_3.1_Diseño automatizado de instrumentos de evaluación_audio.mp3" type="audio/mpeg">
+                    <source
+                        src="../LLM-DEPR/LLM_M3_Leccion_3.1_Diseño automatizado de instrumentos de evaluación_audio.mp3"
+                        type="audio/mpeg">
                     Tu navegador no soporta el elemento de audio.
                 </audio>
             </div>
@@ -489,12 +493,26 @@
             <section class="text-section">
                 <h1>Diseño automatizado de instrumentos de evaluación</h1>
                 <h3>Introducción conceptual</h3>
-                <p>La evaluación educativa se encuentra en un momento de transformación significativa impulsada por las capacidades de los modelos de lenguaje y otras herramientas de IA, que permiten automatizar partes del diseño de instrumentos sin sustituir el juicio profesional docente. Estudios recientes muestran que, cuando se diseñan cuidadosamente e integran de forma pedagógicamente informada, las herramientas impulsadas por IA pueden mejorar resultados de aprendizaje y apoyar prácticas evaluativas más consistentes y eficientes en comparación con métodos tradicionales puramente manuales (Kwak, 2025; Luo et al., 2025). En este contexto, el objetivo no es que la IA “decida” sobre los estudiantes, sino que apoye la generación de borradores y estructuras de instrumentos que el maestro revisa, adapta y valida según el currículo y el contexto local.</p>
+                <p>La evaluación educativa se encuentra en un momento de transformación significativa impulsada por las
+                    capacidades de los modelos de lenguaje y otras herramientas de IA, que permiten automatizar partes
+                    del diseño de instrumentos sin sustituir el juicio profesional docente. Estudios recientes muestran
+                    que, cuando se diseñan cuidadosamente e integran de forma pedagógicamente informada, las
+                    herramientas impulsadas por IA pueden mejorar resultados de aprendizaje y apoyar prácticas
+                    evaluativas más consistentes y eficientes en comparación con métodos tradicionales puramente
+                    manuales (Kwak, 2025; Luo et al., 2025). En este contexto, el objetivo no es que la IA “decida”
+                    sobre los estudiantes, sino que apoye la generación de borradores y estructuras de instrumentos que
+                    el maestro revisa, adapta y valida según el currículo y el contexto local.</p>
             </section>
 
             <section class="text-section">
                 <h2>Generación de instrumentos: Rúbricas, listas de cotejo y hojas de evaluación</h2>
-                <p>Las rúbricas son herramientas centrales para la evaluación auténtica y basada en competencias, pero su construcción exige tiempo y dominio técnico. Experiencias con generadores de rúbricas impulsados por IA evidencian que la IA puede ayudar a mapear resultados de aprendizaje, criterios y niveles de desempeño en rúbricas de competencia, facilitando que el docente tenga plantillas de partida alineadas al perfil de egreso y a estándares específicos (Hochstetter-Diez et al., 2025; Estrada & Fabián, 2024). En estos entornos, la IA se utiliza para generar borradores de rúbricas que luego son afinados por equipos docentes, logrando mayor coherencia y transparencia en la evaluación.</p>
+                <p>Las rúbricas son herramientas centrales para la evaluación auténtica y basada en competencias, pero
+                    su construcción exige tiempo y dominio técnico. Experiencias con generadores de rúbricas impulsados
+                    por IA evidencian que la IA puede ayudar a mapear resultados de aprendizaje, criterios y niveles de
+                    desempeño en rúbricas de competencia, facilitando que el docente tenga plantillas de partida
+                    alineadas al perfil de egreso y a estándares específicos (Hochstetter-Diez et al., 2025; Estrada &
+                    Fabián, 2024). En estos entornos, la IA se utiliza para generar borradores de rúbricas que luego son
+                    afinados por equipos docentes, logrando mayor coherencia y transparencia en la evaluación.</p>
             </section>
 
             <section class="text-section">
@@ -502,52 +520,82 @@
                     <div class="comp-card">
                         <div class="comp-icon">📊</div>
                         <h3>Rúbricas analíticas</h3>
-                        <p>Desglosan el desempeño en múltiples criterios independientes, permitiendo retroalimentación detallada. Los LLMs pueden generar matrices de criterios con descriptores de niveles (Exceeds, Meets, Approaching, Below) cuando el prompt especifica el estándar, la tarea y el número de criterios deseados.</p>
+                        <p>Desglosan el desempeño en múltiples criterios independientes, permitiendo retroalimentación
+                            detallada. Los LLMs pueden generar matrices de criterios con descriptores de niveles
+                            (Exceeds, Meets, Approaching, Below) cuando el prompt especifica el estándar, la tarea y el
+                            número de criterios deseados.</p>
                     </div>
                     <div class="comp-card">
                         <div class="comp-icon">🎯</div>
                         <h3>Rúbricas holísticas</h3>
-                        <p>Evalúan el desempeño global de forma integrada. Los LLMs pueden producir descripciones de niveles generales cuando el prompt enfatiza la visión de conjunto y evita la fragmentación excesiva.</p>
+                        <p>Evalúan el desempeño global de forma integrada. Los LLMs pueden producir descripciones de
+                            niveles generales cuando el prompt enfatiza la visión de conjunto y evita la fragmentación
+                            excesiva.</p>
                     </div>
                     <div class="comp-card">
                         <div class="comp-icon">✅</div>
                         <h3>Listas de cotejo</h3>
-                        <p>Son herramientas binarias (presente/ausente) útiles para verificar completitud de procesos o productos. Los LLMs pueden generar listas de cotejo exhaustivas cuando se les indica el proceso a evaluar, pero el docente debe validar que los ítems sean observables, relevantes y secuenciados apropiadamente antes de integrarlos en un instrumento formal.</p>
+                        <p>Son herramientas binarias (presente/ausente) útiles para verificar completitud de procesos o
+                            productos. Los LLMs pueden generar listas de cotejo exhaustivas cuando se les indica el
+                            proceso a evaluar, pero el docente debe validar que los ítems sean observables, relevantes y
+                            secuenciados apropiadamente antes de integrarlos en un instrumento formal.</p>
                     </div>
                 </div>
             </section>
 
             <section class="text-section">
                 <div class="highlight-box">
-                    <h4 style="margin-top: 0; color: var(--primary);">Prompt efectivo para rúbrica analítica (ejemplo):</h4>
-                    <p><strong>Rol:</strong> Eres un especialista en evaluación educativa del Departamento de Educación de Puerto Rico.</p>
-                    <p><strong>Tarea:</strong> Diseña una rúbrica analítica para evaluar una presentación oral en español de 5to grado sobre "El ciclo del agua", alineada al estándar [indicar estándar DEPR exacto].</p>
+                    <h4 style="margin-top: 0; color: var(--primary);">Prompt efectivo para rúbrica analítica (ejemplo):
+                    </h4>
+                    <p><strong>Rol:</strong> Eres un especialista en evaluación educativa del Departamento de Educación
+                        de Puerto Rico.</p>
+                    <p><strong>Tarea:</strong> Diseña una rúbrica analítica para evaluar una presentación oral en
+                        español de 5to grado sobre "El ciclo del agua", alineada al estándar [indicar estándar DEPR
+                        exacto].</p>
                     <p><strong>Requisitos de la rúbrica (Salida estructurada):</strong></p>
                     <ul style="font-size: 0.95rem;">
-                        <li>1. [#] Criterios de evaluación (Filas): contenido, organización, expresión oral y uso de recursos visuales</li>
-                        <li>2. [#] Niveles de desempeño (Columnas): Avanzado, Proficiente, Básico, Por Debajo de lo Básico</li>
-                        <li>3. Descriptores: Deben ser claros, específicos y utilizar un lenguaje apropiado para el desarrollo cognitivo de 5to grado.</li>
-                        <li>4. Alineación DUA: Asegura que los descriptores sean accesibles y promuevan el aprendizaje activo.</li>
+                        <li>1. [#] Criterios de evaluación (Filas): contenido, organización, expresión oral y uso de
+                            recursos visuales</li>
+                        <li>2. [#] Niveles de desempeño (Columnas): Avanzado, Proficiente, Básico, Por Debajo de lo
+                            Básico</li>
+                        <li>3. Descriptores: Deben ser claros, específicos y utilizar un lenguaje apropiado para el
+                            desarrollo cognitivo de 5to grado.</li>
+                        <li>4. Alineación DUA: Asegura que los descriptores sean accesibles y promuevan el aprendizaje
+                            activo.</li>
                     </ul>
                     <p><strong>Restricciones:</strong></p>
                     <ul style="font-size: 0.95rem;">
-                        <li>- Evita la ambigüedad en los niveles de desempeño; cada salto de nivel debe ser observable y medible.</li>
-                        <li>- Mantén la precisión técnica sobre el tema de la fotosíntesis dentro de los descriptores de contenido.</li>
+                        <li>- Evita la ambigüedad en los niveles de desempeño; cada salto de nivel debe ser observable y
+                            medible.</li>
+                        <li>- Mantén la precisión técnica sobre el tema de la fotosíntesis dentro de los descriptores de
+                            contenido.</li>
                     </ul>
-                    <p><strong>Formato:</strong> Presenta la información en una tabla de Markdown para facilitar su lectura y transferencia a documentos oficiales.</p>
+                    <p><strong>Formato:</strong> Presenta la información en una tabla de Markdown para facilitar su
+                        lectura y transferencia a documentos oficiales.</p>
                 </div>
             </section>
 
             <section class="text-section">
                 <h2>Banco de reactivos y niveles de complejidad</h2>
-                <p>Los modelos de lenguaje pueden apoyar la generación de bancos de reactivos (selección múltiple, cierto/falso, preguntas abiertas) organizados según marcos de complejidad cognitiva como la Taxonomía de Bloom revisada o la profundidad de conocimiento (DOK). La literatura muestra que la IA puede generar preguntas alineadas a contenidos específicos y variar su dificultad cuando se le proporcionan descriptores claros del nivel cognitivo deseado (Kwak, 2025; Yan et al., 2020). Sin embargo, estos sistemas pueden introducir errores conceptuales sutiles, formulaciones confusas o distractores mal diseñados, por lo que la revisión humana sigue siendo indispensable.</p>
+                <p>Los modelos de lenguaje pueden apoyar la generación de bancos de reactivos (selección múltiple,
+                    cierto/falso, preguntas abiertas) organizados según marcos de complejidad cognitiva como la
+                    Taxonomía de Bloom revisada o la profundidad de conocimiento (DOK). La literatura muestra que la IA
+                    puede generar preguntas alineadas a contenidos específicos y variar su dificultad cuando se le
+                    proporcionan descriptores claros del nivel cognitivo deseado (Kwak, 2025; Yan et al., 2020). Sin
+                    embargo, estos sistemas pueden introducir errores conceptuales sutiles, formulaciones confusas o
+                    distractores mal diseñados, por lo que la revisión humana sigue siendo indispensable.</p>
                 <p>Buenas prácticas para el uso de IA en bancos de reactivos incluyen:</p>
                 <ul>
                     <li>Indicar explícitamente el contenido, el nivel de grado y el nivel cognitivo deseado.</li>
-                    <li>Solicitar que se identifique la respuesta correcta y la explicación, para que el docente verifique ambos.</li>
-                    <li>Mantener un registro de preguntas validadas y descartadas, construyendo progresivamente un banco curado.</li>
+                    <li>Solicitar que se identifique la respuesta correcta y la explicación, para que el docente
+                        verifique ambos.</li>
+                    <li>Mantener un registro de preguntas validadas y descartadas, construyendo progresivamente un banco
+                        curado.</li>
                 </ul>
-                <p>Experimentos con ChatGPT en contextos de evaluación universitaria han mostrado que, aunque el modelo es capaz de generar ítems plausibles y de cierto nivel de originalidad, requiere supervisión para evitar ambigüedades y para asegurar que los reactivos midan las competencias que se desea evaluar y no solo memorización superficial (Kolade et al., 2024).</p>
+                <p>Experimentos con ChatGPT en contextos de evaluación universitaria han mostrado que, aunque el modelo
+                    es capaz de generar ítems plausibles y de cierto nivel de originalidad, requiere supervisión para
+                    evitar ambigüedades y para asegurar que los reactivos midan las competencias que se desea evaluar y
+                    no solo memorización superficial (Kolade et al., 2024).</p>
             </section>
 
             <section class="text-section">
@@ -577,12 +625,15 @@
                         </ul>
                     </div>
                 </div>
-                <p>La Taxonomía de Bloom revisada y los Niveles de Conocimiento de Norman Webb proporcionan marcos para clasificar preguntas por complejidad cognitiva. Los LLMs pueden generar preguntas en múltiples niveles cuando el prompt especifica el nivel deseado y proporciona el contexto del contenido.</p>
+                <p>La Taxonomía de Bloom revisada y los Niveles de Conocimiento de Norman Webb proporcionan marcos para
+                    clasificar preguntas por complejidad cognitiva. Los LLMs pueden generar preguntas en múltiples
+                    niveles cuando el prompt especifica el nivel deseado y proporciona el contexto del contenido.</p>
             </section>
 
             <section class="text-section">
                 <h3>Generación de exámenes y quizzes:</h3>
-                <p>Los LLMs pueden producir reactivos de selección múltiple, cierto/falso y preguntas abiertas cuando se especifica:</p>
+                <p>Los LLMs pueden producir reactivos de selección múltiple, cierto/falso y preguntas abiertas cuando se
+                    especifica:</p>
                 <ol>
                     <li>El contenido o estándar a evaluar</li>
                     <li>El nivel de complejidad deseado (Bloom/Webb)</li>
@@ -590,7 +641,10 @@
                     <li>Restricciones (longitud, vocabulario, ejemplos contextualizados)</li>
                 </ol>
                 <div class="highlight-box" style="background: #FFF5F5; border-color: #F56565;">
-                    <p><strong>Advertencia crítica:</strong> La investigación reciente demuestra que aunque los LLMs generan preguntas de alta calidad y originalidad, presentan dificultades con el formato de referencias y pueden generar contenido similar si se consultan desde la misma cuenta repetidamente (Abdi & Ng, 2024). Por tanto, el docente debe:</p>
+                    <p><strong>Advertencia crítica:</strong> La investigación reciente demuestra que aunque los LLMs
+                        generan preguntas de alta calidad y originalidad, presentan dificultades con el formato de
+                        referencias y pueden generar contenido similar si se consultan desde la misma cuenta
+                        repetidamente (Abdi & Ng, 2024). Por tanto, el docente debe:</p>
                     <ul>
                         <li>Verificar exactitud factual de cada reactivo</li>
                         <li>Validar que los distractores (en selección múltiple) sean plausibles pero incorrectos</li>
@@ -602,22 +656,31 @@
 
             <section class="text-section">
                 <h2>Integración con LMS (Learning Management Systems)</h2>
-                <p>La transferencia eficiente de instrumentos generados a plataformas institucionales o apps que integran LLMs, como Microsoft Teams o Google Classroom, requiere flujos de trabajo estructurados.</p>
+                <p>La transferencia eficiente de instrumentos generados a plataformas institucionales o apps que
+                    integran LLMs, como Microsoft Teams o Google Classroom, requiere flujos de trabajo estructurados.
+                </p>
                 <h4>Flujo recomendado:</h4>
                 <ol>
                     <li>Generar el instrumento con el LLM en formato editable (tabla, lista)</li>
                     <li>Revisar y validar manualmente el contenido</li>
-                    <li>Exportar a formato compatible con el LMS (CSV para bancos de preguntas, documento para rúbricas)</li>
+                    <li>Exportar a formato compatible con el LMS (CSV para bancos de preguntas, documento para rúbricas)
+                    </li>
                     <li>Importar a la plataforma institucional</li>
-                    <li>Configurar parámetros de asignación (fecha, ponderación, retroalimentación automática si aplica)</li>
+                    <li>Configurar parámetros de asignación (fecha, ponderación, retroalimentación automática si aplica)
+                    </li>
                 </ol>
                 <h4>Consideraciones técnicas:</h4>
                 <ul>
-                    <li>Google Classroom acepta rúbricas en formato de tabla; se pueden copiar/pegar desde documentos</li>
+                    <li>Google Classroom acepta rúbricas en formato de tabla; se pueden copiar/pegar desde documentos
+                    </li>
                     <li>MS Teams permite adjuntar rúbricas como documentos o integrarlas en Assignments</li>
-                    <li>Para bancos de reactivos, algunas plataformas aceptan importación en formato QTI (Question and Test Interoperability) o CSV</li>
+                    <li>Para bancos de reactivos, algunas plataformas aceptan importación en formato QTI (Question and
+                        Test Interoperability) o CSV</li>
                 </ul>
-                <p>La literatura sobre diseño de herramientas de aprendizaje basadas en IA enfatiza que la integración efectiva en ecosistemas digitales requiere no solo compatibilidad técnica, sino también considerar la experiencia del docente y la facilidad de uso de los flujos de trabajo, de manera que la tecnología reduzca y no aumente la carga operativa (Luo et al., 2025).</p>
+                <p>La literatura sobre diseño de herramientas de aprendizaje basadas en IA enfatiza que la integración
+                    efectiva en ecosistemas digitales requiere no solo compatibilidad técnica, sino también considerar
+                    la experiencia del docente y la facilidad de uso de los flujos de trabajo, de manera que la
+                    tecnología reduzca y no aumente la carga operativa (Luo et al., 2025).</p>
             </section>
 
             <section class="slider-section">
@@ -632,36 +695,68 @@
                     <div class="slider-track" id="sliderTrack">
                         <div class="slider-item">
                             <h3>Evaluación educativa</h3>
-                            <p>Proceso sistemático de recogida, análisis e interpretación de evidencias sobre los conocimientos, habilidades, actitudes y competencias del alumnado, con el propósito de emitir juicios de valor y tomar decisiones fundamentadas para mejorar el aprendizaje, la enseñanza y el currículo. En el contexto de los LLM, este proceso incluye el uso de modelos de lenguaje como apoyo para diseñar instrumentos (rúbricas, bancos de reactivos, listas de cotejo) y analizar respuestas, pero manteniendo siempre el control humano sobre la selección de evidencias, la interpretación de resultados y las decisiones pedagógicas que se derivan.</p>
+                            <p>Proceso sistemático de recogida, análisis e interpretación de evidencias sobre los
+                                conocimientos, habilidades, actitudes y competencias del alumnado, con el propósito de
+                                emitir juicios de valor y tomar decisiones fundamentadas para mejorar el aprendizaje, la
+                                enseñanza y el currículo. En el contexto de los LLM, este proceso incluye el uso de
+                                modelos de lenguaje como apoyo para diseñar instrumentos (rúbricas, bancos de reactivos,
+                                listas de cotejo) y analizar respuestas, pero manteniendo siempre el control humano
+                                sobre la selección de evidencias, la interpretación de resultados y las decisiones
+                                pedagógicas que se derivan.</p>
                             <small>Mendiola et al. (2015)</small>
                         </div>
                         <div class="slider-item">
                             <h3>Generación de instrumentos</h3>
-                            <p>Generación de instrumentos (rúbricas, listas de cotejo y hojas de evaluación) con LLM se refiere al uso de modelos de lenguaje grandes para producir, a partir de instrucciones textuales, borradores estructurados de matrices de evaluación (rúbricas analíticas u holísticas), checklists y formularios de valoración que incluyen criterios, niveles de desempeño y descriptores alineados con resultados de aprendizaje y estándares curriculares. El docente actúa revisando, adaptando y validando las propuestas iniciales.</p>
+                            <p>Generación de instrumentos (rúbricas, listas de cotejo y hojas de evaluación) con LLM se
+                                refiere al uso de modelos de lenguaje grandes para producir, a partir de instrucciones
+                                textuales, borradores estructurados de matrices de evaluación (rúbricas analíticas u
+                                holísticas), checklists y formularios de valoración que incluyen criterios, niveles de
+                                desempeño y descriptores alineados con resultados de aprendizaje y estándares
+                                curriculares. El docente actúa revisando, adaptando y validando las propuestas
+                                iniciales.</p>
                         </div>
                         <div class="slider-item">
                             <h3>Rúbricas analíticas y holísticas</h3>
-                            <p>Rúbricas analíticas y rúbricas holísticas son dos tipos de instrumentos de evaluación que pueden ser diseñados tanto de forma tradicional como con apoyo de LLM, pero que organizan la información de manera distinta. Una rúbrica analítica desglosa el desempeño en varios criterios independientes, permitiendo retroalimentación detallada. En contraste, una rúbrica holística valora el trabajo como un todo integrado, ofreciendo descripciones globales de cada nivel de desempeño.</p>
+                            <p>Rúbricas analíticas y rúbricas holísticas son dos tipos de instrumentos de evaluación que
+                                pueden ser diseñados tanto de forma tradicional como con apoyo de LLM, pero que
+                                organizan la información de manera distinta. Una rúbrica analítica desglosa el desempeño
+                                en varios criterios independientes, permitiendo retroalimentación detallada. En
+                                contraste, una rúbrica holística valora el trabajo como un todo integrado, ofreciendo
+                                descripciones globales de cada nivel de desempeño.</p>
                             <small>UPR (2018)</small>
                         </div>
                         <div class="slider-item">
                             <h3>Listas de cotejo</h3>
-                            <p>Instrumentos de evaluación estructurados que presentan una serie de criterios o indicadores observables y se registran de forma dicotómica (presente/ausente, logrado/no logrado), permitiendo verificar de manera rápida y objetiva el cumplimiento de determinados pasos, requisitos o desempeños en una tarea. El LLM genera el borrador y el docente valida la observabilidad y relevancia.</p>
+                            <p>Instrumentos de evaluación estructurados que presentan una serie de criterios o
+                                indicadores observables y se registran de forma dicotómica (presente/ausente, logrado/no
+                                logrado), permitiendo verificar de manera rápida y objetiva el cumplimiento de
+                                determinados pasos, requisitos o desempeños en una tarea. El LLM genera el borrador y el
+                                docente valida la observabilidad y relevancia.</p>
                             <small>UNAM (2024)</small>
                         </div>
                         <div class="slider-item">
                             <h3>Banco de reactivos</h3>
-                            <p>Conjunto estructurado y organizado de preguntas o ítems de evaluación (por ejemplo, de opción múltiple, respuesta corta o casos) almacenados junto con su información asociada (contenido, autoría, estadísticas de uso y parámetros psicométricos), que permite construir pruebas variadas. Los LLMs proponen variaciones por nivel cognitivo y el docente calibra el repositorio.</p>
+                            <p>Conjunto estructurado y organizado de preguntas o ítems de evaluación (por ejemplo, de
+                                opción múltiple, respuesta corta o casos) almacenados junto con su información asociada
+                                (contenido, autoría, estadísticas de uso y parámetros psicométricos), que permite
+                                construir pruebas variadas. Los LLMs proponen variaciones por nivel cognitivo y el
+                                docente calibra el repositorio.</p>
                             <small>Ceneval (2024)</small>
                         </div>
                         <div class="slider-item">
                             <h3>Generación de exámenes y quizzes</h3>
-                            <p>Proceso mediante el cual un modelo de lenguaje grande produce, a partir de indicaciones textuales del docente (tema, estándar, nivel de complejidad), un conjunto estructurado de ítems de evaluación organizados en una prueba usable. El docente mantiene el rol de control de calidad sobre validez, redacción y balance cognitivo.</p>
+                            <p>Proceso mediante el cual un modelo de lenguaje grande produce, a partir de indicaciones
+                                textuales del docente (tema, estándar, nivel de complejidad), un conjunto estructurado
+                                de ítems de evaluación organizados en una prueba usable. El docente mantiene el rol de
+                                control de calidad sobre validez, redacción y balance cognitivo.</p>
                             <small>Hadzhikoleva et al. (2024)</small>
                         </div>
                         <div class="slider-item">
                             <h3>LMS (Learning Management Systems)</h3>
-                            <p>Un LMS (Learning Management System) es una plataforma de software que permite administrar, distribuir y hacer seguimiento de actividades de formación en línea. Funciona como la infraestructura donde se integran aplicaciones basadas en modelos de lenguaje para apoyar el diseño, la entrega y el análisis de la evaluación educativa.</p>
+                            <p>Un LMS (Learning Management System) es una plataforma de software que permite
+                                administrar, distribuir y hacer seguimiento de actividades de formación en línea.
+                                Funciona como la infraestructura donde se integran aplicaciones basadas en modelos de
+                                lenguaje para apoyar el diseño, la entrega y el análisis de la evaluación educativa.</p>
                             <small>Colman (2026)</small>
                         </div>
                     </div>
@@ -670,36 +765,67 @@
 
             <section class="text-section">
                 <h3>Cierre de la lección</h3>
-                <p><strong>Felicidades:</strong> Has culminado la lección 3.1 del programa de formación profesional. Al completar el contenido 3.1, has construido una base sólida para usar los LLM como aliados en el diseño de rúbricas, listas de cotejo y bancos de preguntas, entendiendo sus fortalezas y límites. Este conocimiento te permite aprovechar la automatización para ganar tiempo y consistencia, sin renunciar a tu criterio pedagógico ni al alineamiento con los estándares y el contexto de tu escuela y tus estudiantes.</p>
-                
-                <div class="highlight-box" style="background: var(--bg-soft); border-color: var(--primary); font-style: normal;">
+                <p><strong>Felicidades:</strong> Has culminado la lección 3.1 del programa de formación profesional. Al
+                    completar el contenido 3.1, has construido una base sólida para usar los LLM como aliados en el
+                    diseño de rúbricas, listas de cotejo y bancos de preguntas, entendiendo sus fortalezas y límites.
+                    Este conocimiento te permite aprovechar la automatización para ganar tiempo y consistencia, sin
+                    renunciar a tu criterio pedagógico ni al alineamiento con los estándares y el contexto de tu escuela
+                    y tus estudiantes.</p>
+
+                <div class="highlight-box"
+                    style="background: var(--bg-soft); border-color: var(--primary); font-style: normal;">
                     <h4 style="margin-top: 0; color: var(--primary);">Invitación al checkpoint de saberes</h4>
-                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.1, una evaluación formativa breve y no punitiva centrada en el uso de LLM para generar borradores de rúbricas, listas de cotejo y bancos de reactivos, así como en los criterios que debes aplicar para revisarlos y alinearlos al currículo antes de llevarlos a tu LMS.</p>
-                    <div style="width: 100%;"><div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe title="Contenido 3.1: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/69addc9d377503787d4f1379" type="text/html" allowfullscreen="true" scrolling="yes"></iframe></div></div>
+                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.1, una evaluación
+                        formativa breve y no punitiva centrada en el uso de LLM para generar borradores de rúbricas,
+                        listas de cotejo y bancos de reactivos, así como en los criterios que debes aplicar para
+                        revisarlos y alinearlos al currículo antes de llevarlos a tu LMS.</p>
+                    <div style="width: 100%;">
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe
+                                title="Contenido 3.1: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                src="https://view.genially.com/69addc9d377503787d4f1379" type="text/html"
+                                allowfullscreen="true" scrolling="yes"></iframe></div>
+                    </div>
                 </div>
             </section>
 
             <section class="text-section">
                 <h4>Referencias</h4>
                 <div style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
-                    <p>Anderson, L. W., & Krathwohl, D. R. (Eds.). (2001). <i>A taxonomy for learning, teaching, and assessing: A revision of Bloom’s Taxonomy of Educational Objectives</i>. New York, NY: Longman.</p>
-                    <p>Hochstetter-Diez, J., Negrier-Seguel, M., Diéguez-Rebolledo, M., Candia-Garrido, E., & Vidal, E. (2025). From Mapping to Action: SmartRubrics, an AI Tool for Competency-Based Assessment in Engineering Education. <i>Sustainability</i>, 17(13), 6098.</p>
-                    <p>Luo, J., Zheng, C., Yin, J., & Teo, H. H. (2025). Design and assessment of AI-based learning tools in higher education: A systematic review. <i>International Journal of Educational Technology in Higher Education</i>, 22(1), 42.</p>
-                    <p>Kolade, O., Owoseni, A., & Egbetokun, A. (2024). Is AI changing learning and assessment as we know it? Evidence from a ChatGPT experiment and a conceptual framework. <i>Heliyon</i>, 10(4).</p>
-                    <p>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. <i>Issues in Information Systems</i>, 26(4), 233-247.</p>
-                    <p>Webb, N. L. (1997). <i>Criteria for alignment of expectations and assessments in mathematics and science education</i> (Research Monograph No. 6). Washington, DC: Council of Chief State School Officers.</p>
-                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). <i>Handbook of automated scoring: Theory into practice</i>. CRC Press.</p>
+                    <p>Anderson, L. W., & Krathwohl, D. R. (Eds.). (2001). <i>A taxonomy for learning, teaching, and
+                            assessing: A revision of Bloom’s Taxonomy of Educational Objectives</i>. New York, NY:
+                        Longman.</p>
+                    <p>Hochstetter-Diez, J., Negrier-Seguel, M., Diéguez-Rebolledo, M., Candia-Garrido, E., & Vidal, E.
+                        (2025). From Mapping to Action: SmartRubrics, an AI Tool for Competency-Based Assessment in
+                        Engineering Education. <i>Sustainability</i>, 17(13), 6098.</p>
+                    <p>Luo, J., Zheng, C., Yin, J., & Teo, H. H. (2025). Design and assessment of AI-based learning
+                        tools in higher education: A systematic review. <i>International Journal of Educational
+                            Technology in Higher Education</i>, 22(1), 42.</p>
+                    <p>Kolade, O., Owoseni, A., & Egbetokun, A. (2024). Is AI changing learning and assessment as we
+                        know it? Evidence from a ChatGPT experiment and a conceptual framework. <i>Heliyon</i>, 10(4).
+                    </p>
+                    <p>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes
+                        Compared to Traditional Methods. <i>Issues in Information Systems</i>, 26(4), 233-247.</p>
+                    <p>Webb, N. L. (1997). <i>Criteria for alignment of expectations and assessments in mathematics and
+                            science education</i> (Research Monograph No. 6). Washington, DC: Council of Chief State
+                        School Officers.</p>
+                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). <i>Handbook of automated scoring: Theory
+                            into practice</i>. CRC Press.</p>
                 </div>
             </section>
 
             <div class="footer-nav">
                 <a href="modulo3_intro.html" class="btn-footer btn-back">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
                     Anterior
                 </a>
                 <a href="leccion3_2.html" class="btn-footer btn-next">
-                    Siguiente
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    Lección 3.2
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </a>
             </div>
         </div>
@@ -736,7 +862,7 @@
             const containerWidth = document.querySelector('.slider-container').offsetWidth;
             const itemWidth = items[0].offsetWidth + 30; // width + gap
             track.style.transform = `translateX(-${currentSlide * itemWidth}px)`;
-            
+
             prevBtn.classList.toggle('disabled', currentSlide === 0);
             nextBtn.classList.toggle('disabled', currentSlide === items.length - 1);
         }

@@ -378,6 +378,7 @@
             <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
             <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
             <li><a href="leccion3_3.html" class="active">📖 Lección 3.3</a></li>
+            <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
             <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
             <li><a href="recursos_m3.html">📚 Recursos Módulo 3</a></li>
         </ul>
@@ -398,15 +399,27 @@
             <section class="text-section">
                 <h1>Automatización de la burocracia educativa</h1>
                 <h3>Documentación estándar: Cartas, permisos, minutas y referencias</h3>
-                <p>Las tareas administrativas, como redactar cartas a familias, permisos de excursión, minutas de reuniones o referencias para estudiantes y practicantes— consumen una parte considerable del tiempo docente y suelen seguir formatos relativamente estables. Recursos tecnológicos de IA pueden generar borradores bien estructurados a partir de indicaciones breves sobre propósito, destinatarios y tono deseado, permitiendo que el docente utilice un LLM directamente o a través de un bot o app integrada en el LMS para obtener un texto inicial y se concentre en ajustar detalles específicos y asegurar coherencia con las políticas institucionales (Kwak, 2025).</p>
-                <p>La investigación sobre herramientas impulsadas por IA en contextos educativos destaca que el mayor potencial de estas tecnologías está en reducir la carga de redacción rutinaria y estandarizada, siempre que el usuario mantenga control sobre la revisión y la decisión final sobre el contenido emitido en su nombre (Luo et al., 2025).</p>
-                
+                <p>Las tareas administrativas, como redactar cartas a familias, permisos de excursión, minutas de
+                    reuniones o referencias para estudiantes y practicantes— consumen una parte considerable del tiempo
+                    docente y suelen seguir formatos relativamente estables. Recursos tecnológicos de IA pueden generar
+                    borradores bien estructurados a partir de indicaciones breves sobre propósito, destinatarios y tono
+                    deseado, permitiendo que el docente utilice un LLM directamente o a través de un bot o app integrada
+                    en el LMS para obtener un texto inicial y se concentre en ajustar detalles específicos y asegurar
+                    coherencia con las políticas institucionales (Kwak, 2025).</p>
+                <p>La investigación sobre herramientas impulsadas por IA en contextos educativos destaca que el mayor
+                    potencial de estas tecnologías está en reducir la carga de redacción rutinaria y estandarizada,
+                    siempre que el usuario mantenga control sobre la revisión y la decisión final sobre el contenido
+                    emitido en su nombre (Luo et al., 2025).</p>
+
                 <div class="highlight-box">
                     <strong>En el ámbito escolar, esto implica:</strong>
                     <ul>
-                        <li>Usar la IA para generar plantillas base (por ejemplo, estructuras de carta, secciones estándar de minutas).</li>
-                        <li>Personalizar manualmente los elementos sensibles: nombres de estudiantes, detalles de situaciones, medidas específicas de apoyo.</li>
-                        <li>Asegurar que el tono y la terminología sean consistentes con los lineamientos del DEPR y la cultura escolar.</li>
+                        <li>Usar la IA para generar plantillas base (por ejemplo, estructuras de carta, secciones
+                            estándar de minutas).</li>
+                        <li>Personalizar manualmente los elementos sensibles: nombres de estudiantes, detalles de
+                            situaciones, medidas específicas de apoyo.</li>
+                        <li>Asegurar que el tono y la terminología sean consistentes con los lineamientos del DEPR y la
+                            cultura escolar.</li>
                     </ul>
                 </div>
             </section>
@@ -424,7 +437,8 @@
                     </li>
                     <li><strong>Permisos de excursión:</strong>
                         <ul>
-                            <li>Documentos formales que incluyen: destino, fecha, hora, propósito educativo, medidas de seguridad, autorizaciones requeridas</li>
+                            <li>Documentos formales que incluyen: destino, fecha, hora, propósito educativo, medidas de
+                                seguridad, autorizaciones requeridas</li>
                         </ul>
                     </li>
                     <li><strong>Minutas de reuniones:</strong>
@@ -444,12 +458,20 @@
 
             <section class="text-section">
                 <div class="highlight-box prompt-box">
-                    <h4 style="margin-top:0; color: var(--secondary);">Estructura de prompt efectivo para documentación:</h4>
-                    <p style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-                        <strong>Rol:</strong> Actúa como un Coordinador Académico del Departamento de Educación de Puerto Rico (DEPR). Eres experto en la redacción oficial y en la comunicación efectiva con las comunidades escolares, manteniendo un equilibrio entre el formalismo institucional y la calidez necesaria para conectar con las familias puertorriqueñas.<br><br>
-                        <strong>Tarea:</strong> Redacta una carta formal dirigida a los padres y encargados de estudiantes de 3er grado sobre una excursión educativa al Jardín Botánico de Río Piedras.<br><br>
+                    <h4 style="margin-top:0; color: var(--secondary);">Estructura de prompt efectivo para documentación:
+                    </h4>
+                    <p
+                        style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                        <strong>Rol:</strong> Actúa como un Coordinador Académico del Departamento de Educación de
+                        Puerto Rico (DEPR). Eres experto en la redacción oficial y en la comunicación efectiva con las
+                        comunidades escolares, manteniendo un equilibrio entre el formalismo institucional y la calidez
+                        necesaria para conectar con las familias puertorriqueñas.<br><br>
+                        <strong>Tarea:</strong> Redacta una carta formal dirigida a los padres y encargados de
+                        estudiantes de 3er grado sobre una excursión educativa al Jardín Botánico de Río
+                        Piedras.<br><br>
                         <strong>Contenido obligatorio (Contexto):</strong><br>
-                        1. Propósito educativo: Conectar la visita con el estándar de ciencias sobre el estudio de las plantas y su ciclo de vida.<br>
+                        1. Propósito educativo: Conectar la visita con el estándar de ciencias sobre el estudio de las
+                        plantas y su ciclo de vida.<br>
                         2. Logística:<br>
                         &nbsp;&nbsp;o Fecha: 15 de marzo de 2026.<br>
                         &nbsp;&nbsp;o Horario: 8:00 AM a 2:00 PM.<br>
@@ -461,7 +483,8 @@
                         • Tono: Formal, respetuoso y cercano (apropiado para el contexto de PR).<br>
                         • Saludo: Usa un encabezado formal común en el sistema público de enseñanza.<br>
                         • Extensión: Debe ocupar aproximadamente una página.<br>
-                        • Formato de Salida: Presenta la carta en Markdown para facilitar su edición en procesadores de texto.
+                        • Formato de Salida: Presenta la carta en Markdown para facilitar su edición en procesadores de
+                        texto.
                     </p>
                 </div>
             </section>
@@ -480,16 +503,27 @@
 
             <section class="text-section">
                 <h3>Informes de progreso y documentos PEI</h3>
-                <p>Los informes de progreso y los documentos como los Planes Educativos Individualizados (PEI) requieren un lenguaje técnico que describa niveles de desempeño, avances y necesidades con precisión y objetividad. La literatura sobre scoring automatizado y apoyo a la redacción evaluativa muestra que la IA puede asistir en la generación de descriptores basados en datos de desempeño, produciendo textos más consistentes y alineados con rúbricas predefinidas (Yan et al., 2020). En la práctica, esta funcionalidad suele ofrecerse a través de aplicaciones o módulos dentro del LMS que llaman a un LLM para redactar borradores, sin que el docente tenga que interactuar directamente con el modelo subyacente.</p>
+                <p>Los informes de progreso y los documentos como los Planes Educativos Individualizados (PEI) requieren
+                    un lenguaje técnico que describa niveles de desempeño, avances y necesidades con precisión y
+                    objetividad. La literatura sobre scoring automatizado y apoyo a la redacción evaluativa muestra que
+                    la IA puede asistir en la generación de descriptores basados en datos de desempeño, produciendo
+                    textos más consistentes y alineados con rúbricas predefinidas (Yan et al., 2020). En la práctica,
+                    esta funcionalidad suele ofrecerse a través de aplicaciones o módulos dentro del LMS que llaman a un
+                    LLM para redactar borradores, sin que el docente tenga que interactuar directamente con el modelo
+                    subyacente.</p>
                 <div class="highlight-box">
                     <strong>En este marco, el docente puede:</strong>
                     <ul>
                         <li>Proveer a la IA notas de observación, resultados de evaluaciones y metas acordadas.</li>
-                        <li>Solicitar que el sistema estructure esa información en secciones típicas de un informe (logros, áreas de oportunidad, recomendaciones).</li>
-                        <li>Revisar el borrador para asegurar que refleje fielmente la realidad del estudiante, la cultura del programa y las exigencias normativas.</li>
+                        <li>Solicitar que el sistema estructure esa información en secciones típicas de un informe
+                            (logros, áreas de oportunidad, recomendaciones).</li>
+                        <li>Revisar el borrador para asegurar que refleje fielmente la realidad del estudiante, la
+                            cultura del programa y las exigencias normativas.</li>
                     </ul>
                 </div>
-                <p>La IA debe entenderse como un asistente de redacción que ayuda a transformar notas dispersas en un texto coherente y profesional, pero la interpretación pedagógica y la responsabilidad legal siguen siendo del docente y del equipo institucional.</p>
+                <p>La IA debe entenderse como un asistente de redacción que ayuda a transformar notas dispersas en un
+                    texto coherente y profesional, pero la interpretación pedagógica y la responsabilidad legal siguen
+                    siendo del docente y del equipo institucional.</p>
             </section>
 
             <section class="text-section">
@@ -503,51 +537,79 @@
                 <h4>Terminología técnica en PEI:</h4>
                 <p>Los documentos PEI requieren lenguaje especializado que refleje:</p>
                 <ul>
-                    <li><strong>Acomodaciones:</strong> Ajustes en cómo se presenta la información o cómo el estudiante responde</li>
+                    <li><strong>Acomodaciones:</strong> Ajustes en cómo se presenta la información o cómo el estudiante
+                        responde</li>
                     <li><strong>Modificaciones:</strong> Cambios en qué se espera que el estudiante aprenda</li>
                     <li><strong>Servicios relacionados:</strong> Terapias, apoyos especializados</li>
-                    <li><strong>Metas SMART:</strong> Específicas, medibles, alcanzables, relevantes, con tiempo definido</li>
+                    <li><strong>Metas SMART:</strong> Específicas, medibles, alcanzables, relevantes, con tiempo
+                        definido</li>
                 </ul>
             </section>
 
             <section class="text-section">
                 <div class="highlight-box prompt-box">
                     <h4 style="margin-top:0; color: var(--secondary);">Ejemplo de prompt para narrativa de PEI:</h4>
-                    <p style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-                        <strong>Rol:</strong> Actúa como un Especialista en Educación Especial del Departamento de Educación de Puerto Rico (DEPR). Eres experto en la redacción de Programas Educativos Individualizados (PEI/PIE), con un dominio profundo de la terminología técnica necesaria para describir el Presente Nivel de Ejecución Académica y Funcional (PLEP) de manera objetiva y profesional.<br><br>
+                    <p
+                        style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                        <strong>Rol:</strong> Actúa como un Especialista en Educación Especial del Departamento de
+                        Educación de Puerto Rico (DEPR). Eres experto en la redacción de Programas Educativos
+                        Individualizados (PEI/PIE), con un dominio profundo de la terminología técnica necesaria para
+                        describir el Presente Nivel de Ejecución Académica y Funcional (PLEP) de manera objetiva y
+                        profesional.<br><br>
                         <strong>Contexto del estudiante:</strong><br>
                         • Grado: 2do grado.<br>
                         • Condición: Diagnóstico de dislexia.<br>
                         • Observaciones recolectadas:<br>
-                        &nbsp;&nbsp;o Lectura: Identifica palabras aisladas a nivel de Kindergarten; confusión persistente de grafemas con formas similares (b/d, p/q).<br>
-                        &nbsp;&nbsp;o Comprensión: Excelente nivel de comprensión auditiva y participación activa en discusiones orales.<br>
+                        &nbsp;&nbsp;o Lectura: Identifica palabras aisladas a nivel de Kindergarten; confusión
+                        persistente de grafemas con formas similares (b/d, p/q).<br>
+                        &nbsp;&nbsp;o Comprensión: Excelente nivel de comprensión auditiva y participación activa en
+                        discusiones orales.<br>
                         &nbsp;&nbsp;o Conducta: Presenta frustración durante tareas de lectura independiente.<br>
-                        &nbsp;&nbsp;o Respuesta a intervención: Progreso positivo mediante enfoques multisensoriales.<br><br>
-                        <strong>Tarea:</strong> Redacta el párrafo del PLEP (150-200 palabras) utilizando exclusivamente los datos proporcionados. El texto debe:<br>
-                        1. Analizar el nivel de lectura: Detallar el rezago en decodificación y las confusiones visuales específicas.<br>
-                        2. Equilibrar fortalezas y necesidades: Resaltar su capacidad cognitiva superior en lo oral y auditivo frente a sus desafíos de lectoescritura.<br>
-                        3. Utilizar terminología técnica: Incluir términos como "decodificación", "procesamiento fonológico", "intervención multisensorial" y "comprensión auditiva".<br>
-                        4. Base para metas: Asegurar que la descripción sea lo suficientemente específica para derivar metas anuales medibles.<br><br>
+                        &nbsp;&nbsp;o Respuesta a intervención: Progreso positivo mediante enfoques
+                        multisensoriales.<br><br>
+                        <strong>Tarea:</strong> Redacta el párrafo del PLEP (150-200 palabras) utilizando exclusivamente
+                        los datos proporcionados. El texto debe:<br>
+                        1. Analizar el nivel de lectura: Detallar el rezago en decodificación y las confusiones visuales
+                        específicas.<br>
+                        2. Equilibrar fortalezas y necesidades: Resaltar su capacidad cognitiva superior en lo oral y
+                        auditivo frente a sus desafíos de lectoescritura.<br>
+                        3. Utilizar terminología técnica: Incluir términos como "decodificación", "procesamiento
+                        fonológico", "intervención multisensorial" y "comprensión auditiva".<br>
+                        4. Base para metas: Asegurar que la descripción sea lo suficientemente específica para derivar
+                        metas anuales medibles.<br><br>
                         <strong>Restricciones de estilo:</strong><br>
                         • Tono: Estrictamente objetivo, profesional y empático.<br>
-                        • Integridad de datos: No inventes puntajes de pruebas ni datos que no estén en la lista de observaciones.<br>
+                        • Integridad de datos: No inventes puntajes de pruebas ni datos que no estén en la lista de
+                        observaciones.<br>
                         • Formato de salida: Texto en bloque profesional.
                     </p>
                 </div>
                 <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c; font-style: normal;">
-                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE),
+                    calificaciones asociadas a identidades o cualquier información que permita identificar individuos.
+                    El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
                 </div>
             </section>
 
             <section class="text-section">
                 <h3>Comunicación institucional: Correos, memorandos y justificaciones</h3>
-                <p>La comunicación institucional efectiva requiere tono profesional, claridad y asertividad. En la comunicación institucional —correos a directivos, memorandos internos, justificaciones y comunicaciones formales con familias— la IA puede ayudar a:</p>
+                <p>La comunicación institucional efectiva requiere tono profesional, claridad y asertividad. En la
+                    comunicación institucional —correos a directivos, memorandos internos, justificaciones y
+                    comunicaciones formales con familias— la IA puede ayudar a:</p>
                 <ul>
                     <li>Ajustar el registro (formalidad) y el tono (asertivo, empático, colaborativo).</li>
-                    <li>Organizar el contenido en una estructura clara: contexto, situación, acciones realizadas, solicitud o propuesta.</li>
-                    <li>Reducir ambigüedades y asegurar que el mensaje sea comprensible para destinatarios diversos.</li>
+                    <li>Organizar el contenido en una estructura clara: contexto, situación, acciones realizadas,
+                        solicitud o propuesta.</li>
+                    <li>Reducir ambigüedades y asegurar que el mensaje sea comprensible para destinatarios diversos.
+                    </li>
                 </ul>
-                <p>Estudios sobre la integración de IA en tareas de apoyo laboral resaltan que las herramientas generativas son especialmente útiles para profesionales que deben producir múltiples versiones de mensajes similares, siempre que se establezcan guías claras de estilo y políticas de revisión previa al envío (Kwak, 2025). En el caso de maestros cooperadores, esto se alinea con la necesidad de comunicar de manera profesional y consistente con distintas audiencias (familias, equipo escolar, supervisores y practicantes), ya sea trabajando directamente con un LLM en un chat o mediante copilotos y apps de correo que incorporan ese modelo.</p>
+                <p>Estudios sobre la integración de IA en tareas de apoyo laboral resaltan que las herramientas
+                    generativas son especialmente útiles para profesionales que deben producir múltiples versiones de
+                    mensajes similares, siempre que se establezcan guías claras de estilo y políticas de revisión previa
+                    al envío (Kwak, 2025). En el caso de maestros cooperadores, esto se alinea con la necesidad de
+                    comunicar de manera profesional y consistente con distintas audiencias (familias, equipo escolar,
+                    supervisores y practicantes), ya sea trabajando directamente con un LLM en un chat o mediante
+                    copilotos y apps de correo que incorporan ese modelo.</p>
             </section>
 
             <section class="text-section">
@@ -564,7 +626,8 @@
                     <li><strong>Claridad:</strong> Propósito evidente desde el inicio</li>
                     <li><strong>Concisión:</strong> Información necesaria sin rodeos</li>
                     <li><strong>Profesionalismo:</strong> Tono respetuoso, lenguaje formal apropiado</li>
-                    <li><strong>Asertividad:</strong> Comunicar necesidades o posiciones de forma directa pero diplomática</li>
+                    <li><strong>Asertividad:</strong> Comunicar necesidades o posiciones de forma directa pero
+                        diplomática</li>
                     <li><strong>Orientación a soluciones:</strong> Enfoque constructivo</li>
                 </ol>
             </section>
@@ -572,19 +635,31 @@
             <section class="text-section">
                 <div class="highlight-box prompt-box">
                     <h4 style="margin-top:0; color: var(--secondary);">Prompt para correo institucional delicado:</h4>
-                    <p style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-                        <strong>Rol:</strong> Actúa como un Maestro Cooperador del Departamento de Educación de Puerto Rico (DEPR). Eres un profesional con alto sentido de ética, experto en la redacción de informes institucionales y comunicaciones oficiales que requieren intervención multidisciplinaria (Trabajo Social/Consejería). Tu estilo es preciso, basado en la observación directa y orientado a la protección del menor.<br><br>
+                    <p
+                        style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                        <strong>Rol:</strong> Actúa como un Maestro Cooperador del Departamento de Educación de Puerto
+                        Rico (DEPR). Eres un profesional con alto sentido de ética, experto en la redacción de informes
+                        institucionales y comunicaciones oficiales que requieren intervención multidisciplinaria
+                        (Trabajo Social/Consejería). Tu estilo es preciso, basado en la observación directa y orientado
+                        a la protección del menor.<br><br>
                         <strong>Contexto de la situación:</strong><br>
-                        • Asunto: Notificación de posible inseguridad alimentaria y baja en rendimiento académico de un estudiante.<br>
+                        • Asunto: Notificación de posible inseguridad alimentaria y baja en rendimiento académico de un
+                        estudiante.<br>
                         • Hallazgos:<br>
                         &nbsp;&nbsp;o El estudiante llega frecuentemente sin desayunar.<br>
                         &nbsp;&nbsp;o Manifestación directa del estudiante: "En mi casa no hay comida a veces".<br>
-                        &nbsp;&nbsp;o Impacto: Descenso notable en el rendimiento académico, cansancio extremo y falta de concentración en las últimas 3 semanas.<br><br>
-                        <strong>Tarea:</strong> Redacta un correo electrónico formal dirigido a la Directora Escolar. El correo debe:<br>
-                        1. Exponer los hechos: Describir la situación de forma objetiva, utilizando lenguaje profesional y evitando juicios de valor sobre la familia.<br>
-                        2. Vincular bienestar y academia: Explicar cómo la posible falta de nutrición está afectando directamente el proceso de aprendizaje y las funciones ejecutivas del estudiante.<br>
-                        3. Solicitar acción: Pedir formalmente la activación del protocolo de apoyo a través del Trabajador Social o Consejero Escolar.<br>
-                        4. Garantizar ética: Enfatizar el manejo confidencial de la información y el respeto por la dignidad de la unidad familiar.<br><br>
+                        &nbsp;&nbsp;o Impacto: Descenso notable en el rendimiento académico, cansancio extremo y falta
+                        de concentración en las últimas 3 semanas.<br><br>
+                        <strong>Tarea:</strong> Redacta un correo electrónico formal dirigido a la Directora Escolar. El
+                        correo debe:<br>
+                        1. Exponer los hechos: Describir la situación de forma objetiva, utilizando lenguaje profesional
+                        y evitando juicios de valor sobre la familia.<br>
+                        2. Vincular bienestar y academia: Explicar cómo la posible falta de nutrición está afectando
+                        directamente el proceso de aprendizaje y las funciones ejecutivas del estudiante.<br>
+                        3. Solicitar acción: Pedir formalmente la activación del protocolo de apoyo a través del
+                        Trabajador Social o Consejero Escolar.<br>
+                        4. Garantizar ética: Enfatizar el manejo confidencial de la información y el respeto por la
+                        dignidad de la unidad familiar.<br><br>
                         <strong>Restricciones de estilo:</strong><br>
                         • Tono: Preocupado pero balanceado, profesional y resolutivo.<br>
                         • Extensión: 200 - 250 palabras.<br>
@@ -593,7 +668,9 @@
                     </p>
                 </div>
                 <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c; font-style: normal;">
-                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE),
+                    calificaciones asociadas a identidades o cualquier información que permita identificar individuos.
+                    El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
                 </div>
             </section>
 
@@ -609,38 +686,97 @@
                     <div class="slider-track" id="sliderTrack">
                         <div class="slider-item">
                             <h3>Documentación estándar: Cartas, permisos, minutas y referencias</h3>
-                            <p>Documentación estándar generada con IA (cartas, permisos, minutas y referencias) es el uso de un modelo de lenguaje grande (LLM), ya sea de forma directa o incrustado en un bot o app educativa, para producir borradores estructurados de documentos administrativos escolares que siguen formatos relativamente estables (por ejemplo, cartas a familias, formularios de permiso, actas de reunión o cartas de recomendación) a partir de instrucciones breves sobre propósito, destinatarios y tono. En términos técnicos, el LLM actúa como motor generativo que se encarga de la redacción inicial y del ajuste de estilo, mientras que el docente mantiene el control sobre la revisión, la personalización de datos sensibles (nombres, fechas, situaciones concretas) y la verificación de alineación con políticas institucionales y normativas educativas.</p>
+                            <p>Documentación estándar generada con IA (cartas, permisos, minutas y referencias) es el
+                                uso de un modelo de lenguaje grande (LLM), ya sea de forma directa o incrustado en un
+                                bot o app educativa, para producir borradores estructurados de documentos
+                                administrativos escolares que siguen formatos relativamente estables (por ejemplo,
+                                cartas a familias, formularios de permiso, actas de reunión o cartas de recomendación) a
+                                partir de instrucciones breves sobre propósito, destinatarios y tono. En términos
+                                técnicos, el LLM actúa como motor generativo que se encarga de la redacción inicial y
+                                del ajuste de estilo, mientras que el docente mantiene el control sobre la revisión, la
+                                personalización de datos sensibles (nombres, fechas, situaciones concretas) y la
+                                verificación de alineación con políticas institucionales y normativas educativas.</p>
                         </div>
                         <div class="slider-item">
                             <h3>Planes Educativos Individualizados (PEI)</h3>
-                            <p>Los Planes Educativos Individualizados (PEI) son documentos formales de planificación que establecen, para un estudiante con discapacidad o necesidades educativas especiales, los objetivos anuales, las adaptaciones y/o modificaciones curriculares, los servicios relacionados y los criterios de evaluación, de manera individualizada, con base en una evaluación diagnóstica y en acuerdos entre familia, escuela y equipos de apoyo. En el contexto de los LLM, estos modelos pueden utilizarse como asistentes de redacción para organizar observaciones, datos de desempeño y metas en secciones típicas del PEI (por ejemplo, PLEP, metas SMART, apoyos), pero la definición de objetivos, la selección de adaptaciones y la responsabilidad legal del documento siguen recayendo exclusivamente en el equipo docente y profesional humano.</p>
-                            <small>Inclusive Education: What, Why, and How: A handbook for program implementers - Save the Children’s Resource Centre. (n.d.)</small>
+                            <p>Los Planes Educativos Individualizados (PEI) son documentos formales de planificación que
+                                establecen, para un estudiante con discapacidad o necesidades educativas especiales, los
+                                objetivos anuales, las adaptaciones y/o modificaciones curriculares, los servicios
+                                relacionados y los criterios de evaluación, de manera individualizada, con base en una
+                                evaluación diagnóstica y en acuerdos entre familia, escuela y equipos de apoyo. En el
+                                contexto de los LLM, estos modelos pueden utilizarse como asistentes de redacción para
+                                organizar observaciones, datos de desempeño y metas en secciones típicas del PEI (por
+                                ejemplo, PLEP, metas SMART, apoyos), pero la definición de objetivos, la selección de
+                                adaptaciones y la responsabilidad legal del documento siguen recayendo exclusivamente en
+                                el equipo docente y profesional humano.</p>
+                            <small>Inclusive Education: What, Why, and How: A handbook for program implementers - Save
+                                the Children’s Resource Centre. (n.d.)</small>
                         </div>
                         <div class="slider-item">
                             <h3>Terminología técnica en PEI</h3>
-                            <p>La terminología técnica en PEI es el conjunto de términos especializados que se utilizan de forma estandarizada dentro de un Plan Educativo Individualizado para describir con precisión la situación del estudiante, los apoyos que recibirá y cómo se evaluará su progreso (por ejemplo: nivel presente de ejecución, acomodaciones, modificaciones, servicios relacionados, metas anuales y metas SMART, plan de transición). En el contexto de los LLM, esta terminología funciona como un vocabulario controlado que se puede incorporar en prompts y plantillas, de modo que el modelo genere borradores de secciones del PEI con el lenguaje técnico correcto, mientras el equipo educativo revisa que cada término se use adecuadamente y se corresponda con decisiones pedagógicas y legales reales.</p>
-                            <small>De Understood, E. E. (2025). Términos usados en la educación especial y el IEP.</small>
+                            <p>La terminología técnica en PEI es el conjunto de términos especializados que se utilizan
+                                de forma estandarizada dentro de un Plan Educativo Individualizado para describir con
+                                precisión la situación del estudiante, los apoyos que recibirá y cómo se evaluará su
+                                progreso (por ejemplo: nivel presente de ejecución, acomodaciones, modificaciones,
+                                servicios relacionados, metas anuales y metas SMART, plan de transición). En el contexto
+                                de los LLM, esta terminología funciona como un vocabulario controlado que se puede
+                                incorporar en prompts y plantillas, de modo que el modelo genere borradores de secciones
+                                del PEI con el lenguaje técnico correcto, mientras el equipo educativo revisa que cada
+                                término se use adecuadamente y se corresponda con decisiones pedagógicas y legales
+                                reales.</p>
+                            <small>De Understood, E. E. (2025). Términos usados en la educación especial y el
+                                IEP.</small>
                         </div>
                         <div class="slider-item">
                             <h3>Comunicación institucional: Correos, memorandos y justificaciones</h3>
-                            <p>La comunicación institucional (correos, memorandos y justificaciones) es el conjunto de mensajes escritos formales que circulan entre los distintos actores de la comunidad educativa (dirección, docentes, familias, personal de apoyo, supervisores) para informar, solicitar, justificar o acordar acciones, siguiendo convenciones de registro profesional, claridad y trazabilidad. En el contexto de los LLM, estos modelos se utilizan como asistentes de redacción que generan borradores de correos, memorandos y justificaciones a partir de indicaciones sobre propósito, destinatarios, tono y puntos clave, mientras que el docente o directivo revisa, ajusta y valida el contenido para garantizar que sea fiel a la situación, cumpla con las políticas institucionales y respete la confidencialidad y la ética profesional.</p>
+                            <p>La comunicación institucional (correos, memorandos y justificaciones) es el conjunto de
+                                mensajes escritos formales que circulan entre los distintos actores de la comunidad
+                                educativa (dirección, docentes, familias, personal de apoyo, supervisores) para
+                                informar, solicitar, justificar o acordar acciones, siguiendo convenciones de registro
+                                profesional, claridad y trazabilidad. En el contexto de los LLM, estos modelos se
+                                utilizan como asistentes de redacción que generan borradores de correos, memorandos y
+                                justificaciones a partir de indicaciones sobre propósito, destinatarios, tono y puntos
+                                clave, mientras que el docente o directivo revisa, ajusta y valida el contenido para
+                                garantizar que sea fiel a la situación, cumpla con las políticas institucionales y
+                                respete la confidencialidad y la ética profesional.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="text-section">
-                <div class="highlight-box" style="background: var(--primary-gradient); border: none; color: white; border-radius: 30px;">
-                    <h2 style="color: white; -webkit-text-fill-color: white; margin-bottom: 15px;">Cierre de la lección</h2>
+                <div class="highlight-box"
+                    style="background: var(--primary-gradient); border: none; color: white; border-radius: 30px;">
+                    <h2 style="color: white; -webkit-text-fill-color: white; margin-bottom: 15px;">Cierre de la lección
+                    </h2>
                     <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 0;">Felicidades</h4>
-                    <p>Has culminado la lección 3.3 del programa de formación profesional. Al completar el contenido 3.3, reconoces que los LLM pueden ser aliados potentes para reducir la carga de burocracia educativa: te ayudan a generar borradores de cartas, permisos, minutas, informes y comunicaciones institucionales, manteniendo tu tiempo más libre para enseñar. Al mismo tiempo, reafirmas tu rol como responsable último del contenido, el tono y la fidelidad de todo documento emitido en tu nombre, especialmente cuando se trata de PEI y situaciones delicadas con estudiantes y familias.</p>
+                    <p>Has culminado la lección 3.3 del programa de formación profesional. Al completar el contenido
+                        3.3, reconoces que los LLM pueden ser aliados potentes para reducir la carga de burocracia
+                        educativa: te ayudan a generar borradores de cartas, permisos, minutas, informes y
+                        comunicaciones institucionales, manteniendo tu tiempo más libre para enseñar. Al mismo tiempo,
+                        reafirmas tu rol como responsable último del contenido, el tono y la fidelidad de todo documento
+                        emitido en tu nombre, especialmente cuando se trata de PEI y situaciones delicadas con
+                        estudiantes y familias.</p>
 
-                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 25px;">Invitación al checkpoint de saberes</h4>
-                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.3, una evaluación formativa breve y no punitiva centrada en cómo usar los LLM para automatizar la redacción de documentos administrativos (cartas, permisos, minutas, informes y comunicaciones institucionales), manteniendo siempre tu control sobre la revisión, la personalización de datos sensibles y el cumplimiento de las normas. Al completarlo, estarás generando evidencia de tu propio criterio profesional en torno al uso de la IA para aliviar la burocracia educativa sin renunciar a la confidencialidad, la precisión y el tono institucional adecuado en cada documento.</p>
+                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 25px;">Invitación al checkpoint
+                        de saberes</h4>
+                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.3, una evaluación
+                        formativa breve y no punitiva centrada en cómo usar los LLM para automatizar la redacción de
+                        documentos administrativos (cartas, permisos, minutas, informes y comunicaciones
+                        institucionales), manteniendo siempre tu control sobre la revisión, la personalización de datos
+                        sensibles y el cumplimiento de las normas. Al completarlo, estarás generando evidencia de tu
+                        propio criterio profesional en torno al uso de la IA para aliviar la burocracia educativa sin
+                        renunciar a la confidencialidad, la precisión y el tono institucional adecuado en cada
+                        documento.</p>
 
                     <div style="width: 100%; margin-top: 20px;">
-                        <div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; border-radius: 20px; overflow: hidden; background: white;">
-                            <iframe title="Contenido 3.3: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/69ade2ee14c7191a9db13e73" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> 
+                        <div
+                            style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; border-radius: 20px; overflow: hidden; background: white;">
+                            <iframe title="Contenido 3.3: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                src="https://view.genially.com/69ade2ee14c7191a9db13e73" type="text/html"
+                                allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                                allownetworking="all"></iframe>
                         </div>
                     </div>
                 </div>
@@ -649,9 +785,13 @@
             <section class="text-section">
                 <h3>Referencias</h3>
                 <div style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
-                    <p>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</p>
-                    <p>Luo, J., Zheng, C., Yin, J., & Teo, H. H. (2025). Design and assessment of AI-based learning tools in higher education: A systematic review. International Journal of Educational Technology in Higher Education, 22(1), 42.</p>
-                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</p>
+                    <p>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes
+                        Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</p>
+                    <p>Luo, J., Zheng, C., Yin, J., & Teo, H. H. (2025). Design and assessment of AI-based learning
+                        tools in higher education: A systematic review. International Journal of Educational Technology
+                        in Higher Education, 22(1), 42.</p>
+                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into
+                        practice. CRC Press.</p>
                 </div>
             </section>
 
@@ -662,8 +802,8 @@
                     </svg>
                     Anterior
                 </a>
-                <a href="actividad3_1.html" class="btn-footer btn-next">
-                    Siguiente
+                <a href="leccion3_4.html" class="btn-footer btn-next">
+                    Lección 3.4
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>

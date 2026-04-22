@@ -502,17 +502,29 @@
             <section class="text-section">
                 <h1>Seguridad de datos en tareas administrativas</h1>
                 <h3>Lista de verificación ética: Protocolo de anonimización</h3>
-                <p>El uso de IA en la generación de documentos administrativos y evaluativos exige una atención rigurosa a la protección de datos personales de estudiantes, familias y colegas. Aunque muchas investigaciones se centran en la precisión y utilidad de las herramientas de IA para aprendizaje y evaluación, autores como Kolade et al. (2024) subrayan que cualquier integración significativa de IA en procesos evaluativos debe acompañarse de marcos claros sobre ética, transparencia y manejo responsable de información (Kolade et al., 2024). La Ley de Derechos Educativos y Privacidad de la Familia (FERPA) en Estados Unidos, aplicable a Puerto Rico, protege los registros educativos de los estudiantes y prohíbe la divulgación de información personal identificable sin consentimiento. En este contexto, es clave distinguir entre el modelo de lenguaje (LLM) como tecnología base y las aplicaciones o bots que lo integran, pues la responsabilidad de proteger datos recae tanto en la configuración del servicio como en las prácticas del usuario.</p>
+                <p>El uso de IA en la generación de documentos administrativos y evaluativos exige una atención rigurosa
+                    a la protección de datos personales de estudiantes, familias y colegas. Aunque muchas
+                    investigaciones se centran en la precisión y utilidad de las herramientas de IA para aprendizaje y
+                    evaluación, autores como Kolade et al. (2024) subrayan que cualquier integración significativa de IA
+                    en procesos evaluativos debe acompañarse de marcos claros sobre ética, transparencia y manejo
+                    responsable de información (Kolade et al., 2024). La Ley de Derechos Educativos y Privacidad de la
+                    Familia (FERPA) en Estados Unidos, aplicable a Puerto Rico, protege los registros educativos de los
+                    estudiantes y prohíbe la divulgación de información personal identificable sin consentimiento. En
+                    este contexto, es clave distinguir entre el modelo de lenguaje (LLM) como tecnología base y las
+                    aplicaciones o bots que lo integran, pues la responsabilidad de proteger datos recae tanto en la
+                    configuración del servicio como en las prácticas del usuario.</p>
             </section>
 
             <section class="text-section">
                 <h3>Información Personal Identificable (PII) que NUNCA debe ingresarse en LLMs:</h3>
                 <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/LLM_M3_PII_no ingresas LLM_imagen.png" alt="Información que NUNCA debe ingresarse en LLMs">
+                    <img src="../assets/LLM_M3_PII_no ingresas LLM_imagen.png"
+                        alt="Información que NUNCA debe ingresarse en LLMs">
                 </div>
                 <ul>
                     <li>1. Nombres completos de estudiantes, familias o colegas</li>
-                    <li>2. Números de identificación: SIE (Sistema de Información Estudiantil), seguro social, números de caso</li>
+                    <li>2. Números de identificación: SIE (Sistema de Información Estudiantil), seguro social, números
+                        de caso</li>
                     <li>3. Direcciones: Residenciales, postales, correos electrónicos personales</li>
                     <li>4. Información médica: Diagnósticos, medicamentos, condiciones de salud</li>
                     <li>5. Fotografías o grabaciones de audio/video identificables</li>
@@ -527,14 +539,15 @@
                 <div class="highlight-box">
                     <strong>Paso 1: Identificar datos sensibles en el documento</strong>
                     <p>Revisar el texto completo y marcar todo dato que pueda identificar a una persona</p>
-                    
+
                     <strong>Paso 2: Reemplazar sistemáticamente</strong>
                     <ul>
                         <li>Nombres → "Estudiante A", "Familia 1", "Colega X"</li>
                         <li>SIE/ID → Eliminar completamente o usar "ID-###"</li>
                         <li>Escuela específica → "Escuela primaria pública"</li>
                         <li>Direcciones → "Comunidad urbana", "área rural"</li>
-                        <li>Diagnósticos → Descripción general "dificultades de aprendizaje", "necesidades especiales"</li>
+                        <li>Diagnósticos → Descripción general "dificultades de aprendizaje", "necesidades especiales"
+                        </li>
                     </ul>
 
                     <strong>Paso 3: Revisar contexto</strong>
@@ -550,46 +563,67 @@
                 <div class="comparison-grid">
                     <div class="comp-card">
                         <span class="comp-title danger">ANTES (CON PII - NO USAR)</span>
-                        <p>María González Ortiz (SIE: 123456789), estudiante de 4to grado en la Escuela Juan Ponce de León de Bayamón, vive en Calle Los Pinos #45 con su abuela. Tiene diagnóstico de TDAH y toma Ritalin 10mg. Su madre está en prisión federal.</p>
+                        <p>María González Ortiz (SIE: 123456789), estudiante de 4to grado en la Escuela Juan Ponce de
+                            León de Bayamón, vive en Calle Los Pinos #45 con su abuela. Tiene diagnóstico de TDAH y toma
+                            Ritalin 10mg. Su madre está en prisión federal.</p>
                     </div>
                     <div class="comp-card">
                         <span class="comp-title success">DESPUÉS (ANONIMIZADO - SEGURO PARA IA)</span>
-                        <p>Estudiante A, 4to grado en escuela pública urbana, vive con familiar extendido. Presenta necesidades de atención y concentración que requieren acomodaciones educativas. Situación familiar compleja que afecta estabilidad emocional.</p>
+                        <p>Estudiante A, 4to grado en escuela pública urbana, vive con familiar extendido. Presenta
+                            necesidades de atención y concentración que requieren acomodaciones educativas. Situación
+                            familiar compleja que afecta estabilidad emocional.</p>
                     </div>
                 </div>
             </section>
 
             <section class="text-section">
                 <h3>Riesgos habituales y prácticas seguras mínimas</h3>
-                <p>La literatura sobre sistemas de evaluación automatizada y análisis de datos educativos advierte que la acumulación de información sensible en plataformas digitales sin protocolos claros aumenta el riesgo de filtraciones, usos secundarios no autorizados o interpretaciones erróneas (Yan et al., 2020). En el caso de herramientas generativas, algunos riesgos concretos son:</p>
+                <p>La literatura sobre sistemas de evaluación automatizada y análisis de datos educativos advierte que
+                    la acumulación de información sensible en plataformas digitales sin protocolos claros aumenta el
+                    riesgo de filtraciones, usos secundarios no autorizados o interpretaciones erróneas (Yan et al.,
+                    2020). En el caso de herramientas generativas, algunos riesgos concretos son:</p>
                 <ol>
                     <li>1. Copiar/pegar descuidado: Transferir documentos completos sin revisar datos sensibles</li>
-                    <li>2. Capturas de pantalla: Compartir imágenes que contienen información en los bordes o fondos</li>
-                    <li>3. Historial de conversaciones: Los LLMs almacenan conversaciones; datos sensibles quedan en servidores</li>
+                    <li>2. Capturas de pantalla: Compartir imágenes que contienen información en los bordes o fondos
+                    </li>
+                    <li>3. Historial de conversaciones: Los LLMs almacenan conversaciones; datos sensibles quedan en
+                        servidores</li>
                     <li>4. Uso de cuentas compartidas: Otros usuarios podrían acceder al historial</li>
-                    <li>5. Exportación de resultados: Documentos generados por IA podrían contener metadata con PII original</li>
+                    <li>5. Exportación de resultados: Documentos generados por IA podrían contener metadata con PII
+                        original</li>
                 </ol>
             </section>
 
             <section class="text-section">
                 <h3>Prácticas seguras mínimas:</h3>
                 <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/LLM_M3_practicas minimas_imagen.png" alt="Prácticas seguras mínimas para el uso de IA">
+                    <img src="../assets/LLM_M3_practicas minimas_imagen.png"
+                        alt="Prácticas seguras mínimas para el uso de IA">
                 </div>
                 <ol>
-                    <li><strong>1. Usar cuentas institucionales cuando sea posible:</strong> Algunas instituciones tienen acuerdos con proveedores de IA que incluyen protecciones adicionales de datos</li>
-                    <li><strong>2. Desactivar historial de conversaciones:</strong> En ChatGPT: Settings → Data Controls → Chat History & Training (desactivar). Esto evita que las conversaciones se almacenen o se usen para entrenar modelos</li>
-                    <li><strong>3. Trabajar en sesiones temporales:</strong> Usar modo incógnito o eliminar conversaciones inmediatamente después de usarlas</li>
-                    <li><strong>4. No usar IA para decisiones finales sobre estudiantes:</strong> La IA puede sugerir lenguaje o estructura, pero el maestro toma las decisiones sobre contenido, especialmente en documentos legales como PIE</li>
-                    <li><strong>5. Verificar políticas institucionales:</strong> Consultar con el distrito escolar o departamento de tecnología sobre políticas específicas de uso de IA</li>
-                    <li><strong>6. Documentar el proceso:</strong> Mantener registro de qué herramientas de IA se usaron, para qué propósito y cómo se anonimizó la información</li>
-                    <li><strong>7. Educar a colegas:</strong> Compartir estas prácticas con otros maestros para crear cultura de uso seguro</li>
+                    <li><strong>1. Usar cuentas institucionales cuando sea posible:</strong> Algunas instituciones
+                        tienen acuerdos con proveedores de IA que incluyen protecciones adicionales de datos</li>
+                    <li><strong>2. Desactivar historial de conversaciones:</strong> En ChatGPT: Settings → Data Controls
+                        → Chat History & Training (desactivar). Esto evita que las conversaciones se almacenen o se usen
+                        para entrenar modelos</li>
+                    <li><strong>3. Trabajar en sesiones temporales:</strong> Usar modo incógnito o eliminar
+                        conversaciones inmediatamente después de usarlas</li>
+                    <li><strong>4. No usar IA para decisiones finales sobre estudiantes:</strong> La IA puede sugerir
+                        lenguaje o estructura, pero el maestro toma las decisiones sobre contenido, especialmente en
+                        documentos legales como PIE</li>
+                    <li><strong>5. Verificar políticas institucionales:</strong> Consultar con el distrito escolar o
+                        departamento de tecnología sobre políticas específicas de uso de IA</li>
+                    <li><strong>6. Documentar el proceso:</strong> Mantener registro de qué herramientas de IA se
+                        usaron, para qué propósito y cómo se anonimizó la información</li>
+                    <li><strong>7. Educar a colegas:</strong> Compartir estas prácticas con otros maestros para crear
+                        cultura de uso seguro</li>
                 </ol>
             </section>
 
             <section class="text-section">
                 <div class="highlight-box" style="background: #FFF9E6; border-left-color: var(--tertiary);">
-                    <h3 style="background: none; -webkit-text-fill-color: var(--tertiary);">Marco conceptual de seguridad (adaptado de principios FERPA)</h3>
+                    <h3 style="background: none; -webkit-text-fill-color: var(--tertiary);">Marco conceptual de
+                        seguridad (adaptado de principios FERPA)</h3>
                     <p><strong>Antes de usar IA, pregúntate:</strong></p>
                     <ul>
                         <li>¿Este texto contiene información que permita identificar a un estudiante específico?</li>
@@ -598,7 +632,8 @@
                         <li>¿La herramienta que voy a usar tiene protecciones de privacidad activadas?</li>
                         <li>¿Existe algún riesgo de que esta información se vincule con otros datos?</li>
                     </ul>
-                    <p>Si respondes "NO" a cualquiera de las primeras 4 preguntas, o "SÍ" a la última: <strong>NO uses IA hasta anonimizar completamente.</strong></p>
+                    <p>Si respondes "NO" a cualquiera de las primeras 4 preguntas, o "SÍ" a la última: <strong>NO uses
+                            IA hasta anonimizar completamente.</strong></p>
                 </div>
             </section>
 
@@ -614,12 +649,31 @@
                     <div class="slider-track" id="sliderTrack">
                         <div class="slider-item">
                             <h3>Lista de verificación ética: Protocolo de anonimización</h3>
-                            <p>La lista de verificación ética: Protocolo de anonimización es un conjunto estructurado de pasos y criterios que guía al personal educativo para eliminar o transformar toda información personal identificable antes de introducir textos en sistemas de IA, en particular en modelos de lenguaje grandes (LLM) o en bots y aplicaciones que los integran. Técnicamente, este protocolo define qué datos deben considerarse identificadores directos o indirectos (por ejemplo, nombres, códigos de estudiante, direcciones, diagnósticos, detalles familiares), y establece procedimientos sistemáticos de supresión, sustitución por pseudónimos y revisión de contexto para reducir el riesgo de reidentificación, de forma coherente con marcos legales como FERPA y con las buenas prácticas generales de anonimización de datos.</p>
+                            <p>La lista de verificación ética: Protocolo de anonimización es un conjunto estructurado de
+                                pasos y criterios que guía al personal educativo para eliminar o transformar toda
+                                información personal identificable antes de introducir textos en sistemas de IA, en
+                                particular en modelos de lenguaje grandes (LLM) o en bots y aplicaciones que los
+                                integran. Técnicamente, este protocolo define qué datos deben considerarse
+                                identificadores directos o indirectos (por ejemplo, nombres, códigos de estudiante,
+                                direcciones, diagnósticos, detalles familiares), y establece procedimientos sistemáticos
+                                de supresión, sustitución por pseudónimos y revisión de contexto para reducir el riesgo
+                                de reidentificación, de forma coherente con marcos legales como FERPA y con las buenas
+                                prácticas generales de anonimización de datos.</p>
                             <small>Agencia Española de Protección de Datos (2014); datos.gob.es (2024)</small>
                         </div>
                         <div class="slider-item">
                             <h3>Marco conceptual de seguridad (adaptado de principios FERPA)</h3>
-                            <p>El marco conceptual de seguridad (adaptado de principios FERPA) es un conjunto de criterios y preguntas guía que orienta a las instituciones y al personal educativo en cómo recoger, almacenar, procesar y compartir datos de estudiantes de forma compatible con la Ley de Derechos Educativos y Privacidad de la Familia (FERPA), incluyendo su uso en sistemas de IA y modelos de lenguaje grandes (LLM). Técnicamente, traduce los principios legales de FERPA (confidencialidad de los expedientes educativos, control de acceso, consentimiento informado y registro de divulgaciones) en decisiones operativas concretas: limitar el envío de información personal identificable a servicios externos, exigir controles de acceso y cifrado en plataformas que integran LLM, minimizar los datos compartidos y exigir contratos y políticas claras cuando se usan herramientas de terceros para apoyar la evaluación, la comunicación o la analítica educativa.</p>
+                            <p>El marco conceptual de seguridad (adaptado de principios FERPA) es un conjunto de
+                                criterios y preguntas guía que orienta a las instituciones y al personal educativo en
+                                cómo recoger, almacenar, procesar y compartir datos de estudiantes de forma compatible
+                                con la Ley de Derechos Educativos y Privacidad de la Familia (FERPA), incluyendo su uso
+                                en sistemas de IA y modelos de lenguaje grandes (LLM). Técnicamente, traduce los
+                                principios legales de FERPA (confidencialidad de los expedientes educativos, control de
+                                acceso, consentimiento informado y registro de divulgaciones) en decisiones operativas
+                                concretas: limitar el envío de información personal identificable a servicios externos,
+                                exigir controles de acceso y cifrado en plataformas que integran LLM, minimizar los
+                                datos compartidos y exigir contratos y políticas claras cuando se usan herramientas de
+                                terceros para apoyar la evaluación, la comunicación o la analítica educativa.</p>
                             <small>U.S. Department of Education (2011)</small>
                         </div>
                     </div>
@@ -627,17 +681,38 @@
             </section>
 
             <section class="text-section">
-                <div class="highlight-box" style="background: var(--primary-gradient); border: none; color: white; border-radius: 30px;">
-                    <h2 style="color: white; -webkit-text-fill-color: white; margin-bottom: 15px;">Cierre de la lección</h2>
+                <div class="highlight-box"
+                    style="background: var(--primary-gradient); border: none; color: white; border-radius: 30px;">
+                    <h2 style="color: white; -webkit-text-fill-color: white; margin-bottom: 15px;">Cierre de la lección
+                    </h2>
                     <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 0;">Felicidades</h4>
-                    <p>Has culminado la lección 3.4 del programa de formación profesional. Al completar el contenido 3.4, diste un paso fundamental para un uso responsable de la IA en la escuela: ahora distingues claramente qué es PII, cómo anonimizar textos antes de trabajarlos con un modelo de lenguaje y qué prácticas mínimas debes aplicar para proteger a estudiantes, familias y colegas. Esta conciencia fortalece tu rol profesional, porque te permite aprovechar las ventajas de la automatización sin comprometer la confidencialidad ni el cumplimiento de FERPA y de las normas del DEPR.</p>
+                    <p>Has culminado la lección 3.4 del programa de formación profesional. Al completar el contenido
+                        3.4, diste un paso fundamental para un uso responsable de la IA en la escuela: ahora distingues
+                        claramente qué es PII, cómo anonimizar textos antes de trabajarlos con un modelo de lenguaje y
+                        qué prácticas mínimas debes aplicar para proteger a estudiantes, familias y colegas. Esta
+                        conciencia fortalece tu rol profesional, porque te permite aprovechar las ventajas de la
+                        automatización sin comprometer la confidencialidad ni el cumplimiento de FERPA y de las normas
+                        del DEPR.</p>
 
-                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 25px;">Invitación al checkpoint de saberes</h4>
-                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.4, una evaluación formativa breve y no punitiva centrada en el reconocimiento de datos personales identificables (PII), el uso correcto del protocolo de anonimización y las prácticas básicas de seguridad cuando se emplea IA en tareas administrativas y evaluativas. Al completarlo, estarás generando evidencia de tu propio criterio profesional en torno a la protección de datos al trabajar con modelos de lenguaje, mostrando cómo decides qué información puede pasar por la IA, qué debes anonimizar primero y qué límites estableces para resguardar la privacidad y los derechos de tu comunidad escolar.</p>
+                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 25px;">Invitación al checkpoint
+                        de saberes</h4>
+                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.4, una evaluación
+                        formativa breve y no punitiva centrada en el reconocimiento de datos personales identificables
+                        (PII), el uso correcto del protocolo de anonimización y las prácticas básicas de seguridad
+                        cuando se emplea IA en tareas administrativas y evaluativas. Al completarlo, estarás generando
+                        evidencia de tu propio criterio profesional en torno a la protección de datos al trabajar con
+                        modelos de lenguaje, mostrando cómo decides qué información puede pasar por la IA, qué debes
+                        anonimizar primero y qué límites estableces para resguardar la privacidad y los derechos de tu
+                        comunidad escolar.</p>
 
                     <div style="width: 100%; margin-top: 20px;">
-                        <div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; border-radius: 20px; overflow: hidden; background: white;">
-                            <iframe title="Contenido 3.4: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/69ade5ab9abf43c2f0514822" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> 
+                        <div
+                            style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; border-radius: 20px; overflow: hidden; background: white;">
+                            <iframe title="Contenido 3.4: Quiz práctico-LLM" frameborder="0" width="1200" height="675"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                src="https://view.genially.com/69ade5ab9abf43c2f0514822" type="text/html"
+                                allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                                allownetworking="all"></iframe>
                         </div>
                     </div>
                 </div>
@@ -646,9 +721,12 @@
             <section class="text-section">
                 <h3>Referencias</h3>
                 <div style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
-                    <p>Kolade, O., Owoseni, A., & Egbetokun, A. (2024). Is AI changing learning and assessment as we know it? Evidence from a ChatGPT experiment and a conceptual framework. Heliyon, 10(4).</p>
-                    <p>U.S. Department of Education. (n.d.). Family Educational Rights and Privacy Act (FERPA). Retrieved from https://www2.ed.gov/policy/gen/guid/fpco/ferpa</p>
-                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</p>
+                    <p>Kolade, O., Owoseni, A., & Egbetokun, A. (2024). Is AI changing learning and assessment as we
+                        know it? Evidence from a ChatGPT experiment and a conceptual framework. Heliyon, 10(4).</p>
+                    <p>U.S. Department of Education. (n.d.). Family Educational Rights and Privacy Act (FERPA).
+                        Retrieved from https://www2.ed.gov/policy/gen/guid/fpco/ferpa</p>
+                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into
+                        practice. CRC Press.</p>
                 </div>
             </section>
 
@@ -660,7 +738,7 @@
                     Anterior
                 </a>
                 <a href="actividad3_1.html" class="btn-footer btn-next">
-                    Siguiente
+                    Actividad 3.1
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
