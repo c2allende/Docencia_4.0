@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 3.3: Automatización de la burocracia educativa | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00C2FF;
+            --secondary: #FF8D5C;
+            --tertiary: #FF9E2A;
+            --neutral-dark: #0A192F;
+            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
+            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
+            --bg-soft: #F1F8FF;
+            --nav-height: 80px;
+        }
+
+        body {
+            background: var(--bg-soft);
+            color: var(--neutral-dark);
+            line-height: 1.8;
+            font-family: 'Manrope', sans-serif;
+            padding-top: var(--nav-height);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 48px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -340px;
+            width: 320px;
+            height: 100vh;
+            background: var(--neutral-dark);
+            color: white;
+            box-shadow: none;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+            z-index: 2000;
+            padding: 40px 30px;
+        }
+
+        .sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            z-index: 1999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .side-menu-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 35px;
+            color: white;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-links li {
+            margin-bottom: 12px;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .menu-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-links a.active {
+            background: var(--primary);
+            color: var(--neutral-dark);
+            font-weight: 800;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 40px auto 100px auto;
+            padding: 0 25px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 35px;
+            padding: 4.5rem;
+            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-player-container {
+            background: #F8FBFF;
+            padding: 2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .audio-label {
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .text-section {
+            margin-bottom: 3rem;
+        }
+
+        .highlight-box {
+            background: #F1F8FF;
+            border-left: 6px solid var(--primary);
+            padding: 2.5rem;
+            border-radius: 0 25px 25px 0;
+            margin: 3rem 0;
+        }
+
+        .highlight-box.prompt-box {
+            background: #fdfdfd;
+            border-left: 6px solid var(--secondary);
+            border: 1px solid #eee;
+            font-style: normal;
+        }
+
+        /* SLIDER DE CONCEPTOS */
+        .slider-section {
+            margin: 5rem 0;
+            padding: 4rem;
+            background: #F8FBFF;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 194, 255, 0.05);
+            position: relative;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: 10px;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 30px;
+        }
+
+        .slider-item {
+            min-width: calc(100% - 20px);
+            background: white;
+            padding: 3.5rem;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(10, 25, 47, 0.05);
+            border: 1px solid #EDF2F7;
+            box-sizing: border-box;
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 194, 255, 0.2);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .control-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* FOOTER NAV */
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 7rem;
+            padding-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-footer {
+            padding: 20px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back {
+            color: var(--neutral-dark);
+            background: rgba(0, 194, 255, 0.1);
+        }
+
+        .btn-next {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .lesson-card {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menú de navegación">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+            </div>
+            <span class="module-title-nav">Lección 3.3: Automatización de la burocracia educativa</span>
+        </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="modulo3_intro.html">📍 Inicio Módulo 3</a></li>
+            <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
+            <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
+            <li><a href="leccion3_3.html" class="active">📖 Lección 3.3</a></li>
+            <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
+            <li><a href="recursos_m3.html">📚 Recursos Módulo 3</a></li>
+        </ul>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="lesson-card">
+            <div class="audio-player-container">
+                <span class="audio-label">Escuchar lección completa</span>
+                <audio controls style="width: 100%;">
+                    <source
+                        src="../LLM-DEPR/LLM_M3_Leccion_3.3_Automatizaci%C3%B3n%20de%20la%20burocracia%20educativa_audio.mp3"
+                        type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+
+            <section class="text-section">
+                <h1>Automatización de la burocracia educativa</h1>
+                <h3>Documentación estándar: Cartas, permisos, minutas y referencias</h3>
+                <p>Las tareas administrativas, como redactar cartas a familias, permisos de excursión, minutas de reuniones o referencias para estudiantes y practicantes— consumen una parte considerable del tiempo docente y suelen seguir formatos relativamente estables. Recursos tecnológicos de IA pueden generar borradores bien estructurados a partir de indicaciones breves sobre propósito, destinatarios y tono deseado, permitiendo que el docente utilice un LLM directamente o a través de un bot o app integrada en el LMS para obtener un texto inicial y se concentre en ajustar detalles específicos y asegurar coherencia con las políticas institucionales (Kwak, 2025).</p>
+                <p>La investigación sobre herramientas impulsadas por IA en contextos educativos destaca que el mayor potencial de estas tecnologías está en reducir la carga de redacción rutinaria y estandarizada, siempre que el usuario mantenga control sobre la revisión y la decisión final sobre el contenido emitido en su nombre (Luo et al., 2025).</p>
+                
+                <div class="highlight-box">
+                    <strong>En el ámbito escolar, esto implica:</strong>
+                    <ul>
+                        <li>Usar la IA para generar plantillas base (por ejemplo, estructuras de carta, secciones estándar de minutas).</li>
+                        <li>Personalizar manualmente los elementos sensibles: nombres de estudiantes, detalles de situaciones, medidas específicas de apoyo.</li>
+                        <li>Asegurar que el tono y la terminología sean consistentes con los lineamientos del DEPR y la cultura escolar.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <h4>Tipos de documentos frecuentes:</h4>
+                <ol>
+                    <li><strong>Cartas a padres/tutores:</strong>
+                        <ul>
+                            <li>Notificaciones de eventos escolares</li>
+                            <li>Comunicaciones sobre desempeño académico o conductual</li>
+                            <li>Invitaciones a reuniones o conferencias</li>
+                            <li>Información sobre cambios en programación</li>
+                        </ul>
+                    </li>
+                    <li><strong>Permisos de excursión:</strong>
+                        <ul>
+                            <li>Documentos formales que incluyen: destino, fecha, hora, propósito educativo, medidas de seguridad, autorizaciones requeridas</li>
+                        </ul>
+                    </li>
+                    <li><strong>Minutas de reuniones:</strong>
+                        <ul>
+                            <li>Registros de reuniones de facultad, IEP, conferencias con padres, comités escolares</li>
+                            <li>Incluyen: asistentes, temas discutidos, decisiones tomadas, acciones a seguir</li>
+                        </ul>
+                    </li>
+                    <li><strong>Referencias profesionales:</strong>
+                        <ul>
+                            <li>Cartas de recomendación para estudiantes (becas, programas especiales)</li>
+                            <li>Referencias para colegas o practicantes</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="text-section">
+                <div class="highlight-box prompt-box">
+                    <h4 style="margin-top:0; color: var(--secondary);">Estructura de prompt efectivo para documentación:</h4>
+                    <p style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                        <strong>Rol:</strong> Actúa como un Coordinador Académico del Departamento de Educación de Puerto Rico (DEPR). Eres experto en la redacción oficial y en la comunicación efectiva con las comunidades escolares, manteniendo un equilibrio entre el formalismo institucional y la calidez necesaria para conectar con las familias puertorriqueñas.<br><br>
+                        <strong>Tarea:</strong> Redacta una carta formal dirigida a los padres y encargados de estudiantes de 3er grado sobre una excursión educativa al Jardín Botánico de Río Piedras.<br><br>
+                        <strong>Contenido obligatorio (Contexto):</strong><br>
+                        1. Propósito educativo: Conectar la visita con el estándar de ciencias sobre el estudio de las plantas y su ciclo de vida.<br>
+                        2. Logística:<br>
+                        &nbsp;&nbsp;o Fecha: 15 de marzo de 2026.<br>
+                        &nbsp;&nbsp;o Horario: 8:00 AM a 2:00 PM.<br>
+                        &nbsp;&nbsp;o Costo: $10.00 (incluye transporte y entrada).<br>
+                        3. Requerimientos: Los estudiantes deben traer almuerzo, agua y gorra.<br>
+                        4. Fecha límite: Los permisos deben entregarse a más tardar el 8 de marzo.<br>
+                        5. Contacto: Incluye espacios para el teléfono y correo electrónico de la escuela.<br><br>
+                        <strong>Restricciones de estilo y formato:</strong><br>
+                        • Tono: Formal, respetuoso y cercano (apropiado para el contexto de PR).<br>
+                        • Saludo: Usa un encabezado formal común en el sistema público de enseñanza.<br>
+                        • Extensión: Debe ocupar aproximadamente una página.<br>
+                        • Formato de Salida: Presenta la carta en Markdown para facilitar su edición en procesadores de texto.
+                    </p>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c;">
+                    <strong>Personalización necesaria:</strong> El docente debe siempre:
+                    <ul>
+                        <li>Verificar fechas, nombres, datos específicos</li>
+                        <li>Ajustar el tono según la relación con las familias</li>
+                        <li>Añadir detalles contextuales que el LLM no puede conocer</li>
+                        <li>Asegurar que el lenguaje sea culturalmente apropiado</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <h3>Informes de progreso y documentos PEI</h3>
+                <p>Los informes de progreso y los documentos como los Planes Educativos Individualizados (PEI) requieren un lenguaje técnico que describa niveles de desempeño, avances y necesidades con precisión y objetividad. La literatura sobre scoring automatizado y apoyo a la redacción evaluativa muestra que la IA puede asistir en la generación de descriptores basados en datos de desempeño, produciendo textos más consistentes y alineados con rúbricas predefinidas (Yan et al., 2020). En la práctica, esta funcionalidad suele ofrecerse a través de aplicaciones o módulos dentro del LMS que llaman a un LLM para redactar borradores, sin que el docente tenga que interactuar directamente con el modelo subyacente.</p>
+                <div class="highlight-box">
+                    <strong>En este marco, el docente puede:</strong>
+                    <ul>
+                        <li>Proveer a la IA notas de observación, resultados de evaluaciones y metas acordadas.</li>
+                        <li>Solicitar que el sistema estructure esa información en secciones típicas de un informe (logros, áreas de oportunidad, recomendaciones).</li>
+                        <li>Revisar el borrador para asegurar que refleje fielmente la realidad del estudiante, la cultura del programa y las exigencias normativas.</li>
+                    </ul>
+                </div>
+                <p>La IA debe entenderse como un asistente de redacción que ayuda a transformar notas dispersas en un texto coherente y profesional, pero la interpretación pedagógica y la responsabilidad legal siguen siendo del docente y del equipo institucional.</p>
+            </section>
+
+            <section class="text-section">
+                <h4>Estructura de un informe de progreso efectivo:</h4>
+                <ol>
+                    <li><strong>Contexto:</strong> Periodo evaluado, áreas trabajadas</li>
+                    <li><strong>Logros:</strong> Qué ha avanzado el estudiante, con evidencias específicas</li>
+                    <li><strong>Áreas de oportunidad:</strong> Qué necesita continuar desarrollando</li>
+                    <li><strong>Recomendaciones:</strong> Pasos sugeridos para el próximo periodo</li>
+                </ol>
+                <h4>Terminología técnica en PEI:</h4>
+                <p>Los documentos PEI requieren lenguaje especializado que refleje:</p>
+                <ul>
+                    <li><strong>Acomodaciones:</strong> Ajustes en cómo se presenta la información o cómo el estudiante responde</li>
+                    <li><strong>Modificaciones:</strong> Cambios en qué se espera que el estudiante aprenda</li>
+                    <li><strong>Servicios relacionados:</strong> Terapias, apoyos especializados</li>
+                    <li><strong>Metas SMART:</strong> Específicas, medibles, alcanzables, relevantes, con tiempo definido</li>
+                </ul>
+            </section>
+
+            <section class="text-section">
+                <div class="highlight-box prompt-box">
+                    <h4 style="margin-top:0; color: var(--secondary);">Ejemplo de prompt para narrativa de PEI:</h4>
+                    <p style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                        <strong>Rol:</strong> Actúa como un Especialista en Educación Especial del Departamento de Educación de Puerto Rico (DEPR). Eres experto en la redacción de Programas Educativos Individualizados (PEI/PIE), con un dominio profundo de la terminología técnica necesaria para describir el Presente Nivel de Ejecución Académica y Funcional (PLEP) de manera objetiva y profesional.<br><br>
+                        <strong>Contexto del estudiante:</strong><br>
+                        • Grado: 2do grado.<br>
+                        • Condición: Diagnóstico de dislexia.<br>
+                        • Observaciones recolectadas:<br>
+                        &nbsp;&nbsp;o Lectura: Identifica palabras aisladas a nivel de Kindergarten; confusión persistente de grafemas con formas similares (b/d, p/q).<br>
+                        &nbsp;&nbsp;o Comprensión: Excelente nivel de comprensión auditiva y participación activa en discusiones orales.<br>
+                        &nbsp;&nbsp;o Conducta: Presenta frustración durante tareas de lectura independiente.<br>
+                        &nbsp;&nbsp;o Respuesta a intervención: Progreso positivo mediante enfoques multisensoriales.<br><br>
+                        <strong>Tarea:</strong> Redacta el párrafo del PLEP (150-200 palabras) utilizando exclusivamente los datos proporcionados. El texto debe:<br>
+                        1. Analizar el nivel de lectura: Detallar el rezago en decodificación y las confusiones visuales específicas.<br>
+                        2. Equilibrar fortalezas y necesidades: Resaltar su capacidad cognitiva superior en lo oral y auditivo frente a sus desafíos de lectoescritura.<br>
+                        3. Utilizar terminología técnica: Incluir términos como "decodificación", "procesamiento fonológico", "intervención multisensorial" y "comprensión auditiva".<br>
+                        4. Base para metas: Asegurar que la descripción sea lo suficientemente específica para derivar metas anuales medibles.<br><br>
+                        <strong>Restricciones de estilo:</strong><br>
+                        • Tono: Estrictamente objetivo, profesional y empático.<br>
+                        • Integridad de datos: No inventes puntajes de pruebas ni datos que no estén en la lista de observaciones.<br>
+                        • Formato de salida: Texto en bloque profesional.
+                    </p>
+                </div>
+                <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c; font-style: normal;">
+                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                </div>
+            </section>
+
+            <section class="text-section">
+                <h3>Comunicación institucional: Correos, memorandos y justificaciones</h3>
+                <p>La comunicación institucional efectiva requiere tono profesional, claridad y asertividad. En la comunicación institucional —correos a directivos, memorandos internos, justificaciones y comunicaciones formales con familias— la IA puede ayudar a:</p>
+                <ul>
+                    <li>Ajustar el registro (formalidad) y el tono (asertivo, empático, colaborativo).</li>
+                    <li>Organizar el contenido en una estructura clara: contexto, situación, acciones realizadas, solicitud o propuesta.</li>
+                    <li>Reducir ambigüedades y asegurar que el mensaje sea comprensible para destinatarios diversos.</li>
+                </ul>
+                <p>Estudios sobre la integración de IA en tareas de apoyo laboral resaltan que las herramientas generativas son especialmente útiles para profesionales que deben producir múltiples versiones de mensajes similares, siempre que se establezcan guías claras de estilo y políticas de revisión previa al envío (Kwak, 2025). En el caso de maestros cooperadores, esto se alinea con la necesidad de comunicar de manera profesional y consistente con distintas audiencias (familias, equipo escolar, supervisores y practicantes), ya sea trabajando directamente con un LLM en un chat o mediante copilotos y apps de correo que incorporan ese modelo.</p>
+            </section>
+
+            <section class="text-section">
+                <h4>Tipos de comunicaciones frecuentes:</h4>
+                <ul>
+                    <li>Correos a supervisores sobre situaciones de aula</li>
+                    <li>Memorandos internos sobre procedimientos</li>
+                    <li>Justificaciones de ausencias o solicitudes de permisos</li>
+                    <li>Respuestas a padres sobre situaciones académicas o disciplinarias</li>
+                    <li>Comunicaciones con colegas sobre coordinación de actividades</li>
+                </ul>
+                <h4>Elementos de comunicación institucional efectiva:</h4>
+                <ol>
+                    <li><strong>Claridad:</strong> Propósito evidente desde el inicio</li>
+                    <li><strong>Concisión:</strong> Información necesaria sin rodeos</li>
+                    <li><strong>Profesionalismo:</strong> Tono respetuoso, lenguaje formal apropiado</li>
+                    <li><strong>Asertividad:</strong> Comunicar necesidades o posiciones de forma directa pero diplomática</li>
+                    <li><strong>Orientación a soluciones:</strong> Enfoque constructivo</li>
+                </ol>
+            </section>
+
+            <section class="text-section">
+                <div class="highlight-box prompt-box">
+                    <h4 style="margin-top:0; color: var(--secondary);">Prompt para correo institucional delicado:</h4>
+                    <p style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
+                        <strong>Rol:</strong> Actúa como un Maestro Cooperador del Departamento de Educación de Puerto Rico (DEPR). Eres un profesional con alto sentido de ética, experto en la redacción de informes institucionales y comunicaciones oficiales que requieren intervención multidisciplinaria (Trabajo Social/Consejería). Tu estilo es preciso, basado en la observación directa y orientado a la protección del menor.<br><br>
+                        <strong>Contexto de la situación:</strong><br>
+                        • Asunto: Notificación de posible inseguridad alimentaria y baja en rendimiento académico de un estudiante.<br>
+                        • Hallazgos:<br>
+                        &nbsp;&nbsp;o El estudiante llega frecuentemente sin desayunar.<br>
+                        &nbsp;&nbsp;o Manifestación directa del estudiante: "En mi casa no hay comida a veces".<br>
+                        &nbsp;&nbsp;o Impacto: Descenso notable en el rendimiento académico, cansancio extremo y falta de concentración en las últimas 3 semanas.<br><br>
+                        <strong>Tarea:</strong> Redacta un correo electrónico formal dirigido a la Directora Escolar. El correo debe:<br>
+                        1. Exponer los hechos: Describir la situación de forma objetiva, utilizando lenguaje profesional y evitando juicios de valor sobre la familia.<br>
+                        2. Vincular bienestar y academia: Explicar cómo la posible falta de nutrición está afectando directamente el proceso de aprendizaje y las funciones ejecutivas del estudiante.<br>
+                        3. Solicitar acción: Pedir formalmente la activación del protocolo de apoyo a través del Trabajador Social o Consejero Escolar.<br>
+                        4. Garantizar ética: Enfatizar el manejo confidencial de la información y el respeto por la dignidad de la unidad familiar.<br><br>
+                        <strong>Restricciones de estilo:</strong><br>
+                        • Tono: Preocupado pero balanceado, profesional y resolutivo.<br>
+                        • Extensión: 200 - 250 palabras.<br>
+                        • Idioma: Español formal (estilo administrativo del DEPR).<br><br>
+                        <strong>Formato de salida:</strong> Texto en Markdown con campos editables entre corchetes [ ]
+                    </p>
+                </div>
+                <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c; font-style: normal;">
+                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                </div>
+            </section>
+
+            <section class="slider-section">
+                <div class="slider-header">
+                    <h2>Conceptos a repasar</h2>
+                    <div class="slider-controls">
+                        <button class="control-btn" id="prevBtn" onclick="moveSlider(-1)">❮</button>
+                        <button class="control-btn" id="nextBtn" onclick="moveSlider(1)">❯</button>
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <div class="slider-item">
+                            <h3>Documentación estándar: Cartas, permisos, minutas y referencias</h3>
+                            <p>Documentación estándar generada con IA (cartas, permisos, minutas y referencias) es el uso de un modelo de lenguaje grande (LLM), ya sea de forma directa o incrustado en un bot o app educativa, para producir borradores estructurados de documentos administrativos escolares que siguen formatos relativamente estables (por ejemplo, cartas a familias, formularios de permiso, actas de reunión o cartas de recomendación) a partir de instrucciones breves sobre propósito, destinatarios y tono. En términos técnicos, el LLM actúa como motor generativo que se encarga de la redacción inicial y del ajuste de estilo, mientras que el docente mantiene el control sobre la revisión, la personalización de datos sensibles (nombres, fechas, situaciones concretas) y la verificación de alineación con políticas institucionales y normativas educativas.</p>
+                        </div>
+                        <div class="slider-item">
+                            <h3>Planes Educativos Individualizados (PEI)</h3>
+                            <p>Los Planes Educativos Individualizados (PEI) son documentos formales de planificación que establecen, para un estudiante con discapacidad o necesidades educativas especiales, los objetivos anuales, las adaptaciones y/o modificaciones curriculares, los servicios relacionados y los criterios de evaluación, de manera individualizada, con base en una evaluación diagnóstica y en acuerdos entre familia, escuela y equipos de apoyo. En el contexto de los LLM, estos modelos pueden utilizarse como asistentes de redacción para organizar observaciones, datos de desempeño y metas en secciones típicas del PEI (por ejemplo, PLEP, metas SMART, apoyos), pero la definición de objetivos, la selección de adaptaciones y la responsabilidad legal del documento siguen recayendo exclusivamente en el equipo docente y profesional humano.</p>
+                            <small>Inclusive Education: What, Why, and How: A handbook for program implementers - Save the Children’s Resource Centre. (n.d.)</small>
+                        </div>
+                        <div class="slider-item">
+                            <h3>Terminología técnica en PEI</h3>
+                            <p>La terminología técnica en PEI es el conjunto de términos especializados que se utilizan de forma estandarizada dentro de un Plan Educativo Individualizado para describir con precisión la situación del estudiante, los apoyos que recibirá y cómo se evaluará su progreso (por ejemplo: nivel presente de ejecución, acomodaciones, modificaciones, servicios relacionados, metas anuales y metas SMART, plan de transición). En el contexto de los LLM, esta terminología funciona como un vocabulario controlado que se puede incorporar en prompts y plantillas, de modo que el modelo genere borradores de secciones del PEI con el lenguaje técnico correcto, mientras el equipo educativo revisa que cada término se use adecuadamente y se corresponda con decisiones pedagógicas y legales reales.</p>
+                            <small>De Understood, E. E. (2025). Términos usados en la educación especial y el IEP.</small>
+                        </div>
+                        <div class="slider-item">
+                            <h3>Comunicación institucional: Correos, memorandos y justificaciones</h3>
+                            <p>La comunicación institucional (correos, memorandos y justificaciones) es el conjunto de mensajes escritos formales que circulan entre los distintos actores de la comunidad educativa (dirección, docentes, familias, personal de apoyo, supervisores) para informar, solicitar, justificar o acordar acciones, siguiendo convenciones de registro profesional, claridad y trazabilidad. En el contexto de los LLM, estos modelos se utilizan como asistentes de redacción que generan borradores de correos, memorandos y justificaciones a partir de indicaciones sobre propósito, destinatarios, tono y puntos clave, mientras que el docente o directivo revisa, ajusta y valida el contenido para garantizar que sea fiel a la situación, cumpla con las políticas institucionales y respete la confidencialidad y la ética profesional.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <div class="highlight-box" style="background: var(--primary-gradient); border: none; color: white; border-radius: 30px;">
+                    <h2 style="color: white; -webkit-text-fill-color: white; margin-bottom: 15px;">Cierre de la lección</h2>
+                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 0;">Felicidades</h4>
+                    <p>Has culminado la lección 3.3 del programa de formación profesional. Al completar el contenido 3.3, reconoces que los LLM pueden ser aliados potentes para reducir la carga de burocracia educativa: te ayudan a generar borradores de cartas, permisos, minutas, informes y comunicaciones institucionales, manteniendo tu tiempo más libre para enseñar. Al mismo tiempo, reafirmas tu rol como responsable último del contenido, el tono y la fidelidad de todo documento emitido en tu nombre, especialmente cuando se trata de PEI y situaciones delicadas con estudiantes y familias.</p>
+
+                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 25px;">Invitación al checkpoint de saberes</h4>
+                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.3, una evaluación formativa breve y no punitiva centrada en cómo usar los LLM para automatizar la redacción de documentos administrativos (cartas, permisos, minutas, informes y comunicaciones institucionales), manteniendo siempre tu control sobre la revisión, la personalización de datos sensibles y el cumplimiento de las normas. Al completarlo, estarás generando evidencia de tu propio criterio profesional en torno al uso de la IA para aliviar la burocracia educativa sin renunciar a la confidencialidad, la precisión y el tono institucional adecuado en cada documento.</p>
+
+                    <div style="width: 100%; margin-top: 20px;">
+                        <div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; border-radius: 20px; overflow: hidden; background: white;">
+                            <iframe title="Contenido 3.3: Quiz práctico-LLM" frameborder="0" width="1200" height="675" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/69ade2ee14c7191a9db13e73" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> 
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section">
+                <h3>Referencias</h3>
+                <div style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
+                    <p>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</p>
+                    <p>Luo, J., Zheng, C., Yin, J., & Teo, H. H. (2025). Design and assessment of AI-based learning tools in higher education: A systematic review. International Journal of Educational Technology in Higher Education, 22(1), 42.</p>
+                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</p>
+                </div>
+            </section>
+
+            <div class="footer-nav">
+                <a href="leccion3_2.html" class="btn-footer btn-back">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Anterior
+                </a>
+                <a href="actividad3_1.html" class="btn-footer btn-next">
+                    Siguiente
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <div id="zoomModal" onclick="this.style.display='none'">
+        <img id="zoomImg" src="" alt="Vista ampliada">
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function openZoom(src) {
+            const modal = document.getElementById('zoomModal');
+            const img = document.getElementById('zoomImg');
+            modal.style.display = 'flex';
+            img.src = src;
+        }
+
+        // Slider Logic
+        let currentSlide = 0;
+        const track = document.getElementById('sliderTrack');
+        const items = document.querySelectorAll('.slider-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlider() {
+            if (!items || items.length === 0) return;
+            const container = document.querySelector('.slider-container');
+            if (!container) return;
+            const itemWidth = items[0].offsetWidth + 30; // width + gap
+            track.style.transform = `translateX(-${currentSlide * itemWidth}px)`;
+
+            if (prevBtn) prevBtn.classList.toggle('disabled', currentSlide === 0);
+            if (nextBtn) nextBtn.classList.toggle('disabled', currentSlide === items.length - 1);
+        }
+
+        function moveSlider(dir) {
+            if (dir === 1 && currentSlide < items.length - 1) {
+                currentSlide++;
+            } else if (dir === -1 && currentSlide > 0) {
+                currentSlide--;
+            }
+            updateSlider();
+        }
+
+        window.addEventListener('resize', updateSlider);
+        setTimeout(updateSlider, 500);
+    </script>
+</body>
+
+</html>
