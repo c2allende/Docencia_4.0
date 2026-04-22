@@ -7,838 +7,461 @@
     <title>Lección 3.2: Retroalimentación formativa y computación afectiva | Docencia 4.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <style>
-        * {
-            box-sizing: border-box;
+        :root {
+            --primary: #0061FF;
+            --primary-light: #E0E7FF;
+            --secondary: #6366F1;
+            --accent: #FF8D5C;
+            --neutral-dark: #0F172A;
+            --neutral-gray: #64748B;
+            --bg-body: #F8FAFC;
+            --glass: rgba(255, 255, 255, 0.8);
+            --nav-height: 80px;
+            --radius-xl: 32px;
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
         }
 
-        :root {
-            --primary: #00C2FF;
-            --secondary: #FF8D5C;
-            --tertiary: #FF9E2A;
-            --neutral-dark: #0A192F;
-            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
-            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
-            --bg-soft: #F1F8FF;
-            --nav-height: 80px;
-        }
+        * { box-sizing: border-box; }
 
         body {
-            background: var(--bg-soft);
+            background-color: var(--bg-body);
             color: var(--neutral-dark);
-            line-height: 1.8;
-            font-family: 'Manrope', sans-serif;
-            padding-top: var(--nav-height);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
             margin: 0;
+            padding-top: var(--nav-height);
             overflow-x: hidden;
         }
 
-        h1,
-        h2,
-        h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            margin-top: 0;
-        }
-
-        /* NAVBAR SUPERIOR */
+        /* NAVBAR */
         .top-nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 0 2.5rem;
             z-index: 1000;
         }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .logo-container img {
-            height: 48px;
-            width: auto;
-        }
-
-        .module-title-nav {
+        .nav-left { display: flex; align-items: center; gap: 1.5rem; }
+        .logo-main { height: 42px; width: auto; }
+        .nav-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-left: 2px solid var(--primary);
-            padding-left: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--neutral-dark);
+            padding-left: 1.5rem;
+            border-left: 1px solid #E2E8F0;
         }
 
-        /* MENÚ LATERAL */
+        /* SIDEBAR */
+        .menu-toggle {
+            background: #F1F5F9;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: var(--neutral-dark);
+            transition: all 0.3s;
+        }
+        .menu-toggle:hover { background: var(--primary-light); color: var(--primary); }
+
         .sidebar {
             position: fixed;
-            top: 0;
-            left: -340px;
-            width: 320px;
-            height: 100vh;
-            background: var(--neutral-dark);
-            color: white;
-            box-shadow: none;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+            top: 0; left: -320px;
+            width: 300px; height: 100vh;
+            background: white;
             z-index: 2000;
-            padding: 40px 30px;
+            padding: 2.5rem;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 20px 0 60px rgba(0,0,0,0.05);
         }
-
-        .sidebar.active {
-            left: 0;
-            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .sidebar-overlay {
+        .sidebar.active { left: 0; }
+        .overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.6);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(4px);
             display: none;
             z-index: 1999;
         }
+        .overlay.active { display: block; }
 
-        .sidebar-overlay.active {
+        .sidebar h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-bottom: 2rem; }
+        .nav-links { list-style: none; padding: 0; margin: 0; }
+        .nav-links li { margin-bottom: 0.75rem; }
+        .nav-links a {
             display: block;
-        }
-
-        .menu-btn {
-            background: rgba(0, 194, 255, 0.1);
-            border: 1px solid rgba(0, 194, 255, 0.2);
-            padding: 12px;
-            border-radius: 14px;
-            cursor: pointer;
-            color: var(--primary);
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        .menu-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .side-menu-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 35px;
-            color: white;
-        }
-
-        .menu-links {
-            list-style: none;
-            padding: 20px 0;
-        }
-
-        .menu-links li {
-            margin-bottom: 12px;
-        }
-
-        .menu-links a {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            padding: 0.85rem 1.25rem;
+            border-radius: 12px;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--neutral-gray);
             font-weight: 600;
-            padding: 14px 20px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover { background: #F8FAFC; color: var(--primary); }
+        .nav-links a.active { background: var(--primary); color: white; }
+
+        /* MAIN CONTENT */
+        .main-wrapper {
+            max-width: 900px;
+            margin: 3rem auto 6rem auto;
+            padding: 0 1.5rem;
         }
 
-        .menu-links a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--primary);
-        }
-
-        .menu-links a.active {
-            background: var(--primary);
-            color: var(--neutral-dark);
+        .lesson-header { margin-bottom: 4rem; }
+        .lesson-header h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 3rem;
             font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #0F172A 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .lesson-header h3 {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0;
+            letter-spacing: -0.02em;
         }
 
-        /* CONTENIDO PRINCIPAL */
-        .content-wrapper {
-            max-width: 1100px;
-            margin: 40px auto 100px auto;
-            padding: 0 25px;
-        }
-
-        .lesson-card {
+        .audio-container {
             background: white;
-            border-radius: 35px;
-            padding: 4.5rem;
-            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
-            border: 1px solid rgba(0, 194, 255, 0.05);
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .audio-player-container {
-            background: #F8FBFF;
-            padding: 2rem;
-            border-radius: 25px;
-            border: 1px solid rgba(0, 194, 255, 0.1);
-            margin-bottom: 3rem;
+            border-radius: 24px;
+            padding: 1.5rem 2rem;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            border: 1px solid #F1F5F9;
+            box-shadow: var(--shadow-premium);
         }
+        .audio-info { flex-grow: 1; }
+        .audio-info span { display: block; font-size: 0.75rem; font-weight: 700; color: var(--neutral-gray); text-transform: uppercase; letter-spacing: 0.05em; }
+        .audio-player { width: 100%; height: 32px; margin-top: 5px; }
 
-        .audio-label {
-            font-weight: 800;
-            font-size: 0.8rem;
-            color: var(--primary);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .text-section {
-            margin-bottom: 3rem;
-            clear: both;
-        }
-
-        .text-section:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        .highlight-box {
-            background: #F1F8FF;
-            border-left: 6px solid var(--primary);
-            padding: 2.5rem;
-            border-radius: 0 25px 25px 0;
-            margin: 3rem 0;
-            clear: both;
-        }
-
-        .highlight-box.prompt-box {
-            background: #fdfdfd;
-            border-left: 6px solid var(--secondary);
-            border: 1px solid #eee;
-            font-style: normal;
-        }
-
-        /* COMPARISON */
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin: 3rem 0;
-            clear: both;
-        }
-
-        .comp-card {
-            background: #fff;
-            padding: 2.5rem;
-            border-radius: 30px;
-            border: 1px solid #EDF2F7;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.02);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .comp-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 45px rgba(0, 194, 255, 0.08);
-        }
-
-        /* SLIDER DE CONCEPTOS */
-        .slider-section {
-            margin: 5rem 0;
+        .content-card {
+            background: white;
+            border-radius: var(--radius-xl);
             padding: 4rem;
-            background: #F8FBFF;
-            border-radius: 40px;
-            border: 1px solid rgba(0, 194, 255, 0.05);
-            position: relative;
-        }
-
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 3rem;
-        }
-
-        .slider-container {
-            overflow: hidden;
+            border: 1px solid #F1F5F9;
+            box-shadow: var(--shadow-premium);
             position: relative;
-            padding: 10px;
         }
 
-        .slider-track {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            gap: 30px;
-        }
-
-        .slider-item {
-            min-width: calc(100% - 20px);
-            background: white;
-            padding: 3.5rem;
-            border-radius: 35px;
-            box-shadow: 0 20px 50px rgba(10, 25, 47, 0.05);
-            border: 1px solid #EDF2F7;
-            box-sizing: border-box;
-        }
-
-        .slider-controls {
-            display: flex;
-            gap: 15px;
-        }
-
-        .control-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            border: 2px solid rgba(0, 194, 255, 0.2);
-            background: white;
-            color: var(--primary);
-            cursor: pointer;
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 1.2rem;
+            gap: 1rem;
         }
-
-        .control-btn:hover {
+        .section-title::before {
+            content: "";
+            width: 8px; height: 32px;
             background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            transform: scale(1.1);
+            border-radius: 4px;
         }
 
-        .control-btn.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
+        p { font-size: 1.125rem; color: #334155; margin-bottom: 1.5rem; }
+        ul, ol { margin-bottom: 2rem; padding-left: 1.5rem; }
+        li { font-size: 1.05rem; color: #475569; margin-bottom: 1rem; }
+
+        /* FEATURE BOXES */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 3rem 0;
         }
+        .feature-item {
+            background: #F8FAFC;
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px solid #F1F5F9;
+            transition: all 0.3s;
+        }
+        .feature-item:hover { transform: translateY(-4px); border-color: var(--primary-light); }
+        .feature-item h4 { color: var(--primary); margin-top: 0; font-size: 1.1rem; }
+
+        .prompt-container {
+            background: #0F172A;
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            color: #E2E8F0;
+            position: relative;
+            overflow: hidden;
+        }
+        .prompt-container::after {
+            content: "PROMPT";
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 2px;
+        }
+        .prompt-content { font-family: 'Inter', monospace; font-size: 0.95rem; white-space: pre-line; color: #CBD5E1; }
+        .prompt-header { color: var(--primary); font-weight: 700; margin-bottom: 1.5rem; display: block; }
+
+        .warning-box {
+            background: #FFF7ED;
+            border-left: 4px solid #FB923C;
+            padding: 1.5rem 2rem;
+            border-radius: 0 16px 16px 0;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+            color: #9A3412;
+        }
+
+        /* SLIDER */
+        .slider-wrapper {
+            background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%);
+            border-radius: 40px;
+            padding: 4rem;
+            margin: 5rem 0;
+            position: relative;
+        }
+        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .slider-header h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; margin: 0; }
+        .slider-track { overflow: hidden; }
+        .slider-content { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); gap: 2rem; }
+        .slide {
+            min-width: 100%;
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .slide h3 { color: var(--primary); margin-top: 0; font-size: 1.4rem; }
+        .slide p { font-size: 1rem; }
+        .slide small { color: var(--neutral-gray); font-weight: 600; }
+
+        .slider-nav { display: flex; gap: 10px; }
+        .btn-nav {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            border: 1px solid #E2E8F0;
+            background: white;
+            color: var(--neutral-dark);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .btn-nav:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* FOOTER NAV */
-        .footer-nav {
+        .page-footer-nav {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 7rem;
-            padding-top: 4rem;
-            border-top: 1px solid #e2e8f0;
+            margin-top: 6rem;
+            padding-top: 3rem;
+            border-top: 1px solid #E2E8F0;
         }
-
         .btn-footer {
-            padding: 20px 45px;
-            border-radius: 50px;
+            padding: 1rem 2rem;
+            border-radius: 16px;
             text-decoration: none;
             font-weight: 700;
-            transition: all 0.4s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 10px;
+            transition: all 0.3s;
         }
+        .btn-prev { color: var(--neutral-gray); background: white; border: 1px solid #E2E8F0; }
+        .btn-prev:hover { background: #F8FAFC; }
+        .btn-next { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.15); }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 97, 255, 0.2); }
 
-        .btn-back {
-            color: var(--neutral-dark);
-            background: rgba(0, 194, 255, 0.1);
-        }
-
-        .btn-next {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
-        }
-
-        .btn-next:hover {
-            transform: translateX(5px);
-            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
-        }
-
-        /* IMÁGENES */
-        .img-editorial-right {
-            float: right;
-            width: 380px;
-            margin: 10px 0 30px 40px;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
-            border: 1px solid #f1f5f9;
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
-        }
-
-        .img-editorial-left {
-            float: left;
-            width: 380px;
-            margin: 10px 40px 30px 0;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
-            border: 1px solid #f1f5f9;
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
-        }
-
-        .img-editorial-right img,
-        .img-editorial-left img {
-            width: 100%;
-            display: block;
-        }
-
-        #zoomModal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.95);
-            backdrop-filter: blur(10px);
-            justify-content: center;
-            align-items: center;
-        }
-
-        #zoomModal img {
-            max-height: 90%;
-            max-width: 90%;
-            border-radius: 20px;
-        }
-
-        @media (max-width: 900px) {
-            .lesson-card {
-                padding: 2.5rem;
-            }
-
-            .img-editorial-right,
-            .img-editorial-left {
-                float: none;
-                width: 100%;
-                margin: 2rem 0;
-            }
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            .lesson-header h1 { font-size: 2.25rem; }
+            .content-card { padding: 2rem; }
+            .slider-wrapper { padding: 2rem; }
         }
     </style>
 </head>
 
 <body>
-
     <nav class="top-nav">
         <div class="nav-left">
-            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menú de navegación">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
-            <div class="logo-container">
-                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
-            </div>
-            <span class="module-title-nav">Lección 3.2: Retroalimentación formativa y computación afectiva</span>
+            <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Logo" class="logo-main">
+            <span class="nav-title">Gestión Administrativa y Evaluativa</span>
         </div>
     </nav>
 
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
-        <h2 class="side-menu-title">Navegación</h2>
-        <ul class="menu-links">
-            <li><a href="dashboard.html">🏠 Dashboard</a></li>
-            <li><a href="modulo3_intro.html">📍 Inicio Módulo 3</a></li>
-            <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
-            <li><a href="leccion3_2.html" class="active">📖 Lección 3.2</a></li>
-            <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
-            <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
-            <li><a href="recursos_m3.html">📚 Recursos Módulo 3</a></li>
+        <h2>Índice del curso</h2>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="modulo3_intro.html">Inicio Módulo 3</a></li>
+            <li><a href="leccion3_1.html">Lección 3.1</a></li>
+            <li><a href="leccion3_2.html" class="active">Lección 3.2</a></li>
+            <li><a href="leccion3_3.html">Lección 3.3</a></li>
+            <li><a href="actividad3_1.html">Actividad 3.1</a></li>
+            <li><a href="recursos_m3.html">Recursos</a></li>
         </ul>
     </div>
 
-    <main class="content-wrapper">
-        <div class="lesson-card">
-            <div class="audio-player-container">
-                <span class="audio-label">Escuchar lección completa</span>
-                <audio controls style="width: 100%;">
-                    <source
-                        src="../LLM-DEPR/LLM_M3_Leccion_3.2_Retroalimentaci%C3%B3n%20formativa%20y%20computaci%C3%B3n%20afectiva_audio.mp3"
-                        type="audio/mpeg">
-                    Tu navegador no soporta el elemento de audio.
+    <main class="main-wrapper">
+        <header class="lesson-header">
+            <h3>LECCIÓN 3.2</h3>
+            <h1>Retroalimentación formativa y computación afectiva</h1>
+        </header>
+
+        <div class="audio-container">
+            <div class="audio-info">
+                <span>Versión narrada por IA</span>
+                <audio class="audio-player" controls>
+                    <source src="../LLM-DEPR/LLM_M3_Leccion_3.2_Retroalimentaci%C3%B3n%20formativa%20y%20computaci%C3%B3n%20afectiva_audio.mp3" type="audio/mpeg">
                 </audio>
             </div>
-
-            <section class="text-section">
-                <h1>Retroalimentación formativa y computación afectiva</h1>
-                <h3>Feedback asistido: De lo cuantitativo a lo cualitativo</h3>
-                <div class="img-editorial-right" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/LLM_M3_Leccion_3.2_Feedback_Formativo.png"
-                        alt="Ilustración de feedback formativo asistido por IA">
-                </div>
-                <p>La retroalimentación formativa de calidad es uno de los factores con mayor impacto en el aprendizaje,
-                    pero su producción individualizada consume mucho tiempo, especialmente en grupos grandes. Las
-                    herramientas generativas pueden transformar calificaciones o descriptores de desempeño en
-                    comentarios escritos más ricos, específicos y orientados a la mejora, siempre que el docente
-                    proporcione información estructurada sobre el desempeño y revise cuidadosamente la salida (Kwak,
-                    2025). Estudios recientes muestran que sistemas de evaluación automatizada combinados con generación
-                    de comentarios pueden ofrecer retroalimentación más rápida y consistente, mientras se mantiene la
-                    necesidad de verificación humana para asegurar justicia y precisión (Yan et al., 2020). En este
-                    contexto, los LLM funcionan como motores de generación de borradores de comentarios a partir de
-                    calificaciones, rúbricas o descriptores de desempeño, mientras que los bots o apps educativas que
-                    integran LLM añaden capas de interfaz, plantillas y opciones de gestión de grupos, sin sustituir el
-                    juicio profesional docente.</p>
-            </section>
-
-            <section class="text-section">
-                <h3>Retroalimentación emocionalmente enriquecida</h3>
-                <div class="img-editorial-left" onclick="openZoom(this.querySelector('img').src)">
-                    <img src="../assets/LLM_M3_Leccion_3.2_Computacion_Afectiva.png"
-                        alt="Ilustración de computación afectiva aplicada a la educación">
-                </div>
-                <p>La computación afectiva estudia cómo los sistemas pueden detectar, modelar o responder a estados
-                    emocionales humanos, incluyendo emociones asociadas al proceso de aprender y recibir crítica. Un
-                    cuerpo de evidencia sugiere que la retroalimentación que incorpora reconocimiento del esfuerzo,
-                    empatía y sugerencias constructivas tiene efectos más positivos en la motivación y la
-                    autorregulación del estudiante que comentarios puramente correctivos (D’Mello & Kory, 2015).</p>
-                <p>Investigaciones recientes sobre retroalimentación “emocionalmente enriquecida” generada por IA indican
-                    que es posible diseñar prompts y sistemas que produzcan comentarios que combinan elementos
-                    cognitivos (qué mejorar) y afectivos (cómo animar y sostener al estudiante), generando mayor
-                    compromiso y mejor percepción de apoyo por parte del estudiantado (Alsaiari et al., 2024). En estos
-                    estudios, los docentes definen reglas y ejemplos de tono adecuado, y la IA genera borradores de
-                    comentarios que luego se revisan antes de ser entregados, usualmente a través de plataformas o apps
-                    de gestión del curso que consumen servicios LLM en segundo plano.</p>
-            </section>
-
-            <section class="text-section">
-                <h4>En la práctica, esto implica:</h4>
-                <ul>
-                    <li><strong>1. Confirmación:</strong> Reconocer lo que el estudiante hizo bien. Instruir al modelo
-                        para reconocer logros específicos antes de señalar errores.</li>
-                    <li><strong>2. Empatía:</strong> Reconocer el esfuerzo y validar el proceso de aprendizaje. Pedirle
-                        que utilice un tono respetuoso y motivador, adecuado a la edad y contexto cultural.</li>
-                    <li><strong>3. Especificidad:</strong> Señalar exactamente qué necesita mejora y por qué.</li>
-                    <li><strong>4. Orientación a la acción:</strong> Proporcionar pasos concretos para mejorar.
-                        Solicitar sugerencias concretas de próximos pasos (“qué hacer mañana”) en lugar de comentarios
-                        vagos.</li>
-                </ul>
-            </section>
-
-            <section class="text-section">
-                <div class="highlight-box prompt-box">
-                    <h4 style="margin-top:0; color: var(--secondary);">Ejemplo de prompt para generar feedback:</h4>
-                    <p
-                        style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-                        <strong>Rol:</strong> Actúa como un Maestro Mentor de [ grado ] en Puerto Rico, experto en
-                        pedagogía positiva y enseñanza de [ materia ] a [nivel ]. Tu tono debe ser alentador, cercano y
-                        motivador, similar al de un guía que celebra el esfuerzo mientras corrige el camino.<br><br>
-                        <strong>Contexto del estudiante:</strong><br>
-                        • Nivel: 4to Grado (9-10 años).<br>
-                        • Desempeño: Obtuvo 65/100 en un examen de fracciones.<br>
-                        • Logros: Dominó correctamente las sumas de fracciones.<br>
-                        • Desafíos: Confusión entre numerador/denominador, falta de simplificación y errores en las
-                        restas.<br><br>
-                        <strong>Tarea:</strong> Redacta un comentario de retroalimentación de 4 a 5 oraciones dirigido
-                        directamente al estudiante. Debes seguir esta estructura de salida estructurada:<br>
-                        1. Validación positiva: Comienza felicitándolo por su excelente trabajo en las sumas.<br>
-                        2. Claridad empática: Explica los errores (numerador/denominador y restas) de forma sencilla,
-                        tratándolos como "oportunidades de aprendizaje" y no como fallos.<br>
-                        3. Acción concreta: Sugiere un paso práctico (ej. una estrategia de dibujo o una regla
-                        mnemotécnica para no olvidar simplificar).<br>
-                        4. Cierre motivador: Termina con una frase que refuerce su potencial para mejorar en el próximo
-                        reto.<br><br>
-                        <strong>Restricciones de estilo:</strong><br>
-                        • NO menciones la nota numérica (65/100).<br>
-                        • NO uses lenguaje condescendiente ni demasiado técnico.<br>
-                        • Usa un español natural y cálido, apropiado para el contexto escolar de Puerto Rico.
-                    </p>
-                </div>
-            </section>
-
-            <section class="text-section">
-                <h3>Ahorro de tiempo y aumento de calidad:</h3>
-                <p>La generación asistida de retroalimentación permite al docente:</p>
-                <ul>
-                    <li>Mantener consistencia en el tono y nivel de detalle.</li>
-                    <li>Personalizar comentarios masivamente en menos tiempo, especialmente cuando se usan bots o
-                        módulos de retroalimentación incrustados en el LMS que llaman a un LLM.</li>
-                    <li>Enfocarse en casos que requieren atención especializada.</li>
-                </ul>
-                <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c; font-style: normal;">
-                    <strong>Limitación ética importante:</strong> El docente siempre debe revisar y personalizar el
-                    comentario generado antes de enviarlo, asegurando que refleje su conocimiento del estudiante, su
-                    trayectoria y su contexto.
-                </div>
-            </section>
-
-            <section class="text-section">
-                <h3>Análisis de errores y patrones de confusión</h3>
-                <p>Además de redactar comentarios, los LLMs pueden analizar conjuntos de respuestas anonimizadas para
-                    identificar patrones de error, concepciones alternativas o dificultades recurrentes. La literatura
-                    sobre evaluación asistida por IA muestra que estos sistemas pueden apoyar el diagnóstico de errores
-                    frecuentes y la clasificación de respuestas según criterios de rúbricas, lo que sirve de base para
-                    planificar re-enseñanza más focalizada (Yan et al., 2020). En muchos casos, esta funcionalidad no se
-                    accede directamente al modelo base, sino a través de herramientas de analítica de aprendizaje que
-                    integran LLM para procesar texto.</p>
-            </section>
-
-            <section class="text-section">
-                <h4>En términos operativos, el flujo típico consiste en:</h4>
-                <ol>
-                    <li><strong>Anonimizar completamente las respuestas:</strong> Eliminar nombres, números de
-                        estudiante, cualquier información identificable.</li>
-                    <li><strong>Compilar respuestas por pregunta o tarea:</strong> Agrupar las respuestas a una misma
-                        pregunta.</li>
-                    <li><strong>Solicitar al LLM análisis de patrones:</strong> Pedir que identifique los errores más
-                        frecuentes, las concepciones erróneas subyacentes y posibles causas.</li>
-                    <li><strong>Generar estrategias de re-enseñanza:</strong> Basándose en los patrones identificados,
-                        solicitar sugerencias de actividades correctivas.</li>
-                </ol>
-                <p>Este uso mantiene al maestro como intérprete principal del significado pedagógico de los datos,
-                    mientras la IA facilita el procesamiento inicial de grandes volúmenes de información sobre el
-                    desempeño estudiantil.</p>
-            </section>
-
-            <section class="text-section">
-                <div class="highlight-box prompt-box">
-                    <h4 style="margin-top:0; color: var(--secondary);">Ejemplo de prompt para análisis de errores:</h4>
-                    <p
-                        style="font-size: 0.95rem; background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee;">
-                        <strong>Rol:</strong> Actúa como un Especialista en Diagnóstico Pedagógico y Curriculista de
-                        [materia] del DEPR. Tu especialidad es el análisis de "misconceptions" (conceptos erróneos) y el
-                        diseño de estrategias de remediación de bajo costo y alto impacto para el salón de clases en
-                        Puerto Rico.<br><br>
-                        <strong>Contexto:</strong><br>
-                        • Nivel: 6to grado de ciencias (11-12 años).<br>
-                        • Materia: Astronomía / Ciclo Lunar.<br>
-                        • Insumo: 25 respuestas anónimas de estudiantes a la pregunta: "¿Por qué la luna cambia de forma
-                        durante el mes?".<br>
-                        • Datos: [Pega aquí las 25 respuestas].<br><br>
-                        <strong>Tarea:</strong> Realiza un análisis exhaustivo de estas respuestas para informar mi
-                        instrucción futura, cubriendo los siguientes puntos:<br>
-                        1. Identificación de conceptos erróneos: Clasifica y describe los 3 patrones de error más
-                        frecuentes (ej. "la sombra de la Tierra causa las fases", "las nubes tapan la luna", etc.).<br>
-                        2. Análisis de causa raíz: Explica por qué pueden estar ocurriendo estas confusiones,
-                        considerando el uso del vocabulario, ideas previas comunes en esta edad o posibles fallos en la
-                        instrucción tradicional.<br>
-                        3. Plan de remediación (Estrategias viables): Diseña una actividad de remediación para cada
-                        error identificado. Las actividades deben ser:<br>
-                        &nbsp;&nbsp;o Alineadas a 6to grado.<br>
-                        &nbsp;&nbsp;o Bajo costo/Recursos limitados: Utilizando materiales accesibles en una escuela
-                        pública de PR (ej. linternas de celulares, pelotas de papel, luz solar).<br>
-                        &nbsp;&nbsp;o Aprendizaje activo: Que el estudiante sea quien descubra el concepto correcto a
-                        través de la observación o modelaje físico.<br><br>
-                        <strong>Formato de salida:</strong> Presenta el informe utilizando "La Lupa del Maestro" como
-                        marco de referencia: asegura que las sugerencias sean fácticamente correctas, viables y
-                        culturalmente pertinentes para Puerto Rico.
-                    </p>
-                </div>
-                <div class="highlight-box" style="background: #fff5f5; border-color: #ff8d5c; font-style: normal;">
-                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE),
-                    calificaciones asociadas a identidades o cualquier información que permita identificar individuos.
-                    El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
-                </div>
-            </section>
-
-            <section class="slider-section">
-                <div class="slider-header">
-                    <h2>Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" id="prevBtn" onclick="moveSlider(-1)">❮</button>
-                        <button class="control-btn" id="nextBtn" onclick="moveSlider(1)">❯</button>
-                    </div>
-                </div>
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <div class="slider-item">
-                            <h3>Feedback asistido</h3>
-                            <p>El feedback asistido es un proceso de retroalimentación en el que un sistema de IA,
-                                típicamente un LLM, genera comentarios preliminares sobre el desempeño del estudiante a
-                                partir de evidencias estructuradas (respuestas, soluciones, rúbricas), con el propósito
-                                de apoyar la evaluación formativa, mientras la docente o el docente conserva el control
-                                sobre la revisión, adaptación y validación de dichos comentarios antes de entregarlos.
-                                En términos técnicos, el LLM actúa como generador automatizado de borradores de feedback
-                                personalizados y contextuales (por ejemplo, explicando errores, señalando fortalezas y
-                                sugiriendo próximos pasos), y suele integrarse dentro de bots, apps o plataformas
-                                educativas, de modo que la interacción final con el alumnado combina la capacidad
-                                generativa del modelo con el juicio pedagógico humano y salvaguardas éticas.</p>
-                            <small>Matelsky et al. (2023)</small>
-                        </div>
-                        <div class="slider-item">
-                            <h3>Retroalimentación emocionalmente enriquecida</h3>
-                            <p>La retroalimentación emocionalmente enriquecida es un tipo de feedback generado (o
-                                co-generado) por IA, típicamente mediante un LLM, que combina información cognitiva sobre
-                                el desempeño del estudiante (aciertos, errores, próximos pasos) con elementos afectivos
-                                explícitos como elogio, reconocimiento del esfuerzo, expresiones empáticas y, en algunos
-                                diseños, recursos paralingüísticos (emojis, fórmulas de ánimo) para reducir emociones
-                                negativas y mejorar la percepción de apoyo sin rebajar los estándares académicos.
-                                Técnicamente, el LLM se configura mediante prompts o plantillas que especifican tanto el
-                                contenido disciplinar del feedback como el tono emocional deseado, y sus salidas se
-                                integran en plataformas o bots educativos donde el profesorado revisa y valida los
-                                mensajes antes de enviarlos al estudiantado.</p>
-                            <small>GreyEd (n.d.); Alsaiari et al. (2024)</small>
-                        </div>
-                        <div class="slider-item">
-                            <h3>Análisis de errores y patrones de confusión</h3>
-                            <p>Análisis de errores y patrones de confusión, alineado al uso de LLM, es el proceso
-                                mediante el cual se examinan de forma sistemática las respuestas de los estudiantes para
-                                identificar tipos recurrentes de errores, lagunas conceptuales y concepciones erróneas,
-                                con el fin de orientar la retroalimentación y la re enseñanza. Cuando se emplean LLM, el
-                                modelo recibe conjuntos de respuestas (anonimizadas) y se le solicita que clasifique los
-                                errores, describa las ideas equivocadas subyacentes y sugiera posibles causas o
-                                malentendidos, de modo que el profesorado pueda focalizar la instrucción en los
-                                obstáculos reales al aprendizaje sin tener que leer y codificar manualmente todos los
-                                textos.</p>
-                            <small>Bewersdorff et al. (2023)</small>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="text-section">
-                <div
-                    class="highlight-box"
-                    style="background: var(--primary-gradient); border: none; color: white; border-radius: 30px;">
-                    <h2 style="color: white; -webkit-text-fill-color: white; margin-bottom: 15px;">Cierre de la lección
-                    </h2>
-                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 0;">Felicidades</h4>
-                    <p>Has culminado la lección 3.2 del programa de formación profesional. Al completar el contenido
-                        3.2, ampliaste tu visión sobre la retroalimentación: ahora sabes que los LLM pueden ayudarte a
-                        pasar de comentarios escuetos y solo correctivos a mensajes más claros, específicos y
-                        emocionalmente cuidadosos, sin perder tu voz profesional. Este marco te permite aprovechar la IA
-                        para ganar tiempo y consistencia en el feedback, manteniendo siempre tu rol como quien decide el
-                        tono, el foco y el tipo de apoyo que cada estudiante necesita.</p>
-
-                    <h4 style="color: white; -webkit-text-fill-color: white; margin-top: 25px;">Invitación al checkpoint
-                        de saberes</h4>
-                    <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 3.2, una evaluación
-                        formativa breve y no punitiva centrada en el uso de LLM para generar retroalimentación formativa
-                        (cognitiva y afectiva) y para analizar patrones de error de forma anonimizada, manteniendo
-                        siempre tu papel como filtro ético y pedagógico de lo que se comunica al estudiante. Al
-                        completarlo, estarás generando evidencia de tu propio criterio profesional en torno al uso de la
-                        IA para mejorar la calidad, el tono y el enfoque de la retroalimentación, mostrando cómo decides
-                        cuándo aceptar, adaptar o descartar lo que propone el modelo para que el feedback apoye de
-                        verdad el aprendizaje y el bienestar de tu estudiantado.</p>
-
-                    <div style="width: 100%; margin-top: 20px;">
-                        <div
-                            style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; border-radius: 20px; overflow: hidden; background: white;">
-                            <iframe
-                                title="Contenido 3.2: Quiz práctico-LLM"
-                                frameborder="0"
-                                width="1200"
-                                height="675"
-                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                                src="https://view.genially.com/69ade0ddae2905e0eba66841"
-                                type="text/html"
-                                allowscriptaccess="always"
-                                allowfullscreen="true"
-                                scrolling="yes"
-                                allownetworking="all"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="text-section">
-                <h3>Referencias</h3>
-                <div style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">
-                    <p>Alsaiari, O., Baghaei, N., Lahza, H., Lodge, J., Boden, M., & Khosravi, H. (2024). Emotionally
-                        enriched feedback via generative AI. arXiv preprint arXiv:2410.15077.</p>
-                    <p>D'mello, S. K., & Kory, J. (2015). A review and meta-analysis of multimodal affect detection
-                        systems. ACM computing surveys (CSUR), 47(3), 1-36.</p>
-                    <p>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes
-                        Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</p>
-                    <p>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into
-                        practice. CRC Press.</p>
-                </div>
-            </section>
-
-            <div class="footer-nav">
-                <a href="leccion3_1.html" class="btn-footer btn-back">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                    Anterior
-                </a>
-                <a href="leccion3_3.html" class="btn-footer btn-next">
-                    Siguiente
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </a>
-            </div>
         </div>
+
+        <article class="content-card">
+            <h2 class="section-title">Feedback asistido: De lo cuantitativo a lo cualitativo</h2>
+            <p>La retroalimentación formativa de calidad es uno de los factores con mayor impacto en el aprendizaje, pero su producción individualizada consume mucho tiempo, especialmente en grupos grandes. Las herramientas generativas pueden transformar calificaciones o descriptores de desempeño en comentarios escritos más ricos, específicos y orientados a la mejora, siempre que el docente proporcione información estructurada sobre el desempeño y revise cuidadosamente la salida (Kwak, 2025).</p>
+            <p>Estudios recientes muestran que sistemas de evaluación automatizada combinados con generación de comentarios pueden ofrecer retroalimentación más rápida y consistente, mientras se mantiene la necesidad de verificación humana para asegurar justicia y precisión (Yan et al., 2020).</p>
+            <p>En este contexto, los LLM funcionan como motores de generación de borradores de comentarios a partir de calificaciones, rúbricas o descriptores de desempeño, mientras que los bots o apps educativas que integran LLM añaden capas de interfaz, plantillas y opciones de gestión de grupos, sin sustituir el juicio profesional docente.</p>
+        </article>
+
+        <article class="content-card">
+            <h2 class="section-title">Retroalimentación emocionalmente enriquecida</h2>
+            <p>La computación afectiva estudia cómo los sistemas pueden detectar, modelar o responder a estados emocionales humanos, incluyendo emociones asociadas al proceso de aprender y recibir crítica. Un cuerpo de evidencia sugiere que la retroalimentación que incorpora reconocimiento del esfuerzo, empatía y sugerencias constructivas tiene efectos más positivos en la motivación y la autorregulación del estudiante que comentarios puramente correctivos (D’Mello & Kory, 2015).</p>
+            <p>Investigaciones recientes sobre retroalimentación “emocionalmente enriquecida” generada por IA indican que es posible diseñar prompts y sistemas que produzcan comentarios que combinan elementos cognitivos (qué mejorar) y afectivos (cómo animar y sostener al estudiante), generando mayor compromiso y mejor percepción de apoyo por parte del estudiantado (Alsaiari et al., 2024).</p>
+            <div class="warning-box">
+                <strong>Nota práctica:</strong> En estos estudios, los docentes definen reglas y ejemplos de tono adecuado, y la IA genera borradores de comentarios que luego se revisan antes de ser entregados, usualmente a través de plataformas o apps de gestión del curso.
+            </div>
+        </article>
+
+        <article class="content-card">
+            <h2 class="section-title">Claves de implementación</h2>
+            <p>En la práctica docente, la integración estratégica de estas herramientas implica cuatro pilares fundamentales:</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>1. Confirmación</h4>
+                    <p style="font-size: 0.95rem;">Reconocer lo que el estudiante hizo bien. Instruir al modelo para identificar logros específicos antes de señalar errores.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>2. Empatía</h4>
+                    <p style="font-size: 0.95rem;">Validar el proceso de aprendizaje y el esfuerzo realizado. Usar un tono respetuoso y motivador.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>3. Especificidad</h4>
+                    <p style="font-size: 0.95rem;">Señalar exactamente qué necesita mejora y por qué, evitando ambigüedades en el comentario.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>4. Orientación a la acción</h4>
+                    <p style="font-size: 0.95rem;">Proporcionar pasos concretos. Solicitar sugerencias prácticas de "qué hacer mañana" en lugar de juicios vagos.</p>
+                </div>
+            </div>
+        </article>
+
+        <section class="prompt-container">
+            <span class="prompt-header">ESTRUCTURA DE PROMPT PARA FEEDBACK</span>
+            <div class="prompt-content">
+                <strong>Rol:</strong> Maestro Mentor de 4to Grado en Puerto Rico, experto en pedagogía positiva.
+                <strong>Contexto:</strong> Estudiante obtuvo 65/100 en fracciones. Dominó sumas, pero falló en restas y simplificación.
+                <strong>Tarea:</strong> Redacta un comentario motivador de 4-5 oraciones siguiendo este esquema:
+                1. Validación: Felicita por las sumas.
+                2. Empatía: Trata los errores como "oportunidades de aprendizaje".
+                3. Acción: Sugiere una mnemotecnia para simplificar.
+                4. Cierre: Refuerza su potencial.
+                <strong>Restricción:</strong> No menciones la nota numérica. Usa español cálido de PR.
+            </div>
+        </section>
+
+        <article class="content-card">
+            <h2 class="section-title">Análisis de errores y patrones</h2>
+            <p>Además de redactar comentarios, los LLMs pueden analizar conjuntos de respuestas anonimizadas para identificar patrones de error, concepciones alternativas o dificultades recurrentes.</p>
+            <p>La literatura sobre evaluación asistida por IA muestra que estos sistemas pueden apoyar el diagnóstico de errores frecuentes y la clasificación de respuestas según criterios de rúbricas, lo que sirve de base para planificar re-enseñanza más focalizada (Yan et al., 2020).</p>
+            
+            <div class="warning-box" style="background: #F1F5F9; border-color: #64748B; color: #334155;">
+                <strong>Flujo operativo:</strong> 
+                1. Anonimizar respuestas.
+                2. Compilar datos por tarea.
+                3. Solicitar análisis de patrones al LLM.
+                4. Generar estrategias de re-enseñanza.
+            </div>
+        </article>
+
+        <section class="slider-wrapper">
+            <div class="slider-header">
+                <h2>Glosario de Conceptos</h2>
+                <div class="slider-nav">
+                    <button class="btn-nav" onclick="moveSlide(-1)">❮</button>
+                    <button class="btn-nav" onclick="moveSlide(1)">❯</button>
+                </div>
+            </div>
+            <div class="slider-track">
+                <div class="slider-content" id="slider">
+                    <div class="slide">
+                        <h3>Feedback asistido</h3>
+                        <p>Proceso donde un LLM genera comentarios preliminares a partir de evidencias estructuradas para apoyar la evaluación formativa, bajo control docente.</p>
+                        <small>Matelsky et al. (2023)</small>
+                    </div>
+                    <div class="slide">
+                        <h3>Computación Afectiva</h3>
+                        <p>Feedback que combina información cognitiva con elementos afectivos (elogio, empatía) para mejorar la percepción de apoyo del estudiante.</p>
+                        <small>Alsaiari et al. (2024)</small>
+                    </div>
+                    <div class="slide">
+                        <h3>Análisis de Patrones</h3>
+                        <p>Examen sistemático de respuestas para identificar lagunas conceptuales recurrentes y orientar la re-enseñanza focalizada.</p>
+                        <small>Bewersdorff et al. (2023)</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <article class="content-card" style="background: var(--neutral-dark); color: white;">
+            <h2 class="section-title" style="color: white;">Cierre y Evaluación</h2>
+            <p style="color: #CBD5E1;">Has culminado la lección 3.2. Ahora comprendes cómo los LLM pueden ayudarte a pasar de comentarios correctivos básicos a mensajes emocionalmente cuidados y pedagógicamente útiles.</p>
+            <p style="color: #CBD5E1;">Te invitamos a realizar el **Checkpoint de Saberes 3.2**, centrado en la generación de retroalimentación ética y el análisis de patrones de error.</p>
+            
+            <div style="margin-top: 3rem; border-radius: 16px; overflow: hidden; background: white;">
+                <iframe title="Checkpoint 3.2" src="https://view.genially.com/69ade0ddae2905e0eba66841" width="100%" height="500px" frameborder="0"></iframe>
+            </div>
+        </article>
+
+        <footer class="page-footer-nav">
+            <a href="leccion3_1.html" class="btn-footer btn-prev">❮ Anterior</a>
+            <a href="leccion3_3.html" class="btn-footer btn-next">Siguiente ❯</a>
+        </footer>
     </main>
 
-    <div id="zoomModal" onclick="this.style.display='none'">
-        <img id="zoomImg" src="" alt="Vista ampliada">
-    </div>
-
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
         }
 
-        function openZoom(src) {
-            const modal = document.getElementById('zoomModal');
-            const img = document.getElementById('zoomImg');
-            modal.style.display = 'flex';
-            img.src = src;
-        }
-
-        // Slider Logic
         let currentSlide = 0;
-        const track = document.getElementById('sliderTrack');
-        const items = document.querySelectorAll('.slider-item');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        const slider = document.getElementById('slider');
+        const slides = document.querySelectorAll('.slide');
 
-        function updateSlider() {
-            if (!items || items.length === 0) return;
-            const container = document.querySelector('.slider-container');
-            if (!container) return;
-            const itemWidth = items[0].offsetWidth + 30; // width + gap
-            track.style.transform = `translateX(-${currentSlide * itemWidth}px)`;
-
-            if (prevBtn) prevBtn.classList.toggle('disabled', currentSlide === 0);
-            if (nextBtn) nextBtn.classList.toggle('disabled', currentSlide === items.length - 1);
+        function moveSlide(dir) {
+            currentSlide = (currentSlide + dir + slides.length) % slides.length;
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
-
-        function moveSlider(dir) {
-            if (dir === 1 && currentSlide < items.length - 1) {
-                currentSlide++;
-            } else if (dir === -1 && currentSlide > 0) {
-                currentSlide--;
-            }
-            updateSlider();
-        }
-
-        window.addEventListener('resize', updateSlider);
-        setTimeout(updateSlider, 500); // Increased delay for better initialization
     </script>
 </body>
-
 </html>
