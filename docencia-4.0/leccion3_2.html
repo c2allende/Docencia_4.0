@@ -428,6 +428,34 @@
             border-radius: 20px;
         }
 
+        .img-container-premium {
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .img-container-premium img {
+            max-width: 90%;
+            border-radius: 30px;
+            box-shadow: 0 30px 70px rgba(10, 25, 47, 0.12);
+            border: 1px solid rgba(0, 194, 255, 0.1);
+            cursor: zoom-in;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .img-container-premium img:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 40px 90px rgba(0, 194, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .img-caption {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #64748b;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 500;
+        }
+
         @media (max-width: 900px) {
             .lesson-card {
                 padding: 2.5rem;
@@ -438,6 +466,10 @@
                 float: none;
                 width: 100%;
                 margin: 2rem 0;
+            }
+
+            .img-container-premium img {
+                max-width: 100%;
             }
         }
     </style>
@@ -658,6 +690,22 @@
                     <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante (SIE),
                     calificaciones asociadas a identidades o cualquier información que permita identificar individuos.
                     El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                </div>
+            </section>
+
+            <section class="text-section">
+                <div class="img-container-premium">
+                    <img src="../assets/LLM_M3_ContenidoA_3.2_Retroalimentación formativa y computación afectiva.png" 
+                         alt="Esquema de retroalimentación formativa y computación afectiva"
+                         onclick="openZoom(this.src)">
+                    <p class="img-caption">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        Figura: Integración de la retroalimentación formativa y la computación afectiva en entornos digitales.
+                    </p>
                 </div>
             </section>
 
