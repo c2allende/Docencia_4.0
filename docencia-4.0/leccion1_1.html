@@ -461,7 +461,7 @@
             }
         }
 
-        /* --- ESTILOS COMPONENTE INTERACTIVO ECO SISTEMA LLM --- */
+        /* --- ESTILOS COMPONENTE INTERACTIVO ECO SISTEMA LLM (Actualizado) --- */
         .llm-interactive-card {
             float: right;
             width: 440px;
@@ -474,23 +474,25 @@
             box-shadow: 0 20px 60px rgba(10, 25, 47, 0.08);
             position: relative;
             overflow: hidden;
-            --ia-clr: #1a237e;
-            --ml-clr: #283593;
-            --dl-clr: #3949ab;
-            --gen-clr: #5c6bc0;
-            --llm-clr: #00e676;
+            --ia-color: #1a237e;
+            --ml-color: #283593;
+            --dl-color: #3949ab;
+            --gen-color: #5c6bc0;
+            --llm-color: #00e676;
+            --llm-text: #1a237e;
+            --text-light: #ffffff;
         }
 
         .llm-interactive-card h3 {
             font-size: 1.4rem;
             margin-bottom: 0.5rem;
-            color: var(--ia-clr);
+            color: var(--ia-color);
             background: none;
             -webkit-text-fill-color: initial;
             display: block;
         }
 
-        .llm-interactive-card .desc-p {
+        .llm-interactive-card .subtitle {
             line-height: 1.5;
             font-size: 0.9rem;
             color: #64748b;
@@ -507,7 +509,7 @@
             align-items: center;
         }
 
-        .box-node {
+        .box {
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -516,64 +518,83 @@
             justify-content: center;
             padding-top: 15px;
             font-weight: 800;
-            color: white;
+            color: var(--text-light);
             position: absolute;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.2);
+            font-family: inherit;
             font-size: 0.85rem;
+            background: none;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .box-node:hover {
+        .box:hover {
             transform: scale(1.03) translateY(-2px);
             filter: brightness(1.1);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             z-index: 10 !important;
         }
 
-        #ia-node {
+        .box:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 3px;
+            filter: brightness(1.15);
+        }
+
+        .box--dimmed {
+            opacity: 0.55;
+        }
+
+        .box--active {
+            opacity: 1;
+            transform: scale(1.03) translateY(-2px);
+            filter: brightness(1.1);
+            z-index: 10 !important;
+        }
+
+        #ia {
             width: 100%;
             height: 100%;
-            background: var(--ia-clr);
+            background: var(--ia-color);
             z-index: 1;
         }
 
-        #ml-node {
+        #ml {
             width: 85%;
             height: 80%;
-            background: var(--ml-clr);
+            background: var(--ml-color);
             z-index: 2;
             top: 15%;
         }
 
-        #dl-node {
+        #dl {
             width: 70%;
             height: 60%;
-            background: var(--dl-clr);
+            background: var(--dl-color);
             z-index: 3;
             top: 30%;
         }
 
-        #gen-node {
+        #gen {
             width: 55%;
             height: 40%;
-            background: var(--gen-clr);
+            background: var(--gen-color);
             z-index: 4;
             top: 45%;
         }
 
-        #llm-node {
+        #llm {
             width: 40%;
             height: 20%;
-            background: var(--llm-clr);
+            background: var(--llm-color);
             z-index: 5;
             top: 60%;
-            color: #1a237e;
-            animation: pulse-llm 2s infinite;
+            color: var(--llm-text);
+            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse-llm {
+        @keyframes pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
             }
@@ -587,26 +608,27 @@
             }
         }
 
-        .info-panel-llm {
+        .info-panel {
             margin-top: 30px;
             min-height: 120px;
             padding: 20px;
             border-radius: 18px;
             background: #f8fbff;
-            border-left: 6px solid var(--ia-clr);
+            border-left: 6px solid var(--ia-color);
             text-align: left;
             transition: all 0.3s ease;
         }
 
-        .info-title-llm {
+        .info-title {
             font-weight: 800;
             font-size: 1.1rem;
-            color: var(--ia-clr);
+            color: var(--ia-color);
             margin-bottom: 8px;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: color 0.3s ease;
         }
 
-        .info-desc-llm {
+        .info-desc {
             line-height: 1.6;
             color: #475569;
             font-size: 0.9rem;
@@ -617,6 +639,14 @@
                 float: none;
                 width: 100%;
                 margin: 2rem 0;
+            }
+
+            .hierarchy-container {
+                height: 300px;
+            }
+
+            .box {
+                font-size: 0.75rem;
             }
         }
 
@@ -813,20 +843,22 @@
 
                 <div class="llm-interactive-card">
                     <h3>¿Dónde se sitúan los LLM?</h3>
-                    <p class="desc-p">Haz clic en cada capa para descubrir la jerarquía de la IA.</p>
+                    <p class="subtitle">Haz clic en cada capa para descubrir la jerarquía de la IA.</p>
 
                     <div class="hierarchy-container">
-                        <div id="ia-node" class="box-node" onclick="showEcoInfo('ia')">Inteligencia Artificial</div>
-                        <div id="ml-node" class="box-node" onclick="showEcoInfo('ml')">Machine Learning</div>
-                        <div id="dl-node" class="box-node" onclick="showEcoInfo('dl')">Deep Learning</div>
-                        <div id="gen-node" class="box-node" onclick="showEcoInfo('gen')">IA Generativa</div>
-                        <div id="llm-node" class="box-node" onclick="showEcoInfo('llm')">LLM</div>
+                        <button id="ia" class="box" aria-label="Ver información sobre Inteligencia Artificial">Inteligencia Artificial</button>
+                        <button id="ml" class="box" aria-label="Ver información sobre Machine Learning">Machine Learning</button>
+                        <button id="dl" class="box" aria-label="Ver información sobre Deep Learning">Deep Learning</button>
+                        <button id="gen" class="box" aria-label="Ver información sobre IA Generativa">IA Generativa</button>
+                        <button id="llm" class="box" aria-label="Ver información sobre LLM">LLM</button>
                     </div>
 
-                    <div class="info-panel-llm" id="infoPanelEco">
-                        <div class="info-title-llm" id="infoTitleEco">Instrucción</div>
-                        <div class="info-desc-llm" id="infoDescEco">Selecciona una categoría en el diagrama superior
-                            para entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
+                    <div class="info-panel" id="infoPanel" aria-live="polite" aria-atomic="true">
+                        <div class="info-title" id="infoTitle">Instrucción</div>
+                        <div class="info-desc" id="infoDesc">
+                            Selecciona una categoría en el diagrama superior para entender
+                            su relación con los Modelos de Lenguaje de Gran Tamaño.
+                        </div>
                     </div>
                 </div>
 
@@ -1227,7 +1259,7 @@
     </main>
 
     <div id="zoomModal" onclick="this.style.display='none'">
-        <img id="zoomedImg" src="" alt="Zoomet Image">
+        <img id="zoomedImg" src="" alt="Zoomed Image">
     </div>
 
     <script>
@@ -1275,49 +1307,61 @@
         // Inicializar slider con slide width correcto
         setTimeout(updateSlider, 500);
 
-        // --- Lógica de Ecosistema LLM ---
-        const ecoData = {
-            ia: {
-                title: "Inteligencia Artificial (IA)",
-                desc: "El campo más amplio: sistemas que intentan imitar capacidades cognitivas humanas para realizar tareas.",
-                color: "#1a237e"
-            },
-            ml: {
-                title: "Machine Learning (Aprendizaje Automático)",
-                desc: "Subconjunto de la IA que permite que las máquinas aprender de los datos sin ser programadas explícitamente.",
-                color: "#283593"
-            },
-            dl: {
-                title: "Deep Learning (Aprendizaje Profundo)",
-                desc: "Utiliza redes neuronales artificiales de muchas capas para procesar información compleja, como audio o texto.",
-                color: "#3949ab"
-            },
-            gen: {
-                title: "IA Generativa",
-                desc: "Una rama del Deep Learning enfocada en CREAR contenido nuevo (texto, imágenes, código) en lugar de solo clasificar datos.",
-                color: "#5c6bc0"
-            },
-            llm: {
-                title: "Modelo de Lenguaje de Gran Tamaño (LLM)",
-                desc: "¡Aquí estamos! Son IAs Generativas entrenadas con Deep Learning específicamente para dominar el lenguaje humano: resumen, traducción y creación de textos.",
-                color: "#00e676"
+        // --- Lógica de Ecosistema LLM (Actualizada) ---
+        (() => {
+            const DATA = {
+                ia: {
+                    title: 'Inteligencia Artificial (IA)',
+                    desc: 'El campo más amplio: sistemas que intentan imitar capacidades cognitivas humanas para realizar tareas.',
+                    color: '#1a237e',
+                },
+                ml: {
+                    title: 'Machine Learning (Aprendizaje Automático)',
+                    desc: 'Subconjunto de la IA que permite que las máquinas aprendan de los datos sin ser programadas explícitamente.',
+                    color: '#283593',
+                },
+                dl: {
+                    title: 'Deep Learning (Aprendizaje Profundo)',
+                    desc: 'Utiliza redes neuronales artificiales de muchas capas para procesar información compleja, como audio o texto.',
+                    color: '#3949ab',
+                },
+                gen: {
+                    title: 'IA Generativa',
+                    desc: 'Una rama del Deep Learning enfocada en CREAR contenido nuevo (texto, imágenes, código) en lugar de solo clasificar datos.',
+                    color: '#5c6bc0',
+                },
+                llm: {
+                    title: 'Modelo de Lenguaje de Gran Tamaño (LLM)',
+                    desc: '¡Aquí estamos! Son IAs Generativas entrenadas con Deep Learning específicamente para dominar el lenguaje humano: resumen, traducción y creación de textos.',
+                    color: '#00897b',
+                },
+            };
+
+            const panel = document.getElementById('infoPanel');
+            const titleEl = document.getElementById('infoTitle');
+            const descEl = document.getElementById('infoDesc');
+            const allBoxes = document.querySelectorAll('.box');
+
+            function showInfo(key) {
+                if (!Object.prototype.hasOwnProperty.call(DATA, key)) return;
+                const entry = DATA[key];
+                titleEl.textContent = entry.title;
+                descEl.textContent = entry.desc;
+                panel.style.borderLeftColor = entry.color;
+                titleEl.style.color = entry.color;
+
+                allBoxes.forEach(box => {
+                    const isSelected = box.id === key;
+                    box.classList.toggle('box--active', isSelected);
+                    box.classList.toggle('box--dimmed', !isSelected);
+                    box.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+                });
             }
-        };
 
-        function showEcoInfo(key) {
-            const panel = document.getElementById('infoPanelEco');
-            const title = document.getElementById('infoTitleEco');
-            const desc = document.getElementById('infoDescEco');
-
-            title.innerText = ecoData[key].title;
-            desc.innerText = ecoData[key].desc;
-            panel.style.borderLeftColor = ecoData[key].color;
-            title.style.color = ecoData[key].color;
-
-            // Efecto visual de selección
-            document.querySelectorAll('.box-node').forEach(el => el.style.opacity = "0.5");
-            document.getElementById(key + '-node').style.opacity = "1";
-        }
+            allBoxes.forEach(box => {
+                box.addEventListener('click', () => showInfo(box.id));
+            });
+        })();
 
         // --- Lógica del Simulador de Tokenización ---
         const tokenInput = document.getElementById('tokenInput');
