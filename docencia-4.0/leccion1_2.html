@@ -453,6 +453,194 @@
                 padding: 2.5rem;
             }
         }
+
+        /* --- ESTILOS INTERACTIVO: APLICACIONES ESTRATÉGICAS --- */
+        .llm-strat-activity {
+            --coral: #FF6B6B;
+            --teal: #00CFD5;
+            --yellow: #FFD93D;
+            --purple: #7C6FFF;
+            --green: #06D6A0;
+            --navy: #0D0D2B;
+            --navy2: #15153A;
+            --card-bg: #1C1C45;
+            --text: #F0F0FF;
+            --muted: #8888BB;
+            --r: 16px;
+
+            background: var(--navy);
+            color: var(--text);
+            border-radius: 35px;
+            padding: 40px 20px 80px 20px;
+            position: relative;
+            overflow: hidden;
+            margin: 4rem 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 600px;
+        }
+
+        .llm-strat-activity .bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .llm-strat-activity .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .15;
+            animation: drift 14s ease-in-out infinite alternate;
+        }
+
+        .llm-strat-activity .orb-1 { width: 500px; height: 500px; background: var(--purple); top: -150px; left: -150px; }
+        .llm-strat-activity .orb-2 { width: 380px; height: 380px; background: var(--teal); bottom: -100px; right: -100px; animation-delay: -5s; }
+        .llm-strat-activity .orb-3 { width: 260px; height: 260px; background: var(--coral); top: 45%; left: 58%; animation-delay: -9s; }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1) }
+            to { transform: translate(25px, 35px) scale(1.12) }
+        }
+
+        .llm-strat-activity .app {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .llm-strat-activity #topbar { display: none; flex-direction: column; gap: 10px; }
+        .llm-strat-activity .tb-row { display: flex; justify-content: space-between; align-items: center; }
+        .llm-strat-activity .brand { font-size: .73rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+        .llm-strat-activity #steplabel { font-size: .79rem; color: var(--muted); }
+        .llm-strat-activity .prog-track { background: rgba(255, 255, 255, .08); border-radius: 99px; height: 7px; overflow: hidden; }
+        .llm-strat-activity #progbar { height: 100%; background: linear-gradient(90deg, var(--purple), var(--teal)); border-radius: 99px; width: 0%; transition: width .55s ease; }
+        .llm-strat-activity .dots { display: flex; gap: 8px; }
+        .llm-strat-activity .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, .12); transition: background .3s, transform .3s; }
+        .llm-strat-activity .dot.active { background: var(--teal); transform: scale(1.35); }
+        .llm-strat-activity .dot.done { background: var(--green); }
+
+        .llm-strat-activity .screen { display: none; flex-direction: column; gap: 18px; }
+        .llm-strat-activity .screen.on { display: flex; animation: fadeUpActivity .4s ease both; }
+        @keyframes fadeUpActivity { from { opacity: 0; transform: translateY(22px) } to { opacity: 1; transform: translateY(0) } }
+
+        .llm-strat-activity .card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, .08); border-radius: var(--r); overflow: hidden; margin-bottom: 0; }
+        .llm-strat-activity .intro-inner { padding: clamp(28px, 6vw, 50px); text-align: center; background: linear-gradient(135deg, #1C1C45, #12123a); position: relative; overflow: hidden; }
+        .llm-strat-activity .intro-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(124, 111, 255, .25) 0%, transparent 68%); pointer-events: none; }
+        .llm-strat-activity .big-emoji { font-size: clamp(2.8rem, 8vw, 4.5rem); display: block; margin-bottom: 14px; }
+        .llm-strat-activity .intro-inner h2 { font-size: clamp(1.5rem, 4.5vw, 2.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 12px; background: linear-gradient(90deg, #fff 30%, var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
+        .llm-strat-activity .intro-inner p { color: var(--muted); font-size: clamp(.87rem, 2.2vw, 1rem); line-height: 1.7; max-width: 540px; margin: 0 auto 22px; background: none; -webkit-text-fill-color: initial; }
+        .llm-strat-activity .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+        .llm-strat-activity .chip { padding: 5px 14px; border-radius: 99px; font-size: .77rem; font-weight: 600; letter-spacing: .03em; }
+        .llm-strat-activity .chip-s { background: rgba(255, 107, 107, .15); color: var(--coral); border: 1px solid rgba(255, 107, 107, .3); }
+        .llm-strat-activity .chip-h { background: rgba(124, 111, 255, .15); color: var(--purple); border: 1px solid rgba(124, 111, 255, .3); }
+        .llm-strat-activity .chip-e { background: rgba(6, 214, 160, .15); color: var(--green); border: 1px solid rgba(6, 214, 160, .3); }
+
+        .llm-strat-activity .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+        .llm-strat-activity .info-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, .07); border-radius: var(--r); padding: 18px 16px; }
+        .llm-strat-activity .ic-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .llm-strat-activity .ic-title { font-size: .87rem; font-weight: 700; margin-bottom: 5px; color: var(--text); }
+        .llm-strat-activity .ic-body { font-size: .79rem; color: var(--muted); line-height: 1.55; }
+
+        .llm-strat-activity .btn { display: inline-flex; align-items: center; gap: 7px; padding: 13px 28px; border: none; border-radius: 99px; font-family: inherit; font-size: .94rem; font-weight: 700; cursor: pointer; transition: transform .18s, box-shadow .18s; }
+        .llm-strat-activity .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 0, 0, .4); }
+        .llm-strat-activity .btn-pri { background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff; }
+        .llm-strat-activity .btn-sec { background: rgba(255, 255, 255, .07); color: var(--text); border: 1px solid rgba(255, 255, 255, .13); }
+        .llm-strat-activity .btn-sm { padding: 10px 20px; font-size: .87rem; }
+
+        .llm-strat-activity .sec-head { display: flex; align-items: center; gap: 14px; padding: 20px 22px; text-align: left; }
+        .llm-strat-activity .area-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .llm-strat-activity .ai-s { background: rgba(255, 107, 107, .18); }
+        .llm-strat-activity .ai-h { background: rgba(124, 111, 255, .18); }
+        .llm-strat-activity .ai-e { background: rgba(6, 214, 160, .18); }
+        .llm-strat-activity .sec-head h2 { font-size: clamp(1rem, 3vw, 1.3rem); font-weight: 800; line-height: 1.2; background: none; -webkit-text-fill-color: white; color: white; margin: 0; display: block; }
+        .llm-strat-activity .sec-head .sub { font-size: .79rem; color: var(--muted); margin-top: 3px; }
+
+        .llm-strat-activity .anim-box { margin: 0 18px 16px; background: rgba(0, 0, 0, .28); border: 1px solid rgba(255, 255, 255, .06); border-radius: 12px; padding: 16px; min-height: 96px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .llm-strat-activity .stem-steps { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .llm-strat-activity .sstep { display: flex; align-items: center; gap: 7px; background: rgba(255, 107, 107, .13); border: 1px solid rgba(255, 107, 107, .27); border-radius: 9px; padding: 9px 13px; font-size: .79rem; color: #ffb3b3; opacity: 0; animation: popActivity .4s ease forwards; }
+        .llm-strat-activity .sstep:nth-child(1) { animation-delay: .1s }
+        .llm-strat-activity .sstep:nth-child(2) { animation-delay: .38s }
+        .llm-strat-activity .sstep:nth-child(3) { animation-delay: .66s }
+        .llm-strat-activity .sstep:nth-child(4) { animation-delay: .94s }
+        @keyframes popActivity { from { opacity: 0; transform: scale(.82) } to { opacity: 1; transform: scale(1) } }
+        .llm-strat-activity .snum { width: 20px; height: 20px; border-radius: 5px; background: var(--coral); color: #fff; font-size: .71rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+        .llm-strat-activity .doc-morph { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 440px; }
+        .llm-strat-activity .doc-row { display: flex; gap: 8px; align-items: center; }
+        .llm-strat-activity .dbox { flex: 1; background: rgba(124, 111, 255, .13); border: 1px solid rgba(124, 111, 255, .27); border-radius: 8px; padding: 9px 11px; font-size: .77rem; color: #c4c0ff; }
+        .llm-strat-activity .darr { font-size: 1.1rem; color: var(--purple); flex-shrink: 0; }
+        .llm-strat-activity .dbox2 { flex: 1; background: rgba(124, 111, 255, .08); border: 1px solid rgba(124, 111, 255, .4); border-radius: 8px; padding: 9px 11px; font-size: .77rem; color: var(--purple); opacity: 0; animation: popActivity .5s .65s ease forwards; }
+
+        .llm-strat-activity .pei-list { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 480px; }
+        .llm-strat-activity .prow { display: flex; align-items: flex-start; gap: 9px; background: rgba(6, 214, 160, .09); border: 1px solid rgba(6, 214, 160, .23); border-radius: 8px; padding: 9px 13px; font-size: .78rem; color: #9ffade; opacity: 0; animation: slideLActivity .4s ease forwards; }
+        .llm-strat-activity .prow:nth-child(1) { animation-delay: .08s }
+        .llm-strat-activity .prow:nth-child(2) { animation-delay: .36s }
+        .llm-strat-activity .prow:nth-child(3) { animation-delay: .64s }
+        .llm-strat-activity .prow:nth-child(4) { animation-delay: .92s }
+        @keyframes slideLActivity { from { opacity: 0; transform: translateX(-10px) } to { opacity: 1; transform: none } }
+        .llm-strat-activity .ptag { font-size: .69rem; font-weight: 700; letter-spacing: .05em; color: var(--green); flex-shrink: 0; padding-top: 1px; }
+
+        .llm-strat-activity .scenario { margin: 0 18px 14px; background: rgba(255, 255, 255, .04); border-left: 4px solid var(--yellow); border-radius: 10px; padding: 15px 17px; font-size: .9rem; line-height: 1.68; color: #d0d0f5; text-align: left; }
+        .llm-strat-activity .scenario strong { color: var(--yellow); }
+
+        .llm-strat-activity .opts-label { padding: 0 18px 10px; font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-align: left; }
+        .llm-strat-activity .opts { display: flex; flex-direction: column; gap: 9px; padding: 0 18px 20px; }
+        .llm-strat-activity .opt { display: flex; align-items: flex-start; gap: 12px; background: rgba(255, 255, 255, .05); border: 1.5px solid rgba(255, 255, 255, .1); border-radius: 11px; padding: 13px 15px; cursor: pointer; transition: border-color .22s, background .22s, transform .18s; text-align: left; font-family: inherit; color: var(--text); font-size: .89rem; line-height: 1.55; width: 100%; }
+        .llm-strat-activity .opt:hover:not([disabled]) { border-color: rgba(255, 255, 255, .27); transform: translateX(3px); }
+        .llm-strat-activity .opt[disabled] { cursor: default; pointer-events: none; }
+        .llm-strat-activity .opt.correct { border-color: var(--green) !important; background: rgba(6, 214, 160, .1) !important; }
+        .llm-strat-activity .opt.wrong { border-color: var(--coral) !important; background: rgba(255, 107, 107, .09) !important; }
+        .llm-strat-activity .oletter { width: 27px; height: 27px; border-radius: 7px; background: rgba(255, 255, 255, .1); display: flex; align-items: center; justify-content: center; font-size: .77rem; font-weight: 700; flex-shrink: 0; transition: background .22s, color .22s; }
+        .llm-strat-activity .opt.correct .oletter { background: var(--green); color: #000; }
+        .llm-strat-activity .opt.wrong .oletter { background: var(--coral); color: #fff; }
+
+        .llm-strat-activity .fb { display: none; margin: 0 18px 16px; border-radius: 10px; padding: 13px 16px; font-size: .87rem; line-height: 1.6; text-align: left; }
+        .llm-strat-activity .fb.show { display: block; animation: fadeUpActivity .35s ease both; }
+        .llm-strat-activity .fb.ok { background: rgba(6, 214, 160, .1); border: 1px solid rgba(6, 214, 160, .27); color: #9ffade; }
+        .llm-strat-activity .fb.bad { background: rgba(255, 107, 107, .09); border: 1px solid rgba(255, 107, 107, .27); color: #ffb3b3; }
+
+        .llm-strat-activity .nav-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 0 18px 20px; }
+        .llm-strat-activity .nav-hint { font-size: .77rem; color: var(--muted); }
+
+        .llm-strat-activity .res-hero { background: linear-gradient(135deg, #1C1C45, #12123a); border: 1px solid rgba(124, 111, 255, .3); border-radius: var(--r); padding: clamp(26px, 6vw, 46px); text-align: center; }
+        .llm-strat-activity .score-ring { width: 108px; height: 108px; border-radius: 50%; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; font-size: 1.85rem; font-weight: 800; background: conic-gradient(#00CFD5 0% 0%, rgba(255, 255, 255, .07) 0% 100%); box-shadow: 0 0 36px rgba(0, 207, 213, .22); position: relative; transition: background .8s ease; }
+        .llm-strat-activity .score-ring::after { content: ''; position: absolute; inset: 8px; border-radius: 50%; background: var(--navy2); }
+        .llm-strat-activity .score-num { position: relative; z-index: 1; color: white; }
+        .llm-strat-activity .res-hero h2 { font-size: clamp(1.3rem, 3.5vw, 1.85rem); font-weight: 800; margin-bottom: 10px; background: none; -webkit-text-fill-color: white; color: white; display: block; }
+        .llm-strat-activity .res-hero p { color: var(--muted); font-size: .91rem; line-height: 1.65; max-width: 500px; margin: 0 auto 22px; background: none; -webkit-text-fill-color: initial; }
+
+        .llm-strat-activity .review-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .llm-strat-activity .ritem { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, .07); border-radius: var(--r); padding: 16px 18px; text-align: left; animation: fadeUpActivity .4s ease both; }
+        .llm-strat-activity .ritem:nth-child(1) { animation-delay: .05s }
+        .llm-strat-activity .ritem:nth-child(2) { animation-delay: .15s }
+        .llm-strat-activity .ritem:nth-child(3) { animation-delay: .25s }
+        .llm-strat-activity .rarea { font-size: .73rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 7px; }
+        .llm-strat-activity .rq { font-size: .86rem; color: #bbb; line-height: 1.5; margin-bottom: 9px; }
+        .llm-strat-activity .ra { display: flex; align-items: flex-start; gap: 8px; font-size: .85rem; border-radius: 8px; padding: 10px 13px; line-height: 1.5; }
+        .llm-strat-activity .ra.ok { background: rgba(6, 214, 160, .1); color: #9ffade; }
+        .llm-strat-activity .ra.bad { background: rgba(255, 107, 107, .09); color: #ffb3b3; }
+        .llm-strat-activity .rcorrect { font-size: .81rem; color: var(--muted); margin-top: 7px; line-height: 1.5; }
+        .llm-strat-activity .rcorrect b { color: var(--green); }
+
+        .llm-strat-activity .refs-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, .07); border-radius: var(--r); padding: 18px 20px; margin-top: 20px; text-align: left; }
+        .llm-strat-activity .refs-title { font-size: .73rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 11px; }
+        .llm-strat-activity .refs-card li { font-size: .79rem; color: #9999bb; line-height: 1.6; list-style: none; margin-bottom: 5px; }
+
+        .llm-strat-activity .conf-wrap { position: absolute; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; }
+        .llm-strat-activity .conf { position: absolute; border-radius: 2px; animation: fallActivity 2s ease-in forwards; top: -20px; }
+        @keyframes fallActivity { to { transform: translateY(110vh) rotate(700deg); opacity: 0; } }
+
+        @media(max-width:480px) {
+            .llm-strat-activity .nav-row { flex-direction: column; }
+            .llm-strat-activity .btn { width: 100%; justify-content: center; }
+            .llm-strat-activity .info-row { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 
@@ -599,6 +787,254 @@
                 </div>
 
             </section>
+
+            <!-- INTERACTIVO: APLICACIONES ESTRATÉGICAS -->
+            <div class="llm-strat-activity">
+                <div class="bg" aria-hidden="true">
+                    <div class="orb orb-1"></div>
+                    <div class="orb orb-2"></div>
+                    <div class="orb orb-3"></div>
+                </div>
+                <div class="conf-wrap" id="confWrap" aria-hidden="true"></div>
+
+                <div class="app">
+                    <!-- TOP BAR -->
+                    <div id="topbar">
+                        <div class="tb-row">
+                            <span class="brand">LLM en el Aula · Lección 1.2</span>
+                            <span id="steplabel"></span>
+                        </div>
+                        <div class="prog-track">
+                            <div id="progbar"></div>
+                        </div>
+                        <div class="dots">
+                            <div class="dot" id="d0"></div>
+                            <div class="dot" id="d1"></div>
+                            <div class="dot" id="d2"></div>
+                        </div>
+                    </div>
+
+                    <!-- INTRO -->
+                    <div class="screen on" id="s-intro">
+                        <div class="card">
+                            <div class="intro-inner">
+                                <span class="big-emoji">🤖</span>
+                                <h2>LLM en el Aula:<br>Aplicaciones Estratégicas</h2>
+                                <p>Explora cómo los Modelos de Lenguaje de Gran Tamaño (LLM) se aplican en tres áreas
+                                    académicas. Pon a prueba tu comprensión con escenarios reales de salón de clases.</p>
+                                <div class="chips">
+                                    <span class="chip chip-s">🔬 Ciencias &amp; Matemáticas</span>
+                                    <span class="chip chip-h">📖 Español &amp; Historia</span>
+                                    <span class="chip chip-e">💙 Educación Especial</span>
+                                </div>
+                                <button class="btn btn-pri" id="startBtn">Comenzar simulación ✦</button>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-card">
+                                <div class="ic-icon">🎯</div>
+                                <div class="ic-title">Objetivo</div>
+                                <div class="ic-body">Identificar aplicaciones concretas de LLM según tu área de
+                                    enseñanza.</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="ic-icon">🕐</div>
+                                <div class="ic-title">Duración</div>
+                                <div class="ic-body">3 escenarios · ~5 minutos · revisión automática al finalizar.</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="ic-icon">✍️</div>
+                                <div class="ic-title">Actividad</div>
+                                <div class="ic-body">Lee cada escenario y elige la mejor estrategia LLM para el
+                                    contexto.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEM -->
+                    <div class="screen" id="s-0">
+                        <div class="card">
+                            <div class="sec-head">
+                                <div class="area-icon ai-s">🔬</div>
+                                <div>
+                                    <h2>Ciencias &amp; Matemáticas</h2>
+                                    <div class="sub">Razonamiento paso a paso · Resolución de problemas</div>
+                                </div>
+                            </div>
+                            <div class="anim-box" id="anim-0">
+                                <div class="stem-steps">
+                                    <div class="sstep">
+                                        <div class="snum">1</div>Identificar el problema
+                                    </div>
+                                    <div class="sstep">
+                                        <div class="snum">2</div>Descomponer en pasos
+                                    </div>
+                                    <div class="sstep">
+                                        <div class="snum">3</div>Generar explicación CoT
+                                    </div>
+                                    <div class="sstep">
+                                        <div class="snum">4</div>Verificar comprensión
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scenario">
+                                <strong>📋 Escenario:</strong> Tu clase de 8.° grado tiene dificultades con las
+                                ecuaciones de dos pasos. Los estudiantes memorizan el procedimiento pero no comprenden
+                                el <em>por qué</em> de cada operación. Quieres mostrarles diferentes caminos hacia la
+                                solución.
+                            </div>
+                            <div class="opts-label">¿Qué estrategia LLM usarías?</div>
+                            <div class="opts" id="opts-0">
+                                <button class="opt" data-q="0" data-i="0">
+                                    <span class="oletter">A</span>
+                                    <span>Pedir al LLM que resuelva ejercicios del libro de texto y compartir las
+                                        respuestas directamente con los estudiantes para que las copien.</span>
+                                </button>
+                                <button class="opt" data-q="0" data-i="1">
+                                    <span class="oletter">B</span>
+                                    <span>Usar prompts de <em>Chain-of-Thought (CoT)</em> para generar explicaciones
+                                        paso a paso y múltiples vías de solución que puedas modelar en clase.</span>
+                                </button>
+                                <button class="opt" data-q="0" data-i="2">
+                                    <span class="oletter">C</span>
+                                    <span>Solicitar al LLM un examen tradicional sobre ecuaciones para evaluar cuántos
+                                        estudiantes memorizaron el proceso.</span>
+                                </button>
+                            </div>
+                            <div class="fb" id="fb-0"></div>
+                            <div class="nav-row">
+                                <span class="nav-hint">Escenario 1 de 3</span>
+                                <button class="btn btn-pri btn-sm" id="next-0" style="display:none">Siguiente →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HUMANIDADES -->
+                    <div class="screen" id="s-1">
+                        <div class="card">
+                            <div class="sec-head">
+                                <div class="area-icon ai-h">📖</div>
+                                <div>
+                                    <h2>Español &amp; Historia</h2>
+                                    <div class="sub">Análisis textual · Síntesis crítica · Escritura argumentativa</div>
+                                </div>
+                            </div>
+                            <div class="anim-box" id="anim-1">
+                                <div class="doc-morph">
+                                    <div class="doc-row">
+                                        <div class="dbox">📄 Texto original (complejo)</div>
+                                        <div class="darr">⟶</div>
+                                        <div class="dbox">🤖 LLM procesa…</div>
+                                    </div>
+                                    <div class="doc-row" style="margin-top:4px">
+                                        <div class="dbox2">❓ Preguntas de inferencia</div>
+                                        <div class="darr" style="opacity:0;animation:popActivity .3s .65s ease forwards">
+                                            +</div>
+                                        <div class="dbox2">✍️ Ensayo modelo (borrador)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scenario">
+                                <strong>📋 Escenario:</strong> Estás enseñando escritura argumentativa a 10.° grado
+                                usando fragmentos históricos. Los estudiantes tienen miedo a la "página en blanco" y les
+                                cuesta identificar falacias en argumentos escritos.
+                            </div>
+                            <div class="opts-label">¿Qué estrategia LLM usarías?</div>
+                            <div class="opts" id="opts-1">
+                                <button class="opt" data-q="1" data-i="0">
+                                    <span class="oletter">A</span>
+                                    <span>Pedir al LLM que redacte el ensayo final de cada estudiante para que ellos lo
+                                        copien, mejorando así la calidad aparente de los trabajos.</span>
+                                </button>
+                                <button class="opt" data-q="1" data-i="1">
+                                    <span class="oletter">B</span>
+                                    <span>Usar el LLM para generar un ensayo con postura específica como <em>"borrador
+                                            imperfecto"</em> y trabajar con los estudiantes para criticarlo: identificar
+                                        falacias, mejorar vocabulario y fortalecer la evidencia.</span>
+                                </button>
+                                <button class="opt" data-q="1" data-i="2">
+                                    <span class="oletter">C</span>
+                                    <span>Pedir al LLM que califique automáticamente los ensayos de los estudiantes y
+                                        emita las notas del bimestre sin revisión del docente.</span>
+                                </button>
+                            </div>
+                            <div class="fb" id="fb-1"></div>
+                            <div class="nav-row">
+                                <button class="btn btn-sec btn-sm" id="back-1">← Anterior</button>
+                                <button class="btn btn-pri btn-sm" id="next-1" style="display:none">Siguiente →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ED. ESPECIAL -->
+                    <div class="screen" id="s-2">
+                        <div class="card">
+                            <div class="sec-head">
+                                <div class="area-icon ai-e">💙</div>
+                                <div>
+                                    <h2>Educación Especial</h2>
+                                    <div class="sub">Adaptación · Accesibilidad · PEI asistidos</div>
+                                </div>
+                            </div>
+                            <div class="anim-box" id="anim-2">
+                                <div class="pei-list">
+                                    <div class="prow"><span class="ptag">S</span>Objetivo específico: Leer 40 palabras
+                                        por minuto en texto nivel 2.</div>
+                                    <div class="prow"><span class="ptag">M</span>Medible: evaluación semanal con
+                                        cronómetro y bitácora.</div>
+                                    <div class="prow"><span class="ptag">A</span>Alcanzable: con tiempo extendido y
+                                        texto en letra ampliada.</div>
+                                    <div class="prow"><span class="ptag">T</span>Temporal: al finalizar el primer
+                                        trimestre (12 semanas).</div>
+                                </div>
+                            </div>
+                            <div class="scenario">
+                                <strong>📋 Escenario:</strong> Tienes 5 estudiantes con PEI que acceden al mismo tema de
+                                Ciencias Naturales pero en niveles de lectura muy distintos. Debes redactar objetivos
+                                SMART para cada uno antes del comité de padres del viernes.
+                            </div>
+                            <div class="opts-label">¿Qué estrategia LLM usarías?</div>
+                            <div class="opts" id="opts-2">
+                                <button class="opt" data-q="2" data-i="0">
+                                    <span class="oletter">A</span>
+                                    <span>Usar el LLM para reescribir el texto en múltiples niveles de complejidad
+                                        (Lexile bajo, medio y alto) <em>y</em> para sugerir objetivos SMART, revisando
+                                        tú la decisión final con el equipo de apoyo.</span>
+                                </button>
+                                <button class="opt" data-q="2" data-i="1">
+                                    <span class="oletter">B</span>
+                                    <span>Dejar que el LLM redacte y firme los PEI de manera autónoma, sin revisión
+                                        humana, para ahorrar tiempo administrativo.</span>
+                                </button>
+                                <button class="opt" data-q="2" data-i="2">
+                                    <span class="oletter">C</span>
+                                    <span>Entregar el mismo texto estándar a todos los estudiantes y posponer los PEI
+                                        para la semana siguiente.</span>
+                                </button>
+                            </div>
+                            <div class="fb" id="fb-2"></div>
+                            <div class="nav-row">
+                                <button class="btn btn-sec btn-sm" id="back-2">← Anterior</button>
+                                <button class="btn btn-pri btn-sm" id="next-2" style="display:none">Ver resultados
+                                    🎯</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RESULTS -->
+                    <div class="screen" id="s-results">
+                        <div class="res-hero">
+                            <div class="score-ring" id="scoreRing">
+                                <span class="score-num" id="scoreNum">—</span>
+                            </div>
+                            <h2 id="resTitle"></h2>
+                            <p id="resDesc"></p>
+                            <button class="btn btn-sec btn-sm" id="restartBtnActivity">↺ Intentar de nuevo</button>
+                        </div>
+                        <div class="review-list" id="reviewList"></div>
+                    </div>
+                </div>
+            </div>
 
             <!-- SECCIÓN DE CONCEPTOS DESLIZANTE -->
             <section class="slider-section">
@@ -824,20 +1260,157 @@
 
         window.addEventListener('resize', updateSlider);
         setTimeout(updateSlider, 500);
+
+        // --- LÓGICA INTERACTIVO: APLICACIONES ESTRATÉGICAS ---
+        (function () {
+            var QS = [
+                {
+                    area: 'Ciencias & Matemáticas', color: '#FF6B6B', correct: 1,
+                    opts: [
+                        'Pedir al LLM que resuelva ejercicios del libro y compartir las respuestas directamente.',
+                        'Usar prompts de Chain-of-Thought para generar explicaciones paso a paso y múltiples vías de solución.',
+                        'Solicitar al LLM un examen tradicional sobre ecuaciones.'
+                    ],
+                    fbOk: '✅ <strong>¡Correcto!</strong> La técnica <strong>Chain-of-Thought (CoT)</strong> hace que el LLM genere explicaciones paso a paso, creando un andamiaje didáctico. Esto modela el pensamiento lógico y muestra múltiples caminos hacia la solución (Zhang et al., 2024; Wei et al., 2022).',
+                    fbBad: '❌ Esta opción no aprovecha el potencial pedagógico del LLM. La correcta es la <strong>B</strong>: usar prompts CoT para generar explicaciones que modelen el razonamiento matemático.',
+                    expl: 'Usar prompts de Chain-of-Thought para generar explicaciones paso a paso y múltiples vías de solución que el docente modela en clase.'
+                },
+                {
+                    area: 'Español & Historia', color: '#7C6FFF', correct: 1,
+                    opts: [
+                        'Pedir al LLM que redacte el ensayo final de cada estudiante.',
+                        'Usar el LLM para generar un borrador imperfecto y trabajar con los estudiantes para criticarlo.',
+                        'Pedir al LLM que califique automáticamente los ensayos sin revisión del docente.'
+                    ],
+                    fbOk: '✅ <strong>¡Excelente!</strong> El LLM como <strong>"borrador imperfecto"</strong> promueve el pensamiento crítico: los estudiantes identifican falacias, mejoran el vocabulario y fortalecen la evidencia. Reduce el miedo a la página en blanco sin hacer el trabajo por ellos (Valli & Zafiropoulos, 2024).',
+                    fbBad: '❌ No es la estrategia óptima. La correcta es la <strong>B</strong>: usar el LLM como borrador imperfecto para que los estudiantes lo analicen y mejoren críticamente.',
+                    expl: 'Usar el LLM para generar un borrador imperfecto con postura específica y trabajar con los estudiantes para identificar falacias y mejorar el argumento.'
+                },
+                {
+                    area: 'Educación Especial', color: '#06D6A0', correct: 0,
+                    opts: [
+                        'Usar el LLM para adaptar el texto en múltiples niveles de lectura y sugerir objetivos SMART, con revisión humana de las decisiones finales.',
+                        'Dejar que el LLM redacte y firme los PEI de manera autónoma sin revisión humana.',
+                        'Entregar el mismo texto estándar a todos y posponer los PEI.'
+                    ],
+                    fbOk: '✅ <strong>¡Perfecto!</strong> Combina la <strong>adaptación de texto</strong> en múltiples niveles (apoyando DUA) con la <strong>sugerencia de objetivos SMART</strong>, siempre bajo el principio de <em>human in the loop</em>: la decisión final y la confidencialidad dependen del docente (Sarkar et al., 2024; Dahri et al., 2025).',
+                    fbBad: '❌ Esta opción genera riesgos éticos o ignora las necesidades diferenciadas. La correcta es la <strong>A</strong>: usar el LLM para adaptar textos y sugerir objetivos SMART, siempre con revisión y responsabilidad humana.',
+                    expl: 'Usar el LLM para reescribir el texto en múltiples niveles de complejidad y sugerir objetivos SMART, revisando la decisión final con el equipo de apoyo.'
+                }
+            ];
+
+            var answers = [null, null, null];
+
+            function showScreen(id) {
+                document.querySelectorAll('.llm-strat-activity .screen').forEach(function (s) { s.classList.remove('on'); });
+                document.getElementById(id).classList.add('on');
+            }
+
+            function setProgress(step) {
+                var tb = document.getElementById('topbar');
+                tb.style.display = 'flex';
+                document.getElementById('progbar').style.width = Math.round(step / 3 * 100) + '%';
+                document.getElementById('steplabel').textContent = 'Escenario ' + (step + 1) + ' de 3';
+                for (var i = 0; i < 3; i++) {
+                    var d = document.getElementById('d' + i);
+                    d.className = 'dot' + (i < step ? ' done' : i === step ? ' active' : '');
+                }
+            }
+
+            document.getElementById('startBtn').addEventListener('click', function () {
+                showScreen('s-0'); setProgress(0);
+            });
+
+            [0, 1, 2].forEach(function (q) {
+                document.getElementById('opts-' + q).addEventListener('click', function (e) {
+                    var btn = e.target.closest('.opt');
+                    if (!btn) return;
+                    if (answers[q] !== null) return;
+                    var i = parseInt(btn.getAttribute('data-i'));
+                    answers[q] = i;
+                    var ok = (i === QS[q].correct);
+
+                    var all = this.querySelectorAll('.opt');
+                    all.forEach(function (o, idx) {
+                        o.setAttribute('disabled', 'true');
+                        if (idx === QS[q].correct) o.classList.add('correct');
+                        else if (idx === i && !ok) o.classList.add('wrong');
+                    });
+
+                    var fb = document.getElementById('fb-' + q);
+                    fb.innerHTML = ok ? QS[q].fbOk : QS[q].fbBad;
+                    fb.className = 'fb show ' + (ok ? 'ok' : 'bad');
+                    document.getElementById('next-' + q).style.display = 'inline-flex';
+                });
+            });
+
+            document.getElementById('next-0').addEventListener('click', function () { showScreen('s-1'); setProgress(1); });
+            document.getElementById('next-1').addEventListener('click', function () { showScreen('s-2'); setProgress(2); });
+            document.getElementById('next-2').addEventListener('click', function () { showResults(); });
+
+            document.getElementById('back-1').addEventListener('click', function () { showScreen('s-0'); setProgress(0); });
+            document.getElementById('back-2').addEventListener('click', function () { showScreen('s-1'); setProgress(1); });
+
+            function showResults() {
+                document.getElementById('topbar').style.display = 'none';
+                showScreen('s-results');
+                var score = answers.filter(function (a, i) { return a === QS[i].correct; }).length;
+                var pct = Math.round(score / 3 * 100);
+                setTimeout(function () {
+                    var ring = document.getElementById('scoreRing');
+                    if (ring) {
+                        ring.style.background = 'conic-gradient(#00CFD5 0% ' + pct + '%, rgba(255,255,255,.07) ' + pct + '% 100%)';
+                    }
+                    document.getElementById('scoreNum').textContent = score + '/3';
+                }, 200);
+
+                var m = score <= 1 ? ['¡Sigue explorando! 💡', 'Repasa los escenarios para reforzar cómo cada estrategia LLM se ajusta al área académica.'] : score === 2 ? ['¡Buen progreso! 🌟', 'Vas por buen camino. Revisa los escenarios donde puedes profundizar más.'] : ['¡Dominio total! 🚀', 'Identificaste correctamente las mejores estrategias LLM para cada área. ¡Listo/a para integrarlas en tu práctica docente!'];
+                document.getElementById('resTitle').textContent = m[0];
+                document.getElementById('resDesc').textContent = m[1];
+                if (score === 3) launchConfetti();
+
+                var rl = document.getElementById('reviewList');
+                rl.innerHTML = '';
+                QS.forEach(function (q, i) {
+                    var ua = answers[i], ok = (ua === q.correct);
+                    var d = document.createElement('div'); d.className = 'ritem';
+                    d.innerHTML = '<div class="rarea" style="color:' + q.color + '">' + q.area + '</div>' + '<div class="rq">Tu respuesta: <em>' + (ua !== null ? q.opts[ua] : 'Sin respuesta') + '</em></div>' + '<div class="ra ' + (ok ? 'ok' : 'bad') + '"><span>' + (ok ? '✅' : '❌') + '</span>' + (ok ? 'Correcto' : 'Incorrecto') + '</div>' + (!ok ? '<div class="rcorrect">Respuesta correcta: <b>' + q.expl + '</b></div>' : '');
+                    rl.appendChild(d);
+                });
+            }
+
+            document.getElementById('restartBtnActivity').addEventListener('click', function () {
+                answers = [null, null, null];
+                [0, 1, 2].forEach(function (q) {
+                    document.querySelectorAll('#opts-' + q + ' .opt').forEach(function (o) { o.removeAttribute('disabled'); o.className = 'opt'; });
+                    var fb = document.getElementById('fb-' + q); fb.className = 'fb'; fb.innerHTML = '';
+                    document.getElementById('next-' + q).style.display = 'none';
+                });
+                var ring = document.getElementById('scoreRing');
+                if (ring) {
+                    ring.style.background = 'conic-gradient(#00CFD5 0% 0%,rgba(255,255,255,.07) 0% 100%)';
+                }
+                showScreen('s-0'); setProgress(0);
+            });
+
+            function launchConfetti() {
+                var wrap = document.getElementById('confWrap');
+                var cols = ['#FF6B6B', '#00CFD5', '#FFD93D', '#7C6FFF', '#06D6A0', '#ff9f1c'];
+                for (var i = 0; i < 72; i++) {
+                    var c = document.createElement('div'); c.className = 'conf';
+                    c.style.left = (Math.random() * 100) + 'vw';
+                    c.style.background = cols[Math.floor(Math.random() * cols.length)];
+                    var sz = 7 + Math.random() * 9;
+                    c.style.width = sz + 'px'; c.style.height = sz + 'px';
+                    c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+                    c.style.animationDuration = (1.3 + Math.random() * .9) + 's';
+                    c.style.animationDelay = (Math.random() * .7) + 's';
+                    wrap.appendChild(c);
+                }
+                setTimeout(function () { wrap.innerHTML = ''; }, 3500);
+            }
+        })();
     </script>
-
-</body>
-
-</html>
-currentIndex--;
-updateSlider();
-}
-});
-
-window.addEventListener('resize', updateSlider);
-setTimeout(updateSlider, 500);
-</script>
-
 </body>
 
 </html>
