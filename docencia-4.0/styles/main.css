@@ -1,130 +1,848 @@
+/* ==========================================================================
+   DESIGN TOKENS — DOCENCIA 4.0
+   Sistema de tres capas: Global (Core) -> Semantic (Alias) -> Component (Mapped)
+   Convencion: --[categoria]-[tipo]-[componente]-[variante]-[estado]
+
+   Ajustado segun pantallas de referencia del producto:
+   - Login, Dashboard, Actividades, Recursos, Comunicados, Admin, Checkpoint
+   - Color primario de marca: cyan #00C2FF
+   - CTA principal: orange #FF8D5C
+   - Heading display: teal-deep #001E2B
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   CAPA 1 — GLOBAL / CORE TOKENS
+   Valores puros sin rol asignado. Nomenclatura por escala numerica.
+   -------------------------------------------------------------------------- */
 :root {
-  /* Colors */
-  --primary: #006688;
-  --primary-container: #00c2ff;
-  --on-primary: #ffffff;
-  --on-primary-container: #004c66;
-  
-  --secondary: #9d4318;
-  --secondary-container: #ff8c5b;
-  --on-secondary: #ffffff;
-  --on-secondary-container: #722700;
-  
-  --tertiary: #4e5f7e;
-  --tertiary-container: #a4b5d9;
-  
-  --surface: #f6fafe;
-  --surface-container-lowest: #ffffff;
-  --surface-container-low: #f0f4f8;
-  --surface-container: #eaeef2;
-  --surface-container-high: #e4e9ed;
-  --surface-container-highest: #dfe3e7;
-  
-  --on-surface: #171c1f;
-  --on-surface-variant: #3d484f;
-  --outline: #6d7980;
-  --outline-variant: #bcc8d1;
-  
-  --on-primary-fixed: #001e2b;
 
-  /* Typography */
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Manrope', sans-serif;
+   /* ===== COLOR — CYAN (marca primaria) ===== */
+   --color-cyan-50: #E0F7FF;
+   /* fondo sidebar item activo, badges info */
+   --color-cyan-100: #B3EBFF;
+   /* hover sidebar, tags suaves */
+   --color-cyan-200: #80DDFF;
+   --color-cyan-300: #4DCEFF;
+   /* extremo del gradiente de marca */
+   --color-cyan-400: #26C5FF;
+   --color-cyan-500: #00C2FF;
+   /* PRIMARY BRAND - botones cyan, links activos */
+   --color-cyan-600: #00ABF0;
+   /* hover botones cyan */
+   --color-cyan-700: #008ECA;
+   /* texto cyan sobre fondo claro */
+   --color-cyan-800: #0072A1;
+   /* texto sidebar activo, links */
+   --color-cyan-900: #003F59;
 
-  /* Spacing */
-  --spacing-xs: 0.5rem;   /* 8px */
-  --spacing-sm: 1rem;     /* 16px */
-  --spacing-md: 2rem;     /* 32px */
-  --spacing-lg: 3rem;     /* 48px */
-  --spacing-xl: 4rem;     /* 64px */
+   /* ===== COLOR — TEAL (display y superficies oscuras) ===== */
+   --color-teal-500: #006688;
+   /* gradiente header oscuro */
+   --color-teal-700: #004C66;
+   /* fondo card "Guia de Bolsillo" / "Tip del Mentor" */
+   --color-teal-900: #001E2B;
+   /* color de display headings */
 
-  /* Radius */
-  --radius-sm: 0.5rem;
-  --radius-md: 1.5rem;
-  --radius-lg: 2rem;
-  --radius-xl: 3rem;
-  --radius-full: 9999px;
+   /* ===== COLOR — ORANGE (CTA secundario) ===== */
+   --color-orange-50: #FFF1EB;
+   --color-orange-100: #FFDECD;
+   /* fondo iconos suaves */
+   --color-orange-200: #FFB99A;
+   --color-orange-300: #FF9466;
+   --color-orange-400: #FF7840;
+   /* hover CTA */
+   --color-orange-500: #FF8D5C;
+   /* CTA PRIMARIO - botones de accion */
+   --color-orange-600: #E67E52;
+   --color-orange-700: #B36240;
+   --color-orange-800: #9D4318;
+   --color-orange-900: #722700;
+   /* texto sobre boton naranja */
 
-  /* Shadows */
-  --shadow-ambient: 0 24px 40px rgba(0, 102, 136, 0.06);
+   /* ===== COLOR — INDIGO (terciario, accent suave) ===== */
+   --color-indigo-100: #E5E9F5;
+   /* fondo card "Nueva Actualizacion" */
+   --color-indigo-300: #A4B5D9;
+   --color-indigo-600: #4E5F7E;
+
+   /* ===== COLOR — GREEN (estados completado / exito) ===== */
+   --color-green-100: #DCFCE7;
+   /* fondo badge COMPLETADO */
+   --color-green-500: #22C55E;
+   /* barra de progreso completada */
+   --color-green-700: #15803D;
+   /* texto badge completado */
+
+   /* ===== COLOR — SLATE (escala neutral) ===== */
+   --color-slate-50: #F8FAFC;
+   --color-slate-75: #F6FAFE;
+   /* fondo de pagina (page background) */
+   --color-slate-100: #F1F5F9;
+   /* track de barra de progreso */
+   --color-slate-150: #F0F4F8;
+   /* surface low - fondo card context */
+   --color-slate-200: #EAEEF2;
+   /* surface - inputs, bordes suaves */
+   --color-slate-250: #E4E9ED;
+   /* surface high - hover de filas */
+   --color-slate-300: #DFE3E7;
+   /* surface highest, borde de inputs deshabilitados */
+   --color-slate-350: #CBD5E1;
+   --color-slate-400: #BCC8D1;
+   /* outline-variant, bordes sutiles */
+   --color-slate-500: #94A3B8;
+   /* texto deshabilitado */
+   --color-slate-600: #6D7980;
+   /* outline, texto muted */
+   --color-slate-700: #475569;
+   /* texto secondary */
+   --color-slate-750: #3D484F;
+   /* texto on-surface-variant */
+   --color-slate-800: #334155;
+   --color-slate-850: #171C1F;
+   /* texto principal */
+   --color-slate-900: #0F172A;
+   --color-slate-950: #020617;
+
+   /* ===== COLOR — NEUTRAL ===== */
+   --color-white: #FFFFFF;
+   --color-black: #000000;
+
+   /* ===== COLOR — ALPHA ===== */
+   --color-alpha-white-70: rgba(255, 255, 255, 0.7);
+   --color-alpha-white-30: rgba(255, 255, 255, 0.3);
+   --color-alpha-white-15: rgba(255, 255, 255, 0.15);
+   --color-alpha-cyan-30: rgba(0, 194, 255, 0.3);
+   --color-alpha-cyan-15: rgba(0, 194, 255, 0.15);
+   --color-alpha-orange-30: rgba(255, 141, 92, 0.3);
+   --color-alpha-orange-15: rgba(255, 141, 92, 0.15);
+   --color-alpha-teal-06: rgba(0, 102, 136, 0.06);
+   --color-alpha-teal-12: rgba(0, 76, 102, 0.12);
+   --color-alpha-black-05: rgba(0, 0, 0, 0.05);
+   --color-alpha-black-10: rgba(0, 0, 0, 0.10);
+
+   /* ===== SPACING — base 4px ===== */
+   --spacing-0: 0px;
+   --spacing-1: 4px;
+   --spacing-2: 8px;
+   --spacing-3: 12px;
+   --spacing-4: 16px;
+   --spacing-5: 20px;
+   --spacing-6: 24px;
+   --spacing-8: 32px;
+   --spacing-10: 40px;
+   --spacing-12: 48px;
+   --spacing-16: 64px;
+   --spacing-20: 80px;
+
+   /* ===== SIZE ===== */
+   --size-container-max: 1400px;
+   --size-sidebar-width: 280px;
+   --size-sidebar-rail: 72px;
+   --size-progress-height: 8px;
+   --size-progress-height-lg: 12px;
+   --size-avatar-sm: 32px;
+   --size-avatar-md: 40px;
+   --size-avatar-lg: 56px;
+   --size-icon-sm: 20px;
+   --size-icon-md: 24px;
+   --size-icon-lg: 32px;
+   --size-icon-container: 48px;
+
+   /* ===== BORDER RADIUS ===== */
+   --border-radius-none: 0px;
+   --border-radius-sm: 4px;
+   --border-radius-md: 8px;
+   --border-radius-lg: 12px;
+   --border-radius-xl: 16px;
+   --border-radius-2xl: 20px;
+   --border-radius-3xl: 24px;
+   --border-radius-4xl: 32px;
+   --border-radius-5xl: 48px;
+   --border-radius-full: 9999px;
+
+   /* ===== BORDER WIDTH ===== */
+   --border-width-0: 0px;
+   --border-width-1: 1px;
+   --border-width-2: 2px;
+   --border-width-3: 3px;
+   --border-width-4: 4px;
+   --border-width-6: 6px;
+
+   /* ===== FONT FAMILY ===== */
+   --font-family-heading: 'Plus Jakarta Sans';
+   --font-family-body: 'Manrope';
+   --font-family-label: 'Manrope';
+
+   /* ===== FONT SIZE ===== */
+   --font-size-xs: 0.75rem;
+   --font-size-sm: 0.875rem;
+   --font-size-base: 1rem;
+   --font-size-lg: 1.125rem;
+   --font-size-xl: 1.25rem;
+   --font-size-2xl: 1.5rem;
+   --font-size-3xl: 1.875rem;
+   --font-size-4xl: 2.25rem;
+   --font-size-5xl: 3rem;
+
+   /* ===== FONT WEIGHT ===== */
+   --font-weight-regular: 400;
+   --font-weight-medium: 500;
+   --font-weight-semibold: 600;
+   --font-weight-bold: 700;
+   --font-weight-extrabold: 800;
+   --font-weight-black: 900;
+
+   /* ===== LINE HEIGHT ===== */
+   --line-height-tight: 1.15;
+   --line-height-snug: 1.3;
+   --line-height-relaxed: 1.5;
+   --line-height-normal: 1.6;
+   --line-height-loose: 1.75;
+
+   /* ===== LETTER SPACING ===== */
+   --letter-spacing-tight: -0.02em;
+   --letter-spacing-normal: 0;
+   --letter-spacing-wide: 0.05em;
+   --letter-spacing-wider: 0.1em;
+
+   /* ===== SHADOW ===== */
+   --shadow-none: none;
+   --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+   --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+   --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+   --shadow-lg: 0 10px 20px -3px rgba(15, 23, 42, 0.08), 0 4px 8px -4px rgba(15, 23, 42, 0.04);
+   --shadow-xl: 0 20px 40px -10px rgba(15, 23, 42, 0.12), 0 8px 16px -6px rgba(15, 23, 42, 0.06);
+   --shadow-2xl: 0 32px 64px -12px rgba(15, 23, 42, 0.16);
+   --shadow-ambient-teal: 0 24px 40px rgba(0, 102, 136, 0.06);
+   --shadow-glow-cyan: 0 8px 24px rgba(0, 194, 255, 0.25);
+   --shadow-glow-orange: 0 8px 24px rgba(255, 141, 92, 0.30);
+   --shadow-inner: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+
+   /* ===== OPACITY ===== */
+   --opacity-0: 0;
+   --opacity-30: 0.3;
+   --opacity-50: 0.5;
+   --opacity-70: 0.7;
+   --opacity-100: 1;
+
+   /* ===== BLUR ===== */
+   --blur-sm: 8px;
+   --blur-md: 16px;
+   --blur-lg: 24px;
+
+   /* ===== MOTION — DURATION ===== */
+   --motion-duration-fast: 150ms;
+   --motion-duration-normal: 300ms;
+   --motion-duration-slow: 500ms;
+   --motion-duration-xslow: 800ms;
+
+   /* ===== MOTION — EASING ===== */
+   --motion-easing-linear: linear;
+   --motion-easing-in: cubic-bezier(0.4, 0, 1, 1);
+   --motion-easing-out: cubic-bezier(0, 0, 0.2, 1);
+   --motion-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+   /* ===== GRADIENTS BASE ===== */
+   --gradient-cyan: linear-gradient(135deg, #00C2FF 0%, #4DCEFF 100%);
+   --gradient-cyan-deep: linear-gradient(135deg, #006688 0%, #00C2FF 100%);
+   --gradient-orange: linear-gradient(135deg, #FF8D5C 0%, #FF9466 100%);
+   --gradient-cyan-orange: linear-gradient(90deg, #00C2FF 0%, #FF8D5C 100%);
+   --gradient-teal-dark: linear-gradient(135deg, #001E2B 0%, #004C66 100%);
+   --gradient-hero-card: linear-gradient(135deg, #0F2A2E 0%, #1A3F3F 50%, #2A5C50 100%);
+
+
+   /* ------------------------------------------------------------------------
+     CAPA 2 — SEMANTIC / ALIAS TOKENS
+     ------------------------------------------------------------------------ */
+
+   /* ===== COLOR — BACKGROUND ===== */
+   --color-background-page: var(--color-slate-75);
+   --color-background-surface: var(--color-white);
+   --color-background-surface-low: var(--color-slate-150);
+   --color-background-surface-medium: var(--color-slate-200);
+   --color-background-surface-high: var(--color-slate-250);
+   --color-background-surface-highest: var(--color-slate-300);
+   --color-background-surface-inverse: var(--color-teal-700);
+   --color-background-surface-dark: var(--color-teal-900);
+   --color-background-glass: var(--color-alpha-white-70);
+   --color-background-overlay: var(--color-alpha-white-30);
+
+   /* ===== COLOR — BRAND ===== */
+   --color-brand-primary: var(--color-cyan-500);
+   --color-brand-primary-hover: var(--color-cyan-600);
+   --color-brand-primary-active: var(--color-cyan-700);
+   --color-brand-primary-container: var(--color-cyan-50);
+   --color-brand-primary-on: var(--color-white);
+   --color-brand-primary-on-container: var(--color-cyan-800);
+   --color-brand-primary-deep: var(--color-teal-500);
+   --color-brand-primary-display: var(--color-teal-900);
+
+   --color-brand-secondary: var(--color-orange-500);
+   --color-brand-secondary-hover: var(--color-orange-400);
+   --color-brand-secondary-active: var(--color-orange-600);
+   --color-brand-secondary-container: var(--color-orange-100);
+   --color-brand-secondary-on: var(--color-white);
+   --color-brand-secondary-on-container: var(--color-orange-900);
+
+   --color-brand-tertiary: var(--color-indigo-600);
+   --color-brand-tertiary-container: var(--color-indigo-100);
+
+   /* ===== COLOR — TEXT ===== */
+   --color-text-primary: var(--color-slate-850);
+   --color-text-secondary: var(--color-slate-700);
+   --color-text-muted: var(--color-slate-600);
+   --color-text-disabled: var(--color-slate-500);
+   --color-text-inverse: var(--color-white);
+   --color-text-display: var(--color-teal-900);
+   --color-text-link: var(--color-cyan-700);
+   --color-text-link-hover: var(--color-cyan-800);
+   --color-text-accent: var(--color-cyan-500);
+
+   /* ===== COLOR — BORDER ===== */
+   --color-border-default: var(--color-slate-200);
+   --color-border-subtle: var(--color-slate-100);
+   --color-border-strong: var(--color-slate-400);
+   --color-border-focus: var(--color-cyan-500);
+   --color-border-active: var(--color-cyan-500);
+   --color-border-accent: var(--color-orange-500);
+   --color-border-on-dark: var(--color-alpha-white-15);
+
+   /* ===== COLOR — FEEDBACK ===== */
+   --color-feedback-success: var(--color-green-500);
+   --color-feedback-success-container: var(--color-green-100);
+   --color-feedback-success-on: var(--color-green-700);
+   --color-feedback-warning: #F59E0B;
+   --color-feedback-warning-container: #FEF3C7;
+   --color-feedback-warning-on: #92400E;
+   --color-feedback-error: #DC2626;
+   --color-feedback-error-container: #FEE2E2;
+   --color-feedback-error-on: #991B1B;
+   --color-feedback-info: var(--color-cyan-500);
+   --color-feedback-info-container: var(--color-cyan-50);
+   --color-feedback-info-on: var(--color-cyan-800);
+
+   /* ===== COLOR — ICON ===== */
+   --color-icon-default: var(--color-slate-700);
+   --color-icon-muted: var(--color-slate-600);
+   --color-icon-primary: var(--color-cyan-500);
+   --color-icon-secondary: var(--color-orange-500);
+   --color-icon-inverse: var(--color-white);
+
+   /* ===== TYPOGRAPHY ===== */
+   --typography-display-family: var(--font-family-heading);
+   --typography-display-weight: var(--font-weight-extrabold);
+   --typography-display-size: var(--font-size-5xl);
+   --typography-display-line: var(--line-height-tight);
+   --typography-display-tracking: var(--letter-spacing-tight);
+
+   --typography-h1-family: var(--font-family-heading);
+   --typography-h1-weight: var(--font-weight-extrabold);
+   --typography-h1-size: var(--font-size-4xl);
+   --typography-h1-line: var(--line-height-tight);
+   --typography-h1-tracking: var(--letter-spacing-tight);
+
+   --typography-h2-family: var(--font-family-heading);
+   --typography-h2-weight: var(--font-weight-bold);
+   --typography-h2-size: var(--font-size-3xl);
+   --typography-h2-line: var(--line-height-snug);
+
+   --typography-h3-family: var(--font-family-heading);
+   --typography-h3-weight: var(--font-weight-bold);
+   --typography-h3-size: var(--font-size-2xl);
+   --typography-h3-line: var(--line-height-snug);
+
+   --typography-h4-family: var(--font-family-heading);
+   --typography-h4-weight: var(--font-weight-bold);
+   --typography-h4-size: var(--font-size-xl);
+   --typography-h4-line: var(--line-height-snug);
+
+   --typography-body-family: var(--font-family-body);
+   --typography-body-weight: var(--font-weight-regular);
+   --typography-body-size: var(--font-size-base);
+   --typography-body-line: var(--line-height-relaxed);
+
+   --typography-body-sm-family: var(--font-family-body);
+   --typography-body-sm-weight: var(--font-weight-regular);
+   --typography-body-sm-size: var(--font-size-sm);
+   --typography-body-sm-line: var(--line-height-relaxed);
+
+   --typography-label-family: var(--font-family-heading);
+   --typography-label-weight: var(--font-weight-bold);
+   --typography-label-size: var(--font-size-sm);
+   --typography-label-line: 1;
+   --typography-label-tracking: var(--letter-spacing-wide);
+   --typography-label-transform: uppercase;
+
+   --typography-badge-family: var(--font-family-heading);
+   --typography-badge-weight: var(--font-weight-bold);
+   --typography-badge-size: var(--font-size-xs);
+   --typography-badge-line: 1;
+   --typography-badge-tracking: var(--letter-spacing-wider);
+   --typography-badge-transform: uppercase;
+
+   --typography-button-family: var(--font-family-heading);
+   --typography-button-weight: var(--font-weight-bold);
+   --typography-button-size: var(--font-size-base);
+   --typography-button-line: 1;
+
+   --typography-caption-family: var(--font-family-body);
+   --typography-caption-weight: var(--font-weight-regular);
+   --typography-caption-size: var(--font-size-xs);
+   --typography-caption-line: var(--line-height-relaxed);
+
+   /* ===== SPACING SEMANTIC ===== */
+   --spacing-xs: var(--spacing-2);
+   --spacing-sm: var(--spacing-4);
+   --spacing-md: var(--spacing-6);
+   --spacing-lg: var(--spacing-8);
+   --spacing-xl: var(--spacing-12);
+   --spacing-2xl: var(--spacing-16);
+   --spacing-container: var(--spacing-8);
+   --spacing-stack-gap: var(--spacing-4);
+   --spacing-inline-gap: var(--spacing-3);
+
+   /* ===== RADIUS SEMANTIC ===== */
+   --radius-xs: var(--border-radius-md);
+   --radius-sm: var(--border-radius-lg);
+   --radius-md: var(--border-radius-2xl);
+   --radius-lg: var(--border-radius-3xl);
+   --radius-xl: var(--border-radius-4xl);
+   --radius-2xl: var(--border-radius-5xl);
+   --radius-pill: var(--border-radius-full);
+
+   /* ===== SHADOW SEMANTIC ===== */
+   --shadow-flat: var(--shadow-xs);
+   --shadow-raised: var(--shadow-sm);
+   --shadow-elevated: var(--shadow-md);
+   --shadow-floating: var(--shadow-lg);
+   --shadow-overlay: var(--shadow-xl);
+   --shadow-modal: var(--shadow-2xl);
+   --shadow-ambient: var(--shadow-ambient-teal);
+   --shadow-focus-primary: var(--shadow-glow-cyan);
+   --shadow-focus-secondary: var(--shadow-glow-orange);
+
+   /* ===== MOTION SEMANTIC ===== */
+   --motion-duration-instant: var(--motion-duration-fast);
+   --motion-duration-default: var(--motion-duration-normal);
+   --motion-duration-emphasis: var(--motion-duration-slow);
+   --motion-duration-entrance: var(--motion-duration-xslow);
+   --motion-easing-standard: var(--motion-easing-in-out);
+   --motion-easing-decelerate: var(--motion-easing-out);
+   --motion-easing-accelerate: var(--motion-easing-in);
+
+
+   /* ------------------------------------------------------------------------
+     CAPA 3 — COMPONENT / MAPPED TOKENS
+     ------------------------------------------------------------------------ */
+
+   /* ===== BUTTON — PRIMARY (CTA naranja) ===== */
+   --color-background-button-primary-default: var(--color-brand-secondary);
+   --color-background-button-primary-hover: var(--color-brand-secondary-hover);
+   --color-background-button-primary-active: var(--color-brand-secondary-active);
+   --color-background-button-primary-disabled: var(--color-slate-300);
+   --color-text-button-primary-default: var(--color-white);
+   --color-text-button-primary-disabled: var(--color-slate-500);
+   --border-radius-button-primary: var(--radius-pill);
+   --padding-x-button-primary: var(--spacing-8);
+   --padding-y-button-primary: var(--spacing-3);
+   --shadow-button-primary-default: var(--shadow-focus-secondary);
+   --shadow-button-primary-hover: var(--shadow-overlay);
+   --transform-button-primary-hover: translateY(-2px);
+   --motion-duration-button-primary: var(--motion-duration-default);
+   --motion-easing-button-primary: var(--motion-easing-standard);
+
+   /* ===== BUTTON — SECONDARY (cyan) ===== */
+   --color-background-button-secondary-default: var(--color-brand-primary);
+   --color-background-button-secondary-hover: var(--color-brand-primary-hover);
+   --color-background-button-secondary-active: var(--color-brand-primary-active);
+   --color-text-button-secondary-default: var(--color-white);
+   --border-radius-button-secondary: var(--radius-pill);
+   --shadow-button-secondary-default: var(--shadow-focus-primary);
+
+   /* ===== BUTTON — TERTIARY (outline blanco con borde) ===== */
+   --color-background-button-tertiary-default: var(--color-white);
+   --color-background-button-tertiary-hover: var(--color-slate-50);
+   --color-border-button-tertiary-default: var(--color-slate-200);
+   --color-text-button-tertiary-default: var(--color-text-primary);
+   --border-radius-button-tertiary: var(--radius-pill);
+   --border-width-button-tertiary: var(--border-width-1);
+
+   /* ===== BUTTON — GHOST ===== */
+   --color-background-button-ghost-default: transparent;
+   --color-background-button-ghost-hover: var(--color-slate-100);
+   --color-text-button-ghost-default: var(--color-text-secondary);
+   --color-text-button-ghost-hover: var(--color-text-primary);
+
+   /* ===== CARD — DEFAULT ===== */
+   --color-background-card-default: var(--color-background-surface);
+   --color-border-card-default: var(--color-border-subtle);
+   --border-width-card-default: var(--border-width-1);
+   --border-radius-card-default: var(--radius-md);
+   --padding-card-default: var(--spacing-8);
+   --shadow-card-default: var(--shadow-elevated);
+
+   /* ===== CARD — MODULE (cards de modulo del dashboard con borde superior cyan/orange) ===== */
+   --color-background-card-module: var(--color-background-surface);
+   --color-border-card-module-top-cyan: var(--color-brand-primary);
+   --color-border-card-module-top-orange: var(--color-brand-secondary);
+   --border-width-card-module-top: var(--border-width-4);
+   --border-radius-card-module: var(--radius-md);
+   --padding-card-module: var(--spacing-6);
+   --shadow-card-module: var(--shadow-floating);
+
+   /* ===== CARD — FEATURE (Habilidades, Proximas Actividades, Resumen) ===== */
+   --color-background-card-feature: var(--color-background-surface);
+   --border-radius-card-feature: var(--radius-lg);
+   --padding-card-feature: var(--spacing-6);
+   --shadow-card-feature: var(--shadow-floating);
+
+   /* ===== CARD — INVERSE (Guia de Bolsillo / Tip del Mentor) ===== */
+   --color-background-card-inverse: var(--color-background-surface-inverse);
+   --color-text-card-inverse-title: var(--color-white);
+   --color-text-card-inverse-body: var(--color-alpha-white-70);
+   --border-radius-card-inverse: var(--radius-lg);
+   --padding-card-inverse: var(--spacing-6);
+   --shadow-card-inverse: var(--shadow-elevated);
+
+   /* ===== CARD — HERO GRADIENT (recurso destacado) ===== */
+   --color-background-card-hero-gradient: var(--gradient-hero-card);
+   --color-text-card-hero-default: var(--color-white);
+   --border-radius-card-hero: var(--radius-2xl);
+   --padding-card-hero: var(--spacing-12);
+
+   /* ===== CARD — GLASS ===== */
+   --color-background-card-glass: var(--color-background-glass);
+   --color-border-card-glass: var(--color-alpha-white-30);
+   --border-width-card-glass: var(--border-width-1);
+   --blur-card-glass: var(--blur-lg);
+
+   /* ===== CARD — ANNOUNCEMENT (Anuncios y Comunicados) ===== */
+   --color-background-card-announcement: var(--color-background-surface);
+   --color-border-card-announcement-accent: var(--color-brand-primary);
+   --border-width-card-announcement-accent: var(--border-width-4);
+   --border-radius-card-announcement: var(--radius-md);
+   --padding-card-announcement: var(--spacing-4) var(--spacing-6);
+   --shadow-card-announcement: var(--shadow-flat);
+
+   /* ===== CARD — REFLECTION ===== */
+   --color-background-card-reflection: var(--color-background-surface);
+   --color-border-card-reflection: var(--color-border-default);
+   --color-border-card-reflection-accent: var(--color-brand-secondary);
+   --border-width-card-reflection: var(--border-width-1);
+   --border-width-card-reflection-accent: var(--border-width-6);
+   --border-radius-card-reflection: var(--radius-lg);
+   --padding-card-reflection: var(--spacing-12);
+   --shadow-card-reflection: var(--shadow-ambient);
+   --color-text-card-reflection-badge: var(--color-brand-secondary);
+   --color-text-card-reflection-question: var(--color-text-primary);
+   --color-text-card-reflection-instruction: var(--color-text-secondary);
+   --color-text-card-reflection-footer: var(--color-text-muted);
+   --color-border-card-reflection-question: var(--color-brand-secondary-container);
+   --border-width-card-reflection-question: var(--border-width-3);
+
+   /* ===== CARD — QUESTION (checkpoint) ===== */
+   --color-background-card-question: var(--color-background-surface);
+   --color-border-card-question-accent: var(--color-brand-primary);
+   --border-width-card-question-accent: var(--border-width-6);
+   --border-radius-card-question: var(--radius-md);
+   --padding-card-question: var(--spacing-8);
+   --shadow-card-question: var(--shadow-elevated);
+
+   /* ===== CARD — ANSWER OPTION ===== */
+   --color-background-card-answer-default: var(--color-slate-150);
+   --color-background-card-answer-hover: var(--color-slate-200);
+   --color-background-card-answer-selected: var(--color-cyan-50);
+   --color-border-card-answer-selected: var(--color-brand-primary);
+   --border-radius-card-answer: var(--radius-md);
+   --padding-card-answer: var(--spacing-5);
+
+   /* ===== HEADER ===== */
+   --color-background-header-gradient: var(--gradient-cyan-deep);
+   --color-background-header-solid: var(--color-background-surface);
+   --color-text-header-on-gradient: var(--color-white);
+   --color-text-header-on-solid: var(--color-text-primary);
+   --color-border-header-bottom: var(--color-border-default);
+   --padding-y-header: var(--spacing-4);
+   --padding-x-header: var(--spacing-8);
+
+   /* ===== SIDEBAR ===== */
+   --color-background-sidebar-default: var(--color-background-surface);
+   --color-background-sidebar-rail: var(--color-background-page);
+   --size-width-sidebar: var(--size-sidebar-width);
+   --size-width-sidebar-rail: var(--size-sidebar-rail);
+   --border-radius-sidebar-right: var(--border-radius-3xl);
+   --padding-sidebar: var(--spacing-4);
+
+   --color-background-sidebar-item-default: transparent;
+   --color-background-sidebar-item-hover: var(--color-slate-50);
+   --color-background-sidebar-item-active: var(--color-cyan-50);
+   --color-text-sidebar-item-default: var(--color-text-secondary);
+   --color-text-sidebar-item-hover: var(--color-text-primary);
+   --color-text-sidebar-item-active: var(--color-cyan-700);
+   --color-icon-sidebar-item-default: var(--color-icon-muted);
+   --color-icon-sidebar-item-active: var(--color-brand-primary);
+   --border-radius-sidebar-item: var(--radius-pill);
+   --padding-x-sidebar-item: var(--spacing-4);
+   --padding-y-sidebar-item: var(--spacing-3);
+   --gap-sidebar-item: var(--spacing-3);
+
+   /* ===== INPUT ===== */
+   --color-background-input-default: var(--color-slate-200);
+   --color-background-input-focus: var(--color-white);
+   --color-background-input-disabled: var(--color-slate-150);
+   --color-border-input-default: transparent;
+   --color-border-input-hover: var(--color-slate-350);
+   --color-border-input-focus: var(--color-brand-primary);
+   --color-border-input-error: var(--color-feedback-error);
+   --color-text-input-default: var(--color-text-primary);
+   --color-text-input-placeholder: var(--color-text-disabled);
+   --color-icon-input-default: var(--color-icon-muted);
+   --border-radius-input-default: var(--radius-pill);
+   --border-width-input-default: var(--border-width-1);
+   --border-width-input-focus: var(--border-width-2);
+   --padding-x-input-default: var(--spacing-5);
+   --padding-y-input-default: var(--spacing-3);
+   --shadow-input-focus: var(--shadow-focus-primary);
+
+   /* ===== SEARCH BAR ===== */
+   --color-background-searchbar: var(--color-slate-150);
+   --color-border-searchbar: transparent;
+   --color-text-searchbar: var(--color-text-primary);
+   --color-text-searchbar-placeholder: var(--color-text-muted);
+   --color-icon-searchbar: var(--color-icon-muted);
+   --border-radius-searchbar: var(--radius-pill);
+   --padding-x-searchbar: var(--spacing-5);
+   --padding-y-searchbar: var(--spacing-3);
+
+   /* ===== BADGE / PILL ===== */
+   --color-background-badge-info: var(--color-cyan-50);
+   --color-text-badge-info: var(--color-cyan-800);
+   --color-background-badge-success: var(--color-green-100);
+   --color-text-badge-success: var(--color-green-700);
+   --color-background-badge-neutral: var(--color-slate-200);
+   --color-text-badge-neutral: var(--color-text-secondary);
+   --color-background-badge-warning: var(--color-feedback-warning-container);
+   --color-text-badge-warning: var(--color-feedback-warning-on);
+   --border-radius-badge: var(--radius-pill);
+   --padding-x-badge: var(--spacing-3);
+   --padding-y-badge: var(--spacing-1);
+
+   /* ===== PROGRESS BAR ===== */
+   --color-background-progress-track: var(--color-slate-100);
+   --color-background-progress-fill: var(--color-brand-primary);
+   --color-background-progress-fill-success: var(--color-green-500);
+   --color-background-progress-fill-gradient: var(--gradient-cyan-orange);
+   --border-radius-progress: var(--border-radius-full);
+   --size-height-progress: var(--size-progress-height);
+   --size-height-progress-lg: var(--size-progress-height-lg);
+
+   /* ===== PROGRESS RING ===== */
+   --color-stroke-progress-ring-track: var(--color-slate-200);
+   --color-stroke-progress-ring-fill: var(--color-brand-primary);
+   --color-stroke-progress-ring-warn: var(--color-brand-secondary);
+   --width-stroke-progress-ring: 8px;
+
+   /* ===== TOGGLE / SWITCH ===== */
+   --color-background-toggle-off: var(--color-slate-300);
+   --color-background-toggle-on: var(--color-brand-primary);
+   --color-background-toggle-handle: var(--color-white);
+   --shadow-toggle-handle: var(--shadow-sm);
+   --border-radius-toggle: var(--border-radius-full);
+
+   /* ===== CHECKBOX ===== */
+   --color-background-checkbox-unchecked: var(--color-white);
+   --color-background-checkbox-checked: var(--color-teal-700);
+   --color-border-checkbox-default: var(--color-slate-400);
+   --color-border-checkbox-checked: var(--color-teal-700);
+   --color-icon-checkbox-checked: var(--color-white);
+   --border-radius-checkbox: var(--border-radius-md);
+   --border-width-checkbox: var(--border-width-2);
+
+   /* ===== TAB / NAV LINK ===== */
+   --color-text-tab-default: var(--color-text-secondary);
+   --color-text-tab-active: var(--color-brand-primary);
+   --color-text-tab-hover: var(--color-text-primary);
+   --color-border-tab-active: var(--color-brand-primary);
+   --border-width-tab-active: var(--border-width-2);
+   --padding-y-tab: var(--spacing-2);
+
+   /* ===== AVATAR ===== */
+   --size-avatar-default: var(--size-avatar-md);
+   --border-radius-avatar: var(--border-radius-full);
+   --color-border-avatar-online: var(--color-feedback-success);
+   --border-width-avatar-status: var(--border-width-2);
+
+   /* ===== CONTAINER ===== */
+   --size-max-container: var(--size-container-max);
+   --padding-x-container: var(--spacing-8);
+
+   /* ===== ICON CONTAINER (cajita con icono dentro de cards) ===== */
+   --size-icon-container-default: var(--size-icon-container);
+   --color-background-icon-container-cyan: var(--color-cyan-50);
+   --color-background-icon-container-orange: var(--color-orange-100);
+   --color-background-icon-container-indigo: var(--color-indigo-100);
+   --color-background-icon-container-neutral: var(--color-slate-150);
+   --border-radius-icon-container: var(--radius-sm);
+
+   /* ===== ANIMATION ===== */
+   --animation-fade-in-duration: var(--motion-duration-entrance);
+   --animation-fade-in-easing: var(--motion-easing-standard);
+   --animation-slide-up-duration: var(--motion-duration-emphasis);
+   --animation-pulse-duration: 2s;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
+/* ==========================================================================
+   KEYFRAMES — Animaciones reutilizables
+   ========================================================================== */
+@keyframes fade-in {
+   from {
+      opacity: 0;
+      transform: translateY(20px);
+   }
+
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
 }
 
-body {
-  font-family: var(--font-body);
-  background-color: var(--surface);
-  color: var(--on-surface);
-  line-height: 1.6;
-  overflow-x: hidden;
+@keyframes slide-up {
+   from {
+      opacity: 0;
+      transform: translateY(40px);
+   }
+
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  color: var(--on-primary-fixed);
-  font-weight: 700;
+@keyframes pulse-glow {
+
+   0%,
+   100% {
+      box-shadow: 0 0 0 0 rgba(0, 194, 255, 0.4);
+   }
+
+   50% {
+      box-shadow: 0 0 0 12px rgba(0, 194, 255, 0);
+   }
 }
 
-/* Utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+@keyframes shimmer {
+   0% {
+      background-position: -200% 0;
+   }
+
+   100% {
+      background-position: 200% 0;
+   }
 }
 
-.gradient-header {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
-  color: var(--on-primary);
+/* ==========================================================================
+   UTILITY CLASSES — DOCENCIA 4.0
+   Basado en Design Tokens (Global, Semantic, Component)
+   ========================================================================== */
+
+/* ----- 1. CONTENEDORES Y SUPERFICIES ----- */
+.bg-page {
+   background-color: var(--color-background-page);
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 2.5rem;
-  border-radius: var(--radius-full);
-  font-family: var(--font-display);
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-  text-decoration: none;
+.bg-surface {
+   background-color: var(--color-background-surface);
 }
 
+.bg-glass {
+   background-color: var(--color-background-glass);
+   backdrop-filter: blur(var(--blur-lg));
+}
+
+/* ----- 2. TIPOGRAFÍA ----- */
+.text-display {
+   font-family: var(--typography-display-family);
+   font-weight: var(--typography-display-weight);
+   font-size: var(--font-size-3xl);
+   /* Ajustado para legibilidad en dashboard */
+   color: var(--color-text-display);
+   line-height: var(--line-height-tight);
+}
+
+.text-body {
+   font-family: var(--typography-body-family);
+   font-size: var(--font-size-base);
+   color: var(--color-text-primary);
+}
+
+.text-muted {
+   color: var(--color-text-muted);
+}
+
+.text-brand {
+   color: var(--color-brand-primary);
+}
+
+/* ----- 3. LOGO Y BRANDING (Específico para tu logo) ----- */
+.logo-container {
+   display: flex;
+   align-items: center;
+   gap: var(--spacing-3);
+   padding: var(--spacing-4);
+}
+
+.logo-img {
+   height: var(--size-icon-container);
+   /* Basado en tus tokens de 48px */
+   width: auto;
+   object-fit: contain;
+}
+
+.logo-text {
+   font-family: var(--font-family-heading);
+   font-weight: var(--font-weight-bold);
+   font-size: var(--font-size-lg);
+   color: var(--color-text-display);
+}
+
+/* ----- 4. BORDES Y SOMBRAS ----- */
+.shadow-card {
+   shadow: var(--shadow-elevated);
+}
+
+.radius-md {
+   border-radius: var(--radius-md);
+}
+
+.radius-pill {
+   border-radius: var(--radius-pill);
+}
+
+/* Bordes acentuados (como en tus módulos) */
+.border-t-cyan {
+   border-top: var(--border-width-4) solid var(--color-brand-primary);
+}
+
+.border-t-orange {
+   border-top: var(--border-width-4) solid var(--color-brand-secondary);
+}
+
+/* ----- 5. ACCIONES (BOTONES) ----- */
 .btn-primary {
-  background-color: var(--secondary-container);
-  color: var(--on-secondary-container);
+   background-color: var(--color-background-button-primary-default);
+   color: var(--color-text-button-primary-default);
+   padding: var(--padding-y-button-primary) var(--padding-x-button-primary);
+   border-radius: var(--radius-pill);
+   border: none;
+   cursor: pointer;
+   transition: all var(--motion-duration-default) var(--motion-easing-standard);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-ambient);
-  filter: brightness(1.1);
-}
-
-.card {
-  background: var(--surface-container-lowest);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  box-shadow: var(--shadow-ambient);
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+   background-color: var(--color-background-button-primary-hover);
+   transform: var(--transform-button-primary-hover);
+   box-shadow: var(--shadow-button-primary-default);
 }

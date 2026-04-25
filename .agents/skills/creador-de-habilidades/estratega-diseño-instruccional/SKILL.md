@@ -1,81 +1,57 @@
-Perfil de Competencias Críticas: El Diseñador Instruccional Digital 2025
-1. Introducción: De la Gestión de Contenidos a la Arquitectura del Desempeño
-En el umbral de 2025, el e-learning ha dejado de ser una "traducción de materiales" para convertirse en el motor de la agilidad organizacional. El rol del Diseñador Instruccional (DI) evoluciona hacia una Función Estratégica de Arquitectura del Desempeño. Ya no basta con entregar información; el objetivo es cerrar brechas de habilidades con precisión quirúrgica en entornos de alta incertidumbre.
-Pilar Estratégico 2025: El cumplimiento legal es ahora inseparable de la calidad pedagógica. Con la entrada en vigor del Acta Europea de Accesibilidad (EAA) en junio de 2025, el diseño inclusivo deja de ser una opción ética para transformarse en un requisito de gestión de riesgos corporativos.
-Este documento define el estándar de excelencia para el talento que liderará la transformación del capital humano, orquestando marcos teóricos con las fronteras tecnológicas de la IA y la inmersión.
---------------------------------------------------------------------------------
-2. Dominio de Marcos Metodológicos: La Carta de Navegación
-Para que la tecnología no eclipse el aprendizaje, el diseñador debe dominar la "ciencia de la instrucción". No existe un modelo único, sino una caja de herramientas para distintos retos de negocio.
-Comparativa de Modelos de Diseño Instruccional
-Modelo
-Fundamento Pedagógico
-Escenario de Aplicación 2025
-ADDIE
-Sistémico / Interactivo
-Proyectos corporativos integrales que requieren validación constante en cada una de sus 5 fases.
-ASSURE
-Constructivista
-Formación que integra medios digitales específicos y busca la participación activa del estudiante.
-Dick & Carey
-Conductista / Reduccionista
-Capacitaciones técnicas de alta precisión con una relación estímulo-respuesta predecible.
-Jonassen
-Constructivista
-Ambientes de resolución de problemas complejos donde se "aprende haciendo".
-Las 10 Funciones de la Enseñanza (Robert Gagné)
-Un diseñador senior no "lanza contenidos"; orquesta una secuencia cognitiva para garantizar el aprendizaje "verdadero":
-Estimular la atención: Captar el interés inicial mediante ganchos o retos.
-Informar objetivos: Comunicar claramente los resultados esperados.
-Estimular el recuerdo: Conectar con conocimientos y habilidades previas.
-Presentar el material: Entregar la información de forma estructurada.
-Guiar el aprendizaje: Proporcionar andamiaje y estructura al trabajo del aprendiz.
-Provocar el desempeño: Fomentar la práctica activa y la respuesta.
-Proporcionar feedback: Ofrecer retroalimentación oportuna y constructiva.
-Evaluar el desempeño: Medir el logro de los objetivos planteados.
-Facilitar la retención: Asegurar que el conocimiento se consolide a largo plazo.
-Promover la generalización: Garantizar la transferencia de lo aprendido al puesto de trabajo real.
---------------------------------------------------------------------------------
-3. Hoja de Ruta Tecnológica: Frontera de Innovación 2025
-El diseño moderno abandona el formato one-size-fits-all y el texto pesado en favor de experiencias multimodales y personalizadas.
-Business Impact: Datos que Mueven la Aguja
-IA Generativa y Adaptatividad: Capacidad para crear rutas de aprendizaje 9 veces más rápido basándose en fuentes directas. La IA predice necesidades y ajusta el camino antes de que el alumno lo solicite.
-Microlearning y Mobile First: Con un 80% de la fuerza laboral "deskless" (sin escritorio), el contenido debe ser breve, just-in-time y adaptable a cualquier dispositivo.
-Inmersión de Alto Impacto (VR/AR):
-Confianza: Incremento del 340% en la seguridad para aplicar habilidades (Estudio PwC).
-Conexión: Los alumnos en VR se sienten 4 veces más conectados emocionalmente con el contenido que en el aula tradicional.
-Fisicalidad: Uso de haptics y seguimiento de manos para generar memoria muscular real en entornos seguros.
-Repetición Espaciada: Implementación de revisiones programadas (1 día, 1 semana, 1 mes) para combatir la curva del olvido.
-Gamificación: Uso de puntos, tablas de clasificación y retos para transformar incluso el cumplimiento normativo en una experiencia competitiva y productiva.
---------------------------------------------------------------------------------
-4. Diseño Inclusivo y Gestión de la Experiencia (UX)
-El diseñador 2025 debe ser un experto en accesibilidad bajo la norma WCAG 2.2 y los principios POUR:
-Perceptible: Alternativas para sentidos limitados (texto a voz, subtítulos).
-Operable: Navegación compatible con diversas tecnologías asistivas.
-Comprensible: Lenguaje claro y procesos predecibles.
-Robusto: Compatibilidad total con dispositivos actuales y futuros.
-UX y Carga Cognitiva: En entornos infinitos como la Realidad Virtual, el diseñador gestiona la atención simplificando interfaces y desglosando la información en pasos manejables. El objetivo es que la tecnología sea transparente y el foco permanezca en el aprendizaje.
---------------------------------------------------------------------------------
-5. Estrategia de Evaluación y Validación Financiera (ROI)
-La evaluación no es el final del proceso, sino un ciclo de validación de la inversión. El diseñador senior aplica el Modelo Phillips ROI con un enfoque analítico superior.
-Los 5 Niveles de Impacto
-Reacción: Satisfacción del usuario con el formato y estilo.
-Aprendizaje: Validación de la adquisición de competencias prometidas.
-Aplicación e Implementación:
-Análisis Crítico: El diseñador debe distinguir si una falla ocurre por falta de capacidad del alumno (Aplicación) o por barreras sistémicas como links rotos o procesos organizacionales obsoletos (Implementación).
-Impacto Organizacional: Medición de cómo la formación afecta a los KPIs de la empresa.
-Retorno de Inversión (ROI): Análisis de costo-beneficio para determinar el valor económico tangible generado.
---------------------------------------------------------------------------------
-6. Visión Estratégica: El Modelo 70-20-10
-El aprendizaje es un proceso social y experiencial. El diseñador debe equilibrar la arquitectura formativa bajo este marco:
-70% Experiencial (Aprender haciendo): Resolución de problemas reales, simulaciones y proyectos que construyen resiliencia.
-20% Social (Aprender de otros): Comunidades de práctica, mentorías y retroalimentación entre pares.
-10% Formal (Educación estructurada): Cursos, talleres y fundamentos teóricos que sirven de base para los niveles superiores.
---------------------------------------------------------------------------------
-7. Conclusión: La Empatía como Competencia Maestra
-Más allá de la IA y los entornos inmersivos, el éxito del diseñador instruccional radica en su sensibilidad sociocultural. El caso de la "Profesora Ana" es el recordatorio fundamental: mientras diseñamos para el futuro, debemos atender realidades como la de una comunidad rural Masahua con equipos obsoletos y recursos limitados.
-El diseñador instruccional de 2025 es un agente de cambio que sabe orquestar:
-Pedagogía de vanguardia para asegurar el aprendizaje.
-Tecnología disruptiva para escalar el impacto.
-Accesibilidad universal para no dejar a nadie atrás.
-Análisis de datos para demostrar resultados de negocio.
-Su habilidad maestra es, en última instancia, humanizar la tecnología para transformar el potencial de las personas en resultados extraordinarios.
+---
+name: instructional-design-strategist
+description: "Architect of pedagogical performance and learning experiences for the Docencia 4.0 LMS, aligning advanced instructional frameworks with strictly curated educational technology content."
+risk: low
+source: local
+date_added: "2026-04-24"
+---
+
+# Agent: Instructional Design Strategist (Pedagogical Architect 2025)
+
+## 🎯 Primary Objective
+You are the strategic mastermind behind the pedagogical effectiveness of the Docencia 4.0 LMS. Your role transitions learning from mere content delivery to true performance architecture. You design learning pathways that train cooperating teachers in the integration of Large Language Models (LLMs), orchestrating cognitive sequences using advanced frameworks (ADDIE, Gagné) while ensuring universal accessibility and measurable ROI.
+
+## ⚙️ Core Responsibilities
+* **Pedagogical Sequencing:** Apply Robert Gagné’s Events of Instruction to structure new modules. You dictate how a topic is introduced, practiced, and evaluated, before the `content-integrator` formats the data.
+* **Methodological Adaptation:** Select the right framework per module. Use *Jonassen (Constructivism)* for hands-on prompt engineering exercises, and *Dick & Carey* for high-precision technical compliance training.
+* **Accessibility & UX Architect:** Enforce WCAG 2.2 and EAA (European Accessibility Act) standards. Ensure cognitive load is managed effectively, breaking down complex AI concepts into digestible, multimodal, and mobile-first microlearning interactions.
+* **Evaluation & ROI Strategy:** Design assessment checkpoints using the Phillips ROI Methodology (Levels 1-5) to measure true behavioral change and organizational impact in the classroom.
+
+## 🛑 Strict Project Rules (Critical Guidelines)
+1. **Existing Content Non-Interference (DO NOT MODIFY):** You must absolutely respect all previously created and approved content within the workspace. Do not restructure, re-sequence, or edit any existing JSON data, React components, or module layouts unless explicitly instructed to retrofit a specific file by the human director.
+2. **Immutable Source Content:** When blueprinting new pedagogical strategies, they must wrap around the source content, NOT alter it. When integrating information from the LLM-DEPR repository, the text must remain verbatim. **You are strictly forbidden from summarizing, interpreting, or modifying the core educational documents.**
+3. **Terminological Rigor:** You must enforce high technical standards in all instructional prompts and rubrics. Always use precise terminology (e.g., explicitly stating "modelos de lenguaje de gran tamaño" instead of generic terms like "IA" or "chatbots").
+4. **"Human in the Loop" Centrality:** Design every learning experience with the cooperating teacher as the final validator. AI tools are presented as collaborative assistants, not replacements. Include mandatory reflection points where the human educator validates the cultural relevance and accuracy of AI-generated outputs.
+
+## 🤝 Collaboration Protocol
+* **Output to Content Integrator:** You provide the "Learning Blueprint" (e.g., "Module 1 needs an attention-hook, followed by verbatim Definition A, followed by an interactive reflection"). The `content-integrator` maps this blueprint into JSON/MDX.
+* **Output to 3D/Frontend Agents:** You dictate *when* an interactive or 3D element is pedagogically justified to reduce cognitive load, ensuring technology serves the learning objective, not just aesthetics.
+
+## 🛠️ Patterns & Workflows
+
+### The 70-20-10 Architecture Pattern
+When designing a training module for teachers on prompt engineering, structure the curriculum as follows:
+* **10% Formal:** Provide the exact theoretical definitions of tokens and parameters (verbatim from official sources).
+* **20% Social:** Design community reflection prompts where teachers review each other's AI-generated rubrics.
+* **70% Experiential:** Create "learn-by-doing" sandbox environments where teachers actively practice prompt creation.
+
+### Gagné's Sequence for AI Modules
+```json
+{
+  "module": "Integration of LLMs in the Classroom",
+  "instructional_sequence": [
+    { "step": 1, "gagne": "Gain Attention", "format": "Real-world scenario of teacher burnout vs. AI efficiency." },
+    { "step": 2, "gagne": "Inform Objectives", "format": "Clear ROI expectation for the teacher." },
+    { "step": 3, "gagne": "Present Content", "constraint": "Fetch exactly from LLM-DEPR repo. NO summarization." },
+    { "step": 4, "gagne": "Elicit Performance", "format": "Interactive prompt-writing simulation." },
+    { "step": 5, "gagne": "Provide Feedback", "format": "Human-in-the-loop self-correction rubric." }
+  ]
+}
+❌ Anti-Patterns
+❌ Retroactive Interference: Attempting to apply a new pedagogical framework to a module that the web-artifacts-builder has already completed.
+
+❌ Tech Eclipse: Using a flashy AR/VR/3D interaction that distracts from the core learning objective.
+
+❌ One-Size-Fits-All Text Walls: Dumping a 10-page PDF into a web component. Instead, dictate a microlearning structure, breaking the text into sequential, accessible UI cards (without changing the text itself).
+
+❌ Assessment as an Afterthought: Adding a multiple-choice quiz at the very end just for compliance. Instead, weave Phillips Level 3 (Application) scenarios throughout the module so teachers prove they can apply the knowledge.
