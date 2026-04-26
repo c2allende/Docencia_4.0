@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Página de registro de la plataforma Docencia 4.0 para participantes del Programa de Formación Profesional en modelos de lenguaje de gran tamaño.">
+    <title>Crear Cuenta | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100%;
+            margin: 0;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+        }
+
+        .register-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md);
+            background: var(--color-background-page);
+        }
+
+        .register-card-container {
+            width: 100%;
+            max-width: 1120px;
+            min-height: 720px;
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            overflow: hidden;
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .register-sidebar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            color: var(--color-white);
+            background: var(--color-brand-primary);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .sidebar-logo {
+            width: 96px;
+            height: 96px;
+            padding: var(--spacing-1);
+            object-fit: contain;
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-brand-name {
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-2xl);
+            line-height: var(--line-height-tight);
+        }
+
+        .sidebar-title {
+            max-width: 460px;
+            margin: 0 0 var(--spacing-md);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .sidebar-text {
+            max-width: 480px;
+            margin: 0;
+            color: var(--color-white);
+            opacity: 0.92;
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .sidebar-note {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-on-dark);
+            border-radius: var(--radius-lg);
+            background: var(--color-alpha-white-15);
+        }
+
+        .sidebar-note h2 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .sidebar-note p {
+            margin: 0;
+            color: var(--color-white);
+            opacity: 0.92;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .register-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--spacing-xl);
+        }
+
+        .form-header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .form-header h1 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-tight);
+        }
+
+        .form-header p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: var(--spacing-md);
+            display: inline-flex;
+            color: var(--color-text-secondary);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .input-field,
+        .select-field {
+            width: 100%;
+            min-height: 48px;
+            padding: var(--spacing-sm) 3rem var(--spacing-sm) 2.75rem;
+            background: var(--color-background-surface-medium);
+            border: var(--border-width-1) solid transparent;
+            border-radius: var(--radius-pill);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-sm);
+            transition:
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .select-field {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .input-field::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .input-field:focus,
+        .select-field:focus {
+            outline: none;
+            background: var(--color-white);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: var(--spacing-sm);
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: var(--radius-pill);
+            background: transparent;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            opacity: 0.75;
+            transition:
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .password-toggle:hover {
+            background: var(--color-background-surface-low);
+            opacity: 1;
+        }
+
+        .field-helper {
+            display: block;
+            margin-top: var(--spacing-2);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .password-strength {
+            margin-top: var(--spacing-sm);
+        }
+
+        .strength-track {
+            width: 100%;
+            height: 8px;
+            overflow: hidden;
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+        }
+
+        .strength-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            transition: width var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .strength-label {
+            display: block;
+            margin-top: var(--spacing-2);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .auth-message {
+            display: none;
+            padding: var(--spacing-md);
+            margin: 0 0 var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .auth-message.is-visible {
+            display: block;
+        }
+
+        .auth-message.is-error {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .auth-message.is-success {
+            border-left-color: var(--color-brand-primary);
+        }
+
+        .terms-box {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .checkbox-container input {
+            margin-top: var(--spacing-1);
+            accent-color: var(--color-brand-primary);
+        }
+
+        .btn-register {
+            width: 100%;
+            margin-bottom: var(--spacing-xl);
+            text-transform: none;
+        }
+
+        .login-text {
+            margin: 0;
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .login-text a {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        .password-toggle:focus-visible,
+        .btn-register:focus-visible,
+        .login-text a:focus-visible,
+        .input-field:focus-visible,
+        .select-field:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        @media (max-width: 968px) {
+            .register-card-container {
+                grid-template-columns: 1fr;
+                max-width: 560px;
+                min-height: auto;
+            }
+
+            .register-sidebar {
+                align-items: center;
+                padding: var(--spacing-xl) var(--spacing-lg);
+                text-align: center;
+            }
+
+            .sidebar-brand {
+                justify-content: center;
+                margin-bottom: var(--spacing-md);
+            }
+
+            .sidebar-logo {
+                width: 76px;
+                height: 76px;
+            }
+
+            .sidebar-title {
+                margin-bottom: var(--spacing-sm);
+                font-size: var(--font-size-2xl);
+            }
+
+            .sidebar-text,
+            .sidebar-note p {
+                font-size: var(--font-size-sm);
+            }
+
+            .register-content {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 620px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .register-page {
+                align-items: stretch;
+                padding: var(--spacing-sm);
+            }
+
+            .register-card-container {
+                border-radius: var(--radius-lg);
+            }
+
+            .register-content {
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="register-page">
+        <section class="register-card-container animate-fade-in" aria-labelledby="register-title">
+            <aside class="register-sidebar" aria-label="Información del registro en Docencia 4.0">
+                <div class="sidebar-brand">
+                    <img data-assets="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                        alt="Logo Docencia 4.0" class="sidebar-logo">
+                    <span class="sidebar-brand-name">Docencia 4.0</span>
+                </div>
+
+                <h1 class="sidebar-title">Crea tu cuenta<br>y comienza tu ruta de aprendizaje</h1>
+                <p class="sidebar-text">Regístrate para acceder a los módulos, foros, recursos y actividades del
+                    Programa de Formación Profesional en LLM.</p>
+
+                <div class="sidebar-note">
+                    <h2>Registro seguro</h2>
+                    <p>Utiliza un correo electrónico válido. Cuando se conecte Firebase Authentication, podrás recibir
+                        verificación de cuenta y recuperación de contraseña.</p>
+                </div>
+            </aside>
+
+            <div class="register-content">
+                <header class="form-header">
+                    <h1 id="register-title">Crear Cuenta</h1>
+                    <p>Completa la información básica para preparar tu acceso a la plataforma Docencia 4.0.</p>
+                </header>
+
+                <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+
+                <form id="registerForm" aria-label="Formulario de registro" novalidate data-auth-form="register">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="displayName" class="form-label">Nombre visible</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        focusable="false">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </span>
+                                <input id="displayName" name="displayName" type="text" class="input input-field"
+                                    placeholder="Ej. Participante 01" autocomplete="name" maxlength="60">
+                            </div>
+                            <span class="field-helper">Puedes usar un alias o nombre visible. No es necesario escribir
+                                nombre completo.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roleContext" class="form-label">Rol o contexto</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        focusable="false">
+                                        <path d="M3 21h18"></path>
+                                        <path d="M5 21V7l8-4v18"></path>
+                                        <path d="M19 21V11l-6-4"></path>
+                                    </svg>
+                                </span>
+                                <select id="roleContext" name="roleContext" class="select-field">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="maestro-cooperador">Maestro cooperador</option>
+                                    <option value="docente">Docente</option>
+                                    <option value="facilitador">Facilitador</option>
+                                    <option value="participante">Participante</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        focusable="false">
+                                        <path
+                                            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                        </path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </span>
+                                <input id="email" name="email" type="email" class="input input-field"
+                                    placeholder="ejemplo@docencia40.com" autocomplete="email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        focusable="false">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                </span>
+                                <input id="password" name="password" type="password" class="input input-field"
+                                    placeholder="Mínimo 8 caracteres" autocomplete="new-password" minlength="8"
+                                    required>
+                                <button type="button" class="password-toggle"
+                                    onclick="togglePasswordVisibility('password', this)" aria-label="Mostrar contraseña"
+                                    aria-controls="password" aria-pressed="false">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        aria-hidden="true" focusable="false">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="password-strength" aria-label="Indicador visual de fortaleza de contraseña">
+                                <div class="strength-track">
+                                    <div id="strengthFill" class="strength-fill"></div>
+                                </div>
+                                <span id="strengthLabel" class="strength-label">Fortaleza: sin evaluar</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        focusable="false">
+                                        <path d="M20 6L9 17l-5-5"></path>
+                                    </svg>
+                                </span>
+                                <input id="confirmPassword" name="confirmPassword" type="password"
+                                    class="input input-field" placeholder="Repite tu contraseña"
+                                    autocomplete="new-password" minlength="8" required>
+                                <button type="button" class="password-toggle"
+                                    onclick="togglePasswordVisibility('confirmPassword', this)"
+                                    aria-label="Mostrar confirmación de contraseña" aria-controls="confirmPassword"
+                                    aria-pressed="false">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        aria-hidden="true" focusable="false">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terms-box">
+                        <label class="checkbox-container" for="acceptTerms">
+                            <input id="acceptTerms" name="acceptTerms" type="checkbox" required>
+                            <span>Acepto utilizar la plataforma de forma responsable y comprendo que no debo compartir
+                                datos sensibles de estudiantes, familias, colegas o participantes dentro de las
+                                herramientas de IA o foros.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-register" id="registerSubmitBtn">Crear
+                        cuenta</button>
+                </form>
+
+                <p class="login-text">
+                    ¿Ya tienes una cuenta? <a href="index.html">Inicia sesión</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        function togglePasswordVisibility(inputId, toggleButton) {
+            const passwordInput = document.getElementById(inputId);
+
+            if (!passwordInput || !toggleButton) return;
+
+            const isPasswordVisible = passwordInput.type === 'text';
+            passwordInput.type = isPasswordVisible ? 'password' : 'text';
+            toggleButton.setAttribute('aria-pressed', String(!isPasswordVisible));
+            toggleButton.setAttribute('aria-label', isPasswordVisible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+        }
+
+        function showAuthMessage(message, type = 'info') {
+            const authMessage = document.getElementById('authMessage');
+            if (!authMessage) return;
+
+            authMessage.textContent = message;
+            authMessage.className = `auth-message is-visible is-${type}`;
+        }
+
+        function evaluatePasswordStrength(password) {
+            let score = 0;
+
+            if (password.length >= 8) score += 25;
+            if (/[A-Z]/.test(password)) score += 25;
+            if (/[0-9]/.test(password)) score += 25;
+            if (/[^A-Za-z0-9]/.test(password)) score += 25;
+
+            return score;
+        }
+
+        function updatePasswordStrength() {
+            const passwordInput = document.getElementById('password');
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthLabel = document.getElementById('strengthLabel');
+
+            if (!passwordInput || !strengthFill || !strengthLabel) return;
+
+            const score = evaluatePasswordStrength(passwordInput.value);
+            strengthFill.style.width = `${score}%`;
+
+            if (!passwordInput.value) {
+                strengthLabel.textContent = 'Fortaleza: sin evaluar';
+            } else if (score < 50) {
+                strengthLabel.textContent = 'Fortaleza: baja';
+            } else if (score < 75) {
+                strengthLabel.textContent = 'Fortaleza: media';
+            } else {
+                strengthLabel.textContent = 'Fortaleza: adecuada';
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const passwordInput = document.getElementById('password');
+        const registerForm = document.getElementById('registerForm');
+
+        passwordInput?.addEventListener('input', updatePasswordStrength);
+
+        registerForm?.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const acceptTerms = document.getElementById('acceptTerms');
+
+            const email = emailInput?.value.trim();
+            const password = passwordInput?.value.trim();
+            const confirmPassword = confirmPasswordInput?.value.trim();
+
+            if (!email || !password || !confirmPassword) {
+                showAuthMessage('Completa el email, la contraseña y la confirmación de contraseña.', 'error');
+                return;
+            }
+
+            if (password.length < 8) {
+                showAuthMessage('La contraseña debe tener al menos 8 caracteres.', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showAuthMessage('Las contraseñas no coinciden. Verifica ambos campos.', 'error');
+                return;
+            }
+
+            if (!acceptTerms?.checked) {
+                showAuthMessage('Debes aceptar el uso responsable de la plataforma para continuar.', 'error');
+                return;
+            }
+
+            showAuthMessage('La estructura del registro está lista. La creación real de cuentas se activará cuando se conecte Firebase Authentication.', 'success');
+        });
+    </script>
+
+    <!--
+        Integración futura con Firebase Authentication:
+        1. Crear scripts/firebase-config.js con el objeto firebaseConfig real.
+        2. Crear scripts/auth.js o scripts/register.js para manejar createUserWithEmailAndPassword().
+        3. Enviar verificación de correo si se decide activar sendEmailVerification().
+        4. Guardar perfil mínimo del participante en Firestore en una fase posterior.
+        5. Redirigir a dashboard.html solo cuando Firebase confirme que la cuenta fue creada o la sesión es válida.
+    -->
+</body>
+
+</html>
