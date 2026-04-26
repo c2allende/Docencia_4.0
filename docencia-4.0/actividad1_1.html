@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Actividad 1.1 de Docencia 4.0: Taller Práctico Rompiendo el Hielo. Primer contacto con LLM, configuración de privacidad y generación de productos pedagógicos.">
-    <meta name="keywords" content="Taller IA, Docencia 4.0, LLM, Práctica Docente, Padlet, Hola Mundo Pedagógico">
+        content="Actividad 1.1 de Docencia 4.0: Taller práctico inicial Rompiendo el Hielo. Primer acceso a un LLM, configuración básica de privacidad y generación de un producto pedagógico útil en menos de 5 minutos.">
+    <meta name="keywords"
+        content="Docencia 4.0, Actividad 1.1, LLM, IA educativa, ChatGPT, Copilot, privacidad, Hola Mundo Pedagógico, Padlet, maestros cooperadores">
     <title>Actividad 1.1 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,6 +51,11 @@
             font-weight: var(--font-weight-bold);
         }
 
+        code,
+        pre {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
         .sr-only {
             position: absolute;
             width: 1px;
@@ -70,6 +76,7 @@
             right: 0;
             z-index: 1000;
             height: var(--nav-height);
+            min-height: var(--nav-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -90,6 +97,9 @@
         .logo-container img {
             height: 56px;
             width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .module-title-nav {
@@ -102,6 +112,7 @@
             font-family: var(--font-family-heading);
             font-size: var(--font-size-base);
             font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
             white-space: nowrap;
             text-overflow: ellipsis;
         }
@@ -131,7 +142,8 @@
         .menu-links a:focus-visible,
         .btn-footer:focus-visible,
         .btn-scroll-top:focus-visible,
-        .padlet-embed iframe:focus-visible {
+        .padlet-embed iframe:focus-visible,
+        .btn-padlet:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
@@ -162,7 +174,7 @@
             inset: 0;
             z-index: 1999;
             display: none;
-            background: rgba(0, 0, 0, 0.4);
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
             backdrop-filter: blur(var(--blur-sm));
             -webkit-backdrop-filter: blur(var(--blur-sm));
         }
@@ -249,9 +261,19 @@
             box-shadow: var(--shadow-ambient);
         }
 
+        .activity-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
         .activity-title {
             display: block;
-            margin: 0 0 var(--spacing-xl);
+            margin: 0 0 var(--spacing-md);
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-4xl);
@@ -264,11 +286,27 @@
             color: var(--color-brand-primary);
         }
 
+        .activity-intro {
+            max-width: 900px;
+            margin-bottom: var(--spacing-xl);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+        }
+
         .section-title {
             margin: 0 0 var(--spacing-md);
             color: var(--color-brand-primary);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .subsection-title {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
             font-weight: var(--font-weight-extrabold);
             line-height: var(--line-height-snug);
         }
@@ -290,7 +328,7 @@
         }
 
         .tech-item {
-            padding: var(--spacing-md);
+            padding: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-lg);
@@ -315,6 +353,25 @@
             line-height: var(--line-height-relaxed);
         }
 
+        .content-list,
+        .content-list-ordered {
+            margin: var(--spacing-sm) 0 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li,
+        .content-list-ordered li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker,
+        .content-list-ordered li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
         .instruction-list {
             display: grid;
             gap: var(--spacing-md);
@@ -325,10 +382,10 @@
             display: flex;
             align-items: flex-start;
             gap: var(--spacing-md);
-            padding: var(--spacing-lg);
+            padding: var(--spacing-xl);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
             transition: transform var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard),
@@ -342,12 +399,12 @@
         }
 
         .step-icon {
-            width: 54px;
-            height: 54px;
+            width: 58px;
+            height: 58px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            flex: 0 0 54px;
+            flex: 0 0 58px;
             border-radius: var(--radius-lg);
             background: var(--color-background-surface-low);
             color: var(--color-brand-primary);
@@ -355,20 +412,72 @@
         }
 
         .step-text h3 {
-            margin: 0 0 var(--spacing-1);
+            margin: 0 0 var(--spacing-2);
             color: var(--color-brand-secondary);
             font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-xl);
             font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
-        .privacy-note {
+        .quote-card,
+        .privacy-note,
+        .reflection-card {
             padding: var(--spacing-lg);
-            margin: var(--spacing-xl) 0;
+            margin: var(--spacing-lg) 0;
             background: var(--color-background-surface-low);
             border-left: var(--border-width-6) solid var(--color-brand-primary);
             border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
             color: var(--color-text-secondary);
+        }
+
+        .privacy-note {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .prompt-block {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-lg);
+            overflow-x: auto;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            white-space: pre-wrap;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .choice-card {
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .choice-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
         }
 
         .padlet-wrapper {
@@ -393,11 +502,34 @@
 
         .padlet-embed iframe {
             width: 100%;
-            height: 600px;
+            height: 100%;
             display: block;
             padding: 0;
             margin: 0;
             border: 0;
+        }
+
+        .btn-padlet {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-3) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            box-shadow: var(--shadow-focus-primary);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-padlet:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-floating);
         }
 
         .footer-nav {
@@ -428,6 +560,10 @@
         .btn-back {
             background: var(--color-background-surface-low);
             color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
         }
 
         .btn-next {
@@ -477,7 +613,10 @@
                 padding: 0 var(--spacing-4);
             }
 
-            .lesson-card {
+            .lesson-card,
+            .technical-grid,
+            .instruction-step,
+            .padlet-wrapper {
                 padding: var(--spacing-xl);
             }
 
@@ -522,13 +661,15 @@
 
             .lesson-card,
             .technical-grid,
-            .padlet-wrapper {
+            .tech-item,
+            .instruction-step,
+            .padlet-wrapper,
+            .choice-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
 
-            .padlet-embed,
-            .padlet-embed iframe {
+            .padlet-embed {
                 height: 520px;
             }
         }
@@ -548,17 +689,17 @@
                 </svg>
             </button>
             <div class="logo-container">
-                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
                     alt="Logo Docencia 4.0">
             </div>
-            <span class="module-title-nav">Actividad 1.1: Taller Práctico “Rompiendo el Hielo”</span>
+            <span class="module-title-nav">Actividad 1.1: Rompiendo el Hielo</span>
         </div>
     </nav>
 
     <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
 
     <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 1" aria-hidden="true">
-        <h2 class="side-menu-title">Navegación</h2>
+        <h2 class="side-menu-title">Contenido</h2>
         <ul class="menu-links">
             <li><a href="dashboard.html">🏠 Dashboard</a></li>
             <li><span class="menu-section-label">Módulo 1</span></li>
@@ -574,74 +715,135 @@
 
     <main class="content-wrapper">
         <article class="lesson-card" aria-labelledby="activity-title">
-            <h1 id="activity-title" class="activity-title">Ejercicio: <span>“Hola mundo pedagógico”</span></h1>
+            <span class="activity-kicker">Actividad 1.1 · Taller práctico inicial</span>
+            <h1 id="activity-title" class="activity-title"><span>Rompiendo el Hielo</span><br>“Hola Mundo Pedagógico”
+            </h1>
+            <p class="activity-intro">Esta actividad busca que cada maestro cooperador logre su primer acceso exitoso a
+                un LLM, configure las opciones básicas de privacidad y genere un producto útil en menos de 5 minutos,
+                experimentando la facilidad de uso y la inmediatez de la herramienta.</p>
 
             <section class="technical-grid" aria-label="Ficha técnica de la actividad">
                 <div class="tech-item">
-                    <h2>Objetivo</h2>
+                    <h2>Objetivo de la actividad</h2>
                     <p>Lograr el primer acceso exitoso a un LLM, configurar privacidad y generar un producto útil en
-                        &lt; 5 minutos.</p>
+                        menos de 5 minutos.</p>
                 </div>
                 <div class="tech-item">
-                    <h2>Detalles</h2>
-                    <p>Duración: 30-40 minutos | Requisitos: Dispositivos con internet.</p>
+                    <h2>Duración y requisitos</h2>
+                    <p>Duración estimada: 30 minutos. Requisitos: dispositivos con internet, como laptops, tablets o
+                        celulares.</p>
                 </div>
             </section>
 
             <section class="text-section" aria-labelledby="instrucciones-title">
-                <h2 id="instrucciones-title" class="section-title">Instrucciones del Taller</h2>
-                <p>Sigue estos pasos para completar tu primera interacción guiada con un Modelo de Lenguaje de Gran
-                    Tamaño:</p>
+                <h2 id="instrucciones-title" class="section-title">Instrucciones del taller</h2>
+                <p>Sigue la secuencia de trabajo para completar tu primera interacción guiada con un Modelo de Lenguaje
+                    de Gran Tamaño.</p>
 
                 <div class="instruction-list">
-                    <section class="instruction-step" aria-labelledby="paso-acceso-title">
+                    <section class="instruction-step" aria-labelledby="paso1-title">
                         <div class="step-icon" aria-hidden="true">🚀</div>
                         <div class="step-text">
-                            <h3 id="paso-acceso-title">Acceso</h3>
-                            <p>Entra al LLM seleccionado (ChatGPT, Microsoft Copilot o Google Gemini) utilizando tu
-                                cuenta institucional o personal autorizada.</p>
+                            <h3 id="paso1-title">Paso 1: Activación y acceso</h3>
+                            <p><strong>Enfoque:</strong> superar la barrera técnica de entrada.</p>
+                            <ol class="content-list-ordered">
+                                <li><strong>Verificación de cuentas:</strong> identifica quiénes ya tienen cuenta en
+                                    ChatGPT o acceso a Microsoft Copilot con su correo institucional.</li>
+                                <li><strong>Para quienes tienen Copilot (DEPR):</strong> abrir el navegador Edge o la
+                                    app de Microsoft 365 y buscar el ícono de Copilot.</li>
+                                <li><strong>Para quienes usarán ChatGPT gratuito:</strong> realizar el registro en
+                                    OpenAI.com usando un correo personal de Google o Microsoft para agilizar el proceso.
+                                </li>
+                                <li><strong>Configuración de privacidad:</strong> revisar los ajustes de Data Controls
+                                    en ChatGPT o el escudo de Protected en Copilot empresarial.</li>
+                            </ol>
+                            <div class="privacy-note">
+                                <strong>Regla de oro:</strong> aunque configuremos privacidad, nunca escribimos nombres
+                                de estudiantes, números de identificación, diagnósticos ni información personal
+                                identificable en el LLM.
+                            </div>
                         </div>
                     </section>
 
-                    <section class="instruction-step" aria-labelledby="paso-privacidad-title">
-                        <div class="step-icon" aria-hidden="true">🔒</div>
+                    <section class="instruction-step" aria-labelledby="paso2-title">
+                        <div class="step-icon" aria-hidden="true">👀</div>
                         <div class="step-text">
-                            <h3 id="paso-privacidad-title">Privacidad</h3>
-                            <p>Configura las opciones básicas de protección de datos: asegúrate de desactivar el
-                                entrenamiento con tus datos si la plataforma lo permite y verifica que no estás
-                                ingresando PII.</p>
+                            <h3 id="paso2-title">Paso 2: La primera interacción</h3>
+                            <p><strong>Enfoque:</strong> modelaje cognitivo, “yo hago, tú observas”. El facilitador
+                                realizará una demostración en tiempo real proyectada en pantalla.</p>
+                            <p>Prompt del facilitador:</p>
+                            <pre
+                                class="prompt-block"><code>Hola, soy maestro de [Materia] en Puerto Rico. Necesito explicarles a mis estudiantes de 12 años por qué es importante llegar temprano a clase, pero sin sonar regañón. Dame 3 ideas divertidas o analogías.</code></pre>
                         </div>
                     </section>
 
-                    <section class="instruction-step" aria-labelledby="paso-generacion-title">
+                    <section class="instruction-step" aria-labelledby="paso3-title">
                         <div class="step-icon" aria-hidden="true">📝</div>
                         <div class="step-text">
-                            <h3 id="paso-generacion-title">Generación</h3>
-                            <p>Crea un producto pedagógico inmediato (un plan de clase simple, una lista de 5 ejemplos
-                                para un tema complejo o un borrador de correo). ¡Experimenta con el resultado!</p>
+                            <h3 id="paso3-title">Paso 3: Ejercicio “Hola Mundo Pedagógico”</h3>
+                            <p><strong>Enfoque:</strong> práctica guiada. Cada participante debe elegir una de las
+                                siguientes opciones, según su necesidad actual, y ejecutarla en su dispositivo.</p>
+
+                            <div class="choice-grid">
+                                <article class="choice-card">
+                                    <h3>Opción A: El Administrativo</h3>
+                                    <p>Carta o email breve.</p>
+                                    <pre
+                                        class="prompt-block"><code>Actúa como maestro de salón hogar. Redacta una carta corta de bienvenida para los padres de mi grupo de salón hogar. El tono debe ser cálido, profesional y motivador. Incluye un espacio para recordar que la primera reunión es el próximo viernes.</code></pre>
+                                </article>
+
+                                <article class="choice-card">
+                                    <h3>Opción B: El Creativo</h3>
+                                    <p>Lluvia de ideas para iniciar una clase.</p>
+                                    <pre
+                                        class="prompt-block"><code>Soy maestro de [Tu Materia]. Dame una lista de 5 ideas creativas y dinámicas para empezar mi clase mañana sobre el tema de [Tu Tema]. Quiero que los estudiantes se levanten de sus sillas.</code></pre>
+                                </article>
+
+                                <article class="choice-card">
+                                    <h3>Opción C: El Organizador</h3>
+                                    <p>Lista de cotejo para recibir estudiantes.</p>
+                                    <pre
+                                        class="prompt-block"><code>Voy a recibir a los nuevos estudiantes la próxima semana. Crea una lista de cotejo (checklist) con los 10 documentos o materiales clave que debo entregarle el primer día para que se sientan bienvenidos y orientados.</code></pre>
+                                </article>
+                            </div>
                         </div>
                     </section>
-                </div>
 
-                <div class="privacy-note">
-                    <strong>Recordatorio de seguridad:</strong> no ingreses nombres completos, números de estudiante,
-                    direcciones, expedientes, diagnósticos, datos familiares ni cualquier otra información personal
-                    identificable. Usa ejemplos ficticios o datos anonimizados.
+                    <section class="instruction-step" aria-labelledby="paso4-title">
+                        <div class="step-icon" aria-hidden="true">💬</div>
+                        <div class="step-text">
+                            <h3 id="paso4-title">Paso 4: Cierre</h3>
+                            <ol class="content-list-ordered">
+                                <li><strong>Validación:</strong> dos voluntarios leerán lo que la IA generó.</li>
+                                <li><strong>Pregunta clave:</strong> ¿cuánto tiempo les hubiera tomado redactar esto
+                                    desde cero, desde la página en blanco, versus editar lo que la IA les dio?</li>
+                                <li><strong>Conclusión reflexiva:</strong> identificar qué parte del producto generado
+                                    fue útil, qué hubo que corregir y qué responsabilidad conserva el docente.</li>
+                            </ol>
+                            <div class="reflection-card">
+                                <strong>Idea central:</strong> la IA no reemplaza el criterio profesional; reduce el
+                                tiempo inicial de redacción y permite que el docente dedique más energía a revisar,
+                                contextualizar y mejorar el producto final.
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </section>
 
             <section class="text-section" aria-labelledby="padlet-title">
-                <h2 id="padlet-title" class="section-title">Muro Colaborativo</h2>
-                <p>Comparte tus capturas de pantalla, reflexiones o productos generados en el siguiente muro de Padlet
-                    para recibir retroalimentación del grupo:</p>
+                <h2 id="padlet-title" class="section-title">Muro colaborativo</h2>
+                <p>Comparte tu producto generado, reflexión o aprendizaje principal en el siguiente espacio colaborativo
+                    de Padlet.</p>
 
                 <div class="padlet-wrapper">
                     <div class="padlet-embed">
                         <iframe title="Muro colaborativo de Padlet para la Actividad 1.1"
                             src="https://padlet.com/padlets/rhh9pzzm2aj969bs/embeds/preview_embed"
-                            allow="camera;microphone" loading="lazy">
-                        </iframe>
+                            allow="camera; microphone" loading="lazy"></iframe>
                     </div>
+                    <a class="btn-padlet"
+                        href="https://padlet.com/carmeloallende/llm-actividad-1-1-taller-practico-inicial-rompiendo-el-hielo-rhh9pzzm2aj969bs"
+                        target="_blank" rel="noreferrer noopener">Abrir Padlet en una pestaña nueva →</a>
                 </div>
             </section>
 
@@ -655,7 +857,7 @@
                     Volver a Lección 1.3
                 </a>
                 <a href="actividad1_2.html" class="btn-footer btn-next">
-                    Actividad 1.2
+                    Ir a Actividad 1.2
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -670,32 +872,49 @@
 
     <script>
         function resolveAssetPath(img) {
-            const fileName = img.dataset.asset;
-            if (!fileName) return;
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
 
-            const candidates = [
-                `assets/${fileName}`,
-                `./assets/${fileName}`,
-                `../assets/${fileName}`,
-                `/assets/${fileName}`
-            ];
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
 
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
             let index = 0;
+
             img.onerror = () => {
-                if (index < candidates.length) {
-                    img.src = candidates[index];
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
                     index += 1;
                 } else {
                     img.onerror = null;
-                    console.warn(`No se pudo cargar la imagen: ${fileName}`);
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
                 }
             };
 
-            img.src = candidates[index];
-            index += 1;
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
         }
 
-        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
 
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
