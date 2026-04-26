@@ -300,6 +300,68 @@
             margin: 0;
         }
 
+        .forum-general-access {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-subtle);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .forum-general-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 64px;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-3xl);
+        }
+
+        .forum-general-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .forum-general-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .forum-general-title {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .forum-general-description {
+            max-width: 820px;
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .btn-forum-general {
+            width: fit-content;
+        }
+
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -417,7 +479,7 @@
             position: fixed;
             z-index: 1000;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: var(--color-alpha-black-90, rgba(0, 0, 0, 0.9));
             justify-content: center;
             align-items: center;
             padding: var(--spacing-6);
@@ -459,7 +521,8 @@
         .btn-continuar:focus-visible,
         .mute-toggle-btn:focus-visible,
         .image-zoom-trigger:focus-visible,
-        .modal-close-btn:focus-visible {
+        .modal-close-btn:focus-visible,
+        .btn-forum-general:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
@@ -506,9 +569,18 @@
                 max-width: 100%;
             }
 
-            .intro-container {
+            .intro-container,
+            .forum-general-access {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
+            }
+
+            .forum-general-access {
+                flex-direction: column;
+            }
+
+            .btn-forum-general {
+                width: 100%;
             }
 
             .section-title-lg {
@@ -545,7 +617,8 @@
     <header class="dashboard-header">
         <div class="container header-content">
             <div class="brand-block">
-                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Logo de Docencia 4.0" class="logo-main">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="../assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo de Docencia 4.0" class="logo-main">
                 <div class="welcome-text">
                     <h1 class="dashboard-title">Academia Docencia 4.0</h1>
                     <p class="header-subtitle">Integración estratégica de modelos de lenguaje de gran tamaño (LLM) como
@@ -609,7 +682,8 @@
             <figure class="image-interactive-container">
                 <button class="image-zoom-trigger" type="button" onclick="openZoom()"
                     aria-label="Ampliar ilustración sobre el objetivo general y los objetivos específicos del programa">
-                    <img src="../assets/LLM_M1_Ilustración_objetivos_general&amp;especificos_imagen.png"
+                    <img data-assets="LLM_M1_Ilustración_objetivos_general&especificos_imagen.png|LLM_M1_Ilustración_objetivos_general&amp;especificos_imagen.png"
+                        src="../assets/LLM_M1_Ilustración_objetivos_general&amp;especificos_imagen.png"
                         id="mainIllustration"
                         alt="Ilustración educativa sobre el objetivo general y los objetivos específicos del programa Docencia 4.0">
                 </button>
@@ -641,6 +715,19 @@
                     </article>
                 </div>
             </section>
+        </section>
+
+        <section class="forum-general-access" aria-labelledby="foro-general-title">
+            <div class="forum-general-icon" aria-hidden="true">💬</div>
+            <div class="forum-general-content">
+                <span class="forum-general-kicker">Foro de discusión</span>
+                <h2 id="foro-general-title" class="forum-general-title">Foro General del Programa</h2>
+                <p class="forum-general-description">Utiliza este espacio para compartir dudas técnicas, preguntas sobre
+                    acceso, comentarios generales del programa o recursos que puedan apoyar a la comunidad Docencia 4.0.
+                </p>
+                <a href="foro_general.html" class="btn btn-primary btn-forum-general"
+                    aria-label="Ir al Foro General del Programa">Ir al Foro General →</a>
+            </div>
         </section>
 
         <section aria-labelledby="modulos-title">
@@ -694,31 +781,118 @@
         const mainIllustration = document.getElementById('mainIllustration');
         let lastFocusedElement = null;
 
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
         function renderDashboard() {
             const container = document.getElementById('modules-grid-container');
             if (!container) return;
 
-            container.innerHTML = MODULES_DATA.map((mod) => `
-                <article class="module-card-refined" aria-labelledby="module-title-${mod.id}">
-                    <div class="module-image-container">
-                        <img src="${mod.image}" alt="Ícono del módulo ${mod.id}" class="module-image" onerror="this.src='../assets/LLM_Docencia_4.0_logo.png'">
-                    </div>
-                    <div class="module-content">
-                        <div class="module-number-prominent" aria-hidden="true">Módulo ${mod.id}</div>
-                        <h3 id="module-title-${mod.id}" class="module-title-refined">${mod.title}</h3>
-                        <div class="module-footer">
-                            <div class="module-stats">
-                                <span>${mod.lessons} lecciones</span>
-                                <span>0% completado</span>
-                            </div>
-                            <div class="progress" aria-label="Progreso del módulo ${mod.id}: 0% completado">
-                                <div class="progress-fill" style="width: 0%"></div>
-                            </div>
-                            <a href="${mod.url}" class="btn btn-primary btn-continuar" aria-label="Comenzar el módulo ${mod.id}: ${mod.title}">Comenzar</a>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
+            container.textContent = '';
+
+            MODULES_DATA.forEach((mod) => {
+                const article = document.createElement('article');
+                article.className = 'module-card-refined';
+                article.setAttribute('aria-labelledby', `module-title-${mod.id}`);
+
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'module-image-container';
+
+                const image = document.createElement('img');
+                image.src = mod.image;
+                image.alt = `Ícono del módulo ${mod.id}`;
+                image.className = 'module-image';
+                image.dataset.assets = `icon_modulo${mod.id}.png|LLM_Docencia_4.0_logo.png`;
+                resolveAssetPath(image);
+                imageContainer.appendChild(image);
+
+                const content = document.createElement('div');
+                content.className = 'module-content';
+
+                const number = document.createElement('div');
+                number.className = 'module-number-prominent';
+                number.setAttribute('aria-hidden', 'true');
+                number.textContent = `Módulo ${mod.id}`;
+
+                const title = document.createElement('h3');
+                title.id = `module-title-${mod.id}`;
+                title.className = 'module-title-refined';
+                title.textContent = mod.title;
+
+                const footer = document.createElement('div');
+                footer.className = 'module-footer';
+
+                const stats = document.createElement('div');
+                stats.className = 'module-stats';
+
+                const lessons = document.createElement('span');
+                lessons.textContent = `${mod.lessons} lecciones`;
+
+                const progressText = document.createElement('span');
+                progressText.textContent = '0% completado';
+
+                stats.append(lessons, progressText);
+
+                const progress = document.createElement('div');
+                progress.className = 'progress';
+                progress.setAttribute('aria-label', `Progreso del módulo ${mod.id}: 0% completado`);
+
+                const progressFill = document.createElement('div');
+                progressFill.className = 'progress-fill';
+                progressFill.style.width = '0%';
+                progress.appendChild(progressFill);
+
+                const link = document.createElement('a');
+                link.href = mod.url;
+                link.className = 'btn btn-primary btn-continuar';
+                link.setAttribute('aria-label', `Comenzar el módulo ${mod.id}: ${mod.title}`);
+                link.textContent = 'Comenzar';
+
+                footer.append(stats, progress, link);
+                content.append(number, title, footer);
+                article.append(imageContainer, content);
+                container.appendChild(article);
+            });
         }
 
         function toggleMute() {
@@ -736,7 +910,7 @@
             if (!zoomModal || !zoomedImg || !mainIllustration) return;
 
             lastFocusedElement = document.activeElement;
-            zoomedImg.src = mainIllustration.src;
+            zoomedImg.src = mainIllustration.currentSrc || mainIllustration.src;
             zoomModal.classList.add('is-open');
             zoomModal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
@@ -757,7 +931,10 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', renderDashboard);
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+            renderDashboard();
+        });
 
         document.addEventListener('click', () => {
             if (!video || !muteButton) return;
