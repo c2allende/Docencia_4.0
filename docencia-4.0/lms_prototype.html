@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Prototipo visual del panel operativo LMS para Docencia 4.0: anuncios, usuarios, accesos, progreso, foros y configuración general.">
+    <meta name="keywords"
+        content="Docencia 4.0, LMS, panel administrativo, Firebase, progreso, anuncios, foros, accesos, participantes">
+    <title>Panel Operativo LMS | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding-top: var(--height-module-topnav, 80px);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .lms-wrapper {
+            max-width: 1280px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lms-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.6fr);
+            gap: var(--spacing-xl);
+            align-items: stretch;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .hero-card,
+        .quick-status-card,
+        .panel-card,
+        .metric-card,
+        .timeline-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .hero-card {
+            padding: var(--spacing-16);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .hero-kicker,
+        .section-kicker,
+        .status-label,
+        .table-label {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            margin: var(--spacing-sm) 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .hero-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .hero-description {
+            max-width: 800px;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .quick-status-card {
+            padding: var(--spacing-xl);
+        }
+
+        .quick-status-card h2,
+        .panel-card h2 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .status-list {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .status-value {
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metric-card {
+            padding: var(--spacing-xl);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .metric-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .metric-value {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .metric-label {
+            margin: var(--spacing-1) 0 0;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(360px, 0.42fr);
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .panel-stack {
+            display: grid;
+            gap: var(--spacing-xl);
+        }
+
+        .panel-card {
+            padding: var(--spacing-xl);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .panel-header p {
+            margin-top: var(--spacing-2);
+            max-width: 720px;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .announcement-alert {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: var(--radius-xl);
+        }
+
+        .announcement-icon {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 54px;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .announcement-alert h3 {
+            margin: 0 0 var(--spacing-1);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .announcement-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-sm);
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .badge-important {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .access-card {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .access-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .access-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-2) 0;
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .access-row:last-child {
+            border-bottom: 0;
+        }
+
+        .toggle-pill {
+            position: relative;
+            width: 46px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            border: 0;
+            border-radius: var(--radius-pill);
+            background: var(--color-border-default);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .toggle-pill::after {
+            content: '';
+            position: absolute;
+            left: var(--spacing-1);
+            width: 20px;
+            height: 20px;
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .toggle-pill[aria-pressed="true"] {
+            background: var(--color-brand-primary);
+        }
+
+        .toggle-pill[aria-pressed="true"]::after {
+            transform: translateX(20px);
+        }
+
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .progress-table th,
+        .progress-table td {
+            padding: var(--spacing-md);
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .progress-table th {
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .participant-name {
+            display: block;
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .participant-email {
+            display: block;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+        }
+
+        .mini-progress {
+            min-width: 170px;
+        }
+
+        .mini-progress .progress {
+            margin-top: var(--spacing-2);
+        }
+
+        .activity-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .activity-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .activity-dot {
+            width: 12px;
+            height: 12px;
+            flex: 0 0 12px;
+            margin-top: var(--spacing-2);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+        }
+
+        .activity-item h3 {
+            margin: 0 0 var(--spacing-1);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-item p {
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .timeline-card {
+            padding: var(--spacing-xl);
+        }
+
+        .timeline-list {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .timeline-item {
+            padding: var(--spacing-md);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
+        }
+
+        .timeline-item h3 {
+            margin: 0 0 var(--spacing-1);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .timeline-item p {
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .config-checklist {
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .config-item span {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-lms-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-lms-secondary:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .toggle-pill:focus-visible,
+        .btn-lms-secondary:focus-visible,
+        .btn:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        @media (max-width: 1100px) {
+
+            .lms-hero,
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-grid,
+            .access-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .hero-card,
+            .panel-card,
+            .quick-status-card,
+            .timeline-card {
+                padding: var(--spacing-xl);
+            }
+
+            .hero-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .metric-grid,
+            .access-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-header {
+                flex-direction: column;
+            }
+
+            .progress-table,
+            .progress-table thead,
+            .progress-table tbody,
+            .progress-table th,
+            .progress-table td,
+            .progress-table tr {
+                display: block;
+            }
+
+            .progress-table thead {
+                display: none;
+            }
+
+            .progress-table tr {
+                padding: var(--spacing-md) 0;
+                border-bottom: var(--border-width-1) solid var(--color-border-default);
+            }
+
+            .progress-table td {
+                border-bottom: 0;
+                padding: var(--spacing-2) 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .lms-wrapper {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .hero-card,
+            .panel-card,
+            .quick-status-card,
+            .timeline-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .hero-actions,
+            .btn-row {
+                flex-direction: column;
+            }
+
+            .hero-actions .btn,
+            .btn-row .btn-lms-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav" aria-label="Navegación superior del panel LMS">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Panel Operativo LMS</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de administración LMS" aria-hidden="true">
+        <h2 class="side-menu-title">Administración</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard del curso</a></li>
+            <li><span class="menu-section-label">Panel LMS</span></li>
+            <li><a href="admin_dashboard.html" class="active" aria-current="page">⚙️ Centro de control</a></li>
+            <li><a href="admin_anuncios.html">📢 Anuncios</a></li>
+            <li><a href="admin_usuarios.html">👥 Usuarios</a></li>
+            <li><a href="admin_accesos.html">🔐 Accesos</a></li>
+            <li><a href="admin_progreso.html">📈 Progreso</a></li>
+            <li><a href="admin_foros.html">💬 Foros</a></li>
+            <li><span class="menu-section-label">Vista participante</span></li>
+            <li><a href="anuncios.html">📢 Leer anuncios</a></li>
+            <li><a href="foro_general.html">💬 Foro general</a></li>
+            <li><a href="perfil.html">👤 Mi perfil</a></li>
+        </ul>
+    </aside>
+
+    <main class="lms-wrapper">
+        <section class="lms-hero" aria-labelledby="lms-title">
+            <div class="hero-card">
+                <span class="hero-kicker">Prototipo funcional · LMS Docencia 4.0</span>
+                <h1 id="lms-title" class="hero-title">Centro de Control <span>Operativo</span></h1>
+                <p class="hero-description">Panel administrativo para gestionar anuncios, participantes, accesos,
+                    progreso, foros, notificaciones y configuraciones generales del programa. Este prototipo muestra
+                    cómo debería verse la capa operativa antes de conectarla a Firebase.</p>
+                <div class="hero-actions">
+                    <a href="admin_anuncios.html" class="btn btn-primary">Crear anuncio</a>
+                    <a href="admin_accesos.html" class="btn-lms-secondary">Configurar accesos</a>
+                    <a href="admin_progreso.html" class="btn-lms-secondary">Ver progreso</a>
+                </div>
+            </div>
+
+            <aside class="quick-status-card" aria-labelledby="quick-status-title">
+                <span class="section-kicker">Estado del sistema</span>
+                <h2 id="quick-status-title">Configuración inicial</h2>
+                <div class="status-list">
+                    <div class="status-item">
+                        <span class="status-label">Firebase</span>
+                        <strong class="status-value">Pendiente</strong>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Auth</span>
+                        <strong class="status-value">Diseño listo</strong>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Firestore</span>
+                        <strong class="status-value">Modelo definido</strong>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Correos</span>
+                        <strong class="status-value">Fase posterior</strong>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="metric-grid" aria-label="Métricas generales del LMS">
+            <article class="metric-card">
+                <div class="metric-icon" aria-hidden="true">👥</div>
+                <p class="metric-value">48</p>
+                <p class="metric-label">Participantes registrados</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon" aria-hidden="true">📢</div>
+                <p class="metric-value">3</p>
+                <p class="metric-label">Anuncios activos</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon" aria-hidden="true">📈</div>
+                <p class="metric-value">62%</p>
+                <p class="metric-label">Progreso promedio</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon" aria-hidden="true">💬</div>
+                <p class="metric-value">126</p>
+                <p class="metric-label">Interacciones en foros</p>
+            </article>
+        </section>
+
+        <section class="dashboard-grid">
+            <div class="panel-stack">
+                <section class="panel-card" aria-labelledby="announcements-title">
+                    <div class="panel-header">
+                        <div>
+                            <span class="section-kicker">Anuncios y alertas</span>
+                            <h2 id="announcements-title">Comunicación del programa</h2>
+                            <p>Publica anuncios globales, anuncios por módulo, alertas urgentes y mensajes dirigidos a
+                                grupos específicos.</p>
+                        </div>
+                        <a href="admin_anuncios.html" class="btn-lms-secondary">Gestionar anuncios</a>
+                    </div>
+
+                    <article class="announcement-alert">
+                        <div class="announcement-icon" aria-hidden="true">📢</div>
+                        <div>
+                            <h3>Módulo 1 disponible</h3>
+                            <p>Ya está disponible el primer módulo del programa. Los participantes deben completar la
+                                introducción, las lecciones y el foro del módulo.</p>
+                            <div class="announcement-meta">
+                                <span class="badge-soft badge-important">Importante</span>
+                                <span class="badge-soft">Global</span>
+                                <span class="badge-soft">24 lecturas</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="btn-row">
+                        <a href="anuncios.html" class="btn-lms-secondary">Vista participante</a>
+                        <a href="admin_anuncios.html" class="btn-lms-secondary">Nuevo anuncio</a>
+                    </div>
+                </section>
+
+                <section class="panel-card" aria-labelledby="access-title">
+                    <div class="panel-header">
+                        <div>
+                            <span class="section-kicker">Control de acceso</span>
+                            <h2 id="access-title">Disponibilidad de módulos y páginas</h2>
+                            <p>Configura qué módulos, lecciones, actividades, recursos y foros estarán visibles para
+                                cada grupo o participante.</p>
+                        </div>
+                        <a href="admin_accesos.html" class="btn-lms-secondary">Abrir configuración</a>
+                    </div>
+
+                    <div class="access-grid">
+                        <article class="access-card">
+                            <h3>Módulo 1</h3>
+                            <div class="access-row">
+                                <span>Introducción</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Introducción del Módulo 1"
+                                    aria-pressed="true"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Lecciones</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Lecciones del Módulo 1"
+                                    aria-pressed="true"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Foro</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Foro del Módulo 1" aria-pressed="true"></button>
+                            </div>
+                        </article>
+
+                        <article class="access-card">
+                            <h3>Módulo 2</h3>
+                            <div class="access-row">
+                                <span>Introducción</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Introducción del Módulo 2"
+                                    aria-pressed="true"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Lecciones</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Lecciones del Módulo 2"
+                                    aria-pressed="false"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Foro</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Foro del Módulo 2" aria-pressed="false"></button>
+                            </div>
+                        </article>
+
+                        <article class="access-card">
+                            <h3>Módulo 3</h3>
+                            <div class="access-row">
+                                <span>Introducción</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Introducción del Módulo 3"
+                                    aria-pressed="false"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Lecciones</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Lecciones del Módulo 3"
+                                    aria-pressed="false"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Foro</span>
+                                <button class="toggle-pill" type="button"
+                                    aria-label="Activar o desactivar Foro del Módulo 3" aria-pressed="false"></button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="panel-card" aria-labelledby="progress-title">
+                    <div class="panel-header">
+                        <div>
+                            <span class="section-kicker">Progreso de participantes</span>
+                            <h2 id="progress-title">Seguimiento del avance</h2>
+                            <p>Visualiza el porcentaje de avance por participante, último acceso y estado general del
+                                programa.</p>
+                        </div>
+                        <a href="admin_progreso.html" class="btn-lms-secondary">Ver reporte completo</a>
+                    </div>
+
+                    <table class="progress-table">
+                        <thead>
+                            <tr>
+                                <th>Participante</th>
+                                <th>Módulo actual</th>
+                                <th>Progreso</th>
+                                <th>Último acceso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="participant-name">Participante 01</span>
+                                    <span class="participant-email">usuario01@ejemplo.com</span>
+                                </td>
+                                <td><span class="badge-soft">Módulo 1</span></td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <span class="table-label">75%</span>
+                                        <div class="progress" aria-label="Progreso de Participante 01: 75%">
+                                            <div class="progress-fill" style="width: 75%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Hoy</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="participant-name">Participante 02</span>
+                                    <span class="participant-email">usuario02@ejemplo.com</span>
+                                </td>
+                                <td><span class="badge-soft">Módulo 2</span></td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <span class="table-label">52%</span>
+                                        <div class="progress" aria-label="Progreso de Participante 02: 52%">
+                                            <div class="progress-fill" style="width: 52%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Ayer</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="participant-name">Participante 03</span>
+                                    <span class="participant-email">usuario03@ejemplo.com</span>
+                                </td>
+                                <td><span class="badge-soft">Módulo 1</span></td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <span class="table-label">34%</span>
+                                        <div class="progress" aria-label="Progreso de Participante 03: 34%">
+                                            <div class="progress-fill" style="width: 34%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Hace 3 días</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+            <aside class="panel-stack" aria-label="Resumen operativo del LMS">
+                <section class="timeline-card" aria-labelledby="activity-title">
+                    <span class="section-kicker">Actividad reciente</span>
+                    <h2 id="activity-title">Eventos del sistema</h2>
+                    <div class="activity-list">
+                        <article class="activity-item">
+                            <span class="activity-dot" aria-hidden="true"></span>
+                            <div>
+                                <h3>Nueva publicación</h3>
+                                <p>Participante 01 publicó en el Foro Módulo 1.</p>
+                            </div>
+                        </article>
+                        <article class="activity-item">
+                            <span class="activity-dot" aria-hidden="true"></span>
+                            <div>
+                                <h3>Anuncio leído</h3>
+                                <p>24 participantes leyeron el anuncio global más reciente.</p>
+                            </div>
+                        </article>
+                        <article class="activity-item">
+                            <span class="activity-dot" aria-hidden="true"></span>
+                            <div>
+                                <h3>Progreso actualizado</h3>
+                                <p>El promedio del curso subió a 62%.</p>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="timeline-card" aria-labelledby="forum-summary-title">
+                    <span class="section-kicker">Foros</span>
+                    <h2 id="forum-summary-title">Participación por foro</h2>
+                    <div class="timeline-list">
+                        <article class="timeline-item">
+                            <h3>Foro General</h3>
+                            <p>18 publicaciones · 42 reacciones · 9 respuestas</p>
+                        </article>
+                        <article class="timeline-item">
+                            <h3>Foro Módulo 1</h3>
+                            <p>36 publicaciones · 61 reacciones · 14 respuestas</p>
+                        </article>
+                        <article class="timeline-item">
+                            <h3>Foro Módulo 2</h3>
+                            <p>12 publicaciones · 23 reacciones · 5 respuestas</p>
+                        </article>
+                        <article class="timeline-item">
+                            <h3>Foro Módulo 3</h3>
+                            <p>Disponible cuando se active el módulo.</p>
+                        </article>
+                    </div>
+                </section>
+            </aside>
+        </section>
+
+        <nav class="footer-nav" aria-label="Navegación del panel operativo LMS">
+            <a href="dashboard.html" class="btn-footer btn-back">← Volver al Dashboard</a>
+            <a href="admin_anuncios.html" class="btn-footer btn-next">Configurar anuncios →</a>
+        </nav>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.querySelectorAll('.toggle-pill').forEach((button) => {
+            button.addEventListener('click', () => {
+                const isPressed = button.getAttribute('aria-pressed') === 'true';
+                button.setAttribute('aria-pressed', String(!isPressed));
+            });
+        });
+    </script>
+</body>
+
+</html>
