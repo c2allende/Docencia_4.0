@@ -4,34 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 3.1: Taller práctico - IA al servicio de la evaluación y gestión | Docencia 4.0</title>
-    <meta name="description" content="Taller práctico sobre el diseño de instrumentos de evaluación y automatización administrativa con IA en el proyecto Docencia 4.0.">
-    <meta name="keywords" content="IA, Educación, Evaluación, Gestión Docente, Anonimización, Padlet, Docencia 4.0">
+    <meta name="description"
+        content="Actividad 3.1 de Docencia 4.0: taller práctico sobre IA al servicio de la evaluación y la gestión docente, instrumentos de evaluación, retroalimentación, documentación administrativa y anonimización de datos.">
+    <meta name="keywords"
+        content="Docencia 4.0, Actividad 3.1, IA educativa, evaluación, gestión docente, retroalimentación formativa, anonimización, Padlet, DEPR, LLM">
+    <title>Actividad 3.1 | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
+
     <style>
         :root {
-            --primary: #00C2FF;
-            --secondary: #FF8D5C;
-            --tertiary: #FF9E2A;
-            --neutral-dark: #0A192F;
-            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
-            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
-            --bg-soft: #F1F8FF;
             --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: var(--bg-soft);
-            color: var(--neutral-dark);
-            line-height: 1.8;
-            font-family: 'Manrope', sans-serif;
-            padding-top: var(--nav-height);
             margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* NAVBAR SUPERIOR */
@@ -40,336 +69,738 @@
             top: 0;
             left: 0;
             right: 0;
+            z-index: 1000;
             height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            min-height: var(--nav-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
-            z-index: 1000;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: var(--spacing-sm);
+            min-width: 0;
         }
 
         .logo-container img {
-            height: 48px;
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .module-title-nav {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-left: 2px solid var(--primary);
-            padding-left: 20px;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -340px;
-            width: 320px;
-            height: 100vh;
-            background: var(--neutral-dark);
-            color: white;
-            transition: left 0.4s ease;
-            z-index: 2000;
-            padding: 40px 30px;
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.6);
-            display: none;
-            z-index: 1999;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .menu-btn {
-            background: rgba(0, 194, 255, 0.1);
-            border: 1px solid rgba(0, 194, 255, 0.2);
-            padding: 12px;
-            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
             cursor: pointer;
-            color: var(--primary);
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .padlet-embed iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
         }
 
         .menu-links {
             list-style: none;
-            padding: 20px 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
         }
 
         .menu-links a {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.7);
-            padding: 14px 20px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
         }
 
         .menu-links a.active {
-            background: var(--primary);
-            color: var(--neutral-dark);
-            font-weight: 800;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
         }
 
-        /* MAIN CONTENT */
+        /* CONTENIDO PRINCIPAL */
         .content-wrapper {
-            max-width: 1000px;
-            margin: 40px auto 100px;
-            padding: 0 25px;
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
         }
 
         .lesson-card {
-            background: white;
-            border-radius: 40px;
-            padding: 5rem;
-            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.05);
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
         }
 
-        h1 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 3rem;
-            line-height: 1.2;
-            margin-bottom: 2rem;
+        .activity-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
         }
 
-        h1 span {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .activity-title {
+            margin: 0 0 var(--spacing-xl);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
         }
 
-        /* TECHNICAL GRID */
+        .activity-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
         .technical-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 3rem 0;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
         }
 
         .tech-item {
-            padding: 2.5rem;
-            border-radius: 30px;
-            background: #f8fbff;
-            border: 1px solid rgba(0, 194, 255, 0.1);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-flat);
         }
 
-        .tech-item h4 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: var(--primary);
-            margin-top: 0;
+        .tech-item h2,
+        .tech-item h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
         }
 
-        /* INSTRUCTION STEPS */
+        .content-list {
+            margin: var(--spacing-sm) 0 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .plain-list {
+            list-style: none;
+            padding-left: 0;
+            margin: var(--spacing-sm) 0 var(--spacing-md);
+        }
+
+        .plain-list li {
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .instruction-list {
+            display: grid;
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+        }
+
         .instruction-step {
             display: flex;
-            gap: 25px;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: #fff;
-            border-radius: 25px;
-            border: 1px solid #edf2f7;
-            transition: transform 0.3s ease;
+            align-items: flex-start;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .instruction-step:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
+            transform: translateX(8px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
         }
 
         .step-icon {
-            font-size: 2.5rem;
-            flex-shrink: 0;
+            width: 58px;
+            height: 58px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 58px;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
         }
 
-        .step-content h4 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            margin: 0 0 10px 0;
+        .step-content h2,
+        .step-content h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
         }
 
-        /* PADLET WRAPPER */
+        .privacy-note {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .padlet-section {
+            margin-top: var(--spacing-12);
+        }
+
         .padlet-wrapper {
-            margin: 4rem 0;
-            border-radius: 30px;
-            overflow: hidden;
-            border: 2px solid rgba(0, 194, 255, 0.1);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
         }
 
-        /* FOOTER NAV */
+        .padlet-embed {
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .padlet-embed iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
         .footer-nav {
             display: flex;
             justify-content: space-between;
-            margin-top: 5rem;
-            padding-top: 3rem;
-            border-top: 1px solid #e2e8f0;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
         }
 
         .btn-footer {
-            padding: 18px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .btn-back {
-            background: #fff;
-            color: var(--neutral-dark);
-            border: 1px solid #e2e8f0;
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
         }
 
         .btn-next {
-            background: var(--primary-gradient);
-            color: white;
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
         }
 
         .btn-next:hover {
-            transform: translateX(10px);
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card,
+            .technical-grid,
+            .instruction-step,
+            .padlet-wrapper {
+                padding: var(--spacing-xl);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .activity-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .instruction-step {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .technical-grid,
+            .tech-item,
+            .instruction-step,
+            .padlet-wrapper {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .padlet-embed {
+                height: 520px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <nav class="top-nav">
+    <nav class="top-nav" aria-label="Navegación superior de la actividad">
         <div class="nav-left">
-            <button class="menu-btn" onclick="toggleSidebar()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
             <div class="logo-container">
-                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
             </div>
             <span class="module-title-nav">Actividad 3.1: Taller práctico</span>
         </div>
     </nav>
 
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 3" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
         <ul class="menu-links">
-            <li><a href="dashboard.html">🏠 Dashboard</a></li>
-            <li><a href="modulo3_intro.html">📍 Inicio Módulo 3</a></li>
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 3</span></li>
+            <li><a href="modulo3_intro.html">📍 Introducción Módulo 3</a></li>
             <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
             <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
             <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
             <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
-            <li><a href="actividad3_1.html" class="active">🛠️ Actividad 3.1</a></li>
-            <li><a href="recursos_m3.html">📚 Recursos Módulo 3</a></li>
+            <li><a href="actividad3_1.html" class="active" aria-current="page">🛠️ Actividad 3.1</a></li>
+            <li><a href="recursos_m3.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">⬅️ Volver al Módulo 2</a></li>
         </ul>
-    </div>
+    </aside>
 
     <main class="content-wrapper">
-        <div class="lesson-card">
-            <h1><span>Actividad 3.1</span><br>Taller práctico: “IA al servicio de la evaluación y la gestión docente”</h1>
+        <article class="lesson-card" aria-labelledby="activity-title">
+            <h1 id="activity-title" class="activity-title"><span>Actividad 3.1</span><br>Taller práctico: “IA al
+                servicio de la evaluación y la gestión docente”</h1>
 
-            <div class="technical-grid">
+            <section class="technical-grid" aria-label="Ficha técnica de la actividad">
                 <div class="tech-item">
-                    <h4>Objetivo de la actividad</h4>
+                    <h2>Objetivo de la actividad</h2>
                     <p>Que los maestros cooperadores aprendan a:</p>
-                    <ul style="padding-left: 20px; margin: 0;">
+                    <ul class="content-list">
                         <li>Diseñar instrumentos de evaluación e integrarlos a flujos de trabajo digitales.</li>
-                        <li>Generar retroalimentación formativa empática a partir de notas numéricas y análisis de errores.</li>
+                        <li>Generar retroalimentación formativa empática a partir de notas numéricas y análisis de
+                            errores.</li>
                         <li>Automatizar documentos administrativos clave.</li>
-                        <li>Practicar la anonimización de datos con una lista de verificación ética antes de usar IA.</li>
+                        <li>Practicar la anonimización de datos con una lista de verificación ética antes de usar IA.
+                        </li>
                     </ul>
                 </div>
+
                 <div class="tech-item">
-                    <h4>Detalles</h4>
+                    <h2>Detalles</h2>
                     <p><strong>Duración estimada:</strong></p>
-                    <ul style="list-style: none; padding: 0; margin-bottom: 15px;">
+                    <ul class="plain-list">
                         <li>⏱️ Parte sincrónica: 2.5–3 horas.</li>
                         <li>💻 Parte asincrónica: 1–2 horas adicionales en Padlet.</li>
                     </ul>
-                    <p><strong>Requisitos:</strong><br>Dispositivos con internet (Laptops, Tablets o Celulares)</p>
+                    <p><strong>Requisitos:</strong><br>Dispositivos con internet (laptops, tablets o celulares).</p>
                 </div>
+            </section>
+
+            <section class="instruction-list" aria-label="Instrucciones de la actividad">
+                <section class="instruction-step" aria-labelledby="materiales-title">
+                    <div class="step-icon" aria-hidden="true">📦</div>
+                    <div class="step-content">
+                        <h2 id="materiales-title">Materiales necesarios</h2>
+                        <p>Para el desarrollo óptimo de este taller, asegúrate de contar con:</p>
+                        <ul class="content-list">
+                            <li>Dispositivos con acceso a internet.</li>
+                            <li>Acceso a un LLM (ChatGPT o Copilot).</li>
+                            <li>Estándares y Expectativas del DEPR, impresos o digitales.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="instruction-step" aria-labelledby="muro-title">
+                    <div class="step-icon" aria-hidden="true">🤝</div>
+                    <div class="step-content">
+                        <h2 id="muro-title">Muro colaborativo</h2>
+                        <p>Accede al siguiente espacio para compartir tus instrumentos diseñados, reflexiones y
+                            documentos administrativos anonimizados con el resto de la comunidad docente.</p>
+                    </div>
+                </section>
+            </section>
+
+            <div class="privacy-note">
+                <strong>Recordatorio ético:</strong> antes de compartir cualquier documento en el Padlet o procesarlo
+                con IA, verifica que no incluya nombres, números de identificación, expedientes, diagnósticos,
+                direcciones, correos personales ni datos que permitan identificar a estudiantes, familias o colegas.
             </div>
 
-            <div class="instruction-step">
-                <div class="step-icon">📦</div>
-                <div class="step-content">
-                    <h4>Materiales necesarios</h4>
-                    <p>Para el desarrollo óptimo de este taller, asegúrate de contar con:</p>
-                    <ul style="margin: 0;">
-                        <li>Dispositivos con acceso a internet.</li>
-                        <li>Acceso a un LLM (ChatGPT o Copilot).</li>
-                        <li>Estándares y Expectativas del DEPR (impresos o digitales).</li>
-                    </ul>
-                </div>
-            </div>
+            <section class="padlet-section" aria-labelledby="padlet-title">
+                <h2 id="padlet-title" class="section-title">Espacio colaborativo de la Actividad 3.1</h2>
+                <p>Utiliza este Padlet para compartir tus productos del taller, reflexionar sobre el proceso y observar
+                    ejemplos de tus colegas.</p>
 
-            <div class="instruction-step">
-                <div class="step-icon">🤝</div>
-                <div class="step-content">
-                    <h4>Muro Colaborativo</h4>
-                    <p>Accede al siguiente espacio para compartir tus instrumentos diseñados, reflexiones y documentos administrativos anonimizados con el resto de la comunidad docente.</p>
+                <div class="padlet-wrapper">
+                    <div class="padlet-embed">
+                        <iframe title="Muro colaborativo de Padlet para la Actividad 3.1"
+                            src="https://padlet.com/padlets/2osbq8uakrbcmtm8/embeds/preview_embed" loading="lazy">
+                        </iframe>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="padlet-wrapper">
-                <div class="padlet-embed" style="border:none;box-sizing:border-box;overflow:hidden;position:relative;width:100%;height:600px;">
-                    <iframe src="https://padlet.com/padlets/2osbq8uakrbcmtm8/embeds/preview_embed" style="width:100%;height:100%;display:block;padding:0;margin:0" frameborder="0"></iframe>
-                </div>
-            </div>
-
-            <div class="footer-nav">
+            <nav class="footer-nav" aria-label="Navegación de actividades del módulo">
                 <a href="leccion3_4.html" class="btn-footer btn-back">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                    Lección 3.4
+                    Volver a la Lección 3.4
                 </a>
                 <a href="recursos_m3.html" class="btn-footer btn-next">
-                    Recursos Módulo 3
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    Ver Recursos Módulo 3
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
                 </a>
-            </div>
-        </div>
+            </nav>
+        </article>
     </main>
 
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
     <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
         }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
 </body>
 

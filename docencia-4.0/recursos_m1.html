@@ -4,47 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Recursos didácticos complementarios del Módulo 1 de Docencia 4.0: guía digital, videos, infografías y bibliografía sobre LLM, ética y aplicaciones pedagógicas.">
+    <meta name="keywords"
+        content="Recursos Módulo 1, Docencia 4.0, LLM, IA generativa, infografías, bibliografía, Book Creator">
     <title>Recursos Didácticos Módulo 1 | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
     <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
         * {
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #00C2FF;
-            --secondary: #FF8D5C;
-            --tertiary: #FF9E2A;
-            --neutral-dark: #0A192F;
-            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
-            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
-            --bg-soft: #F1F8FF;
-            --nav-height: 80px;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: var(--bg-soft);
-            color: var(--neutral-dark);
-            line-height: 1.8;
-            font-family: 'Manrope', sans-serif;
-            padding-top: var(--nav-height);
             margin: 0;
+            padding-top: var(--nav-height);
             overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
         }
 
-        h1,
-        h2,
-        h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            margin-top: 0;
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* NAVBAR SUPERIOR */
@@ -53,354 +69,379 @@
             top: 0;
             left: 0;
             right: 0;
+            z-index: 1000;
             height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            min-height: var(--nav-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
-            z-index: 1000;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: var(--spacing-sm);
+            min-width: 0;
         }
 
         .logo-container img {
-            height: 48px;
+            height: 56px;
             width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .module-title-nav {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-left: 2px solid var(--primary);
-            padding-left: 20px;
-        }
-
-        /* MENÚ LATERAL */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -340px;
-            width: 320px;
-            height: 100vh;
-            background: var(--neutral-dark);
-            color: white;
-            box-shadow: none;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
-            z-index: 2000;
-            padding: 40px 30px;
-        }
-
-        .sidebar.active {
-            left: 0;
-            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.6);
-            backdrop-filter: blur(4px);
-            display: none;
-            z-index: 1999;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .menu-btn {
-            background: rgba(0, 194, 255, 0.1);
-            border: 1px solid rgba(0, 194, 255, 0.2);
-            padding: 12px;
-            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
             cursor: pointer;
-            color: var(--primary);
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .menu-btn:hover {
-            background: var(--primary);
-            color: white;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .btn-download:focus-visible,
+        .resource-link:focus-visible,
+        .book-creator-link:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible,
+        .video-wrapper iframe:focus-visible,
+        .video-wrapper video:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
         }
 
         .side-menu-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 35px;
-            color: white;
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
         }
 
         .menu-links {
             list-style: none;
-            padding: 20px 0;
+            padding: 0;
+            margin: 0;
         }
 
         .menu-links li {
-            margin-bottom: 12px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
         }
 
         .menu-links a {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 600;
-            padding: 14px 20px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .menu-links a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--primary);
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
         }
 
         .menu-links a.active {
-            background: var(--primary);
-            color: var(--neutral-dark);
-            font-weight: 800;
-        }
-
-        /* INFOGRAFÍAS GRID ESPECÍFICO */
-        .infographics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-top: 2rem;
-        }
-
-        .info-card {
-            background: white;
-            border-radius: 25px;
-            padding: 1.5rem;
-            border: 1px solid #edf2f7;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.03);
-        }
-
-        .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.1);
-            border-color: var(--primary);
-        }
-
-        .info-card h3 {
-            font-size: 1rem;
-            margin: 0;
-            color: var(--neutral-dark);
-            text-align: center;
-        }
-
-        .btn-download {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #F8FBFF;
-            color: var(--primary);
-            padding: 12px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.85rem;
-            border: 1px solid rgba(0, 194, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .btn-download:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* BIBLIOGRAFÍA */
-        .biblio-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .biblio-item {
-            background: #fff;
-            padding: 30px;
-            border-radius: 25px;
-            border: 1px solid #edf2f7;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            transition: all 0.3s;
-        }
-
-        .biblio-item:hover {
-            border-color: var(--primary);
-            background: #F8FBFF;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.08);
-        }
-
-        .biblio-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .biblio-info {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-        }
-
-        .biblio-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            background: rgba(0, 194, 255, 0.1);
-            color: var(--primary);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            width: fit-content;
-        }
-
-        .biblio-name {
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--neutral-dark);
-        }
-
-        .biblio-apa {
-            font-size: 0.85rem;
-            color: #718096;
-            font-style: italic;
-            line-height: 1.5;
-            padding-left: 15px;
-            border-left: 3px solid #e2e8f0;
-        }
-
-        .biblio-summary {
-            font-size: 0.95rem;
-            color: #4a5568;
-            line-height: 1.6;
-            margin: 0;
-            background: #f7fafc;
-            padding: 15px;
-            border-radius: 15px;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
         }
 
         /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
-            margin: 40px auto 100px auto;
-            padding: 0 25px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
         }
 
         .lesson-card {
-            background: white;
-            border-radius: 35px;
-            padding: 4.5rem;
-            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
-            border: 1px solid rgba(0, 194, 255, 0.05);
-            margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .page-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .page-title {
+            display: block;
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .page-intro {
+            max-width: 780px;
+            margin-bottom: var(--spacing-xl);
+            font-size: var(--font-size-base);
         }
 
         .resource-section {
-            margin-bottom: 4rem;
+            margin-bottom: var(--spacing-16);
         }
 
         .resource-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 2rem;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
         }
 
         .resource-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 194, 255, 0.1);
-            border-radius: 15px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            font-size: 1.5rem;
+            flex: 0 0 56px;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .section-title {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
         .resource-card {
-            background: #F8FBFF;
-            padding: 2rem;
-            border-radius: 25px;
-            border: 1px solid rgba(0, 194, 255, 0.05);
-            margin-bottom: 2rem;
-            transition: transform 0.3s ease;
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .resource-card:hover {
             transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
         }
 
-        /* Estilos específicos para Book Creator Embed */
-        .book-container {
+        .resource-card h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .centered-card {
             display: flex;
             justify-content: center;
-            margin: 20px 0;
+            background: var(--color-background-surface);
         }
 
-        /* Estilos para imágenes de recursos */
-        .resource-img-container {
-            width: 100%;
-            border-radius: 20px;
+        /* BOOK CREATOR */
+        .book-creator-card {
+            width: min(100%, 320px);
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(10, 25, 47, 0.1);
-            margin: 20px 0;
-            border: 1px solid #EDF2F7;
-            cursor: zoom-in;
+            margin: 0 auto;
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .resource-img-container img {
-            width: 100%;
+        .book-creator-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .book-creator-cover-link {
             display: block;
-            transition: transform 0.5s ease;
+            background: var(--color-background-surface-low);
+            text-decoration: none;
         }
 
-        .resource-img-container:hover img {
-            transform: scale(1.02);
+        .book-creator-cover {
+            width: 100%;
+            max-height: 320px;
+            display: block;
+            object-fit: contain;
+            margin: 0 auto;
+            border: 0;
         }
 
-        /* Videos */
+        .book-creator-body {
+            padding: var(--spacing-lg);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .book-creator-title {
+            display: block;
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
+            text-decoration: none;
+        }
+
+        .book-creator-title:hover,
+        .book-creator-link:hover,
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        .book-creator-description {
+            display: block;
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            text-decoration: none;
+        }
+
+        .book-creator-domain {
+            display: block;
+            overflow: hidden;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .book-creator-actions {
+            margin-top: var(--spacing-md);
+        }
+
+        /* VIDEOS */
         .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%;
-            /* 16:9 */
             height: 0;
-            border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 20px 45px rgba(10, 25, 47, 0.1);
-            background: black;
-            margin: 20px 0;
+            padding-bottom: 56.25%;
+            margin: var(--spacing-md) 0;
+            border-radius: var(--radius-xl);
+            background: var(--color-background-card-inverse);
+            box-shadow: var(--shadow-ambient);
         }
 
         .video-wrapper iframe,
@@ -410,174 +451,481 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            border: 0;
         }
 
         .grid-resources {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
         }
 
-        @media (max-width: 600px) {
-            .grid-resources {
-                grid-template-columns: 1fr;
-            }
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
         }
 
-        /* FOOTER NAV */
+        /* INFOGRAFÍAS */
+        .infographics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .info-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .info-card h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            text-align: center;
+        }
+
+        .image-zoom-trigger {
+            display: block;
+            width: 100%;
+            padding: 0;
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            cursor: zoom-in;
+            box-shadow: var(--shadow-flat);
+        }
+
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .image-zoom-trigger:hover img {
+            transform: scale(1.02);
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-align: center;
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-download:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .btn-download.is-primary {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+        }
+
+        .btn-download.is-primary:hover {
+            box-shadow: var(--shadow-floating);
+        }
+
+        /* BIBLIOGRAFÍA */
+        .biblio-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .biblio-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .biblio-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .biblio-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+        }
+
+        .biblio-info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .biblio-tag {
+            width: fit-content;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .biblio-name {
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .biblio-apa {
+            padding-left: var(--spacing-md);
+            border-left: var(--border-width-4) solid var(--color-border-default);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-style: italic;
+            line-height: var(--line-height-relaxed);
+        }
+
+        .biblio-summary {
+            padding: var(--spacing-md);
+            margin: 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
         .footer-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 7rem;
-            padding-top: 4rem;
-            border-top: 1px solid #e2e8f0;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
         }
 
         .btn-footer {
-            padding: 20px 45px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.4s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .btn-back {
-            color: var(--neutral-dark);
-            background: rgba(0, 194, 255, 0.1);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
         }
 
         .btn-next {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
         }
 
         .btn-next:hover {
             transform: translateX(5px);
-            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
+            box-shadow: var(--shadow-floating);
         }
 
-        /* MODAL DE ZOOM */
-        #zoomModal {
-            display: none;
+        .btn-scroll-top {
             position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.95);
-            backdrop-filter: blur(10px);
-            justify-content: center;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        #zoomModal img {
-            max-height: 90%;
-            max-width: 90%;
-            border-radius: 20px;
-            box-shadow: 0 0 100px rgba(0, 194, 255, 0.3);
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        .modal-zoom {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-6);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-overlay);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-3);
+            right: var(--spacing-3);
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-90);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        @media (max-width: 960px) {
+            .infographics-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .biblio-header {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card {
+                padding: var(--spacing-xl);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .resource-header {
+                align-items: flex-start;
+            }
+
+            .infographics-grid,
+            .grid-resources {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .resource-card,
+            .biblio-item {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <nav class="top-nav">
+    <nav class="top-nav" aria-label="Navegación superior de recursos">
         <div class="nav-left">
-            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menú de navegación">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
             <div class="logo-container">
-                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
             </div>
             <span class="module-title-nav">Recursos Didácticos Módulo 1</span>
         </div>
     </nav>
 
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 1" aria-hidden="true">
         <h2 class="side-menu-title">Navegación</h2>
         <ul class="menu-links">
             <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 1</span></li>
             <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
             <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
             <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
             <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
             <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
             <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
-            <li><a href="recursos_m1.html" class="active">📚 Recursos Módulo 1</a></li>
+            <li><a href="recursos_m1.html" class="active" aria-current="page">📚 Recursos Módulo 1</a></li>
         </ul>
-    </div>
+    </aside>
 
     <main class="content-wrapper">
-        <div class="lesson-card">
-            <h1>Recursos Didácticos Complementarios - Módulo 1</h1>
-            <p>Explora materiales adicionales diseñados para profundizar en los conceptos de LLM, ética y aplicaciones
-                pedagógicas presentados en este módulo.</p>
+        <article class="lesson-card" aria-labelledby="page-title">
+            <h1 id="page-title" class="page-title">Recursos Didácticos Complementarios</h1>
+            <p class="page-intro">Explora materiales adicionales diseñados para profundizar en los conceptos de LLM,
+                ética y aplicaciones pedagógicas presentados en este módulo.</p>
 
-            <!-- GUÍA DIGITAL -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="guia-digital-title">
                 <div class="resource-header">
-                    <div class="resource-icon">📖</div>
-                    <h2>Guía Digital interactiva</h2>
+                    <div class="resource-icon" aria-hidden="true">📖</div>
+                    <h2 id="guia-digital-title" class="section-title">Guía Digital Interactiva</h2>
                 </div>
-                <div class="resource-card" style="display: flex; justify-content: center; background: white;">
-                    <div
-                        style="display:inline-block;vertical-align:top;width:300px;margin:20px auto;color:#333;background:#fff;border:1px solid #ddd;line-height:1.2;text-decoration:none;padding:0">
-                        <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                            style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                            target="_blank" rel="noreferrer"><img
-                                src="https://assets.api.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/books/JhvIDoawQDKJGBbkS4xDzQ/cover/share"
-                                style="max-height:300px;max-width:100%;display:block;margin:0 auto;padding:0;border:none"
-                                alt="Guía digital sobre LLM" /></a>
+
+                <div
+                    style="display:inline-block;vertical-align:top;width:300px;margin:20px auto;color:#333;background:#fff;border:1px solid #ddd;line-height:1.2;text-decoration:none;padding:0">
+                    <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
+                        style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
+                        target="_blank" rel="noreferrer"><img
+                            src="https://assets.api.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/books/JhvIDoawQDKJGBbkS4xDzQ/cover/share"
+                            style="max-height:300px;max-width:100%;display:block;margin:0 auto;padding:0;border:none"
+                            alt="Guía digital sobre LLM" /></a>
+                    <div style="display:block;padding:20px;overflow:hidden;overflow-x:hidden;border-top:1px solid #ddd">
                         <div
-                            style="display:block;padding:20px;overflow:hidden;overflow-x:hidden;border-top:1px solid #ddd">
-                            <div
-                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal;font-size:21px;margin:0 0 0.25em">
-                                <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                                    style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                                    target="_blank" rel="noreferrer">Guía digital sobre LLM</a>
-                            </div>
-                            <div
-                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal;font-size:16px;margin:0 0 0.5em">
-                                <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                                    style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                                    target="_blank" rel="noreferrer">Click to read this book, made with Book Creator</a>
-                            </div>
-                            <div
-                                style="display:block;color:#455a64;line-height:1.2;text-decoration:none;padding:0;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px">
-                                <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
-                                    style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
-                                    target="_blank" rel="noreferrer">read.bookcreator.com</a>
-                            </div>
+                            style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal;font-size:21px;margin:0 0 0.25em">
+                            <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
+                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
+                                target="_blank" rel="noreferrer">Guía digital sobre LLM</a>
+                        </div>
+                        <div
+                            style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal;font-size:16px;margin:0 0 0.5em">
+                            <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
+                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
+                                target="_blank" rel="noreferrer">Click to read this book, made with Book Creator</a>
+                        </div>
+                        <div
+                            style="display:block;color:#455a64;line-height:1.2;text-decoration:none;padding:0;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px">
+                            <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ"
+                                style="display:block;color:#333;line-height:1.2;text-decoration:none;padding:0;font-weight:normal"
+                                target="_blank" rel="noreferrer">read.bookcreator.com</a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- VIDEOS -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="videos-title">
                 <div class="resource-header">
-                    <div class="resource-icon">🎥</div>
-                    <h2>Videos de Apoyo</h2>
+                    <div class="resource-icon" aria-hidden="true">🎥</div>
+                    <h2 id="videos-title" class="section-title">Videos de Apoyo</h2>
                 </div>
 
                 <div class="resource-card">
                     <h3>Uso de Copilot en Educación</h3>
                     <div class="video-wrapper">
-                        <video controls>
+                        <video controls preload="metadata">
                             <source src="../LLM-DEPR/LLM_M1_Recurso_Uso de Copilot_video.mp4" type="video/mp4">
                             Tu navegador no soporta el tag de video.
                         </video>
@@ -590,230 +938,300 @@
                         <div class="video-wrapper">
                             <iframe src="https://www.youtube.com/embed/LPZh9BOjkQs" title="¿Qué son los LLM?"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
+                                allowfullscreen loading="lazy"></iframe>
                         </div>
-                        <a href="https://youtu.be/LPZh9BOjkQs" target="_blank"
-                            style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
-                            Ver directamente en YouTube</a>
+                        <a class="resource-link" href="https://youtu.be/LPZh9BOjkQs" target="_blank"
+                            rel="noreferrer noopener">📺 Ver directamente en YouTube</a>
                     </div>
+
                     <div class="resource-card">
                         <h3>IA en el Aula</h3>
                         <div class="video-wrapper">
                             <iframe src="https://www.youtube.com/embed/lVGV5-5TdTU" title="IA en el Aula"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
+                                allowfullscreen loading="lazy"></iframe>
                         </div>
-                        <a href="https://youtu.be/lVGV5-5TdTU" target="_blank"
-                            style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
-                            Ver directamente en YouTube</a>
+                        <a class="resource-link" href="https://youtu.be/lVGV5-5TdTU" target="_blank"
+                            rel="noreferrer noopener">📺 Ver directamente en YouTube</a>
                     </div>
+
                     <div class="resource-card">
                         <h3>Ética y Futuro de la IA</h3>
                         <div class="video-wrapper">
                             <iframe src="https://www.youtube.com/embed/PxYA2NLVdbc" title="Ética y Futuro de la IA"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
+                                allowfullscreen loading="lazy"></iframe>
                         </div>
-                        <a href="https://youtu.be/PxYA2NLVdbc" target="_blank"
-                            style="display: inline-block; margin-top: 10px; color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 700;">📺
-                            Ver directamente en YouTube</a>
+                        <a class="resource-link" href="https://youtu.be/PxYA2NLVdbc" target="_blank"
+                            rel="noreferrer noopener">📺 Ver directamente en YouTube</a>
                     </div>
                 </div>
             </section>
 
-            <!-- INFOGRAFÍAS -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="infografias-title">
                 <div class="resource-header">
-                    <div class="resource-icon">📊</div>
-                    <h2>Infografías y Visualizaciones</h2>
+                    <div class="resource-icon" aria-hidden="true">📊</div>
+                    <h2 id="infografias-title" class="section-title">Infografías y Visualizaciones</h2>
                 </div>
 
                 <div class="infographics-grid">
-                    <!-- Infografía 1 -->
-                    <div class="info-card">
+                    <article class="info-card">
                         <h3>LLM VS BOT</h3>
-                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
-                            style="margin: 0;">
-                            <img src="../assets/LLM_M1_LLM_VS_BOT_imagen.png" alt="LLM VS BOT">
-                        </div>
+                        <button class="image-zoom-trigger" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar infografía LLM VS BOT">
+                            <img data-asset="LLM_M1_LLM_VS_BOT_imagen.png" src="assets/LLM_M1_LLM_VS_BOT_imagen.png"
+                                alt="Infografía LLM VS BOT">
+                        </button>
                         <a href="../assets/LLM_M1_LLM_VS_BOT_imagen.png" download="Infografia_LLM_VS_BOT.png"
-                            target="_blank" class="btn-download">
-                            <span>📥 Descargar Imagen</span>
-                        </a>
-                    </div>
+                            target="_blank" class="btn-download">📥 Descargar Imagen</a>
+                    </article>
 
-                    <!-- Infografía 2 -->
-                    <div class="info-card">
+                    <article class="info-card">
                         <h3>Privacidad y la IA</h3>
-                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
-                            style="margin: 0;">
-                            <img src="../assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png"
-                                alt="Privacidad Estudiantil">
-                        </div>
+                        <button class="image-zoom-trigger" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar infografía Privacidad Estudiantil y la IA">
+                            <img data-asset="LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png"
+                                src="assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png"
+                                alt="Infografía sobre privacidad estudiantil y la IA">
+                        </button>
                         <a href="../assets/LLM_M1_Privacidad_Estudiantil_y_la_IA_imagen.png"
-                            download="Infografia_Privacidad_IA.png" target="_blank" class="btn-download">
-                            <span>📥 Descargar Imagen</span>
-                        </a>
-                    </div>
+                            download="Infografia_Privacidad_IA.png" target="_blank" class="btn-download">📥 Descargar
+                            Imagen</a>
+                    </article>
 
-                    <!-- Infografía 3 -->
-                    <div class="info-card">
+                    <article class="info-card">
                         <h3>El Diario LLM</h3>
-                        <div class="resource-img-container" onclick="openZoom(this.querySelector('img').src)"
-                            style="margin: 0;">
-                            <img src="../assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png" alt="Diario LLM">
-                        </div>
+                        <button class="image-zoom-trigger" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar infografía El Diario LLM">
+                            <img data-asset="LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png"
+                                src="assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png"
+                                alt="Infografía El Diario de LLM Educativo">
+                        </button>
                         <a href="../assets/LLM_M1_Recurso_El Diario de LLM Educativo_imagen.png"
-                            download="Infografia_Diario_LLM.png" target="_blank" class="btn-download">
-                            <span>📥 Descargar Imagen</span>
-                        </a>
-                    </div>
+                            download="Infografia_Diario_LLM.png" target="_blank" class="btn-download">📥 Descargar
+                            Imagen</a>
+                    </article>
                 </div>
             </section>
 
-            <!-- RECURSOS BIBLIOGRÁFICOS -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="bibliografia-title">
                 <div class="resource-header">
-                    <div class="resource-icon">📚</div>
-                    <h2>Recursos Bibliográficos de Referencia</h2>
+                    <div class="resource-icon" aria-hidden="true">📚</div>
+                    <h2 id="bibliografia-title" class="section-title">Recursos Bibliográficos de Referencia</h2>
                 </div>
-                <div class="resource-card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
-                    <ul class="biblio-list">
-                        <!-- Articulo 1 -->
-                        <li class="biblio-item">
-                            <div class="biblio-header">
-                                <div class="biblio-info">
-                                    <span class="biblio-tag">ARTÍCULO DE INVESTIGACIÓN (2026)</span>
-                                    <span class="biblio-name">Classroom AI: Large Language Models as Grade-Specific
-                                        Teachers</span>
-                                    <div class="biblio-apa">
-                                        Oh, J., Whang, S. E., Evans, J., & Wang, J. (2026). Classroom AI: large language
-                                        models as grade-specific teachers. Npj Artificial Intelligence, 2(1).
-                                        https://doi.org/10.1038/s44387-026-00081-7
-                                    </div>
-                                </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
-                                </a>
-                            </div>
-                            <p class="biblio-summary">
-                                Este artículo analiza cómo los modelos de lenguaje de gran tamaño pueden ser refinados
-                                para actuar como tutores especializados por nivel escolar. Explora la efectividad
-                                pedagógica de la IA cuando se alinea con las capacidades cognitivas y curriculares
-                                específicas de cada grado académico.
-                            </p>
-                        </li>
 
-                        <!-- Articulo 2 -->
-                        <li class="biblio-item">
-                            <div class="biblio-header">
-                                <div class="biblio-info">
-                                    <span class="biblio-tag">ESTUDIO CRÍTICO (2025)</span>
-                                    <span class="biblio-name">“Don’t Forget the Teachers”: Educator-Centered
-                                        Understanding of LLM Harms</span>
-                                    <div class="biblio-apa">
-                                        Harvey, E., Koenecke, A., & Kizilcec, R. F. (2025). “Don’t Forget the Teachers”:
-                                        Towards an Educator-Centered Understanding of Harms from large language Models
-                                        in education. arXiv:2502.14592v1 [cs.CY].
-                                        https://doi.org/10.1145/3706598.3713210
-                                    </div>
-                                </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
-                                </a>
+                <ul class="biblio-list">
+                    <li class="biblio-item">
+                        <div class="biblio-header">
+                            <div class="biblio-info">
+                                <span class="biblio-tag">Artículo de investigación (2026)</span>
+                                <span class="biblio-name">Classroom AI: Large Language Models as Grade-Specific
+                                    Teachers</span>
+                                <div class="biblio-apa">Oh, J., Whang, S. E., Evans, J., &amp; Wang, J. (2026).
+                                    Classroom AI: large language models as grade-specific teachers. <em>Npj Artificial
+                                        Intelligence</em>, 2(1). https://doi.org/10.1038/s44387-026-00081-7</div>
                             </div>
-                            <p class="biblio-summary">
-                                Una investigación fundamental que aboga por incluir la perspectiva del docente en la
-                                implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso desmedido
-                                de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la
-                                autonomía del educador.
-                            </p>
-                        </li>
+                            <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf"
+                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
+                        </div>
+                        <p class="biblio-summary">Este artículo analiza cómo los modelos de lenguaje de gran tamaño
+                            pueden ser refinados para actuar como tutores especializados por nivel escolar. Explora la
+                            efectividad pedagógica de la IA cuando se alinea con las capacidades cognitivas y
+                            curriculares específicas de cada grado académico.</p>
+                    </li>
 
-                        <!-- Articulo 3 -->
-                        <li class="biblio-item">
-                            <div class="biblio-header">
-                                <div class="biblio-info">
-                                    <span class="biblio-tag">ÉTICA Y MARCO LEGAL (2023)</span>
-                                    <span class="biblio-name">Ética y Responsabilidad en la Implementación de la IA en
-                                        la Educación</span>
-                                    <div class="biblio-apa">
-                                        Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T., Morrillo, C. F. S., &
-                                        Salazar, A. J. (2023). Ética y Responsabilidad en la Implementación de la
-                                        Inteligencia Artificial en la Educación. Ciencia Latina Revista Científica
-                                        Multidisciplinar, 7(6), 2054–2076. https://doi.org/10.37811/cl_rcm.v7i6.8833
-                                    </div>
-                                </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
-                                </a>
+                    <li class="biblio-item">
+                        <div class="biblio-header">
+                            <div class="biblio-info">
+                                <span class="biblio-tag">Estudio crítico (2025)</span>
+                                <span class="biblio-name">“Don’t Forget the Teachers”: Educator-Centered Understanding
+                                    of LLM Harms</span>
+                                <div class="biblio-apa">Harvey, E., Koenecke, A., &amp; Kizilcec, R. F. (2025). “Don’t
+                                    Forget the Teachers”: Towards an Educator-Centered Understanding of Harms from large
+                                    language Models in education. arXiv:2502.14592v1 [cs.CY].
+                                    https://doi.org/10.1145/3706598.3713210</div>
                             </div>
-                            <p class="biblio-summary">
-                                Estudio multidisciplinar sobre los pilares éticos necesarios para una integración segura
-                                de la IA en el aula. Se enfoca en la privacidad de los datos estudiantiles, la equidad
-                                en el acceso y la responsabilidad institucional de los centros educativos.
-                            </p>
-                        </li>
+                            <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf" download
+                                target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
+                        </div>
+                        <p class="biblio-summary">Una investigación fundamental que aboga por incluir la perspectiva del
+                            docente en la implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso
+                            desmedido de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la
+                            autonomía del educador.</p>
+                    </li>
 
-                        <!-- Articulo 4 -->
-                        <li class="biblio-item">
-                            <div class="biblio-header">
-                                <div class="biblio-info">
-                                    <span class="biblio-tag">GUÍA DOCENTE</span>
-                                    <span class="biblio-name">Inteligencia Artificial Generativa: Aplicaciones para la
-                                        Docencia e Investigación</span>
-                                    <div class="biblio-apa">
-                                        Edunet UAH (n.d.). Inteligencia Artificial generativa – Aplicaciones para la
-                                        docencia y la investigación de Modelos Lingüísticos (LLM).
-                                        https://edunet.uah.es/wp/ia/
-                                    </div>
-                                </div>
-                                <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf"
-                                    download target="_blank" class="btn-download"
-                                    style="padding: 12px 25px; border-radius: 50px; background: var(--primary); color: white;">
-                                    📥 Descargar PDF
-                                </a>
+                    <li class="biblio-item">
+                        <div class="biblio-header">
+                            <div class="biblio-info">
+                                <span class="biblio-tag">Ética y marco legal (2023)</span>
+                                <span class="biblio-name">Ética y Responsabilidad en la Implementación de la IA en la
+                                    Educación</span>
+                                <div class="biblio-apa">Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T.,
+                                    Morrillo, C. F. S., &amp; Salazar, A. J. (2023). Ética y Responsabilidad en la
+                                    Implementación de la Inteligencia Artificial en la Educación. <em>Ciencia Latina
+                                        Revista Científica Multidisciplinar</em>, 7(6), 2054–2076.
+                                    https://doi.org/10.37811/cl_rcm.v7i6.8833</div>
                             </div>
-                            <p class="biblio-summary">
-                                Un recurso práctico y completo que recorre las herramientas de IA generativa disponibles
-                                para el profesorado. Ofrece estrategias concretas para mejorar la preparación de clases,
-                                la personalización del aprendizaje y la optimización de procesos de investigación
-                                académica.
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+                            <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf"
+                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
+                        </div>
+                        <p class="biblio-summary">Estudio multidisciplinar sobre los pilares éticos necesarios para una
+                            integración segura de la IA en el aula. Se enfoca en la privacidad de los datos
+                            estudiantiles, la equidad en el acceso y la responsabilidad institucional de los centros
+                            educativos.</p>
+                    </li>
+
+                    <li class="biblio-item">
+                        <div class="biblio-header">
+                            <div class="biblio-info">
+                                <span class="biblio-tag">Guía docente</span>
+                                <span class="biblio-name">Inteligencia Artificial Generativa: Aplicaciones para la
+                                    Docencia e Investigación</span>
+                                <div class="biblio-apa">Edunet UAH (n.d.). Inteligencia Artificial generativa –
+                                    Aplicaciones para la docencia y la investigación de Modelos Lingüísticos (LLM).
+                                    https://edunet.uah.es/wp/ia/</div>
+                            </div>
+                            <a href="../LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf"
+                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
+                        </div>
+                        <p class="biblio-summary">Un recurso práctico y completo que recorre las herramientas de IA
+                            generativa disponibles para el profesorado. Ofrece estrategias concretas para mejorar la
+                            preparación de clases, la personalización del aprendizaje y la optimización de procesos de
+                            investigación académica.</p>
+                    </li>
+                </ul>
             </section>
 
-            <div class="footer-nav">
-                <a href="modulo1_intro.html" class="btn-footer btn-back">← Volver a la Introducción</a>
+            <nav class="footer-nav" aria-label="Navegación del módulo">
+                <a href="actividad1_2.html" class="btn-footer btn-back">← Volver a Actividad 1.2</a>
                 <a href="modulo2_intro.html" class="btn-footer btn-next">Ir al Módulo 2 →</a>
-            </div>
-        </div>
+            </nav>
+        </article>
     </main>
 
-    <div id="zoomModal" onclick="this.style.display='none'">
-        <img id="zoomedImg" src="" alt="Zoomed Image">
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
+        aria-hidden="true">
+        <div class="modal-content">
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada del recurso</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()"
+                aria-label="Cerrar imagen ampliada">×</button>
+            <img id="zoomedImg" alt="Imagen ampliada del recurso">
+        </div>
     </div>
 
     <script>
+        function resolveAssetPath(img) {
+            const fileName = img.dataset.asset;
+            if (!fileName) return;
+
+            const candidates = [
+                `assets/${fileName}`,
+                `./assets/${fileName}`,
+                `../assets/${fileName}`,
+                `/assets/${fileName}`
+            ];
+
+            let index = 0;
+            img.onerror = () => {
+                if (index < candidates.length) {
+                    img.src = candidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen: ${fileName}`);
+                }
+            };
+
+            img.src = candidates[index];
+            index += 1;
+        }
+
+        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        let lastFocusedElement = null;
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
         }
 
         function openZoom(src) {
-            document.getElementById('zoomModal').style.display = 'flex';
-            document.getElementById('zoomedImg').src = src;
-        }
-    </script>
+            if (!zoomModal || !zoomedImg) return;
+            lastFocusedElement = document.activeElement;
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            zoomModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
 
+            const closeButton = zoomModal.querySelector('.modal-close-btn');
+            if (closeButton) closeButton.focus();
+        }
+
+        function closeZoom() {
+            if (!zoomModal || !zoomedImg) return;
+            zoomModal.classList.remove('is-open');
+            zoomModal.setAttribute('aria-hidden', 'true');
+            zoomedImg.removeAttribute('src');
+            document.body.style.overflow = '';
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) closeZoom();
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) closeZoom();
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
 </body>
 
 </html>

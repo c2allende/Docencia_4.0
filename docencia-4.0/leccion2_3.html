@@ -4,72 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 2.3 de Docencia 4.0: Inclusión y evaluación asistidas por IA. Diferenciación con LLM, evaluación, rúbricas y listas de cotejo de validación.">
+    <meta name="keywords"
+        content="Docencia 4.0, Lección 2.3, inclusión, evaluación asistida por IA, LLM, DUA, rúbricas, bancos de preguntas, listas de cotejo, validación docente">
     <title>Lección 2.3 | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
     <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
         * {
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #00C2FF;
-            --primary-dark: #0088cc;
-            --primary-light: rgba(0, 194, 255, 0.1);
-            --secondary: #FF8D5C;
-            --tertiary: #FF9E2A;
-            --neutral-dark: #0A192F;
-            --primary-gradient: linear-gradient(135deg, #00C2FF 0%, #0072FF 100%);
-            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
-            --bg-soft: #F9FAFB;
-            --nav-height: 85px;
-            --card-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
-            --hover-shadow: 0 30px 70px rgba(0, 194, 255, 0.15);
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: var(--bg-soft);
-            color: var(--neutral-dark);
-            line-height: 1.8;
-            font-family: 'Manrope', sans-serif;
-            padding-top: var(--nav-height);
             margin: 0;
+            padding-top: var(--nav-height);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
         }
 
         p {
-            margin-bottom: 2rem;
-            color: #4A5568;
-            text-align: left;
-            font-size: 1.05rem;
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
         }
 
-        h1,
-        h2,
-        h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            margin-top: 0;
-            margin-bottom: 2rem;
-            text-wrap: balance;
-            font-weight: 800;
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
         }
 
-        h1 {
-            font-size: clamp(2.2rem, 5vw, 3rem);
-            letter-spacing: -1px;
-        }
-
-        h2 {
-            font-size: clamp(1.8rem, 4vw, 2.2rem);
-            margin-top: 3.5rem;
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* NAVBAR SUPERIOR */
@@ -78,830 +69,973 @@
             top: 0;
             left: 0;
             right: 0;
+            z-index: 1000;
             height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(0, 194, 255, 0.1);
+            min-height: var(--nav-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 50px;
-            z-index: 1000;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: var(--spacing-sm);
+            min-width: 0;
         }
 
         .logo-container img {
-            height: 52px;
+            height: 56px;
             width: auto;
-            transition: transform 0.3s ease;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .module-title-nav {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1rem;
-            color: var(--neutral-dark);
-            border-left: 2px solid var(--primary);
-            padding-left: 25px;
-            letter-spacing: 0.5px;
-        }
-
-        /* MENÚ LATERAL */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -360px;
-            width: 340px;
-            height: 100vh;
-            background: var(--neutral-dark);
-            color: white;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2000;
-            padding: 60px 40px;
-        }
-
-        .sidebar.active {
-            left: 0;
-            box-shadow: 30px 0 80px rgba(0, 0, 0, 0.4);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.4);
-            backdrop-filter: blur(8px);
-            display: none;
-            z-index: 1999;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-            opacity: 1;
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .menu-btn {
-            background: var(--primary-light);
-            border: 1px solid rgba(0, 194, 255, 0.2);
-            padding: 12px;
-            border-radius: 18px;
-            cursor: pointer;
-            color: var(--primary);
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .menu-btn:hover {
-            background: var(--primary);
-            color: white;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .control-btn:focus-visible,
+        .diff-btn:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .genially-frame-inner iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
         }
 
         .side-menu-title {
-            font-size: 1.8rem;
-            margin-bottom: 45px;
-            color: white;
-            font-weight: 800;
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
         }
 
         .menu-links {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .menu-links li {
-            margin-bottom: 12px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
         }
 
         .menu-links a {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 600;
-            padding: 14px 20px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .menu-links a:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
         }
 
         .menu-links a.active {
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 800;
-            box-shadow: 0 10px 25px rgba(0, 114, 255, 0.3);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
         }
 
         /* CONTENIDO PRINCIPAL */
         .content-wrapper {
-            max-width: 1000px;
-            margin: 60px auto 120px auto;
-            padding: 0 30px;
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
         }
 
         .lesson-card {
-            background: white;
-            border-radius: 45px;
-            padding: clamp(2rem, 8vw, 5.5rem);
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(226, 232, 240, 0.8);
             position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .text-section {
+            margin-bottom: var(--spacing-12);
         }
 
         .audio-player-container {
-            background: #F9FAFB;
-            padding: 2.5rem;
-            border-radius: 35px;
-            border: 1px solid #EDF2F7;
-            margin: 4rem 0;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
         }
 
         .audio-label {
-            font-weight: 800;
-            font-size: 0.75rem;
-            color: var(--primary-dark);
-            letter-spacing: 1.5px;
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
             text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* SLIDER DE CONCEPTOS */
-        .slider-section {
-            margin: 8rem 0;
-            padding: clamp(1.5rem, 5vw, 5rem);
-            background: #F8FBFF;
-            border-radius: 50px;
-            border: 1px solid rgba(0, 194, 255, 0.08);
+        .audio-player {
+            width: 100%;
+        }
+
+        .content-list {
+            margin: var(--spacing-md) 0 var(--spacing-xl);
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+        }
+
+        .content-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .highlight-box {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        }
+
+        /* WIDGET DIFERENCIACIÓN */
+        .diff-widget-box {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .diff-widget-header {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .diff-widget-header h3 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .diff-widget-header p {
+            margin: 0;
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            opacity: 0.92;
+        }
+
+        .diff-section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .diff-original-text {
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-text-secondary);
+            font-style: italic;
+        }
+
+        .diff-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .diff-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-1);
+            min-height: 112px;
+            padding: var(--spacing-lg);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-align: center;
+            cursor: pointer;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .diff-btn span {
+            color: var(--color-text-muted);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .diff-btn:hover,
+        .diff-btn.active {
+            transform: translateY(-3px);
+            border-color: var(--color-brand-primary);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .diff-btn.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .diff-btn.active span {
+            color: var(--color-brand-primary-on);
+            opacity: 0.86;
+        }
+
+        .diff-output-area {
+            min-height: 260px;
+            padding: var(--spacing-xl);
+            border: var(--border-width-2) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .diff-output-area.loading {
+            opacity: 0.64;
+            border-color: var(--color-brand-primary);
+        }
+
+        .diff-output-content h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+        }
+
+        .diff-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--spacing-1) var(--spacing-3);
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .diff-validation-card {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+        }
+
+        .diff-validation-card .icon {
+            font-size: var(--font-size-2xl);
+        }
+
+        .diff-validation-card h4 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+        }
+
+        .diff-validation-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* VALIDACIÓN */
+        .validation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .validation-item-card {
             position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .validation-item-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--border-width-6);
+            height: 0;
+            background: var(--color-brand-primary);
+            transition: height var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .validation-item-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .validation-item-card:hover::before {
+            height: 100%;
+        }
+
+        .v-card-icon {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+        }
+
+        .v-card-title {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .v-card-text {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* SLIDER */
+        .slider-section {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
         }
 
         .slider-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 4rem;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .slider-header h2 {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .control-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
         .slider-container {
             overflow: hidden;
             position: relative;
+            padding: var(--spacing-2);
         }
 
         .slider-track {
             display: flex;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            gap: 40px;
+            gap: var(--spacing-lg);
+            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
         }
 
         .slider-item {
             min-width: 100%;
-            background: white;
-            padding: clamp(2rem, 5vw, 4.5rem);
-            border-radius: 40px;
-            box-shadow: 0 15px 40px rgba(10, 25, 47, 0.03);
-            border: 1px solid #EDF2F7;
-            box-sizing: border-box;
-            transition: all 0.4s ease;
-        }
-
-        .slider-item:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 25px 60px rgba(0, 194, 255, 0.12);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
         }
 
         .slider-item h3 {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
         }
 
-        .slider-controls {
-            display: flex;
-            gap: 20px;
+        .slider-item small,
+        .concept-ref {
+            display: block;
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+            font-style: italic;
         }
 
-        .control-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 194, 255, 0.2);
-            background: white;
-            color: var(--primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .control-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 194, 255, 0.2);
-        }
-
-        /* QUIZ / CHECKPOINT */
-        .quiz-card {
-            background: var(--accent-gradient);
-            padding: clamp(3rem, 8vw, 6rem);
-            border-radius: 55px;
-            color: white;
-            text-align: center;
-            margin: 8rem 0;
-            box-shadow: 0 40px 80px rgba(255, 141, 92, 0.25);
+        .completion-card {
             position: relative;
-            overflow: hidden;
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
         }
 
-        .quiz-card::before {
-            content: "";
+        .completion-badge {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
+            top: calc(-1 * var(--spacing-5));
+            right: var(--spacing-xl);
+            padding: var(--spacing-2) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
         }
 
-        .quiz-container {
+        .checkpoint-container {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--gradient-orange);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .checkpoint-container h2,
+        .checkpoint-container p {
+            color: var(--color-white);
+        }
+
+        .genially-frame-wrap {
             width: 100%;
-            border-radius: 35px;
+            margin-top: var(--spacing-lg);
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            margin-top: 4rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-ambient);
         }
 
-        /* REFERENCIAS */
+        .genially-frame-inner {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+        }
+
+        .genially-frame-inner iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         .references-section {
-            margin-top: 8rem;
-            padding: clamp(2rem, 5vw, 4.5rem);
-            background: #F9FAFB;
-            border-radius: 40px;
-            border: 1px solid #EDF2F7;
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .references-section h2 {
+            margin-top: 0;
         }
 
         .ref-list {
-            list-style: none;
-            padding: 0;
-            font-size: 0.95rem;
-            color: #4A5568;
-            margin-top: 2rem;
+            margin: 0;
+            padding-left: var(--spacing-6);
         }
 
         .ref-list li {
-            margin-bottom: 1.5rem;
-            padding-left: 2.5rem;
-            text-indent: -2.5rem;
-            line-height: 1.7;
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
         }
 
-        /* NAVEGACIÓN PIE */
-        .nav-footer {
+        .footer-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10rem;
-            padding-top: 5rem;
-            border-top: 1px solid #E2E8F0;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
         }
 
         .btn-footer {
-            padding: 20px 40px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.4s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 15px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1rem;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-prev {
-            color: #718096;
-            background: white;
-            border: 1px solid #E2E8F0;
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
         }
 
-        .btn-prev:hover {
-            background: #F7FAFC;
-            transform: translateX(-8px);
+        .btn-back:hover {
+            transform: translateX(-5px);
         }
 
         .btn-next {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.25);
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
         }
 
         .btn-next:hover {
-            transform: translateX(8px);
-            box-shadow: 0 25px 50px rgba(0, 194, 255, 0.35);
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card,
+            .diff-widget-box {
+                padding: var(--spacing-xl);
+            }
+
+            .validation-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .top-nav {
-                padding: 0 20px;
+            .lesson-title {
+                font-size: var(--font-size-3xl);
             }
 
-            .nav-footer {
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .slider-header,
+            .footer-nav {
                 flex-direction: column;
-                gap: 20px;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .slider-controls {
+                justify-content: center;
+            }
+
+            .diff-validation-card {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
             }
 
             .module-title-nav {
                 display: none;
             }
 
-            .btn-footer {
-                width: 100%;
-                justify-content: center;
+            .lesson-card,
+            .diff-widget-box,
+            .slider-section,
+            .checkpoint-container,
+            .completion-card,
+            .references-section,
+            .validation-item-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
             }
-
-            .content-wrapper {
-                padding: 0 15px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .slider-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-        }
-
-        /* ESTILOS WIDGET DIFERENCIACIÓN */
-        .diff-widget-box {
-            background: white;
-            border-radius: 35px;
-            padding: clamp(1.5rem, 5vw, 3.5rem);
-            box-shadow: 0 15px 45px rgba(10, 25, 47, 0.05);
-            margin: 4rem 0;
-            border: 1px solid #EDF2F7;
-        }
-
-        .diff-widget-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            background: var(--primary-gradient);
-            color: white;
-            padding: 3rem 2rem;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
-        }
-
-        .diff-widget-header h3 {
-            color: white;
-            -webkit-text-fill-color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .diff-widget-header p {
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 0;
-            font-size: 1.1rem;
-            text-align: center;
-        }
-
-        .diff-section-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--primary-dark);
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        .diff-original-text {
-            background: #F8FBFF;
-            padding: 2rem;
-            border-radius: 20px;
-            border-left: 6px solid var(--primary);
-            font-style: italic;
-            margin-bottom: 3rem;
-            color: #4A5568;
-        }
-
-        .diff-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 3rem;
-        }
-
-        .diff-btn {
-            background: white;
-            border: 2px solid #E2E8F0;
-            padding: 1.5rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .diff-btn span {
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: #718096;
-            margin-top: 5px;
-        }
-
-        .diff-btn:hover {
-            border-color: var(--primary);
-            background: #F0F9FF;
-            transform: translateY(-3px);
-        }
-
-        .diff-btn.active {
-            border-color: var(--primary);
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 10px 20px rgba(0, 114, 255, 0.2);
-        }
-
-        .diff-btn.active span {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .diff-output-area {
-            min-height: 250px;
-            padding: 35px;
-            border-radius: 25px;
-            background: #fff;
-            border: 2px dashed #CBD5E0;
-            position: relative;
-            transition: all 0.4s ease;
-        }
-
-        .diff-output-area.loading::after {
-            content: "IA Generando versión...";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: 800;
-            color: var(--primary);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .diff-output-content {
-            transition: opacity 0.3s ease;
-        }
-
-        .diff-output-content h3 {
-            font-size: 1.5rem;
-            margin-top: 0;
-            background: none;
-            -webkit-text-fill-color: var(--neutral-dark);
-            color: var(--neutral-dark);
-        }
-
-        .diff-tag {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-        }
-
-        .tag-dua {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .tag-level {
-            background: #E0F2FE;
-            color: #0369A1;
-        }
-
-        .diff-validation-card {
-            background: #FFFBEB;
-            border: 1px solid #FDE68A;
-            padding: 2rem;
-            border-radius: 25px;
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            margin-top: 3rem;
-        }
-
-        .diff-validation-card .icon {
-            font-size: 1.8rem;
-        }
-
-        .diff-validation-card h4 {
-            margin: 0 0 8px 0;
-            color: #92400E;
-            font-size: 1.1rem;
-        }
-
-        .diff-validation-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: #B45309;
-            line-height: 1.6;
-        }
-
-        /* GRID DE VALIDACIÓN 2x2 */
-        .validation-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .validation-item-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 25px;
-            border: 1px solid #EDF2F7;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .validation-item-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--primary-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .validation-item-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 194, 255, 0.1);
-            border-color: var(--primary-light);
-        }
-
-        .validation-item-card:hover::before {
-            opacity: 1;
-        }
-
-        .v-card-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-light);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-        }
-
-        .v-card-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--neutral-dark);
-            margin: 0;
-        }
-
-        .v-card-text {
-            color: var(--neutral-mid);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin: 0;
-        }
-
-        @media (max-width: 992px) {
-            .validation-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* REFERENCIAS APA 7 */
-        .references-section {
-            margin-top: 5rem;
-            padding: 3rem;
-            background: #F8FBFF;
-            border-radius: 30px;
-            border: 1px solid #EDF2F7;
-        }
-
-        .references-section h3 {
-            font-size: 1.4rem;
-            margin-bottom: 2rem;
-            color: var(--neutral-dark);
-        }
-
-        .ref-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .ref-list li {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--neutral-mid);
-            margin-bottom: 1.2rem;
-            padding-left: 2rem;
-            text-indent: -2rem;
-        }
-
-        .ref-list li em {
-            font-style: italic;
-            color: var(--neutral-dark);
-        }
-
-        .ref-list a {
-            color: var(--primary-dark);
-            text-decoration: none;
-        }
-
-        .ref-list a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <!-- MENÚ LATERAL -->
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <aside class="sidebar" id="sidebar">
-        <h2 class="side-menu-title">Docencia 4.0</h2>
-        <ul class="menu-links">
-            <li><a href="index.html">🏠 Dashboard</a></li>
-            <li><a href="modulo2_intro.html">📍 Inicio Módulo 2</a></li>
-            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
-            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
-            <li><a href="leccion2_3.html" class="active">📖 Lección 2.3</a></li>
-            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
-            <li><a href="recursos_m2.html">📚 Recursos Módulo 2</a></li>
-        </ul>
-    </aside>
-
-    <!-- NAVBAR SUPERIOR -->
-    <nav class="top-nav">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
         <div class="nav-left">
-            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Abrir menú">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
             <div class="logo-container">
-                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
             </div>
-            <div class="module-title-nav">Lección 2.3: Inclusión y evaluación asistidas por IA</div>
+            <span class="module-title-nav">Lección 2.3: Inclusión y evaluación asistidas por IA</span>
         </div>
     </nav>
 
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 2" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 2</span></li>
+            <li><a href="modulo2_intro.html">📍 Introducción Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html" class="active" aria-current="page">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
+            <li><a href="recursos_m2.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo1_intro.html">⬅️ Volver al Módulo 1</a></li>
+        </ul>
+    </aside>
+
     <main class="content-wrapper">
-        <div class="lesson-card">
-            <h1>Lección 2.3: Inclusión y evaluación asistidas por IA</h1>
+        <article class="lesson-card" aria-labelledby="lesson-title">
+            <h1 id="lesson-title" class="lesson-title">Lección 2.3: Inclusión y evaluación asistidas por IA</h1>
 
             <div class="audio-player-container">
-                <span class="audio-label">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                        <line x1="12" y1="19" x2="12" y2="23" />
-                        <line x1="8" y1="23" x2="16" y2="23" />
-                    </svg>
-                    Escuchar Lección Completa
-                </span>
-                <audio controls style="width: 100%;">
+                <label class="audio-label" for="lessonAudio">Escuchar Lección 2.3</label>
+                <audio id="lessonAudio" controls preload="metadata" class="audio-player">
                     <source src="../LLM-DEPR/LLM_M2_Leccion_2.3_Inclusión y evaluación asistidas por IA_audio.mp3"
                         type="audio/mpeg">
                     Tu navegador no soporta el audio.
                 </audio>
             </div>
 
-            <h2>Diferenciación con apoyo de LLM</h2>
-            <p>La diferenciación didáctica busca ajustar los materiales y actividades a la diversidad de niveles, ritmos
-                y necesidades de los estudiantes, sin perder de vista los mismos objetivos curriculares. El enfoque de
-                Diseño Universal para el Aprendizaje (DUA) propone ofrecer múltiples formas de representación,
-                acción/expresión y compromiso para garantizar el acceso de todos los alumnos al currículo (Rao et al.,
-                2023). En este marco, los modelos de lenguaje de gran tamaño (LLM) pueden funcionar como herramientas de
-                apoyo para generar rápidamente variantes de un mismo contenido, que luego el docente revisa y adapta.
-            </p>
+            <section class="text-section" aria-labelledby="diferenciacion-title">
+                <h2 id="diferenciacion-title" class="section-title">Diferenciación con apoyo de LLM</h2>
+                <p>La diferenciación didáctica busca ajustar los materiales y actividades a la diversidad de niveles,
+                    ritmos y necesidades de los estudiantes, sin perder de vista los mismos objetivos curriculares. El
+                    enfoque de Diseño Universal para el Aprendizaje (DUA) propone ofrecer múltiples formas de
+                    representación, acción/expresión y compromiso para garantizar el acceso de todos los alumnos al
+                    currículo (Rao et al., 2023). En este marco, los modelos de lenguaje de gran tamaño (LLM) pueden
+                    funcionar como herramientas de apoyo para generar rápidamente variantes de un mismo contenido, que
+                    luego el docente revisa y adapta.</p>
 
-            <p>Investigaciones en simplificación de textos muestran que los LLM son capaces de reescribir textos
-                complejos en versiones más accesibles manteniendo el significado principal, aunque con variabilidad en
-                la calidad según el modelo y el dominio (Kew et al., 2023). Estos estudios señalan que modelos
-                recientes, incluso sin entrenamiento específico en simplificación, pueden alcanzar resultados
-                comparables a sistemas especializados, siempre que se diseñen bien las instrucciones y se supervise el
-                resultado. Esto abre la puerta a pedir a un bot o aplicación basada en LLM, tres versiones del mismo
-                texto curricular: básica, intermedia y avanzada, que luego el docente valida para su uso con distintos
-                niveles de lectura.</p>
+                <p>Investigaciones en simplificación de textos muestran que los LLM son capaces de reescribir textos
+                    complejos en versiones más accesibles manteniendo el significado principal, aunque con variabilidad
+                    en la calidad según el modelo y el dominio (Kew et al., 2023). Estos estudios señalan que modelos
+                    recientes, incluso sin entrenamiento específico en simplificación, pueden alcanzar resultados
+                    comparables a sistemas especializados, siempre que se diseñen bien las instrucciones y se supervise
+                    el resultado. Esto abre la puerta a pedir a un bot o aplicación basada en LLM, tres versiones del
+                    mismo texto curricular: básica, intermedia y avanzada, que luego el docente valida para su uso con
+                    distintos niveles de lectura.</p>
 
-            <p>En el ámbito educativo, también se ha explorado el uso de LLM para generar historias o materiales
-                adaptados a diferentes edades and niveles de vocabulario, con resultados prometedores pero aún
-                desiguales
-                (Valentini et al., 2023). Estos trabajos recomiendan que la IA se use como generador inicial y que el
-                docente evalúe la adecuación lingüística, la precisión conceptual y la pertinencia cultural antes de
-                introducir el material en el aula. Esto es especialmente relevante en el contexto de Puerto Rico, donde
-                el maestro debe asegurar que los ejemplos y referencias sean culturalmente significativos para sus
-                estudiantes.</p>
+                <p>En el ámbito educativo, también se ha explorado el uso de LLM para generar historias o materiales
+                    adaptados a diferentes edades y niveles de vocabulario, con resultados prometedores, pero aún
+                    desiguales (Valentini et al., 2023). Estos trabajos recomiendan que la IA se use como generador
+                    inicial y que el docente evalúe la adecuación lingüística, la precisión conceptual y la pertinencia
+                    cultural antes de introducir el material en el aula. Esto es especialmente relevante en el contexto
+                    de Puerto Rico, donde el maestro debe asegurar que los ejemplos y referencias sean culturalmente
+                    significativos para sus estudiantes.</p>
 
-            <p>Para educación especial y aprendices de un segundo idioma, la literatura enfatiza la importancia de
-                adaptar longitud de oraciones, vocabulario técnico, estructuras sintácticas y uso de apoyos visuales o
-                contextuales (Huang et al., 2023). Los LLM pueden ayudar a producir versiones con frases más cortas,
-                glosarios básicos, explicaciones adicionales o ejemplos concretos, siempre que el docente se asegure de
-                no utilizar datos personales identificables al describir las necesidades del estudiante, en cumplimiento
-                con la normativa de privacidad y las orientaciones éticas ya discutidas en el módulo 1.</p>
+                <p>Para educación especial y aprendices de un segundo idioma, la literatura enfatiza la importancia de
+                    adaptar longitud de oraciones, vocabulario técnico, estructuras sintácticas y uso de apoyos visuales
+                    o contextuales (Huang et al., 2023). Los LLM pueden ayudar a producir versiones con frases más
+                    cortas, glosarios básicos, explicaciones adicionales o ejemplos concretos, siempre que el docente se
+                    asegure de no utilizar datos personales identificables al describir las necesidades del estudiante,
+                    en cumplimiento con la normativa de privacidad y las orientaciones éticas ya discutidas en el módulo
+                    1.</p>
+            </section>
 
-            <div class="diff-widget-box">
+            <section class="diff-widget-box" aria-labelledby="diff-widget-title">
                 <div class="diff-widget-header">
-                    <h3>Diferenciación con LLM</h3>
+                    <h3 id="diff-widget-title">Diferenciación con LLM</h3>
                     <p>Ajuste de niveles sin perder el objetivo curricular</p>
                 </div>
 
                 <div class="diff-section-title">
-                    <span>📄</span> Contenido Curricular Original (Ciencias/Geografía)
+                    <span aria-hidden="true">📄</span> Contenido Curricular Original (Ciencias/Geografía)
                 </div>
                 <div class="diff-original-text" id="originalText">
-                    "Los ecosistemas de manglares en las costas de Puerto Rico actúan como barreras biosalinas
+                    “Los ecosistemas de manglares en las costas de Puerto Rico actúan como barreras biosalinas
                     cruciales. Estos humedales costeros exhiben una biodiversidad hidrológica compleja que mitiga la
                     erosión costera y el impacto de marejadas ciclónicas, además de servir como sumideros de carbono
-                    altamente eficientes."
+                    altamente eficientes.”
                 </div>
 
                 <div class="diff-section-title">
-                    <span>⚡</span> Selecciona una estrategia de diferenciación
+                    <span aria-hidden="true">⚡</span> Selecciona una estrategia de diferenciación
                 </div>
                 <div class="diff-controls">
-                    <button class="diff-btn active" onclick="transformContent('basic', this)">
+                    <button type="button" class="diff-btn active" onclick="transformContent('basic', this)"
+                        aria-pressed="true">
                         Nivel Básico
                         <span>Vocabulario sencillo</span>
                     </button>
-                    <button class="diff-btn" onclick="transformContent('intermediate', this)">
+                    <button type="button" class="diff-btn" onclick="transformContent('intermediate', this)"
+                        aria-pressed="false">
                         Intermedio
                         <span>Frases moderadas</span>
                     </button>
-                    <button class="diff-btn" onclick="transformContent('advanced', this)">
+                    <button type="button" class="diff-btn" onclick="transformContent('advanced', this)"
+                        aria-pressed="false">
                         Avanzado
                         <span>Análisis crítico</span>
                     </button>
-                    <button class="diff-btn" onclick="transformContent('dua', this)">
+                    <button type="button" class="diff-btn" onclick="transformContent('dua', this)" aria-pressed="false">
                         Apoyo DUA/ESL
-                        <span>Glosario y Visual</span>
+                        <span>Glosario y visual</span>
                     </button>
                 </div>
 
-                <div class="diff-output-area" id="outputArea">
-                    <div id="outputContent" class="diff-output-content">
-                        <!-- Se llena con JS -->
-                    </div>
+                <div class="diff-output-area" id="outputArea" aria-live="polite">
+                    <div id="outputContent" class="diff-output-content"></div>
                 </div>
 
                 <div class="diff-validation-card">
-                    <div class="icon">💡</div>
+                    <div class="icon" aria-hidden="true">💡</div>
                     <div>
                         <h4>Rol del Docente (Validación)</h4>
                         <p>La IA generó estas versiones en segundos. Ahora te toca a ti: verifica que los ejemplos sean
@@ -909,419 +1043,476 @@
                             científica.</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <h2>Evaluación apoyada por IA: reactivos y bancos de preguntas</h2>
-            <p>El diseño de instrumentos de evaluación es otra tarea que consume tiempo y requiere alineación cuidadosa
-                con los objetivos de aprendizaje. La taxonomía de Bloom y marcos posteriores como la profundidad de
-                conocimiento de Webb se utilizan con frecuencia para estructurar preguntas en distintos niveles de
-                complejidad cognitiva. Estudios recientes han analizado la capacidad de los LLM para responder exámenes
-                de opción múltiple de alta exigencia (por ejemplo, en medicina o fisiología), encontrando que modelos
-                como GPT 4 pueden alcanzar tasas altas de acierto, mientras que versiones anteriores muestran un
-                rendimiento más variable (Madrid-García et al., 2023; Waisberg et al., 2023).</p>
+            <section class="text-section" aria-labelledby="evaluacion-title">
+                <h2 id="evaluacion-title" class="section-title">Evaluación apoyada por IA: reactivos y bancos de
+                    preguntas</h2>
+                <p>El diseño de instrumentos de evaluación es otra tarea que consume tiempo y requiere alineación
+                    cuidadosa con los objetivos de aprendizaje. La taxonomía de Bloom y marcos posteriores como la
+                    profundidad de conocimiento de Webb se utilizan con frecuencia para estructurar preguntas en
+                    distintos niveles de complejidad cognitiva. Estudios recientes han analizado la capacidad de los LLM
+                    para responder exámenes de opción múltiple de alta exigencia (por ejemplo, en medicina o
+                    fisiología), encontrando que modelos como GPT‑4 pueden alcanzar tasas altas de acierto, mientras que
+                    versiones anteriores muestran un rendimiento más variable (Madrid-García et al., 2023; Waisberg et
+                    al., 2023).</p>
 
-            <p>Si bien estos trabajos se centran en el desempeño del modelo como “estudiante”, sus hallazgos confirman
-                que los LLM son capaces de manejar preguntas estructuradas y razonar sobre opciones de respuesta, lo que
-                sugiere que también pueden apoyar la generación de reactivos cuando se orientan adecuadamente mediante
-                prompts. Investigaciones sobre generación automática de materiales con LLM señalan que, al pedir
-                explícitamente preguntas de diferentes niveles (recordar, comprender, aplicar, analizar), se puede
-                obtener un banco inicial que luego el docente depura y valida (MacNeil et al., 2022).</p>
+                <p>Si bien estos trabajos se centran en el desempeño del modelo como “estudiante”, sus hallazgos
+                    confirman que los LLM son capaces de manejar preguntas estructuradas y razonar sobre opciones de
+                    respuesta, lo que sugiere que también pueden apoyar la generación de reactivos cuando se orientan
+                    adecuadamente mediante prompts. Investigaciones sobre generación automática de materiales con LLM
+                    señalan que, al pedir explícitamente preguntas de diferentes niveles (recordar, comprender, aplicar,
+                    analizar), se puede obtener un banco inicial que luego el docente depura y valida (MacNeil et al.,
+                    2022).</p>
 
-            <p>La recomendación que surge de estos estudios es clara: la IA puede acelerar la creación de bancos de
-                preguntas, pero la revisión humana es imprescindible para:</p>
-            <ul style="margin-bottom: 2rem; padding-left: 2rem; color: #4A5568;">
-                <li>asegurar que cada ítem mida realmente el objetivo propuesto;</li>
-                <li>evitar errores conceptuales o ambigüedades;</li>
-                <li>y ajustar el lenguaje y el contexto a la realidad de los estudiantes.</li>
-            </ul>
+                <p>La recomendación que surge de estos estudios es clara: la IA puede acelerar la creación de bancos de
+                    preguntas, pero la revisión humana es imprescindible para:</p>
+                <ul class="content-list">
+                    <li>asegurar que cada ítem mida realmente el objetivo propuesto;</li>
+                    <li>evitar errores conceptuales o ambigüedades;</li>
+                    <li>y ajustar el lenguaje y el contexto a la realidad de los estudiantes.</li>
+                </ul>
 
-            <p>En el contexto de este módulo, esto se traduce en usar un LLM, a través de bots y asistentes, para
-                generar borradores de preguntas distribuidas por niveles Bloom/Webb, y luego utilizar una lista de
-                cotejo docente para verificar calidad, alineación curricular y ausencia de sesgos.</p>
+                <p>En el contexto de este módulo, esto se traduce en usar un LLM, a través de bots y asistentes, para
+                    generar borradores de preguntas distribuidas por niveles Bloom/Webb, y luego utilizar una lista de
+                    cotejo docente para verificar calidad, alineación curricular y ausencia de sesgos.</p>
+            </section>
 
-            <h2>Diseño de rúbricas y listas de cotejo con apoyo de IA</h2>
-            <p>Además de preguntas, los docentes necesitan rúbricas y listas de cotejo para evaluar tareas, proyectos y
-                productos auténticos. La construcción de rúbricas analíticas requiere identificar criterios, niveles de
-                desempeño y descriptores claros, lo que demanda tiempo y precisión. Algunos estudios sobre el uso de
-                ChatGPT en evaluación señalan que este bot basado en LLM puede ayudar a generar borradores de rúbricas a
-                partir de una descripción de la tarea, los objetivos de aprendizaje y ejemplos de productos esperados
-                (Lund & Wang, 2023).</p>
+            <section class="text-section" aria-labelledby="rubricas-title">
+                <h2 id="rubricas-title" class="section-title">Diseño de rúbricas y listas de cotejo con apoyo de IA</h2>
+                <p>Además de preguntas, los docentes necesitan rúbricas y listas de cotejo para evaluar tareas,
+                    proyectos y productos auténticos. La construcción de rúbricas analíticas requiere identificar
+                    criterios, niveles de desempeño y descriptores claros, lo que demanda tiempo y precisión. Algunos
+                    estudios sobre el uso de ChatGPT en evaluación señalan que este bot basado en LLM puede ayudar a
+                    generar borradores de rúbricas a partir de una descripción de la tarea, los objetivos de aprendizaje
+                    y ejemplos de productos esperados (Lund &amp; Wang, 2023).</p>
 
-            <p>Revisiones recientes sobre IA generativa en educación destacan que estos sistemas son particularmente
-                útiles para transformar criterios generales en descriptores de desempeño más detallados y comprensibles
-                para los estudiantes (Zawacki-Richter & Kerres, 2023). Sin embargo, también advierten sobre el riesgo de
-                que la IA proponga criterios demasiado genéricos, no alineados al contexto concreto, o que refuercen
-                ciertas visiones de “buen desempeño” que no necesariamente reflejan la diversidad cultural o lingüística
-                del alumnado.</p>
+                <p>Revisiones recientes sobre IA generativa en educación destacan que estos sistemas son particularmente
+                    útiles para transformar criterios generales en descriptores de desempeño más detallados y
+                    comprensibles para los estudiantes (Zawacki-Richter &amp; Kerres, 2023). Sin embargo, también
+                    advierten sobre el riesgo de que la IA proponga criterios demasiado genéricos, no alineados al
+                    contexto concreto, o que refuercen ciertas visiones de “buen desempeño” que no necesariamente
+                    reflejan la diversidad cultural o lingüística del alumnado.</p>
 
-            <p>En la práctica, el rol del docente como “experto validador” implica:</p>
-            <ul style="margin-bottom: 2rem; padding-left: 2rem; color: #4A5568;">
-                <li>verificar que los criterios de la rúbrica correspondan directamente a los objetivos curriculares del
-                    DEPR trabajados en la lección;</li>
-                <li>ajustar el lenguaje de los descriptores al nivel de comprensión de los estudiantes;</li>
-                <li>y comprobar que la rúbrica no favorezca de manera implícita un solo estilo de expresión o una única
-                    forma de participar.</li>
-            </ul>
+                <p>En la práctica, el rol del docente como “experto validador” implica:</p>
+                <ul class="content-list">
+                    <li>verificar que los criterios de la rúbrica correspondan directamente a los objetivos curriculares
+                        del DEPR trabajados en la lección;</li>
+                    <li>ajustar el lenguaje de los descriptores al nivel de comprensión de los estudiantes;</li>
+                    <li>y comprobar que la rúbrica no favorezca de manera implícita un solo estilo de expresión o una
+                        única forma de participar.</li>
+                </ul>
 
-            <p>Los LLM pueden ofrecer diferentes versiones de una misma rúbrica (por ejemplo, una versión simplificada
-                para estudiantes y otra más técnica para uso docente), lo que puede facilitar la comunicación de
-                expectativas y la transparencia en la evaluación, siempre que se mantenga la revisión humana.</p>
+                <p>Los LLM pueden ofrecer diferentes versiones de una misma rúbrica, por ejemplo, una versión
+                    simplificada para estudiantes y otra más técnica para uso docente, lo que puede facilitar la
+                    comunicación de expectativas y la transparencia en la evaluación, siempre que se mantenga la
+                    revisión humana.</p>
+            </section>
 
-            <h2>La “Lista de Cotejo de Validación” como herramienta de control de calidad</h2>
-            <p>Dado que los LLM pueden cometer errores factuales, proponer ejemplos poco pertinentes o reproducir sesgos
-                presentes en sus datos de entrenamiento, varios autores insisten en la necesidad de establecer procesos
-                de control de calidad cuando se usan en contextos educativos (Zhao et al., 2023; Zubiaga, 2024). En este
-                módulo, esa necesidad se operacionaliza mediante una Lista de Cotejo de Validación que el docente
-                utiliza antes de autorizar cualquier recurso generado por IA para su uso con estudiantes.</p>
+            <section class="text-section" aria-labelledby="validacion-title">
+                <h2 id="validacion-title" class="section-title">La “Lista de Cotejo de Validación” como herramienta de
+                    control de calidad</h2>
+                <p>Dado que los LLM pueden cometer errores factuales, proponer ejemplos poco pertinentes o reproducir
+                    sesgos presentes en sus datos de entrenamiento, varios autores insisten en la necesidad de
+                    establecer procesos de control de calidad cuando se usan en contextos educativos (Zhao et al., 2023;
+                    Zubiaga, 2024). En este módulo, esa necesidad se operacionaliza mediante una <strong>Lista de Cotejo
+                        de Validación</strong> que el docente utiliza antes de autorizar cualquier recurso generado por
+                    IA para su uso con estudiantes.</p>
 
-            <p>La literatura sobre IA en educación sugiere criterios recurrentes para este tipo de validación:</p>
+                <p>La literatura sobre IA en educación sugiere criterios recurrentes para este tipo de validación:</p>
 
-            <div class="validation-grid">
-                <!-- Exactitud Factual -->
-                <div class="validation-item-card">
-                    <div class="v-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m9 11 3 3L22 4" />
-                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                        </svg>
-                    </div>
-                    <h4 class="v-card-title">Exactitud factual</h4>
-                    <p class="v-card-text">Comprobar fechas, datos, definiciones y procedimientos con fuentes confiables
-                        para evitar "alucinaciones" de la IA.</p>
+                <div class="validation-grid">
+                    <article class="validation-item-card">
+                        <div class="v-card-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                                <path d="m9 11 3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                        </div>
+                        <h3 class="v-card-title">Exactitud factual</h3>
+                        <p class="v-card-text">Comprobar fechas, datos, definiciones y procedimientos con fuentes
+                            confiables para evitar alucinaciones de la IA.</p>
+                    </article>
+
+                    <article class="validation-item-card">
+                        <div class="v-card-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                                <path d="M2 20h20"></path>
+                                <path d="m5 16 3-3 3 3"></path>
+                                <path d="m13 16 3-3 3 3"></path>
+                                <path d="M11 7a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2Z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="v-card-title">Nivel de complejidad adecuado</h3>
+                        <p class="v-card-text">Revisar que el texto, pregunta o rúbrica estén en un rango de dificultad
+                            apropiado al grado. Los modelos a veces producen materiales demasiado complejos o
+                            excesivamente simplificados si no se les guía adecuadamente.</p>
+                    </article>
+
+                    <article class="validation-item-card">
+                        <div class="v-card-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path>
+                                <path d="M8 11h8"></path>
+                                <path d="M12 7v8"></path>
+                            </svg>
+                        </div>
+                        <h3 class="v-card-title">Pertinencia cultural y contextual</h3>
+                        <p class="v-card-text">Asegurar que los ejemplos, nombres y situaciones sean respetuosos y
+                            relevantes para el contexto puertorriqueño y la comunidad escolar específica.</p>
+                    </article>
+
+                    <article class="validation-item-card">
+                        <div class="v-card-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3 class="v-card-title">Sesgos y equidad</h3>
+                        <p class="v-card-text">Identificar posibles estereotipos o representaciones desequilibradas en
+                            los ejemplos, consignas o criterios de evaluación. Este punto se vincula directamente con
+                            las discusiones sobre sesgo algorítmico trabajadas en el Módulo 1.</p>
+                    </article>
                 </div>
 
-                <!-- Nivel de Complejidad -->
-                <div class="validation-item-card">
-                    <div class="v-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 20h20" />
-                            <path d="m5 16 3-3 3 3" />
-                            <path d="m13 16 3-3 3 3" />
-                            <path d="M11 7a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2Z" />
-                        </svg>
-                    </div>
-                    <h4 class="v-card-title">Nivel de complejidad adecuado</h4>
-                    <p class="v-card-text">Revisar que el texto o la rúbrica estén en un rango de dificultad apropiado
-                        al grado. Los modelos a veces producen materiales demasiado complejos o excesivamente
-                        simplificados (Kew et al., 2023; Ortega et al., 2023).</p>
+                <div class="highlight-box">
+                    <p>Autores que analizan el uso de IA generativa en educación coinciden en que la combinación de
+                        herramientas como LLM con marcos de revisión sistemáticos guiados por el docente es la vía más
+                        prometedora para aprovechar el potencial de la IA sin comprometer la calidad ni la equidad
+                        educativa.</p>
                 </div>
+            </section>
 
-                <!-- Pertinencia Cultural -->
-                <div class="validation-item-card">
-                    <div class="v-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-                            <path d="M8 11h8" />
-                            <path d="M12 7v8" />
-                        </svg>
-                    </div>
-                    <h4 class="v-card-title">Pertinencia cultural y contextual</h4>
-                    <p class="v-card-text">Asegurar que los ejemplos, nombres y situaciones sean respetuosos y
-                        relevantes para el contexto puertorriqueño y la comunidad escolar específica.</p>
-                </div>
-
-                <!-- Sesgos y Equidad -->
-                <div class="validation-item-card">
-                    <div class="v-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        </svg>
-                    </div>
-                    <h4 class="v-card-title">Sesgos y equidad</h4>
-                    <p class="v-card-text">Identificar estereotipos o representaciones desequilibradas en las consignas;
-                        este punto se vincula con las discusiones sobre sesgo algorítmico del Módulo 1.</p>
-                </div>
-            </div>
-
-            <section class="slider-section">
+            <section class="slider-section" aria-labelledby="conceptos-title">
                 <div class="slider-header">
-                    <h2>Conceptos a Repasar</h2>
+                    <h2 id="conceptos-title">Conceptos a repasar</h2>
                     <div class="slider-controls">
-                        <button class="control-btn" id="prevSlide" aria-label="Concepto anterior">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                        </button>
-                        <button class="control-btn" id="nextSlide" aria-label="Siguiente concepto">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m9 18 6-6-6-6" />
-                            </svg>
-                        </button>
+                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
+                        <button class="control-btn" type="button" id="nextBtn"
+                            aria-label="Concepto siguiente">→</button>
                     </div>
                 </div>
 
                 <div class="slider-container">
                     <div class="slider-track" id="sliderTrack">
-                        <div class="slider-item">
+                        <article class="slider-item" aria-label="Concepto: Simplificación automática de textos con LLM">
                             <h3>Simplificación automática de textos con LLM</h3>
-                            <p>proceso de transformación en el que un modelo de lenguaje grande reescribe un texto
-                                complejo para hacerlo más fácil de leer y comprender, manteniendo su significado
-                                esencial y la información clave. Este proceso suele implicar reducir la complejidad
-                                léxica (sustituir vocabulario difícil), simplificar la sintaxis (dividir oraciones
-                                largas, eliminar estructuras subordinadas complejas) y ajustar el nivel de lectura a un
-                                grado escolar o perfil de lector específico, lo que resulta especialmente útil para
-                                educación diferenciada, aprendices de segunda lengua y públicos con baja alfabetización.
-                            </p>
-                            <span class="concept-ref">Ref: Xiaojun Wan; Automatic Text Simplification. Computational
-                                Linguistics 2018; 44 (4): 659–661. doi: https://doi.org/10.1162/coli_r_00332.</span>
-                            <span class="concept-ref">Ref: Al-Thanyyan, S. S., & Azmi, A. M. (2021). Automated text
-                                simplification. ACM Computing Surveys, 54(2), 1–36.
-                                https://doi.org/10.1145/3442695.</span>
-                        </div>
-                        <div class="slider-item">
+                            <p>La simplificación automática de textos con LLM es un proceso de transformación en el que
+                                un modelo de lenguaje grande reescribe un texto complejo para hacerlo más fácil de leer
+                                y comprender, manteniendo su significado esencial y la información clave. Este proceso
+                                suele implicar reducir la complejidad léxica, simplificar la sintaxis y ajustar el nivel
+                                de lectura a un grado escolar o perfil de lector específico, lo que resulta
+                                especialmente útil para educación diferenciada, aprendices de segunda lengua y públicos
+                                con baja alfabetización.</p>
+                            <small>Xiaojun Wan; Automatic Text Simplification. Computational Linguistics 2018; 44(4),
+                                659–661. Al-Thanyyan, S. S., &amp; Azmi, A. M. (2021). Automated text simplification.
+                                ACM Computing Surveys, 54(2), 1–36.</small>
+                        </article>
+
+                        <article class="slider-item" aria-label="Concepto: Taxonomía de Bloom">
                             <h3>Taxonomía de Bloom</h3>
-                            <p>Marco jerárquico que clasifica los objetivos educativos según la complejidad de los
-                                procesos de aprendizaje en tres dominios: cognitivo (procesos intelectuales), afectivo
-                                (actitudes y valores) y psicomotor (habilidades físicas). En su revisión más utilizada
-                                en el ámbito cognitivo, organiza las metas desde habilidades de menor a mayor
-                                complejidad: recordar, comprender, aplicar, analizar, evaluar y crear, ofreciendo a los
-                                docentes una estructura para diseñar resultados de aprendizaje, actividades y
-                                evaluaciones alineadas.</p>
-                            <span class="concept-ref">Ref: Krathwohl, D. R. (2002). A revision of Bloom’s taxonomy: An
-                                overview. Theory Into Practice, 41(4), 212–218.
-                                https://doi.org/10.1207/s15430421tip4104_2.</span>
-                        </div>
-                        <div class="slider-item">
-                            <h3>Profundidad de Conocimiento (Webb)</h3>
-                            <p>Marco que clasifica las tareas educativas según su complejidad cognitiva, es decir, el
-                                tipo y la profundidad de pensamiento que requieren más que su dificultad superficial.
-                                Distingue cuatro niveles: recuerdo y reproducción (recordar hechos y procedimientos),
-                                habilidades y conceptos (explicar, interpretar, aplicar procedimientos), pensamiento
-                                estratégico (razonar, justificar, planificar usando evidencia) y pensamiento extendido
-                                (investigar, sintetizar información de múltiples fuentes y desarrollar productos
-                                complejos). Se utiliza para alinear estándares, instrucción y evaluación, y para diseñar
-                                ítems y actividades con el rigor cognitivo adecuado.</p>
-                            <span class="concept-ref">Ref: Advisors, L. E. (2025, November 1). Webb's Depth of
-                                Knowledge: A Framework for Deeper Learning. LearnButWhy.
-                                https://www.learnbutwhy.com/guide/webbs-depth-of-knowledge.</span>
-                        </div>
-                        <div class="slider-item">
-                            <h3>Bancos de Reactivos IA</h3>
-                            <p>Conjuntos estructurados y organizados de ítems de evaluación (preguntas, problemas,
-                                casos, etc.) que se producen de manera automatizada o semiautomatizada mediante modelos
-                                de inteligencia artificial a partir de currículos, temarios, textos fuente o estándares
-                                de aprendizaje. Estos bancos suelen incluir metadatos técnicos por ítem (objetivo o
-                                estándar asociado, nivel cognitivo, tipo de pregunta, dificultad estimada,
-                                discriminación, entre otros) y pueden actualizarse dinámicamente en función del
-                                desempeño de los estudiantes y del análisis estadístico de los resultados, lo que
-                                permite calibrar y refinar el banco con enfoques como teoría de respuesta al ítem y
-                                evaluación adaptativa.</p>
-                            <span class="concept-ref">Ref: Pearson. (2025, 30 de enero). Evaluaciones generadas por IA:
-                                Más allá de las pruebas tradicionales. Blog Educación del Futuro, Pearson Higher
-                                Education.
-                                https://blog.pearsonlatam.com/educacion-del-futuro/evaluaciones-generadas-por-ia-mas-alla-de-las-pruebas-tradicionales.</span>
-                        </div>
-                        <div class="slider-item">
-                            <h3>Rúbrica Analítica Asistida por IA</h3>
-                            <p>Matriz de evaluación en la que los criterios, niveles de desempeño y descriptores se
-                                generan inicialmente con ayuda de un modelo de IA (por ejemplo, un bot basado en LLM
-                                como ChatGPT) a partir de la descripción de la tarea, los objetivos de aprendizaje y el
-                                tipo de producto a evaluar. La IA propone borradores de criterios y descriptores para
-                                cada nivel, que luego el docente revisa, ajusta y valida para asegurar alineación con
-                                los resultados esperados, claridad para el estudiantado y pertinencia al contexto
-                                educativo específico.</p>
-                            <span class="concept-ref">Ref: Hashemi, H., Eisner, J., Rosset, C., Van Durme, B., & Kedzie,
-                                C. (2024, August). Llm-rubric: A multidimensional, calibrated approach to automated
-                                evaluation of natural language texts. In Proceedings of the 62nd Annual Meeting of the
-                                Association for Computational Linguistics (Volume 1: Long Papers) (pp.
-                                13806-13834).</span>
-                        </div>
-                        <div class="slider-item">
+                            <p>Taxonomía de Bloom es un marco jerárquico que clasifica los objetivos educativos según la
+                                complejidad de los procesos de aprendizaje en tres dominios: cognitivo, afectivo y
+                                psicomotor. En su revisión más utilizada en el ámbito cognitivo, organiza las metas
+                                desde habilidades de menor a mayor complejidad: recordar, comprender, aplicar, analizar,
+                                evaluar y crear, ofreciendo a los docentes una estructura para diseñar resultados de
+                                aprendizaje, actividades y evaluaciones alineadas.</p>
+                            <small>Krathwohl, D. R. (2002). A revision of Bloom’s taxonomy: An overview. Theory Into
+                                Practice, 41(4), 212–218.</small>
+                        </article>
+
+                        <article class="slider-item" aria-label="Concepto: Profundidad de conocimiento de Webb DOK">
+                            <h3>Profundidad de conocimiento de Webb (DOK)</h3>
+                            <p>La Profundidad de conocimiento de Webb es un marco que clasifica las tareas educativas
+                                según su complejidad cognitiva, es decir, el tipo y la profundidad de pensamiento que
+                                requieren más que su dificultad superficial. Distingue cuatro niveles: recuerdo y
+                                reproducción, habilidades y conceptos, pensamiento estratégico y pensamiento extendido.
+                                Se utiliza para alinear estándares, instrucción y evaluación, y para diseñar ítems y
+                                actividades con el rigor cognitivo adecuado.</p>
+                            <small>Advisors, L. E. (2025). Webb's Depth of Knowledge: A Framework for Deeper Learning.
+                                LearnButWhy.</small>
+                        </article>
+
+                        <article class="slider-item" aria-label="Concepto: Bancos de reactivos generados con IA">
+                            <h3>Bancos de reactivos generados con IA</h3>
+                            <p>Los bancos de reactivos generados con IA son conjuntos estructurados y organizados de
+                                ítems de evaluación que se producen de manera automatizada o semiautomatizada mediante
+                                modelos de inteligencia artificial a partir de currículos, temarios, textos fuente o
+                                estándares de aprendizaje. Estos bancos suelen incluir metadatos técnicos por ítem y
+                                pueden actualizarse dinámicamente en función del desempeño de los estudiantes y del
+                                análisis estadístico de los resultados.</p>
+                            <small>Pearson. (2025, 30 de enero). Evaluaciones generadas por IA: Más allá de las pruebas
+                                tradicionales. Blog Educación del Futuro, Pearson Higher Education.</small>
+                        </article>
+
+                        <article class="slider-item" aria-label="Concepto: Rúbrica analítica asistida por IA">
+                            <h3>Rúbrica analítica asistida por IA</h3>
+                            <p>Rúbrica analítica asistida por IA es una matriz de evaluación en la que los criterios,
+                                niveles de desempeño y descriptores se generan inicialmente con ayuda de un modelo de
+                                IA, por ejemplo, un bot basado en LLM como ChatGPT, a partir de la descripción de la
+                                tarea, los objetivos de aprendizaje y el tipo de producto a evaluar. La IA propone
+                                borradores de criterios y descriptores para cada nivel, que luego el docente revisa,
+                                ajusta y valida.</p>
+                            <small>Hashemi, H., Eisner, J., Rosset, C., Van Durme, B., &amp; Kedzie, C. (2024).
+                                Llm-rubric: A multidimensional, calibrated approach to automated evaluation of natural
+                                language texts.</small>
+                        </article>
+
+                        <article class="slider-item" aria-label="Concepto: Lista de Cotejo de Validación para IA">
                             <h3>Lista de Cotejo de Validación para IA</h3>
-                            <p>Instrumento estructurado (checklist) que el docente utiliza para evaluar sistemáticamente
-                                la calidad, pertinencia y seguridad de productos generados por IA (por ejemplo, textos,
-                                preguntas, rúbricas creadas por un bot basado en LLM) antes de usarlos en el aula. Suele
-                                incluir criterios como exactitud factual, alineación con el currículo, nivel de
-                                complejidad adecuado, pertinencia cultural, ausencia de sesgos y cumplimiento de normas
-                                de privacidad, funcionando como filtro de control de calidad dentro del enfoque de human
-                                in the loop.</p>
-                            <span class="concept-ref">Ref: Guides: WRIT 1150 Library Toolkit: Evaluating AI Generated
-                                Content. (n.d.).
-                                https://guides.library.georgetown.edu/writ1150toolkit/evaluatingai.</span>
-                        </div>
+                            <p>Lista de Cotejo de Validación para IA es un instrumento estructurado que el docente
+                                utiliza para evaluar sistemáticamente la calidad, pertinencia y seguridad de productos
+                                generados por IA antes de usarlos en el aula. Suele incluir criterios como exactitud
+                                factual, alineación con el currículo, nivel de complejidad adecuado, pertinencia
+                                cultural, ausencia de sesgos y cumplimiento de normas de privacidad, funcionando como
+                                filtro de control de calidad dentro del enfoque de human in the loop.</p>
+                            <small>Guides: WRIT 1150 Library Toolkit: Evaluating AI Generated Content. Georgetown
+                                University Library.</small>
+                        </article>
                     </div>
                 </div>
             </section>
 
-            <div class="quiz-card">
-                <h2>¡Felicidades!</h2>
-                <p style="color: white; font-size: 1.1rem;">Has culminado la lección 2.3. Ahora ves a los LLM como
-                    aliados para la inclusión y la evaluación.</p>
-                <p style="color: white; font-size: 1.1rem;">Al completar el contenido 2.3, has ampliado tu mirada sobre
-                    los LLM: ahora los ves no solo como
+            <section class="completion-card" aria-labelledby="cierre-title">
+                <span class="completion-badge">Meta alcanzada</span>
+                <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
+                <p>Has culminado la lección 2.3 del programa de formación profesional.</p>
+                <p>Al completar el contenido 2.3, has ampliado tu mirada sobre los LLM: ahora los ves no solo como
                     generadores de texto, sino como aliados para la inclusión y la evaluación, capaces de ofrecer
                     versiones diferenciadas de materiales, bancos iniciales de preguntas y borradores de rúbricas. Este
                     conocimiento fortalece tu capacidad de diseñar experiencias más accesibles y justas, manteniendo
                     siempre tu criterio profesional como filtro para garantizar calidad, equidad y pertinencia cultural.
                 </p>
-                <div class="quiz-container">
-                    <div style="position: relative; padding-bottom: 56.25%; height: 0; width: 100%;">
-                        <iframe title="Quiz práctico-LLM" frameborder="0" width="1200" height="675"
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                            src="https://view.genially.com/69add8841ea68d18517e0c0d" allowfullscreen="true"></iframe>
+            </section>
+
+            <section class="checkpoint-container" id="checkpoint" aria-labelledby="checkpoint-title">
+                <h2 id="checkpoint-title">Checkpoint de Saberes 2.3</h2>
+                <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes 2.3, una evaluación
+                    formativa breve y no punitiva centrada en cómo utilizar los LLM para apoyar la diferenciación (DUA),
+                    la generación de preguntas y rúbricas, y el uso de listas de cotejo para validar la calidad y
+                    equidad de los recursos creados con IA. Al completarlo, estarás generando evidencia de tu propio
+                    criterio profesional en torno al uso de la IA para hacer más inclusiva y rigurosa la evaluación,
+                    mostrando cómo decides qué materiales simplificados, reactivos y rúbricas son adecuados para tus
+                    estudiantes y cuáles necesitan ser ajustados o descartados.</p>
+
+                <div class="genially-frame-wrap">
+                    <div class="genially-frame-inner">
+                        <iframe title="Contenido 2.3: Quiz práctico-LLM"
+                            src="https://view.genially.com/69add8841ea68d18517e0c0d" allowfullscreen="true"
+                            scrolling="yes"></iframe>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="references-section">
-                <h3>Referencias Bibliográficas (APA 7)</h3>
+            <section class="references-section" aria-labelledby="referencias-title">
+                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas (APA 7)</h2>
                 <ul class="ref-list">
-                    <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., & Zhao, N. (2024). Early perceptions of teaching
-                        and learning using generative AI in higher education. <em>Journal of Educational Technology
-                            Systems</em>, 52(3), 346–375.</li>
-                    <li>Huang, C. Y., Wei, J., & Huang, T. H. K. (2024, May). Generating educational materials with
+                    <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., &amp; Zhao, N. (2024). Early perceptions of
+                        teaching and learning using generative AI in higher education. <em>Journal of Educational
+                            Technology Systems</em>, 52(3), 346–375.</li>
+                    <li>Huang, C. Y., Wei, J., &amp; Huang, T. H. K. (2024, May). Generating educational materials with
                         different levels of readability using LLMs. In <em>Proceedings of the Third Workshop on
                             Intelligent and Interactive Writing Assistants</em> (pp. 16–22).</li>
-                    <li>Kew, T., Chi, A., Vásquez-Rodríguez, L., Agrawal, S., Aumiller, D., Alva-Manchego, F., &
+                    <li>Kew, T., Chi, A., Vásquez-Rodríguez, L., Agrawal, S., Aumiller, D., Alva-Manchego, F., &amp;
                         Shardlow, M. (2023). BLESS: Benchmarking large language models on sentence simplification.
-                        <em>arXiv preprint arXiv:2310.15773</em>.
-                    </li>
-                    <li>Lund, B. D., & Wang, T. (2023). Chatting about ChatGPT: How may AI and GPT impact academia and
-                        libraries. <em>Minds and Machines</em>, 30, 681–694. <a
-                            href="https://doi.org/10.1108/LHTN-01-2023-0009"
-                            target="_blank">https://doi.org/10.1108/LHTN-01-2023-0009</a></li>
-                    <li>MacNeil, S., Tran, A., Leinonen, J., Denny, P., Kim, J., Hellas, A., ... & Sarsa, S. (2022).
-                        Automatically generating CS learning materials with large language models. <em>arXiv preprint
-                            arXiv:2212.05113</em>.</li>
+                        <em>arXiv preprint</em> arXiv:2310.15773.</li>
+                    <li>Lund, B. D., &amp; Wang, T. (2023). Chatting about ChatGPT: How may AI and GPT impact academia
+                        and libraries. <em>Minds and Machines</em>, 30, 681–694.
+                        https://doi.org/10.1108/LHTN-01-2023-0009</li>
+                    <li>MacNeil, S., Tran, A., Leinonen, J., Denny, P., Kim, J., Hellas, A., ... &amp; Sarsa, S. (2022).
+                        Automatically generating CS learning materials with large language models. <em>arXiv
+                            preprint</em> arXiv:2212.05113.</li>
                     <li>Madrid-García, A., Rosales-Rosado, Z., Freites-Nuñez, D., Pérez-Sancristóbal, I., Pato-Cour, E.,
-                        Plasencia-Rodríguez, C., ... & Rodríguez-Rodríguez, L. (2023). Harnessing ChatGPT and GPT-4 for
-                        evaluating the rheumatology questions of the Spanish access exam to specialized medical
+                        Plasencia-Rodríguez, C., ... &amp; Rodríguez-Rodríguez, L. (2023). Harnessing ChatGPT and GPT-4
+                        for evaluating the rheumatology questions of the Spanish access exam to specialized medical
                         training. <em>Scientific Reports</em>, 13(1), 22129.</li>
-                    <li>Rao, K., Gravel, J. W., Rose, D. H., & Tucker-Smith, T. N. (2023). Universal Design for Learning
-                        in its 3rd decade: A focus on equity, inclusion, and design. <em>International Encyclopedia of
-                            Education</em>, 6, 712–720.</li>
-                    <li>Valentini, M., Weber, J., Salcido, J., Wright, T., Colunga, E., & Kann, K. (2023). On the
-                        automatic generation and simplification of children's stories. <em>arXiv preprint
-                            arXiv:2310.18502</em>.</li>
-                    <li>Waisberg, E., Ong, J., Masalkhi, M., Zaman, N., Kamran, S. A., Sarker, P., ... & Tavakkoli, A.
-                        (2023). ChatGPT and medical education: A new frontier for emerging physicians. <em>Canadian
+                    <li>Rao, K., Gravel, J. W., Rose, D. H., &amp; Tucker-Smith, T. N. (2023). Universal Design for
+                        Learning in its 3rd decade: A focus on equity, inclusion, and design. <em>International
+                            Encyclopedia of Education</em>, 6, 712–720.</li>
+                    <li>Valentini, M., Weber, J., Salcido, J., Wright, T., Colunga, E., &amp; Kann, K. (2023). On the
+                        automatic generation and simplification of children's stories. <em>arXiv preprint</em>
+                        arXiv:2310.18502.</li>
+                    <li>Waisberg, E., Ong, J., Masalkhi, M., Zaman, N., Kamran, S. A., Sarker, P., ... &amp; Tavakkoli,
+                        A. (2023). ChatGPT and medical education: A new frontier for emerging physicians. <em>Canadian
                             Medical Education Journal</em>, 14(6), 128.</li>
-                    <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... & Wen, J. R. (2023). A survey of
-                        large language models. <em>arXiv preprint arXiv:2303.18223</em>, 1(2).</li>
-                    <li>Zubiaga, A. (2024). Natural language processing in the era of large language models.
-                        <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.
+                    <li>Zawacki-Richter, O., &amp; Kerres, M. (2023). Generative AI in education: Opportunities,
+                        challenges and policy implications. <em>Educational Technology Research and Development</em>.
                     </li>
+                    <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023). A
+                        survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223, 1(2).</li>
+                    <li>Zubiaga, A. (2024). Natural language processing in the era of large language models.
+                        <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.</li>
                 </ul>
-            </div>
+            </section>
 
-            <div class="nav-footer">
-                <a href="leccion2_2.html" class="btn-footer btn-prev">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                    </svg>
-                    Lección 2.2
-                </a>
-                <a href="actividad2_1.html" class="btn-footer btn-next">
-                    Ir a la Actividad 2.1
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </a>
-            </div>
-        </div>
+            <nav class="footer-nav" aria-label="Navegación de lecciones">
+                <a href="leccion2_2.html" class="btn-footer btn-back">← Volver a la Lección 2.2</a>
+                <a href="actividad2_1.html" class="btn-footer btn-next">Ir a Actividad 2.1 →</a>
+            </nav>
+        </article>
     </main>
 
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+        function resolveAssetPath(img) {
+            const fileName = img.dataset.asset;
+            if (!fileName) return;
+
+            const candidates = [
+                `assets/${fileName}`,
+                `./assets/${fileName}`,
+                `../assets/${fileName}`,
+                `/assets/${fileName}`
+            ];
+
+            let index = 0;
+            img.onerror = () => {
+                if (index < candidates.length) {
+                    img.src = candidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen: ${fileName}`);
+                }
+            };
+
+            img.src = candidates[index];
+            index += 1;
         }
+
+        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         let currentSlide = 0;
-        const track = document.getElementById('sliderTrack');
-        const nextBtn = document.getElementById('nextSlide');
-        const prevBtn = document.getElementById('prevSlide');
+        const sliderTrack = document.getElementById('sliderTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
 
         function updateSlider() {
-            const slides = document.querySelectorAll('.slider-item');
-            if (!slides.length) return;
-            const slideWidth = slides[0].offsetWidth;
-            const gap = 40;
-            track.style.transform = `translateX(-${currentSlide * (slideWidth + gap)}px)`;
-
-            prevBtn.style.opacity = currentSlide === 0 ? "0.3" : "1";
-            prevBtn.style.pointerEvents = currentSlide === 0 ? "none" : "auto";
-            nextBtn.style.opacity = currentSlide === slides.length - 1 ? "0.3" : "1";
-            nextBtn.style.pointerEvents = currentSlide === slides.length - 1 ? "none" : "auto";
+            if (!sliderTrack || !prevBtn || !nextBtn) return;
+            const totalSlides = sliderTrack.children.length;
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide >= totalSlides - 1;
         }
 
-        nextBtn.addEventListener('click', () => {
-            const slides = document.querySelectorAll('.slider-item');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                updateSlider();
-            }
-        });
+        function moveSlider(direction) {
+            if (!sliderTrack) return;
+            const totalSlides = sliderTrack.children.length;
+            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
+            updateSlider();
+        }
 
-        prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlider();
-            }
-        });
-
+        prevBtn?.addEventListener('click', () => moveSlider(-1));
+        nextBtn?.addEventListener('click', () => moveSlider(1));
         window.addEventListener('resize', updateSlider);
-        document.addEventListener('DOMContentLoaded', updateSlider);
 
-        // LÓGICA WIDGET DIFERENCIACIÓN
-        const diffVersions = {
+        const diffOutputs = {
             basic: {
-                tag: "Versión Simplificada",
-                content: "<h3>Los Manglares de Nuestra Isla</h3><p>Los manglares son árboles que crecen en las costas de Puerto Rico. Son muy importantes porque protegen nuestras playas de las olas grandes y el viento fuerte durante las tormentas. También ayudan a que la tierra no se lave con el mar y mantienen el aire limpio.</p><ul><li>Protección de costas</li><li>Hogar de peces</li></ul>"
+                tag: 'Nivel básico',
+                title: 'Versión simplificada',
+                html: '<p>Los manglares son árboles que crecen cerca del mar. En Puerto Rico, ayudan a proteger las costas cuando hay oleaje fuerte o tormentas. También sirven de hogar para muchos animales y ayudan a cuidar el ambiente.</p><ul class="content-list"><li>Protegen la costa.</li><li>Dan hogar a animales.</li><li>Ayudan a limpiar y cuidar el ambiente.</li></ul>'
             },
             intermediate: {
-                tag: "Versión Estándar",
-                content: "<h3>Importancia de los Manglares Costeros</h3><p>En Puerto Rico, los manglares funcionan como defensas naturales. Estos bosques en la costa ayudan a detener la erosión (cuando el mar se lleva la tierra) y reducen el golpe de las olas durante los huracanes. Además, capturan el exceso de carbono del aire, ayudando contra el cambio climático.</p>"
+                tag: 'Nivel intermedio',
+                title: 'Versión con vocabulario moderado',
+                html: '<p>Los manglares de las costas de Puerto Rico son ecosistemas muy importantes. Actúan como barreras naturales que reducen la erosión y protegen las comunidades costeras del impacto de marejadas. Además, son hábitat para muchas especies y almacenan carbono, lo que contribuye al equilibrio ambiental.</p>'
             },
             advanced: {
-                tag: "Versión de Extensión",
-                content: "<h3>Manglares: Barreras Biosalinas y Sumideros de Carbono</h3><p>Los ecosistemas de manglar en el archipiélago puertorriqueño representan una infraestructura verde vital. Más allá de su valor estético, su compleja red de raíces disipa la energía cinética de las marejadas ciclónicas. Es fundamental analizar su rol como sumideros de carbono de 'tipo azul', cuya capacidad de secuestro supera a la de muchos bosques terrestres.</p>"
+                tag: 'Nivel avanzado',
+                title: 'Versión para análisis crítico',
+                html: '<p>Los manglares costeros de Puerto Rico cumplen funciones ecológicas estratégicas: mitigan la erosión, amortiguan el impacto de marejadas ciclónicas, sostienen biodiversidad y almacenan carbono. Analiza cómo la pérdida de manglares podría afectar la seguridad de las comunidades costeras, la biodiversidad local y la resiliencia climática de la isla.</p>'
             },
             dua: {
-                tag: "Apoyo DUA / Educación Especial",
-                content: "<h3>¡Conoce el Manglar!</h3><p>El <b>Manglar</b> es un bosque cerca del mar. Ayuda a Puerto Rico.</p><p><b>Palabras Clave:</b></p><ul><li><b>Barrera:</b> Algo que protege (como un escudo).</li><li><b>Costas:</b> La orilla del mar.</li><li><b>Sumidero:</b> Lugar que guarda algo (guarda aire limpio).</li></ul>"
+                tag: 'Apoyo DUA / ESL',
+                title: 'Versión con glosario y apoyo visual',
+                html: '<p><strong>Idea principal:</strong> Los manglares protegen las costas de Puerto Rico y sirven de hogar para plantas y animales.</p><ul class="content-list"><li><strong>Manglar:</strong> árbol o bosque que crece cerca del mar.</li><li><strong>Erosión:</strong> cuando el agua o el viento desgastan la tierra.</li><li><strong>Biodiversidad:</strong> variedad de seres vivos en un lugar.</li><li><strong>Sumidero de carbono:</strong> espacio natural que guarda carbono y ayuda al ambiente.</li></ul><p><strong>Apoyo visual sugerido:</strong> mapa de Puerto Rico con zonas de manglares y una imagen de una costa protegida.</p>'
             }
         };
 
-        function transformContent(type, btn) {
-            document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function transformContent(type, button) {
+            const outputArea = document.getElementById('outputArea');
+            const outputContent = document.getElementById('outputContent');
+            const data = diffOutputs[type];
+            if (!outputArea || !outputContent || !data) return;
 
-            const output = document.getElementById('outputArea');
-            const content = document.getElementById('outputContent');
+            document.querySelectorAll('.diff-btn').forEach((btn) => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
 
-            output.classList.add('loading');
-            content.style.opacity = '0';
+            button.classList.add('active');
+            button.setAttribute('aria-pressed', 'true');
+            outputArea.classList.add('loading');
+            outputContent.style.opacity = '0';
 
-            setTimeout(() => {
-                output.classList.remove('loading');
-                content.style.opacity = '1';
-
-                const data = diffVersions[type];
-                content.innerHTML = `
-                    <span class="diff-tag ${type === 'dua' ? 'tag-dua' : 'tag-level'}">${data.tag}</span>
-                    ${data.content}
+            window.setTimeout(() => {
+                outputContent.innerHTML = `
+                    <span class="diff-tag">${data.tag}</span>
+                    <h3>${data.title}</h3>
+                    ${data.html}
                 `;
-            }, 600);
+                outputContent.style.opacity = '1';
+                outputArea.classList.remove('loading');
+            }, 260);
         }
 
-        // Carga inicial del widget
         document.addEventListener('DOMContentLoaded', () => {
-            const firstBtn = document.querySelector('.diff-btn');
-            if (firstBtn) transformContent('basic', firstBtn);
+            updateSlider();
+            const firstDiffButton = document.querySelector('.diff-btn.active');
+            if (firstDiffButton) transformContent('basic', firstDiffButton);
         });
     </script>
 </body>

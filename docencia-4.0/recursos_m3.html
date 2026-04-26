@@ -4,603 +4,1113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Recursos didácticos del Módulo 3 de Docencia 4.0: plantillas administrativas, videos de apoyo, infografías, bibliografía y materiales complementarios sobre evaluación, gestión docente, privacidad y uso responsable de IA.">
+    <meta name="keywords"
+        content="Docencia 4.0, Recursos Módulo 3, IA educativa, evaluación formativa, privacidad estudiantil, IEP, PEI, LLM, bibliografía, Genially">
     <title>Recursos Didácticos Módulo 3 | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
+
     <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
         * {
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #00C2FF;
-            --secondary: #FF8D5C;
-            --tertiary: #FF9E2A;
-            --neutral-dark: #0A192F;
-            --primary-gradient: linear-gradient(135deg, #0056b3 0%, #00a1ff 100%);
-            --accent-gradient: linear-gradient(135deg, #FF8D5C 0%, #FF9E2A 100%);
-            --bg-soft: #F1F8FF;
-            --nav-height: 80px;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: var(--bg-soft);
-            color: var(--neutral-dark);
-            line-height: 1.8;
-            font-family: 'Manrope', sans-serif;
-            padding-top: var(--nav-height);
             margin: 0;
+            padding-top: var(--nav-height);
             overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
         }
 
-        h1,
-        h2,
-        h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            margin-top: 0;
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
         }
 
-        /* NAVBAR */
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
         .top-nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            z-index: 1000;
             height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(0, 194, 255, 0.1);
+            min-height: var(--nav-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
-            z-index: 1000;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: var(--spacing-sm);
+            min-width: 0;
         }
 
         .logo-container img {
-            height: 48px;
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .module-title-nav {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-left: 2px solid var(--primary);
-            padding-left: 20px;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -340px;
-            width: 320px;
-            height: 100vh;
-            background: var(--neutral-dark);
-            color: white;
-            transition: left 0.4s ease;
-            z-index: 2000;
-            padding: 40px 30px;
-        }
-
-        .sidebar.active {
-            left: 0;
-            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.6);
-            display: none;
-            z-index: 1999;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .menu-btn {
-            background: rgba(0, 194, 255, 0.1);
-            border: 1px solid rgba(0, 194, 255, 0.2);
-            padding: 12px;
-            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
             cursor: pointer;
-            color: var(--primary);
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .btn-resource:focus-visible,
+        .btn-biblio:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible,
+        .video-wrapper iframe:focus-visible,
+        .genially-frame-inner iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
         }
 
         .menu-links {
             list-style: none;
-            padding: 20px 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
         }
 
         .menu-links a {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.7);
-            padding: 14px 20px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
         }
 
         .menu-links a.active {
-            background: var(--primary);
-            color: var(--neutral-dark);
-            font-weight: 800;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
         }
 
-        /* CONTENT WRAPPER */
+        /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
-            margin: 40px auto 100px;
-            padding: 0 25px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
         }
 
         .lesson-card {
-            background: white;
-            border-radius: 35px;
-            padding: 4.5rem;
-            box-shadow: 0 20px 60px rgba(10, 25, 47, 0.04);
-            border: 1px solid rgba(0, 194, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
         }
 
-        /* RESOURCE SECTIONS */
+        .page-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .page-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .page-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .page-intro {
+            max-width: 860px;
+            margin-bottom: var(--spacing-16);
+            font-size: var(--font-size-base);
+        }
+
         .resource-section {
-            margin-bottom: 5rem;
+            margin-bottom: var(--spacing-16);
         }
 
         .resource-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 2.5rem;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
         }
 
         .resource-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 194, 255, 0.1);
-            border-radius: 15px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            font-size: 1.5rem;
+            flex: 0 0 56px;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
         }
 
-        /* REPLICATED DESIGN FROM M1 */
+        .section-title {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
         .resource-card {
-            background: #F8FBFF;
-            padding: 2rem;
-            border-radius: 25px;
-            border: 1px solid rgba(0, 194, 255, 0.05);
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .resource-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.1);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
         }
 
-        .resource-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            -webkit-text-fill-color: var(--neutral-dark);
-            background: none;
-            font-weight: 800;
+        .resource-card h3,
+        .info-card h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
-        /* VIDEO WRAPPER */
+        .resource-instruction {
+            margin-top: var(--spacing-lg);
+            color: var(--color-text-display);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .genially-frame-wrap,
         .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            /* 16:9 */
-            height: 0;
-            border-radius: 20px;
+            width: 100%;
             overflow: hidden;
-            background: black;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-card-inverse, #000);
+            box-shadow: var(--shadow-ambient);
         }
 
-        .video-wrapper iframe {
+        .genially-frame-inner,
+        .video-frame-inner {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+        }
+
+        .genially-frame-inner iframe,
+        .video-frame-inner iframe {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            border: 0;
         }
 
-        .youtube-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: opacity 0.3s;
-        }
-
-        .youtube-link:hover {
-            opacity: 0.8;
-        }
-
-        /* INTERACTIVE WRAPPER */
-        .interactive-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 45px rgba(10, 25, 47, 0.1);
-            background: #f8fbff;
-            margin-top: 20px;
-        }
-
-        .interactive-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* IMPROVED INFOGRAPHIC CARD */
+        .videos-grid,
         .infographics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .youtube-link,
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+        }
+
+        .youtube-link:hover,
+        .resource-link:hover {
+            text-decoration: underline;
         }
 
         .info-card {
-            background: white;
-            border-radius: 30px;
-            padding: 2rem;
-            border: 1px solid #edf2f7;
-            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.03);
-            transition: all 0.4s ease;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(0, 194, 255, 0.15);
-            border-color: var(--primary);
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
         }
 
+        .image-zoom-trigger,
         .info-img-container {
+            display: block;
             width: 100%;
-            border-radius: 20px;
+            padding: 0;
+            margin: var(--spacing-md) 0;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            margin: 15px 0;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
             cursor: zoom-in;
-            border: 1px solid #f1f5f9;
+            box-shadow: var(--shadow-flat);
         }
 
+        .image-zoom-trigger img,
         .info-img-container img {
             width: 100%;
             display: block;
-            transition: transform 0.5s ease;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
+        .image-zoom-trigger:hover img,
         .info-img-container:hover img {
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
-        .btn-download-img {
-            display: flex;
+        .info-description {
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .btn-resource,
+        .btn-biblio {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            background: var(--primary);
-            color: white;
-            padding: 14px;
-            border-radius: 15px;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-align: center;
             text-decoration: none;
-            font-weight: 700;
-            margin-top: 15px;
-            transition: background 0.3s;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-download-img:hover {
-            background: #0099cc;
+        .btn-resource:hover,
+        .btn-biblio:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
         }
 
-        /* BIBLIO LIST */
+        .btn-resource.is-primary,
+        .btn-biblio-pdf {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+        }
+
+        .btn-biblio-web {
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            border-color: var(--color-border-default);
+        }
+
         .biblio-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
         }
 
         .biblio-item {
-            background: #fff;
-            padding: 30px;
-            border-radius: 25px;
-            border: 1px solid #edf2f7;
-            transition: all 0.3s;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .biblio-item:hover {
-            border-color: var(--primary);
-            background: #F8FBFF;
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.08);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
         }
 
         .biblio-tag {
             display: inline-block;
-            padding: 4px 12px;
-            background: rgba(0, 194, 255, 0.1);
-            color: var(--primary);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            width: fit-content;
+            padding: var(--spacing-1) var(--spacing-3);
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
         }
 
-        /* MODAL */
-        #zoomModal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.95);
-            backdrop-filter: blur(10px);
-            justify-content: center;
-            align-items: center;
+        .biblio-title {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
-        #zoomImg {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 20px;
-            box-shadow: 0 0 100px rgba(0, 194, 255, 0.3);
+        .biblio-citation {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
         }
 
-        /* FOOTER NAV */
+        .biblio-summary {
+            padding-top: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .biblio-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+
         .footer-nav {
             display: flex;
-            justify-content: center;
-            margin-top: 6rem;
-            padding-top: 4rem;
-            border-top: 1px solid #e2e8f0;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
         }
 
         .btn-footer {
-            padding: 20px 60px;
-            border-radius: 50px;
-            background: var(--primary-gradient);
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
             text-decoration: none;
-            font-weight: 700;
-            box-shadow: 0 15px 35px rgba(0, 194, 255, 0.2);
-            transition: all 0.3s;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-footer:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 45px rgba(0, 194, 255, 0.3);
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* MODAL */
+        .modal-zoom {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-6);
+            background: var(--color-alpha-black-90, rgba(0, 0, 0, 0.9));
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-overlay);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-3);
+            right: var(--spacing-3);
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-90);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card,
+            .resource-card,
+            .info-card,
+            .biblio-item {
+                padding: var(--spacing-xl);
+            }
         }
 
         @media (max-width: 768px) {
-            .lesson-card {
-                padding: 2.5rem;
+            .page-title {
+                font-size: var(--font-size-3xl);
             }
 
-            .infographics-grid {
-                grid-template-columns: 1fr;
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .resource-header {
+                align-items: flex-start;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .resource-card,
+            .info-card,
+            .biblio-item {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
             }
         }
     </style>
 </head>
 
 <body>
-    <nav class="top-nav">
+    <nav class="top-nav" aria-label="Navegación superior de recursos">
         <div class="nav-left">
-            <button class="menu-btn" onclick="toggleSidebar()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
             <div class="logo-container">
-                <img src="../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0 Logo">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
             </div>
             <span class="module-title-nav">Recursos Didácticos - Módulo 3</span>
         </div>
     </nav>
 
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 3" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
         <ul class="menu-links">
-            <li><a href="dashboard.html">🏠 Dashboard</a></li>
-            <li><a href="modulo3_intro.html">📍 Inicio Módulo 3</a></li>
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 3</span></li>
+            <li><a href="modulo3_intro.html">📍 Introducción Módulo 3</a></li>
             <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
             <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
             <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
             <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
             <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
-            <li><a href="recursos_m3.html" class="active">📚 Recursos Módulo 3</a></li>
+            <li><a href="recursos_m3.html" class="active" aria-current="page">📚 Recursos Módulo 3</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">⬅️ Volver al Módulo 2</a></li>
         </ul>
-    </div>
+    </aside>
 
     <main class="content-wrapper">
-        <div class="lesson-card">
-            <h1>Recursos Didácticos y <span>Bibliografía</span></h1>
-            <p>Materiales complementarios diseñados para profundizar en la gestión administrativa y evaluativa impulsada
-                por IA.</p>
+        <article class="lesson-card" aria-labelledby="page-title">
+            <span class="page-kicker">Módulo 3 · Recursos complementarios</span>
+            <h1 id="page-title" class="page-title">Recursos Didácticos y <span>Bibliografía</span></h1>
+            <p class="page-intro">Materiales complementarios diseñados para profundizar en la gestión administrativa y
+                evaluativa impulsada por IA.</p>
 
-            <!-- SECCIÓN DE PLANTILLAS -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="plantillas-title">
                 <div class="resource-header">
-                    <div class="resource-icon">📂</div>
-                    <h2>PROMPTS: Banco de Plantillas Administrativas</h2>
+                    <div class="resource-icon" aria-hidden="true">📂</div>
+                    <h2 id="plantillas-title" class="section-title">PROMPTS: Banco de Plantillas Administrativas</h2>
                 </div>
-                <div class="resource-card" style="background: white;">
-                    <div class="interactive-wrapper">
-                        <iframe title="Prompts-Banco de plantillas administrativas"
-                            src="https://view.genially.com/6988ec0c6f18bc8243bfad4a" allowfullscreen="true"></iframe>
+
+                <div class="resource-card">
+                    <div class="genially-frame-wrap">
+                        <div class="genially-frame-inner">
+                            <iframe title="Prompts: Banco de plantillas administrativas"
+                                src="https://view.genially.com/6988ec0c6f18bc8243bfad4a" allowfullscreen="true"
+                                scrolling="yes" loading="lazy"></iframe>
+                        </div>
                     </div>
-                    <p style="margin-top:20px; font-weight:700; color:var(--neutral-dark);">💡 Instrucciones de uso:</p>
+                    <p class="resource-instruction">💡 Instrucciones de uso:</p>
                     <p>Copia los prompts del interactivo para generar borradores de cartas, minutas IEP y documentos
                         escolares en segundos.</p>
                 </div>
             </section>
 
-            <!-- SECCIÓN DE VÍDEOS (DISEÑO REPLICADO DE M1) -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="videos-title">
                 <div class="resource-header">
-                    <div class="resource-icon">🎥</div>
-                    <h2>Videos de Apoyo</h2>
+                    <div class="resource-icon" aria-hidden="true">🎥</div>
+                    <h2 id="videos-title" class="section-title">Videos de Apoyo</h2>
                 </div>
 
-                <div class="infographics-grid">
-                    <div class="resource-card">
+                <div class="videos-grid">
+                    <article class="resource-card">
                         <h3>Estrategias de Evaluación con IA</h3>
                         <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/9N1iYDHRZ14" title="Video Tutorial 1"
-                                allowfullscreen></iframe>
+                            <div class="video-frame-inner">
+                                <iframe src="https://www.youtube.com/embed/9N1iYDHRZ14"
+                                    title="Estrategias de evaluación con IA"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen loading="lazy"></iframe>
+                            </div>
                         </div>
-                        <a href="https://youtu.be/9N1iYDHRZ14" target="_blank" class="youtube-link">📺 Ver directamente
-                            en YouTube</a>
-                    </div>
+                        <a href="https://youtu.be/9N1iYDHRZ14" target="_blank" rel="noreferrer noopener"
+                            class="youtube-link">📺 Ver directamente en YouTube</a>
+                    </article>
 
-                    <div class="resource-card">
+                    <article class="resource-card">
                         <h3>Privacidad y Ética Docente</h3>
                         <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/iReedcVC1_U" title="Video Tutorial 2"
-                                allowfullscreen></iframe>
+                            <div class="video-frame-inner">
+                                <iframe src="https://www.youtube.com/embed/iReedcVC1_U"
+                                    title="Privacidad y ética docente"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen loading="lazy"></iframe>
+                            </div>
                         </div>
-                        <a href="https://youtu.be/iReedcVC1_U" target="_blank" class="youtube-link">📺 Ver directamente
-                            en YouTube</a>
-                    </div>
+                        <a href="https://youtu.be/iReedcVC1_U" target="_blank" rel="noreferrer noopener"
+                            class="youtube-link">📺 Ver directamente en YouTube</a>
+                    </article>
                 </div>
             </section>
 
-            <!-- SECCIÓN DE INFOGRAFÍAS (MEJORADA) -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="infografias-title">
                 <div class="resource-header">
-                    <div class="resource-icon">🛡️</div>
-                    <h2>Infografías y Visualizaciones</h2>
+                    <div class="resource-icon" aria-hidden="true">🛡️</div>
+                    <h2 id="infografias-title" class="section-title">Infografías y Visualizaciones</h2>
                 </div>
+
                 <div class="infographics-grid">
-                    <div class="info-card">
-                        <h3>Lista de cotejo de "sanitización" de datos</h3>
-                        <div class="info-img-container"
-                            onclick="openZoom('../assets/LLM_M3_Recurso_Lista-cotejo-datos_imagen.png')">
-                            <img src="../assets/LLM_M3_Recurso_Lista-cotejo-datos_imagen.png"
+                    <article class="info-card">
+                        <h3>Lista de cotejo de “sanitización” de datos</h3>
+                        <button class="info-img-container image-zoom-trigger" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar infografía de sanitización de datos">
+                            <img data-assets="LLM_M3_Recurso_Lista-cotejo-datos_imagen.png|M3_LLM_Recurso_Lista-cotejo-datos_imagen.png|LLM_M3_Recurso_Lista-cotejo-datos_imagen.jpg|M3_LLM_Recurso_Lista-cotejo-datos_imagen.jpg"
+                                src="./assets/LLM_M3_Recurso_Lista-cotejo-datos_imagen.png"
                                 alt="Lista de cotejo para sanitización de datos">
-                        </div>
-                        <p style="font-size:0.9rem; color:#64748b; margin-top:15px;">Una guía rápida para asegurar que
-                            la información sensible sea eliminada antes de interactuar con modelos de lenguaje.</p>
-                        <a href="../assets/LLM_M3_Recurso_Lista-cotejo-datos_imagen.png" download
-                            class="btn-download-img">
+                        </button>
+                        <p class="info-description">Una guía rápida para asegurar que la información sensible sea
+                            eliminada antes de interactuar con modelos de lenguaje.</p>
+                        <a href="./assets/LLM_M3_Recurso_Lista-cotejo-datos_imagen.png" download
+                            class="btn-resource is-primary">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="3">
+                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                                focusable="false">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            <span>Descargar Infografía</span>
+                            Descargar Infografía
                         </a>
-                    </div>
+                    </article>
                 </div>
             </section>
 
-            <!-- SECCIÓN DE BIBLIOGRAFÍA -->
-            <section class="resource-section">
+            <section class="resource-section" aria-labelledby="bibliografia-title">
                 <div class="resource-header">
-                    <div class="resource-icon">📚</div>
-                    <h2>Bibliografía de Referencia</h2>
+                    <div class="resource-icon" aria-hidden="true">📚</div>
+                    <h2 id="bibliografia-title" class="section-title">Bibliografía de Referencia</h2>
                 </div>
+
                 <div class="biblio-list">
-                    <div class="biblio-item">
-                        <span class="biblio-tag">Evaluación Automatizada</span>
-                        <p><em>Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring:
-                                Theory into practice. CRC Press.</em></p>
-                    </div>
+                    <article class="biblio-item">
+                        <span class="biblio-tag">Evaluación Formativa e IA</span>
+                        <h3 class="biblio-title">Generative AI in the K–12 Formative Assessment Process: Enhancing
+                            feedback in the classroom.</h3>
+                        <p class="biblio-citation">Maksimchuk, M., Roeber, E., Store, D., &amp; National Council on
+                            Measurement in Education (NCME). (2025). <em>Generative AI in the K–12 Formative Assessment
+                                Process: Enhancing feedback in the classroom</em>. In Proceedings of the Artificial
+                            Intelligence in Measurement and Education Conference (AIME-Con) – Volume 1: Full Papers (pp.
+                            107–110). https://aclanthology.org/2025.aimecon-main.12.pdf</p>
+                        <p class="biblio-summary">El documento explora el potencial de la IA generativa para extender la
+                            capacidad docente al proporcionar retroalimentación inmediata y personalizada en entornos
+                            escolares de educación básica. Subraya que la IA debe estar mediada por el juicio pedagógico
+                            humano.</p>
+                        <div class="biblio-actions">
+                            <a href="../LLM-DEPR/LLM_M3_Recurso_Articulo_Generative AI in the K–12 Formative Assessment Process-Enhancing Feedback in the Classroom.pdf"
+                                download class="btn-biblio btn-biblio-pdf">📥 Descargar PDF</a>
+                        </div>
+                    </article>
 
-                    <div class="biblio-item">
-                        <span class="biblio-tag">Ética y LLM</span>
-                        <p><em>Kolade, O., Owoseni, A., & Egbetokun, A. (2024). Is AI changing learning and assessment
-                                as we know it? Evidence from a ChatGPT experiment and a conceptual framework. Heliyon,
-                                10(4).</em></p>
-                    </div>
-
-                    <div class="biblio-item">
-                        <span class="biblio-tag">Privacidad / FERPA</span>
-                        <p><em>U.S. Department of Education. (2011). FERPA general guidance for students and parents.
-                                Student Privacy Policy Office.</em></p>
-                    </div>
-
-                    <div class="biblio-item">
-                        <span class="biblio-tag">Efectividad de la IA</span>
-                        <p><em>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning
-                                Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4),
-                                233-247.</em></p>
-                    </div>
-
-                    <div class="biblio-item">
-                        <span class="biblio-tag">Taxonomía Educativa</span>
-                        <p><em>Anderson, L. W., & Krathwohl, D. R. (Eds.). (2001). A taxonomy for learning, teaching,
-                                and assessing: A revision of Bloom’s Taxonomy of Educational Objectives. Longman.</em>
+                    <article class="biblio-item">
+                        <span class="biblio-tag">Estrategias de Evaluación</span>
+                        <h3 class="biblio-title">Formative Assessment and Artificial Intelligence: Strategies for Human
+                            and Effective Learning</h3>
+                        <p class="biblio-citation">López-García, M., &amp; Martínez-Fernández, R. (2025). <em>Evaluación
+                                formativa e inteligencia artificial: Estrategias para un aprendizaje significativo</em>.
+                            MLS Pedagogy, Culture and Innovation Journal, 5(1), 45-62.
+                            https://www.mlsjournals.com/Pedagogy-Culture-Innovation/article/view/4153</p>
+                        <p class="biblio-summary">Esta investigación analiza cómo la retroalimentación personalizada
+                            impulsada por la IA mejora el aprendizaje significativo y la motivación. Destaca la
+                            importancia de una visión integradora donde la IA funcione como herramienta complementaria.
                         </p>
-                    </div>
+                        <div class="biblio-actions">
+                            <a href="../LLM-DEPR/LLM_M3_Recurso_Articulo_Evaluación Formativa e Inteligencia Artificial Estrategias para un Aprendizaje Humano y Eficaz.pdf"
+                                download class="btn-biblio btn-biblio-pdf">📥 Descargar PDF</a>
+                        </div>
+                    </article>
+
+                    <article class="biblio-item">
+                        <span class="biblio-tag">Privacidad y Seguridad</span>
+                        <h3 class="biblio-title">ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY</h3>
+                        <p class="biblio-citation">Dutta, A. (2025). <em>ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND
+                                DATA SECURITY</em>. International Journal of Advanced Research in Computer Science,
+                            16(03), 146–151. https://doi.org/10.26483/ijarcs.v16i3.7261</p>
+                        <p class="biblio-summary">Este estudio examina la dualidad de la IA como riesgo y solución para
+                            la privacidad. Concluye que es necesario implementar marcos híbridos que combinen tecnología
+                            con supervisión humana y gobernanza ética.</p>
+                        <div class="biblio-actions">
+                            <a href="../LLM-DEPR/LLM_M3_Recurso_Articulo_ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY.pdf"
+                                download class="btn-biblio btn-biblio-pdf">📥 Descargar PDF</a>
+                        </div>
+                    </article>
+
+                    <article class="biblio-item">
+                        <span class="biblio-tag">Educación Especial e IEP</span>
+                        <h3 class="biblio-title">AI for IEPs: New Tools Could Mean Less Paperwork, Better Plans</h3>
+                        <p class="biblio-citation">Vesco, B. (2025, January 7). <em>AI for IEPs: New Tools Could Mean
+                                Less Paperwork, Better Plans</em>. GovTech.
+                            https://www.govtech.com/education/k-12/ai-for-ieps-new-tools-could-mean-less-paperwork-better-plans
+                        </p>
+                        <p class="biblio-summary">Explora cómo las herramientas de IA están transformando la creación de
+                            los Programas de Educación Individualizada (IEP) al automatizar tareas administrativas y
+                            reducir la carga de papeleo de los docentes.</p>
+                        <div class="biblio-actions">
+                            <a href="https://www.govtech.com/education/k-12/ai-for-ieps-new-tools-could-mean-less-paperwork-better-plans"
+                                target="_blank" rel="noreferrer noopener" class="btn-biblio btn-biblio-web">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                                    focusable="false">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                Ver Artículo Completo
+                            </a>
+                        </div>
+                    </article>
                 </div>
             </section>
 
-            <div class="footer-nav">
-                <a href="dashboard.html" class="btn-footer">Ir al Dashboard</a>
-            </div>
-        </div>
+            <nav class="footer-nav" aria-label="Navegación del módulo">
+                <a href="actividad3_1.html" class="btn-footer btn-back">← Volver a Actividad 3.1</a>
+                <a href="dashboard.html" class="btn-footer btn-next">Ir al Dashboard →</a>
+            </nav>
+        </article>
     </main>
 
-    <div id="zoomModal" onclick="this.style.display='none'">
-        <img id="zoomImg" src="">
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
+        aria-hidden="true">
+        <div class="modal-content">
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada del recurso</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()"
+                aria-label="Cerrar imagen ampliada">×</button>
+            <img id="zoomedImg" alt="Imagen ampliada del recurso">
+        </div>
     </div>
 
     <script>
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        let lastFocusedElement = null;
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
         }
 
         function openZoom(src) {
-            const modal = document.getElementById('zoomModal');
-            const img = document.getElementById('zoomImg');
-            modal.style.display = 'flex';
-            img.src = src;
+            if (!zoomModal || !zoomedImg) return;
+            lastFocusedElement = document.activeElement;
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            zoomModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            const closeButton = zoomModal.querySelector('.modal-close-btn');
+            if (closeButton) closeButton.focus();
         }
+
+        function closeZoom() {
+            if (!zoomModal || !zoomedImg) return;
+            zoomModal.classList.remove('is-open');
+            zoomModal.setAttribute('aria-hidden', 'true');
+            zoomedImg.removeAttribute('src');
+            document.body.style.overflow = '';
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) closeZoom();
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) closeZoom();
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
 </body>
 
