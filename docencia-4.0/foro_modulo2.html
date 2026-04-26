@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Foro del Módulo 2 de Docencia 4.0: Diseño de prompts y planificación didáctica. Espacio para discutir cómo los prompts apoyan la planificación, creación de materiales, adaptación de contenidos y diseño de experiencias de aprendizaje.">
+    <meta name="keywords"
+        content="Docencia 4.0, Foro Módulo 2, prompts, CRIF, planificación didáctica, LLM, IA educativa, maestros cooperadores, ChatGPT, Copilot">
+    <title>Foro Módulo 2 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding-top: var(--height-module-topnav, 80px);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .forum-shell {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forum-header {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-12);
+            text-align: center;
+        }
+
+        .forum-kicker {
+            justify-self: center;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .forum-header h1 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .forum-header h1 span {
+            color: var(--color-brand-primary);
+        }
+
+        .forum-header p {
+            max-width: 780px;
+            margin: 0 auto;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .forum-purpose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .forum-purpose-card {
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .forum-purpose-card h2,
+        .forum-purpose-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .forum-purpose-card ul {
+            margin: var(--spacing-sm) 0 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .forum-purpose-card li {
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .forum-purpose-card li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .forum-status,
+        .forum-guide {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+        }
+
+        .forum-guide {
+            border-left-color: var(--color-brand-primary);
+        }
+
+        .forum-status-icon,
+        .forum-guide-icon {
+            font-size: var(--font-size-xl);
+            line-height: 1;
+        }
+
+        .forum-status p,
+        .forum-guide p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .post-box {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .forum-form-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .forum-field {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .forum-label {
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .forum-input,
+        .forum-textarea {
+            width: 100%;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            transition:
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .forum-input:focus,
+        .forum-textarea:focus {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-focus-primary);
+            outline: none;
+        }
+
+        .forum-textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .forum-helper {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .post-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .char-counter {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .btn-forum {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-6);
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--gradient-orange);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            cursor: pointer;
+            box-shadow: var(--shadow-focus-secondary);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-forum:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-forum:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .forum-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0 var(--spacing-md);
+        }
+
+        .forum-toolbar h2 {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .forum-count {
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .forum-feed {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .comment-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .comment-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--border-width-6);
+            background: var(--color-brand-primary);
+            opacity: 0;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .comment-card:hover {
+            transform: translateX(5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .comment-card:hover::before {
+            opacity: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: var(--radius-pill);
+            background: var(--gradient-cyan);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .author-info h3 {
+            margin: 0;
+            color: var(--color-text-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .author-info span {
+            display: block;
+            margin-top: var(--spacing-1);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .comment-body {
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            white-space: pre-wrap;
+        }
+
+        .comment-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding-top: var(--spacing-md);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .reaction-btn,
+        .reply-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            transition:
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .reaction-btn:hover,
+        .reply-toggle:hover {
+            transform: translateY(-1px);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary);
+        }
+
+        .reaction-btn.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+        }
+
+        .reaction-count {
+            min-width: 1.25rem;
+            text-align: center;
+        }
+
+        .reply-list {
+            display: grid;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            padding-left: var(--spacing-lg);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+        }
+
+        .reply-card {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .reply-meta {
+            display: block;
+            margin-bottom: var(--spacing-1);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .reply-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            white-space: pre-wrap;
+        }
+
+        .reply-form {
+            display: none;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .reply-form.active {
+            display: grid;
+        }
+
+        .empty-state {
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .comment-card.is-new {
+            animation: slideUp var(--motion-duration-emphasis) var(--motion-easing-standard);
+        }
+
+        @media (max-width: 900px) {
+
+            .forum-shell,
+            .post-box,
+            .comment-card {
+                padding: var(--spacing-xl);
+            }
+
+            .forum-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .forum-header h1 {
+                font-size: var(--font-size-3xl);
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .forum-shell,
+            .post-box,
+            .comment-card,
+            .forum-purpose-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .comment-header {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav" aria-label="Navegación superior del foro del Módulo 2">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Foro Módulo 2: Diseño de prompts y planificación didáctica</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de navegación del foro del Módulo 2" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Foros de discusión</span></li>
+            <li><a href="foro_general.html">💬 Foro General</a></li>
+            <li><a href="foro_modulo1.html">💬 Foro Módulo 1</a></li>
+            <li><a href="foro_modulo2.html" class="active" aria-current="page">💬 Foro Módulo 2</a></li>
+            <li><a href="foro_modulo3.html">💬 Foro Módulo 3</a></li>
+            <li><span class="menu-section-label">Módulo 2</span></li>
+            <li><a href="modulo2_intro.html">📍 Inicio Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
+            <li><a href="recursos_m2.html">📚 Recursos Módulo 2</a></li>
+        </ul>
+    </aside>
+
+    <main class="forum-container">
+        <article class="forum-shell" aria-labelledby="forum-title">
+            <header class="forum-header">
+                <span class="forum-kicker">Módulo 2 · Comunidad Docencia 4.0</span>
+                <h1 id="forum-title">Foro Módulo 2: <span>Diseño de prompts y planificación didáctica</span></h1>
+                <p>Espacio para discutir cómo el diseño de prompts puede apoyar la planificación, creación de
+                    materiales, adaptación de contenidos y diseño de experiencias de aprendizaje.</p>
+            </header>
+
+            <section class="forum-purpose-grid" aria-label="Propósito y participación esperada del foro del Módulo 2">
+                <div class="forum-purpose-card">
+                    <h2>Propósito</h2>
+                    <p>Discutir cómo la construcción intencional de prompts puede mejorar la calidad de las respuestas
+                        generadas por un LLM y apoyar tareas docentes como planificación de clases, adaptación de
+                        materiales, creación de actividades y diseño de experiencias de aprendizaje.</p>
+                </div>
+
+                <div class="forum-purpose-card">
+                    <h2>Participación esperada</h2>
+                    <ul>
+                        <li>Ejemplos de prompts aplicados a una necesidad educativa.</li>
+                        <li>Reflexión sobre claridad, contexto, rol e instrucción.</li>
+                        <li>Aplicación del modelo CRIF.</li>
+                        <li>Discusión sobre adaptación pedagógica de respuestas generadas por IA.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="forum-guide" aria-label="Pregunta guía del foro del Módulo 2">
+                <span class="forum-guide-icon" aria-hidden="true">💬</span>
+                <p><strong>Pregunta guía:</strong> ¿Qué elemento de un buen prompt consideras más importante para
+                    obtener una respuesta útil de un LLM y cómo lo aplicarías en la planificación de una clase o
+                    actividad educativa?</p>
+            </section>
+
+            <section class="forum-status" aria-label="Aviso de privacidad y estado del foro">
+                <span class="forum-status-icon" aria-hidden="true">🛡️</span>
+                <p><strong>Modo prototipo:</strong> este foro guarda temporalmente publicaciones, respuestas y
+                    reacciones en el navegador mediante almacenamiento local. Para uso institucional, conecta la capa de
+                    datos a Firebase, Supabase u otro backend con reglas de seguridad. No escribas nombres completos,
+                    correos, números de estudiante ni datos sensibles.</p>
+            </section>
+
+            <section class="post-box" aria-labelledby="new-post-title">
+                <h2 id="new-post-title" class="sr-only">Crear nueva publicación en el foro del Módulo 2</h2>
+                <form id="forumForm" novalidate>
+                    <div class="forum-form-grid">
+                        <div class="forum-field">
+                            <label class="forum-label" for="participantAlias">Alias visible</label>
+                            <input class="forum-input" id="participantAlias" name="participantAlias" type="text"
+                                maxlength="40" autocomplete="off" placeholder="Ej. Participante 01">
+                            <span class="forum-helper">Usa un alias. Evita nombres completos o información
+                                identificable.</span>
+                        </div>
+
+                        <div class="forum-field">
+                            <label class="forum-label" for="participantRole">Rol o contexto</label>
+                            <input class="forum-input" id="participantRole" name="participantRole" type="text"
+                                maxlength="50" autocomplete="off" placeholder="Ej. Maestro cooperador">
+                            <span class="forum-helper">Opcional. Describe tu rol de manera general.</span>
+                        </div>
+                    </div>
+
+                    <div class="forum-field">
+                        <label class="forum-label" for="postMessage">Aportación al foro del Módulo 2</label>
+                        <textarea class="forum-textarea" id="postMessage" name="postMessage" maxlength="900"
+                            placeholder="Comparte qué elemento de un buen prompt consideras más importante y cómo lo aplicarías en una clase o actividad educativa..."></textarea>
+                        <span class="forum-helper">Puedes incluir un ejemplo de prompt, pero no incluyas datos reales de
+                            estudiantes, familias o colegas.</span>
+                    </div>
+
+                    <div class="post-actions">
+                        <span class="char-counter" id="charCounter">0 / 900 caracteres</span>
+                        <button class="btn-forum" id="submitPostBtn" type="submit">Publicar en el foro del Módulo
+                            2</button>
+                    </div>
+                </form>
+            </section>
+
+            <section aria-labelledby="feed-title">
+                <div class="forum-toolbar">
+                    <h2 id="feed-title">Aportaciones recientes</h2>
+                    <span class="forum-count" id="forumCount">0 aportaciones</span>
+                </div>
+
+                <div class="forum-feed" id="forumFeed" aria-live="polite" aria-atomic="false"></div>
+            </section>
+
+            <nav class="footer-nav" aria-label="Navegación del foro del Módulo 2">
+                <a href="foro_modulo1.html" class="btn-footer btn-back">← Volver al Foro Módulo 1</a>
+                <a href="foro_modulo3.html" class="btn-footer btn-next">Ir al Foro Módulo 3 →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function createId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID();
+            }
+
+            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        }
+
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const forumConfig = {
+            forumId: 'modulo2',
+            storageKey: 'docencia40_forum_modulo2_v1',
+            currentUserKey: 'docencia40_forum_user_v1'
+        };
+
+        const defaultPosts = [
+            {
+                id: createId(),
+                alias: 'Participante 01',
+                role: 'Maestro cooperador',
+                message: 'Para mí, el elemento más importante de un buen prompt es el contexto. Cuando explico el grado, la materia, el nivel de los estudiantes y el propósito de la actividad, la respuesta del LLM es mucho más útil para planificar.',
+                createdAt: new Date(Date.now() - 7200000).toISOString(),
+                reactions: { like: 12, idea: 9, question: 1 },
+                userReactions: [],
+                replies: [
+                    {
+                        id: createId(),
+                        alias: 'Participante 04',
+                        message: 'Estoy de acuerdo. Sin contexto, la respuesta suele ser demasiado general y requiere más edición.',
+                        createdAt: new Date(Date.now() - 5100000).toISOString()
+                    }
+                ]
+            },
+            {
+                id: createId(),
+                alias: 'Participante 02',
+                role: 'Participante del programa',
+                message: 'El modelo CRIF me ayudó a ordenar mejor mis instrucciones. Un ejemplo sería: Contexto: estudiantes de 5to grado; Rol: diseñador instruccional; Instrucción: crea una actividad colaborativa; Formato: tabla con pasos y tiempo estimado.',
+                createdAt: new Date(Date.now() - 18000000).toISOString(),
+                reactions: { like: 16, idea: 11, question: 0 },
+                userReactions: [],
+                replies: []
+            },
+            {
+                id: createId(),
+                alias: 'Participante 03',
+                role: 'Docente en formación',
+                message: 'Me surge una duda: ¿cómo podemos evitar que el LLM genere actividades muy bonitas, pero poco alineadas con los estándares o expectativas del DEPR?',
+                createdAt: new Date(Date.now() - 86400000).toISOString(),
+                reactions: { like: 6, idea: 1, question: 10 },
+                userReactions: ['question'],
+                replies: []
+            }
+        ];
+
+        const forumApi = {
+            async getPosts() {
+                const raw = localStorage.getItem(forumConfig.storageKey);
+
+                if (!raw) {
+                    localStorage.setItem(forumConfig.storageKey, JSON.stringify(defaultPosts));
+                    return [...defaultPosts];
+                }
+
+                try {
+                    const parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch {
+                    return [];
+                }
+            },
+
+            async savePosts(posts) {
+                localStorage.setItem(forumConfig.storageKey, JSON.stringify(posts));
+            },
+
+            getCurrentUserId() {
+                let userId = localStorage.getItem(forumConfig.currentUserKey);
+                if (!userId) {
+                    userId = createId();
+                    localStorage.setItem(forumConfig.currentUserKey, userId);
+                }
+                return userId;
+            }
+        };
+
+        const reactionConfig = {
+            like: { icon: '👍', label: 'Me aporta' },
+            idea: { icon: '💡', label: 'Buen prompt' },
+            question: { icon: '❓', label: 'Tengo pregunta' }
+        };
+
+        let posts = [];
+        const currentUserId = forumApi.getCurrentUserId();
+
+        const forumForm = document.getElementById('forumForm');
+        const aliasInput = document.getElementById('participantAlias');
+        const roleInput = document.getElementById('participantRole');
+        const messageInput = document.getElementById('postMessage');
+        const charCounter = document.getElementById('charCounter');
+        const submitPostBtn = document.getElementById('submitPostBtn');
+        const forumFeed = document.getElementById('forumFeed');
+        const forumCount = document.getElementById('forumCount');
+
+        function sanitizeAlias(alias) {
+            const value = alias.trim();
+            return value || `Participante ${String(Math.floor(Math.random() * 90) + 10)}`;
+        }
+
+        function sanitizeRole(role) {
+            const value = role.trim();
+            return value || 'Participante del foro';
+        }
+
+        function getInitials(alias) {
+            const clean = alias.trim();
+            if (!clean) return 'P';
+
+            const parts = clean.split(/\s+/).slice(0, 2);
+            return parts.map((part) => part[0]).join('').toUpperCase();
+        }
+
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            const diffMs = Date.now() - date.getTime();
+            const minutes = Math.floor(diffMs / 60000);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (minutes < 1) return 'Justo ahora';
+            if (minutes < 60) return `Hace ${minutes} min`;
+            if (hours < 24) return `Hace ${hours} h`;
+            if (days < 7) return `Hace ${days} día${days === 1 ? '' : 's'}`;
+
+            return new Intl.DateTimeFormat('es-PR', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            }).format(date);
+        }
+
+        function updateCharCounter() {
+            const length = messageInput.value.length;
+            charCounter.textContent = `${length} / 900 caracteres`;
+            submitPostBtn.disabled = length === 0;
+        }
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function createReactionButton(post, reactionKey) {
+            const config = reactionConfig[reactionKey];
+            const isActive = post.userReactions.includes(reactionKey);
+            const button = createElement('button', `reaction-btn${isActive ? ' active' : ''}`);
+            button.type = 'button';
+            button.setAttribute('aria-pressed', String(isActive));
+            button.setAttribute('aria-label', `${config.label}. Total: ${post.reactions[reactionKey] || 0}`);
+            button.dataset.postId = post.id;
+            button.dataset.reaction = reactionKey;
+
+            const icon = createElement('span', '', config.icon);
+            icon.setAttribute('aria-hidden', 'true');
+            const label = createElement('span', '', config.label);
+            const count = createElement('span', 'reaction-count', String(post.reactions[reactionKey] || 0));
+
+            button.append(icon, label, count);
+            button.addEventListener('click', () => toggleReaction(post.id, reactionKey));
+            return button;
+        }
+
+        function createReplyCard(reply) {
+            const card = createElement('article', 'reply-card');
+            const meta = createElement('span', 'reply-meta', `${reply.alias} • ${formatDate(reply.createdAt)}`);
+            const body = createElement('p', '', reply.message);
+            card.append(meta, body);
+            return card;
+        }
+
+        function createReplyForm(postId) {
+            const form = createElement('form', 'reply-form');
+            form.dataset.postId = postId;
+
+            const label = createElement('label', 'forum-label', 'Responder');
+            label.setAttribute('for', `reply-${postId}`);
+
+            const textarea = createElement('textarea', 'forum-textarea');
+            textarea.id = `reply-${postId}`;
+            textarea.name = `reply-${postId}`;
+            textarea.rows = 3;
+            textarea.maxLength = 500;
+            textarea.placeholder = 'Escribe una respuesta breve y respetuosa...';
+
+            const button = createElement('button', 'btn-forum', 'Publicar respuesta');
+            button.type = 'submit';
+
+            form.append(label, textarea, button);
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const message = textarea.value.trim();
+                if (!message) return;
+
+                const post = posts.find((item) => item.id === postId);
+                if (!post) return;
+
+                post.replies.push({
+                    id: createId(),
+                    alias: sanitizeAlias(aliasInput.value || 'Participante'),
+                    message,
+                    createdAt: new Date().toISOString(),
+                    userId: currentUserId
+                });
+
+                await forumApi.savePosts(posts);
+                renderPosts();
+            });
+
+            return form;
+        }
+
+        function createPostCard(post, isNew = false) {
+            const card = createElement('article', `comment-card${isNew ? ' is-new' : ''}`);
+            card.setAttribute('aria-label', `Publicación de ${post.alias}`);
+
+            const header = createElement('div', 'comment-header');
+            const avatar = createElement('div', 'avatar', getInitials(post.alias));
+            const authorInfo = createElement('div', 'author-info');
+            const author = createElement('h3', '', post.alias);
+            const meta = createElement('span', '', `${formatDate(post.createdAt)} • ${post.role}`);
+            authorInfo.append(author, meta);
+            header.append(avatar, authorInfo);
+
+            const body = createElement('div', 'comment-body', post.message);
+
+            const footer = createElement('div', 'comment-footer');
+            Object.keys(reactionConfig).forEach((reactionKey) => {
+                footer.appendChild(createReactionButton(post, reactionKey));
+            });
+
+            const replyToggle = createElement('button', 'reply-toggle', 'Responder');
+            replyToggle.type = 'button';
+            replyToggle.setAttribute('aria-expanded', 'false');
+            replyToggle.addEventListener('click', () => {
+                const replyForm = card.querySelector('.reply-form');
+                if (!replyForm) return;
+                const isOpen = replyForm.classList.toggle('active');
+                replyToggle.setAttribute('aria-expanded', String(isOpen));
+                if (isOpen) replyForm.querySelector('textarea')?.focus();
+            });
+            footer.appendChild(replyToggle);
+
+            const replies = createElement('div', 'reply-list');
+            post.replies.forEach((reply) => replies.appendChild(createReplyCard(reply)));
+
+            const replyForm = createReplyForm(post.id);
+
+            card.append(header, body, footer);
+            if (post.replies.length > 0) card.appendChild(replies);
+            card.appendChild(replyForm);
+            return card;
+        }
+
+        function renderPosts(newPostId = null) {
+            forumFeed.textContent = '';
+            forumCount.textContent = `${posts.length} aportacion${posts.length === 1 ? '' : 'es'}`;
+
+            if (posts.length === 0) {
+                const emptyState = createElement('div', 'empty-state', 'Aún no hay aportaciones. Sé la primera persona en compartir una reflexión o ejemplo de prompt.');
+                forumFeed.appendChild(emptyState);
+                return;
+            }
+
+            posts.forEach((post) => {
+                forumFeed.appendChild(createPostCard(post, post.id === newPostId));
+            });
+        }
+
+        async function toggleReaction(postId, reactionKey) {
+            const post = posts.find((item) => item.id === postId);
+            if (!post) return;
+
+            post.reactions[reactionKey] = post.reactions[reactionKey] || 0;
+            const alreadyReacted = post.userReactions.includes(reactionKey);
+
+            if (alreadyReacted) {
+                post.userReactions = post.userReactions.filter((item) => item !== reactionKey);
+                post.reactions[reactionKey] = Math.max(0, post.reactions[reactionKey] - 1);
+            } else {
+                post.userReactions.push(reactionKey);
+                post.reactions[reactionKey] += 1;
+            }
+
+            await forumApi.savePosts(posts);
+            renderPosts();
+        }
+
+        forumForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            const newPost = {
+                id: createId(),
+                alias: sanitizeAlias(aliasInput.value),
+                role: sanitizeRole(roleInput.value),
+                message,
+                createdAt: new Date().toISOString(),
+                reactions: { like: 0, idea: 0, question: 0 },
+                userReactions: [],
+                replies: [],
+                userId: currentUserId
+            };
+
+            posts = [newPost, ...posts];
+            await forumApi.savePosts(posts);
+            messageInput.value = '';
+            updateCharCounter();
+            renderPosts(newPost.id);
+        });
+
+        messageInput.addEventListener('input', updateCharCounter);
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            posts = await forumApi.getPosts();
+            updateCharCounter();
+            renderPosts();
+        });
+    </script>
+</body>
+
+</html>
