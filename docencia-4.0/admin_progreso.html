@@ -4,16 +4,1311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Progreso | Docencia 4.0</title>
+    <meta name="description"
+        content="Panel administrativo de progreso para monitorear el avance de participantes en la plataforma LMS Docencia 4.0.">
+    <title>Administrar Progreso | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
-    <script type="module" src="scripts/auth-guard.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding-top: var(--height-module-topnav, 80px);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .admin-wrapper {
+            max-width: 1280px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .admin-shell {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .admin-header {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .admin-kicker {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .admin-title {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .admin-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .admin-description {
+            max-width: 860px;
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .admin-alert {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
+        }
+
+        .admin-alert-icon {
+            font-size: var(--font-size-xl);
+            line-height: 1;
+        }
+
+        .admin-alert p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .status-message {
+            display: none;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .status-message.is-visible {
+            display: block;
+        }
+
+        .status-message.is-error {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metric-card,
+        .panel-card,
+        .module-summary-card,
+        .participant-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .metric-card {
+            padding: var(--spacing-xl);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .metric-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .metric-value {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .metric-label {
+            margin: var(--spacing-1) 0 0;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(340px, 0.42fr);
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .panel-stack {
+            display: grid;
+            gap: var(--spacing-xl);
+        }
+
+        .panel-card,
+        .module-summary-card {
+            padding: var(--spacing-xl);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .panel-header p {
+            margin-top: var(--spacing-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 200px 200px 200px;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .form-label {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            min-height: 48px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background-surface-medium);
+            border: var(--border-width-1) solid transparent;
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            transition:
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            background: var(--color-white);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .btn-admin-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            min-height: 44px;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-admin-secondary:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 860px;
+        }
+
+        .progress-table th,
+        .progress-table td {
+            padding: var(--spacing-md);
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .progress-table th {
+            color: var(--color-brand-primary);
+            background: var(--color-background-surface-low);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .progress-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .participant-name {
+            display: block;
+            color: var(--color-text-display);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .participant-email {
+            display: block;
+            margin-top: var(--spacing-1);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            word-break: break-word;
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .badge-important {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .progress-cell {
+            min-width: 180px;
+        }
+
+        .progress-label-row {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .progress-native {
+            width: 100%;
+            height: 12px;
+            overflow: hidden;
+            border: 0;
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+        }
+
+        .progress-native::-webkit-progress-bar {
+            background: var(--color-background-surface-low);
+            border-radius: var(--radius-pill);
+        }
+
+        .progress-native::-webkit-progress-value {
+            background: var(--color-brand-primary);
+            border-radius: var(--radius-pill);
+        }
+
+        .progress-native::-moz-progress-bar {
+            background: var(--color-brand-primary);
+            border-radius: var(--radius-pill);
+        }
+
+        .participants-grid {
+            display: none;
+            gap: var(--spacing-md);
+        }
+
+        .participant-card {
+            padding: var(--spacing-lg);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .participant-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .participant-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .participant-avatar {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 48px;
+            border-radius: var(--radius-pill);
+            background: var(--gradient-cyan);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .participant-card-title {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+        }
+
+        .participant-card h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .participant-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin: var(--spacing-md) 0;
+        }
+
+        .module-summary-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .module-summary-item {
+            padding: var(--spacing-md);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .module-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .module-summary-header h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .activity-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .activity-dot {
+            width: 12px;
+            height: 12px;
+            flex: 0 0 12px;
+            margin-top: var(--spacing-2);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+        }
+
+        .activity-item h3 {
+            margin: 0 0 var(--spacing-1);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-item p {
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .empty-state {
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn:focus-visible,
+        .btn-admin-secondary:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .form-input:focus-visible,
+        .form-select:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        @media (max-width: 1120px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .admin-shell,
+            .panel-card,
+            .metric-card,
+            .module-summary-card {
+                padding: var(--spacing-xl);
+            }
+
+            .admin-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .panel-header,
+            .participant-card-header {
+                flex-direction: column;
+            }
+
+            .table-wrap {
+                display: none;
+            }
+
+            .participants-grid {
+                display: grid;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .admin-wrapper {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .admin-shell,
+            .panel-card,
+            .metric-card,
+            .module-summary-card,
+            .participant-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .participant-card-title {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .participant-meta {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Espacio reservado para el Dashboard Administrativo -->
+    <nav class="top-nav" aria-label="Navegación superior administrativa">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Administrar Progreso</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú del panel administrativo" aria-hidden="true">
+        <h2 class="side-menu-title">Administración</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard del curso</a></li>
+            <li><span class="menu-section-label">Panel LMS</span></li>
+            <li><a href="admin_dashboard.html">⚙️ Centro de control</a></li>
+            <li><a href="admin_anuncios.html">📢 Anuncios</a></li>
+            <li><a href="admin_usuarios.html">👥 Usuarios</a></li>
+            <li><a href="admin_accesos.html">🔐 Accesos</a></li>
+            <li><a href="admin_progreso.html" class="active" aria-current="page">📈 Progreso</a></li>
+            <li><a href="admin_foros.html">💬 Foros</a></li>
+            <li><a href="admin_configuracion.html">🧩 Configuración</a></li>
+            <li><span class="menu-section-label">Vista participante</span></li>
+            <li><a href="anuncios.html">📢 Leer anuncios</a></li>
+            <li><a href="foro_general.html">💬 Foro general</a></li>
+            <li><a href="perfil.html">👤 Mi perfil</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-wrapper">
+        <article class="admin-shell" aria-labelledby="admin-title">
+            <header class="admin-header">
+                <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
+                <h1 id="admin-title" class="admin-title">Administrar <span>Progreso</span></h1>
+                <p class="admin-description">Monitorea el avance de los participantes por módulo, revisa última
+                    actividad, estado de finalización y participación general dentro del LMS.</p>
+            </header>
+
+            <section class="admin-alert" aria-label="Aviso de estado de integración">
+                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
+                <p><strong>Modo prototipo:</strong> los datos de progreso son demostrativos. Cuando se conecte Firebase,
+                    esta página leerá información desde Firestore, alimentada por un progress-tracker en cada página del
+                    LMS.</p>
+            </section>
+
+            <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+
+            <section class="metrics-grid" aria-label="Métricas generales de progreso">
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">👥</div>
+                    <p id="metricParticipants" class="metric-value">0</p>
+                    <p class="metric-label">Participantes monitoreados</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">📈</div>
+                    <p id="metricAverage" class="metric-value">0%</p>
+                    <p class="metric-label">Progreso promedio</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">✅</div>
+                    <p id="metricCompleted" class="metric-value">0</p>
+                    <p class="metric-label">Participantes completados</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">⏱️</div>
+                    <p id="metricActiveToday" class="metric-value">0</p>
+                    <p class="metric-label">Activos hoy</p>
+                </article>
+            </section>
+
+            <section class="admin-grid" aria-label="Seguimiento de progreso">
+                <div class="panel-stack">
+                    <section class="panel-card" aria-labelledby="progress-list-title">
+                        <div class="panel-header">
+                            <div>
+                                <h2 id="progress-list-title">Progreso por participante</h2>
+                                <p>Filtra por nombre, módulo actual, estado o cohorte para identificar avances y
+                                    rezagos.</p>
+                            </div>
+                            <div class="panel-actions">
+                                <button id="exportDemoBtn" class="btn-admin-secondary" type="button">Exportar
+                                    demo</button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar" aria-label="Filtros de progreso">
+                            <div class="form-field">
+                                <label for="searchParticipants" class="form-label">Buscar</label>
+                                <input id="searchParticipants" class="form-input" type="search"
+                                    placeholder="Buscar por nombre o email">
+                            </div>
+                            <div class="form-field">
+                                <label for="moduleFilter" class="form-label">Módulo</label>
+                                <select id="moduleFilter" class="form-select">
+                                    <option value="all">Todos</option>
+                                    <option value="modulo1">Módulo 1</option>
+                                    <option value="modulo2">Módulo 2</option>
+                                    <option value="modulo3">Módulo 3</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="statusFilter" class="form-label">Estado</label>
+                                <select id="statusFilter" class="form-select">
+                                    <option value="all">Todos</option>
+                                    <option value="not_started">No iniciado</option>
+                                    <option value="in_progress">En progreso</option>
+                                    <option value="completed">Completado</option>
+                                    <option value="inactive">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="cohortFilter" class="form-label">Cohorte</label>
+                                <select id="cohortFilter" class="form-select">
+                                    <option value="all">Todas</option>
+                                    <option value="cohorte-2026">Cohorte 2026</option>
+                                    <option value="piloto">Piloto</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-wrap" aria-label="Tabla de progreso por participante">
+                            <table class="progress-table">
+                                <thead>
+                                    <tr>
+                                        <th>Participante</th>
+                                        <th>Cohorte</th>
+                                        <th>Módulo actual</th>
+                                        <th>Estado</th>
+                                        <th>Progreso</th>
+                                        <th>Última actividad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="progressTableBody"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="participantsGrid" class="participants-grid" aria-live="polite"></div>
+                    </section>
+                </div>
+
+                <aside class="panel-stack" aria-label="Resumen lateral de progreso">
+                    <section class="module-summary-card" aria-labelledby="modules-summary-title">
+                        <div class="panel-header">
+                            <div>
+                                <h2 id="modules-summary-title">Resumen por módulo</h2>
+                                <p>Promedio general de avance por módulo.</p>
+                            </div>
+                        </div>
+
+                        <div id="moduleSummaryList" class="module-summary-list"></div>
+                    </section>
+
+                    <section class="module-summary-card" aria-labelledby="activity-title">
+                        <div class="panel-header">
+                            <div>
+                                <h2 id="activity-title">Actividad reciente</h2>
+                                <p>Últimos eventos simulados del LMS.</p>
+                            </div>
+                        </div>
+
+                        <div id="recentActivityList" class="activity-list"></div>
+                    </section>
+                </aside>
+            </section>
+
+            <nav class="footer-nav" aria-label="Navegación del panel de progreso">
+                <a href="admin_accesos.html" class="btn-footer btn-back">← Configurar accesos</a>
+                <a href="admin_foros.html" class="btn-footer btn-next">Administrar foros →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function createId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID();
+            }
+
+            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        }
+
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const storageKey = 'docencia40_admin_progress_v1';
+        const progressTableBody = document.getElementById('progressTableBody');
+        const participantsGrid = document.getElementById('participantsGrid');
+        const moduleSummaryList = document.getElementById('moduleSummaryList');
+        const recentActivityList = document.getElementById('recentActivityList');
+        const searchParticipants = document.getElementById('searchParticipants');
+        const moduleFilter = document.getElementById('moduleFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        const cohortFilter = document.getElementById('cohortFilter');
+
+        const demoProgress = [
+            {
+                id: createId(),
+                displayName: 'Participante 01',
+                email: 'participante01@ejemplo.com',
+                cohort: 'cohorte-2026',
+                currentModule: 'modulo1',
+                status: 'in_progress',
+                progressPercent: 75,
+                completedPages: 6,
+                totalPages: 8,
+                lastActivity: 'Hoy',
+                moduleProgress: { modulo1: 75, modulo2: 0, modulo3: 0 }
+            },
+            {
+                id: createId(),
+                displayName: 'Participante 02',
+                email: 'participante02@ejemplo.com',
+                cohort: 'cohorte-2026',
+                currentModule: 'modulo2',
+                status: 'in_progress',
+                progressPercent: 52,
+                completedPages: 8,
+                totalPages: 15,
+                lastActivity: 'Ayer',
+                moduleProgress: { modulo1: 100, modulo2: 35, modulo3: 0 }
+            },
+            {
+                id: createId(),
+                displayName: 'Participante 03',
+                email: 'participante03@ejemplo.com',
+                cohort: 'piloto',
+                currentModule: 'modulo1',
+                status: 'inactive',
+                progressPercent: 34,
+                completedPages: 3,
+                totalPages: 8,
+                lastActivity: 'Hace 5 días',
+                moduleProgress: { modulo1: 34, modulo2: 0, modulo3: 0 }
+            },
+            {
+                id: createId(),
+                displayName: 'Participante 04',
+                email: 'participante04@ejemplo.com',
+                cohort: 'piloto',
+                currentModule: 'modulo3',
+                status: 'completed',
+                progressPercent: 100,
+                completedPages: 24,
+                totalPages: 24,
+                lastActivity: 'Hoy',
+                moduleProgress: { modulo1: 100, modulo2: 100, modulo3: 100 }
+            },
+            {
+                id: createId(),
+                displayName: 'Participante 05',
+                email: 'participante05@ejemplo.com',
+                cohort: 'cohorte-2026',
+                currentModule: 'modulo1',
+                status: 'not_started',
+                progressPercent: 0,
+                completedPages: 0,
+                totalPages: 24,
+                lastActivity: 'Sin actividad',
+                moduleProgress: { modulo1: 0, modulo2: 0, modulo3: 0 }
+            }
+        ];
+
+        const demoActivities = [
+            { id: createId(), title: 'Participante 04 completó el programa', description: 'Completó el Módulo 3 y alcanzó 100% de progreso.' },
+            { id: createId(), title: 'Participante 01 avanzó en Módulo 1', description: 'Registró actividad reciente en una lección del Módulo 1.' },
+            { id: createId(), title: 'Participante 02 inició Módulo 2', description: 'Accedió a la primera lección del Módulo 2.' },
+            { id: createId(), title: 'Participante 03 requiere seguimiento', description: 'No registra actividad en los últimos días.' }
+        ];
+
+        let progressData = [];
+
+        function showStatusMessage(message, type = 'info') {
+            const statusMessage = document.getElementById('statusMessage');
+            if (!statusMessage) return;
+
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message is-visible is-${type}`;
+        }
+
+        function getSavedProgress() {
+            const raw = localStorage.getItem(storageKey);
+            if (!raw) {
+                localStorage.setItem(storageKey, JSON.stringify(demoProgress));
+                return [...demoProgress];
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem(storageKey, JSON.stringify(progressData));
+        }
+
+        function labelFromValue(value) {
+            const labels = {
+                modulo1: 'Módulo 1',
+                modulo2: 'Módulo 2',
+                modulo3: 'Módulo 3',
+                'cohorte-2026': 'Cohorte 2026',
+                piloto: 'Piloto',
+                not_started: 'No iniciado',
+                in_progress: 'En progreso',
+                completed: 'Completado',
+                inactive: 'Inactivo'
+            };
+
+            return labels[value] || value;
+        }
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function getInitials(value) {
+            const text = value.trim();
+            if (!text) return 'P';
+
+            const parts = text.split(/\s+/).slice(0, 2);
+            return parts.map((part) => part[0]).join('').toUpperCase();
+        }
+
+        function getFilteredProgress() {
+            const query = searchParticipants.value.trim().toLowerCase();
+            const selectedModule = moduleFilter.value;
+            const selectedStatus = statusFilter.value;
+            const selectedCohort = cohortFilter.value;
+
+            return progressData.filter((participant) => {
+                const matchesSearch = !query || participant.displayName.toLowerCase().includes(query) || participant.email.toLowerCase().includes(query);
+                const matchesModule = selectedModule === 'all' || participant.currentModule === selectedModule;
+                const matchesStatus = selectedStatus === 'all' || participant.status === selectedStatus;
+                const matchesCohort = selectedCohort === 'all' || participant.cohort === selectedCohort;
+
+                return matchesSearch && matchesModule && matchesStatus && matchesCohort;
+            });
+        }
+
+        function updateMetrics() {
+            const total = progressData.length;
+            const average = total === 0 ? 0 : Math.round(progressData.reduce((sum, item) => sum + item.progressPercent, 0) / total);
+            const completed = progressData.filter((item) => item.status === 'completed').length;
+            const activeToday = progressData.filter((item) => item.lastActivity === 'Hoy').length;
+
+            document.getElementById('metricParticipants').textContent = String(total);
+            document.getElementById('metricAverage').textContent = `${average}%`;
+            document.getElementById('metricCompleted').textContent = String(completed);
+            document.getElementById('metricActiveToday').textContent = String(activeToday);
+        }
+
+        function createProgressBlock(percent, label) {
+            const wrapper = createElement('div', 'progress-cell');
+            const row = createElement('div', 'progress-label-row');
+            row.append(createElement('span', '', label), createElement('span', '', `${percent}%`));
+
+            const progress = document.createElement('progress');
+            progress.className = 'progress-native';
+            progress.max = 100;
+            progress.value = percent;
+            progress.setAttribute('aria-label', `${label}: ${percent}%`);
+
+            wrapper.append(row, progress);
+            return wrapper;
+        }
+
+        function renderProgressTable(filteredData) {
+            progressTableBody.textContent = '';
+
+            if (filteredData.length === 0) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = 7;
+                cell.appendChild(createElement('div', 'empty-state', 'No se encontraron participantes con los filtros seleccionados.'));
+                row.appendChild(cell);
+                progressTableBody.appendChild(row);
+                return;
+            }
+
+            filteredData.forEach((participant) => {
+                const row = document.createElement('tr');
+
+                const participantCell = document.createElement('td');
+                participantCell.append(createElement('span', 'participant-name', participant.displayName), createElement('span', 'participant-email', participant.email));
+
+                const cohortCell = document.createElement('td');
+                cohortCell.appendChild(createElement('span', 'badge-soft', labelFromValue(participant.cohort)));
+
+                const moduleCell = document.createElement('td');
+                moduleCell.appendChild(createElement('span', 'badge-soft', labelFromValue(participant.currentModule)));
+
+                const statusCell = document.createElement('td');
+                const statusClass = participant.status === 'completed' || participant.status === 'in_progress' ? 'badge-soft badge-important' : 'badge-soft';
+                statusCell.appendChild(createElement('span', statusClass, labelFromValue(participant.status)));
+
+                const progressCell = document.createElement('td');
+                progressCell.appendChild(createProgressBlock(participant.progressPercent, `${participant.completedPages}/${participant.totalPages} páginas`));
+
+                const activityCell = document.createElement('td');
+                activityCell.textContent = participant.lastActivity;
+
+                const actionsCell = document.createElement('td');
+                const viewButton = createElement('button', 'btn-admin-secondary', 'Ver detalle');
+                viewButton.type = 'button';
+                viewButton.addEventListener('click', () => showParticipantDetail(participant.id));
+                actionsCell.appendChild(viewButton);
+
+                row.append(participantCell, cohortCell, moduleCell, statusCell, progressCell, activityCell, actionsCell);
+                progressTableBody.appendChild(row);
+            });
+        }
+
+        function renderParticipantCards(filteredData) {
+            participantsGrid.textContent = '';
+
+            if (filteredData.length === 0) {
+                participantsGrid.appendChild(createElement('div', 'empty-state', 'No se encontraron participantes con los filtros seleccionados.'));
+                return;
+            }
+
+            filteredData.forEach((participant) => {
+                const card = createElement('article', 'participant-card');
+                card.setAttribute('aria-label', `Progreso de ${participant.displayName}`);
+
+                const header = createElement('div', 'participant-card-header');
+                const titleGroup = createElement('div', 'participant-card-title');
+                const avatar = createElement('div', 'participant-avatar', getInitials(participant.displayName));
+                avatar.setAttribute('aria-hidden', 'true');
+
+                const titleText = createElement('div');
+                titleText.append(createElement('h3', '', participant.displayName), createElement('span', 'participant-email', participant.email));
+                titleGroup.append(avatar, titleText);
+
+                const statusClass = participant.status === 'completed' || participant.status === 'in_progress' ? 'badge-soft badge-important' : 'badge-soft';
+                const statusBadge = createElement('span', statusClass, labelFromValue(participant.status));
+                header.append(titleGroup, statusBadge);
+
+                const meta = createElement('div', 'participant-meta');
+                meta.append(
+                    createElement('span', 'badge-soft', labelFromValue(participant.cohort)),
+                    createElement('span', 'badge-soft', labelFromValue(participant.currentModule)),
+                    createElement('span', 'badge-soft', participant.lastActivity)
+                );
+
+                const progress = createProgressBlock(participant.progressPercent, `${participant.completedPages}/${participant.totalPages} páginas`);
+
+                const detailButton = createElement('button', 'btn-admin-secondary', 'Ver detalle');
+                detailButton.type = 'button';
+                detailButton.addEventListener('click', () => showParticipantDetail(participant.id));
+
+                card.append(header, meta, progress, detailButton);
+                participantsGrid.appendChild(card);
+            });
+        }
+
+        function getModuleAverage(moduleId) {
+            if (progressData.length === 0) return 0;
+            const total = progressData.reduce((sum, participant) => sum + (participant.moduleProgress[moduleId] || 0), 0);
+            return Math.round(total / progressData.length);
+        }
+
+        function renderModuleSummary() {
+            moduleSummaryList.textContent = '';
+
+            ['modulo1', 'modulo2', 'modulo3'].forEach((moduleId) => {
+                const average = getModuleAverage(moduleId);
+                const item = createElement('article', 'module-summary-item');
+                const header = createElement('div', 'module-summary-header');
+                header.append(createElement('h3', '', labelFromValue(moduleId)), createElement('strong', '', `${average}%`));
+                item.append(header, createProgressBlock(average, 'Promedio'));
+                moduleSummaryList.appendChild(item);
+            });
+        }
+
+        function renderRecentActivity() {
+            recentActivityList.textContent = '';
+
+            demoActivities.forEach((activity) => {
+                const item = createElement('article', 'activity-item');
+                const dot = createElement('span', 'activity-dot');
+                dot.setAttribute('aria-hidden', 'true');
+                const text = createElement('div');
+                text.append(createElement('h3', '', activity.title), createElement('p', '', activity.description));
+                item.append(dot, text);
+                recentActivityList.appendChild(item);
+            });
+        }
+
+        function renderAll() {
+            const filteredData = getFilteredProgress();
+            updateMetrics();
+            renderProgressTable(filteredData);
+            renderParticipantCards(filteredData);
+            renderModuleSummary();
+            renderRecentActivity();
+        }
+
+        function showParticipantDetail(participantId) {
+            const participant = progressData.find((item) => item.id === participantId);
+            if (!participant) return;
+
+            showStatusMessage(`${participant.displayName}: ${participant.progressPercent}% completado, ${participant.completedPages}/${participant.totalPages} páginas, última actividad: ${participant.lastActivity}.`, 'success');
+        }
+
+        function exportDemoData() {
+            const rows = [
+                ['Nombre', 'Email', 'Cohorte', 'Módulo actual', 'Estado', 'Progreso', 'Páginas completadas', 'Total páginas', 'Última actividad'],
+                ...progressData.map((item) => [
+                    item.displayName,
+                    item.email,
+                    labelFromValue(item.cohort),
+                    labelFromValue(item.currentModule),
+                    labelFromValue(item.status),
+                    `${item.progressPercent}%`,
+                    item.completedPages,
+                    item.totalPages,
+                    item.lastActivity
+                ])
+            ];
+
+            const csv = rows.map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'progreso_docencia40_demo.csv';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+            showStatusMessage('Se descargó un archivo CSV de demostración con el progreso actual.', 'success');
+        }
+
+        searchParticipants.addEventListener('input', renderAll);
+        moduleFilter.addEventListener('change', renderAll);
+        statusFilter.addEventListener('change', renderAll);
+        cohortFilter.addEventListener('change', renderAll);
+        document.getElementById('exportDemoBtn')?.addEventListener('click', exportDemoData);
+
+        progressData = getSavedProgress();
+        saveProgress();
+        renderAll();
+    </script>
+
+    <!--
+        Integración futura con Firebase:
+        1. Proteger esta página con scripts/auth-guard.js y scripts/admin-guard.js.
+        2. Crear scripts/progress-tracker.js para registrar avance en cada página del LMS.
+        3. Guardar progreso en Firestore con estructura: userProgress/{uid}/pages/{pageId} y userProgress/{uid}/modules/{moduleId}.
+        4. Leer progreso desde Firestore para mostrar avance real por participante, módulo y cohorte.
+        5. Usar Cloud Functions solo si se necesita generar reportes avanzados o resúmenes automáticos.
+    -->
 </body>
 
 </html>
