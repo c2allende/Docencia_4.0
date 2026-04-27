@@ -4,16 +4,1225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Accesos | Docencia 4.0</title>
+    <meta name="description"
+        content="Panel administrativo de accesos para configurar disponibilidad de módulos, lecciones, actividades, recursos y foros en la plataforma LMS Docencia 4.0.">
+    <title>Configurar Accesos | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
-    <script type="module" src="scripts/auth-guard.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding-top: var(--height-module-topnav, 80px);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .admin-wrapper {
+            max-width: 1280px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .admin-shell {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .admin-header {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .admin-kicker {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .admin-title {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .admin-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .admin-description {
+            max-width: 840px;
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .admin-alert {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
+        }
+
+        .admin-alert-icon {
+            font-size: var(--font-size-xl);
+            line-height: 1;
+        }
+
+        .admin-alert p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .status-message {
+            display: none;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .status-message.is-visible {
+            display: block;
+        }
+
+        .status-message.is-error {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metric-card,
+        .panel-card,
+        .access-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .metric-card {
+            padding: var(--spacing-xl);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .metric-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .metric-value {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .metric-label {
+            margin: var(--spacing-1) 0 0;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .panel-card {
+            padding: var(--spacing-xl);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .panel-header p {
+            margin-top: var(--spacing-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .form-label {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            min-height: 48px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background-surface-medium);
+            border: var(--border-width-1) solid transparent;
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            transition:
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            background: var(--color-white);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .field-helper {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-xl);
+        }
+
+        .btn-admin-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            min-height: 44px;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-admin-secondary:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px 220px;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .access-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .access-card {
+            padding: var(--spacing-lg);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .access-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .access-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .access-title-group h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .access-url {
+            display: block;
+            margin-top: var(--spacing-1);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            word-break: break-word;
+        }
+
+        .access-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .badge-important {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .access-details {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .detail-item span {
+            display: block;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-top: var(--spacing-1);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-snug);
+        }
+
+        .access-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .toggle-pill {
+            position: relative;
+            width: 48px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            flex: 0 0 48px;
+            border: 0;
+            border-radius: var(--radius-pill);
+            background: var(--color-border-default);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .toggle-pill::after {
+            content: '';
+            position: absolute;
+            left: var(--spacing-1);
+            width: 22px;
+            height: 22px;
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .toggle-pill[aria-pressed="true"] {
+            background: var(--color-brand-primary);
+        }
+
+        .toggle-pill[aria-pressed="true"]::after {
+            transform: translateX(20px);
+        }
+
+        .empty-state {
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn:focus-visible,
+        .btn-admin-secondary:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .form-input:focus-visible,
+        .form-select:focus-visible,
+        .toggle-pill:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        @media (max-width: 1120px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid,
+            .access-details {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 860px) {
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .access-card-header {
+                flex-direction: column;
+            }
+
+            .access-actions {
+                justify-content: stretch;
+            }
+
+            .access-actions .btn-admin-secondary {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .admin-shell,
+            .panel-card,
+            .metric-card {
+                padding: var(--spacing-xl);
+            }
+
+            .admin-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .panel-header {
+                flex-direction: column;
+            }
+
+            .form-actions {
+                justify-content: stretch;
+            }
+
+            .form-actions .btn,
+            .form-actions .btn-admin-secondary {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .admin-wrapper {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .admin-shell,
+            .panel-card,
+            .metric-card,
+            .access-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .metrics-grid,
+            .access-details {
+                grid-template-columns: 1fr;
+            }
+
+            .access-actions .btn-admin-secondary {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Espacio reservado para el Dashboard Administrativo -->
+    <nav class="top-nav" aria-label="Navegación superior administrativa">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Configurar Accesos</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú del panel administrativo" aria-hidden="true">
+        <h2 class="side-menu-title">Administración</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard del curso</a></li>
+            <li><span class="menu-section-label">Panel LMS</span></li>
+            <li><a href="admin_dashboard.html">⚙️ Centro de control</a></li>
+            <li><a href="admin_anuncios.html">📢 Anuncios</a></li>
+            <li><a href="admin_usuarios.html">👥 Usuarios</a></li>
+            <li><a href="admin_accesos.html" class="active" aria-current="page">🔐 Accesos</a></li>
+            <li><a href="admin_progreso.html">📈 Progreso</a></li>
+            <li><a href="admin_foros.html">💬 Foros</a></li>
+            <li><a href="admin_configuracion.html">🧩 Configuración</a></li>
+            <li><span class="menu-section-label">Vista participante</span></li>
+            <li><a href="anuncios.html">📢 Leer anuncios</a></li>
+            <li><a href="foro_general.html">💬 Foro general</a></li>
+            <li><a href="perfil.html">👤 Mi perfil</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-wrapper">
+        <article class="admin-shell" aria-labelledby="admin-title">
+            <header class="admin-header">
+                <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
+                <h1 id="admin-title" class="admin-title">Configurar <span>Accesos</span></h1>
+                <p class="admin-description">Define qué páginas, módulos, actividades, recursos y foros estarán
+                    disponibles para los participantes. Esta versión es un prototipo frontend preparado para integrarse
+                    con Firestore.</p>
+            </header>
+
+            <section class="admin-alert" aria-label="Aviso de estado de integración">
+                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
+                <p><strong>Modo prototipo:</strong> los cambios de acceso se guardan temporalmente en este navegador.
+                    Para uso real, cada regla debe guardarse en Firestore y validarse con reglas de seguridad y un auth
+                    guard.</p>
+            </section>
+
+            <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+
+            <section class="metrics-grid" aria-label="Métricas de accesos">
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">🔓</div>
+                    <p id="metricPublished" class="metric-value">0</p>
+                    <p class="metric-label">Páginas publicadas</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">🔒</div>
+                    <p id="metricLocked" class="metric-value">0</p>
+                    <p class="metric-label">Páginas bloqueadas</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">⏱️</div>
+                    <p id="metricScheduled" class="metric-value">0</p>
+                    <p class="metric-label">Con fecha programada</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">🧭</div>
+                    <p id="metricPrereq" class="metric-value">0</p>
+                    <p class="metric-label">Con prerrequisito</p>
+                </article>
+            </section>
+
+            <section class="admin-grid" aria-label="Gestión de accesos">
+                <aside class="panel-card" aria-labelledby="edit-access-title">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="edit-access-title">Editar regla de acceso</h2>
+                            <p>Selecciona una página y configura su disponibilidad.</p>
+                        </div>
+                    </div>
+
+                    <form id="accessForm" novalidate data-admin-form="access">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="pageId" class="form-label">Página</label>
+                                <select id="pageId" name="pageId" class="form-select" required></select>
+                                <span class="field-helper">La página seleccionada cargará su configuración
+                                    actual.</span>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="isPublished" class="form-label">Estado</label>
+                                <select id="isPublished" name="isPublished" class="form-select" required>
+                                    <option value="true">Publicado</option>
+                                    <option value="false">Bloqueado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="unlockMode" class="form-label">Modo de apertura</label>
+                                <select id="unlockMode" name="unlockMode" class="form-select" required>
+                                    <option value="manual">Manual</option>
+                                    <option value="date">Por fecha</option>
+                                    <option value="prerequisite">Por prerrequisito</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="unlockAt" class="form-label">Fecha de apertura</label>
+                                <input id="unlockAt" name="unlockAt" class="form-input" type="date">
+                            </div>
+
+                            <div class="form-field">
+                                <label for="requiredRole" class="form-label">Rol mínimo</label>
+                                <select id="requiredRole" name="requiredRole" class="form-select">
+                                    <option value="participante">Participante</option>
+                                    <option value="facilitador">Facilitador</option>
+                                    <option value="admin">Administrador</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="allowedCohort" class="form-label">Cohorte</label>
+                                <select id="allowedCohort" name="allowedCohort" class="form-select">
+                                    <option value="all">Todas</option>
+                                    <option value="cohorte-2026">Cohorte 2026</option>
+                                    <option value="piloto">Piloto</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="prerequisitePageId" class="form-label">Prerrequisito</label>
+                                <select id="prerequisitePageId" name="prerequisitePageId" class="form-select"></select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="requiresAuth" class="form-label">Requiere sesión</label>
+                                <select id="requiresAuth" name="requiresAuth" class="form-select">
+                                    <option value="true">Sí</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button id="resetDefaultsBtn" class="btn-admin-secondary" type="button">Restaurar
+                                demo</button>
+                            <button id="saveAccessBtn" class="btn btn-primary" type="submit">Guardar regla</button>
+                        </div>
+                    </form>
+                </aside>
+
+                <section class="panel-card" aria-labelledby="access-list-title">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="access-list-title">Mapa de accesos</h2>
+                            <p>Revisa y filtra la disponibilidad de cada página del LMS.</p>
+                        </div>
+                        <button id="openAllBtn" class="btn-admin-secondary" type="button">Publicar todo</button>
+                    </div>
+
+                    <div class="toolbar" aria-label="Filtros de accesos">
+                        <div class="form-field">
+                            <label for="searchPages" class="form-label">Buscar</label>
+                            <input id="searchPages" class="form-input" type="search"
+                                placeholder="Buscar por título o archivo">
+                        </div>
+                        <div class="form-field">
+                            <label for="moduleFilter" class="form-label">Módulo</label>
+                            <select id="moduleFilter" class="form-select">
+                                <option value="all">Todos</option>
+                                <option value="general">General</option>
+                                <option value="modulo1">Módulo 1</option>
+                                <option value="modulo2">Módulo 2</option>
+                                <option value="modulo3">Módulo 3</option>
+                                <option value="admin">Administración</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="statusFilter" class="form-label">Estado</label>
+                            <select id="statusFilter" class="form-select">
+                                <option value="all">Todos</option>
+                                <option value="published">Publicados</option>
+                                <option value="locked">Bloqueados</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="accessList" class="access-list" aria-live="polite"></div>
+                </section>
+            </section>
+
+            <nav class="footer-nav" aria-label="Navegación del panel de accesos">
+                <a href="admin_usuarios.html" class="btn-footer btn-back">← Administrar usuarios</a>
+                <a href="admin_progreso.html" class="btn-footer btn-next">Ver progreso →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function createId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID();
+            }
+
+            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        }
+
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const storageKey = 'docencia40_admin_access_v1';
+        const accessList = document.getElementById('accessList');
+        const accessForm = document.getElementById('accessForm');
+        const pageIdInput = document.getElementById('pageId');
+        const prerequisiteInput = document.getElementById('prerequisitePageId');
+        const searchPages = document.getElementById('searchPages');
+        const moduleFilter = document.getElementById('moduleFilter');
+        const statusFilter = document.getElementById('statusFilter');
+
+        const defaultPages = [
+            { pageId: 'dashboard', title: 'Dashboard del curso', moduleId: 'general', type: 'dashboard', url: 'dashboard.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'perfil', title: 'Mi Perfil', moduleId: 'general', type: 'perfil', url: 'perfil.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'anuncios', title: 'Anuncios', moduleId: 'general', type: 'anuncios', url: 'anuncios.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'foro_general', title: 'Foro General', moduleId: 'general', type: 'foro', url: 'foro_general.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+
+            { pageId: 'modulo1_intro', title: 'Inicio Módulo 1', moduleId: 'modulo1', type: 'intro', url: 'modulo1_intro.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion1_1', title: 'Lección 1.1', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion1_2', title: 'Lección 1.2', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_2.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'leccion1_1', allowedCohort: 'all' },
+            { pageId: 'leccion1_3', title: 'Lección 1.3', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_3.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'leccion1_2', allowedCohort: 'all' },
+            { pageId: 'actividad1_1', title: 'Actividad 1.1', moduleId: 'modulo1', type: 'actividad', url: 'actividad1_1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'actividad1_2', title: 'Actividad 1.2', moduleId: 'modulo1', type: 'actividad', url: 'actividad1_2.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'recursos_m1', title: 'Recursos Módulo 1', moduleId: 'modulo1', type: 'recursos', url: 'recursos_m1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'foro_modulo1', title: 'Foro Módulo 1', moduleId: 'modulo1', type: 'foro', url: 'foro_modulo1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+
+            { pageId: 'modulo2_intro', title: 'Inicio Módulo 2', moduleId: 'modulo2', type: 'intro', url: 'modulo2_intro.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'actividad1_2', allowedCohort: 'all' },
+            { pageId: 'leccion2_1', title: 'Lección 2.1', moduleId: 'modulo2', type: 'leccion', url: 'leccion2_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion2_2', title: 'Lección 2.2', moduleId: 'modulo2', type: 'leccion', url: 'leccion2_2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion2_3', title: 'Lección 2.3', moduleId: 'modulo2', type: 'leccion', url: 'leccion2_3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'actividad2_1', title: 'Actividad 2.1', moduleId: 'modulo2', type: 'actividad', url: 'actividad2_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'recursos_m2', title: 'Recursos Módulo 2', moduleId: 'modulo2', type: 'recursos', url: 'recursos_m2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'foro_modulo2', title: 'Foro Módulo 2', moduleId: 'modulo2', type: 'foro', url: 'foro_modulo2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+
+            { pageId: 'modulo3_intro', title: 'Inicio Módulo 3', moduleId: 'modulo3', type: 'intro', url: 'modulo3_intro.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'actividad2_1', allowedCohort: 'all' },
+            { pageId: 'leccion3_1', title: 'Lección 3.1', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion3_2', title: 'Lección 3.2', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion3_3', title: 'Lección 3.3', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'leccion3_4', title: 'Lección 3.4', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_4.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'actividad3_1', title: 'Actividad 3.1', moduleId: 'modulo3', type: 'actividad', url: 'actividad3_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'recursos_m3', title: 'Recursos Módulo 3', moduleId: 'modulo3', type: 'recursos', url: 'recursos_m3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'foro_modulo3', title: 'Foro Módulo 3', moduleId: 'modulo3', type: 'foro', url: 'foro_modulo3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+
+            { pageId: 'admin_dashboard', title: 'Centro de control', moduleId: 'admin', type: 'admin', url: 'admin_dashboard.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'admin_anuncios', title: 'Administrar anuncios', moduleId: 'admin', type: 'admin', url: 'admin_anuncios.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'admin_usuarios', title: 'Administrar usuarios', moduleId: 'admin', type: 'admin', url: 'admin_usuarios.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
+            { pageId: 'admin_accesos', title: 'Configurar accesos', moduleId: 'admin', type: 'admin', url: 'admin_accesos.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' }
+        ];
+
+        let accessRules = [];
+
+        function showStatusMessage(message, type = 'info') {
+            const statusMessage = document.getElementById('statusMessage');
+            if (!statusMessage) return;
+
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message is-visible is-${type}`;
+        }
+
+        function getSavedAccessRules() {
+            const raw = localStorage.getItem(storageKey);
+            if (!raw) {
+                localStorage.setItem(storageKey, JSON.stringify(defaultPages));
+                return [...defaultPages];
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveAccessRules() {
+            localStorage.setItem(storageKey, JSON.stringify(accessRules));
+        }
+
+        function labelFromValue(value) {
+            const labels = {
+                general: 'General',
+                modulo1: 'Módulo 1',
+                modulo2: 'Módulo 2',
+                modulo3: 'Módulo 3',
+                admin: 'Administración',
+                dashboard: 'Dashboard',
+                perfil: 'Perfil',
+                anuncios: 'Anuncios',
+                foro: 'Foro',
+                intro: 'Introducción',
+                leccion: 'Lección',
+                actividad: 'Actividad',
+                recursos: 'Recursos',
+                manual: 'Manual',
+                date: 'Por fecha',
+                prerequisite: 'Prerrequisito',
+                participante: 'Participante',
+                facilitador: 'Facilitador',
+                all: 'Todas',
+                'cohorte-2026': 'Cohorte 2026',
+                piloto: 'Piloto'
+            };
+
+            return labels[value] || value || 'No aplica';
+        }
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function populateSelects() {
+            pageIdInput.textContent = '';
+            prerequisiteInput.textContent = '';
+
+            const emptyPrereq = document.createElement('option');
+            emptyPrereq.value = '';
+            emptyPrereq.textContent = 'Ninguno';
+            prerequisiteInput.appendChild(emptyPrereq);
+
+            accessRules.forEach((rule) => {
+                const pageOption = document.createElement('option');
+                pageOption.value = rule.pageId;
+                pageOption.textContent = `${rule.title} (${rule.url})`;
+                pageIdInput.appendChild(pageOption);
+
+                const prereqOption = document.createElement('option');
+                prereqOption.value = rule.pageId;
+                prereqOption.textContent = rule.title;
+                prerequisiteInput.appendChild(prereqOption);
+            });
+        }
+
+        function updateMetrics() {
+            document.getElementById('metricPublished').textContent = String(accessRules.filter((rule) => rule.isPublished).length);
+            document.getElementById('metricLocked').textContent = String(accessRules.filter((rule) => !rule.isPublished).length);
+            document.getElementById('metricScheduled').textContent = String(accessRules.filter((rule) => rule.unlockMode === 'date').length);
+            document.getElementById('metricPrereq').textContent = String(accessRules.filter((rule) => rule.unlockMode === 'prerequisite').length);
+        }
+
+        function loadSelectedRule() {
+            const selected = accessRules.find((rule) => rule.pageId === pageIdInput.value);
+            if (!selected) return;
+
+            document.getElementById('isPublished').value = String(selected.isPublished);
+            document.getElementById('unlockMode').value = selected.unlockMode;
+            document.getElementById('unlockAt').value = selected.unlockAt || '';
+            document.getElementById('requiredRole').value = selected.requiredRole || 'participante';
+            document.getElementById('allowedCohort').value = selected.allowedCohort || 'all';
+            document.getElementById('prerequisitePageId').value = selected.prerequisitePageId || '';
+            document.getElementById('requiresAuth').value = String(selected.requiresAuth);
+        }
+
+        function getFilteredRules() {
+            const query = searchPages.value.trim().toLowerCase();
+            const moduleValue = moduleFilter.value;
+            const statusValue = statusFilter.value;
+
+            return accessRules.filter((rule) => {
+                const matchesSearch = !query || rule.title.toLowerCase().includes(query) || rule.url.toLowerCase().includes(query);
+                const matchesModule = moduleValue === 'all' || rule.moduleId === moduleValue;
+                const matchesStatus = statusValue === 'all' || (statusValue === 'published' && rule.isPublished) || (statusValue === 'locked' && !rule.isPublished);
+
+                return matchesSearch && matchesModule && matchesStatus;
+            });
+        }
+
+        function renderAccessRules() {
+            accessList.textContent = '';
+            updateMetrics();
+
+            const filteredRules = getFilteredRules();
+
+            if (filteredRules.length === 0) {
+                const empty = createElement('div', 'empty-state', 'No se encontraron páginas con los filtros seleccionados.');
+                accessList.appendChild(empty);
+                return;
+            }
+
+            filteredRules.forEach((rule) => {
+                const card = createElement('article', 'access-card');
+                card.setAttribute('aria-label', `Regla de acceso para ${rule.title}`);
+
+                const header = createElement('div', 'access-card-header');
+                const titleGroup = createElement('div', 'access-title-group');
+                const title = createElement('h3', '', rule.title);
+                const url = createElement('span', 'access-url', rule.url);
+                titleGroup.append(title, url);
+
+                const toggle = createElement('button', 'toggle-pill');
+                toggle.type = 'button';
+                toggle.setAttribute('aria-label', `${rule.isPublished ? 'Bloquear' : 'Publicar'} ${rule.title}`);
+                toggle.setAttribute('aria-pressed', String(rule.isPublished));
+                toggle.addEventListener('click', () => togglePublished(rule.pageId));
+                header.append(titleGroup, toggle);
+
+                const meta = createElement('div', 'access-meta');
+                meta.append(
+                    createElement('span', rule.isPublished ? 'badge-soft badge-important' : 'badge-soft', rule.isPublished ? 'Publicado' : 'Bloqueado'),
+                    createElement('span', 'badge-soft', labelFromValue(rule.moduleId)),
+                    createElement('span', 'badge-soft', labelFromValue(rule.type)),
+                    createElement('span', rule.requiredRole === 'admin' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(rule.requiredRole))
+                );
+
+                const details = createElement('div', 'access-details');
+                const detailMode = createElement('div', 'detail-item');
+                detailMode.append(createElement('span', '', 'Apertura'), createElement('strong', '', labelFromValue(rule.unlockMode)));
+
+                const detailDate = createElement('div', 'detail-item');
+                detailDate.append(createElement('span', '', 'Fecha'), createElement('strong', '', rule.unlockAt || 'No aplica'));
+
+                const detailPrereq = createElement('div', 'detail-item');
+                const prereqTitle = rule.prerequisitePageId ? accessRules.find((item) => item.pageId === rule.prerequisitePageId)?.title || rule.prerequisitePageId : 'No aplica';
+                detailPrereq.append(createElement('span', '', 'Prerrequisito'), createElement('strong', '', prereqTitle));
+
+                const detailCohort = createElement('div', 'detail-item');
+                detailCohort.append(createElement('span', '', 'Cohorte'), createElement('strong', '', labelFromValue(rule.allowedCohort)));
+
+                const detailAuth = createElement('div', 'detail-item');
+                detailAuth.append(createElement('span', '', 'Sesión'), createElement('strong', '', rule.requiresAuth ? 'Requerida' : 'No requerida'));
+
+                const detailId = createElement('div', 'detail-item');
+                detailId.append(createElement('span', '', 'ID'), createElement('strong', '', rule.pageId));
+
+                details.append(detailMode, detailDate, detailPrereq, detailCohort, detailAuth, detailId);
+
+                const actions = createElement('div', 'access-actions');
+                const editButton = createElement('button', 'btn-admin-secondary', 'Editar');
+                editButton.type = 'button';
+                editButton.addEventListener('click', () => selectRule(rule.pageId));
+
+                const openButton = createElement('a', 'btn-admin-secondary', 'Abrir página');
+                openButton.href = rule.url;
+
+                actions.append(editButton, openButton);
+                card.append(header, meta, details, actions);
+                accessList.appendChild(card);
+            });
+        }
+
+        function saveSelectedRule() {
+            const selectedPageId = pageIdInput.value;
+            const selectedRule = accessRules.find((rule) => rule.pageId === selectedPageId);
+            if (!selectedRule) return;
+
+            const updatedRule = {
+                ...selectedRule,
+                isPublished: document.getElementById('isPublished').value === 'true',
+                unlockMode: document.getElementById('unlockMode').value,
+                unlockAt: document.getElementById('unlockAt').value,
+                requiredRole: document.getElementById('requiredRole').value,
+                allowedCohort: document.getElementById('allowedCohort').value,
+                prerequisitePageId: document.getElementById('prerequisitePageId').value,
+                requiresAuth: document.getElementById('requiresAuth').value === 'true',
+                updatedAt: new Date().toISOString()
+            };
+
+            if (updatedRule.unlockMode === 'date' && !updatedRule.unlockAt) {
+                showStatusMessage('Seleccionaste apertura por fecha. Indica una fecha de apertura.', 'error');
+                return;
+            }
+
+            if (updatedRule.unlockMode === 'prerequisite' && !updatedRule.prerequisitePageId) {
+                showStatusMessage('Seleccionaste apertura por prerrequisito. Indica una página prerrequisito.', 'error');
+                return;
+            }
+
+            if (updatedRule.prerequisitePageId === updatedRule.pageId) {
+                showStatusMessage('Una página no puede ser prerrequisito de sí misma.', 'error');
+                return;
+            }
+
+            accessRules = accessRules.map((rule) => rule.pageId === selectedPageId ? updatedRule : rule);
+            saveAccessRules();
+            populateSelects();
+            pageIdInput.value = selectedPageId;
+            loadSelectedRule();
+            renderAccessRules();
+            showStatusMessage('Regla de acceso actualizada temporalmente en este navegador.', 'success');
+        }
+
+        function togglePublished(pageId) {
+            accessRules = accessRules.map((rule) => rule.pageId === pageId ? { ...rule, isPublished: !rule.isPublished, updatedAt: new Date().toISOString() } : rule);
+            saveAccessRules();
+            renderAccessRules();
+            if (pageIdInput.value === pageId) loadSelectedRule();
+            showStatusMessage('Estado de publicación actualizado temporalmente.', 'success');
+        }
+
+        function selectRule(pageId) {
+            pageIdInput.value = pageId;
+            loadSelectedRule();
+            document.getElementById('edit-access-title')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function publishAll() {
+            accessRules = accessRules.map((rule) => ({ ...rule, isPublished: true, updatedAt: new Date().toISOString() }));
+            saveAccessRules();
+            loadSelectedRule();
+            renderAccessRules();
+            showStatusMessage('Todas las páginas fueron marcadas como publicadas en el prototipo.', 'success');
+        }
+
+        function restoreDefaults() {
+            accessRules = [...defaultPages];
+            saveAccessRules();
+            populateSelects();
+            loadSelectedRule();
+            renderAccessRules();
+            showStatusMessage('Se restauró la configuración demo de accesos.', 'success');
+        }
+
+        accessForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            saveSelectedRule();
+        });
+
+        pageIdInput.addEventListener('change', loadSelectedRule);
+        searchPages.addEventListener('input', renderAccessRules);
+        moduleFilter.addEventListener('change', renderAccessRules);
+        statusFilter.addEventListener('change', renderAccessRules);
+        document.getElementById('openAllBtn')?.addEventListener('click', publishAll);
+        document.getElementById('resetDefaultsBtn')?.addEventListener('click', restoreDefaults);
+
+        accessRules = getSavedAccessRules();
+        populateSelects();
+        loadSelectedRule();
+        renderAccessRules();
+    </script>
+
+    <!--
+        Integración futura con Firebase:
+        1. Proteger esta página con scripts/auth-guard.js y scripts/admin-guard.js.
+        2. Guardar estas reglas en Firestore collection: pageAccess.
+        3. Usar access-guard.js en cada página para validar isPublished, requiresAuth, requiredRole, allowedCohort, unlockMode, unlockAt y prerequisitePageId.
+        4. No confiar solo en ocultar enlaces. Para datos privados, validar también con Firestore Security Rules.
+        5. Cuando haya roles reales, administrar requiredRole con Custom Claims o Firestore + reglas de seguridad.
+    -->
 </body>
 
 </html>
