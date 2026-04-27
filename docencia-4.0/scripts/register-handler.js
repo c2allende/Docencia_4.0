@@ -31,10 +31,10 @@ registerForm?.addEventListener('submit', async (e) => {
 
     try {
         await registerUser(email, password);
-        showMessage('¡Cuenta creada! Revisa tu email para verificarla.', 'success');
+        showMessage('Cuenta creada con éxito. Redirigiendo...', 'success');
         setTimeout(() => {
-            window.location.href = "login.html";
-        }, 3000);
+            window.location.href = "index.html";
+        }, 2000);
     } catch (error) {
         console.error("Error en registro:", error);
         let errorMsg = 'Error al crear la cuenta. Intenta de nuevo.';

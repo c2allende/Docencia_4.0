@@ -20,7 +20,7 @@ loginForm?.addEventListener('submit', async (e) => {
 
     try {
         await loginUser(email, password, rememberMe);
-        // El auth-guard se encargará de redirigir al dashboard si detecta al usuario
+        window.location.href = "dashboard.html";
     } catch (error) {
         console.error("Error en login:", error);
         let errorMsg = 'Error al iniciar sesión. Verifica tus datos.';

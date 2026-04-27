@@ -33,7 +33,7 @@ onAuthStateChanged(auth, (user) => {
 logoutBtn?.addEventListener('click', async () => {
     try {
         await logout();
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     } catch (error) {
         showMessage('Error al cerrar sesión.', 'error');
     }
