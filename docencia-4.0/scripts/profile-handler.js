@@ -19,6 +19,14 @@ onAuthStateChanged(auth, (user) => {
         // Cargar datos del usuario
         if (userEmailDisplay) userEmailDisplay.value = user.email;
         
+        // Verificar si es administrador (Carmelo)
+        if (user.email === "carmelo.allende@gmail.com") {
+            const adminSidebarLink = document.getElementById('adminSidebarLink');
+            const adminProfileBtn = document.getElementById('adminProfileBtn');
+            if (adminSidebarLink) adminSidebarLink.style.display = 'block';
+            if (adminProfileBtn) adminProfileBtn.style.display = 'inline-flex';
+        }
+        
         if (verificationStatus) {
             verificationStatus.textContent = user.emailVerified ? 'Verificado' : 'Pendiente de verificación';
             verificationStatus.className = user.emailVerified ? 'status-badge verified' : 'status-badge pending';

@@ -624,6 +624,10 @@
                     <h1 class="dashboard-title">Academia Docencia 4.0</h1>
                     <p class="header-subtitle">Integración estratégica de modelos de lenguaje de gran tamaño (LLM) como
                         apoyo en la gestión docente</p>
+                    <nav class="dashboard-nav-links" style="margin-top: var(--spacing-4); display: flex; gap: var(--spacing-6);">
+                        <a href="perfil.html" style="color: var(--color-brand-primary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); display: flex; align-items: center; gap: var(--spacing-2);">👤 Mi Perfil</a>
+                        <a id="adminDashboardLink" href="admin_dashboard.html" style="display: none; color: var(--color-brand-secondary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); align-items: center; gap: var(--spacing-2);">🛠 Panel Operativo</a>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -935,6 +939,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
             renderDashboard();
+
+            // Verificador de acceso administrativo (Carmelo)
+            import("./scripts/firebase-config.js").then(config => {
+                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(authMod => {
+                    authMod.onAuthStateChanged(config.auth, (user) => {
+                        if (user && user.email === "carmelo.allende@gmail.com") {
+                            const adminLink = document.getElementById('adminDashboardLink');
+                            if (adminLink) adminLink.style.display = 'flex';
+                        }
+                    });
+                });
+            });
         });
 
         document.addEventListener('click', () => {

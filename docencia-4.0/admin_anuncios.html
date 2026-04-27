@@ -703,6 +703,7 @@
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
+    <!-- Scripts de inicialización de lógica de anuncios (se mantienen por ser específicos) -->
     <script>
         function createId() {
             if (window.crypto && typeof window.crypto.randomUUID === 'function') {
@@ -712,95 +713,7 @@
             return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         }
 
-        function resolveAssetPath(img) {
-            const rawAssets = img.dataset.assets || img.dataset.asset;
-            if (!rawAssets) return;
-
-            const fileNames = rawAssets
-                .split('|')
-                .map((item) => item.trim())
-                .filter(Boolean);
-
-            const paths = [];
-            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
-
-            fileNames.forEach((fileName) => {
-                const encodedFileName = fileName
-                    .split('/')
-                    .map((part) => encodeURIComponent(part))
-                    .join('/');
-
-                bases.forEach((base) => {
-                    paths.push(`${base}${fileName}`);
-                    paths.push(`${base}${encodedFileName}`);
-                });
-            });
-
-            const uniqueCandidates = [...new Set(paths)];
-            let index = 0;
-
-            img.onerror = () => {
-                if (index < uniqueCandidates.length) {
-                    img.src = uniqueCandidates[index];
-                    index += 1;
-                } else {
-                    img.onerror = null;
-                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
-                }
-            };
-
-            if (uniqueCandidates.length > 0) {
-                img.src = uniqueCandidates[index];
-                index += 1;
-            }
-        }
-
-        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
-
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const menuButton = document.querySelector('.menu-btn');
-        const scrollTopBtn = document.getElementById('scrollTopBtn');
-
-        function openSidebar() {
-            if (!sidebar || !overlay || !menuButton) return;
-            sidebar.classList.add('active');
-            overlay.classList.add('active');
-            sidebar.setAttribute('aria-hidden', 'false');
-            menuButton.setAttribute('aria-expanded', 'true');
-            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
-        }
-
-        function closeSidebar() {
-            if (!sidebar || !overlay || !menuButton) return;
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            sidebar.setAttribute('aria-hidden', 'true');
-            menuButton.setAttribute('aria-expanded', 'false');
-            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
-        }
-
-        function toggleSidebar() {
-            if (!sidebar) return;
-            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
-        }
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
-                closeSidebar();
-                menuButton?.focus();
-            }
-        });
-
-        window.addEventListener('scroll', () => {
-            if (!scrollTopBtn) return;
-            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
-        });
-
-        scrollTopBtn?.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        // La lógica de UI (sidebar, assets, scroll) se maneja ahora desde scripts/admin-ui.js
 
         const storageKey = 'docencia40_admin_announcements_v1';
         let announcements = [];
@@ -1014,7 +927,10 @@
         announcements = getSavedAnnouncements();
         updatePreview();
         renderAnnouncements();
-    </script>
+
+    <script type="module" src="scripts/admin-ui.js"></script>
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/admin-guard.js"></script>
 
     <!--
         Integración futura con Firebase:
@@ -1024,6 +940,9 @@
         4. Crear announcementReads para registrar lecturas por usuario.
         5. Mostrar anuncios activos en dashboard.html y anuncios.html.
     -->
+
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/admin-guard.js"></script>
 </body>
 
 </html>

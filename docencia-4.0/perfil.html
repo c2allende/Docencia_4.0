@@ -548,6 +548,7 @@
         <h2 class="side-menu-title">Mi cuenta</h2>
         <ul class="menu-links">
             <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li id="adminSidebarLink" style="display: none;"><a href="admin_dashboard.html">🛠 Panel Operativo</a></li>
             <li><a href="perfil.html" class="active" aria-current="page">👤 Mi Perfil</a></li>
             <li><a href="anuncios.html">📢 Anuncios</a></li>
             <li><span class="menu-section-label">Foros</span></li>
@@ -583,6 +584,7 @@
                     <div class="profile-actions">
                         <button id="logoutBtn" class="btn-profile-secondary btn-logout" type="button">Cerrar
                             sesión</button>
+                        <a id="adminProfileBtn" href="admin_dashboard.html" class="btn-profile-secondary" style="display: none; text-decoration: none;">⚙️ Administración</a>
                         <button id="resendVerificationBtn" class="btn-profile-secondary" type="button">Reenviar
                             verificación</button>
                     </div>
