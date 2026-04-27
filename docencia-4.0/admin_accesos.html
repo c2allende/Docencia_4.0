@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/main.css">
 
     <style>
-        body {
+        .admin-accesos-page {
             margin: 0;
             padding-top: var(--height-module-topnav, 80px);
             min-height: 100vh;
@@ -27,23 +27,23 @@
             line-height: var(--line-height-loose);
         }
 
-        p {
+        .admin-accesos-page p {
             margin: 0 0 var(--spacing-sm);
             color: var(--color-text-secondary);
         }
 
-        strong {
+        .admin-accesos-page strong {
             color: var(--color-text-primary);
             font-weight: var(--font-weight-bold);
         }
 
-        .admin-wrapper {
+        .admin-accesos-page .admin-wrapper {
             max-width: 1280px;
             margin: var(--spacing-xl) auto var(--spacing-16);
             padding: 0 var(--spacing-md);
         }
 
-        .admin-shell {
+        .admin-accesos-page .admin-shell {
             position: relative;
             overflow: hidden;
             padding: var(--spacing-16);
@@ -53,13 +53,13 @@
             box-shadow: var(--shadow-ambient);
         }
 
-        .admin-header {
+        .admin-accesos-page .admin-header {
             display: grid;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-xl);
         }
 
-        .admin-kicker {
+        .admin-accesos-page .admin-kicker {
             display: inline-flex;
             width: fit-content;
             align-items: center;
@@ -74,7 +74,7 @@
             text-transform: uppercase;
         }
 
-        .admin-title {
+        .admin-accesos-page .admin-title {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -84,11 +84,11 @@
             letter-spacing: var(--letter-spacing-tight);
         }
 
-        .admin-title span {
+        .admin-accesos-page .admin-title span {
             color: var(--color-brand-primary);
         }
 
-        .admin-description {
+        .admin-accesos-page .admin-description {
             max-width: 840px;
             margin: 0;
             color: var(--color-text-secondary);
@@ -96,7 +96,7 @@
             line-height: var(--line-height-relaxed);
         }
 
-        .admin-alert {
+        .admin-accesos-page .admin-alert {
             display: flex;
             align-items: flex-start;
             gap: var(--spacing-md);
@@ -107,18 +107,12 @@
             background: var(--color-background-surface-low);
         }
 
-        .admin-alert-icon {
+        .admin-accesos-page .admin-alert-icon {
             font-size: var(--font-size-xl);
             line-height: 1;
         }
 
-        .admin-alert p {
-            margin: 0;
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .status-message {
+        .admin-accesos-page .status-message {
             display: none;
             padding: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
@@ -131,45 +125,38 @@
             line-height: var(--line-height-relaxed);
         }
 
-        .status-message.is-visible {
+        .admin-accesos-page .status-message.is-visible {
             display: block;
         }
 
-        .status-message.is-error {
-            border-left-color: var(--color-brand-secondary);
-        }
-
-        .metrics-grid {
+        .admin-accesos-page .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
 
-        .metric-card,
-        .panel-card,
-        .access-card {
+        .admin-accesos-page .metric-card,
+        .admin-accesos-page .panel-card,
+        .admin-accesos-page .access-card {
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
 
-        .metric-card {
+        .admin-accesos-page .metric-card {
             padding: var(--spacing-xl);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .metric-card:hover {
+        .admin-accesos-page .metric-card:hover {
             transform: translateY(-4px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-floating);
         }
 
-        .metric-icon {
+        .admin-accesos-page .metric-icon {
             width: 52px;
             height: 52px;
             display: flex;
@@ -182,7 +169,7 @@
             font-size: var(--font-size-2xl);
         }
 
-        .metric-value {
+        .admin-accesos-page .metric-value {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -191,25 +178,25 @@
             line-height: var(--line-height-tight);
         }
 
-        .metric-label {
+        .admin-accesos-page .metric-label {
             margin: var(--spacing-1) 0 0;
             color: var(--color-text-muted);
             font-size: var(--font-size-sm);
             font-weight: var(--font-weight-semibold);
         }
 
-        .admin-grid {
+        .admin-accesos-page .admin-grid {
             display: grid;
             grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
             gap: var(--spacing-xl);
             align-items: start;
         }
 
-        .panel-card {
+        .admin-accesos-page .panel-card {
             padding: var(--spacing-xl);
         }
 
-        .panel-header {
+        .admin-accesos-page .panel-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -217,7 +204,7 @@
             margin-bottom: var(--spacing-lg);
         }
 
-        .panel-header h2 {
+        .admin-accesos-page .panel-header h2 {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -226,25 +213,18 @@
             line-height: var(--line-height-snug);
         }
 
-        .panel-header p {
-            margin-top: var(--spacing-2);
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .form-grid {
+        .admin-accesos-page .form-grid {
             display: grid;
             gap: var(--spacing-md);
         }
 
-        .form-field {
+        .admin-accesos-page .form-field {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-2);
         }
 
-        .form-label {
+        .admin-accesos-page .form-label {
             color: var(--color-text-secondary);
             font-size: var(--font-size-xs);
             font-weight: var(--font-weight-bold);
@@ -252,8 +232,8 @@
             text-transform: uppercase;
         }
 
-        .form-input,
-        .form-select {
+        .admin-accesos-page .form-input,
+        .admin-accesos-page .form-select {
             width: 100%;
             min-height: 48px;
             padding: var(--spacing-sm) var(--spacing-md);
@@ -264,40 +244,18 @@
             font-family: var(--font-family-body);
             font-size: var(--font-size-sm);
             line-height: var(--line-height-relaxed);
-            transition:
-                background-color var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .form-select {
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .form-input:focus,
-        .form-select:focus {
+        .admin-accesos-page .form-input:focus,
+        .admin-accesos-page .form-select:focus {
             outline: none;
             background: var(--color-white);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-focus-primary);
         }
 
-        .field-helper {
-            color: var(--color-text-muted);
-            font-size: var(--font-size-xs);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .form-actions {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-xl);
-        }
-
-        .btn-admin-secondary {
+        .admin-accesos-page .btn-admin-secondary {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -313,45 +271,39 @@
             font-weight: var(--font-weight-bold);
             text-decoration: none;
             cursor: pointer;
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-admin-secondary:hover {
+        .admin-accesos-page .btn-admin-secondary:hover {
             transform: translateY(-2px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-floating);
         }
 
-        .toolbar {
+        .admin-accesos-page .toolbar {
             display: grid;
             grid-template-columns: minmax(0, 1fr) 220px 220px;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
         }
 
-        .access-list {
+        .admin-accesos-page .access-list {
             display: grid;
             gap: var(--spacing-md);
         }
 
-        .access-card {
+        .admin-accesos-page .access-card {
             padding: var(--spacing-lg);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .access-card:hover {
+        .admin-accesos-page .access-card:hover {
             transform: translateY(-3px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-ambient);
         }
 
-        .access-card-header {
+        .admin-accesos-page .access-card-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -359,16 +311,15 @@
             margin-bottom: var(--spacing-md);
         }
 
-        .access-title-group h3 {
+        .admin-accesos-page .access-title-group h3 {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-lg);
             font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
         }
 
-        .access-url {
+        .admin-accesos-page .access-url {
             display: block;
             margin-top: var(--spacing-1);
             color: var(--color-text-muted);
@@ -376,14 +327,14 @@
             word-break: break-word;
         }
 
-        .access-meta {
+        .admin-accesos-page .access-meta {
             display: flex;
             flex-wrap: wrap;
             gap: var(--spacing-2);
             margin-bottom: var(--spacing-md);
         }
 
-        .badge-soft {
+        .admin-accesos-page .badge-soft {
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-1);
@@ -397,12 +348,12 @@
             text-transform: uppercase;
         }
 
-        .badge-important {
+        .admin-accesos-page .badge-important {
             background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
+            color: var(--color-white);
         }
 
-        .access-details {
+        .admin-accesos-page .access-details {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: var(--spacing-md);
@@ -411,7 +362,7 @@
             background: var(--color-background-surface-low);
         }
 
-        .detail-item span {
+        .admin-accesos-page .detail-item span {
             display: block;
             color: var(--color-text-muted);
             font-size: var(--font-size-2xs);
@@ -420,15 +371,14 @@
             text-transform: uppercase;
         }
 
-        .detail-item strong {
+        .admin-accesos-page .detail-item strong {
             display: block;
             margin-top: var(--spacing-1);
             color: var(--color-text-primary);
             font-size: var(--font-size-sm);
-            line-height: var(--line-height-snug);
         }
 
-        .access-actions {
+        .admin-accesos-page .access-actions {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-end;
@@ -438,7 +388,7 @@
             border-top: var(--border-width-1) solid var(--color-border-default);
         }
 
-        .toggle-pill {
+        .admin-accesos-page .toggle-pill {
             position: relative;
             width: 48px;
             height: 28px;
@@ -452,7 +402,7 @@
             transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .toggle-pill::after {
+        .admin-accesos-page .toggle-pill::after {
             content: '';
             position: absolute;
             left: var(--spacing-1);
@@ -464,117 +414,90 @@
             transition: transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .toggle-pill[aria-pressed="true"] {
+        .admin-accesos-page .toggle-pill[aria-pressed="true"] {
             background: var(--color-brand-primary);
         }
 
-        .toggle-pill[aria-pressed="true"]::after {
+        .admin-accesos-page .toggle-pill[aria-pressed="true"]::after {
             transform: translateX(20px);
         }
 
-        .empty-state {
-            padding: var(--spacing-xl);
-            border: var(--border-width-1) dashed var(--color-border-default);
-            border-radius: var(--radius-xl);
-            background: var(--color-background-surface-low);
-            color: var(--color-text-muted);
-            text-align: center;
-        }
-
-        .menu-btn:focus-visible,
-        .menu-links a:focus-visible,
-        .btn:focus-visible,
-        .btn-admin-secondary:focus-visible,
-        .btn-footer:focus-visible,
-        .btn-scroll-top:focus-visible,
-        .form-input:focus-visible,
-        .form-select:focus-visible,
-        .toggle-pill:focus-visible {
-            outline: var(--border-width-2) solid var(--color-border-focus);
-            outline-offset: var(--spacing-1);
-        }
-
         @media (max-width: 1120px) {
-            .admin-grid {
+            .admin-accesos-page .admin-grid {
                 grid-template-columns: 1fr;
             }
 
-            .metrics-grid,
-            .access-details {
+            .admin-accesos-page .metrics-grid,
+            .admin-accesos-page .access-details {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
         @media (max-width: 860px) {
-            .toolbar {
+            .admin-accesos-page .toolbar {
                 grid-template-columns: 1fr;
             }
 
-            .access-card-header {
+            .admin-accesos-page .access-card-header {
                 flex-direction: column;
             }
 
-            .access-actions {
+            .admin-accesos-page .access-actions {
                 justify-content: stretch;
             }
 
-            .access-actions .btn-admin-secondary {
+            .admin-accesos-page .access-actions .btn-admin-secondary {
                 flex: 1;
             }
         }
 
         @media (max-width: 768px) {
-
-            .admin-shell,
-            .panel-card,
-            .metric-card {
+            .admin-accesos-page .admin-shell,
+            .admin-accesos-page .panel-card,
+            .admin-accesos-page .metric-card {
                 padding: var(--spacing-xl);
             }
 
-            .admin-title {
+            .admin-accesos-page .admin-title {
                 font-size: var(--font-size-3xl);
             }
 
-            .panel-header {
+            .admin-accesos-page .panel-header {
                 flex-direction: column;
             }
 
-            .form-actions {
+            .admin-accesos-page .form-actions {
                 justify-content: stretch;
             }
 
-            .form-actions .btn,
-            .form-actions .btn-admin-secondary {
+            .admin-accesos-page .form-actions .btn,
+            .admin-accesos-page .form-actions .btn-admin-secondary {
                 width: 100%;
             }
         }
 
         @media (max-width: 520px) {
-            .admin-wrapper {
+            .admin-accesos-page .admin-wrapper {
                 padding: 0 var(--spacing-sm);
             }
 
-            .admin-shell,
-            .panel-card,
-            .metric-card,
-            .access-card {
+            .admin-accesos-page .admin-shell,
+            .admin-accesos-page .panel-card,
+            .admin-accesos-page .metric-card,
+            .admin-accesos-page .access-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
 
-            .metrics-grid,
-            .access-details {
+            .admin-accesos-page .metrics-grid,
+            .admin-accesos-page .access-details {
                 grid-template-columns: 1fr;
-            }
-
-            .access-actions .btn-admin-secondary {
-                width: 100%;
             }
         }
     </style>
 </head>
 
-<body>
+<body class="admin-accesos-page">
     <nav class="top-nav" aria-label="Navegación superior administrativa">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -791,15 +714,13 @@
             if (window.crypto && typeof window.crypto.randomUUID === 'function') {
                 return window.crypto.randomUUID();
             }
-
             return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         }
-
+    </script>
 
     <script type="module" src="scripts/admin-ui.js"></script>
-    <script>
-        // Lógica específica de Accesos
 
+    <script>
         const storageKey = 'docencia40_admin_access_v1';
         const accessList = document.getElementById('accessList');
         const accessForm = document.getElementById('accessForm');
@@ -814,33 +735,11 @@
             { pageId: 'perfil', title: 'Mi Perfil', moduleId: 'general', type: 'perfil', url: 'perfil.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
             { pageId: 'anuncios', title: 'Anuncios', moduleId: 'general', type: 'anuncios', url: 'anuncios.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
             { pageId: 'foro_general', title: 'Foro General', moduleId: 'general', type: 'foro', url: 'foro_general.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-
             { pageId: 'modulo1_intro', title: 'Inicio Módulo 1', moduleId: 'modulo1', type: 'intro', url: 'modulo1_intro.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
             { pageId: 'leccion1_1', title: 'Lección 1.1', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
             { pageId: 'leccion1_2', title: 'Lección 1.2', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_2.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'leccion1_1', allowedCohort: 'all' },
-            { pageId: 'leccion1_3', title: 'Lección 1.3', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_3.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'leccion1_2', allowedCohort: 'all' },
             { pageId: 'actividad1_1', title: 'Actividad 1.1', moduleId: 'modulo1', type: 'actividad', url: 'actividad1_1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'actividad1_2', title: 'Actividad 1.2', moduleId: 'modulo1', type: 'actividad', url: 'actividad1_2.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'recursos_m1', title: 'Recursos Módulo 1', moduleId: 'modulo1', type: 'recursos', url: 'recursos_m1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'foro_modulo1', title: 'Foro Módulo 1', moduleId: 'modulo1', type: 'foro', url: 'foro_modulo1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-
             { pageId: 'modulo2_intro', title: 'Inicio Módulo 2', moduleId: 'modulo2', type: 'intro', url: 'modulo2_intro.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'actividad1_2', allowedCohort: 'all' },
-            { pageId: 'leccion2_1', title: 'Lección 2.1', moduleId: 'modulo2', type: 'leccion', url: 'leccion2_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion2_2', title: 'Lección 2.2', moduleId: 'modulo2', type: 'leccion', url: 'leccion2_2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion2_3', title: 'Lección 2.3', moduleId: 'modulo2', type: 'leccion', url: 'leccion2_3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'actividad2_1', title: 'Actividad 2.1', moduleId: 'modulo2', type: 'actividad', url: 'actividad2_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'recursos_m2', title: 'Recursos Módulo 2', moduleId: 'modulo2', type: 'recursos', url: 'recursos_m2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'foro_modulo2', title: 'Foro Módulo 2', moduleId: 'modulo2', type: 'foro', url: 'foro_modulo2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-
-            { pageId: 'modulo3_intro', title: 'Inicio Módulo 3', moduleId: 'modulo3', type: 'intro', url: 'modulo3_intro.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'actividad2_1', allowedCohort: 'all' },
-            { pageId: 'leccion3_1', title: 'Lección 3.1', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion3_2', title: 'Lección 3.2', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_2.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion3_3', title: 'Lección 3.3', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion3_4', title: 'Lección 3.4', moduleId: 'modulo3', type: 'leccion', url: 'leccion3_4.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'actividad3_1', title: 'Actividad 3.1', moduleId: 'modulo3', type: 'actividad', url: 'actividad3_1.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'recursos_m3', title: 'Recursos Módulo 3', moduleId: 'modulo3', type: 'recursos', url: 'recursos_m3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'foro_modulo3', title: 'Foro Módulo 3', moduleId: 'modulo3', type: 'foro', url: 'foro_modulo3.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-
             { pageId: 'admin_dashboard', title: 'Centro de control', moduleId: 'admin', type: 'admin', url: 'admin_dashboard.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
             { pageId: 'admin_anuncios', title: 'Administrar anuncios', moduleId: 'admin', type: 'admin', url: 'admin_anuncios.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
             { pageId: 'admin_usuarios', title: 'Administrar usuarios', moduleId: 'admin', type: 'admin', url: 'admin_usuarios.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
@@ -852,7 +751,6 @@
         function showStatusMessage(message, type = 'info') {
             const statusMessage = document.getElementById('statusMessage');
             if (!statusMessage) return;
-
             statusMessage.textContent = message;
             statusMessage.className = `status-message is-visible is-${type}`;
         }
@@ -863,13 +761,10 @@
                 localStorage.setItem(storageKey, JSON.stringify(defaultPages));
                 return [...defaultPages];
             }
-
             try {
                 const parsed = JSON.parse(raw);
                 return Array.isArray(parsed) ? parsed : [];
-            } catch {
-                return [];
-            }
+            } catch { return []; }
         }
 
         function saveAccessRules() {
@@ -878,29 +773,12 @@
 
         function labelFromValue(value) {
             const labels = {
-                general: 'General',
-                modulo1: 'Módulo 1',
-                modulo2: 'Módulo 2',
-                modulo3: 'Módulo 3',
-                admin: 'Administración',
-                dashboard: 'Dashboard',
-                perfil: 'Perfil',
-                anuncios: 'Anuncios',
-                foro: 'Foro',
-                intro: 'Introducción',
-                leccion: 'Lección',
-                actividad: 'Actividad',
-                recursos: 'Recursos',
-                manual: 'Manual',
-                date: 'Por fecha',
-                prerequisite: 'Prerrequisito',
-                participante: 'Participante',
-                facilitador: 'Facilitador',
-                all: 'Todas',
-                'cohorte-2026': 'Cohorte 2026',
-                piloto: 'Piloto'
+                general: 'General', modulo1: 'Módulo 1', modulo2: 'Módulo 2', modulo3: 'Módulo 3', admin: 'Administración',
+                dashboard: 'Dashboard', perfil: 'Perfil', anuncios: 'Anuncios', foro: 'Foro', intro: 'Introducción',
+                leccion: 'Lección', actividad: 'Actividad', recursos: 'Recursos', manual: 'Manual', date: 'Por fecha',
+                prerequisite: 'Prerrequisito', participante: 'Participante', facilitador: 'Facilitador', all: 'Todas',
+                'cohorte-2026': 'Cohorte 2026', piloto: 'Piloto'
             };
-
             return labels[value] || value || 'No aplica';
         }
 
@@ -914,21 +792,17 @@
         function populateSelects() {
             pageIdInput.textContent = '';
             prerequisiteInput.textContent = '';
-
             const emptyPrereq = document.createElement('option');
-            emptyPrereq.value = '';
-            emptyPrereq.textContent = 'Ninguno';
+            emptyPrereq.value = ''; emptyPrereq.textContent = 'Ninguno';
             prerequisiteInput.appendChild(emptyPrereq);
 
             accessRules.forEach((rule) => {
                 const pageOption = document.createElement('option');
-                pageOption.value = rule.pageId;
-                pageOption.textContent = `${rule.title} (${rule.url})`;
+                pageOption.value = rule.pageId; pageOption.textContent = `${rule.title} (${rule.url})`;
                 pageIdInput.appendChild(pageOption);
 
                 const prereqOption = document.createElement('option');
-                prereqOption.value = rule.pageId;
-                prereqOption.textContent = rule.title;
+                prereqOption.value = rule.pageId; prereqOption.textContent = rule.title;
                 prerequisiteInput.appendChild(prereqOption);
             });
         }
@@ -943,7 +817,6 @@
         function loadSelectedRule() {
             const selected = accessRules.find((rule) => rule.pageId === pageIdInput.value);
             if (!selected) return;
-
             document.getElementById('isPublished').value = String(selected.isPublished);
             document.getElementById('unlockMode').value = selected.unlockMode;
             document.getElementById('unlockAt').value = selected.unlockAt || '';
@@ -957,12 +830,10 @@
             const query = searchPages.value.trim().toLowerCase();
             const moduleValue = moduleFilter.value;
             const statusValue = statusFilter.value;
-
             return accessRules.filter((rule) => {
                 const matchesSearch = !query || rule.title.toLowerCase().includes(query) || rule.url.toLowerCase().includes(query);
                 const matchesModule = moduleValue === 'all' || rule.moduleId === moduleValue;
                 const matchesStatus = statusValue === 'all' || (statusValue === 'published' && rule.isPublished) || (statusValue === 'locked' && !rule.isPublished);
-
                 return matchesSearch && matchesModule && matchesStatus;
             });
         }
@@ -970,28 +841,17 @@
         function renderAccessRules() {
             accessList.textContent = '';
             updateMetrics();
-
             const filteredRules = getFilteredRules();
-
             if (filteredRules.length === 0) {
-                const empty = createElement('div', 'empty-state', 'No se encontraron páginas con los filtros seleccionados.');
-                accessList.appendChild(empty);
+                accessList.appendChild(createElement('div', 'empty-state', 'No se encontraron reglas.'));
                 return;
             }
-
             filteredRules.forEach((rule) => {
                 const card = createElement('article', 'access-card');
-                card.setAttribute('aria-label', `Regla de acceso para ${rule.title}`);
-
                 const header = createElement('div', 'access-card-header');
                 const titleGroup = createElement('div', 'access-title-group');
-                const title = createElement('h3', '', rule.title);
-                const url = createElement('span', 'access-url', rule.url);
-                titleGroup.append(title, url);
-
+                titleGroup.append(createElement('h3', '', rule.title), createElement('span', 'access-url', rule.url));
                 const toggle = createElement('button', 'toggle-pill');
-                toggle.type = 'button';
-                toggle.setAttribute('aria-label', `${rule.isPublished ? 'Bloquear' : 'Publicar'} ${rule.title}`);
                 toggle.setAttribute('aria-pressed', String(rule.isPublished));
                 toggle.addEventListener('click', () => togglePublished(rule.pageId));
                 header.append(titleGroup, toggle);
@@ -1000,41 +860,25 @@
                 meta.append(
                     createElement('span', rule.isPublished ? 'badge-soft badge-important' : 'badge-soft', rule.isPublished ? 'Publicado' : 'Bloqueado'),
                     createElement('span', 'badge-soft', labelFromValue(rule.moduleId)),
-                    createElement('span', 'badge-soft', labelFromValue(rule.type)),
                     createElement('span', rule.requiredRole === 'admin' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(rule.requiredRole))
                 );
 
                 const details = createElement('div', 'access-details');
-                const detailMode = createElement('div', 'detail-item');
-                detailMode.append(createElement('span', '', 'Apertura'), createElement('strong', '', labelFromValue(rule.unlockMode)));
-
-                const detailDate = createElement('div', 'detail-item');
-                detailDate.append(createElement('span', '', 'Fecha'), createElement('strong', '', rule.unlockAt || 'No aplica'));
-
-                const detailPrereq = createElement('div', 'detail-item');
-                const prereqTitle = rule.prerequisitePageId ? accessRules.find((item) => item.pageId === rule.prerequisitePageId)?.title || rule.prerequisitePageId : 'No aplica';
-                detailPrereq.append(createElement('span', '', 'Prerrequisito'), createElement('strong', '', prereqTitle));
-
-                const detailCohort = createElement('div', 'detail-item');
-                detailCohort.append(createElement('span', '', 'Cohorte'), createElement('strong', '', labelFromValue(rule.allowedCohort)));
-
-                const detailAuth = createElement('div', 'detail-item');
-                detailAuth.append(createElement('span', '', 'Sesión'), createElement('strong', '', rule.requiresAuth ? 'Requerida' : 'No requerida'));
-
-                const detailId = createElement('div', 'detail-item');
-                detailId.append(createElement('span', '', 'ID'), createElement('strong', '', rule.pageId));
-
-                details.append(detailMode, detailDate, detailPrereq, detailCohort, detailAuth, detailId);
+                const addDetail = (label, value) => {
+                    const item = createElement('div', 'detail-item');
+                    item.append(createElement('span', '', label), createElement('strong', '', value));
+                    details.appendChild(item);
+                };
+                addDetail('Apertura', labelFromValue(rule.unlockMode));
+                addDetail('Fecha', rule.unlockAt || 'No aplica');
+                addDetail('ID', rule.pageId);
 
                 const actions = createElement('div', 'access-actions');
-                const editButton = createElement('button', 'btn-admin-secondary', 'Editar');
-                editButton.type = 'button';
-                editButton.addEventListener('click', () => selectRule(rule.pageId));
+                const editBtn = createElement('button', 'btn-admin-secondary', 'Editar');
+                editBtn.addEventListener('click', () => selectRule(rule.pageId));
+                actions.append(editBtn, createElement('a', 'btn-admin-secondary', 'Abrir'));
+                actions.querySelector('a').href = rule.url;
 
-                const openButton = createElement('a', 'btn-admin-secondary', 'Abrir página');
-                openButton.href = rule.url;
-
-                actions.append(editButton, openButton);
                 card.append(header, meta, details, actions);
                 accessList.appendChild(card);
             });
@@ -1057,87 +901,57 @@
                 updatedAt: new Date().toISOString()
             };
 
-            if (updatedRule.unlockMode === 'date' && !updatedRule.unlockAt) {
-                showStatusMessage('Seleccionaste apertura por fecha. Indica una fecha de apertura.', 'error');
-                return;
-            }
-
-            if (updatedRule.unlockMode === 'prerequisite' && !updatedRule.prerequisitePageId) {
-                showStatusMessage('Seleccionaste apertura por prerrequisito. Indica una página prerrequisito.', 'error');
-                return;
-            }
-
-            if (updatedRule.prerequisitePageId === updatedRule.pageId) {
-                showStatusMessage('Una página no puede ser prerrequisito de sí misma.', 'error');
-                return;
-            }
-
             accessRules = accessRules.map((rule) => rule.pageId === selectedPageId ? updatedRule : rule);
             saveAccessRules();
-            populateSelects();
-            pageIdInput.value = selectedPageId;
-            loadSelectedRule();
             renderAccessRules();
-            showStatusMessage('Regla de acceso actualizada temporalmente en este navegador.', 'success');
+            showStatusMessage('Regla guardada temporalmente.', 'success');
         }
 
         function togglePublished(pageId) {
-            accessRules = accessRules.map((rule) => rule.pageId === pageId ? { ...rule, isPublished: !rule.isPublished, updatedAt: new Date().toISOString() } : rule);
-            saveAccessRules();
-            renderAccessRules();
-            if (pageIdInput.value === pageId) loadSelectedRule();
-            showStatusMessage('Estado de publicación actualizado temporalmente.', 'success');
+            accessRules = accessRules.map((rule) => rule.pageId === pageId ? { ...rule, isPublished: !rule.isPublished } : rule);
+            saveAccessRules(); renderAccessRules();
         }
 
         function selectRule(pageId) {
-            pageIdInput.value = pageId;
-            loadSelectedRule();
-            document.getElementById('edit-access-title')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            pageIdInput.value = pageId; loadSelectedRule();
+            document.getElementById('edit-access-title')?.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function publishAll() {
-            accessRules = accessRules.map((rule) => ({ ...rule, isPublished: true, updatedAt: new Date().toISOString() }));
-            saveAccessRules();
-            loadSelectedRule();
-            renderAccessRules();
-            showStatusMessage('Todas las páginas fueron marcadas como publicadas en el prototipo.', 'success');
-        }
-
-        function restoreDefaults() {
-            accessRules = [...defaultPages];
-            saveAccessRules();
-            populateSelects();
-            loadSelectedRule();
-            renderAccessRules();
-            showStatusMessage('Se restauró la configuración demo de accesos.', 'success');
-        }
-
-        accessForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            saveSelectedRule();
-        });
-
+        accessForm.addEventListener('submit', (e) => { e.preventDefault(); saveSelectedRule(); });
         pageIdInput.addEventListener('change', loadSelectedRule);
         searchPages.addEventListener('input', renderAccessRules);
         moduleFilter.addEventListener('change', renderAccessRules);
         statusFilter.addEventListener('change', renderAccessRules);
-        document.getElementById('openAllBtn')?.addEventListener('click', publishAll);
-        document.getElementById('resetDefaultsBtn')?.addEventListener('click', restoreDefaults);
+        document.getElementById('resetDefaultsBtn')?.addEventListener('click', () => { accessRules = [...defaultPages]; saveAccessRules(); populateSelects(); renderAccessRules(); });
 
         accessRules = getSavedAccessRules();
-        populateSelects();
-        loadSelectedRule();
-        renderAccessRules();
-    </script>
+        populateSelects(); loadSelectedRule(); renderAccessRules();
 
-    <!--
-        Integración futura con Firebase:
-        1. Proteger esta página con scripts/auth-guard.js y scripts/admin-guard.js.
-        2. Guardar estas reglas en Firestore collection: pageAccess.
-        3. Usar access-guard.js en cada página para validar isPublished, requiresAuth, requiredRole, allowedCohort, unlockMode, unlockAt y prerequisitePageId.
-        4. No confiar solo en ocultar enlaces. Para datos privados, validar también con Firestore Security Rules.
-        5. Cuando haya roles reales, administrar requiredRole con Custom Claims o Firestore + reglas de seguridad.
-    -->
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else { img.onerror = null; }
+            };
+            if (uniqueCandidates.length > 0) { img.src = uniqueCandidates[index]; index += 1; }
+        }
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+    </script>
 
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>

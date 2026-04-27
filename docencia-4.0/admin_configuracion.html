@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/main.css">
 
     <style>
-        body {
+        .admin-configuracion-page {
             margin: 0;
             padding-top: var(--height-module-topnav, 80px);
             min-height: 100vh;
@@ -27,23 +27,23 @@
             line-height: var(--line-height-loose);
         }
 
-        p {
+        .admin-configuracion-page p {
             margin: 0 0 var(--spacing-sm);
             color: var(--color-text-secondary);
         }
 
-        strong {
+        .admin-configuracion-page strong {
             color: var(--color-text-primary);
             font-weight: var(--font-weight-bold);
         }
 
-        .admin-wrapper {
+        .admin-configuracion-page .admin-wrapper {
             max-width: 1280px;
             margin: var(--spacing-xl) auto var(--spacing-16);
             padding: 0 var(--spacing-md);
         }
 
-        .admin-shell {
+        .admin-configuracion-page .admin-shell {
             position: relative;
             overflow: hidden;
             padding: var(--spacing-16);
@@ -53,13 +53,13 @@
             box-shadow: var(--shadow-ambient);
         }
 
-        .admin-header {
+        .admin-configuracion-page .admin-header {
             display: grid;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-xl);
         }
 
-        .admin-kicker {
+        .admin-configuracion-page .admin-kicker {
             display: inline-flex;
             width: fit-content;
             align-items: center;
@@ -74,7 +74,7 @@
             text-transform: uppercase;
         }
 
-        .admin-title {
+        .admin-configuracion-page .admin-title {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -84,19 +84,11 @@
             letter-spacing: var(--letter-spacing-tight);
         }
 
-        .admin-title span {
+        .admin-configuracion-page .admin-title span {
             color: var(--color-brand-primary);
         }
 
-        .admin-description {
-            max-width: 860px;
-            margin: 0;
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-lg);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .admin-alert {
+        .admin-configuracion-page .admin-alert {
             display: flex;
             align-items: flex-start;
             gap: var(--spacing-md);
@@ -107,18 +99,7 @@
             background: var(--color-background-surface-low);
         }
 
-        .admin-alert-icon {
-            font-size: var(--font-size-xl);
-            line-height: 1;
-        }
-
-        .admin-alert p {
-            margin: 0;
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .status-message {
+        .admin-configuracion-page .status-message {
             display: none;
             padding: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
@@ -128,49 +109,41 @@
             background: var(--color-background-surface-low);
             color: var(--color-text-secondary);
             font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
         }
 
-        .status-message.is-visible {
+        .admin-configuracion-page .status-message.is-visible {
             display: block;
         }
 
-        .status-message.is-error {
-            border-left-color: var(--color-brand-secondary);
-        }
-
-        .metrics-grid {
+        .admin-configuracion-page .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
 
-        .metric-card,
-        .panel-card,
-        .config-card,
-        .check-card {
+        .admin-configuracion-page .metric-card,
+        .admin-configuracion-page .panel-card,
+        .admin-configuracion-page .config-card,
+        .admin-configuracion-page .check-card {
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
-        }
-
-        .metric-card {
             padding: var(--spacing-xl);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .metric-card:hover {
+        .admin-configuracion-page .metric-card {
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .admin-configuracion-page .metric-card:hover {
             transform: translateY(-4px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-floating);
         }
 
-        .metric-icon {
+        .admin-configuracion-page .metric-icon {
             width: 52px;
             height: 52px;
             display: flex;
@@ -183,81 +156,35 @@
             font-size: var(--font-size-2xl);
         }
 
-        .metric-value {
-            margin: 0;
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-3xl);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-tight);
-        }
-
-        .metric-label {
-            margin: var(--spacing-1) 0 0;
-            color: var(--color-text-muted);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .admin-grid {
+        .admin-configuracion-page .admin-grid {
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(340px, 0.42fr);
             gap: var(--spacing-xl);
             align-items: start;
         }
 
-        .panel-stack {
+        .admin-configuracion-page .panel-stack {
             display: grid;
             gap: var(--spacing-xl);
         }
 
-        .panel-card,
-        .config-card,
-        .check-card {
-            padding: var(--spacing-xl);
-        }
-
-        .panel-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .panel-header h2 {
-            margin: 0;
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .panel-header p {
-            margin-top: var(--spacing-2);
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .form-grid {
+        .admin-configuracion-page .form-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: var(--spacing-md);
         }
 
-        .form-field {
+        .admin-configuracion-page .form-field {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-2);
         }
 
-        .form-field.full-width {
+        .admin-configuracion-page .form-field.full-width {
             grid-column: 1 / -1;
         }
 
-        .form-label {
+        .admin-configuracion-page .form-label {
             color: var(--color-text-secondary);
             font-size: var(--font-size-xs);
             font-weight: var(--font-weight-bold);
@@ -265,9 +192,9 @@
             text-transform: uppercase;
         }
 
-        .form-input,
-        .form-select,
-        .form-textarea {
+        .admin-configuracion-page .form-input,
+        .admin-configuracion-page .form-select,
+        .admin-configuracion-page .form-textarea {
             width: 100%;
             min-height: 48px;
             padding: var(--spacing-sm) var(--spacing-md);
@@ -276,46 +203,19 @@
             border-radius: var(--radius-lg);
             color: var(--color-text-primary);
             font-family: var(--font-family-body);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-            transition:
-                background-color var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .form-select {
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .form-textarea {
-            min-height: 140px;
-            resize: vertical;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
+        .admin-configuracion-page .form-input:focus,
+        .admin-configuracion-page .form-select:focus,
+        .admin-configuracion-page .form-textarea:focus {
             outline: none;
             background: var(--color-white);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-focus-primary);
         }
 
-        .field-helper {
-            color: var(--color-text-muted);
-            font-size: var(--font-size-xs);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .settings-group {
-            display: grid;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-lg);
-        }
-
-        .setting-row {
+        .admin-configuracion-page .setting-row {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
             gap: var(--spacing-md);
@@ -324,31 +224,13 @@
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-lg);
             background: var(--color-background-surface-low);
+            margin-bottom: var(--spacing-md);
         }
 
-        .setting-row h3 {
-            margin: 0 0 var(--spacing-1);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .setting-row p {
-            margin: 0;
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .toggle-pill {
+        .admin-configuracion-page .toggle-pill {
             position: relative;
             width: 48px;
             height: 28px;
-            display: inline-flex;
-            align-items: center;
-            flex: 0 0 48px;
             border: 0;
             border-radius: var(--radius-pill);
             background: var(--color-border-default);
@@ -356,7 +238,7 @@
             transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .toggle-pill::after {
+        .admin-configuracion-page .toggle-pill::after {
             content: '';
             position: absolute;
             left: var(--spacing-1);
@@ -368,34 +250,15 @@
             transition: transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .toggle-pill[aria-pressed="true"] {
+        .admin-configuracion-page .toggle-pill[aria-pressed="true"] {
             background: var(--color-brand-primary);
         }
 
-        .toggle-pill[aria-pressed="true"]::after {
+        .admin-configuracion-page .toggle-pill[aria-pressed="true"]::after {
             transform: translateX(20px);
         }
 
-        .badge-soft {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-1);
-            padding: var(--spacing-1) var(--spacing-3);
-            border-radius: var(--radius-pill);
-            background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-2xs);
-            font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
-            text-transform: uppercase;
-        }
-
-        .badge-important {
-            background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
-        }
-
-        .btn-admin-secondary {
+        .admin-configuracion-page .btn-admin-secondary {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -411,32 +274,10 @@
             font-weight: var(--font-weight-bold);
             text-decoration: none;
             cursor: pointer;
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-admin-secondary:hover {
-            transform: translateY(-2px);
-            border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-floating);
-        }
-
-        .form-actions {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-xl);
-        }
-
-        .check-list {
-            display: grid;
-            gap: var(--spacing-md);
-        }
-
-        .check-item {
+        .admin-configuracion-page .check-item {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -445,133 +286,34 @@
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-lg);
             background: var(--color-background-surface-low);
+            margin-bottom: var(--spacing-sm);
         }
 
-        .check-item h3 {
-            margin: 0 0 var(--spacing-1);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-        .check-item p {
-            margin: 0;
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .system-log {
-            display: grid;
-            gap: var(--spacing-sm);
-        }
-
-        .log-item {
-            padding: var(--spacing-md);
-            border-left: var(--border-width-6) solid var(--color-brand-primary);
-            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        .admin-configuracion-page .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
             background: var(--color-background-surface-low);
-        }
-
-        .log-item h3 {
-            margin: 0 0 var(--spacing-1);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-base);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
             font-weight: var(--font-weight-extrabold);
-        }
-
-        .log-item p {
-            margin: 0;
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .menu-btn:focus-visible,
-        .menu-links a:focus-visible,
-        .btn:focus-visible,
-        .btn-admin-secondary:focus-visible,
-        .btn-footer:focus-visible,
-        .btn-scroll-top:focus-visible,
-        .form-input:focus-visible,
-        .form-select:focus-visible,
-        .form-textarea:focus-visible,
-        .toggle-pill:focus-visible {
-            outline: var(--border-width-2) solid var(--color-border-focus);
-            outline-offset: var(--spacing-1);
+            text-transform: uppercase;
         }
 
         @media (max-width: 1120px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .metrics-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            .admin-configuracion-page .admin-grid { grid-template-columns: 1fr; }
+            .admin-configuracion-page .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
         @media (max-width: 768px) {
-
-            .admin-shell,
-            .panel-card,
-            .metric-card,
-            .config-card,
-            .check-card {
-                padding: var(--spacing-xl);
-            }
-
-            .admin-title {
-                font-size: var(--font-size-3xl);
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-field.full-width {
-                grid-column: auto;
-            }
-
-            .panel-header,
-            .setting-row,
-            .check-item {
-                grid-template-columns: 1fr;
-                flex-direction: column;
-            }
-
-            .form-actions {
-                justify-content: stretch;
-            }
-
-            .form-actions .btn,
-            .form-actions .btn-admin-secondary {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 520px) {
-            .admin-wrapper {
-                padding: 0 var(--spacing-sm);
-            }
-
-            .admin-shell,
-            .panel-card,
-            .metric-card,
-            .config-card,
-            .check-card {
-                padding: var(--spacing-md);
-                border-radius: var(--radius-lg);
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
+            .admin-configuracion-page .form-grid { grid-template-columns: 1fr; }
+            .admin-configuracion-page .setting-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
-<body>
+<body class="admin-configuracion-page">
     <nav class="top-nav" aria-label="Navegación superior administrativa">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -617,522 +359,146 @@
             <header class="admin-header">
                 <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
                 <h1 id="admin-title" class="admin-title">Configuración <span>LMS</span></h1>
-                <p class="admin-description">Administra parámetros generales del curso, reglas operativas, privacidad,
-                    notificaciones y estado técnico de la plataforma.</p>
+                <p class="admin-description">Administra parámetros generales, reglas operativas y privacidad.</p>
             </header>
 
-            <section class="admin-alert" aria-label="Aviso de estado de integración">
+            <section class="admin-alert" aria-label="Aviso de prototipo">
                 <span class="admin-alert-icon" aria-hidden="true">🧪</span>
-                <p><strong>Modo prototipo:</strong> la configuración se guarda temporalmente en este navegador. En
-                    producción, estos parámetros deben guardarse en Firestore y protegerse con reglas administrativas.
-                </p>
+                <p><strong>Modo prototipo:</strong> la configuración se guarda temporalmente en este navegador.</p>
             </section>
 
             <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
 
-            <section class="metrics-grid" aria-label="Estado técnico del LMS">
+            <section class="metrics-grid" aria-label="Estado técnico">
                 <article class="metric-card">
                     <div class="metric-icon" aria-hidden="true">🔥</div>
-                    <p id="metricFirebase" class="metric-value">Base</p>
+                    <p class="metric-value">Base</p>
                     <p class="metric-label">Firebase Auth</p>
                 </article>
                 <article class="metric-card">
                     <div class="metric-icon" aria-hidden="true">🔐</div>
-                    <p id="metricAccess" class="metric-value">Guard</p>
-                    <p class="metric-label">Protección de páginas</p>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-icon" aria-hidden="true">📦</div>
-                    <p id="metricStorage" class="metric-value">Local</p>
-                    <p class="metric-label">Datos temporales</p>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-icon" aria-hidden="true">🧩</div>
-                    <p id="metricPhase" class="metric-value">Fase 2</p>
-                    <p class="metric-label">Configuración LMS</p>
+                    <p class="metric-value">Guard</p>
+                    <p class="metric-label">Protección</p>
                 </article>
             </section>
 
-            <section class="admin-grid" aria-label="Configuración general de plataforma">
+            <section class="admin-grid" aria-label="Configuración de plataforma">
                 <div class="panel-stack">
-                    <section class="panel-card" aria-labelledby="general-settings-title">
+                    <section class="panel-card">
                         <div class="panel-header">
-                            <div>
-                                <h2 id="general-settings-title">Información general</h2>
-                                <p>Define los textos y datos base que identifican la plataforma.</p>
-                            </div>
-                            <span class="badge-soft badge-important">Editable</span>
+                            <h2>Información general</h2>
                         </div>
-
-                        <form id="settingsForm" novalidate data-admin-form="settings">
+                        <form id="settingsForm">
                             <div class="form-grid">
-                                <div class="form-field">
-                                    <label for="platformName" class="form-label">Nombre de la plataforma</label>
-                                    <input id="platformName" name="platformName" class="form-input" type="text"
-                                        maxlength="80" required>
+                                <div class="form-field full-width">
+                                    <label for="platformName" class="form-label">Nombre de plataforma</label>
+                                    <input id="platformName" class="form-input" type="text" value="Academia Docencia 4.0">
                                 </div>
-
-                                <div class="form-field">
-                                    <label for="programCycle" class="form-label">Ciclo o cohorte principal</label>
-                                    <input id="programCycle" name="programCycle" class="form-input" type="text"
-                                        maxlength="80" required>
-                                </div>
-
-                                <div class="form-field">
-                                    <label for="supportEmail" class="form-label">Email de apoyo</label>
-                                    <input id="supportEmail" name="supportEmail" class="form-input" type="email"
-                                        required>
-                                </div>
-
                                 <div class="form-field">
                                     <label for="adminEmail" class="form-label">Email administrador</label>
-                                    <input id="adminEmail" name="adminEmail" class="form-input" type="email" required>
-                                </div>
-
-                                <div class="form-field full-width">
-                                    <label for="welcomeMessage" class="form-label">Mensaje de bienvenida</label>
-                                    <textarea id="welcomeMessage" name="welcomeMessage" class="form-textarea"
-                                        maxlength="600"></textarea>
-                                    <span class="field-helper">Este mensaje puede mostrarse en el dashboard o en
-                                        anuncios de bienvenida cuando se conecte Firestore.</span>
+                                    <input id="adminEmail" class="form-input" type="email" value="admin@docencia40.local">
                                 </div>
                             </div>
-
                             <div class="form-actions">
-                                <button id="restoreSettingsBtn" class="btn-admin-secondary" type="button">Restaurar
-                                    valores</button>
-                                <button id="saveSettingsBtn" class="btn btn-primary" type="submit">Guardar
-                                    configuración</button>
+                                <button class="btn btn-primary" type="submit">Guardar configuración</button>
                             </div>
                         </form>
                     </section>
 
-                    <section class="panel-card" aria-labelledby="operational-settings-title">
+                    <section class="panel-card">
                         <div class="panel-header">
+                            <h2>Reglas operativas</h2>
+                        </div>
+                        <div class="setting-row">
                             <div>
-                                <h2 id="operational-settings-title">Reglas operativas</h2>
-                                <p>Controla comportamientos generales del LMS antes de conectarlos a Firebase.</p>
+                                <h3>Moderación preventiva</h3>
+                                <p>Revisa publicaciones antes de publicarlas.</p>
                             </div>
-                        </div>
-
-                        <div class="settings-group" aria-label="Reglas operativas del LMS">
-                            <article class="setting-row">
-                                <div>
-                                    <h3>Requerir verificación de email</h3>
-                                    <p>Cuando esté activo, el participante deberá verificar su email antes de acceder a
-                                        módulos.</p>
-                                </div>
-                                <button class="toggle-pill" type="button" data-setting="requireEmailVerification"
-                                    aria-label="Activar o desactivar verificación de email"
-                                    aria-pressed="false"></button>
-                            </article>
-
-                            <article class="setting-row">
-                                <div>
-                                    <h3>Mostrar anuncios en dashboard</h3>
-                                    <p>Activa una alerta visual cuando existan anuncios activos o urgentes.</p>
-                                </div>
-                                <button class="toggle-pill" type="button" data-setting="showAnnouncementsBanner"
-                                    aria-label="Activar o desactivar anuncios en dashboard"
-                                    aria-pressed="true"></button>
-                            </article>
-
-                            <article class="setting-row">
-                                <div>
-                                    <h3>Registrar progreso automáticamente</h3>
-                                    <p>Permite que cada página registre apertura, avance y finalización.</p>
-                                </div>
-                                <button class="toggle-pill" type="button" data-setting="trackProgress"
-                                    aria-label="Activar o desactivar registro de progreso" aria-pressed="true"></button>
-                            </article>
-
-                            <article class="setting-row">
-                                <div>
-                                    <h3>Permitir alias en foros</h3>
-                                    <p>Recomendado para reducir exposición de identidad personal en discusiones.</p>
-                                </div>
-                                <button class="toggle-pill" type="button" data-setting="allowForumAliases"
-                                    aria-label="Activar o desactivar alias en foros" aria-pressed="true"></button>
-                            </article>
-
-                            <article class="setting-row">
-                                <div>
-                                    <h3>Moderación preventiva</h3>
-                                    <p>Marca publicaciones con posibles datos sensibles para revisión administrativa.
-                                    </p>
-                                </div>
-                                <button class="toggle-pill" type="button" data-setting="enableModerationReview"
-                                    aria-label="Activar o desactivar moderación preventiva"
-                                    aria-pressed="true"></button>
-                            </article>
-                        </div>
-                    </section>
-
-                    <section class="panel-card" aria-labelledby="privacy-settings-title">
-                        <div class="panel-header">
-                            <div>
-                                <h2 id="privacy-settings-title">Privacidad y uso responsable</h2>
-                                <p>Define el recordatorio institucional que acompañará foros, actividades y herramientas
-                                    con IA.</p>
-                            </div>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="privacyNotice" class="form-label">Aviso de privacidad</label>
-                            <textarea id="privacyNotice" class="form-textarea" maxlength="900"></textarea>
-                            <span class="field-helper">Recomendación: recordar que no deben compartirse datos sensibles
-                                de estudiantes, familias, colegas o instituciones.</span>
-                        </div>
-
-                        <div class="form-actions">
-                            <button id="savePrivacyBtn" class="btn btn-primary" type="button">Guardar aviso</button>
+                            <button class="toggle-pill" type="button" aria-pressed="true"></button>
                         </div>
                     </section>
                 </div>
 
-                <aside class="panel-stack" aria-label="Estado y checklist de configuración">
-                    <section class="check-card" aria-labelledby="checklist-title">
-                        <div class="panel-header">
+                <aside class="panel-stack">
+                    <section class="check-card">
+                        <h2>Checklist técnico</h2>
+                        <div class="check-item">
                             <div>
-                                <h2 id="checklist-title">Checklist técnico</h2>
-                                <p>Elementos necesarios para pasar de prototipo a LMS operativo.</p>
+                                <h3>Auth Guard</h3>
+                                <p>Protección de rutas.</p>
                             </div>
-                        </div>
-
-                        <div class="check-list">
-                            <article class="check-item">
-                                <div>
-                                    <h3>Firebase Authentication</h3>
-                                    <p>Registro, login, recuperación y cierre de sesión.</p>
-                                </div>
-                                <span class="badge-soft badge-important">Base lista</span>
-                            </article>
-
-                            <article class="check-item">
-                                <div>
-                                    <h3>Auth Guard</h3>
-                                    <p>Protección de páginas internas y redirección al login.</p>
-                                </div>
-                                <span class="badge-soft badge-important">Base lista</span>
-                            </article>
-
-                            <article class="check-item">
-                                <div>
-                                    <h3>Admin Guard</h3>
-                                    <p>Restricción temporal del panel administrativo al email autorizado.</p>
-                                </div>
-                                <span class="badge-soft">Pendiente revisar</span>
-                            </article>
-
-                            <article class="check-item">
-                                <div>
-                                    <h3>Firestore</h3>
-                                    <p>Anuncios, progreso, foros, lecturas, reacciones y auditoría.</p>
-                                </div>
-                                <span class="badge-soft">Pendiente</span>
-                            </article>
-
-                            <article class="check-item">
-                                <div>
-                                    <h3>Reglas de seguridad</h3>
-                                    <p>Control de lectura/escritura por rol, usuario y colección.</p>
-                                </div>
-                                <span class="badge-soft">Pendiente</span>
-                            </article>
-
-                            <article class="check-item">
-                                <div>
-                                    <h3>Cloud Functions</h3>
-                                    <p>Notificaciones por correo, reportes y tareas administrativas.</p>
-                                </div>
-                                <span class="badge-soft">Fase posterior</span>
-                            </article>
-                        </div>
-                    </section>
-
-                    <section class="check-card" aria-labelledby="logs-title">
-                        <div class="panel-header">
-                            <div>
-                                <h2 id="logs-title">Registro del sistema</h2>
-                                <p>Eventos recientes del prototipo administrativo.</p>
-                            </div>
-                        </div>
-
-                        <div id="systemLog" class="system-log" aria-live="polite"></div>
-                    </section>
-
-                    <section class="check-card" aria-labelledby="maintenance-title">
-                        <div class="panel-header">
-                            <div>
-                                <h2 id="maintenance-title">Mantenimiento</h2>
-                                <p>Acciones seguras para pruebas locales.</p>
-                            </div>
-                        </div>
-
-                        <div class="settings-group">
-                            <button id="exportSettingsBtn" class="btn-admin-secondary" type="button">Exportar
-                                configuración demo</button>
-                            <button id="clearPrototypeDataBtn" class="btn-admin-secondary" type="button">Limpiar datos
-                                temporales</button>
-                            <a href="admin_dashboard.html" class="btn-admin-secondary">Volver al centro de control</a>
+                            <span class="badge-soft badge-important">Listo</span>
                         </div>
                     </section>
                 </aside>
             </section>
 
-            <nav class="footer-nav" aria-label="Navegación del panel de configuración">
-                <a href="admin_foros.html" class="btn-footer btn-back">← Administrar foros</a>
+            <nav class="footer-nav">
+                <a href="admin_foros.html" class="btn-footer btn-back">← Volver a foros</a>
                 <a href="admin_dashboard.html" class="btn-footer btn-next">Centro de control →</a>
             </nav>
         </article>
     </main>
 
-    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir">↑</a>
 
     <script>
         function createId() {
             if (window.crypto && typeof window.crypto.randomUUID === 'function') {
                 return window.crypto.randomUUID();
             }
-
             return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         }
-
+    </script>
 
     <script type="module" src="scripts/admin-ui.js"></script>
+
     <script>
-        // Lógica específica de Configuración
-
         const storageKey = 'docencia40_admin_settings_v1';
-        const logKey = 'docencia40_admin_settings_logs_v1';
-
-        const defaultSettings = {
-            platformName: 'Academia Docencia 4.0',
-            programCycle: 'Cohorte 2026',
-            supportEmail: 'soporte@docencia40.local',
-            adminEmail: 'carmelo.allende@gmail.com',
-            welcomeMessage: 'Bienvenido al Programa de Formación Profesional en LLM. En esta plataforma encontrarás módulos, actividades, recursos, foros y anuncios para apoyar tu proceso de aprendizaje.',
-            privacyNotice: 'No compartas datos sensibles, información identificable de estudiantes, familias, colegas, instituciones, expedientes académicos, datos clínicos o información confidencial en foros, actividades o herramientas de IA.',
-            requireEmailVerification: false,
-            showAnnouncementsBanner: true,
-            trackProgress: true,
-            allowForumAliases: true,
-            enableModerationReview: true,
-            updatedAt: new Date().toISOString()
-        };
-
-        let settings = {};
-        let logs = [];
+        const settingsForm = document.getElementById('settingsForm');
 
         function showStatusMessage(message, type = 'info') {
             const statusMessage = document.getElementById('statusMessage');
             if (!statusMessage) return;
-
             statusMessage.textContent = message;
             statusMessage.className = `status-message is-visible is-${type}`;
         }
 
-        function getSavedSettings() {
-            const raw = localStorage.getItem(storageKey);
-            if (!raw) {
-                localStorage.setItem(storageKey, JSON.stringify(defaultSettings));
-                return { ...defaultSettings };
-            }
-
-            try {
-                const parsed = JSON.parse(raw);
-                return { ...defaultSettings, ...parsed };
-            } catch {
-                return { ...defaultSettings };
-            }
-        }
-
-        function getSavedLogs() {
-            const raw = localStorage.getItem(logKey);
-            if (!raw) return [];
-
-            try {
-                const parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch {
-                return [];
-            }
-        }
-
-        function saveSettings() {
-            localStorage.setItem(storageKey, JSON.stringify(settings));
-        }
-
-        function saveLogs() {
-            localStorage.setItem(logKey, JSON.stringify(logs.slice(0, 8)));
-        }
-
-        function addLog(title, description) {
-            logs = [
-                {
-                    id: createId(),
-                    title,
-                    description,
-                    createdAt: new Date().toLocaleString('es-PR')
-                },
-                ...logs
-            ].slice(0, 8);
-
-            saveLogs();
-            renderLogs();
-        }
-
-        function renderLogs() {
-            const systemLog = document.getElementById('systemLog');
-            systemLog.textContent = '';
-
-            if (logs.length === 0) {
-                const item = document.createElement('article');
-                item.className = 'log-item';
-                const title = document.createElement('h3');
-                title.textContent = 'Sin eventos recientes';
-                const description = document.createElement('p');
-                description.textContent = 'Las acciones realizadas en esta página aparecerán aquí.';
-                item.append(title, description);
-                systemLog.appendChild(item);
-                return;
-            }
-
-            logs.forEach((log) => {
-                const item = document.createElement('article');
-                item.className = 'log-item';
-
-                const title = document.createElement('h3');
-                title.textContent = log.title;
-
-                const description = document.createElement('p');
-                description.textContent = `${log.description} · ${log.createdAt}`;
-
-                item.append(title, description);
-                systemLog.appendChild(item);
-            });
-        }
-
-        function loadSettingsIntoForm() {
-            document.getElementById('platformName').value = settings.platformName;
-            document.getElementById('programCycle').value = settings.programCycle;
-            document.getElementById('supportEmail').value = settings.supportEmail;
-            document.getElementById('adminEmail').value = settings.adminEmail;
-            document.getElementById('welcomeMessage').value = settings.welcomeMessage;
-            document.getElementById('privacyNotice').value = settings.privacyNotice;
-
-            document.querySelectorAll('.toggle-pill[data-setting]').forEach((button) => {
-                const key = button.dataset.setting;
-                button.setAttribute('aria-pressed', String(Boolean(settings[key])));
-            });
-        }
-
-        function updateSettingsFromForm() {
-            settings = {
-                ...settings,
-                platformName: document.getElementById('platformName').value.trim(),
-                programCycle: document.getElementById('programCycle').value.trim(),
-                supportEmail: document.getElementById('supportEmail').value.trim(),
-                adminEmail: document.getElementById('adminEmail').value.trim(),
-                welcomeMessage: document.getElementById('welcomeMessage').value.trim(),
-                privacyNotice: document.getElementById('privacyNotice').value.trim(),
+        settingsForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem(storageKey, JSON.stringify({
+                platformName: document.getElementById('platformName').value,
+                adminEmail: document.getElementById('adminEmail').value,
                 updatedAt: new Date().toISOString()
+            }));
+            showStatusMessage('Configuración guardada temporalmente.', 'success');
+        });
+
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else { img.onerror = null; }
             };
+            if (uniqueCandidates.length > 0) { img.src = uniqueCandidates[index]; index += 1; }
         }
-
-        function toggleSetting(button) {
-            const key = button.dataset.setting;
-            const nextValue = button.getAttribute('aria-pressed') !== 'true';
-            button.setAttribute('aria-pressed', String(nextValue));
-            settings[key] = nextValue;
-            settings.updatedAt = new Date().toISOString();
-            saveSettings();
-            addLog('Regla operativa actualizada', `${key}: ${nextValue ? 'activado' : 'desactivado'}`);
-            showStatusMessage('Regla operativa actualizada temporalmente.', 'success');
-        }
-
-        function restoreDefaults() {
-            settings = { ...defaultSettings, updatedAt: new Date().toISOString() };
-            saveSettings();
-            loadSettingsIntoForm();
-            addLog('Configuración restaurada', 'Se restauraron los valores demo del LMS');
-            showStatusMessage('Configuración restaurada a valores de demostración.', 'success');
-        }
-
-        function exportSettings() {
-            const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'configuracion_docencia40_demo.json';
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            URL.revokeObjectURL(url);
-            addLog('Configuración exportada', 'Se descargó un archivo JSON con la configuración demo');
-            showStatusMessage('Configuración demo exportada en formato JSON.', 'success');
-        }
-
-        function clearPrototypeData() {
-            const keysToRemove = [
-                'docencia40_admin_announcements_v1',
-                'docencia40_admin_users_v1',
-                'docencia40_admin_access_v1',
-                'docencia40_admin_progress_v1',
-                'docencia40_admin_forums_v1'
-            ];
-
-            keysToRemove.forEach((key) => localStorage.removeItem(key));
-            addLog('Datos temporales limpiados', 'Se eliminaron datos demo de anuncios, usuarios, accesos, progreso y foros');
-            showStatusMessage('Datos temporales de otros paneles eliminados. La configuración general se conservó.', 'success');
-        }
-
-        document.getElementById('settingsForm')?.addEventListener('submit', (event) => {
-            event.preventDefault();
-            updateSettingsFromForm();
-
-            if (!settings.platformName || !settings.supportEmail || !settings.adminEmail) {
-                showStatusMessage('Completa el nombre de la plataforma, email de apoyo y email administrador.', 'error');
-                return;
-            }
-
-            saveSettings();
-            addLog('Configuración general guardada', 'Se actualizaron los datos principales de la plataforma');
-            showStatusMessage('Configuración general guardada temporalmente.', 'success');
-        });
-
-        document.getElementById('restoreSettingsBtn')?.addEventListener('click', restoreDefaults);
-
-        document.getElementById('savePrivacyBtn')?.addEventListener('click', () => {
-            settings.privacyNotice = document.getElementById('privacyNotice').value.trim();
-            settings.updatedAt = new Date().toISOString();
-            saveSettings();
-            addLog('Aviso de privacidad guardado', 'Se actualizó el recordatorio de uso responsable');
-            showStatusMessage('Aviso de privacidad guardado temporalmente.', 'success');
-        });
-
-        document.getElementById('exportSettingsBtn')?.addEventListener('click', exportSettings);
-        document.getElementById('clearPrototypeDataBtn')?.addEventListener('click', clearPrototypeData);
-
-        document.querySelectorAll('.toggle-pill[data-setting]').forEach((button) => {
-            button.addEventListener('click', () => toggleSetting(button));
-        });
-
-        settings = getSavedSettings();
-        logs = getSavedLogs();
-        loadSettingsIntoForm();
-        renderLogs();
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
     </script>
-
-    <!--
-        Integración futura con Firebase:
-        1. Proteger esta página con scripts/auth-guard.js y scripts/admin-guard.js.
-        2. Guardar configuración en Firestore collection: systemSettings.
-        3. Registrar cambios administrativos en auditLogs.
-        4. Usar estas reglas para controlar anuncios, progreso, alias en foros y verificación de email.
-        5. Evitar almacenar configuraciones críticas solo en localStorage.
-        6. Usar reglas de seguridad para permitir escritura únicamente a administradores.
-    -->
 
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>

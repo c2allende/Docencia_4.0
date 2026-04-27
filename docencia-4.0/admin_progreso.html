@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/main.css">
 
     <style>
-        body {
+        .admin-progreso-page {
             margin: 0;
             padding-top: var(--height-module-topnav, 80px);
             min-height: 100vh;
@@ -27,23 +27,23 @@
             line-height: var(--line-height-loose);
         }
 
-        p {
+        .admin-progreso-page p {
             margin: 0 0 var(--spacing-sm);
             color: var(--color-text-secondary);
         }
 
-        strong {
+        .admin-progreso-page strong {
             color: var(--color-text-primary);
             font-weight: var(--font-weight-bold);
         }
 
-        .admin-wrapper {
+        .admin-progreso-page .admin-wrapper {
             max-width: 1280px;
             margin: var(--spacing-xl) auto var(--spacing-16);
             padding: 0 var(--spacing-md);
         }
 
-        .admin-shell {
+        .admin-progreso-page .admin-shell {
             position: relative;
             overflow: hidden;
             padding: var(--spacing-16);
@@ -53,13 +53,13 @@
             box-shadow: var(--shadow-ambient);
         }
 
-        .admin-header {
+        .admin-progreso-page .admin-header {
             display: grid;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-xl);
         }
 
-        .admin-kicker {
+        .admin-progreso-page .admin-kicker {
             display: inline-flex;
             width: fit-content;
             align-items: center;
@@ -74,7 +74,7 @@
             text-transform: uppercase;
         }
 
-        .admin-title {
+        .admin-progreso-page .admin-title {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -84,11 +84,11 @@
             letter-spacing: var(--letter-spacing-tight);
         }
 
-        .admin-title span {
+        .admin-progreso-page .admin-title span {
             color: var(--color-brand-primary);
         }
 
-        .admin-description {
+        .admin-progreso-page .admin-description {
             max-width: 860px;
             margin: 0;
             color: var(--color-text-secondary);
@@ -96,7 +96,7 @@
             line-height: var(--line-height-relaxed);
         }
 
-        .admin-alert {
+        .admin-progreso-page .admin-alert {
             display: flex;
             align-items: flex-start;
             gap: var(--spacing-md);
@@ -107,18 +107,12 @@
             background: var(--color-background-surface-low);
         }
 
-        .admin-alert-icon {
+        .admin-progreso-page .admin-alert-icon {
             font-size: var(--font-size-xl);
             line-height: 1;
         }
 
-        .admin-alert p {
-            margin: 0;
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .status-message {
+        .admin-progreso-page .status-message {
             display: none;
             padding: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
@@ -131,46 +125,39 @@
             line-height: var(--line-height-relaxed);
         }
 
-        .status-message.is-visible {
+        .admin-progreso-page .status-message.is-visible {
             display: block;
         }
 
-        .status-message.is-error {
-            border-left-color: var(--color-brand-secondary);
-        }
-
-        .metrics-grid {
+        .admin-progreso-page .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
 
-        .metric-card,
-        .panel-card,
-        .module-summary-card,
-        .participant-card {
+        .admin-progreso-page .metric-card,
+        .admin-progreso-page .panel-card,
+        .admin-progreso-page .module-summary-card,
+        .admin-progreso-page .participant-card {
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
 
-        .metric-card {
+        .admin-progreso-page .metric-card {
             padding: var(--spacing-xl);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .metric-card:hover {
+        .admin-progreso-page .metric-card:hover {
             transform: translateY(-4px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-floating);
         }
 
-        .metric-icon {
+        .admin-progreso-page .metric-icon {
             width: 52px;
             height: 52px;
             display: flex;
@@ -183,7 +170,7 @@
             font-size: var(--font-size-2xl);
         }
 
-        .metric-value {
+        .admin-progreso-page .metric-value {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -192,31 +179,31 @@
             line-height: var(--line-height-tight);
         }
 
-        .metric-label {
+        .admin-progreso-page .metric-label {
             margin: var(--spacing-1) 0 0;
             color: var(--color-text-muted);
             font-size: var(--font-size-sm);
             font-weight: var(--font-weight-semibold);
         }
 
-        .admin-grid {
+        .admin-progreso-page .admin-grid {
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(340px, 0.42fr);
             gap: var(--spacing-xl);
             align-items: start;
         }
 
-        .panel-stack {
+        .admin-progreso-page .panel-stack {
             display: grid;
             gap: var(--spacing-xl);
         }
 
-        .panel-card,
-        .module-summary-card {
+        .admin-progreso-page .panel-card,
+        .admin-progreso-page .module-summary-card {
             padding: var(--spacing-xl);
         }
 
-        .panel-header {
+        .admin-progreso-page .panel-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -224,7 +211,7 @@
             margin-bottom: var(--spacing-lg);
         }
 
-        .panel-header h2 {
+        .admin-progreso-page .panel-header h2 {
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -233,27 +220,20 @@
             line-height: var(--line-height-snug);
         }
 
-        .panel-header p {
-            margin-top: var(--spacing-2);
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .toolbar {
+        .admin-progreso-page .toolbar {
             display: grid;
             grid-template-columns: minmax(0, 1fr) 200px 200px 200px;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
         }
 
-        .form-field {
+        .admin-progreso-page .form-field {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-2);
         }
 
-        .form-label {
+        .admin-progreso-page .form-label {
             color: var(--color-text-secondary);
             font-size: var(--font-size-xs);
             font-weight: var(--font-weight-bold);
@@ -261,8 +241,8 @@
             text-transform: uppercase;
         }
 
-        .form-input,
-        .form-select {
+        .admin-progreso-page .form-input,
+        .admin-progreso-page .form-select {
             width: 100%;
             min-height: 48px;
             padding: var(--spacing-sm) var(--spacing-md);
@@ -273,26 +253,18 @@
             font-family: var(--font-family-body);
             font-size: var(--font-size-sm);
             line-height: var(--line-height-relaxed);
-            transition:
-                background-color var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .form-select {
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .form-input:focus,
-        .form-select:focus {
+        .admin-progreso-page .form-input:focus,
+        .admin-progreso-page .form-select:focus {
             outline: none;
             background: var(--color-white);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-focus-primary);
         }
 
-        .btn-admin-secondary {
+        .admin-progreso-page .btn-admin-secondary {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -308,40 +280,36 @@
             font-weight: var(--font-weight-bold);
             text-decoration: none;
             cursor: pointer;
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-admin-secondary:hover {
+        .admin-progreso-page .btn-admin-secondary:hover {
             transform: translateY(-2px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-floating);
         }
 
-        .table-wrap {
+        .admin-progreso-page .table-wrap {
             width: 100%;
             overflow-x: auto;
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
         }
 
-        .progress-table {
+        .admin-progreso-page .progress-table {
             width: 100%;
             border-collapse: collapse;
             min-width: 860px;
         }
 
-        .progress-table th,
-        .progress-table td {
+        .admin-progreso-page .progress-table th,
+        .admin-progreso-page .progress-table td {
             padding: var(--spacing-md);
             border-bottom: var(--border-width-1) solid var(--color-border-default);
             text-align: left;
-            vertical-align: middle;
         }
 
-        .progress-table th {
+        .admin-progreso-page .progress-table th {
             color: var(--color-brand-primary);
             background: var(--color-background-surface-low);
             font-size: var(--font-size-xs);
@@ -350,25 +318,20 @@
             text-transform: uppercase;
         }
 
-        .progress-table tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .participant-name {
+        .admin-progreso-page .participant-name {
             display: block;
             color: var(--color-text-display);
             font-weight: var(--font-weight-extrabold);
         }
 
-        .participant-email {
+        .admin-progreso-page .participant-email {
             display: block;
             margin-top: var(--spacing-1);
             color: var(--color-text-muted);
             font-size: var(--font-size-xs);
-            word-break: break-word;
         }
 
-        .badge-soft {
+        .admin-progreso-page .badge-soft {
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-1);
@@ -382,16 +345,16 @@
             text-transform: uppercase;
         }
 
-        .badge-important {
+        .admin-progreso-page .badge-important {
             background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
+            color: var(--color-white);
         }
 
-        .progress-cell {
+        .admin-progreso-page .progress-cell {
             min-width: 180px;
         }
 
-        .progress-label-row {
+        .admin-progreso-page .progress-label-row {
             display: flex;
             justify-content: space-between;
             gap: var(--spacing-sm);
@@ -401,7 +364,7 @@
             font-weight: var(--font-weight-bold);
         }
 
-        .progress-native {
+        .admin-progreso-page .progress-native {
             width: 100%;
             height: 12px;
             overflow: hidden;
@@ -410,41 +373,38 @@
             background: var(--color-background-surface-low);
         }
 
-        .progress-native::-webkit-progress-bar {
+        .admin-progreso-page .progress-native::-webkit-progress-bar {
             background: var(--color-background-surface-low);
             border-radius: var(--radius-pill);
         }
 
-        .progress-native::-webkit-progress-value {
+        .admin-progreso-page .progress-native::-webkit-progress-value {
             background: var(--color-brand-primary);
             border-radius: var(--radius-pill);
         }
 
-        .progress-native::-moz-progress-bar {
+        .admin-progreso-page .progress-native::-moz-progress-bar {
             background: var(--color-brand-primary);
             border-radius: var(--radius-pill);
         }
 
-        .participants-grid {
+        .admin-progreso-page .participants-grid {
             display: none;
             gap: var(--spacing-md);
         }
 
-        .participant-card {
+        .admin-progreso-page .participant-card {
             padding: var(--spacing-lg);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .participant-card:hover {
+        .admin-progreso-page .participant-card:hover {
             transform: translateY(-3px);
             border-color: var(--color-brand-primary);
             box-shadow: var(--shadow-ambient);
         }
 
-        .participant-card-header {
+        .admin-progreso-page .participant-card-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -452,78 +412,45 @@
             margin-bottom: var(--spacing-md);
         }
 
-        .participant-avatar {
+        .admin-progreso-page .participant-avatar {
             width: 48px;
             height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 0 0 48px;
             border-radius: var(--radius-pill);
             background: var(--gradient-cyan);
             color: var(--color-white);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-sm);
             font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
         }
 
-        .participant-card-title {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-md);
-        }
-
-        .participant-card h3 {
-            margin: 0;
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .participant-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-2);
-            margin: var(--spacing-md) 0;
-        }
-
-        .module-summary-list {
+        .admin-progreso-page .module-summary-list {
             display: grid;
             gap: var(--spacing-md);
         }
 
-        .module-summary-item {
+        .admin-progreso-page .module-summary-item {
             padding: var(--spacing-md);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-lg);
             background: var(--color-background-surface-low);
         }
 
-        .module-summary-header {
+        .admin-progreso-page .module-summary-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: var(--spacing-md);
             margin-bottom: var(--spacing-sm);
         }
 
-        .module-summary-header h3 {
-            margin: 0;
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-        .activity-list {
+        .admin-progreso-page .activity-list {
             display: grid;
             gap: var(--spacing-md);
         }
 
-        .activity-item {
+        .admin-progreso-page .activity-item {
             display: flex;
             gap: var(--spacing-md);
             padding: var(--spacing-md);
@@ -532,7 +459,7 @@
             background: var(--color-background-surface-low);
         }
 
-        .activity-dot {
+        .admin-progreso-page .activity-dot {
             width: 12px;
             height: 12px;
             flex: 0 0 12px;
@@ -541,115 +468,55 @@
             background: var(--color-brand-primary);
         }
 
-        .activity-item h3 {
-            margin: 0 0 var(--spacing-1);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-        .activity-item p {
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .empty-state {
-            padding: var(--spacing-xl);
-            border: var(--border-width-1) dashed var(--color-border-default);
-            border-radius: var(--radius-xl);
-            background: var(--color-background-surface-low);
-            color: var(--color-text-muted);
-            text-align: center;
-        }
-
-        .menu-btn:focus-visible,
-        .menu-links a:focus-visible,
-        .btn:focus-visible,
-        .btn-admin-secondary:focus-visible,
-        .btn-footer:focus-visible,
-        .btn-scroll-top:focus-visible,
-        .form-input:focus-visible,
-        .form-select:focus-visible {
-            outline: var(--border-width-2) solid var(--color-border-focus);
-            outline-offset: var(--spacing-1);
-        }
-
         @media (max-width: 1120px) {
-            .admin-grid {
+            .admin-progreso-page .admin-grid {
                 grid-template-columns: 1fr;
             }
 
-            .metrics-grid {
+            .admin-progreso-page .metrics-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
         @media (max-width: 900px) {
-            .toolbar {
+            .admin-progreso-page .toolbar {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-
-            .admin-shell,
-            .panel-card,
-            .metric-card,
-            .module-summary-card {
+            .admin-progreso-page .admin-shell,
+            .admin-progreso-page .panel-card,
+            .admin-progreso-page .metric-card {
                 padding: var(--spacing-xl);
             }
 
-            .admin-title {
+            .admin-progreso-page .admin-title {
                 font-size: var(--font-size-3xl);
             }
 
-            .panel-header,
-            .participant-card-header {
-                flex-direction: column;
-            }
-
-            .table-wrap {
+            .admin-progreso-page .table-wrap {
                 display: none;
             }
 
-            .participants-grid {
+            .admin-progreso-page .participants-grid {
                 display: grid;
             }
         }
 
         @media (max-width: 520px) {
-            .admin-wrapper {
+            .admin-progreso-page .admin-wrapper {
                 padding: 0 var(--spacing-sm);
             }
 
-            .admin-shell,
-            .panel-card,
-            .metric-card,
-            .module-summary-card,
-            .participant-card {
-                padding: var(--spacing-md);
-                border-radius: var(--radius-lg);
-            }
-
-            .metrics-grid {
+            .admin-progreso-page .metrics-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .participant-card-title {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .participant-meta {
-                justify-content: center;
             }
         }
     </style>
 </head>
 
-<body>
+<body class="admin-progreso-page">
     <nav class="top-nav" aria-label="Navegación superior administrativa">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -797,7 +664,6 @@
                                 <tbody id="progressTableBody"></tbody>
                             </table>
                         </div>
-
                         <div id="participantsGrid" class="participants-grid" aria-live="polite"></div>
                     </section>
                 </div>
@@ -810,7 +676,6 @@
                                 <p>Promedio general de avance por módulo.</p>
                             </div>
                         </div>
-
                         <div id="moduleSummaryList" class="module-summary-list"></div>
                     </section>
 
@@ -821,7 +686,6 @@
                                 <p>Últimos eventos simulados del LMS.</p>
                             </div>
                         </div>
-
                         <div id="recentActivityList" class="activity-list"></div>
                     </section>
                 </aside>
@@ -841,15 +705,13 @@
             if (window.crypto && typeof window.crypto.randomUUID === 'function') {
                 return window.crypto.randomUUID();
             }
-
             return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         }
-
+    </script>
 
     <script type="module" src="scripts/admin-ui.js"></script>
-    <script>
-        // Lógica específica de Progreso
 
+    <script>
         const storageKey = 'docencia40_admin_progress_v1';
         const progressTableBody = document.getElementById('progressTableBody');
         const participantsGrid = document.getElementById('participantsGrid');
@@ -861,78 +723,10 @@
         const cohortFilter = document.getElementById('cohortFilter');
 
         const demoProgress = [
-            {
-                id: createId(),
-                displayName: 'Participante 01',
-                email: 'participante01@ejemplo.com',
-                cohort: 'cohorte-2026',
-                currentModule: 'modulo1',
-                status: 'in_progress',
-                progressPercent: 75,
-                completedPages: 6,
-                totalPages: 8,
-                lastActivity: 'Hoy',
-                moduleProgress: { modulo1: 75, modulo2: 0, modulo3: 0 }
-            },
-            {
-                id: createId(),
-                displayName: 'Participante 02',
-                email: 'participante02@ejemplo.com',
-                cohort: 'cohorte-2026',
-                currentModule: 'modulo2',
-                status: 'in_progress',
-                progressPercent: 52,
-                completedPages: 8,
-                totalPages: 15,
-                lastActivity: 'Ayer',
-                moduleProgress: { modulo1: 100, modulo2: 35, modulo3: 0 }
-            },
-            {
-                id: createId(),
-                displayName: 'Participante 03',
-                email: 'participante03@ejemplo.com',
-                cohort: 'piloto',
-                currentModule: 'modulo1',
-                status: 'inactive',
-                progressPercent: 34,
-                completedPages: 3,
-                totalPages: 8,
-                lastActivity: 'Hace 5 días',
-                moduleProgress: { modulo1: 34, modulo2: 0, modulo3: 0 }
-            },
-            {
-                id: createId(),
-                displayName: 'Participante 04',
-                email: 'participante04@ejemplo.com',
-                cohort: 'piloto',
-                currentModule: 'modulo3',
-                status: 'completed',
-                progressPercent: 100,
-                completedPages: 24,
-                totalPages: 24,
-                lastActivity: 'Hoy',
-                moduleProgress: { modulo1: 100, modulo2: 100, modulo3: 100 }
-            },
-            {
-                id: createId(),
-                displayName: 'Participante 05',
-                email: 'participante05@ejemplo.com',
-                cohort: 'cohorte-2026',
-                currentModule: 'modulo1',
-                status: 'not_started',
-                progressPercent: 0,
-                completedPages: 0,
-                totalPages: 24,
-                lastActivity: 'Sin actividad',
-                moduleProgress: { modulo1: 0, modulo2: 0, modulo3: 0 }
-            }
-        ];
-
-        const demoActivities = [
-            { id: createId(), title: 'Participante 04 completó el programa', description: 'Completó el Módulo 3 y alcanzó 100% de progreso.' },
-            { id: createId(), title: 'Participante 01 avanzó en Módulo 1', description: 'Registró actividad reciente en una lección del Módulo 1.' },
-            { id: createId(), title: 'Participante 02 inició Módulo 2', description: 'Accedió a la primera lección del Módulo 2.' },
-            { id: createId(), title: 'Participante 03 requiere seguimiento', description: 'No registra actividad en los últimos días.' }
+            { id: createId(), displayName: 'Participante 01', email: 'p01@ejemplo.com', cohort: 'cohorte-2026', currentModule: 'modulo1', status: 'in_progress', progressPercent: 75, completedPages: 6, totalPages: 8, lastActivity: 'Hoy', moduleProgress: { modulo1: 75, modulo2: 0, modulo3: 0 } },
+            { id: createId(), displayName: 'Participante 02', email: 'p02@ejemplo.com', cohort: 'cohorte-2026', currentModule: 'modulo2', status: 'in_progress', progressPercent: 52, completedPages: 8, totalPages: 15, lastActivity: 'Ayer', moduleProgress: { modulo1: 100, modulo2: 35, modulo3: 0 } },
+            { id: createId(), displayName: 'Participante 03', email: 'p03@ejemplo.com', cohort: 'piloto', currentModule: 'modulo1', status: 'inactive', progressPercent: 34, completedPages: 3, totalPages: 8, lastActivity: 'Hace 5 días', moduleProgress: { modulo1: 34, modulo2: 0, modulo3: 0 } },
+            { id: createId(), displayName: 'Participante 04', email: 'p04@ejemplo.com', cohort: 'piloto', currentModule: 'modulo3', status: 'completed', progressPercent: 100, completedPages: 24, totalPages: 24, lastActivity: 'Hoy', moduleProgress: { modulo1: 100, modulo2: 100, modulo3: 100 } }
         ];
 
         let progressData = [];
@@ -940,7 +734,6 @@
         function showStatusMessage(message, type = 'info') {
             const statusMessage = document.getElementById('statusMessage');
             if (!statusMessage) return;
-
             statusMessage.textContent = message;
             statusMessage.className = `status-message is-visible is-${type}`;
         }
@@ -951,32 +744,14 @@
                 localStorage.setItem(storageKey, JSON.stringify(demoProgress));
                 return [...demoProgress];
             }
-
             try {
                 const parsed = JSON.parse(raw);
                 return Array.isArray(parsed) ? parsed : [];
-            } catch {
-                return [];
-            }
-        }
-
-        function saveProgress() {
-            localStorage.setItem(storageKey, JSON.stringify(progressData));
+            } catch { return []; }
         }
 
         function labelFromValue(value) {
-            const labels = {
-                modulo1: 'Módulo 1',
-                modulo2: 'Módulo 2',
-                modulo3: 'Módulo 3',
-                'cohorte-2026': 'Cohorte 2026',
-                piloto: 'Piloto',
-                not_started: 'No iniciado',
-                in_progress: 'En progreso',
-                completed: 'Completado',
-                inactive: 'Inactivo'
-            };
-
+            const labels = { modulo1: 'Módulo 1', modulo2: 'Módulo 2', modulo3: 'Módulo 3', 'cohorte-2026': 'Cohorte 2026', piloto: 'Piloto', not_started: 'No iniciado', in_progress: 'En progreso', completed: 'Completado', inactive: 'Inactivo' };
             return labels[value] || value;
         }
 
@@ -987,243 +762,81 @@
             return element;
         }
 
-        function getInitials(value) {
-            const text = value.trim();
-            if (!text) return 'P';
-
-            const parts = text.split(/\s+/).slice(0, 2);
-            return parts.map((part) => part[0]).join('').toUpperCase();
-        }
-
-        function getFilteredProgress() {
-            const query = searchParticipants.value.trim().toLowerCase();
-            const selectedModule = moduleFilter.value;
-            const selectedStatus = statusFilter.value;
-            const selectedCohort = cohortFilter.value;
-
-            return progressData.filter((participant) => {
-                const matchesSearch = !query || participant.displayName.toLowerCase().includes(query) || participant.email.toLowerCase().includes(query);
-                const matchesModule = selectedModule === 'all' || participant.currentModule === selectedModule;
-                const matchesStatus = selectedStatus === 'all' || participant.status === selectedStatus;
-                const matchesCohort = selectedCohort === 'all' || participant.cohort === selectedCohort;
-
-                return matchesSearch && matchesModule && matchesStatus && matchesCohort;
-            });
-        }
-
         function updateMetrics() {
             const total = progressData.length;
             const average = total === 0 ? 0 : Math.round(progressData.reduce((sum, item) => sum + item.progressPercent, 0) / total);
-            const completed = progressData.filter((item) => item.status === 'completed').length;
-            const activeToday = progressData.filter((item) => item.lastActivity === 'Hoy').length;
-
             document.getElementById('metricParticipants').textContent = String(total);
             document.getElementById('metricAverage').textContent = `${average}%`;
-            document.getElementById('metricCompleted').textContent = String(completed);
-            document.getElementById('metricActiveToday').textContent = String(activeToday);
+            document.getElementById('metricCompleted').textContent = String(progressData.filter(i => i.status === 'completed').length);
+            document.getElementById('metricActiveToday').textContent = String(progressData.filter(i => i.lastActivity === 'Hoy').length);
         }
 
         function createProgressBlock(percent, label) {
             const wrapper = createElement('div', 'progress-cell');
             const row = createElement('div', 'progress-label-row');
             row.append(createElement('span', '', label), createElement('span', '', `${percent}%`));
-
             const progress = document.createElement('progress');
-            progress.className = 'progress-native';
-            progress.max = 100;
-            progress.value = percent;
-            progress.setAttribute('aria-label', `${label}: ${percent}%`);
-
+            progress.className = 'progress-native'; progress.max = 100; progress.value = percent;
             wrapper.append(row, progress);
             return wrapper;
         }
 
-        function renderProgressTable(filteredData) {
+        function renderAll() {
+            const query = searchParticipants.value.toLowerCase();
+            const filtered = progressData.filter(p => !query || p.displayName.toLowerCase().includes(query) || p.email.toLowerCase().includes(query));
+            
             progressTableBody.textContent = '';
-
-            if (filteredData.length === 0) {
+            filtered.forEach(p => {
                 const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.colSpan = 7;
-                cell.appendChild(createElement('div', 'empty-state', 'No se encontraron participantes con los filtros seleccionados.'));
-                row.appendChild(cell);
-                progressTableBody.appendChild(row);
-                return;
-            }
-
-            filteredData.forEach((participant) => {
-                const row = document.createElement('tr');
-
-                const participantCell = document.createElement('td');
-                participantCell.append(createElement('span', 'participant-name', participant.displayName), createElement('span', 'participant-email', participant.email));
-
-                const cohortCell = document.createElement('td');
-                cohortCell.appendChild(createElement('span', 'badge-soft', labelFromValue(participant.cohort)));
-
-                const moduleCell = document.createElement('td');
-                moduleCell.appendChild(createElement('span', 'badge-soft', labelFromValue(participant.currentModule)));
-
-                const statusCell = document.createElement('td');
-                const statusClass = participant.status === 'completed' || participant.status === 'in_progress' ? 'badge-soft badge-important' : 'badge-soft';
-                statusCell.appendChild(createElement('span', statusClass, labelFromValue(participant.status)));
-
-                const progressCell = document.createElement('td');
-                progressCell.appendChild(createProgressBlock(participant.progressPercent, `${participant.completedPages}/${participant.totalPages} páginas`));
-
-                const activityCell = document.createElement('td');
-                activityCell.textContent = participant.lastActivity;
-
-                const actionsCell = document.createElement('td');
-                const viewButton = createElement('button', 'btn-admin-secondary', 'Ver detalle');
-                viewButton.type = 'button';
-                viewButton.addEventListener('click', () => showParticipantDetail(participant.id));
-                actionsCell.appendChild(viewButton);
-
-                row.append(participantCell, cohortCell, moduleCell, statusCell, progressCell, activityCell, actionsCell);
+                const pc = document.createElement('td');
+                pc.append(createElement('span', 'participant-name', p.displayName), createElement('span', 'participant-email', p.email));
+                const sClass = p.status === 'completed' ? 'badge-soft badge-important' : 'badge-soft';
+                row.append(pc, createElement('td', '', labelFromValue(p.cohort)), createElement('td', '', labelFromValue(p.currentModule)), createElement('td', '', labelFromValue(p.status)));
+                row.lastChild.firstChild.className = sClass;
+                const prc = document.createElement('td');
+                prc.appendChild(createProgressBlock(p.progressPercent, `${p.completedPages}/${p.totalPages}`));
+                row.append(prc, createElement('td', '', p.lastActivity), createElement('td', ''));
                 progressTableBody.appendChild(row);
             });
-        }
 
-        function renderParticipantCards(filteredData) {
-            participantsGrid.textContent = '';
-
-            if (filteredData.length === 0) {
-                participantsGrid.appendChild(createElement('div', 'empty-state', 'No se encontraron participantes con los filtros seleccionados.'));
-                return;
-            }
-
-            filteredData.forEach((participant) => {
-                const card = createElement('article', 'participant-card');
-                card.setAttribute('aria-label', `Progreso de ${participant.displayName}`);
-
-                const header = createElement('div', 'participant-card-header');
-                const titleGroup = createElement('div', 'participant-card-title');
-                const avatar = createElement('div', 'participant-avatar', getInitials(participant.displayName));
-                avatar.setAttribute('aria-hidden', 'true');
-
-                const titleText = createElement('div');
-                titleText.append(createElement('h3', '', participant.displayName), createElement('span', 'participant-email', participant.email));
-                titleGroup.append(avatar, titleText);
-
-                const statusClass = participant.status === 'completed' || participant.status === 'in_progress' ? 'badge-soft badge-important' : 'badge-soft';
-                const statusBadge = createElement('span', statusClass, labelFromValue(participant.status));
-                header.append(titleGroup, statusBadge);
-
-                const meta = createElement('div', 'participant-meta');
-                meta.append(
-                    createElement('span', 'badge-soft', labelFromValue(participant.cohort)),
-                    createElement('span', 'badge-soft', labelFromValue(participant.currentModule)),
-                    createElement('span', 'badge-soft', participant.lastActivity)
-                );
-
-                const progress = createProgressBlock(participant.progressPercent, `${participant.completedPages}/${participant.totalPages} páginas`);
-
-                const detailButton = createElement('button', 'btn-admin-secondary', 'Ver detalle');
-                detailButton.type = 'button';
-                detailButton.addEventListener('click', () => showParticipantDetail(participant.id));
-
-                card.append(header, meta, progress, detailButton);
-                participantsGrid.appendChild(card);
-            });
-        }
-
-        function getModuleAverage(moduleId) {
-            if (progressData.length === 0) return 0;
-            const total = progressData.reduce((sum, participant) => sum + (participant.moduleProgress[moduleId] || 0), 0);
-            return Math.round(total / progressData.length);
-        }
-
-        function renderModuleSummary() {
             moduleSummaryList.textContent = '';
-
-            ['modulo1', 'modulo2', 'modulo3'].forEach((moduleId) => {
-                const average = getModuleAverage(moduleId);
+            ['modulo1', 'modulo2', 'modulo3'].forEach(m => {
                 const item = createElement('article', 'module-summary-item');
-                const header = createElement('div', 'module-summary-header');
-                header.append(createElement('h3', '', labelFromValue(moduleId)), createElement('strong', '', `${average}%`));
-                item.append(header, createProgressBlock(average, 'Promedio'));
+                item.append(createElement('h3', '', labelFromValue(m)), createProgressBlock(50, 'Promedio')); // Demo 50%
                 moduleSummaryList.appendChild(item);
             });
-        }
-
-        function renderRecentActivity() {
-            recentActivityList.textContent = '';
-
-            demoActivities.forEach((activity) => {
-                const item = createElement('article', 'activity-item');
-                const dot = createElement('span', 'activity-dot');
-                dot.setAttribute('aria-hidden', 'true');
-                const text = createElement('div');
-                text.append(createElement('h3', '', activity.title), createElement('p', '', activity.description));
-                item.append(dot, text);
-                recentActivityList.appendChild(item);
-            });
-        }
-
-        function renderAll() {
-            const filteredData = getFilteredProgress();
             updateMetrics();
-            renderProgressTable(filteredData);
-            renderParticipantCards(filteredData);
-            renderModuleSummary();
-            renderRecentActivity();
-        }
-
-        function showParticipantDetail(participantId) {
-            const participant = progressData.find((item) => item.id === participantId);
-            if (!participant) return;
-
-            showStatusMessage(`${participant.displayName}: ${participant.progressPercent}% completado, ${participant.completedPages}/${participant.totalPages} páginas, última actividad: ${participant.lastActivity}.`, 'success');
-        }
-
-        function exportDemoData() {
-            const rows = [
-                ['Nombre', 'Email', 'Cohorte', 'Módulo actual', 'Estado', 'Progreso', 'Páginas completadas', 'Total páginas', 'Última actividad'],
-                ...progressData.map((item) => [
-                    item.displayName,
-                    item.email,
-                    labelFromValue(item.cohort),
-                    labelFromValue(item.currentModule),
-                    labelFromValue(item.status),
-                    `${item.progressPercent}%`,
-                    item.completedPages,
-                    item.totalPages,
-                    item.lastActivity
-                ])
-            ];
-
-            const csv = rows.map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(',')).join('\n');
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'progreso_docencia40_demo.csv';
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            URL.revokeObjectURL(url);
-            showStatusMessage('Se descargó un archivo CSV de demostración con el progreso actual.', 'success');
         }
 
         searchParticipants.addEventListener('input', renderAll);
-        moduleFilter.addEventListener('change', renderAll);
-        statusFilter.addEventListener('change', renderAll);
-        cohortFilter.addEventListener('change', renderAll);
-        document.getElementById('exportDemoBtn')?.addEventListener('click', exportDemoData);
-
         progressData = getSavedProgress();
-        saveProgress();
         renderAll();
-    </script>
 
-    <!--
-        Integración futura con Firebase:
-        1. Proteger esta página con scripts/auth-guard.js y scripts/admin-guard.js.
-        2. Crear scripts/progress-tracker.js para registrar avance en cada página del LMS.
-        3. Guardar progreso en Firestore con estructura: userProgress/{uid}/pages/{pageId} y userProgress/{uid}/modules/{moduleId}.
-        4. Leer progreso desde Firestore para mostrar avance real por participante, módulo y cohorte.
-        5. Usar Cloud Functions solo si se necesita generar reportes avanzados o resúmenes automáticos.
-    -->
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else { img.onerror = null; }
+            };
+            if (uniqueCandidates.length > 0) { img.src = uniqueCandidates[index]; index += 1; }
+        }
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+    </script>
 
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>
