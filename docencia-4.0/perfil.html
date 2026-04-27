@@ -871,16 +871,9 @@
         updateProfilePreview();
     </script>
 
-    <!--
-        Integración futura con Firebase Authentication y Firestore:
-        1. Agregar scripts/firebase-config.js y scripts/auth-guard.js para proteger esta página.
-        2. Usar onAuthStateChanged() para cargar el usuario autenticado.
-        3. Mostrar email real, displayName real y emailVerified desde Firebase Authentication.
-        4. Usar signOut() para cerrar sesión y redirigir a index.html.
-        5. Usar sendEmailVerification() para reenviar verificación si aplica.
-        6. En una fase posterior, guardar rol/contexto y preferencias en Firestore.
-        7. No usar localStorage como fuente de seguridad; solo como apoyo visual si fuera necesario.
-    -->
+    <!-- Firebase Auth Integration -->
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/profile-handler.js"></script>
 </body>
 
 </html>

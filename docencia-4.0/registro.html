@@ -599,7 +599,7 @@
                 </form>
 
                 <p class="login-text">
-                    ¿Ya tienes una cuenta? <a href="index.html">Inicia sesión</a>
+                    ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
                 </p>
             </div>
         </section>
@@ -743,14 +743,9 @@
         });
     </script>
 
-    <!--
-        Integración futura con Firebase Authentication:
-        1. Crear scripts/firebase-config.js con el objeto firebaseConfig real.
-        2. Crear scripts/auth.js o scripts/register.js para manejar createUserWithEmailAndPassword().
-        3. Enviar verificación de correo si se decide activar sendEmailVerification().
-        4. Guardar perfil mínimo del participante en Firestore en una fase posterior.
-        5. Redirigir a dashboard.html solo cuando Firebase confirme que la cuenta fue creada o la sesión es válida.
-    -->
+    <!-- Firebase Auth Integration -->
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/register-handler.js"></script>
 </body>
 
 </html>

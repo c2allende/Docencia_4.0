@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "docencia-4.0",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

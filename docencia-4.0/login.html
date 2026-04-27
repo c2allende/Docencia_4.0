@@ -636,13 +636,9 @@
         });
     </script>
 
-    <!--
-        Integración futura con Firebase Authentication:
-        1. Crear scripts/firebase-config.js con el objeto firebaseConfig real.
-        2. Crear scripts/auth.js o scripts/login.js para manejar el inicio de sesión.
-        3. Sustituir el listener temporal del formulario por signInWithEmailAndPassword().
-        4. Redirigir a dashboard.html solo cuando Firebase confirme una sesión válida.
-    -->
+    <!-- Firebase Auth Integration -->
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/login-handler.js"></script>
 </body>
 
 </html>
