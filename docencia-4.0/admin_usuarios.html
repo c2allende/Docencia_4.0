@@ -4,16 +4,1099 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Usuarios | Docencia 4.0</title>
+    <meta name="description" content="Panel administrativo de usuarios para la plataforma LMS Docencia 4.0.">
+    <title>Administrar Usuarios | Docencia 4.0</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
-    <script type="module" src="scripts/auth-guard.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding-top: var(--height-module-topnav, 80px);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .admin-wrapper {
+            max-width: 1280px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .admin-shell {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .admin-header {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .admin-kicker {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .admin-title {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .admin-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .admin-description {
+            max-width: 820px;
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .admin-alert {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
+        }
+
+        .admin-alert-icon {
+            font-size: var(--font-size-xl);
+            line-height: 1;
+        }
+
+        .admin-alert p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .status-message {
+            display: none;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .status-message.is-visible {
+            display: block;
+        }
+
+        .status-message.is-error {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metric-card,
+        .panel-card,
+        .user-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .metric-card {
+            padding: var(--spacing-xl);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .metric-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .metric-value {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .metric-label {
+            margin: var(--spacing-1) 0 0;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .panel-card {
+            padding: var(--spacing-xl);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .panel-header p {
+            margin-top: var(--spacing-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .form-label {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            min-height: 48px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background-surface-medium);
+            border: var(--border-width-1) solid transparent;
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            transition:
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            background: var(--color-white);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .field-helper {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-xl);
+        }
+
+        .btn-admin-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            min-height: 44px;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-admin-secondary:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px 220px;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .users-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .user-card {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            gap: var(--spacing-md);
+            align-items: center;
+            padding: var(--spacing-lg);
+            transition:
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .user-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .user-avatar {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--gradient-cyan);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .user-info h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .user-email {
+            display: block;
+            margin-top: var(--spacing-1);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            word-break: break-word;
+        }
+
+        .user-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-sm);
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .badge-important {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .user-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+        }
+
+        .empty-state {
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn:focus-visible,
+        .btn-admin-secondary:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .form-input:focus-visible,
+        .form-select:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        @media (max-width: 1120px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 860px) {
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .user-card {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            .user-actions {
+                grid-column: 1 / -1;
+                justify-content: stretch;
+            }
+
+            .user-actions .btn-admin-secondary {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .admin-shell,
+            .panel-card,
+            .metric-card {
+                padding: var(--spacing-xl);
+            }
+
+            .admin-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .panel-header {
+                flex-direction: column;
+            }
+
+            .form-actions {
+                justify-content: stretch;
+            }
+
+            .form-actions .btn,
+            .form-actions .btn-admin-secondary {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .admin-wrapper {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .admin-shell,
+            .panel-card,
+            .metric-card,
+            .user-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-card {
+                grid-template-columns: 1fr;
+            }
+
+            .user-avatar {
+                margin: 0 auto;
+            }
+
+            .user-info {
+                text-align: center;
+            }
+
+            .user-meta,
+            .user-actions {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Espacio reservado para el Dashboard Administrativo -->
+    <nav class="top-nav" aria-label="Navegación superior administrativa">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Administrar Usuarios</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú del panel administrativo" aria-hidden="true">
+        <h2 class="side-menu-title">Administración</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard del curso</a></li>
+            <li><span class="menu-section-label">Panel LMS</span></li>
+            <li><a href="admin_dashboard.html">⚙️ Centro de control</a></li>
+            <li><a href="admin_anuncios.html">📢 Anuncios</a></li>
+            <li><a href="admin_usuarios.html" class="active" aria-current="page">👥 Usuarios</a></li>
+            <li><a href="admin_accesos.html">🔐 Accesos</a></li>
+            <li><a href="admin_progreso.html">📈 Progreso</a></li>
+            <li><a href="admin_foros.html">💬 Foros</a></li>
+            <li><a href="admin_configuracion.html">🧩 Configuración</a></li>
+            <li><span class="menu-section-label">Vista participante</span></li>
+            <li><a href="anuncios.html">📢 Leer anuncios</a></li>
+            <li><a href="foro_general.html">💬 Foro general</a></li>
+            <li><a href="perfil.html">👤 Mi perfil</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-wrapper">
+        <article class="admin-shell" aria-labelledby="admin-title">
+            <header class="admin-header">
+                <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
+                <h1 id="admin-title" class="admin-title">Administrar <span>Usuarios</span></h1>
+                <p class="admin-description">Registra usuarios de prueba, revisa su estado y prepara la estructura para
+                    conectar usuarios reales desde Firebase Authentication y Firestore.</p>
+            </header>
+
+            <section class="admin-alert" aria-label="Aviso de estado de integración">
+                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
+                <p><strong>Modo prototipo:</strong> esta página usa almacenamiento temporal en el navegador. Cuando se
+                    conecte Firebase, la lista real de usuarios vendrá de Authentication y los datos extendidos del
+                    perfil se guardarán en Firestore.</p>
+            </section>
+
+            <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+
+            <section class="metrics-grid" aria-label="Métricas de usuarios">
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">👥</div>
+                    <p id="metricTotal" class="metric-value">0</p>
+                    <p class="metric-label">Usuarios registrados</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">✅</div>
+                    <p id="metricActive" class="metric-value">0</p>
+                    <p class="metric-label">Cuentas activas</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">✉️</div>
+                    <p id="metricVerified" class="metric-value">0</p>
+                    <p class="metric-label">Emails verificados</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-icon" aria-hidden="true">🛡️</div>
+                    <p id="metricAdmins" class="metric-value">0</p>
+                    <p class="metric-label">Administradores</p>
+                </article>
+            </section>
+
+            <section class="admin-grid" aria-label="Gestión de usuarios">
+                <aside class="panel-card" aria-labelledby="create-user-title">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="create-user-title">Crear usuario de prueba</h2>
+                            <p>Usa este formulario para simular usuarios antes de conectar Firebase.</p>
+                        </div>
+                    </div>
+
+                    <form id="userForm" novalidate data-admin-form="user">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="displayName" class="form-label">Nombre visible</label>
+                                <input id="displayName" name="displayName" class="form-input" type="text" maxlength="60"
+                                    placeholder="Ej. Participante 01" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="email" class="form-label">Email</label>
+                                <input id="email" name="email" class="form-input" type="email"
+                                    placeholder="usuario@ejemplo.com" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="role" class="form-label">Rol</label>
+                                <select id="role" name="role" class="form-select" required>
+                                    <option value="participante">Participante</option>
+                                    <option value="facilitador">Facilitador</option>
+                                    <option value="admin">Administrador</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="cohort" class="form-label">Cohorte</label>
+                                <select id="cohort" name="cohort" class="form-select">
+                                    <option value="cohorte-2026">Cohorte 2026</option>
+                                    <option value="piloto">Piloto</option>
+                                    <option value="sin-asignar">Sin asignar</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="status" class="form-label">Estado</label>
+                                <select id="status" name="status" class="form-select">
+                                    <option value="active">Activo</option>
+                                    <option value="inactive">Inactivo</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="verified" class="form-label">Email verificado</label>
+                                <select id="verified" name="verified" class="form-select">
+                                    <option value="false">No</option>
+                                    <option value="true">Sí</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <span class="field-helper">En producción, el usuario real se creará desde Firebase
+                            Authentication. Este formulario es solo una maqueta funcional.</span>
+
+                        <div class="form-actions">
+                            <button id="clearFormBtn" class="btn-admin-secondary" type="button">Limpiar</button>
+                            <button id="addUserBtn" class="btn btn-primary" type="submit">Añadir usuario</button>
+                        </div>
+                    </form>
+                </aside>
+
+                <section class="panel-card" aria-labelledby="users-list-title">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="users-list-title">Usuarios registrados</h2>
+                            <p>Filtra por nombre, email, rol o estado de cuenta.</p>
+                        </div>
+                        <button id="resetDemoBtn" class="btn-admin-secondary" type="button">Restaurar demo</button>
+                    </div>
+
+                    <div class="toolbar" aria-label="Filtros de usuarios">
+                        <div class="form-field">
+                            <label for="searchUsers" class="form-label">Buscar</label>
+                            <input id="searchUsers" class="form-input" type="search"
+                                placeholder="Buscar por nombre o email">
+                        </div>
+                        <div class="form-field">
+                            <label for="roleFilter" class="form-label">Rol</label>
+                            <select id="roleFilter" class="form-select">
+                                <option value="all">Todos</option>
+                                <option value="participante">Participantes</option>
+                                <option value="facilitador">Facilitadores</option>
+                                <option value="admin">Administradores</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="statusFilter" class="form-label">Estado</label>
+                            <select id="statusFilter" class="form-select">
+                                <option value="all">Todos</option>
+                                <option value="active">Activos</option>
+                                <option value="inactive">Inactivos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="usersList" class="users-list" aria-live="polite"></div>
+                </section>
+            </section>
+
+            <nav class="footer-nav" aria-label="Navegación del panel de usuarios">
+                <a href="admin_anuncios.html" class="btn-footer btn-back">← Administrar anuncios</a>
+                <a href="admin_accesos.html" class="btn-footer btn-next">Configurar accesos →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function createId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID();
+            }
+
+            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        }
+
+        function resolveAssetPath(img) {
+            const rawAssets = img.dataset.assets || img.dataset.asset;
+            if (!rawAssets) return;
+
+            const fileNames = rawAssets
+                .split('|')
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+            const paths = [];
+            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '../../../assets/', '/assets/'];
+
+            fileNames.forEach((fileName) => {
+                const encodedFileName = fileName
+                    .split('/')
+                    .map((part) => encodeURIComponent(part))
+                    .join('/');
+
+                bases.forEach((base) => {
+                    paths.push(`${base}${fileName}`);
+                    paths.push(`${base}${encodedFileName}`);
+                });
+            });
+
+            const uniqueCandidates = [...new Set(paths)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en assets y que el nombre coincida exactamente con alguno de estos: ${fileNames.join(', ')}`);
+                }
+            };
+
+            if (uniqueCandidates.length > 0) {
+                img.src = uniqueCandidates[index];
+                index += 1;
+            }
+        }
+
+        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const storageKey = 'docencia40_admin_users_v1';
+        const usersList = document.getElementById('usersList');
+        const userForm = document.getElementById('userForm');
+        const searchUsers = document.getElementById('searchUsers');
+        const roleFilter = document.getElementById('roleFilter');
+        const statusFilter = document.getElementById('statusFilter');
+
+        const demoUsers = [
+            {
+                id: createId(),
+                displayName: 'Carmelo Allende',
+                email: 'carmelo.allende@gmail.com',
+                role: 'admin',
+                cohort: 'piloto',
+                status: 'active',
+                verified: true,
+                lastAccess: 'Hoy'
+            },
+            {
+                id: createId(),
+                displayName: 'Participante 01',
+                email: 'participante01@ejemplo.com',
+                role: 'participante',
+                cohort: 'cohorte-2026',
+                status: 'active',
+                verified: true,
+                lastAccess: 'Hoy'
+            },
+            {
+                id: createId(),
+                displayName: 'Participante 02',
+                email: 'participante02@ejemplo.com',
+                role: 'participante',
+                cohort: 'cohorte-2026',
+                status: 'active',
+                verified: false,
+                lastAccess: 'Ayer'
+            },
+            {
+                id: createId(),
+                displayName: 'Facilitador 01',
+                email: 'facilitador01@ejemplo.com',
+                role: 'facilitador',
+                cohort: 'piloto',
+                status: 'inactive',
+                verified: true,
+                lastAccess: 'Hace 4 días'
+            }
+        ];
+
+        let users = [];
+
+        function showStatusMessage(message, type = 'info') {
+            const statusMessage = document.getElementById('statusMessage');
+            if (!statusMessage) return;
+
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message is-visible is-${type}`;
+        }
+
+        function getInitials(value) {
+            const text = value.trim();
+            if (!text) return 'U';
+
+            const parts = text.split(/\s+/).slice(0, 2);
+            return parts.map((part) => part[0]).join('').toUpperCase();
+        }
+
+        function getSavedUsers() {
+            const raw = localStorage.getItem(storageKey);
+            if (!raw) {
+                localStorage.setItem(storageKey, JSON.stringify(demoUsers));
+                return [...demoUsers];
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveUsers() {
+            localStorage.setItem(storageKey, JSON.stringify(users));
+        }
+
+        function labelFromValue(value) {
+            const labels = {
+                participante: 'Participante',
+                facilitador: 'Facilitador',
+                admin: 'Administrador',
+                active: 'Activo',
+                inactive: 'Inactivo',
+                'cohorte-2026': 'Cohorte 2026',
+                piloto: 'Piloto',
+                'sin-asignar': 'Sin asignar'
+            };
+
+            return labels[value] || value;
+        }
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function updateMetrics() {
+            document.getElementById('metricTotal').textContent = String(users.length);
+            document.getElementById('metricActive').textContent = String(users.filter((user) => user.status === 'active').length);
+            document.getElementById('metricVerified').textContent = String(users.filter((user) => user.verified).length);
+            document.getElementById('metricAdmins').textContent = String(users.filter((user) => user.role === 'admin').length);
+        }
+
+        function getFilteredUsers() {
+            const query = searchUsers.value.trim().toLowerCase();
+            const selectedRole = roleFilter.value;
+            const selectedStatus = statusFilter.value;
+
+            return users.filter((user) => {
+                const matchesSearch = !query || user.displayName.toLowerCase().includes(query) || user.email.toLowerCase().includes(query);
+                const matchesRole = selectedRole === 'all' || user.role === selectedRole;
+                const matchesStatus = selectedStatus === 'all' || user.status === selectedStatus;
+
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+        }
+
+        function renderUsers() {
+            usersList.textContent = '';
+            updateMetrics();
+
+            const filteredUsers = getFilteredUsers();
+
+            if (filteredUsers.length === 0) {
+                const empty = createElement('div', 'empty-state', 'No se encontraron usuarios con los filtros seleccionados.');
+                usersList.appendChild(empty);
+                return;
+            }
+
+            filteredUsers.forEach((user) => {
+                const card = createElement('article', 'user-card');
+                card.setAttribute('aria-label', `Usuario ${user.displayName}`);
+
+                const avatar = createElement('div', 'user-avatar', getInitials(user.displayName));
+                avatar.setAttribute('aria-hidden', 'true');
+
+                const info = createElement('div', 'user-info');
+                const name = createElement('h3', '', user.displayName);
+                const email = createElement('span', 'user-email', user.email);
+                const meta = createElement('div', 'user-meta');
+
+                const roleBadge = createElement('span', user.role === 'admin' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(user.role));
+                const statusBadge = createElement('span', user.status === 'active' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(user.status));
+                const verifiedBadge = createElement('span', user.verified ? 'badge-soft badge-important' : 'badge-soft', user.verified ? 'Email verificado' : 'Sin verificar');
+                const cohortBadge = createElement('span', 'badge-soft', labelFromValue(user.cohort));
+
+                meta.append(roleBadge, statusBadge, verifiedBadge, cohortBadge);
+                info.append(name, email, meta);
+
+                const actions = createElement('div', 'user-actions');
+                const toggleStatus = createElement('button', 'btn-admin-secondary', user.status === 'active' ? 'Desactivar' : 'Activar');
+                toggleStatus.type = 'button';
+                toggleStatus.addEventListener('click', () => toggleUserStatus(user.id));
+
+                const toggleVerification = createElement('button', 'btn-admin-secondary', user.verified ? 'Quitar verificación' : 'Marcar verificado');
+                toggleVerification.type = 'button';
+                toggleVerification.addEventListener('click', () => toggleUserVerification(user.id));
+
+                const removeButton = createElement('button', 'btn-admin-secondary', 'Eliminar');
+                removeButton.type = 'button';
+                removeButton.addEventListener('click', () => removeUser(user.id));
+
+                actions.append(toggleStatus, toggleVerification, removeButton);
+                card.append(avatar, info, actions);
+                usersList.appendChild(card);
+            });
+        }
+
+        function addUserFromForm() {
+            const displayName = document.getElementById('displayName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const role = document.getElementById('role').value;
+            const cohort = document.getElementById('cohort').value;
+            const status = document.getElementById('status').value;
+            const verified = document.getElementById('verified').value === 'true';
+
+            if (!displayName || !email) {
+                showStatusMessage('Escribe el nombre visible y el email antes de añadir el usuario.', 'error');
+                return;
+            }
+
+            if (users.some((user) => user.email.toLowerCase() === email.toLowerCase())) {
+                showStatusMessage('Ya existe un usuario temporal con ese email.', 'error');
+                return;
+            }
+
+            users = [
+                {
+                    id: createId(),
+                    displayName,
+                    email,
+                    role,
+                    cohort,
+                    status,
+                    verified,
+                    lastAccess: 'Nuevo'
+                },
+                ...users
+            ];
+
+            saveUsers();
+            userForm.reset();
+            renderUsers();
+            showStatusMessage('Usuario añadido temporalmente en este navegador.', 'success');
+        }
+
+        function toggleUserStatus(id) {
+            users = users.map((user) => user.id === id ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' } : user);
+            saveUsers();
+            renderUsers();
+            showStatusMessage('Estado del usuario actualizado temporalmente.', 'success');
+        }
+
+        function toggleUserVerification(id) {
+            users = users.map((user) => user.id === id ? { ...user, verified: !user.verified } : user);
+            saveUsers();
+            renderUsers();
+            showStatusMessage('Estado de verificación actualizado temporalmente.', 'success');
+        }
+
+        function removeUser(id) {
+            users = users.filter((user) => user.id !== id);
+            saveUsers();
+            renderUsers();
+            showStatusMessage('Usuario eliminado del almacenamiento temporal.', 'success');
+        }
+
+        userForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            addUserFromForm();
+        });
+
+        document.getElementById('clearFormBtn')?.addEventListener('click', () => userForm.reset());
+        document.getElementById('resetDemoBtn')?.addEventListener('click', () => {
+            users = [...demoUsers];
+            saveUsers();
+            renderUsers();
+            showStatusMessage('Se restauraron los usuarios de demostración.', 'success');
+        });
+
+        searchUsers.addEventListener('input', renderUsers);
+        roleFilter.addEventListener('change', renderUsers);
+        statusFilter.addEventListener('change', renderUsers);
+
+        users = getSavedUsers();
+        renderUsers();
+    </script>
+
+    <!--
+        Integración futura con Firebase:
+        1. Proteger esta página con scripts/auth-guard.js y scripts/admin-guard.js.
+        2. Leer usuarios reales desde Firebase Authentication mediante backend seguro o Cloud Functions.
+        3. Guardar datos extendidos en Firestore collection: users.
+        4. No administrar roles administrativos desde el navegador sin reglas de seguridad.
+        5. Implementar roles reales mediante Custom Claims o Firestore + Security Rules.
+    -->
 </body>
 
 </html>
