@@ -1008,7 +1008,37 @@
             font-size: var(--font-size-xs);
             font-weight: var(--font-weight-bold);
             white-space: nowrap;
+            transition: transform 0.2s;
         }
+        .urgent-alert-btn:hover { transform: scale(1.05); }
+
+        /* Estilos para aviso discreto */
+        .info-alert {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+            background: rgba(49, 130, 206, 0.05);
+            border-left: 4px solid #3182ce;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-6);
+            animation: slideIn 0.5s ease-out;
+        }
+        .info-alert-text {
+            color: var(--text-main);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+        }
+        .info-alert-link {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-xs);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .info-alert-link:hover { border-color: #3182ce; }
+
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1021,6 +1051,9 @@
         import { getVisibleAnnouncements, getUserReadStatus } from "./scripts/announcement-service.js";
 
         onAuthStateChanged(auth, async (user) => {
+            const container = document.getElementById('urgentAlertContainer');
+            if (!container) return;
+
             if (user) {
                 try {
                     const [announcements, readIds] = await Promise.all([
@@ -1028,20 +1061,35 @@
                         getUserReadStatus(user.uid)
                     ]);
 
+                    // 1. Buscar urgentes no leídos
                     const unreadUrgent = announcements.find(a => a.priority === 'urgente' && !readIds.includes(a.id));
                     
+                    // 2. Si no hay urgentes, buscar importantes o normales no leídos
+                    const unreadOthers = !unreadUrgent ? announcements.find(a => (a.priority === 'importante' || a.priority === 'normal') && !readIds.includes(a.id)) : null;
+
                     if (unreadUrgent) {
-                        const container = document.getElementById('urgentAlertContainer');
-                        if (container) {
-                            container.innerHTML = `
-                                <div class="urgent-alert">
-                                    <span class="urgent-alert-text">⚠️ ANUNCIO URGENTE: ${unreadUrgent.title}</span>
-                                    <a href="anuncios.html" class="urgent-alert-btn">Ver anuncio</a>
-                                </div>
-                            `;
-                        }
+                        container.innerHTML = `
+                            <div class="urgent-alert">
+                                <span class="urgent-alert-text">⚠️ ANUNCIO URGENTE: ${unreadUrgent.title}</span>
+                                <a href="anuncios.html" class="urgent-alert-btn">Ver anuncio</a>
+                            </div>
+                        `;
+                    } else if (unreadOthers) {
+                        container.innerHTML = `
+                            <div class="info-alert">
+                                <span class="info-alert-text">ℹ️ Tienes anuncios nuevos disponibles.</span>
+                                <a href="anuncios.html" class="info-alert-link">Revisar anuncios</a>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = '';
                     }
-                } catch (e) { console.error("Error checking urgent alerts:", e); }
+                } catch (e) { 
+                    console.error("Error checking alerts:", e);
+                    container.innerHTML = '';
+                }
+            } else {
+                container.innerHTML = '';
             }
         });
     </script>
