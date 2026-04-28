@@ -19,8 +19,17 @@ import {
 export const COURSE_STRUCTURE = {
     modulo1: {
         title: "Módulo 1: Fundamentos y Ética",
-        totalPages: 3,
-        pages: ["leccion1_1", "actividad1_1", "recursos_m1"]
+        totalPages: 8,
+        pages: [
+            "modulo1_intro",
+            "leccion1_1",
+            "leccion1_2",
+            "leccion1_3",
+            "actividad1_1",
+            "actividad1_2",
+            "foro_modulo1",
+            "recursos_m1"
+        ]
     }
 };
 

@@ -1395,7 +1395,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="leccion1_2" data-module-id="modulo1" data-page-type="leccion" data-title="Lección 1.2">
     <nav class="top-nav" aria-label="Navegación superior de la lección">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -1915,6 +1915,9 @@
                 </ul>
             </section>
 
+
+            <div id="completion-section"></div>
+
             <nav class="footer-nav" aria-label="Navegación de lecciones">
                 <a href="leccion1_1.html" class="btn-footer btn-back">← Volver a la Lección 1.1</a>
                 <a href="leccion1_3.html" class="btn-footer btn-next">Ir a la Lección 1.3 →</a>
@@ -2213,6 +2216,7 @@
             document.getElementById('restartActivityBtn')?.addEventListener('click', resetActivity);
         })();
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>

@@ -546,7 +546,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="actividad1_2" data-module-id="modulo1" data-page-type="actividad" data-title="Actividad 1.2">
     <nav class="top-nav" aria-label="Navegación superior de la actividad">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -654,6 +654,9 @@
                 </div>
             </section>
 
+
+            <div id="completion-section"></div>
+
             <nav class="footer-nav" aria-label="Navegación de actividades del módulo">
                 <a href="actividad1_1.html" class="btn-footer btn-back">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -751,6 +754,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>

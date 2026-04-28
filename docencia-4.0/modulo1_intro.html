@@ -605,7 +605,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="modulo1_intro" data-module-id="modulo1" data-page-type="intro" data-title="Inicio Módulo 1">
     <nav class="top-nav" aria-label="Navegación superior del módulo">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -795,6 +795,8 @@
                     pertinencia práctica de lo que van a aprender.</p>
             </section>
 
+            <div id="completion-section"></div>
+
             <footer class="nav-footer" aria-label="Navegación del módulo">
                 <a href="dashboard.html" class="btn-back">← Volver al Dashboard</a>
                 <a href="leccion1_1.html" class="btn btn-primary action-button">Iniciar Módulo 1 →</a>
@@ -889,6 +891,7 @@
             }
         });
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>
