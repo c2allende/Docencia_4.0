@@ -21,17 +21,94 @@ export const COURSE_STRUCTURE = {
         title: "Módulo 1: Fundamentos y Ética",
         totalPages: 8,
         pages: [
-            "modulo1_intro",
-            "leccion1_1",
-            "leccion1_2",
-            "leccion1_3",
-            "actividad1_1",
-            "actividad1_2",
-            "foro_modulo1",
-            "recursos_m1"
+            { id: "modulo1_intro", type: "intro", title: "Inicio Módulo 1", url: "modulo1_intro.html" },
+            { id: "leccion1_1", type: "leccion", title: "Lección 1.1", url: "leccion1_1.html" },
+            { id: "leccion1_2", type: "leccion", title: "Lección 1.2", url: "leccion1_2.html" },
+            { id: "leccion1_3", type: "leccion", title: "Lección 1.3", url: "leccion1_3.html" },
+            { id: "actividad1_1", type: "actividad", title: "Actividad 1.1", url: "actividad1_1.html" },
+            { id: "actividad1_2", type: "actividad", title: "Actividad 1.2", url: "actividad1_2.html" },
+            { id: "foro_modulo1", type: "foro", title: "Foro Módulo 1", url: "foro_modulo1.html" },
+            { id: "recursos_m1", type: "recursos", title: "Recursos Módulo 1", url: "recursos_m1.html" }
+        ]
+    },
+    modulo2: {
+        title: "Módulo 2: Planificación y Diseño",
+        totalPages: 7,
+        pages: [
+            { id: "modulo2_intro", type: "intro", title: "Inicio Módulo 2", url: "modulo2_intro.html" },
+            { id: "leccion2_1", type: "leccion", title: "Lección 2.1", url: "leccion2_1.html" },
+            { id: "leccion2_2", type: "leccion", title: "Lección 2.2", url: "leccion2_2.html" },
+            { id: "leccion2_3", type: "leccion", title: "Lección 2.3", url: "leccion2_3.html" },
+            { id: "actividad2_1", type: "actividad", title: "Actividad 2.1", url: "actividad2_1.html" },
+            { id: "foro_modulo2", type: "foro", title: "Foro Módulo 2", url: "foro_modulo2.html" },
+            { id: "recursos_m2", type: "recursos", title: "Recursos Módulo 2", url: "recursos_m2.html" }
         ]
     }
 };
+
+/**
+ * Obtiene el progreso detallado de un módulo para el dashboard pedagógico.
+ */
+export async function getModuleDetailedProgress(uid, moduleId) {
+    const moduleConfig = COURSE_STRUCTURE[moduleId];
+    if (!moduleConfig) return null;
+
+    // Obtener todas las páginas completadas por el usuario para este módulo
+    const pagesCol = collection(db, "usuarios", uid, "progresoPaginas");
+    const q = query(pagesCol, where("moduleId", "==", moduleId), where("status", "==", "completed"));
+    
+    const breakdown = {
+        contenido: { label: "Contenido formativo", completed: 0, total: 0 },
+        actividades: { label: "Actividades", completed: 0, total: 0 },
+        foro: { label: "Foro revisado", completed: 0, total: 0 },
+        recursos: { label: "Recursos revisados", completed: 0, total: 0 }
+    };
+
+    let nextPage = null;
+    let completedCount = 0;
+
+    try {
+        const querySnapshot = await getDocs(q);
+        const completedIds = new Set();
+        querySnapshot.forEach(doc => completedIds.add(doc.id));
+
+        moduleConfig.pages.forEach(page => {
+            const isCompleted = completedIds.has(page.id);
+            if (isCompleted) completedCount++;
+
+            // Mapeo a categorías pedagógicas
+            let cat = "";
+            if (page.type === "intro" || page.type === "leccion") cat = "contenido";
+            else if (page.type === "actividad") cat = "actividades";
+            else if (page.type === "foro") cat = "foro";
+            else if (page.type === "recursos") cat = "recursos";
+
+            if (cat && breakdown[cat]) {
+                breakdown[cat].total++;
+                if (isCompleted) breakdown[cat].completed++;
+            }
+
+            // Identificar próximo paso (primera no completada)
+            if (!isCompleted && !nextPage) {
+                nextPage = page;
+            }
+        });
+
+        return {
+            moduleId,
+            moduleTitle: moduleConfig.title,
+            percentComplete: Math.round((completedCount / moduleConfig.totalPages) * 100),
+            completedPages: completedCount,
+            totalPages: moduleConfig.totalPages,
+            nextPage,
+            breakdown
+        };
+
+    } catch (error) {
+        console.error("Error al obtener progreso detallado:", error);
+        return null;
+    }
+}
 
 /**
  * Registra o actualiza el inicio de visita a una página.

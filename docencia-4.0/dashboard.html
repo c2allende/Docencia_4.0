@@ -613,6 +613,68 @@
             }
         }
 
+        .module-breakdown {
+            margin: var(--spacing-4) 0 var(--spacing-6);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            padding: var(--spacing-1) 0;
+            border-bottom: 1px dashed var(--color-border-subtle);
+        }
+
+        .breakdown-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .breakdown-count {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-brand-primary);
+        }
+
+        .next-step-container {
+            margin-top: var(--spacing-4);
+            padding: var(--spacing-3);
+            background: var(--color-background-surface-low);
+            border-radius: var(--radius-md);
+            border-left: var(--border-width-4) solid var(--color-brand-secondary);
+        }
+
+        .next-step-label {
+            display: block;
+            font-size: var(--font-size-2xs);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-1);
+        }
+
+        .next-step-title {
+            display: block;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* De-emphasize progress bar */
+        .progress {
+            height: 4px;
+            opacity: 0.6;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 0 var(--spacing-md);
@@ -782,14 +844,14 @@
             {
                 id: 1,
                 title: "Fundamentos, potencial pedagógico y ética de los LLM en la gestión docente",
-                lessons: 4,
+                lessons: 8,
                 image: "assets/icon_modulo1.png",
                 url: "modulo1_intro.html"
             },
             {
                 id: 2,
                 title: "Optimización de la planificación y diseño de recursos didácticos con IA",
-                lessons: 3,
+                lessons: 7,
                 image: "assets/icon_modulo2.png",
                 url: "modulo2_intro.html"
             },
@@ -887,19 +949,35 @@
                 title.className = 'module-title-refined';
                 title.textContent = mod.title;
 
+                // Contenedor de desglose (Placeholder)
+                const breakdown = document.createElement('div');
+                breakdown.className = 'module-breakdown';
+                breakdown.id = `breakdown-${mod.id}`;
+                breakdown.innerHTML = `
+                    <div class="breakdown-item"><span>📖 Contenido formativo</span><span>-</span></div>
+                    <div class="breakdown-item"><span>📝 Actividades</span><span>-</span></div>
+                    <div class="breakdown-item"><span>💬 Foro revisado</span><span>-</span></div>
+                    <div class="breakdown-item"><span>📚 Recursos revisados</span><span>-</span></div>
+                `;
+
+                // Siguiente paso (Placeholder)
+                const nextStep = document.createElement('div');
+                nextStep.className = 'next-step-container';
+                nextStep.id = `next-step-${mod.id}`;
+                nextStep.innerHTML = `
+                    <span class="next-step-label">Siguiente paso sugerido</span>
+                    <span class="next-step-title">Cargando...</span>
+                `;
+
                 const footer = document.createElement('div');
                 footer.className = 'module-footer';
 
                 const stats = document.createElement('div');
                 stats.className = 'module-stats';
 
-                const lessons = document.createElement('span');
-                lessons.textContent = `${mod.lessons} lecciones`;
-
                 const progressText = document.createElement('span');
                 progressText.textContent = '0% completado';
-
-                stats.append(lessons, progressText);
+                stats.append(document.createElement('span'), progressText);
 
                 const progress = document.createElement('div');
                 progress.className = 'progress';
@@ -912,12 +990,13 @@
 
                 const link = document.createElement('a');
                 link.href = mod.url;
+                link.id = `btn-action-${mod.id}`;
                 link.className = 'btn btn-primary btn-continuar';
                 link.setAttribute('aria-label', `Comenzar el módulo ${mod.id}: ${mod.title}`);
                 link.textContent = 'Comenzar';
 
                 footer.append(stats, progress, link);
-                content.append(number, title, footer);
+                content.append(number, title, breakdown, nextStep, footer);
                 article.append(imageContainer, content);
                 container.appendChild(article);
             });
@@ -1069,7 +1148,7 @@
         import { auth } from "./scripts/firebase-config.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getVisibleAnnouncements, getUserReadStatus } from "./scripts/announcement-service.js";
-        import { getAllModuleProgress } from "./scripts/progress-service.js";
+        import { getModuleDetailedProgress } from "./scripts/progress-service.js";
 
         onAuthStateChanged(auth, async (user) => {
             const container = document.getElementById('urgentAlertContainer');
@@ -1108,42 +1187,66 @@
                     container.innerHTML = '';
                 }
 
-                // 2. Cargar progreso real
+                // 2. Cargar progreso pedagógico real
                 try {
-                    const progressData = await getAllModuleProgress(user.uid);
-                    
-                    // Esperar un momento a que el render inicial ocurra (si es asíncrono)
-                    // En este caso renderDashboard es síncrono y se llama en DOMContentLoaded
-                    // Pero por seguridad lo hacemos después de asegurar que el user está cargado
-                    
-                    MODULES_DATA.forEach(mod => {
+                    for (const mod of MODULES_DATA) {
                         const moduleId = `modulo${mod.id}`;
-                        const progress = progressData[moduleId] || { percentComplete: 0 };
-                        const percent = Math.round(progress.percentComplete);
+                        const detailed = await getModuleDetailedProgress(user.uid, moduleId);
                         
-                        // Buscar la tarjeta del módulo
+                        if (!detailed) continue;
+
+                        const percent = detailed.percentComplete;
+                        
+                        // 1. Actualizar Desglose
+                        const breakdownEl = document.getElementById(`breakdown-${mod.id}`);
+                        if (breakdownEl) {
+                            const b = detailed.breakdown;
+                            breakdownEl.innerHTML = `
+                                <div class="breakdown-item"><span class="breakdown-label">📖 ${b.contenido.label}</span><span class="breakdown-count">${b.contenido.completed} de ${b.contenido.total}</span></div>
+                                <div class="breakdown-item"><span class="breakdown-label">📝 ${b.actividades.label}</span><span class="breakdown-count">${b.actividades.completed} de ${b.actividades.total}</span></div>
+                                <div class="breakdown-item"><span class="breakdown-label">💬 ${b.foro.label}</span><span class="breakdown-count">${b.foro.completed} de ${b.foro.total}</span></div>
+                                <div class="breakdown-item"><span class="breakdown-label">📚 ${b.recursos.label}</span><span class="breakdown-count">${b.recursos.completed} de ${b.recursos.total}</span></div>
+                            `;
+                        }
+
+                        // 2. Actualizar Siguiente Paso
+                        const nextStepEl = document.getElementById(`next-step-${mod.id}`);
+                        const btnAction = document.getElementById(`btn-action-${mod.id}`);
+                        
+                        if (nextStepEl && btnAction) {
+                            if (detailed.nextPage) {
+                                nextStepEl.innerHTML = `
+                                    <span class="next-step-label">Siguiente paso sugerido</span>
+                                    <span class="next-step-title">${detailed.nextPage.title}</span>
+                                `;
+                                btnAction.href = detailed.nextPage.url;
+                                btnAction.textContent = percent > 0 ? 'Continuar' : 'Comenzar';
+                                btnAction.classList.replace('btn-secondary', 'btn-primary');
+                            } else if (percent === 100) {
+                                nextStepEl.innerHTML = `
+                                    <span class="next-step-label">Estado del módulo</span>
+                                    <span class="next-step-title" style="color: var(--color-brand-secondary);">✅ Módulo completado</span>
+                                `;
+                                btnAction.textContent = 'Repasar';
+                                btnAction.classList.replace('btn-primary', 'btn-secondary');
+                            }
+                        }
+
+                        // 3. Actualizar Barra y Porcentaje (Secundario)
                         const titleEl = document.getElementById(`module-title-${mod.id}`);
                         if (titleEl) {
                             const card = titleEl.closest('.module-card-refined');
                             const progressText = card.querySelector('.module-stats span:last-child');
                             const progressFill = card.querySelector('.progress-fill');
                             const progressLabel = card.querySelector('.progress');
-                            const btnContinuar = card.querySelector('.btn-continuar');
 
-                            if (progressText) progressText.textContent = `${percent}% completado`;
+                            if (progressText) progressText.textContent = `${percent}%`;
                             if (progressFill) progressFill.style.width = `${percent}%`;
-                            if (progressLabel) progressLabel.setAttribute('aria-label', `Progreso del módulo ${mod.id}: ${percent}% completado`);
-                            
-                            if (percent > 0 && percent < 100) {
-                                btnContinuar.textContent = 'Continuar';
-                            } else if (percent === 100) {
-                                btnContinuar.textContent = 'Repasar';
-                                btnContinuar.classList.replace('btn-primary', 'btn-secondary');
-                            }
+                            if (progressLabel) progressLabel.setAttribute('aria-label', `Avance general: ${percent}%`);
                         }
-                    });
+                    }
                 } catch (e) {
-                    console.error("Error loading progress:", e);
+                    console.error("Error loading detailed progress:", e);
                 }
             } else {
                 container.innerHTML = '';

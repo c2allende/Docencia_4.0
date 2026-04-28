@@ -886,7 +886,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="leccion2_2" data-module-id="modulo2" data-page-type="leccion" data-title="Lección 2.2">
     <nav class="top-nav" aria-label="Navegación superior de la lección">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -1246,6 +1246,7 @@
                 </ul>
             </section>
 
+            <div id="completion-section"></div>
             <nav class="footer-nav" aria-label="Navegación de lecciones">
                 <a href="leccion2_1.html" class="btn-footer btn-back">← Volver a la Lección 2.1</a>
                 <a href="leccion2_3.html" class="btn-footer btn-next">Ir a la Lección 2.3 →</a>
@@ -1472,6 +1473,7 @@
             renderApp();
         });
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>
