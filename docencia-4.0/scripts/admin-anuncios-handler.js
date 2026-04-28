@@ -4,7 +4,8 @@ import {
     createAnnouncement, 
     getAdminAnnouncements, 
     updateAnnouncement, 
-    archiveAnnouncement 
+    archiveAnnouncement,
+    formatAnnouncementDateTime 
 } from "./announcement-service.js";
 import { Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -60,14 +61,21 @@ function renderAnnouncements(list) {
         const card = document.createElement('article');
         card.className = `announcement-card priority-${ann.priority}`;
         
-        const dateStr = ann.createdAt ? ann.createdAt.toDate().toLocaleDateString() : 'Pendiente';
+        const pubStr = formatAnnouncementDateTime(ann.publishAt || ann.createdAt);
+        const createdStr = formatAnnouncementDateTime(ann.createdAt);
+        const updatedStr = formatAnnouncementDateTime(ann.updatedAt || ann.createdAt);
+
         const statusLabel = ann.status === 'published' ? 'Publicado' : (ann.status === 'draft' ? 'Borrador' : 'Archivado');
         const statusClass = `badge-${ann.status}`;
 
         card.innerHTML = `
             <div class="card-header">
                 <div class="card-title-group">
-                    <span class="ann-date">${dateStr}</span>
+                    <div class="ann-dates-admin" style="font-size: 0.75rem; color: var(--text-light); margin-bottom: 0.5rem; line-height: 1.4;">
+                        <div><strong>Publicado:</strong> ${pubStr}</div>
+                        <div><strong>Creado:</strong> ${createdStr}</div>
+                        <div><strong>Actualizado:</strong> ${updatedStr}</div>
+                    </div>
                     <h3>${ann.title}</h3>
                 </div>
                 <span class="status-badge ${statusClass}">${statusLabel}</span>

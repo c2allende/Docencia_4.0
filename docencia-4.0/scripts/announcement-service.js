@@ -151,3 +151,24 @@ export async function getUserReadStatus(uid) {
         return [];
     }
 }
+
+/**
+ * Formatea un Firestore Timestamp o Date a una cadena legible (es-PR)
+ * Formato: "28 de abril de 2026, 9:35 a. m."
+ * Esta función es exportada para uso en handlers de admin y participantes.
+ */
+export function formatAnnouncementDateTime(timestamp) {
+    if (!timestamp) return "Fecha no disponible";
+    
+    try {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        return new Intl.DateTimeFormat("es-PR", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: "America/Puerto_Rico"
+        }).format(date);
+    } catch (e) {
+        console.error("Error formateando fecha:", e);
+        return "Fecha no válida";
+    }
+}

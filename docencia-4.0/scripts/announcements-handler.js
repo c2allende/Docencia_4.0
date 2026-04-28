@@ -3,7 +3,8 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/fi
 import { 
     getVisibleAnnouncements, 
     getUserReadStatus, 
-    markAsRead 
+    markAsRead,
+    formatAnnouncementDateTime 
 } from "./announcement-service.js";
 
 const announcementsList = document.getElementById('announcementsList');
@@ -75,13 +76,13 @@ function renderFilteredAnnouncements() {
         card.className = cardClass;
         card.dataset.id = ann.id;
 
-        const dateStr = ann.publishAt ? ann.publishAt.toDate().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+        const dateStr = formatAnnouncementDateTime(ann.publishAt || ann.createdAt);
         const tagLabel = ann.scope === 'global' ? 'General' : `Módulo ${ann.moduleId?.replace('modulo', '')}`;
 
         card.innerHTML = `
             <div class="announcement-meta">
                 <span class="announcement-tag">${ann.priority.toUpperCase()} | ${tagLabel}</span>
-                <span class="announcement-date">${dateStr}</span>
+                <span class="announcement-date">Publicado el ${dateStr}</span>
             </div>
             <div class="announcement-content">
                 <h3>${ann.title}</h3>
