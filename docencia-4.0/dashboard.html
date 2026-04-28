@@ -447,6 +447,9 @@
 
         .module-footer {
             margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
         }
 
         .module-stats {
@@ -455,14 +458,31 @@
             gap: var(--spacing-3);
             font-size: var(--font-size-sm);
             color: var(--color-text-secondary);
-            margin-bottom: var(--spacing-3);
+            margin-bottom: 0; /* Controlado por el gap del footer */
             font-weight: var(--font-weight-semibold);
+        }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: var(--color-slate-200);
+            border-radius: var(--radius-pill);
+            overflow: hidden;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-cyan);
+            border-radius: var(--radius-pill);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-continuar {
             width: 100%;
             text-transform: uppercase;
             letter-spacing: var(--letter-spacing-wide);
+            margin-top: var(--spacing-2);
         }
 
         .loading-message {
@@ -1049,22 +1069,21 @@
         import { auth } from "./scripts/firebase-config.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getVisibleAnnouncements, getUserReadStatus } from "./scripts/announcement-service.js";
+        import { getAllModuleProgress } from "./scripts/progress-service.js";
 
         onAuthStateChanged(auth, async (user) => {
             const container = document.getElementById('urgentAlertContainer');
             if (!container) return;
 
             if (user) {
+                // 1. Cargar anuncios
                 try {
                     const [announcements, readIds] = await Promise.all([
                         getVisibleAnnouncements(),
                         getUserReadStatus(user.uid)
                     ]);
 
-                    // 1. Buscar urgentes no leídos
                     const unreadUrgent = announcements.find(a => a.priority === 'urgente' && !readIds.includes(a.id));
-                    
-                    // 2. Si no hay urgentes, buscar importantes o normales no leídos
                     const unreadOthers = !unreadUrgent ? announcements.find(a => (a.priority === 'importante' || a.priority === 'normal') && !readIds.includes(a.id)) : null;
 
                     if (unreadUrgent) {
@@ -1087,6 +1106,44 @@
                 } catch (e) { 
                     console.error("Error checking alerts:", e);
                     container.innerHTML = '';
+                }
+
+                // 2. Cargar progreso real
+                try {
+                    const progressData = await getAllModuleProgress(user.uid);
+                    
+                    // Esperar un momento a que el render inicial ocurra (si es asíncrono)
+                    // En este caso renderDashboard es síncrono y se llama en DOMContentLoaded
+                    // Pero por seguridad lo hacemos después de asegurar que el user está cargado
+                    
+                    MODULES_DATA.forEach(mod => {
+                        const moduleId = `modulo${mod.id}`;
+                        const progress = progressData[moduleId] || { percentComplete: 0 };
+                        const percent = Math.round(progress.percentComplete);
+                        
+                        // Buscar la tarjeta del módulo
+                        const titleEl = document.getElementById(`module-title-${mod.id}`);
+                        if (titleEl) {
+                            const card = titleEl.closest('.module-card-refined');
+                            const progressText = card.querySelector('.module-stats span:last-child');
+                            const progressFill = card.querySelector('.progress-fill');
+                            const progressLabel = card.querySelector('.progress');
+                            const btnContinuar = card.querySelector('.btn-continuar');
+
+                            if (progressText) progressText.textContent = `${percent}% completado`;
+                            if (progressFill) progressFill.style.width = `${percent}%`;
+                            if (progressLabel) progressLabel.setAttribute('aria-label', `Progreso del módulo ${mod.id}: ${percent}% completado`);
+                            
+                            if (percent > 0 && percent < 100) {
+                                btnContinuar.textContent = 'Continuar';
+                            } else if (percent === 100) {
+                                btnContinuar.textContent = 'Repasar';
+                                btnContinuar.classList.replace('btn-primary', 'btn-secondary');
+                            }
+                        }
+                    });
+                } catch (e) {
+                    console.error("Error loading progress:", e);
                 }
             } else {
                 container.innerHTML = '';

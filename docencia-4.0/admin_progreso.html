@@ -711,8 +711,11 @@
 
     <script type="module" src="scripts/admin-ui.js"></script>
 
-    <script>
-        const storageKey = 'docencia40_admin_progress_v1';
+    <script type="module">
+        import { db } from "./scripts/firebase-config.js";
+        import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAllModuleProgress, COURSE_STRUCTURE } from "./scripts/progress-service.js";
+
         const progressTableBody = document.getElementById('progressTableBody');
         const participantsGrid = document.getElementById('participantsGrid');
         const moduleSummaryList = document.getElementById('moduleSummaryList');
@@ -722,36 +725,80 @@
         const statusFilter = document.getElementById('statusFilter');
         const cohortFilter = document.getElementById('cohortFilter');
 
-        const demoProgress = [
-            { id: createId(), displayName: 'Participante 01', email: 'p01@ejemplo.com', cohort: 'cohorte-2026', currentModule: 'modulo1', status: 'in_progress', progressPercent: 75, completedPages: 6, totalPages: 8, lastActivity: 'Hoy', moduleProgress: { modulo1: 75, modulo2: 0, modulo3: 0 } },
-            { id: createId(), displayName: 'Participante 02', email: 'p02@ejemplo.com', cohort: 'cohorte-2026', currentModule: 'modulo2', status: 'in_progress', progressPercent: 52, completedPages: 8, totalPages: 15, lastActivity: 'Ayer', moduleProgress: { modulo1: 100, modulo2: 35, modulo3: 0 } },
-            { id: createId(), displayName: 'Participante 03', email: 'p03@ejemplo.com', cohort: 'piloto', currentModule: 'modulo1', status: 'inactive', progressPercent: 34, completedPages: 3, totalPages: 8, lastActivity: 'Hace 5 días', moduleProgress: { modulo1: 34, modulo2: 0, modulo3: 0 } },
-            { id: createId(), displayName: 'Participante 04', email: 'p04@ejemplo.com', cohort: 'piloto', currentModule: 'modulo3', status: 'completed', progressPercent: 100, completedPages: 24, totalPages: 24, lastActivity: 'Hoy', moduleProgress: { modulo1: 100, modulo2: 100, modulo3: 100 } }
-        ];
+        let participantsData = [];
 
-        let progressData = [];
+        async function loadParticipants() {
+            showStatusMessage("Cargando datos reales desde Firestore...", "info");
+            try {
+                const usersSnap = await getDocs(collection(db, "usuarios"));
+                const participants = [];
+
+                for (const userDoc of usersSnap.docs) {
+                    const userData = userDoc.data();
+                    const uid = userDoc.id;
+                    
+                    // Obtener progreso de módulos
+                    const progress = await getAllModuleProgress(uid);
+                    
+                    // Calcular progreso general (promedio de los 3 módulos)
+                    const m1 = progress.modulo1?.percentComplete || 0;
+                    const m2 = progress.modulo2?.percentComplete || 0;
+                    const m3 = progress.modulo3?.percentComplete || 0;
+                    const avgProgress = Math.round((m1 + m2 + m3) / 3);
+
+                    // Determinar módulo actual (el primero no completado)
+                    let currentModule = "modulo1";
+                    if (m1 === 100) currentModule = "modulo2";
+                    if (m2 === 100) currentModule = "modulo3";
+                    if (m3 === 100) currentModule = "completado";
+
+                    participants.push({
+                        id: uid,
+                        displayName: userData.displayName || "Usuario sin nombre",
+                        email: userData.email || "Sin email",
+                        cohort: userData.cohort || "sin-asignar",
+                        currentModule: currentModule,
+                        status: avgProgress === 100 ? 'completed' : (avgProgress > 0 ? 'in_progress' : 'not_started'),
+                        progressPercent: avgProgress,
+                        completedPages: (progress.modulo1?.completedCount || 0) + (progress.modulo2?.completedCount || 0) + (progress.modulo3?.completedCount || 0),
+                        totalPages: COURSE_STRUCTURE.modulo1.totalPages + COURSE_STRUCTURE.modulo2.totalPages + COURSE_STRUCTURE.modulo3.totalPages,
+                        lastActivity: userData.updatedAt ? new Date(userData.updatedAt.seconds * 1000).toLocaleDateString() : 'N/A',
+                        moduleProgress: { modulo1: m1, modulo2: m2, modulo3: m3 }
+                    });
+                }
+
+                participantsData = participants;
+                renderAll();
+                updateMetrics();
+                showStatusMessage("Datos actualizados correctamente.", "success");
+            } catch (error) {
+                console.error("Error cargando participantes:", error);
+                showStatusMessage("Error al conectar con Firestore. Revisa la consola.", "error");
+            }
+        }
 
         function showStatusMessage(message, type = 'info') {
             const statusMessage = document.getElementById('statusMessage');
             if (!statusMessage) return;
             statusMessage.textContent = message;
             statusMessage.className = `status-message is-visible is-${type}`;
-        }
-
-        function getSavedProgress() {
-            const raw = localStorage.getItem(storageKey);
-            if (!raw) {
-                localStorage.setItem(storageKey, JSON.stringify(demoProgress));
-                return [...demoProgress];
-            }
-            try {
-                const parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch { return []; }
+            if (type === 'success') setTimeout(() => statusMessage.classList.remove('is-visible'), 3000);
         }
 
         function labelFromValue(value) {
-            const labels = { modulo1: 'Módulo 1', modulo2: 'Módulo 2', modulo3: 'Módulo 3', 'cohorte-2026': 'Cohorte 2026', piloto: 'Piloto', not_started: 'No iniciado', in_progress: 'En progreso', completed: 'Completado', inactive: 'Inactivo' };
+            const labels = { 
+                modulo1: 'Módulo 1', 
+                modulo2: 'Módulo 2', 
+                modulo3: 'Módulo 3', 
+                completado: 'Completado',
+                'cohorte-2026': 'Cohorte 2026', 
+                piloto: 'Piloto', 
+                not_started: 'No iniciado', 
+                in_progress: 'En progreso', 
+                completed: 'Finalizado', 
+                inactive: 'Inactivo',
+                'sin-asignar': 'Sin asignar'
+            };
             return labels[value] || value;
         }
 
@@ -763,12 +810,15 @@
         }
 
         function updateMetrics() {
-            const total = progressData.length;
-            const average = total === 0 ? 0 : Math.round(progressData.reduce((sum, item) => sum + item.progressPercent, 0) / total);
+            const total = participantsData.length;
+            const average = total === 0 ? 0 : Math.round(participantsData.reduce((sum, item) => sum + item.progressPercent, 0) / total);
             document.getElementById('metricParticipants').textContent = String(total);
             document.getElementById('metricAverage').textContent = `${average}%`;
-            document.getElementById('metricCompleted').textContent = String(progressData.filter(i => i.status === 'completed').length);
-            document.getElementById('metricActiveToday').textContent = String(progressData.filter(i => i.lastActivity === 'Hoy').length);
+            document.getElementById('metricCompleted').textContent = String(participantsData.filter(i => i.status === 'completed').length);
+            
+            // Activos hoy (simplificado)
+            const today = new Date().toLocaleDateString();
+            document.getElementById('metricActiveToday').textContent = String(participantsData.filter(i => i.lastActivity === today).length);
         }
 
         function createProgressBlock(percent, label) {
@@ -783,61 +833,72 @@
 
         function renderAll() {
             const query = searchParticipants.value.toLowerCase();
-            const filtered = progressData.filter(p => !query || p.displayName.toLowerCase().includes(query) || p.email.toLowerCase().includes(query));
+            const modFilter = moduleFilter.value;
+            const statFilter = statusFilter.value;
+            const cohFilter = cohortFilter.value;
+
+            const filtered = participantsData.filter(p => {
+                const matchesSearch = !query || p.displayName.toLowerCase().includes(query) || p.email.toLowerCase().includes(query);
+                const matchesModule = modFilter === 'all' || p.currentModule === modFilter;
+                const matchesStatus = statFilter === 'all' || p.status === statFilter;
+                const matchesCohort = cohFilter === 'all' || p.cohort === cohFilter;
+                return matchesSearch && matchesModule && matchesStatus && matchesCohort;
+            });
             
             progressTableBody.textContent = '';
             filtered.forEach(p => {
                 const row = document.createElement('tr');
                 const pc = document.createElement('td');
                 pc.append(createElement('span', 'participant-name', p.displayName), createElement('span', 'participant-email', p.email));
+                
                 const sClass = p.status === 'completed' ? 'badge-soft badge-important' : 'badge-soft';
-                row.append(pc, createElement('td', '', labelFromValue(p.cohort)), createElement('td', '', labelFromValue(p.currentModule)), createElement('td', '', labelFromValue(p.status)));
-                row.lastChild.firstChild.className = sClass;
+                const statusBadge = createElement('span', sClass, labelFromValue(p.status));
+
+                row.append(
+                    pc, 
+                    createElement('td', '', labelFromValue(p.cohort)), 
+                    createElement('td', '', labelFromValue(p.currentModule)), 
+                    createElement('td', '')
+                );
+                row.lastChild.appendChild(statusBadge);
+
                 const prc = document.createElement('td');
                 prc.appendChild(createProgressBlock(p.progressPercent, `${p.completedPages}/${p.totalPages}`));
+                
                 row.append(prc, createElement('td', '', p.lastActivity), createElement('td', ''));
                 progressTableBody.appendChild(row);
             });
 
+            // Render resumen por módulo (lateral)
+            renderModuleSummary();
+        }
+
+        function renderModuleSummary() {
             moduleSummaryList.textContent = '';
-            ['modulo1', 'modulo2', 'modulo3'].forEach(m => {
-                const item = createElement('article', 'module-summary-item');
-                item.append(createElement('h3', '', labelFromValue(m)), createProgressBlock(50, 'Promedio')); // Demo 50%
+            ["modulo1", "modulo2", "modulo3"].forEach(mId => {
+                const total = participantsData.length;
+                const avg = total === 0 ? 0 : Math.round(participantsData.reduce((sum, p) => sum + p.moduleProgress[mId], 0) / total);
+                
+                const item = createElement('div', 'module-summary-item');
+                const header = createElement('div', 'module-summary-header');
+                header.append(createElement('span', 'admin-kicker', labelFromValue(mId)), createElement('span', 'metric-label', `${avg}%`));
+                
+                const progress = document.createElement('progress');
+                progress.className = 'progress-native'; progress.max = 100; progress.value = avg;
+                
+                item.append(header, progress);
                 moduleSummaryList.appendChild(item);
             });
-            updateMetrics();
         }
 
+        // Listeners
         searchParticipants.addEventListener('input', renderAll);
-        progressData = getSavedProgress();
-        renderAll();
+        moduleFilter.addEventListener('change', renderAll);
+        statusFilter.addEventListener('change', renderAll);
+        cohortFilter.addEventListener('change', renderAll);
 
-        function resolveAssetPath(img) {
-            const rawAssets = img.dataset.assets || img.dataset.asset;
-            if (!rawAssets) return;
-            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
-            const paths = [];
-            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
-            fileNames.forEach((fileName) => {
-                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
-                bases.forEach((base) => {
-                    paths.push(`${base}${fileName}`);
-                    paths.push(`${base}${encodedFileName}`);
-                });
-            });
-            const uniqueCandidates = [...new Set(paths)];
-            let index = 0;
-            img.onerror = () => {
-                if (index < uniqueCandidates.length) {
-                    img.src = uniqueCandidates[index];
-                    index += 1;
-                } else { img.onerror = null; }
-            };
-            if (uniqueCandidates.length > 0) { img.src = uniqueCandidates[index]; index += 1; }
-        }
-        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+        document.addEventListener('DOMContentLoaded', loadParticipants);
     </script>
-
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>
 </body>
