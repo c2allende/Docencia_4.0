@@ -618,22 +618,6 @@
         }
 
         document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
-
-        const loginForm = document.getElementById('loginForm');
-
-        loginForm?.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-
-            if (!emailInput?.value.trim() || !passwordInput?.value.trim()) {
-                showAuthMessage('Escribe tu email y contraseña para continuar.', 'error');
-                return;
-            }
-
-            showAuthMessage('La estructura del formulario está lista. La validación real se activará cuando se conecte Firebase Authentication.', 'info');
-        });
     </script>
 
     <!-- Firebase Auth Integration -->

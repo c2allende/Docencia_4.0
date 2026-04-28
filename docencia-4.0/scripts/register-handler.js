@@ -1,4 +1,5 @@
 import { registerUser } from "./auth.js";
+import { createUserProfile } from "./user-service.js";
 
 const registerForm = document.getElementById('registerForm');
 const authMessage = document.getElementById('authMessage');
@@ -12,6 +13,8 @@ function showMessage(text, type = 'info') {
 registerForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    const displayName = document.getElementById('displayName')?.value || '';
+    const roleContext = document.getElementById('roleContext')?.value || '';
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
@@ -30,19 +33,31 @@ registerForm?.addEventListener('submit', async (e) => {
     showMessage('Creando cuenta...', 'info');
 
     try {
-        await registerUser(email, password);
+        // 1. Registro en Firebase Auth
+        const userCredential = await registerUser(email, password);
+        const user = userCredential.user;
+
+        // 2. Creación de perfil en Firestore
+        showMessage('Configurando perfil...', 'info');
+        await createUserProfile(user, { 
+            displayName, 
+            roleContext 
+        });
+
         showMessage('Cuenta creada con éxito. Redirigiendo...', 'success');
         setTimeout(() => {
             window.location.href = "index.html";
         }, 2000);
     } catch (error) {
-        console.error("Error en registro:", error);
+        console.error("Error en registro completo:", error);
         let errorMsg = 'Error al crear la cuenta. Intenta de nuevo.';
         
         if (error.code === 'auth/email-already-in-use') {
             errorMsg = 'Este email ya está registrado.';
         } else if (error.code === 'auth/weak-password') {
-            errorMsg = 'La contraseña es muy débil (mínimo 6 caracteres en Firebase).';
+            errorMsg = 'La contraseña es muy débil (mínimo 6 caracteres).';
+        } else if (error.code === 'permission-denied') {
+            errorMsg = 'Error de permisos al crear el perfil. Contacta soporte.';
         }
         
         showMessage(errorMsg, 'error');
