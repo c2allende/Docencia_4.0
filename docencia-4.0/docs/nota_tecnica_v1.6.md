@@ -1,57 +1,42 @@
-# Nota Técnica de Cierre — Docencia 4.0 (Versión 1.6)
+# Nota Técnica de Cierre — Docencia 4.0 (Versión 1.6D Estable)
 
-**Fecha:** 28 de abril de 2026  
-**Fase:** 1.6 — Seguimiento de Progreso Real (Prueba Piloto)  
-**Estado:** Completado y Validado Localmente  
+**Fecha de Despliegue:** 28 de abril de 2026  
+**URL Pública:** [https://docencia-4-lms.web.app](https://docencia-4-lms.web.app)  
+**Estado:** Estable en Producción (v1.6D)
 
 ---
 
 ## 1. Funcionalidades Completadas
-- **Sistema de Tracking en Firestore**: Implementación de lógica para registrar visitas automáticas y marcas de completado manuales.
-- **Servicio de Progreso (`progress-service.js`)**: Capa de abstracción para interactuar con las colecciones `progresoPaginas` y `progresoModulos`.
-- **Rastreador de Cliente (`progress-tracker.js`)**: Script modular que se integra en cualquier página mediante atributos `data-*`.
-- **Integración Piloto**: Activación exitosa en:
+- **Anuncios Dinámicos**: Gestión completa de anuncios desde Firestore con estados (draft, published, archived) y prioridades.
+- **Seguridad y Roles**: Implementación de sistema de roles (participant/admin) y protección de campos críticos (`role`, `status`).
+- **Seguimiento de Progreso (Piloto)**: Registro automático y manual de avance en páginas clave:
   - `leccion1_1.html`
   - `actividad1_1.html`
   - `recursos_m1.html`
-- **Dashboard Dinámico**: Sincronización de barras de progreso y porcentajes reales basados en los datos de Firestore.
-- **Seguridad**: Fusión de reglas de Firestore para proteger el progreso individual de cada usuario.
+- **Dashboard en Tiempo Real**: Visualización de porcentajes basados en el progreso real del usuario (33% completado con 1 página piloto).
 
-## 2. Archivos Principales
-- **Nuevos**:
-  - `scripts/progress-service.js`: Gestión de base de datos.
-  - `scripts/progress-tracker.js`: Lógica de interfaz y tracking.
-- **Modificados**:
-  - `leccion1_1.html`, `actividad1_1.html`, `recursos_m1.html`: Inclusión de metadatos y contenedor de completado.
-  - `dashboard.html`: Integración del servicio de progreso y refinamiento visual de tarjetas.
-  - `firestore.rules`: Actualización de permisos para subcolecciones de usuarios.
+## 2. Reglas Firestore Aplicadas (Hardenizadas)
+Se ha consolidado un archivo `firestore.rules` con las siguientes protecciones:
+- **Validación Estricta**: Uso de `keys().hasOnly()` para todas las colecciones clave.
+- **Inmutabilidad de Perfil**: Los usuarios no pueden modificar su propio `role` ni `status`.
+- **Registro Seguro**: Nuevos usuarios son forzados al rol `participant` y estado `active`.
+- **Privacidad de Progreso**: Acceso exclusivo por `isOwner` o `isAdmin`.
+- **Anuncios**: Visibilidad controlada por vigencia (fechas y estado publicado).
 
-## 3. Estructura Firestore Actualizada
-- `usuarios/{uid}/progresoPaginas/{pageId}`
-  - Campos: `status` (started/completed), `visitCount`, `lastOpenedAt`, `completedAt`.
-- `usuarios/{uid}/progresoModulos/{moduleId}`
-  - Campos: `percentComplete`, `completedPages`, `totalPages`, `updatedAt`.
+## 3. Pruebas Realizadas en Producción
+- [x] **Registro de Usuario**: Confirmado rol `participant` automático.
+- [x] **Protección de Panel**: Acceso denegado a páginas `admin_*.html` para participantes.
+- [x] **Anuncios**: Lectura y marcado de anuncios leídos funcional.
+- [x] **Tracking**: Registro de visitas y marcado de "Completado" persistente.
+- [x] **Dashboard**: Reflejo inmediato del 33% de progreso tras completar la primera lección piloto.
 
-## 4. Reglas Firestore Aplicadas
-Se implementó un esquema de "isOwner" que permite:
-- Cada usuario lee y escribe **solo su propio progreso**.
-- El administrador puede leer el progreso de todos los usuarios (para futuros reportes).
-- Se mantiene la integridad de la colección de anuncios existente.
+## 4. Problemas Conocidos / Observaciones
+- **Índices de Firestore**: Se recomienda monitorear si en el futuro se requieren índices compuestos adicionales para filtrados complejos de anuncios (actualmente manejados con filtros simples y post-procesado en cliente).
+- **Extensión de Páginas**: El tracking solo está activo en las 3 páginas piloto mencionadas.
 
-## 5. Pruebas Realizadas
-- **Visita Automática**: Verificado en consola que al abrir la lección se registra el inicio de progreso.
-- **Marcar como Completado**: El botón cambia de estado y persiste en Firestore tras recargar.
-- **Cálculo de Porcentajes**: Al completar 1 de 3 páginas, el Dashboard refleja correctamente un 33%.
-- **Persistencia**: Los datos se mantienen al cerrar y abrir sesión.
-
-## 6. Problemas Conocidos / Observaciones
-- **Dependencia de Conexión**: Los scripts dependen de la carga de Firebase desde CDN.
-- **Caché Local**: Se recomienda recargar el Dashboard tras completar una lección para ver el cambio inmediato (actualmente carga al iniciar sesión).
-
-## 7. Próxima Fase Recomendada (1.7)
-- **Extensión del Tracker**: Aplicar el sistema a todas las páginas restantes del Módulo 1 y Módulos 2/3.
-- **Panel Administrativo Real**: Habilitar en `admin_progreso.html` la visualización de estas barras de progreso para que el instructor vea el avance de sus alumnos.
-- **Deploy General**: Subir a Firebase Hosting una vez validada la extensión a todo el curso.
+## 5. Próxima Fase Recomendada (1.7)
+- **Despliegue Masivo**: Extender el `progress-tracker.js` y los metadatos `data-page-id` a todas las páginas de los módulos 1, 2 y 3.
+- **Panel Administrativo de Progreso**: Implementar en `admin_progreso.html` la lectura de las subcolecciones de los alumnos para supervisión del docente.
 
 ---
-*Nota generada por Antigravity AI Coding Assistant.*
+*Cierre formal de la Versión 1.6D — Antigravity AI Coding Assistant.*
