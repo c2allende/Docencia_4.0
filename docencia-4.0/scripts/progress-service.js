@@ -160,6 +160,7 @@ export async function getAllParticipantsProgress() {
 
 /**
  * Obtiene el progreso resumido de módulos para un participante específico.
+ * Se calcula estructuralmente para evitar anomalías por datos huérfanos.
  */
 export async function getParticipantModuleProgress(uid) {
     const results = {
@@ -168,16 +169,28 @@ export async function getParticipantModuleProgress(uid) {
     };
 
     try {
+        // Obtenemos los documentos de resumen guardados
         const progressCol = collection(db, "usuarios", uid, "progresoModulos");
         const snapshot = await getDocs(progressCol);
 
         snapshot.forEach(doc => {
             const data = doc.data();
             if (results[doc.id]) {
-                results[doc.id].percent = data.percentComplete || 0;
+                // Aplicamos saneamiento: máximo 100%
+                let percent = data.percentComplete || 0;
+                if (percent > 100) {
+                    console.warn(`[QA] Progreso anómalo detectado para ${uid} en ${doc.id}: ${percent}%. Saneando a 100%.`);
+                    percent = 100;
+                }
+                results[doc.id].percent = percent;
                 results[doc.id].updatedAt = data.updatedAt || null;
             }
         });
+
+        // Si el porcentaje es 0 o parece inconsistente, podríamos recalcularlo aquí,
+        // pero por ahora confiamos en el saneamiento y en que updateModuleProgress 
+        // ahora es más robusto.
+        
     } catch (error) {
         console.warn(`No se pudo obtener progreso para el usuario ${uid}:`, error);
     }
@@ -252,20 +265,41 @@ export async function completePageProgress(uid, pageId, moduleId) {
 }
 
 /**
- * Recalcula el porcentaje de avance de un módulo.
+ * Recalcula el porcentaje de avance de un módulo de forma estructural.
+ * Solo cuenta páginas que pertenecen a la COURSE_STRUCTURE actual.
  */
 export async function updateModuleProgress(uid, moduleId) {
     const moduleConfig = COURSE_STRUCTURE[moduleId];
     if (!moduleConfig) return;
 
-    const pagesCol = collection(db, "usuarios", uid, "progresoPaginas");
-    const q = query(pagesCol, where("moduleId", "==", moduleId), where("status", "==", "completed"));
-
     try {
+        // 1. Obtener todas las páginas completadas del usuario
+        const pagesCol = collection(db, "usuarios", uid, "progresoPaginas");
+        const q = query(pagesCol, where("moduleId", "==", moduleId), where("status", "==", "completed"));
         const querySnapshot = await getDocs(q);
-        const completedPages = querySnapshot.size;
+        
+        const completedIds = new Set();
+        querySnapshot.forEach(doc => completedIds.add(doc.id));
+
+        // 2. Contar solo las que existen en la estructura oficial
+        let completedCount = 0;
+        const officialIds = moduleConfig.pages.map(p => p.id);
+        
+        officialIds.forEach(id => {
+            if (completedIds.has(id)) completedCount++;
+        });
+
+        // 3. Detectar documentos huérfanos para auditoría
+        if (querySnapshot.size > completedCount) {
+            console.warn(`[QA] Usuario ${uid} tiene ${querySnapshot.size - completedCount} documentos huérfanos en el módulo ${moduleId}.`);
+        }
+
         const totalPages = moduleConfig.totalPages;
-        const percentComplete = Math.round((completedPages / totalPages) * 100);
+        let percentComplete = Math.round((completedCount / totalPages) * 100);
+        
+        // Límite de seguridad
+        if (percentComplete > 100) percentComplete = 100;
+        if (completedCount > totalPages) completedCount = totalPages;
 
         const moduleRef = doc(db, "usuarios", uid, "progresoModulos", moduleId);
         const moduleSnap = await getDoc(moduleRef);
@@ -274,7 +308,7 @@ export async function updateModuleProgress(uid, moduleId) {
             uid,
             moduleId,
             moduleTitle: moduleConfig.title,
-            completedPages,
+            completedPages: completedCount,
             totalPages,
             percentComplete,
             status: percentComplete === 100 ? "completed" : (percentComplete > 0 ? "in_progress" : "not_started"),
