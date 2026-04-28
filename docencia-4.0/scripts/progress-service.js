@@ -111,6 +111,89 @@ export async function getModuleDetailedProgress(uid, moduleId) {
 }
 
 /**
+ * Obtiene el listado de todos los participantes y su progreso básico.
+ * (Solo para administradores)
+ */
+export async function getAllParticipantsProgress() {
+    try {
+        const usersCol = collection(db, "usuarios");
+        const querySnapshot = await getDocs(usersCol);
+        
+        const participants = [];
+        
+        for (const userDoc of querySnapshot.docs) {
+            const userData = userDoc.data();
+            
+            // Opcional: Identificar si es admin (puedes filtrar si lo prefieres)
+            // if (userData.role === "admin") continue;
+
+            const uid = userDoc.id;
+            const moduleProgress = await getParticipantModuleProgress(uid);
+
+            // Calcular última actividad (updatedAt más reciente entre módulos)
+            let lastActivity = null;
+            if (moduleProgress.modulo1.updatedAt) lastActivity = moduleProgress.modulo1.updatedAt;
+            if (moduleProgress.modulo2.updatedAt && (!lastActivity || moduleProgress.modulo2.updatedAt > lastActivity)) {
+                lastActivity = moduleProgress.modulo2.updatedAt;
+            }
+
+            participants.push({
+                uid,
+                displayName: userData.displayName || "Sin nombre",
+                email: userData.email || "Sin email",
+                role: userData.role || "participant",
+                roleContext: userData.roleContext || "No especificado",
+                status: userData.status || "active",
+                photoURL: userData.photoURL || null,
+                modulo1: moduleProgress.modulo1.percent,
+                modulo2: moduleProgress.modulo2.percent,
+                lastActivity: lastActivity ? lastActivity.toDate() : null
+            });
+        }
+        
+        return participants;
+    } catch (error) {
+        console.error("Error al obtener progreso de participantes:", error);
+        throw error;
+    }
+}
+
+/**
+ * Obtiene el progreso resumido de módulos para un participante específico.
+ */
+export async function getParticipantModuleProgress(uid) {
+    const results = {
+        modulo1: { percent: 0, updatedAt: null },
+        modulo2: { percent: 0, updatedAt: null }
+    };
+
+    try {
+        const progressCol = collection(db, "usuarios", uid, "progresoModulos");
+        const snapshot = await getDocs(progressCol);
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (results[doc.id]) {
+                results[doc.id].percent = data.percentComplete || 0;
+                results[doc.id].updatedAt = data.updatedAt || null;
+            }
+        });
+    } catch (error) {
+        console.warn(`No se pudo obtener progreso para el usuario ${uid}:`, error);
+    }
+
+    return results;
+}
+
+/**
+ * Reutiliza la lógica de desglose pedagógico para un participante específico.
+ */
+export async function getParticipantDetailedProgress(uid, moduleId) {
+    // Reutilizamos la lógica de getModuleDetailedProgress
+    return await getModuleDetailedProgress(uid, moduleId);
+}
+
+/**
  * Registra o actualiza el inicio de visita a una página.
  */
 export async function startPageProgress(uid, pageData) {

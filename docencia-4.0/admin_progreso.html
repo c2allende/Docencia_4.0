@@ -566,13 +566,6 @@
                     actividad, estado de finalización y participación general dentro del LMS.</p>
             </header>
 
-            <section class="admin-alert" aria-label="Aviso de estado de integración">
-                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
-                <p><strong>Modo prototipo:</strong> los datos de progreso son demostrativos. Cuando se conecte Firebase,
-                    esta página leerá información desde Firestore, alimentada por un progress-tracker en cada página del
-                    LMS.</p>
-            </section>
-
             <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
 
             <section class="metrics-grid" aria-label="Métricas generales de progreso">
@@ -607,10 +600,6 @@
                                 <p>Filtra por nombre, módulo actual, estado o cohorte para identificar avances y
                                     rezagos.</p>
                             </div>
-                            <div class="panel-actions">
-                                <button id="exportDemoBtn" class="btn-admin-secondary" type="button">Exportar
-                                    demo</button>
-                            </div>
                         </div>
 
                         <div class="toolbar" aria-label="Filtros de progreso">
@@ -625,7 +614,6 @@
                                     <option value="all">Todos</option>
                                     <option value="modulo1">Módulo 1</option>
                                     <option value="modulo2">Módulo 2</option>
-                                    <option value="modulo3">Módulo 3</option>
                                 </select>
                             </div>
                             <div class="form-field">
@@ -635,15 +623,6 @@
                                     <option value="not_started">No iniciado</option>
                                     <option value="in_progress">En progreso</option>
                                     <option value="completed">Completado</option>
-                                    <option value="inactive">Inactivo</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label for="cohortFilter" class="form-label">Cohorte</label>
-                                <select id="cohortFilter" class="form-select">
-                                    <option value="all">Todas</option>
-                                    <option value="cohorte-2026">Cohorte 2026</option>
-                                    <option value="piloto">Piloto</option>
                                 </select>
                             </div>
                         </div>
@@ -653,10 +632,11 @@
                                 <thead>
                                     <tr>
                                         <th>Participante</th>
-                                        <th>Cohorte</th>
-                                        <th>Módulo actual</th>
+                                        <th>Rol/Contexto</th>
+                                        <th>Ubicación</th>
                                         <th>Estado</th>
-                                        <th>Progreso</th>
+                                        <th>Módulo 1</th>
+                                        <th>Módulo 2</th>
                                         <th>Última actividad</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -664,31 +644,8 @@
                                 <tbody id="progressTableBody"></tbody>
                             </table>
                         </div>
-                        <div id="participantsGrid" class="participants-grid" aria-live="polite"></div>
                     </section>
                 </div>
-
-                <aside class="panel-stack" aria-label="Resumen lateral de progreso">
-                    <section class="module-summary-card" aria-labelledby="modules-summary-title">
-                        <div class="panel-header">
-                            <div>
-                                <h2 id="modules-summary-title">Resumen por módulo</h2>
-                                <p>Promedio general de avance por módulo.</p>
-                            </div>
-                        </div>
-                        <div id="moduleSummaryList" class="module-summary-list"></div>
-                    </section>
-
-                    <section class="module-summary-card" aria-labelledby="activity-title">
-                        <div class="panel-header">
-                            <div>
-                                <h2 id="activity-title">Actividad reciente</h2>
-                                <p>Últimos eventos simulados del LMS.</p>
-                            </div>
-                        </div>
-                        <div id="recentActivityList" class="activity-list"></div>
-                    </section>
-                </aside>
             </section>
 
             <nav class="footer-nav" aria-label="Navegación del panel de progreso">
@@ -698,209 +655,24 @@
         </article>
     </main>
 
+    <!-- Modal de Detalle Pedagógico -->
+    <div id="detailModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div class="modal-container" style="background: var(--color-background-surface); width: 90%; max-width: 900px; max-height: 90vh; border-radius: var(--radius-xl); overflow-y: auto; position: relative; box-shadow: var(--shadow-floating); border: 1px solid var(--color-border-default);">
+            <button onclick="closeAdminModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--color-text-muted);">×</button>
+            <div id="modalContent">
+                <!-- Se rellena dinámicamente -->
+            </div>
+            <div style="padding: 20px; text-align: right; border-top: 1px solid var(--color-border-default);">
+                <button class="btn-admin-secondary" onclick="closeAdminModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
-    <script>
-        function createId() {
-            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-                return window.crypto.randomUUID();
-            }
-            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        }
-    </script>
-
     <script type="module" src="scripts/admin-ui.js"></script>
-
-    <script type="module">
-        import { db } from "./scripts/firebase-config.js";
-        import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAllModuleProgress, COURSE_STRUCTURE } from "./scripts/progress-service.js";
-
-        const progressTableBody = document.getElementById('progressTableBody');
-        const participantsGrid = document.getElementById('participantsGrid');
-        const moduleSummaryList = document.getElementById('moduleSummaryList');
-        const recentActivityList = document.getElementById('recentActivityList');
-        const searchParticipants = document.getElementById('searchParticipants');
-        const moduleFilter = document.getElementById('moduleFilter');
-        const statusFilter = document.getElementById('statusFilter');
-        const cohortFilter = document.getElementById('cohortFilter');
-
-        let participantsData = [];
-
-        async function loadParticipants() {
-            showStatusMessage("Cargando datos reales desde Firestore...", "info");
-            try {
-                const usersSnap = await getDocs(collection(db, "usuarios"));
-                const participants = [];
-
-                for (const userDoc of usersSnap.docs) {
-                    const userData = userDoc.data();
-                    const uid = userDoc.id;
-                    
-                    // Obtener progreso de módulos
-                    const progress = await getAllModuleProgress(uid);
-                    
-                    // Calcular progreso general (promedio de los 3 módulos)
-                    const m1 = progress.modulo1?.percentComplete || 0;
-                    const m2 = progress.modulo2?.percentComplete || 0;
-                    const m3 = progress.modulo3?.percentComplete || 0;
-                    const avgProgress = Math.round((m1 + m2 + m3) / 3);
-
-                    // Determinar módulo actual (el primero no completado)
-                    let currentModule = "modulo1";
-                    if (m1 === 100) currentModule = "modulo2";
-                    if (m2 === 100) currentModule = "modulo3";
-                    if (m3 === 100) currentModule = "completado";
-
-                    participants.push({
-                        id: uid,
-                        displayName: userData.displayName || "Usuario sin nombre",
-                        email: userData.email || "Sin email",
-                        cohort: userData.cohort || "sin-asignar",
-                        currentModule: currentModule,
-                        status: avgProgress === 100 ? 'completed' : (avgProgress > 0 ? 'in_progress' : 'not_started'),
-                        progressPercent: avgProgress,
-                        completedPages: (progress.modulo1?.completedCount || 0) + (progress.modulo2?.completedCount || 0) + (progress.modulo3?.completedCount || 0),
-                        totalPages: COURSE_STRUCTURE.modulo1.totalPages + COURSE_STRUCTURE.modulo2.totalPages + COURSE_STRUCTURE.modulo3.totalPages,
-                        lastActivity: userData.updatedAt ? new Date(userData.updatedAt.seconds * 1000).toLocaleDateString() : 'N/A',
-                        moduleProgress: { modulo1: m1, modulo2: m2, modulo3: m3 }
-                    });
-                }
-
-                participantsData = participants;
-                renderAll();
-                updateMetrics();
-                showStatusMessage("Datos actualizados correctamente.", "success");
-            } catch (error) {
-                console.error("Error cargando participantes:", error);
-                showStatusMessage("Error al conectar con Firestore. Revisa la consola.", "error");
-            }
-        }
-
-        function showStatusMessage(message, type = 'info') {
-            const statusMessage = document.getElementById('statusMessage');
-            if (!statusMessage) return;
-            statusMessage.textContent = message;
-            statusMessage.className = `status-message is-visible is-${type}`;
-            if (type === 'success') setTimeout(() => statusMessage.classList.remove('is-visible'), 3000);
-        }
-
-        function labelFromValue(value) {
-            const labels = { 
-                modulo1: 'Módulo 1', 
-                modulo2: 'Módulo 2', 
-                modulo3: 'Módulo 3', 
-                completado: 'Completado',
-                'cohorte-2026': 'Cohorte 2026', 
-                piloto: 'Piloto', 
-                not_started: 'No iniciado', 
-                in_progress: 'En progreso', 
-                completed: 'Finalizado', 
-                inactive: 'Inactivo',
-                'sin-asignar': 'Sin asignar'
-            };
-            return labels[value] || value;
-        }
-
-        function createElement(tag, className, text) {
-            const element = document.createElement(tag);
-            if (className) element.className = className;
-            if (text !== undefined) element.textContent = text;
-            return element;
-        }
-
-        function updateMetrics() {
-            const total = participantsData.length;
-            const average = total === 0 ? 0 : Math.round(participantsData.reduce((sum, item) => sum + item.progressPercent, 0) / total);
-            document.getElementById('metricParticipants').textContent = String(total);
-            document.getElementById('metricAverage').textContent = `${average}%`;
-            document.getElementById('metricCompleted').textContent = String(participantsData.filter(i => i.status === 'completed').length);
-            
-            // Activos hoy (simplificado)
-            const today = new Date().toLocaleDateString();
-            document.getElementById('metricActiveToday').textContent = String(participantsData.filter(i => i.lastActivity === today).length);
-        }
-
-        function createProgressBlock(percent, label) {
-            const wrapper = createElement('div', 'progress-cell');
-            const row = createElement('div', 'progress-label-row');
-            row.append(createElement('span', '', label), createElement('span', '', `${percent}%`));
-            const progress = document.createElement('progress');
-            progress.className = 'progress-native'; progress.max = 100; progress.value = percent;
-            wrapper.append(row, progress);
-            return wrapper;
-        }
-
-        function renderAll() {
-            const query = searchParticipants.value.toLowerCase();
-            const modFilter = moduleFilter.value;
-            const statFilter = statusFilter.value;
-            const cohFilter = cohortFilter.value;
-
-            const filtered = participantsData.filter(p => {
-                const matchesSearch = !query || p.displayName.toLowerCase().includes(query) || p.email.toLowerCase().includes(query);
-                const matchesModule = modFilter === 'all' || p.currentModule === modFilter;
-                const matchesStatus = statFilter === 'all' || p.status === statFilter;
-                const matchesCohort = cohFilter === 'all' || p.cohort === cohFilter;
-                return matchesSearch && matchesModule && matchesStatus && matchesCohort;
-            });
-            
-            progressTableBody.textContent = '';
-            filtered.forEach(p => {
-                const row = document.createElement('tr');
-                const pc = document.createElement('td');
-                pc.append(createElement('span', 'participant-name', p.displayName), createElement('span', 'participant-email', p.email));
-                
-                const sClass = p.status === 'completed' ? 'badge-soft badge-important' : 'badge-soft';
-                const statusBadge = createElement('span', sClass, labelFromValue(p.status));
-
-                row.append(
-                    pc, 
-                    createElement('td', '', labelFromValue(p.cohort)), 
-                    createElement('td', '', labelFromValue(p.currentModule)), 
-                    createElement('td', '')
-                );
-                row.lastChild.appendChild(statusBadge);
-
-                const prc = document.createElement('td');
-                prc.appendChild(createProgressBlock(p.progressPercent, `${p.completedPages}/${p.totalPages}`));
-                
-                row.append(prc, createElement('td', '', p.lastActivity), createElement('td', ''));
-                progressTableBody.appendChild(row);
-            });
-
-            // Render resumen por módulo (lateral)
-            renderModuleSummary();
-        }
-
-        function renderModuleSummary() {
-            moduleSummaryList.textContent = '';
-            ["modulo1", "modulo2", "modulo3"].forEach(mId => {
-                const total = participantsData.length;
-                const avg = total === 0 ? 0 : Math.round(participantsData.reduce((sum, p) => sum + p.moduleProgress[mId], 0) / total);
-                
-                const item = createElement('div', 'module-summary-item');
-                const header = createElement('div', 'module-summary-header');
-                header.append(createElement('span', 'admin-kicker', labelFromValue(mId)), createElement('span', 'metric-label', `${avg}%`));
-                
-                const progress = document.createElement('progress');
-                progress.className = 'progress-native'; progress.max = 100; progress.value = avg;
-                
-                item.append(header, progress);
-                moduleSummaryList.appendChild(item);
-            });
-        }
-
-        // Listeners
-        searchParticipants.addEventListener('input', renderAll);
-        moduleFilter.addEventListener('change', renderAll);
-        statusFilter.addEventListener('change', renderAll);
-        cohortFilter.addEventListener('change', renderAll);
-
-        document.addEventListener('DOMContentLoaded', loadParticipants);
-    </script>
+    <script type="module" src="scripts/admin-progreso-handler.js"></script>
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>
 </body>
-
 </html>
