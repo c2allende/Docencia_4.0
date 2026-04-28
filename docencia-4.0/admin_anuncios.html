@@ -600,13 +600,14 @@
                 <div class="panel-header">
                     <div>
                         <h2 id="list-title">Anuncios recientes</h2>
-                        <p>Lista temporal de anuncios creados en este navegador. Luego se sustituirá por datos desde
-                            Firestore.</p>
+                        <p>Gestión centralizada de la comunicación del programa vía Firestore.</p>
                     </div>
                     <a href="anuncios.html" class="btn-admin-secondary">Ver como participante</a>
                 </div>
 
-                <div id="announcementList" class="announcement-list" aria-live="polite"></div>
+                <div id="announcementList" class="announcement-list" aria-live="polite">
+                    <p class="loading-text">Cargando anuncios...</p>
+                </div>
             </section>
 
             <nav class="footer-nav" aria-label="Navegación del panel de anuncios">
@@ -618,262 +619,52 @@
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
+    <script src="scripts/admin-anuncios-handler.js" type="module"></script>
+    <script type="module" src="scripts/admin-ui.js"></script>
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/admin-guard.js"></script>
+
     <script>
-        function createId() {
-            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-                return window.crypto.randomUUID();
-            }
-
-            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar?.classList.toggle('active');
+            overlay?.classList.toggle('active');
         }
 
-        const storageKey = 'docencia40_admin_announcements_v1';
-        let announcements = [];
-
-        const announcementForm = document.getElementById('announcementForm');
-        const titleInput = document.getElementById('announcementTitle');
-        const scopeInput = document.getElementById('announcementScope');
-        const priorityInput = document.getElementById('announcementPriority');
-        const publishDateInput = document.getElementById('publishDate');
-        const expirationDateInput = document.getElementById('expirationDate');
-        const messageInput = document.getElementById('announcementMessage');
-        const charCounter = document.getElementById('charCounter');
-        const announcementList = document.getElementById('announcementList');
-
-        const previewTitle = document.getElementById('previewAnnouncementTitle');
-        const previewMessage = document.getElementById('previewAnnouncementMessage');
-        const previewScope = document.getElementById('previewScope');
-        const previewPriority = document.getElementById('previewPriority');
-
-        const activeCount = document.getElementById('activeCount');
-        const draftCount = document.getElementById('draftCount');
-        const urgentCount = document.getElementById('urgentCount');
-
-        function showStatusMessage(message, type = 'info') {
-            const statusMessage = document.getElementById('statusMessage');
-            if (!statusMessage) return;
-
-            statusMessage.textContent = message;
-            statusMessage.className = `status-message is-visible is-${type}`;
+        function closeSidebar() {
+            document.getElementById('sidebar')?.classList.remove('active');
+            document.getElementById('overlay')?.classList.remove('active');
         }
 
-        function getSavedAnnouncements() {
-            const raw = localStorage.getItem(storageKey);
-            if (!raw) return [];
-
-            try {
-                const parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch {
-                return [];
-            }
-        }
-
-        function saveAnnouncements() {
-            localStorage.setItem(storageKey, JSON.stringify(announcements));
-        }
-
-        function labelFromValue(value) {
-            const labels = {
-                global: 'Global',
-                modulo1: 'Módulo 1',
-                modulo2: 'Módulo 2',
-                modulo3: 'Módulo 3',
-                cohorte: 'Cohorte',
-                normal: 'Normal',
-                importante: 'Importante',
-                urgente: 'Urgente'
-            };
-
-            return labels[value] || value;
-        }
-
-        function updatePreview() {
-            const title = titleInput.value.trim();
-            const message = messageInput.value.trim();
-            const scope = labelFromValue(scopeInput.value);
-            const priority = labelFromValue(priorityInput.value);
-
-            previewTitle.textContent = title || 'Título del anuncio';
-            previewMessage.textContent = message || 'El mensaje del anuncio aparecerá aquí mientras redactas.';
-            previewScope.textContent = scope;
-            previewPriority.textContent = priority;
-            previewPriority.className = priorityInput.value === 'urgente' || priorityInput.value === 'importante'
-                ? 'badge-soft badge-important'
-                : 'badge-soft';
-
-            charCounter.textContent = `${messageInput.value.length} / 900 caracteres`;
-        }
-
-        function createElement(tag, className, text) {
-            const element = document.createElement(tag);
-            if (className) element.className = className;
-            if (text !== undefined) element.textContent = text;
-            return element;
-        }
-
-        function updateMetrics() {
-            const active = announcements.filter((item) => item.status === 'published').length;
-            const drafts = announcements.filter((item) => item.status === 'draft').length;
-            const urgent = announcements.filter((item) => item.priority === 'urgente').length;
-
-            activeCount.textContent = String(active);
-            draftCount.textContent = String(drafts);
-            urgentCount.textContent = String(urgent);
-        }
-
-        function renderAnnouncements() {
-            announcementList.textContent = '';
-            updateMetrics();
-
-            if (announcements.length === 0) {
-                const empty = createElement('div', 'empty-state', 'Aún no hay anuncios creados. Usa el formulario para crear el primer anuncio del programa.');
-                announcementList.appendChild(empty);
-                return;
-            }
-
-            announcements.forEach((announcement) => {
-                const card = createElement('article', 'announcement-card');
-                card.setAttribute('aria-label', `Anuncio: ${announcement.title}`);
-
-                const header = createElement('div', 'announcement-card-header');
-                const title = createElement('h3', '', announcement.title);
-                const statusBadge = createElement('span', announcement.status === 'published' ? 'badge-soft badge-important' : 'badge-soft', announcement.status === 'published' ? 'Publicado' : 'Borrador');
-                header.append(title, statusBadge);
-
-                const message = createElement('p', '', announcement.message);
-
-                const badges = createElement('div', 'badge-row');
-                badges.append(
-                    createElement('span', 'badge-soft', labelFromValue(announcement.scope)),
-                    createElement('span', announcement.priority === 'urgente' || announcement.priority === 'importante' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(announcement.priority))
-                );
-
-                const actions = createElement('div', 'announcement-actions');
-                const duplicateButton = createElement('button', 'btn-admin-secondary', 'Duplicar');
-                duplicateButton.type = 'button';
-                duplicateButton.addEventListener('click', () => duplicateAnnouncement(announcement.id));
-
-                const deleteButton = createElement('button', 'btn-admin-secondary', 'Eliminar');
-                deleteButton.type = 'button';
-                deleteButton.addEventListener('click', () => deleteAnnouncement(announcement.id));
-
-                actions.append(duplicateButton, deleteButton);
-                card.append(header, message, badges, actions);
-                announcementList.appendChild(card);
-            });
-        }
-
-        function getFormData(status) {
-            return {
-                id: createId(),
-                title: titleInput.value.trim(),
-                message: messageInput.value.trim(),
-                scope: scopeInput.value,
-                priority: priorityInput.value,
-                publishDate: publishDateInput.value,
-                expirationDate: expirationDateInput.value,
-                status,
-                createdAt: new Date().toISOString()
-            };
-        }
-
-        function resetForm() {
-            announcementForm.reset();
-            updatePreview();
-        }
-
-        function saveAnnouncement(status) {
-            const data = getFormData(status);
-
-            if (!data.title || !data.message) {
-                showStatusMessage('Escribe el título y el mensaje del anuncio antes de continuar.', 'error');
-                return;
-            }
-
-            announcements = [data, ...announcements];
-            saveAnnouncements();
-            renderAnnouncements();
-            resetForm();
-            showStatusMessage(status === 'published' ? 'Anuncio publicado temporalmente en este navegador.' : 'Borrador guardado temporalmente en este navegador.', 'success');
-        }
-
-        function duplicateAnnouncement(id) {
-            const original = announcements.find((item) => item.id === id);
-            if (!original) return;
-
-            const copy = {
-                ...original,
-                id: createId(),
-                title: `${original.title} (copia)`,
-                status: 'draft',
-                createdAt: new Date().toISOString()
-            };
-
-            announcements = [copy, ...announcements];
-            saveAnnouncements();
-            renderAnnouncements();
-            showStatusMessage('Se creó una copia temporal del anuncio como borrador.', 'success');
-        }
-
-        function deleteAnnouncement(id) {
-            announcements = announcements.filter((item) => item.id !== id);
-            saveAnnouncements();
-            renderAnnouncements();
-            showStatusMessage('Anuncio eliminado del almacenamiento temporal.', 'success');
-        }
-
-        titleInput.addEventListener('input', updatePreview);
-        messageInput.addEventListener('input', updatePreview);
-        scopeInput.addEventListener('change', updatePreview);
-        priorityInput.addEventListener('change', updatePreview);
-
-        document.getElementById('clearFormBtn')?.addEventListener('click', resetForm);
-        document.getElementById('saveDraftBtn')?.addEventListener('click', () => saveAnnouncement('draft'));
-
-        announcementForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            saveAnnouncement('published');
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) btn?.classList.add('visible');
+            else btn?.classList.remove('visible');
         });
 
-        announcements = getSavedAnnouncements();
-        updatePreview();
-        renderAnnouncements();
+        document.getElementById('scrollTopBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         function resolveAssetPath(img) {
             const rawAssets = img.dataset.assets || img.dataset.asset;
             if (!rawAssets) return;
-            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
-            const paths = [];
-            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
-            fileNames.forEach((fileName) => {
-                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
-                bases.forEach((base) => {
-                    paths.push(`${base}${fileName}`);
-                    paths.push(`${base}${encodedFileName}`);
-                });
-            });
-            const uniqueCandidates = [...new Set(paths)];
+            const fileNames = rawAssets.split('|').map(item => item.trim());
+            const bases = ['./assets/', 'assets/', '../assets/', '/assets/'];
             let index = 0;
-            img.onerror = () => {
-                if (index < uniqueCandidates.length) {
-                    img.src = uniqueCandidates[index];
-                    index += 1;
-                } else {
-                    img.onerror = null;
+            const tryNext = () => {
+                if (index < bases.length) {
+                    img.src = bases[index] + fileNames[0];
+                    index++;
                 }
             };
-            if (uniqueCandidates.length > 0) {
-                img.src = uniqueCandidates[index];
-                index += 1;
-            }
+            img.onerror = tryNext;
+            tryNext();
         }
         document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
     </script>
-
-    <script type="module" src="scripts/admin-ui.js"></script>
-    <script type="module" src="scripts/auth-guard.js"></script>
-    <script type="module" src="scripts/admin-guard.js"></script>
 </body>
 
 </html>

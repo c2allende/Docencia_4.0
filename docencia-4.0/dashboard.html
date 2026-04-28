@@ -634,6 +634,9 @@
     </header>
 
     <main class="container">
+        <!-- Contenedor para anuncios urgentes dinámicos -->
+        <div id="urgentAlertContainer"></div>
+
         <section class="intro-container" aria-labelledby="programa-title">
             <div class="intro-layout">
                 <aside class="video-sidebar" aria-label="Video de bienvenida del programa">
@@ -976,6 +979,71 @@
             }
         });
     </script>
-</body>
 
+    <style>
+        .urgent-alert {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-left: 5px solid #f56565;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            animation: slideIn 0.3s ease-out;
+        }
+        .urgent-alert-text {
+            color: #c53030;
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+        }
+        .urgent-alert-btn {
+            background: #f56565;
+            color: white;
+            padding: var(--spacing-1) var(--spacing-4);
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            white-space: nowrap;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <script type="module">
+        import { auth } from "./scripts/firebase-config.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getVisibleAnnouncements, getUserReadStatus } from "./scripts/announcement-service.js";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const [announcements, readIds] = await Promise.all([
+                        getVisibleAnnouncements(),
+                        getUserReadStatus(user.uid)
+                    ]);
+
+                    const unreadUrgent = announcements.find(a => a.priority === 'urgente' && !readIds.includes(a.id));
+                    
+                    if (unreadUrgent) {
+                        const container = document.getElementById('urgentAlertContainer');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="urgent-alert">
+                                    <span class="urgent-alert-text">⚠️ ANUNCIO URGENTE: ${unreadUrgent.title}</span>
+                                    <a href="anuncios.html" class="urgent-alert-btn">Ver anuncio</a>
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (e) { console.error("Error checking urgent alerts:", e); }
+            }
+        });
+    </script>
+</body>
 </html>

@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- FUNCIONES DE SEGURIDAD ---
+    
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin"
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.status == "active";
+    }
+
+    function validAnnouncementFields() {
+      return request.resource.data.keys().hasOnly([
+        "title", "message", "scope", "moduleId", "priority", 
+        "status", "isActive", "publishAt", "expiresAt", 
+        "createdBy", "createdAt", "updatedAt"
+      ]);
+    }
+
+    function validAnnouncementValues() {
+      return request.resource.data.priority in ["normal", "importante", "urgente"]
+        && request.resource.data.status in ["draft", "published", "archived"]
+        && request.resource.data.scope in ["global", "module"];
+    }
+
+    function isVisibleAnnouncement() {
+      return resource.data.status == "published"
+        && resource.data.isActive == true
+        && resource.data.publishAt <= request.time
+        && (
+          !("expiresAt" in resource.data)
+          || resource.data.expiresAt == null
+          || resource.data.expiresAt > request.time
+        );
+    }
+
+    // --- REGLAS DE COLECCIONES ---
+
+    match /anuncios/{announcementId} {
+      // Participantes leen lo vigente. Admins leen todo.
+      allow read: if signedIn() && (isVisibleAnnouncement() || isAdmin());
+
+      // Solo admins gestionan anuncios
+      allow create: if isAdmin()
+        && validAnnouncementFields()
+        && validAnnouncementValues()
+        && request.resource.data.createdBy == request.auth.uid;
+
+      allow update: if isAdmin()
+        && validAnnouncementFields()
+        && validAnnouncementValues();
+
+      // Prohibido borrado físico
+      allow delete: if false;
+    }
+
+    match /usuarios/{userId}/anuncioLecturas/{announcementId} {
+      // Cada usuario lee solo sus propias lecturas
+      allow read: if signedIn() && request.auth.uid == userId;
+
+      // Cada usuario escribe su lectura validando el ID
+      allow create, update: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(["announcementId", "readAt"])
+        && request.resource.data.announcementId == announcementId;
+
+      allow delete: if false;
+    }
+
+    // Mantener reglas de usuarios existentes
+    match /usuarios/{userId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.auth.uid == userId;
+      allow update: if (signedIn() && request.auth.uid == userId) || isAdmin();
+    }
+  }
+}

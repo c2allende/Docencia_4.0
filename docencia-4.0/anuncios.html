@@ -271,57 +271,17 @@
             </nav>
 
             <section class="announcements-list" id="announcementsList">
-                <!-- Anuncio Prioritario -->
-                <article class="announcement-card priority unread" data-category="priority">
-                    <div class="announcement-meta">
-                        <span class="announcement-tag">Prioritario</span>
-                        <span class="announcement-date">28 de abril, 2026</span>
-                    </div>
-                    <div class="announcement-content">
-                        <h3>Próxima Sesión Sincrónica: Módulo 1</h3>
-                        <p>Les recordamos que mañana a las 4:00 PM tendremos nuestra primera sesión de dudas en vivo. El enlace de conexión ha sido enviado a sus correos institucionales.</p>
-                    </div>
-                    <div class="announcement-footer">
-                        <a href="#" class="btn-read-more">Marcar como leído</a>
-                    </div>
-                </article>
-
-                <!-- Anuncio Reciente -->
-                <article class="announcement-card unread" data-category="modulo-1">
-                    <div class="announcement-meta">
-                        <span class="announcement-tag">Módulo 1</span>
-                        <span class="announcement-date">27 de abril, 2026</span>
-                    </div>
-                    <div class="announcement-content">
-                        <h3>Nuevos Recursos en la Lección 1.2</h3>
-                        <p>Hemos añadido una guía rápida sobre "Zero-Shot Prompting" en la sección de recursos del Módulo 1. ¡No te la pierdas!</p>
-                    </div>
-                    <div class="announcement-footer">
-                        <a href="#" class="btn-read-more">Marcar como leído</a>
-                    </div>
-                </article>
-
-                <!-- Anuncio Leído -->
-                <article class="announcement-card" data-category="general">
-                    <div class="announcement-meta">
-                        <span class="announcement-tag">General</span>
-                        <span class="announcement-date">25 de abril, 2026</span>
-                    </div>
-                    <div class="announcement-content">
-                        <h3>¡Bienvenidos a Docencia 4.0!</h3>
-                        <p>Es un placer iniciar este viaje de aprendizaje con todos ustedes. Exploren el dashboard y completen su perfil para comenzar.</p>
-                    </div>
-                    <div class="announcement-footer">
-                        <span class="announcement-date">✓ Leído</span>
-                    </div>
-                </article>
+                <p class="loading-text">Cargando anuncios...</p>
             </section>
         </article>
     </main>
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio">↑</a>
 
+    <!-- Firebase y Lógica de Negocio -->
     <script src="scripts/auth-guard.js" type="module"></script>
+    <script src="scripts/announcements-handler.js" type="module"></script>
+
     <script>
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
@@ -356,24 +316,6 @@
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        function filterAnnouncements(category) {
-            const cards = document.querySelectorAll('.announcement-card');
-            const btns = document.querySelectorAll('.tab-btn');
-            
-            btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            cards.forEach(card => {
-                if (category === 'all') {
-                    card.style.display = 'flex';
-                } else if (category === 'priority') {
-                    card.style.display = card.classList.contains('priority') ? 'flex' : 'none';
-                } else {
-                    card.style.display = card.dataset.category === category ? 'flex' : 'none';
-                }
-            });
-        }
 
         function resolveAssetPath(img) {
             const rawAssets = img.dataset.assets || img.dataset.asset;
