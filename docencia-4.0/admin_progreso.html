@@ -38,15 +38,14 @@
         }
 
         .admin-progreso-page .admin-wrapper {
-            max-width: 1280px;
+            max-width: 1600px;
             margin: var(--spacing-xl) auto var(--spacing-16);
             padding: 0 var(--spacing-md);
         }
 
         .admin-progreso-page .admin-shell {
             position: relative;
-            overflow: hidden;
-            padding: var(--spacing-16);
+            padding: var(--spacing-8);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
@@ -291,15 +290,19 @@
 
         .admin-progreso-page .table-wrap {
             width: 100%;
+            max-width: 100%;
             overflow-x: auto;
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            position: relative;
         }
 
         .admin-progreso-page .progress-table {
             width: 100%;
+            min-width: 1000px;
             border-collapse: collapse;
-            min-width: 860px;
+            table-layout: fixed; /* Forzar control de anchos */
         }
 
         .admin-progreso-page .progress-table th,
@@ -307,6 +310,24 @@
             padding: var(--spacing-md);
             border-bottom: var(--border-width-1) solid var(--color-border-default);
             text-align: left;
+            vertical-align: middle;
+            background: inherit;
+        }
+
+        /* Columna de acciones sticky */
+        .admin-progreso-page .progress-table th:last-child,
+        .admin-progreso-page .progress-table td:last-child {
+            position: sticky;
+            right: 0;
+            background: var(--color-background-surface);
+            z-index: 2;
+            box-shadow: -4px 0 8px rgba(0,0,0,0.05);
+            min-width: 130px;
+        }
+
+        .admin-progreso-page .progress-table th:last-child {
+            z-index: 3;
+            background: var(--color-background-surface-low);
         }
 
         .admin-progreso-page .progress-table th {
@@ -317,6 +338,17 @@
             letter-spacing: var(--letter-spacing-wide);
             text-transform: uppercase;
         }
+
+        /* Anchos específicos de columna para fluidez */
+        .admin-progreso-page .progress-table th:nth-child(1) { width: 25%; } /* Participante */
+        .admin-progreso-page .progress-table th:nth-child(2) { width: 15%; } /* Rol */
+        .admin-progreso-page .progress-table th:nth-child(3) { width: 10%; } /* Ubicación */
+        .admin-progreso-page .progress-table th:nth-child(4) { width: 10%; } /* Estado */
+        .admin-progreso-page .progress-table th:nth-child(5),
+        .admin-progreso-page .progress-table th:nth-child(6),
+        .admin-progreso-page .progress-table th:nth-child(7) { width: 8%; }  /* Módulos */
+        .admin-progreso-page .progress-table th:nth-child(8) { width: 10%; } /* Actividad */
+        .admin-progreso-page .progress-table th:nth-child(9) { width: 120px; } /* Acciones */
 
         .admin-progreso-page .participant-name {
             display: block;
@@ -329,6 +361,99 @@
             margin-top: var(--spacing-1);
             color: var(--color-text-muted);
             font-size: var(--font-size-xs);
+        }
+
+        /* --- RESPONSIVIDAD DE TABLA (CARDS EN MÓVIL) --- */
+        @media (max-width: 992px) {
+            .admin-progreso-page .progress-table, 
+            .admin-progreso-page .progress-table thead, 
+            .admin-progreso-page .progress-table tbody, 
+            .admin-progreso-page .progress-table th, 
+            .admin-progreso-page .progress-table td, 
+            .admin-progreso-page .progress-table tr { 
+                display: block; 
+            }
+
+            .admin-progreso-page .progress-table {
+                min-width: 100% !important;
+            }
+
+            .admin-progreso-page .progress-table thead {
+                display: none; /* Ocultar cabecera en móvil */
+            }
+
+            .admin-progreso-page .progress-table tr {
+                margin-bottom: var(--spacing-lg);
+                padding: var(--spacing-lg);
+                background: var(--color-background-surface);
+                border: 1px solid var(--color-border-default);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-sm);
+            }
+
+            .admin-progreso-page .progress-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--spacing-2) 0;
+                border-bottom: 1px solid var(--color-background-surface-low);
+                text-align: right;
+                background: none !important;
+                position: static !important;
+                box-shadow: none !important;
+                min-width: 0 !important;
+            }
+
+            .admin-progreso-page .progress-table td:first-child {
+                border-bottom: 2px solid var(--color-border-default);
+                padding-bottom: var(--spacing-md);
+                margin-bottom: var(--spacing-md);
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .admin-progreso-page .progress-table td:last-child {
+                border-bottom: 0;
+                margin-top: var(--spacing-md);
+                padding-top: var(--spacing-md);
+                justify-content: center;
+            }
+
+            /* Inyectar etiquetas para los datos */
+            .admin-progreso-page .progress-table td:not(:first-child):not(:last-child)::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: var(--font-weight-bold);
+                color: var(--color-text-muted);
+                text-transform: uppercase;
+                font-size: 10px;
+                letter-spacing: 0.5px;
+            }
+
+            .admin-progreso-page .btn-admin-secondary {
+                width: 100%;
+            }
+
+            .admin-progreso-page .scroll-hint {
+                display: none !important;
+            }
+        }
+
+        .admin-progreso-page .participant-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--color-brand-secondary-light);
+            color: var(--color-brand-primary);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            flex-shrink: 0;
         }
 
         .admin-progreso-page .badge-soft {
@@ -649,6 +774,12 @@
                             </div>
                         </div>
 
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                            <span style="font-size: 11px; color: var(--color-text-muted); display: flex; align-items: center; gap: 4px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M6 8L2 12L6 16"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                                Desliza para ver acciones
+                            </span>
+                        </div>
                         <div class="table-wrap" aria-label="Tabla de progreso por participante">
                             <table class="progress-table">
                                 <thead>

@@ -122,13 +122,13 @@ const AdminProgresoHandler = {
             // Celda Participante
             const userCell = document.createElement('td');
             userCell.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div class="participant-avatar" style="width: 32px; height: 32px; font-size: 12px;">
+                <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+                    <div class="participant-avatar">
                         ${this.getInitials(p.displayName)}
                     </div>
-                    <div>
-                        <span class="participant-name">${p.displayName}</span>
-                        <span class="participant-email">${p.email}</span>
+                    <div style="min-width: 0; overflow: hidden;">
+                        <span class="participant-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">${p.displayName}</span>
+                        <span class="participant-email" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">${p.email}</span>
                     </div>
                 </div>
             `;
@@ -157,6 +157,9 @@ const AdminProgresoHandler = {
 
             // Celda Acciones
             const actionCell = document.createElement('td');
+            actionCell.style.textAlign = "right";
+            actionCell.setAttribute('data-label', 'Acciones');
+            
             const btn = document.createElement('button');
             btn.className = "btn-admin-secondary";
             btn.style.padding = "6px 12px";
@@ -165,12 +168,41 @@ const AdminProgresoHandler = {
             btn.onclick = () => this.showDetail(p);
             actionCell.appendChild(btn);
 
-            row.append(userCell, document.createElement('td'), document.createElement('td'), statusCell, m1Cell, m2Cell, m3Cell, activityCell, actionCell);
-            
-            // Ajustar celdas vacías (Cohorte y Módulo actual - placeholders)
-            row.children[1].textContent = p.roleContext; 
-            row.children[2].textContent = p.modulo3 > 0 ? "Módulo 3" : (p.modulo2 > 0 ? "Módulo 2" : (p.modulo1 > 0 ? "Módulo 1" : "Inicio"));
+            // Celdas de Placeholder
+            const contextCell = document.createElement('td');
+            contextCell.textContent = p.roleContext;
+            contextCell.setAttribute('data-label', 'Rol/Contexto');
 
+            const locationCell = document.createElement('td');
+            locationCell.textContent = p.modulo3 > 0 ? "Módulo 3" : (p.modulo2 > 0 ? "Módulo 2" : (p.modulo1 > 0 ? "Módulo 1" : "Inicio"));
+            locationCell.setAttribute('data-label', 'Ubicación');
+
+            // Celda Participante
+            userCell.setAttribute('data-label', 'Participante');
+            
+            // Celda Estado
+            statusCell.setAttribute('data-label', 'Estado');
+
+            // Celdas Módulos
+            m1Cell.setAttribute('data-label', 'Módulo 1');
+            m2Cell.setAttribute('data-label', 'Módulo 2');
+            m3Cell.setAttribute('data-label', 'Módulo 3');
+
+            // Celda Actividad
+            activityCell.setAttribute('data-label', 'Última actividad');
+
+            row.append(
+                userCell, 
+                contextCell, 
+                locationCell, 
+                statusCell, 
+                m1Cell, 
+                m2Cell, 
+                m3Cell, 
+                activityCell, 
+                actionCell
+            );
+            
             this.tableBody.appendChild(row);
         });
     },
