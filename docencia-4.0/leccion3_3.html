@@ -1037,7 +1037,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="leccion3_3" data-module-id="modulo3" data-page-type="leccion" data-title="Automatización de la burocracia">
     <nav class="top-nav" aria-label="Navegación superior de la lección">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -1514,6 +1514,8 @@
                 </ul>
             </section>
 
+            <div id="completion-section"></div>
+
             <nav class="footer-nav" aria-label="Navegación de lecciones">
                 <a href="leccion3_2.html" class="btn-footer btn-back">← Volver a la Lección 3.2</a>
                 <a href="leccion3_4.html" class="btn-footer btn-next">Ir a la Lección 3.4 →</a>
@@ -1848,6 +1850,7 @@ Preparado por:
             loadAdminTab(null, 'standard');
         });
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>

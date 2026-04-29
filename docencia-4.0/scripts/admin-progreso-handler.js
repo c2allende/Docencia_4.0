@@ -68,8 +68,8 @@ const AdminProgresoHandler = {
 
     updateMetrics() {
         const total = this.participants.length;
-        const completed = this.participants.filter(p => p.modulo1 === 100 && p.modulo2 === 100).length;
-        const avg = total === 0 ? 0 : Math.round(this.participants.reduce((sum, p) => sum + (p.modulo1 + p.modulo2) / 2, 0) / total);
+        const completed = this.participants.filter(p => p.modulo1 === 100 && p.modulo2 === 100 && p.modulo3 === 100).length;
+        const avg = total === 0 ? 0 : Math.round(this.participants.reduce((sum, p) => sum + (p.modulo1 + p.modulo2 + p.modulo3) / 3, 0) / total);
         
         // Activos hoy
         const todayStr = new Date().toLocaleDateString();
@@ -93,12 +93,13 @@ const AdminProgresoHandler = {
             let matchesModule = true;
             if (modFilter === "modulo1") matchesModule = p.modulo1 > 0;
             if (modFilter === "modulo2") matchesModule = p.modulo2 > 0;
+            if (modFilter === "modulo3") matchesModule = p.modulo3 > 0;
 
             // Filtro por estado
             let matchesStatus = true;
-            if (statFilter === "completed") matchesStatus = (p.modulo1 === 100 && p.modulo2 === 100);
-            if (statFilter === "in_progress") matchesStatus = (p.modulo1 > 0 || p.modulo2 > 0) && !(p.modulo1 === 100 && p.modulo2 === 100);
-            if (statFilter === "not_started") matchesStatus = (p.modulo1 === 0 && p.modulo2 === 0);
+            if (statFilter === "completed") matchesStatus = (p.modulo1 === 100 && p.modulo2 === 100 && p.modulo3 === 100);
+            if (statFilter === "in_progress") matchesStatus = (p.modulo1 > 0 || p.modulo2 > 0 || p.modulo3 > 0) && !(p.modulo1 === 100 && p.modulo2 === 100 && p.modulo3 === 100);
+            if (statFilter === "not_started") matchesStatus = (p.modulo1 === 0 && p.modulo2 === 0 && p.modulo3 === 0);
 
             return matchesSearch && matchesModule && matchesStatus;
         });
@@ -111,7 +112,7 @@ const AdminProgresoHandler = {
         this.tableBody.innerHTML = "";
 
         if (this.filteredParticipants.length === 0) {
-            this.tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--color-text-muted);">No se encontraron participantes con estos filtros.</td></tr>`;
+            this.tableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px; color: var(--color-text-muted);">No se encontraron participantes con estos filtros.</td></tr>`;
             return;
         }
 
@@ -145,6 +146,10 @@ const AdminProgresoHandler = {
             const m2Cell = document.createElement('td');
             m2Cell.appendChild(this.createMiniProgress(p.modulo2, "M2"));
 
+            // Celda Módulo 3
+            const m3Cell = document.createElement('td');
+            m3Cell.appendChild(this.createMiniProgress(p.modulo3, "M3"));
+
             // Celda Última Actividad
             const activityCell = document.createElement('td');
             activityCell.style.fontSize = "12px";
@@ -160,11 +165,11 @@ const AdminProgresoHandler = {
             btn.onclick = () => this.showDetail(p);
             actionCell.appendChild(btn);
 
-            row.append(userCell, document.createElement('td'), document.createElement('td'), statusCell, m1Cell, m2Cell, activityCell, actionCell);
+            row.append(userCell, document.createElement('td'), document.createElement('td'), statusCell, m1Cell, m2Cell, m3Cell, activityCell, actionCell);
             
             // Ajustar celdas vacías (Cohorte y Módulo actual - placeholders)
             row.children[1].textContent = p.roleContext; 
-            row.children[2].textContent = p.modulo2 > 0 ? "Módulo 2" : (p.modulo1 > 0 ? "Módulo 1" : "Inicio");
+            row.children[2].textContent = p.modulo3 > 0 ? "Módulo 3" : (p.modulo2 > 0 ? "Módulo 2" : (p.modulo1 > 0 ? "Módulo 1" : "Inicio"));
 
             this.tableBody.appendChild(row);
         });
@@ -188,8 +193,8 @@ const AdminProgresoHandler = {
     },
 
     getStatusLabel(p) {
-        if (p.modulo1 === 100 && p.modulo2 === 100) return "Completado";
-        if (p.modulo1 > 0 || p.modulo2 > 0) return "En progreso";
+        if (p.modulo1 === 100 && p.modulo2 === 100 && p.modulo3 === 100) return "Completado";
+        if (p.modulo1 > 0 || p.modulo2 > 0 || p.modulo3 > 0) return "En progreso";
         return "No iniciado";
     },
 
@@ -213,6 +218,7 @@ const AdminProgresoHandler = {
         try {
             const m1Detail = await getParticipantDetailedProgress(participant.uid, "modulo1");
             const m2Detail = await getParticipantDetailedProgress(participant.uid, "modulo2");
+            const m3Detail = await getParticipantDetailedProgress(participant.uid, "modulo3");
 
             modalContent.innerHTML = `
                 <div style="padding: 20px;">
@@ -224,26 +230,37 @@ const AdminProgresoHandler = {
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
                         <!-- Módulo 1 -->
-                        <div class="panel-card" style="padding: 20px;">
-                            <h3 class="admin-kicker">Módulo 1: Fundamentos</h3>
-                            <div style="margin: 15px 0;">
+                        <div class="panel-card" style="padding: 15px;">
+                            <h3 class="admin-kicker">Módulo 1</h3>
+                            <div style="margin: 10px 0;">
                                 ${this.renderCategoryBreakdown(m1Detail)}
                             </div>
-                            <div style="margin-top: 20px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
-                                <p style="font-size: 12px; margin: 0;"><strong>Siguiente paso:</strong> ${m1Detail?.nextPage?.title || "Completado"}</p>
+                            <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
+                                <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m1Detail?.nextPage?.title || "Completado"}</p>
                             </div>
                         </div>
 
                         <!-- Módulo 2 -->
-                        <div class="panel-card" style="padding: 20px;">
-                            <h3 class="admin-kicker">Módulo 2: Planificación</h3>
-                            <div style="margin: 15px 0;">
+                        <div class="panel-card" style="padding: 15px;">
+                            <h3 class="admin-kicker">Módulo 2</h3>
+                            <div style="margin: 10px 0;">
                                 ${this.renderCategoryBreakdown(m2Detail)}
                             </div>
-                            <div style="margin-top: 20px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
-                                <p style="font-size: 12px; margin: 0;"><strong>Siguiente paso:</strong> ${m2Detail?.nextPage?.title || "Completado"}</p>
+                            <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
+                                <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m2Detail?.nextPage?.title || "Completado"}</p>
+                            </div>
+                        </div>
+
+                        <!-- Módulo 3 -->
+                        <div class="panel-card" style="padding: 15px;">
+                            <h3 class="admin-kicker">Módulo 3</h3>
+                            <div style="margin: 10px 0;">
+                                ${this.renderCategoryBreakdown(m3Detail)}
+                            </div>
+                            <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
+                                <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m3Detail?.nextPage?.title || "Completado"}</p>
                             </div>
                         </div>
                     </div>

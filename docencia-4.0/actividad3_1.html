@@ -576,7 +576,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="actividad3_1" data-module-id="modulo3" data-page-type="actividad" data-title="Actividad 3.1: Taller práctico">
     <nav class="top-nav" aria-label="Navegación superior de la actividad">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -688,6 +688,8 @@
                     </div>
                 </div>
             </section>
+
+            <div id="completion-section"></div>
 
             <nav class="footer-nav" aria-label="Navegación de actividades del módulo">
                 <a href="leccion3_4.html" class="btn-footer btn-back">
@@ -803,6 +805,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>

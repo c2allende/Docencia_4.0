@@ -748,7 +748,7 @@
     </style>
 </head>
 
-<body>
+<body data-page-id="recursos_m3" data-module-id="modulo3" data-page-type="recursos" data-title="Recursos Módulo 3">
     <nav class="top-nav" aria-label="Navegación superior de recursos">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -970,6 +970,8 @@
                 </div>
             </section>
 
+            <div id="completion-section"></div>
+
             <nav class="footer-nav" aria-label="Navegación del módulo">
                 <a href="actividad3_1.html" class="btn-footer btn-back">← Volver a Actividad 3.1</a>
                 <a href="dashboard.html" class="btn-footer btn-next">Ir al Dashboard →</a>
@@ -1113,6 +1115,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
 </body>
 
 </html>

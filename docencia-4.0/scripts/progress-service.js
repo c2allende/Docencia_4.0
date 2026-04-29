@@ -32,16 +32,30 @@ export const COURSE_STRUCTURE = {
         ]
     },
     modulo2: {
-        title: "Módulo 2: Planificación y Diseño",
+        title: "Módulo 2: Planificación y Diseño de Recursos con LLM",
         totalPages: 7,
         pages: [
-            { id: "modulo2_intro", type: "intro", title: "Inicio Módulo 2", url: "modulo2_intro.html" },
-            { id: "leccion2_1", type: "leccion", title: "Lección 2.1", url: "leccion2_1.html" },
-            { id: "leccion2_2", type: "leccion", title: "Lección 2.2", url: "leccion2_2.html" },
-            { id: "leccion2_3", type: "leccion", title: "Lección 2.3", url: "leccion2_3.html" },
-            { id: "actividad2_1", type: "actividad", title: "Actividad 2.1", url: "actividad2_1.html" },
+            { id: "modulo2_intro", type: "intro", title: "Introducción Módulo 2", url: "modulo2_intro.html" },
+            { id: "leccion2_1", type: "leccion", title: "Planificación de la unidad", url: "leccion2_1.html" },
+            { id: "leccion2_2", type: "leccion", title: "Diseño de materiales didácticos", url: "leccion2_2.html" },
+            { id: "leccion2_3", type: "leccion", title: "Personalización del aprendizaje", url: "leccion2_3.html" },
+            { id: "actividad2_1", type: "actividad", title: "Actividad 2.1: Taller de diseño", url: "actividad2_1.html" },
             { id: "foro_modulo2", type: "foro", title: "Foro Módulo 2", url: "foro_modulo2.html" },
             { id: "recursos_m2", type: "recursos", title: "Recursos Módulo 2", url: "recursos_m2.html" }
+        ]
+    },
+    modulo3: {
+        title: "Módulo 3: Gestión Administrativa y Evaluativa",
+        totalPages: 8,
+        pages: [
+            { id: "modulo3_intro", type: "intro", title: "Introducción Módulo 3", url: "modulo3_intro.html" },
+            { id: "leccion3_1", type: "leccion", title: "Diseño de evaluación automatizada", url: "leccion3_1.html" },
+            { id: "leccion3_2", type: "leccion", title: "Retroalimentación formativa y afectiva", url: "leccion3_2.html" },
+            { id: "leccion3_3", type: "leccion", title: "Automatización de la burocracia", url: "leccion3_3.html" },
+            { id: "leccion3_4", type: "leccion", title: "Seguridad de datos", url: "leccion3_4.html" },
+            { id: "actividad3_1", type: "actividad", title: "Actividad 3.1: Taller práctico", url: "actividad3_1.html" },
+            { id: "foro_modulo3", type: "foro", title: "Foro Módulo 3", url: "foro_modulo3.html" },
+            { id: "recursos_m3", type: "recursos", title: "Recursos Módulo 3", url: "recursos_m3.html" }
         ]
     }
 };
