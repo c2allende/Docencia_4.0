@@ -1,5 +1,5 @@
 import { auth, db } from "./firebase-config.js";
-import { getAllParticipantsProgress, getParticipantDetailedProgress, resetUserModuleProgress } from "./progress-service.js";
+import { getAllParticipantsProgress, getParticipantDetailedProgress, resetUserModuleProgress, detectUserOrphanData } from "./progress-service.js";
 
 /**
  * AdminProgresoHandler
@@ -251,6 +251,52 @@ const AdminProgresoHandler = {
             const m1Detail = await getParticipantDetailedProgress(participant.uid, "modulo1");
             const m2Detail = await getParticipantDetailedProgress(participant.uid, "modulo2");
             const m3Detail = await getParticipantDetailedProgress(participant.uid, "modulo3");
+            const orphanData = await detectUserOrphanData(participant.uid);
+
+            let orphanSection = '';
+            if (orphanData.length > 0) {
+                orphanSection = `
+                    <div style="margin-top: 30px; border-top: 2px dashed var(--color-border-default); padding-top: 20px;">
+                        <details class="orphan-details" style="background: #fff8f8; border: 1px solid #ffecec; border-radius: 12px; padding: 15px;">
+                            <summary style="cursor: pointer; font-weight: bold; color: #d32f2f; display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">⚠️</span> 
+                                Datos huérfanos detectados (${orphanData.length})
+                                <span style="font-size: 11px; font-weight: normal; color: var(--color-text-muted); margin-left: auto;">Haz clic para expandir y revisar</span>
+                            </summary>
+                            <div style="margin-top: 15px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px;">
+                                    <thead>
+                                        <tr style="text-align: left; border-bottom: 1px solid #ffecec;">
+                                            <th style="padding: 8px;">Tipo</th>
+                                            <th style="padding: 8px;">ID Documento</th>
+                                            <th style="padding: 8px;">Módulo</th>
+                                            <th style="padding: 8px;">Razón / Hallazgo</th>
+                                            <th style="padding: 8px;">Última Act.</th>
+                                            <th style="padding: 8px;">Acción Sugerida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${orphanData.map(o => `
+                                            <tr style="border-bottom: 1px solid #fff0f0;">
+                                                <td style="padding: 8px;"><span class="badge-soft" style="font-size: 10px; background: #ffebee; color: #c62828;">${o.orphanType}</span></td>
+                                                <td style="padding: 8px;"><code>${o.orphanId}</code></td>
+                                                <td style="padding: 8px;">${o.moduleId}</td>
+                                                <td style="padding: 8px; color: #d32f2f;">${o.reason}</td>
+                                                <td style="padding: 8px; color: var(--color-text-muted);">${o.lastUpdated}</td>
+                                                <td style="padding: 8px;">
+                                                    <span style="font-style: italic; color: var(--color-text-muted);">${o.recommendation}</span>
+                                                    <br>
+                                                    <button class="btn-admin-secondary" style="font-size: 10px; padding: 4px 8px; margin-top: 4px; min-height: auto;" disabled>Pendiente de revisión</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </div>
+                `;
+            }
 
             modalContent.innerHTML = `
                 <div style="padding: 20px;">
@@ -311,6 +357,8 @@ const AdminProgresoHandler = {
                             </button>
                         </div>
                     </div>
+
+                    ${orphanSection}
                 </div>
             `;
         } catch (error) {

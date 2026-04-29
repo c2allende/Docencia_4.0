@@ -446,3 +446,85 @@ export async function resetUserModuleProgress(uid, moduleId, adminInfo) {
         throw error;
     }
 }
+
+/**
+ * DETECCIÓN DE DATOS HUÉRFANOS (MODO AUDITORÍA)
+ * Identifica documentos de progreso que no pertenecen a la estructura oficial del curso.
+ */
+export async function detectUserOrphanData(uid) {
+    if (!uid) return [];
+    const orphans = [];
+
+    try {
+        // 1. Obtener todas las páginas y módulos del usuario
+        const [pagesSnap, modulesSnap] = await Promise.all([
+            getDocs(collection(db, `usuarios/${uid}/progresoPaginas`)),
+            getDocs(collection(db, `usuarios/${uid}/progresoModulos`))
+        ]);
+
+        // Mapear estructura oficial para búsqueda rápida
+        const officialPages = [];
+        const officialModules = Object.keys(COURSE_STRUCTURE);
+        
+        officialModules.forEach(mId => {
+            COURSE_STRUCTURE[mId].pages.forEach(p => {
+                officialPages.push({ id: p.id, moduleId: mId });
+            });
+        });
+
+        // 2. Analizar progresoPaginas
+        pagesSnap.forEach(docSnap => {
+            const data = docSnap.data();
+            const pageId = docSnap.id;
+            const officialPage = officialPages.find(p => p.id === pageId);
+
+            let reason = null;
+            let recommendation = "Revisar en Firestore: puede ser un ID antiguo o de prueba.";
+
+            if (!officialPage) {
+                reason = "Página no existe en COURSE_STRUCTURE.";
+            } else if (data.moduleId && data.moduleId !== officialPage.moduleId) {
+                reason = `Módulo incongruente. Registrado en ${data.moduleId}, pertenece a ${officialPage.moduleId}.`;
+                recommendation = "Corregir moduleId o archivar si es duplicado.";
+            } else if (!data.status || !data.updatedAt) {
+                reason = "Documento con campos obligatorios faltantes (status/updatedAt).";
+                recommendation = "Documento incompleto, se recomienda archivar.";
+            }
+
+            if (reason) {
+                orphans.push({
+                    orphanType: "page",
+                    orphanId: pageId,
+                    moduleId: data.moduleId || "Desconocido",
+                    reason: reason,
+                    lastUpdated: data.updatedAt ? new Date(data.updatedAt.seconds * 1000).toLocaleString() : "N/A",
+                    currentStatus: data.status || "N/A",
+                    recommendation: recommendation
+                });
+            }
+        });
+
+        // 3. Analizar progresoModulos
+        modulesSnap.forEach(docSnap => {
+            const data = docSnap.data();
+            const moduleId = docSnap.id;
+
+            if (!officialModules.includes(moduleId)) {
+                orphans.push({
+                    orphanType: "module",
+                    orphanId: moduleId,
+                    moduleId: moduleId,
+                    reason: "ID de módulo no reconocido en la estructura actual.",
+                    lastUpdated: data.updatedAt ? new Date(data.updatedAt.seconds * 1000).toLocaleString() : "N/A",
+                    currentStatus: data.status || "N/A",
+                    recommendation: "Revisar si es un módulo de una versión previa del curso."
+                });
+            }
+        });
+
+        return orphans;
+    } catch (error) {
+        console.error("Error detectando datos huérfanos:", error);
+        return [];
+    }
+}
