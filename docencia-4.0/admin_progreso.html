@@ -513,6 +513,27 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Estilos para el botón de reinicio */
+        .btn-admin-danger-outline {
+            background: none;
+            border: 1px solid #fc8181;
+            color: #e53e3e;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .btn-admin-danger-outline:hover:not(:disabled) {
+            background: #fff5f5;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .btn-admin-danger-outline:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: #cbd5e0;
+            color: #718096;
+        }
     </style>
 </head>
 

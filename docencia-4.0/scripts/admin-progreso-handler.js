@@ -1,5 +1,5 @@
-import { db } from "./firebase-config.js";
-import { getAllParticipantsProgress, getParticipantDetailedProgress } from "./progress-service.js";
+import { auth, db } from "./firebase-config.js";
+import { getAllParticipantsProgress, getParticipantDetailedProgress, resetUserModuleProgress } from "./progress-service.js";
 
 /**
  * AdminProgresoHandler
@@ -240,6 +240,11 @@ const AdminProgresoHandler = {
                             <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
                                 <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m1Detail?.nextPage?.title || "Completado"}</p>
                             </div>
+                            <button class="btn-admin-danger-outline" 
+                                    style="width: 100%; margin-top: 12px; font-size: 11px; padding: 8px;"
+                                    onclick="handleAdminReset('${participant.uid}', 'modulo1', 'Módulo 1', '${participant.email}')">
+                                Reiniciar progreso
+                            </button>
                         </div>
 
                         <!-- Módulo 2 -->
@@ -251,6 +256,11 @@ const AdminProgresoHandler = {
                             <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
                                 <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m2Detail?.nextPage?.title || "Completado"}</p>
                             </div>
+                            <button class="btn-admin-danger-outline" 
+                                    style="width: 100%; margin-top: 12px; font-size: 11px; padding: 8px;"
+                                    onclick="handleAdminReset('${participant.uid}', 'modulo2', 'Módulo 2', '${participant.email}')">
+                                Reiniciar progreso
+                            </button>
                         </div>
 
                         <!-- Módulo 3 -->
@@ -262,6 +272,11 @@ const AdminProgresoHandler = {
                             <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
                                 <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m3Detail?.nextPage?.title || "Completado"}</p>
                             </div>
+                            <button class="btn-admin-danger-outline" 
+                                    style="width: 100%; margin-top: 12px; font-size: 11px; padding: 8px;"
+                                    onclick="handleAdminReset('${participant.uid}', 'modulo3', 'Módulo 3', '${participant.email}')">
+                                Reiniciar progreso
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -269,6 +284,52 @@ const AdminProgresoHandler = {
         } catch (error) {
             console.error("Error al mostrar detalle:", error);
             modalContent.innerHTML = `<p style="color: red; padding: 20px;">Error al cargar el detalle.</p>`;
+        }
+    },
+
+    
+    async handleResetProgress(uid, moduleId, moduleTitle, targetEmail) {
+        const confirmMsg = `ESTA ACCIÓN ES IRREVERSIBLE.\n\nSe reiniciará el progreso del participante en el ${moduleTitle}.\nNo se eliminará la cuenta ni se afectarán otros módulos.\nSe conservará el historial de visitas, pero el participante deberá marcar nuevamente las páginas como completadas.\n\n¿Desea continuar?`;
+        
+        if (!confirm(confirmMsg)) return;
+
+        const admin = auth.currentUser;
+        if (!admin) {
+            alert("Sesión administrativa no válida.");
+            return;
+        }
+
+        // Desactivar botones en el modal
+        const buttons = document.querySelectorAll('.btn-admin-danger-outline');
+        buttons.forEach(b => b.disabled = true);
+        
+        try {
+            await resetUserModuleProgress(uid, moduleId, {
+                adminUid: admin.uid,
+                adminEmail: admin.email,
+                targetEmail: targetEmail,
+                note: "Reinicio solicitado desde el panel administrativo"
+            });
+
+            alert(`Progreso del ${moduleTitle} reiniciado con éxito.`);
+            
+            // Recargar datos y refrescar UI
+            await this.loadData();
+            this.filterAndRender();
+            
+            // Actualizar el modal de detalle para reflejar el cambio
+            const updatedParticipant = this.participants.find(p => p.uid === uid);
+            if (updatedParticipant) {
+                this.showDetail(updatedParticipant);
+            } else {
+                this.closeModal();
+            }
+
+        } catch (error) {
+            console.error("Error al reiniciar progreso:", error);
+            alert("Error al procesar el reinicio. Verifique su conexión y permisos.");
+        } finally {
+            buttons.forEach(b => b.disabled = false);
         }
     },
 
@@ -299,8 +360,9 @@ const AdminProgresoHandler = {
     }
 };
 
-// Exponer globalmente para el botón de cierre del modal
+// Exponer globalmente para los botones del modal
 window.closeAdminModal = () => AdminProgresoHandler.closeModal();
+window.handleAdminReset = (uid, moduleId, title, email) => AdminProgresoHandler.handleResetProgress(uid, moduleId, title, email);
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => AdminProgresoHandler.init());

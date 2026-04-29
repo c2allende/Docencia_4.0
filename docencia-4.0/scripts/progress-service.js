@@ -1,15 +1,8 @@
 import { db } from "./firebase-config.js";
-import { 
-    doc, 
-    getDoc, 
-    setDoc, 
-    updateDoc, 
-    collection, 
-    getDocs, 
-    query, 
-    where, 
     serverTimestamp, 
-    increment 
+    increment,
+    writeBatch,
+    addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /**
@@ -370,4 +363,77 @@ export async function getAllModuleProgress(uid) {
         progressMap[data.moduleId] = data;
     });
     return progressMap;
+}
+/**
+ * Registra una acción administrativa en el log de auditoría.
+ */
+export async function logAdminAction(data) {
+    try {
+        const logsCol = collection(db, "adminLogs");
+        await addDoc(logsCol, {
+            ...data,
+            createdAt: serverTimestamp()
+        });
+        console.log("[AdminLog] Acción registrada:", data.action);
+    } catch (error) {
+        console.error("[AdminLog] Error al registrar acción:", error);
+    }
+}
+
+/**
+ * Reinicia el progreso de un usuario para un módulo específico.
+ * (Solo para administradores)
+ */
+export async function resetUserModuleProgress(uid, moduleId, adminInfo) {
+    const moduleConfig = COURSE_STRUCTURE[moduleId];
+    if (!moduleConfig) throw new Error("Módulo no válido");
+
+    const batch = writeBatch(db);
+
+    try {
+        // 1. Identificar y actualizar páginas existentes del módulo
+        const pagesCol = collection(db, "usuarios", uid, "progresoPaginas");
+        const q = query(pagesCol, where("moduleId", "==", moduleId));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((pageDoc) => {
+            const pageRef = doc(db, "usuarios", uid, "progresoPaginas", pageDoc.id);
+            batch.update(pageRef, {
+                status: "started",
+                completedAt: null,
+                updatedAt: serverTimestamp()
+                // Se conservan visitCount, firstOpenedAt, lastOpenedAt por defecto al no incluirlos en el update
+            });
+        });
+
+        // 2. Actualizar documento de resumen del módulo
+        const modRef = doc(db, "usuarios", uid, "progresoModulos", moduleId);
+        batch.update(modRef, {
+            completedPages: 0,
+            percentComplete: 0,
+            status: "not_started",
+            completedAt: null,
+            updatedAt: serverTimestamp()
+        });
+
+        // 3. Ejecutar lote
+        await batch.commit();
+
+        // 4. Registrar auditoría
+        await logAdminAction({
+            action: "reset_module_progress",
+            targetUid: uid,
+            targetEmail: adminInfo.targetEmail || "Desconocido",
+            moduleId: moduleId,
+            moduleTitle: moduleConfig.title,
+            performedBy: adminInfo.adminUid,
+            performedByEmail: adminInfo.adminEmail,
+            note: adminInfo.note || "Reinicio administrativo de progreso"
+        });
+
+        return true;
+    } catch (error) {
+        console.error("Error en resetUserModuleProgress:", error);
+        throw error;
+    }
 }
