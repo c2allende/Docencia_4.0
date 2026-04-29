@@ -451,7 +451,7 @@ export async function resetUserModuleProgress(uid, moduleId, adminInfo) {
  * DETECCIÓN DE DATOS HUÉRFANOS (MODO AUDITORÍA)
  * Identifica documentos de progreso que no pertenecen a la estructura oficial del curso.
  */
-export async function detectUserOrphanData(uid) {
+export async function detectUserOrphanData(uid, includeArchived = false) {
     if (!uid) return [];
     const orphans = [];
 
@@ -477,6 +477,10 @@ export async function detectUserOrphanData(uid) {
             const data = docSnap.data();
             const pageId = docSnap.id;
             const officialPage = officialPages.find(p => p.id === pageId);
+            const isArchived = data.archived === true;
+
+            // Si ya está archivado y no pedimos verlos, saltar
+            if (isArchived && !includeArchived) return;
 
             let reason = null;
             let recommendation = "Revisar en Firestore: puede ser un ID antiguo o de prueba.";
@@ -491,15 +495,16 @@ export async function detectUserOrphanData(uid) {
                 recommendation = "Documento incompleto, se recomienda archivar.";
             }
 
-            if (reason) {
+            if (reason || isArchived) {
                 orphans.push({
                     orphanType: "page",
                     orphanId: pageId,
                     moduleId: data.moduleId || "Desconocido",
-                    reason: reason,
+                    reason: reason || "Documento archivado preventivamente.",
                     lastUpdated: data.updatedAt ? new Date(data.updatedAt.seconds * 1000).toLocaleString() : "N/A",
                     currentStatus: data.status || "N/A",
-                    recommendation: recommendation
+                    recommendation: isArchived ? "Documento ya archivado lógico." : recommendation,
+                    isArchived: isArchived
                 });
             }
         });
@@ -508,16 +513,20 @@ export async function detectUserOrphanData(uid) {
         modulesSnap.forEach(docSnap => {
             const data = docSnap.data();
             const moduleId = docSnap.id;
+            const isArchived = data.archived === true;
 
-            if (!officialModules.includes(moduleId)) {
+            if (isArchived && !includeArchived) return;
+
+            if (!officialModules.includes(moduleId) || isArchived) {
                 orphans.push({
                     orphanType: "module",
                     orphanId: moduleId,
                     moduleId: moduleId,
-                    reason: "ID de módulo no reconocido en la estructura actual.",
+                    reason: isArchived ? "Documento archivado preventivamente." : "ID de módulo no reconocido en la estructura actual.",
                     lastUpdated: data.updatedAt ? new Date(data.updatedAt.seconds * 1000).toLocaleString() : "N/A",
                     currentStatus: data.status || "N/A",
-                    recommendation: "Revisar si es un módulo de una versión previa del curso."
+                    recommendation: isArchived ? "Documento ya archivado lógico." : "Revisar si es un módulo de una versión previa del curso.",
+                    isArchived: isArchived
                 });
             }
         });
@@ -526,5 +535,51 @@ export async function detectUserOrphanData(uid) {
     } catch (error) {
         console.error("Error detectando datos huérfanos:", error);
         return [];
+    }
+}
+
+/**
+ * ARCHIVADO LÓGICO DE DATOS HUÉRFANOS
+ * Inyecta campos de archivado en documentos que no pertenecen a la estructura oficial.
+ * (Solo para administradores)
+ */
+export async function archiveOrphanProgress(uid, orphanData, adminInfo) {
+    if (!uid || !orphanData || !adminInfo) throw new Error("Parámetros insuficientes");
+    
+    const { orphanId, orphanType, reason, moduleId } = orphanData;
+    if (!["page", "module"].includes(orphanType)) throw new Error("Tipo de huérfano no soportado");
+
+    const collectionName = orphanType === "page" ? "progresoPaginas" : "progresoModulos";
+    const docRef = doc(db, "usuarios", uid, collectionName, orphanId);
+
+    try {
+        // 1. Ejecutar actualización lógica (Solo los 5 campos aprobados por reglas)
+        await updateDoc(docRef, {
+            archived: true,
+            archivedAt: serverTimestamp(),
+            archivedBy: adminInfo.uid,
+            archiveReason: reason || "Archivado administrativo preventivo",
+            updatedAt: serverTimestamp()
+        });
+
+        // 2. Registrar auditoría obligatoria en adminLogs
+        await logAdminAction({
+            action: "archive_orphan_progress",
+            targetUid: uid,
+            targetEmail: adminInfo.targetEmail || "Desconocido",
+            orphanType: orphanType,
+            orphanId: orphanId,
+            moduleId: moduleId || "N/A",
+            reason: reason || "N/A",
+            performedBy: adminInfo.uid,
+            performedByEmail: adminInfo.email,
+            createdAt: serverTimestamp(),
+            note: `Archivado lógico de ${orphanType} huérfana: ${orphanId}`
+        });
+
+        return true;
+    } catch (error) {
+        console.error("Error en archiveOrphanProgress:", error);
+        throw error;
     }
 }

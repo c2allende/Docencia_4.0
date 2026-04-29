@@ -1,5 +1,5 @@
 import { auth, db } from "./firebase-config.js";
-import { getAllParticipantsProgress, getParticipantDetailedProgress, resetUserModuleProgress, detectUserOrphanData } from "./progress-service.js";
+import { getAllParticipantsProgress, getParticipantDetailedProgress, resetUserModuleProgress, detectUserOrphanData, archiveOrphanProgress } from "./progress-service.js";
 
 /**
  * AdminProgresoHandler
@@ -235,10 +235,7 @@ const AdminProgresoHandler = {
         const diff = (now - date) / 1000;
         if (diff < 3600) return `Hace ${Math.round(diff / 60)} min`;
         if (diff < 86400) return `Hace ${Math.round(diff / 3600)} horas`;
-        return date.toLocaleDateString();
-    },
-
-    async showDetail(participant) {
+        return date.toLocale    async showDetail(participant, showArchived = false) {
         console.log("Mostrando detalle para:", participant.displayName);
         this.openModal();
         
@@ -251,19 +248,26 @@ const AdminProgresoHandler = {
             const m1Detail = await getParticipantDetailedProgress(participant.uid, "modulo1");
             const m2Detail = await getParticipantDetailedProgress(participant.uid, "modulo2");
             const m3Detail = await getParticipantDetailedProgress(participant.uid, "modulo3");
-            const orphanData = await detectUserOrphanData(participant.uid);
+            const orphanData = await detectUserOrphanData(participant.uid, showArchived);
 
             let orphanSection = '';
-            if (orphanData.length > 0) {
+            if (orphanData.length > 0 || showArchived) {
                 orphanSection = `
                     <div style="margin-top: 30px; border-top: 2px dashed var(--color-border-default); padding-top: 20px;">
-                        <details class="orphan-details" style="background: #fff8f8; border: 1px solid #ffecec; border-radius: 12px; padding: 15px;">
-                            <summary style="cursor: pointer; font-weight: bold; color: #d32f2f; display: flex; align-items: center; gap: 10px;">
+                        <div class="orphan-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                            <div style="font-weight: bold; color: #d32f2f; display: flex; align-items: center; gap: 10px;">
                                 <span style="font-size: 20px;">⚠️</span> 
-                                Datos huérfanos detectados (${orphanData.length})
-                                <span style="font-size: 11px; font-weight: normal; color: var(--color-text-muted); margin-left: auto;">Haz clic para expandir y revisar</span>
-                            </summary>
-                            <div style="margin-top: 15px; overflow-x: auto;">
+                                Datos huérfanos detectados (${orphanData.filter(o => !o.isArchived).length} activos)
+                            </div>
+                            <label style="font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" id="toggleArchived" ${showArchived ? 'checked' : ''} 
+                                    onchange="handleToggleArchived('${participant.uid}', this.checked)">
+                                Mostrar archivados
+                            </label>
+                        </div>
+                        
+                        <div class="panel-card" style="background: #fff8f8; border: 1px solid #ffecec; border-radius: 12px; padding: 15px;">
+                            <div style="overflow-x: auto;">
                                 <table style="width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px;">
                                     <thead>
                                         <tr style="text-align: left; border-bottom: 1px solid #ffecec;">
@@ -271,29 +275,36 @@ const AdminProgresoHandler = {
                                             <th style="padding: 8px;">ID Documento</th>
                                             <th style="padding: 8px;">Módulo</th>
                                             <th style="padding: 8px;">Razón / Hallazgo</th>
-                                            <th style="padding: 8px;">Última Act.</th>
-                                            <th style="padding: 8px;">Acción Sugerida</th>
+                                            <th style="padding: 8px;">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${orphanData.map(o => `
-                                            <tr style="border-bottom: 1px solid #fff0f0;">
+                                        ${orphanData.length === 0 ? '<tr><td colspan="5" style="text-align:center; padding: 20px; color: var(--color-text-muted);">No hay hallazgos registrados.</td></tr>' : 
+                                          orphanData.map(o => `
+                                            <tr style="border-bottom: 1px solid #fff0f0; opacity: ${o.isArchived ? '0.6' : '1'}">
                                                 <td style="padding: 8px;"><span class="badge-soft" style="font-size: 10px; background: #ffebee; color: #c62828;">${o.orphanType}</span></td>
                                                 <td style="padding: 8px;"><code>${o.orphanId}</code></td>
                                                 <td style="padding: 8px;">${o.moduleId}</td>
-                                                <td style="padding: 8px; color: #d32f2f;">${o.reason}</td>
-                                                <td style="padding: 8px; color: var(--color-text-muted);">${o.lastUpdated}</td>
                                                 <td style="padding: 8px;">
-                                                    <span style="font-style: italic; color: var(--color-text-muted);">${o.recommendation}</span>
-                                                    <br>
-                                                    <button class="btn-admin-secondary" style="font-size: 10px; padding: 4px 8px; margin-top: 4px; min-height: auto;" disabled>Pendiente de revisión</button>
+                                                    <span style="color: #d32f2f;">${o.reason}</span><br>
+                                                    <span style="font-size: 10px; color: var(--color-text-muted);">Última Act: ${o.lastUpdated}</span>
+                                                </td>
+                                                <td style="padding: 8px;">
+                                                    ${o.isArchived ? 
+                                                        `<span class="badge-soft" style="background: #e0e0e0; color: #616161; font-weight: bold;">ARCHIVADO</span>` : 
+                                                        `<button class="btn-admin-secondary btn-archive" 
+                                                                style="font-size: 10px; padding: 4px 12px; background: #f57c00; color: white; border: none;"
+                                                                onclick="handleArchiveOrphan('${participant.uid}', '${o.orphanId}', '${o.orphanType}', '${o.moduleId}', '${o.reason}', '${participant.email}')">
+                                                            Archivar
+                                                        </button>`
+                                                    }
                                                 </td>
                                             </tr>
                                         `).join('')}
                                     </tbody>
                                 </table>
                             </div>
-                        </details>
+                        </div>
                     </div>
                 `;
             }
@@ -318,7 +329,7 @@ const AdminProgresoHandler = {
                             <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
                                 <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m1Detail?.nextPage?.title || "Completado"}</p>
                             </div>
-                            <button class="btn-admin-danger-outline" 
+                            <button class="btn-admin-danger-outline btn-action" 
                                     style="width: 100%; margin-top: 12px; font-size: 11px; padding: 8px;"
                                     onclick="handleAdminReset('${participant.uid}', 'modulo1', 'Módulo 1', '${participant.email}')">
                                 Reiniciar progreso
@@ -334,7 +345,7 @@ const AdminProgresoHandler = {
                             <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
                                 <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m2Detail?.nextPage?.title || "Completado"}</p>
                             </div>
-                            <button class="btn-admin-danger-outline" 
+                            <button class="btn-admin-danger-outline btn-action" 
                                     style="width: 100%; margin-top: 12px; font-size: 11px; padding: 8px;"
                                     onclick="handleAdminReset('${participant.uid}', 'modulo2', 'Módulo 2', '${participant.email}')">
                                 Reiniciar progreso
@@ -350,7 +361,7 @@ const AdminProgresoHandler = {
                             <div style="margin-top: 15px; padding: 10px; background: var(--color-background-surface-low); border-radius: 8px;">
                                 <p style="font-size: 11px; margin: 0;"><strong>Siguiente:</strong> ${m3Detail?.nextPage?.title || "Completado"}</p>
                             </div>
-                            <button class="btn-admin-danger-outline" 
+                            <button class="btn-admin-danger-outline btn-action" 
                                     style="width: 100%; margin-top: 12px; font-size: 11px; padding: 8px;"
                                     onclick="handleAdminReset('${participant.uid}', 'modulo3', 'Módulo 3', '${participant.email}')">
                                 Reiniciar progreso
@@ -367,7 +378,41 @@ const AdminProgresoHandler = {
         }
     },
 
-    
+    async handleArchiveOrphan(uid, orphanId, orphanType, moduleId, reason, targetEmail) {
+        const confirmMsg = "Esta acción archivará este documento huérfano de progreso. No se eliminará físicamente, pero dejará de mostrarse como hallazgo activo. ¿Desea continuar?";
+        
+        if (!confirm(confirmMsg)) return;
+
+        const admin = auth.currentUser;
+        if (!admin) return alert("Sesión no válida.");
+
+        // UI Feedback
+        const archiveBtns = document.querySelectorAll('.btn-archive');
+        archiveBtns.forEach(b => b.disabled = true);
+        this.showStatus("Archivando documento...", "info");
+
+        try {
+            await archiveOrphanProgress(uid, 
+                { orphanId, orphanType, reason, moduleId }, 
+                { uid: admin.uid, email: admin.email, targetEmail }
+            );
+
+            this.showStatus("Documento archivado con éxito.", "success", 3000);
+            
+            // Refrescar el modal actualizando los datos del participante
+            const currentParticipant = this.participants.find(p => p.uid === uid);
+            const isToggled = document.getElementById('toggleArchived')?.checked;
+            if (currentParticipant) this.showDetail(currentParticipant, isToggled);
+
+        } catch (error) {
+            console.error("Error al archivar:", error);
+            alert("Error al archivar el documento. Revisa los permisos.");
+            this.showStatus("Error al archivar.", "error", 3000);
+        } finally {
+            archiveBtns.forEach(b => b.disabled = false);
+        }
+    },
+
     async handleResetProgress(uid, moduleId, moduleTitle, targetEmail) {
         const confirmMsg = `ESTA ACCIÓN ES IRREVERSIBLE.\n\nSe reiniciará el progreso del participante en el ${moduleTitle}.\nNo se eliminará la cuenta ni se afectarán otros módulos.\nSe conservará el historial de visitas, pero el participante deberá marcar nuevamente las páginas como completadas.\n\n¿Desea continuar?`;
         
@@ -380,7 +425,7 @@ const AdminProgresoHandler = {
         }
 
         // Desactivar botones en el modal
-        const buttons = document.querySelectorAll('.btn-admin-danger-outline');
+        const buttons = document.querySelectorAll('.btn-action');
         buttons.forEach(b => b.disabled = true);
         
         try {
@@ -443,6 +488,11 @@ const AdminProgresoHandler = {
 // Exponer globalmente para los botones del modal
 window.closeAdminModal = () => AdminProgresoHandler.closeModal();
 window.handleAdminReset = (uid, moduleId, title, email) => AdminProgresoHandler.handleResetProgress(uid, moduleId, title, email);
+window.handleArchiveOrphan = (uid, orphanId, orphanType, moduleId, reason, email) => AdminProgresoHandler.handleArchiveOrphan(uid, orphanId, orphanType, moduleId, reason, email);
+window.handleToggleArchived = (uid, checked) => {
+    const p = AdminProgresoHandler.participants.find(p => p.uid === uid);
+    if (p) AdminProgresoHandler.showDetail(p, checked);
+};
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => AdminProgresoHandler.init());

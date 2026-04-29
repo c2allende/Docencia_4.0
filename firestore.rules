@@ -14,6 +14,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return signedIn()
+        && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
         && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin"
         && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.status == "active";
     }
@@ -25,6 +26,8 @@ service cloud.firestore {
         "title", "message", "scope", "moduleId", "priority", 
         "status", "isActive", "publishAt", "expiresAt", 
         "createdBy", "createdAt", "updatedAt"
+      ]) && request.resource.data.keys().hasAll([
+        "title", "message", "scope", "priority", "status", "isActive", "createdBy", "createdAt", "updatedAt"
       ]);
     }
 
@@ -49,12 +52,14 @@ service cloud.firestore {
 
     // 1. Usuarios
     match /usuarios/{userId} {
-      // El usuario puede leer su propio perfil. El admin puede leer todos.
       allow get: if isOwner(userId) || isAdmin();
       allow list: if isAdmin();
 
-      // Registro inicial: Obligatorio rol participant y status active.
       allow create: if isOwner(userId)
+        && request.resource.data.keys().hasAll([
+          "uid", "email", "displayName", "roleContext", "role", 
+          "status", "emailVerified", "createdAt", "updatedAt"
+        ])
         && request.resource.data.keys().hasOnly([
           "uid", "email", "displayName", "roleContext", "role", 
           "status", "emailVerified", "createdAt", "updatedAt"
@@ -64,22 +69,21 @@ service cloud.firestore {
         && request.resource.data.role == "participant"
         && request.resource.data.status == "active";
 
-      // Actualización protegida
       allow update: if signedIn() && (
         (isOwner(userId) && (
-          // El usuario NO puede modificar campos críticos ni añadir campos arbitrarios
           request.resource.data.keys().hasOnly([
             "uid", "email", "displayName", "roleContext", "role", 
             "status", "emailVerified", "createdAt", "updatedAt"
           ])
           && !request.resource.data.diff(resource.data).affectedKeys().hasAny(["role", "status", "uid", "email", "createdAt"])
         )) || (isAdmin() && (
-          // El admin puede modificar role y status, pero no uid/email/createdAt del usuario
           !request.resource.data.diff(resource.data).affectedKeys().hasAny(["uid", "email", "createdAt"])
         ))
       );
 
-      // 1.1. Lectura de Anuncios (Subcolección de usuario)
+      allow delete: if false;
+
+      // 1.1. Lectura de Anuncios
       match /anuncioLecturas/{announcementId} {
         allow read: if isOwner(userId);
         allow create, update: if isOwner(userId)
@@ -92,15 +96,37 @@ service cloud.firestore {
       match /progresoPaginas/{pageId} {
         allow get: if isOwner(userId) || isAdmin();
         allow list: if isOwner(userId) || isAdmin();
-        allow create, update: if (isOwner(userId) || isAdmin())
+        
+        allow create: if isOwner(userId)
           && request.resource.data.keys().hasOnly([
             "uid", "pageId", "moduleId", "pageType", "title", "url", 
             "status", "visitCount", "firstOpenedAt", "lastOpenedAt", 
             "updatedAt", "completedAt"
           ])
-          && request.resource.data.status in ["started", "completed"]
           && request.resource.data.uid == userId
-          && request.resource.data.pageId == pageId;
+          && request.resource.data.pageId == pageId
+          && request.resource.data.status in ["started", "completed"];
+
+        allow update: if (isOwner(userId) && (
+          request.resource.data.keys().hasOnly([
+            "uid", "pageId", "moduleId", "pageType", "title", "url", 
+            "status", "visitCount", "firstOpenedAt", "lastOpenedAt", 
+            "updatedAt", "completedAt"
+          ])
+          && request.resource.data.status in ["started", "completed"]
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(["uid", "pageId", "moduleId"])
+        )) || (isAdmin() && (
+          // CASO 1.8A: Reinicio controlado
+          (request.resource.data.status == "started" && request.resource.data.completedAt == null &&
+           request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status", "completedAt", "updatedAt"])) ||
+          // CASO 1.8B-B: Archivado lógico
+          (request.resource.data.archived == true && 
+           request.resource.data.archivedBy == request.auth.uid &&
+           request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+             "archived", "archivedAt", "archivedBy", "archiveReason", "updatedAt"
+           ]))
+        ));
+        
         allow delete: if false;
       }
 
@@ -108,28 +134,46 @@ service cloud.firestore {
       match /progresoModulos/{moduleId} {
         allow get: if isOwner(userId) || isAdmin();
         allow list: if isOwner(userId) || isAdmin();
-        allow create, update: if (isOwner(userId) || isAdmin())
+        
+        allow create: if isOwner(userId)
           && request.resource.data.keys().hasOnly([
             "uid", "moduleId", "moduleTitle", "completedPages", "totalPages", 
             "percentComplete", "status", "updatedAt", "startedAt", "completedAt"
           ])
-          && request.resource.data.status in ["not_started", "in_progress", "completed"]
           && request.resource.data.uid == userId
-          && request.resource.data.moduleId == moduleId;
+          && request.resource.data.moduleId == moduleId
+          && request.resource.data.status in ["not_started", "in_progress", "completed"];
+
+        allow update: if (isOwner(userId) && (
+          request.resource.data.keys().hasOnly([
+            "uid", "moduleId", "moduleTitle", "completedPages", "totalPages", 
+            "percentComplete", "status", "updatedAt", "startedAt", "completedAt"
+          ])
+          && request.resource.data.status in ["not_started", "in_progress", "completed"]
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(["uid", "moduleId"])
+        )) || (isAdmin() && (
+          // CASO 1.8A: Reinicio controlado
+          (request.resource.data.completedPages == 0 && request.resource.data.percentComplete == 0 && 
+           request.resource.data.status == "not_started" && request.resource.data.completedAt == null &&
+           request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+             "completedPages", "percentComplete", "status", "completedAt", "updatedAt"
+           ])) ||
+          // CASO 1.8B-B: Archivado lógico
+          (request.resource.data.archived == true && 
+           request.resource.data.archivedBy == request.auth.uid &&
+           request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+             "archived", "archivedAt", "archivedBy", "archiveReason", "updatedAt"
+           ]))
+        ));
+        
         allow delete: if false;
       }
     }
 
     // 2. Anuncios (Colección Global)
     match /anuncios/{announcementId} {
-      // Participantes leen lo vigente (get individual).
-      // Para listados (list), se permite si está publicado y activo para facilitar la consulta.
-      allow get: if signedIn() && (isVisibleAnnouncement() || isAdmin());
-      allow list: if signedIn() && (
-        (resource.data.status == "published" && resource.data.isActive == true) || isAdmin()
-      );
+      allow get, list: if signedIn() && (isVisibleAnnouncement() || isAdmin());
 
-      // Solo admins gestionan anuncios
       allow create: if isAdmin()
         && validAnnouncementFields()
         && validAnnouncementValues()
@@ -139,17 +183,38 @@ service cloud.firestore {
         && validAnnouncementFields()
         && validAnnouncementValues();
 
-      // Prohibido borrado físico
       allow delete: if false;
     }
     
     // 3. Auditoría Admin
     match /adminLogs/{logId} {
       allow read: if isAdmin();
-      allow create: if isAdmin()
-        && request.resource.data.action == "reset_module_progress"
-        && request.resource.data.performedBy == request.auth.uid
-        && request.resource.data.moduleId in ["modulo1", "modulo2", "modulo3"];
+      allow create: if isAdmin() && (
+        // Validación para reset_module_progress (1.8A)
+        (request.resource.data.action == "reset_module_progress" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.moduleId in ["modulo1", "modulo2", "modulo3"] &&
+         request.resource.data.keys().hasAll([
+           'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle', 
+           'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle', 
+           'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ])) ||
+        // Validación para archive_orphan_progress (1.8B-B)
+        (request.resource.data.action == "archive_orphan_progress" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.orphanType in ["page", "module"] &&
+         request.resource.data.keys().hasAll([
+           'action', 'targetUid', 'targetEmail', 'orphanType', 'orphanId', 
+           'moduleId', 'reason', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'targetUid', 'targetEmail', 'orphanType', 'orphanId', 
+           'moduleId', 'reason', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+      );
       allow update, delete: if false;
     }
   }
