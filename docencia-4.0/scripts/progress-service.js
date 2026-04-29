@@ -150,6 +150,9 @@ export async function getAllParticipantsProgress() {
             if (moduleProgress.modulo2.updatedAt && (!lastActivity || moduleProgress.modulo2.updatedAt > lastActivity)) {
                 lastActivity = moduleProgress.modulo2.updatedAt;
             }
+            if (moduleProgress.modulo3.updatedAt && (!lastActivity || moduleProgress.modulo3.updatedAt > lastActivity)) {
+                lastActivity = moduleProgress.modulo3.updatedAt;
+            }
 
             participants.push({
                 uid,
@@ -161,6 +164,7 @@ export async function getAllParticipantsProgress() {
                 photoURL: userData.photoURL || null,
                 modulo1: moduleProgress.modulo1.percent,
                 modulo2: moduleProgress.modulo2.percent,
+                modulo3: moduleProgress.modulo3.percent,
                 lastActivity: lastActivity ? lastActivity.toDate() : null
             });
         }
@@ -179,7 +183,8 @@ export async function getAllParticipantsProgress() {
 export async function getParticipantModuleProgress(uid) {
     const results = {
         modulo1: { percent: 0, updatedAt: null },
-        modulo2: { percent: 0, updatedAt: null }
+        modulo2: { percent: 0, updatedAt: null },
+        modulo3: { percent: 0, updatedAt: null }
     };
 
     try {
