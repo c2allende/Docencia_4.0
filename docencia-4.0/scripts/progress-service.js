@@ -1,4 +1,13 @@
 import { db } from "./firebase-config.js";
+import { 
+    doc, 
+    getDoc, 
+    setDoc, 
+    updateDoc, 
+    collection, 
+    getDocs, 
+    query, 
+    where, 
     serverTimestamp, 
     increment,
     writeBatch,
