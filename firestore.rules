@@ -217,5 +217,74 @@ service cloud.firestore {
       );
       allow update, delete: if false;
     }
+
+    // 4. Foros Dinámicos
+    match /foros/{foroId} {
+      allow get, list: if (signedIn() && resource.data.isActive == true) || isAdmin();
+      
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly([
+          "title", "description", "moduleId", "isActive", "visibility", "createdAt", "updatedAt"
+        ])
+        && request.resource.data.isActive is bool
+        && request.resource.data.visibility in ["authenticated", "private"];
+        
+      allow delete: if false;
+      
+      match /publicaciones/{postId} {
+        allow read: if (signedIn() && resource.data.status == "active") || isAdmin();
+        
+        allow create: if isOwner(request.resource.data.uid)
+          && request.resource.data.keys().hasAll([
+            "foroId", "uid", "authorName", "authorContext", "content", "status", "createdAt", "updatedAt", "replyCount"
+          ])
+          && request.resource.data.keys().hasOnly([
+            "foroId", "uid", "authorName", "authorContext", "content", "status", "createdAt", "updatedAt", "replyCount"
+          ])
+          && request.resource.data.foroId == foroId
+          && request.resource.data.status == "active"
+          && request.resource.data.content != ""
+          && get(/databases/$(database)/documents/foros/$(foroId)).data.isActive == true;
+          
+        allow update: if (isOwner(resource.data.uid) && resource.data.status == "active" && (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'updatedAt'])
+          && request.resource.data.content != ""
+        )) || (isAdmin() && (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'moderatedAt', 'moderatedBy'])
+          && request.resource.data.moderatedBy == request.auth.uid
+          && request.resource.data.status in ["active", "hidden", "archived"]
+        ));
+        
+        allow delete: if false;
+        
+        match /respuestas/{replyId} {
+          allow read: if (signedIn() && resource.data.status == "active") || isAdmin();
+          
+          allow create: if isOwner(request.resource.data.uid)
+            && request.resource.data.keys().hasAll([
+              "foroId", "postId", "uid", "authorName", "authorContext", "content", "status", "createdAt", "updatedAt"
+            ])
+            && request.resource.data.keys().hasOnly([
+              "foroId", "postId", "uid", "authorName", "authorContext", "content", "status", "createdAt", "updatedAt"
+            ])
+            && request.resource.data.foroId == foroId
+            && request.resource.data.postId == postId
+            && request.resource.data.status == "active"
+            && request.resource.data.content != ""
+            && get(/databases/$(database)/documents/foros/$(foroId)).data.isActive == true;
+            
+          allow update: if (isOwner(resource.data.uid) && resource.data.status == "active" && (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'updatedAt'])
+            && request.resource.data.content != ""
+          )) || (isAdmin() && (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'moderatedAt', 'moderatedBy'])
+            && request.resource.data.moderatedBy == request.auth.uid
+            && request.resource.data.status in ["active", "hidden", "archived"]
+          ));
+          
+          allow delete: if false;
+        }
+      }
+    }
   }
 }
