@@ -12,7 +12,7 @@ import {
     serverTimestamp,
     runTransaction,
     increment
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 /**
  * Obtiene la información base de un foro.
