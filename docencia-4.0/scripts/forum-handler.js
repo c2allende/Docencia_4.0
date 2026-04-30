@@ -5,13 +5,13 @@ import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-
 
 class ForumHandler {
     constructor() {
-        this.foroId = "general"; // Fase 1.9B: Forzado a "general"
+        this.container = document.getElementById('forum-dynamic-container');
+        if (!this.container) return; // Si no está en la página, abortar
+
+        this.foroId = this.container.getAttribute("data-forum-id") || "general";
         this.currentUserProfile = null;
         this.isLoading = true;
         this.isSubmitting = false;
-        
-        this.container = document.getElementById('forum-dynamic-container');
-        if (!this.container) return; // Si no está en la página, abortar
 
         this.init();
     }
@@ -313,7 +313,13 @@ class ForumHandler {
     }
 }
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+// Inicializar
+const initForum = () => {
     new ForumHandler();
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initForum);
+} else {
+    initForum();
+}
