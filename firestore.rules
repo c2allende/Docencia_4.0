@@ -202,7 +202,7 @@ service cloud.firestore {
            'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle', 
            'performedBy', 'performedByEmail', 'createdAt', 'note'
          ])) ||
-        // Validación para archive_orphan_progress (1.8B-B)
+         // Validación para archive_orphan_progress (1.8B-B)
         (request.resource.data.action == "archive_orphan_progress" &&
          request.resource.data.performedBy == request.auth.uid &&
          request.resource.data.orphanType in ["page", "module"] &&
@@ -213,6 +213,30 @@ service cloud.firestore {
          request.resource.data.keys().hasOnly([
            'action', 'targetUid', 'targetEmail', 'orphanType', 'orphanId', 
            'moduleId', 'reason', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ])) ||
+        // Validación para moderate_forum_post (1.9D)
+        (request.resource.data.action == "moderate_forum_post" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.newStatus in ["hidden", "archived"] &&
+         request.resource.data.keys().hasAll([
+           'action', 'foroId', 'postId', 'targetUid', 'targetAuthorName', 
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'foroId', 'postId', 'targetUid', 'targetAuthorName', 
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ])) ||
+        // Validación para moderate_forum_reply (1.9D)
+        (request.resource.data.action == "moderate_forum_reply" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.newStatus in ["hidden", "archived"] &&
+         request.resource.data.keys().hasAll([
+           'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName', 
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName', 
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
          ]))
       );
       allow update, delete: if false;
