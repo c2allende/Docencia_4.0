@@ -235,7 +235,10 @@ const AdminProgresoHandler = {
         const diff = (now - date) / 1000;
         if (diff < 3600) return `Hace ${Math.round(diff / 60)} min`;
         if (diff < 86400) return `Hace ${Math.round(diff / 3600)} horas`;
-        return date.toLocale    async showDetail(participant, showArchived = false) {
+        return date.toLocaleDateString();
+    },
+
+    async showDetail(participant, showArchived = false) {
         console.log("Mostrando detalle para:", participant.displayName);
         this.openModal();
         
@@ -248,16 +251,20 @@ const AdminProgresoHandler = {
             const m1Detail = await getParticipantDetailedProgress(participant.uid, "modulo1");
             const m2Detail = await getParticipantDetailedProgress(participant.uid, "modulo2");
             const m3Detail = await getParticipantDetailedProgress(participant.uid, "modulo3");
-            const orphanData = await detectUserOrphanData(participant.uid, showArchived);
+            
+            // Traer TODOS los huérfanos para saber si existe historial
+            const allOrphans = await detectUserOrphanData(participant.uid, true);
+            const activeOrphans = allOrphans.filter(o => !o.isArchived);
+            const displayOrphans = showArchived ? allOrphans : activeOrphans;
 
             let orphanSection = '';
-            if (orphanData.length > 0 || showArchived) {
+            if (allOrphans.length > 0) {
                 orphanSection = `
                     <div style="margin-top: 30px; border-top: 2px dashed var(--color-border-default); padding-top: 20px;">
                         <div class="orphan-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-                            <div style="font-weight: bold; color: #d32f2f; display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">⚠️</span> 
-                                Datos huérfanos detectados (${orphanData.filter(o => !o.isArchived).length} activos)
+                            <div style="font-weight: bold; color: ${activeOrphans.length > 0 ? '#d32f2f' : '#757575'}; display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">${activeOrphans.length > 0 ? '⚠️' : '✅'}</span> 
+                                Datos huérfanos detectados (${activeOrphans.length} activos)
                             </div>
                             <label style="font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
                                 <input type="checkbox" id="toggleArchived" ${showArchived ? 'checked' : ''} 
@@ -279,8 +286,8 @@ const AdminProgresoHandler = {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${orphanData.length === 0 ? '<tr><td colspan="5" style="text-align:center; padding: 20px; color: var(--color-text-muted);">No hay hallazgos registrados.</td></tr>' : 
-                                          orphanData.map(o => `
+                                        ${displayOrphans.length === 0 ? '<tr><td colspan="5" style="text-align:center; padding: 20px; color: var(--color-text-muted);">No hay hallazgos activos para mostrar.</td></tr>' : 
+                                          displayOrphans.map(o => `
                                             <tr style="border-bottom: 1px solid #fff0f0; opacity: ${o.isArchived ? '0.6' : '1'}">
                                                 <td style="padding: 8px;"><span class="badge-soft" style="font-size: 10px; background: #ffebee; color: #c62828;">${o.orphanType}</span></td>
                                                 <td style="padding: 8px;"><code>${o.orphanId}</code></td>
