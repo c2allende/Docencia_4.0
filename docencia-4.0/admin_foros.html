@@ -327,10 +327,13 @@
 
     <main class="admin-wrapper">
         <article class="admin-shell">
-            <header class="admin-header">
-                <span class="admin-kicker">Panel administrativo · Moderación</span>
-                <h1 class="admin-title">Administrar <span>Foros</span></h1>
-                <p class="admin-description">Revisa y modera las publicaciones de los foros dinámicos. Puedes ocultar o archivar mensajes que incumplan las normas sin eliminarlos físicamente.</p>
+            <header class="admin-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                    <span class="admin-kicker">Panel administrativo · Moderación</span>
+                    <h1 class="admin-title">Administrar <span>Foros</span></h1>
+                    <p class="admin-description">Revisa y modera las publicaciones de los foros dinámicos. Puedes ocultar o archivar mensajes que incumplan las normas sin eliminarlos físicamente.</p>
+                </div>
+                <button id="openExportModalBtn" class="btn-action" style="background:var(--color-brand-primary); color:white; font-size:14px; padding:10px 16px;">📥 Exportar Datos</button>
             </header>
 
             <section class="metrics-grid">
@@ -429,6 +432,67 @@
             <div class="modal-footer">
                 <button id="cancelModerateBtn" class="btn-action">Cancelar</button>
                 <button id="confirmModerateBtn" class="btn-action hide-btn" style="color:white; background:#cf222e;">Confirmar Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Exportación (Fase 1.9F) -->
+    <div id="exportModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">Exportar Datos de Foros</h2>
+            
+            <div style="background: #fff8c5; border: 1px solid #e3cc44; border-radius: 8px; padding: 12px; margin: 16px 0; font-size: 13px; color: #7d6b04;">
+                <strong>⚠️ Nota ética e investigativa:</strong> La exportación completa puede contener información identificable. Para análisis o investigación formal, utilice preferiblemente la exportación anonimizada y asegúrese de contar con los permisos, consentimientos o aprobaciones institucionales requeridas.
+            </div>
+
+            <div class="toolbar" style="grid-template-columns: 1fr 1fr; margin-bottom: 0;">
+                <div class="form-field">
+                    <label class="form-label">Tipo de Exportación</label>
+                    <select id="exportType" class="form-select">
+                        <option value="anonymous" selected>Anonimizada (Investigación)</option>
+                        <option value="full">Completa (Administrativa con PII)</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Foro a exportar</label>
+                    <select id="exportForo" class="form-select">
+                        <option value="todos">Todos los foros</option>
+                        <option value="general">Foro General</option>
+                        <option value="modulo1">Módulo 1</option>
+                        <option value="modulo2">Módulo 2</option>
+                        <option value="modulo3">Módulo 3</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Estado</label>
+                    <select id="exportStatus" class="form-select">
+                        <option value="todos">Todos</option>
+                        <option value="active">Activos</option>
+                        <option value="hidden">Ocultos</option>
+                        <option value="archived">Archivados</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Tipo de intervención</label>
+                    <select id="exportIntervention" class="form-select">
+                        <option value="ambos">Publicaciones y Respuestas</option>
+                        <option value="publicaciones">Solo Publicaciones</option>
+                        <option value="respuestas">Solo Respuestas</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Fecha desde (Opcional)</label>
+                    <input type="date" id="exportDateFrom" class="form-input">
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Fecha hasta (Opcional)</label>
+                    <input type="date" id="exportDateTo" class="form-input">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancelExportBtn" class="btn-action">Cancelar</button>
+                <button id="confirmExportBtn" class="btn-action" style="background:var(--color-brand-primary); color:white;">Generar CSV</button>
             </div>
         </div>
     </div>

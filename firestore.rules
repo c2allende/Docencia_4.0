@@ -237,6 +237,18 @@ service cloud.firestore {
          request.resource.data.keys().hasOnly([
            'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName', 
            'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ])) ||
+        // Validación para export_forum_data (1.9F)
+        (request.resource.data.action == "export_forum_data" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.exportType in ["full", "anonymous"] &&
+         request.resource.data.keys().hasAll([
+           'action', 'exportType', 'foroId', 'statusFilter', 'typeFilter', 
+           'dateFrom', 'dateTo', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'exportType', 'foroId', 'statusFilter', 'typeFilter', 
+           'dateFrom', 'dateTo', 'performedBy', 'performedByEmail', 'createdAt', 'note'
          ]))
       );
       allow update, delete: if false;

@@ -1,5 +1,5 @@
 import { auth } from './firebase-config.js';
-import { getAdminForumPosts, getAdminPostReplies, moderatePost, moderateReply } from './forum-service.js';
+import { getAdminForumPosts, getAdminPostReplies, moderatePost, moderateReply, getForumExportData, buildForumExportRows, exportToCSV, logForumExportAction } from './forum-service.js';
 
 class AdminForosHandler {
     constructor() {
@@ -48,6 +48,11 @@ class AdminForosHandler {
         document.getElementById('closeModalBtn')?.addEventListener('click', () => this.closeModal());
         document.getElementById('cancelModerateBtn')?.addEventListener('click', () => this.closeModal());
         document.getElementById('confirmModerateBtn')?.addEventListener('click', () => this.executeModeration());
+        
+        // Export events
+        document.getElementById('openExportModalBtn')?.addEventListener('click', () => this.openExportModal());
+        document.getElementById('cancelExportBtn')?.addEventListener('click', () => this.closeExportModal());
+        document.getElementById('confirmExportBtn')?.addEventListener('click', () => this.executeExport());
     }
 
     async loadPosts() {
@@ -258,6 +263,80 @@ class AdminForosHandler {
             btn.disabled = false;
             btn.textContent = 'Confirmar';
             this.currentModerationTask = null;
+        }
+    }
+
+    openExportModal() {
+        document.getElementById('exportModal')?.classList.add('active');
+    }
+
+    closeExportModal() {
+        document.getElementById('exportModal')?.classList.remove('active');
+    }
+
+    async executeExport() {
+        const btn = document.getElementById('confirmExportBtn');
+        if (!btn) return;
+        
+        btn.disabled = true;
+        btn.textContent = 'Procesando...';
+        
+        try {
+            const exportType = document.getElementById('exportType').value;
+            const foroId = document.getElementById('exportForo').value;
+            const statusFilter = document.getElementById('exportStatus').value;
+            const typeFilter = document.getElementById('exportIntervention').value;
+            const dateFrom = document.getElementById('exportDateFrom').value;
+            const dateTo = document.getElementById('exportDateTo').value;
+
+            const filters = {
+                foro: foroId,
+                estado: statusFilter,
+                tipo: typeFilter,
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            };
+
+            // 1. Log auditoría (debe ocurrir ANTES de entregar datos)
+            await logForumExportAction({
+                exportType,
+                foroId,
+                statusFilter,
+                typeFilter,
+                dateFrom,
+                dateTo,
+                note: "Exportación iniciada desde el dashboard"
+            });
+
+            // 2. Traer datos
+            const rawData = await getForumExportData(filters);
+            
+            if (rawData.length === 0) {
+                alert("No se encontraron datos con los filtros seleccionados.");
+                this.closeExportModal();
+                return;
+            }
+
+            // 3. Formatear y anonimizar si es necesario
+            const isAnonymous = exportType === 'anonymous';
+            const rows = buildForumExportRows(rawData, isAnonymous);
+
+            // 4. Generar nombre archivo
+            const prefix = isAnonymous ? "exportacion_anonima" : "exportacion_completa";
+            const dateStr = new Date().toISOString().split('T')[0];
+            const filename = `${prefix}_foros_${dateStr}.csv`;
+
+            // 5. Descargar CSV
+            exportToCSV(rows, filename);
+            
+            this.closeExportModal();
+            
+        } catch (error) {
+            console.error("Error durante exportación:", error);
+            alert("Error al exportar. Revisa permisos o si la sesión está activa.");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Generar CSV';
         }
     }
 
