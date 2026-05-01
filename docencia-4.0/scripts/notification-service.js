@@ -2,6 +2,7 @@ import { db, auth } from './firebase-config.js';
 import { 
     collection, 
     doc, 
+    getDoc,
     setDoc, 
     updateDoc, 
     getDocs, 
@@ -140,4 +141,52 @@ export async function createUserNotification(targetUid, payload) {
     
     await setDoc(notifRef, notificationData, { merge: true });
     return notifRef.id;
+}
+
+/**
+ * Crea una notificación de progreso completado para el usuario actual.
+ * Fase 2.0C: Conexión con sistema de progreso.
+ */
+export async function createProgressCompletionNotification(uid, moduleId, moduleTitle) {
+    if (!auth.currentUser || auth.currentUser.uid !== uid) return;
+
+    // Validar moduleId permitido
+    const allowedModules = ["modulo1", "modulo2", "modulo3"];
+    if (!allowedModules.includes(moduleId)) {
+        console.warn(`[Notification] moduleId no permitido: ${moduleId}`);
+        return;
+    }
+
+    // ID determinístico para evitar duplicados
+    const notificationId = `progress_module_completed_${moduleId}`;
+    const notifRef = doc(db, "usuarios", uid, "notificaciones", notificationId);
+
+    try {
+        // Verificar si la notificación ya existe (Fase 2.0C: No reactivar ni duplicar)
+        const notifSnap = await getDoc(notifRef);
+        if (notifSnap.exists()) {
+            console.log(`[Notification] La notificación para ${moduleId} ya existe. No se modifica.`);
+            return;
+        }
+
+        const notificationData = {
+            type: "progress",
+            title: "¡Módulo completado!",
+            message: `Has completado el ${moduleTitle}.`,
+            status: "unread",
+            priority: "normal",
+            sourceType: "progress",
+            sourceId: moduleId,
+            moduleId: moduleId,
+            createdAt: serverTimestamp(),
+            actionUrl: "dashboard.html"
+        };
+
+        // Crear documento (sin merge para cumplir con el requisito de no modificar existentes)
+        await setDoc(notifRef, notificationData);
+        console.log(`[Notification] Notificación de progreso creada para ${moduleId}`);
+    } catch (error) {
+        // Fallo silencioso en consola para no bloquear la experiencia del usuario
+        console.warn(`[Notification] No se pudo procesar notificación de progreso para ${moduleId}:`, error);
+    }
 }

@@ -173,7 +173,7 @@ service cloud.firestore {
       match /notificaciones/{notificationId} {
         allow get, list: if isOwner(userId) || isAdmin();
 
-        allow create: if isAdmin()
+        allow create: if (isAdmin()
           && request.resource.data.keys().hasAll([
             "type", "title", "message", "status", "priority", "sourceType", "createdAt"
           ])
@@ -186,7 +186,27 @@ service cloud.firestore {
           ]
           && request.resource.data.status == "unread"
           && request.resource.data.priority in ["normal", "importante", "urgente"]
-          && request.resource.data.sourceType in ["progress", "forum", "announcement", "system"];
+          && request.resource.data.sourceType in ["progress", "forum", "announcement", "system"]
+        ) || (
+          // FASE 2.0C: El usuario puede crear su propia notificación de progreso completado
+          isOwner(userId)
+          && notificationId == "progress_module_completed_" + request.resource.data.moduleId
+          && request.resource.data.keys().hasAll([
+            "type", "title", "message", "status", "priority", "sourceType", "sourceId", "moduleId", "createdAt", "actionUrl"
+          ])
+          && request.resource.data.keys().hasOnly([
+            "type", "title", "message", "status", "priority", "sourceType", "sourceId", "moduleId", "createdAt", "readAt", "actionUrl", "updatedAt"
+          ])
+          && request.resource.data.type == "progress"
+          && request.resource.data.sourceType == "progress"
+          && request.resource.data.sourceId in ["modulo1", "modulo2", "modulo3"]
+          && request.resource.data.moduleId == request.resource.data.sourceId
+          && request.resource.data.status == "unread"
+          && request.resource.data.priority == "normal"
+          && request.resource.data.actionUrl == "dashboard.html"
+          && get(/databases/$(database)/documents/usuarios/$(userId)/progresoModulos/$(request.resource.data.moduleId)).data.status == "completed"
+          && get(/databases/$(database)/documents/usuarios/$(userId)/progresoModulos/$(request.resource.data.moduleId)).data.percentComplete == 100
+        );
 
         allow update: if isOwner(userId)
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly([

@@ -346,6 +346,16 @@ export async function updateModuleProgress(uid, moduleId) {
             }
             await updateDoc(moduleRef, data);
         }
+
+        // FASE 2.0C: Disparar notificación de progreso completado
+        if (percentComplete === 100 && completedCount === totalPages && data.status === "completed") {
+            try {
+                const { createProgressCompletionNotification } = await import("./notification-service.js");
+                await createProgressCompletionNotification(uid, moduleId, moduleConfig.title);
+            } catch (error) {
+                console.warn("[Progress] Error al intentar disparar notificación de progreso:", error);
+            }
+        }
     } catch (error) {
         console.error("Error al actualizar progreso del módulo:", error);
     }
