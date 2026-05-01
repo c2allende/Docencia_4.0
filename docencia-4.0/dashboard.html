@@ -694,6 +694,26 @@
             }
         }
     </style>
+    <style id="notification-scoped-styles">
+        .notification-wrapper { position: relative; display: flex; align-items: center; }
+        .notification-bell-btn { background: transparent; border: none; font-size: var(--font-size-xl); cursor: pointer; position: relative; padding: 0; display: flex; align-items: center; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background: var(--color-red-600, #dc2626); color: white; font-size: 0.65rem; font-weight: bold; padding: 2px 5px; border-radius: 10px; line-height: 1; border: 2px solid var(--color-white); }
+        .notification-badge.hidden { display: none; }
+        .notification-dropdown { position: absolute; top: 100%; right: 0; margin-top: 10px; width: 320px; background: var(--color-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-floating); border: 1px solid var(--color-border-subtle); z-index: 100; overflow: hidden; display: flex; flex-direction: column; max-height: 400px; }
+        .notification-dropdown.hidden { display: none; }
+        .notification-header { padding: var(--spacing-3) var(--spacing-4); border-bottom: 1px solid var(--color-border-subtle); background: var(--color-background-surface-low); font-weight: bold; color: var(--color-text-primary); font-size: var(--font-size-sm); }
+        .notification-list { overflow-y: auto; display: flex; flex-direction: column; }
+        .notification-item { padding: var(--spacing-3) var(--spacing-4); border-bottom: 1px solid var(--color-border-subtle); display: flex; flex-direction: column; gap: var(--spacing-1); font-size: var(--font-size-sm); color: var(--color-text-secondary); background: var(--color-white); }
+        .notification-item:last-child { border-bottom: none; }
+        .notification-item.unread { background: #f0f9ff; border-left: 3px solid var(--color-brand-primary); }
+        .notification-item-header { display: flex; justify-content: space-between; align-items: center; }
+        .notification-title { font-weight: bold; color: var(--color-text-primary); }
+        .notification-priority-urgente { color: #dc2626; font-weight: bold; }
+        .notification-message { margin: 0; line-height: 1.4; }
+        .notification-actions { display: flex; gap: var(--spacing-2); margin-top: var(--spacing-2); }
+        .notification-btn { background: transparent; border: none; color: var(--color-brand-primary); font-size: var(--font-size-xs); cursor: pointer; padding: 0; font-weight: bold; text-decoration: underline; }
+        .notification-empty { padding: var(--spacing-6); text-align: center; color: var(--color-text-muted); font-size: var(--font-size-sm); }
+    </style>
 </head>
 
 <body>
@@ -706,7 +726,16 @@
                     <h1 class="dashboard-title">Academia Docencia 4.0</h1>
                     <p class="header-subtitle">Integración estratégica de modelos de lenguaje de gran tamaño (LLM) como
                         apoyo en la gestión docente</p>
-                    <nav class="dashboard-nav-links" style="margin-top: var(--spacing-4); display: flex; gap: var(--spacing-6);">
+                    <nav class="dashboard-nav-links" style="margin-top: var(--spacing-4); display: flex; gap: var(--spacing-6); align-items: center;">
+                        <div class="notification-wrapper" id="notificationWrapper" style="display: none;">
+                            <button id="notificationBellBtn" class="notification-bell-btn" aria-label="Notificaciones">
+                                🔔 <span id="notificationBadge" class="notification-badge hidden">0</span>
+                            </button>
+                            <div id="notificationDropdown" class="notification-dropdown hidden">
+                                <div class="notification-header">Notificaciones</div>
+                                <div id="notificationList" class="notification-list"></div>
+                            </div>
+                        </div>
                         <a href="perfil.html" style="color: var(--color-brand-primary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); display: flex; align-items: center; gap: var(--spacing-2);">👤 Mi Perfil</a>
                         <a id="adminDashboardLink" href="admin_dashboard.html" style="display: none; color: var(--color-brand-secondary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); align-items: center; gap: var(--spacing-2);">🛠 Panel Operativo</a>
                     </nav>
@@ -1149,9 +1178,93 @@
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getVisibleAnnouncements, getUserReadStatus } from "./scripts/announcement-service.js";
         import { getModuleDetailedProgress } from "./scripts/progress-service.js";
+        import { subscribeToUnreadNotifications, subscribeToRecentNotifications, markNotificationAsRead, archiveNotification } from "./scripts/notification-service.js";
+
+        let unsubscribeUnread = null;
+        let unsubscribeRecent = null;
 
         onAuthStateChanged(auth, async (user) => {
             const container = document.getElementById('urgentAlertContainer');
+            
+            // Limpieza si el usuario sale
+            if (!user) {
+                if (unsubscribeUnread) unsubscribeUnread();
+                if (unsubscribeRecent) unsubscribeRecent();
+                unsubscribeUnread = null;
+                unsubscribeRecent = null;
+                if (container) container.innerHTML = '';
+                return;
+            }
+
+            // Inicializar Notificaciones
+            const notifWrapper = document.getElementById('notificationWrapper');
+            const notifBadge = document.getElementById('notificationBadge');
+            const notifBtn = document.getElementById('notificationBellBtn');
+            const notifDropdown = document.getElementById('notificationDropdown');
+            const notifList = document.getElementById('notificationList');
+            
+            if (notifWrapper) {
+                notifWrapper.style.display = 'flex';
+                
+                // Toggle Dropdown
+                notifBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    notifDropdown.classList.toggle('hidden');
+                });
+                
+                // Cerrar si se clickea afuera
+                document.addEventListener('click', (e) => {
+                    if (!notifWrapper.contains(e.target)) {
+                        notifDropdown.classList.add('hidden');
+                    }
+                });
+                
+                // Exponer funciones globales para botones
+                window.handleMarkRead = async (id) => {
+                    try { await markNotificationAsRead(user.uid, id); } catch(e) { console.error(e); }
+                };
+                window.handleArchive = async (id) => {
+                    try { await archiveNotification(user.uid, id); } catch(e) { console.error(e); }
+                };
+
+                // Suscripciones
+                if (unsubscribeUnread) unsubscribeUnread();
+                unsubscribeUnread = subscribeToUnreadNotifications(user.uid, (count) => {
+                    if (count > 0) {
+                        notifBadge.textContent = count > 99 ? '99+' : count;
+                        notifBadge.classList.remove('hidden');
+                    } else {
+                        notifBadge.classList.add('hidden');
+                    }
+                });
+
+                if (unsubscribeRecent) unsubscribeRecent();
+                unsubscribeRecent = subscribeToRecentNotifications(user.uid, (notifications) => {
+                    if (notifications.length === 0) {
+                        notifList.innerHTML = '<div class="notification-empty">No tienes notificaciones recientes.</div>';
+                        return;
+                    }
+                    
+                    notifList.innerHTML = notifications.map(n => {
+                        const isUnread = n.status === 'unread';
+                        const titleClass = n.priority === 'urgente' ? 'notification-priority-urgente' : 'notification-title';
+                        const urlAttr = n.actionUrl ? `onclick="window.location.href='${n.actionUrl}'" style="cursor:pointer;"` : '';
+                        
+                        return `
+                        <div class="notification-item ${isUnread ? 'unread' : ''}">
+                            <div class="notification-item-header" ${urlAttr}>
+                                <span class="${titleClass}">${n.priority === 'urgente' ? '⚠️ ' : ''}${n.title}</span>
+                            </div>
+                            <p class="notification-message" ${urlAttr}>${n.message}</p>
+                            <div class="notification-actions">
+                                ${isUnread ? `<button class="notification-btn" onclick="handleMarkRead('${n.id}')">Marcar leída</button>` : ''}
+                                <button class="notification-btn" onclick="handleArchive('${n.id}')">Archivar</button>
+                            </div>
+                        </div>`;
+                    }).join('');
+                });
+            }
+
             if (!container) return;
 
             if (user) {

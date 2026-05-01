@@ -168,6 +168,35 @@ service cloud.firestore {
         
         allow delete: if false;
       }
+
+      // 1.4. Notificaciones
+      match /notificaciones/{notificationId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+
+        allow create: if isAdmin()
+          && request.resource.data.keys().hasAll([
+            "type", "title", "message", "status", "priority", "sourceType", "createdAt"
+          ])
+          && request.resource.data.keys().hasOnly([
+            "type", "title", "message", "status", "priority", "sourceType",
+            "sourceId", "moduleId", "createdAt", "readAt", "actionUrl", "updatedAt"
+          ])
+          && request.resource.data.type in [
+            "system_alert", "announcement", "progress", "forum", "moderation"
+          ]
+          && request.resource.data.status == "unread"
+          && request.resource.data.priority in ["normal", "importante", "urgente"]
+          && request.resource.data.sourceType in ["progress", "forum", "announcement", "system"];
+
+        allow update: if isOwner(userId)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            "status", "readAt", "updatedAt"
+          ])
+          && request.resource.data.status in ["read", "archived"]
+          && resource.data.status != "archived";
+
+        allow delete: if false;
+      }
     }
 
     // 2. Anuncios (Colección Global)
