@@ -228,6 +228,29 @@ class ForumHandler {
                 this.currentUserProfile.roleContext
             );
             
+            // Integración Fase 1.9E: Progreso automático
+            const pageId = document.body.getAttribute("data-page-id");
+            const moduleId = document.body.getAttribute("data-module-id");
+            
+            if (pageId && moduleId && 
+                ["modulo1", "modulo2", "modulo3"].includes(moduleId) && 
+                ["foro_modulo1", "foro_modulo2", "foro_modulo3"].includes(pageId)) {
+                
+                try {
+                    const { completePageProgress } = await import("./progress-service.js");
+                    // auth.currentUser está garantizado si el post tuvo éxito
+                    await completePageProgress(auth.currentUser.uid, pageId, moduleId);
+                    
+                    // Ajuste visual discreto
+                    const completionSection = document.getElementById("completion-section");
+                    if (completionSection) {
+                        completionSection.innerHTML = '<div style="padding: 15px; background: #e6ffed; border-left: 4px solid #1a7f37; border-radius: 8px; color: #1a7f37; font-weight: 600; text-align: center; margin-top: 20px;">✅ Participación registrada. Este foro fue marcado como completado automáticamente.</div>';
+                    }
+                } catch (progError) {
+                    console.warn("La publicación fue exitosa, pero falló la actualización del progreso:", progError);
+                }
+            }
+
             // Recargar datos
             input.value = '';
             await this.loadForumData();
