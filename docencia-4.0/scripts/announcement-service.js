@@ -12,7 +12,7 @@ import {
     orderBy, 
     serverTimestamp,
     Timestamp 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /**
  * Crea un nuevo anuncio en la colección 'anuncios'.
@@ -48,30 +48,59 @@ export async function createAnnouncement(data, uid) {
  */
 export async function getVisibleAnnouncements() {
     try {
-        const now = Timestamp.now();
-        // Consulta base: publicados y activos
-        const q = query(
+        // Obtenemos la hora del cliente
+        const clientNow = Date.now();
+        
+        // MARGEN DE RELOJ (Clock Drift Margin): 5 minutos
+        // Firebase Rules exige matemáticamente que 'publishAt <= request.time' y 'expiresAt > request.time'.
+        // Como el reloj del cliente nunca está 100% sincronizado con el servidor de Google, la consulta 
+        // fallará con Permission Denied si el cliente está adelantado o atrasado por un milisegundo.
+        // Al restar 5 minutos para publishAt y sumar 5 minutos para expiresAt, garantizamos que la 
+        // consulta es ESTRICTAMENTE MÁS RÍGIDA que la regla, pasando así la validación del firewall.
+        const safePublishBound = Timestamp.fromMillis(clientNow - 5 * 60 * 1000); 
+        const safeExpireBound = Timestamp.fromMillis(clientNow + 5 * 60 * 1000);
+
+        // Consulta 1: publicados, activos, vigentes (margen) y sin expiración
+        const q1 = query(
             collection(db, "anuncios"),
             where("status", "==", "published"),
             where("isActive", "==", true),
-            orderBy("publishAt", "desc")
+            where("publishAt", "<=", safePublishBound),
+            where("expiresAt", "==", null)
         );
 
-        const querySnapshot = await getDocs(q);
-        const announcements = [];
+        // Consulta 2: publicados, activos, vigentes (margen) y que aún no expiran (margen)
+        const q2 = query(
+            collection(db, "anuncios"),
+            where("status", "==", "published"),
+            where("isActive", "==", true),
+            where("publishAt", "<=", safePublishBound),
+            where("expiresAt", ">", safeExpireBound)
+        );
+
+        const [snapshot1, snapshot2] = await Promise.all([getDocs(q1), getDocs(q2)]);
         
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            // Filtrado de vigencia en el cliente para evitar problemas de índices complejos iniciales
-            const isPublished = data.publishAt ? data.publishAt.toDate() <= now.toDate() : true;
-            const isNotExpired = !data.expiresAt || data.expiresAt.toDate() > now.toDate();
-            
-            if (isPublished && isNotExpired) {
-                announcements.push({ id: doc.id, ...data });
-            }
+        const announcementsMap = new Map();
+        
+        snapshot1.forEach(doc => announcementsMap.set(doc.id, { id: doc.id, ...doc.data() }));
+        snapshot2.forEach(doc => announcementsMap.set(doc.id, { id: doc.id, ...doc.data() }));
+
+        const announcements = Array.from(announcementsMap.values());
+        
+        // Ordenamiento seguro en memoria
+        announcements.sort((a, b) => {
+            const timeA = a.publishAt?.toMillis() || a.createdAt?.toMillis() || 0;
+            const timeB = b.publishAt?.toMillis() || b.createdAt?.toMillis() || 0;
+            return timeB - timeA;
         });
 
-        return announcements;
+        // Filtro final defensivo (usando la hora real para mostrar, el margen era solo para Firebase)
+        const realNow = Timestamp.fromMillis(clientNow);
+        return announcements.filter(data => {
+            const isPublished = data.publishAt ? data.publishAt.toDate() <= realNow.toDate() : true;
+            const isNotExpired = !data.expiresAt || data.expiresAt.toDate() > realNow.toDate();
+            return isPublished && isNotExpired;
+        });
     } catch (error) {
         console.error("Error al obtener anuncios visibles:", error);
         throw error;

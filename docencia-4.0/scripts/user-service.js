@@ -5,7 +5,7 @@ import {
     setDoc, 
     updateDoc, 
     serverTimestamp 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /**
  * Crea o actualiza el perfil de un usuario en Firestore.

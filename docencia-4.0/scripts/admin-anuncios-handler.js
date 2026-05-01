@@ -1,5 +1,5 @@
 import { auth } from "./firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { 
     createAnnouncement, 
     getAdminAnnouncements, 
@@ -7,7 +7,7 @@ import {
     archiveAnnouncement,
     formatAnnouncementDateTime 
 } from "./announcement-service.js";
-import { Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const announcementForm = document.getElementById('announcementForm');
 const announcementList = document.getElementById('announcementList');

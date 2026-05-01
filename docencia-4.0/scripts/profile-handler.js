@@ -1,6 +1,6 @@
 import { auth } from "./firebase-config.js";
 import { logout } from "./auth.js";
-import { onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getUserProfile, createUserProfile } from "./user-service.js";
 
 const authMessage = document.getElementById('authMessage');

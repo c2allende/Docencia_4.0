@@ -230,64 +230,7 @@
             line-height: var(--line-height-relaxed);
         }
 
-        .admin-dashboard-page .announcement-alert {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-            background: var(--color-background-surface-low);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-left: var(--border-width-6) solid var(--color-brand-secondary);
-            border-radius: var(--radius-xl);
-        }
 
-        .admin-dashboard-page .announcement-icon {
-            width: 54px;
-            height: 54px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 54px;
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-2xl);
-        }
-
-        .admin-dashboard-page .announcement-alert h3 {
-            margin: 0 0 var(--spacing-1);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-        .admin-dashboard-page .announcement-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-2);
-            margin-top: var(--spacing-sm);
-        }
-
-        .admin-dashboard-page .badge-soft {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-1);
-            padding: var(--spacing-1) var(--spacing-3);
-            border-radius: var(--radius-pill);
-            background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-2xs);
-            font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
-            text-transform: uppercase;
-        }
-
-        .admin-dashboard-page .badge-important {
-            background: var(--color-brand-primary);
-            color: var(--color-white);
-        }
 
         .admin-dashboard-page .access-grid {
             display: grid;
@@ -693,30 +636,10 @@
                         <a href="admin_anuncios.html" class="btn btn-secondary">Gestionar todos</a>
                     </header>
 
-                    <article class="announcement-alert">
-                        <div class="announcement-icon" aria-hidden="true">📌</div>
-                        <div>
-                            <h3>Bienvenida al Módulo 2</h3>
-                            <p>Se han habilitado los nuevos recursos y actividades para esta semana. Favor revisar el material.</p>
-                            <div class="announcement-meta">
-                                <span class="badge-soft">Módulo 2</span>
-                                <span class="badge-soft">Hace 2 horas</span>
-                                <span class="badge-soft badge-important">Importante</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="announcement-alert">
-                        <div class="announcement-icon" aria-hidden="true">📅</div>
-                        <div>
-                            <h3>Sesión sincrónica reprogramada</h3>
-                            <p>La sesión del jueves se moverá al viernes a la misma hora por motivos de mantenimiento.</p>
-                            <div class="announcement-meta">
-                                <span class="badge-soft">General</span>
-                                <span class="badge-soft">Ayer</span>
-                            </div>
-                        </div>
-                    </article>
+                    <!-- La gestión detallada se realiza desde admin_anuncios.html -->
+                    <div style="padding: var(--spacing-xl); text-align: center; color: var(--color-text-muted); font-size: var(--font-size-sm); background: var(--color-background-surface-low); border-radius: var(--radius-lg); border: 1px dashed var(--color-border-subtle);">
+                        <p>Usa el botón superior para gestionar los anuncios oficiales.</p>
+                    </div>
                 </section>
 
                 <section class="panel-card" aria-labelledby="access-title">

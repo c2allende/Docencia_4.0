@@ -1,7 +1,7 @@
 import { auth, db } from './firebase-config.js';
 import { getForum, getForumPosts, createForumPost, getPostReplies, createPostReply } from './forum-service.js';
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 class ForumHandler {
     constructor() {

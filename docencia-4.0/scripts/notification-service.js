@@ -12,7 +12,7 @@ import {
     orderBy, 
     limit, 
     serverTimestamp 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /**
  * Obtiene notificaciones de un usuario (no archivadas) para consultas directas.

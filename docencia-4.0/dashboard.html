@@ -745,8 +745,7 @@
     </header>
 
     <main class="container">
-        <!-- Contenedor para anuncios urgentes dinámicos -->
-        <div id="urgentAlertContainer"></div>
+        <!-- Los anuncios urgentes e importantes se manejan ahora exclusivamente desde la campana de notificaciones -->
 
         <section class="intro-container" aria-labelledby="programa-title">
             <div class="intro-layout">
@@ -1073,7 +1072,7 @@
 
             // Verificador de acceso administrativo (Carmelo)
             import("./scripts/firebase-config.js").then(config => {
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(authMod => {
+                import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(authMod => {
                     authMod.onAuthStateChanged(config.auth, (user) => {
                         if (user && user.email === "carmelo.allende@gmail.com") {
                             const adminLink = document.getElementById('adminDashboardLink');
@@ -1109,63 +1108,7 @@
     </script>
 
     <style>
-        .urgent-alert {
-            margin-bottom: var(--spacing-lg);
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: #fff5f5;
-            border: 1px solid #feb2b2;
-            border-left: 5px solid #f56565;
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: var(--spacing-md);
-            animation: slideIn 0.3s ease-out;
-        }
-        .urgent-alert-text {
-            color: #c53030;
-            font-weight: var(--font-weight-bold);
-            font-size: var(--font-size-sm);
-        }
-        .urgent-alert-btn {
-            background: #f56565;
-            color: white;
-            padding: var(--spacing-1) var(--spacing-4);
-            border-radius: var(--radius-pill);
-            text-decoration: none;
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            white-space: nowrap;
-            transition: transform 0.2s;
-        }
-        .urgent-alert-btn:hover { transform: scale(1.05); }
 
-        /* Estilos para aviso discreto */
-        .info-alert {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 1.5rem;
-            background: rgba(49, 130, 206, 0.05);
-            border-left: 4px solid #3182ce;
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-6);
-            animation: slideIn 0.5s ease-out;
-        }
-        .info-alert-text {
-            color: var(--text-main);
-            font-weight: var(--font-weight-medium);
-            font-size: var(--font-size-sm);
-        }
-        .info-alert-link {
-            color: #3182ce;
-            text-decoration: none;
-            font-weight: var(--font-weight-bold);
-            font-size: var(--font-size-xs);
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
-        }
-        .info-alert-link:hover { border-color: #3182ce; }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -1175,26 +1118,29 @@
 
     <script type="module">
         import { auth } from "./scripts/firebase-config.js";
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getVisibleAnnouncements, getUserReadStatus } from "./scripts/announcement-service.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getVisibleAnnouncements, getUserReadStatus, markAsRead } from "./scripts/announcement-service.js";
         import { getModuleDetailedProgress } from "./scripts/progress-service.js";
         import { subscribeToUnreadNotifications, subscribeToRecentNotifications, markNotificationAsRead, archiveNotification } from "./scripts/notification-service.js";
 
         let unsubscribeUnread = null;
         let unsubscribeRecent = null;
+        let firestoreUnreadCount = 0;
+        let firestoreNotifications = [];
+        let virtualAnnouncements = [];
 
         onAuthStateChanged(auth, async (user) => {
-            const container = document.getElementById('urgentAlertContainer');
-            
-            // Limpieza si el usuario sale
-            if (!user) {
-                if (unsubscribeUnread) unsubscribeUnread();
-                if (unsubscribeRecent) unsubscribeRecent();
-                unsubscribeUnread = null;
-                unsubscribeRecent = null;
-                if (container) container.innerHTML = '';
-                return;
-            }
+             // Limpieza si el usuario sale
+             if (!user) {
+                 if (unsubscribeUnread) unsubscribeUnread();
+                 if (unsubscribeRecent) unsubscribeRecent();
+                 unsubscribeUnread = null;
+                 unsubscribeRecent = null;
+                 firestoreUnreadCount = 0;
+                 firestoreNotifications = [];
+                 virtualAnnouncements = [];
+                 return;
+             }
 
             // Inicializar Notificaciones
             const notifWrapper = document.getElementById('notificationWrapper');
@@ -1218,54 +1164,98 @@
                         notifDropdown.classList.add('hidden');
                     }
                 });
-                
-                // Exponer funciones globales para botones
-                window.handleMarkRead = async (id) => {
-                    try { await markNotificationAsRead(user.uid, id); } catch(e) { console.error(e); }
-                };
-                window.handleArchive = async (id) => {
-                    try { await archiveNotification(user.uid, id); } catch(e) { console.error(e); }
-                };
+            }
 
-                // Suscripciones
-                if (unsubscribeUnread) unsubscribeUnread();
-                unsubscribeUnread = subscribeToUnreadNotifications(user.uid, (count) => {
-                    if (count > 0) {
-                        notifBadge.textContent = count > 99 ? '99+' : count;
+            // Función centralizada para renderizar la UI de notificaciones
+            const refreshNotificationUI = () => {
+                try {
+                    if (!notifBadge || !notifList) return;
+
+                    const totalUnread = (firestoreUnreadCount || 0) + (virtualAnnouncements ? virtualAnnouncements.length : 0);
+                    
+                    if (totalUnread > 0) {
+                        notifBadge.textContent = totalUnread > 99 ? '99+' : totalUnread;
                         notifBadge.classList.remove('hidden');
                     } else {
                         notifBadge.classList.add('hidden');
                     }
-                });
 
-                if (unsubscribeRecent) unsubscribeRecent();
-                unsubscribeRecent = subscribeToRecentNotifications(user.uid, (notifications) => {
-                    if (notifications.length === 0) {
+                    const combinedList = [...(virtualAnnouncements || []), ...(firestoreNotifications || [])];
+                    
+                    // Ordenar descendente de manera segura
+                    combinedList.sort((a, b) => {
+                        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0);
+                        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0);
+                        return timeB - timeA;
+                    });
+                    
+                    const top5 = combinedList.slice(0, 5);
+
+                    if (top5.length === 0) {
                         notifList.innerHTML = '<div class="notification-empty">No tienes notificaciones recientes.</div>';
                         return;
                     }
                     
-                    notifList.innerHTML = notifications.map(n => {
+                    notifList.innerHTML = top5.map(n => {
                         const isUnread = n.status === 'unread';
                         const titleClass = n.priority === 'urgente' ? 'notification-priority-urgente' : 'notification-title';
                         const urlAttr = n.actionUrl ? `onclick="window.location.href='${n.actionUrl}'" style="cursor:pointer;"` : '';
                         
+                        let buttonsHtml = '';
+                        if (n.isVirtual) {
+                            if (isUnread) buttonsHtml += `<button class="notification-btn" onclick="handleMarkVirtualRead(event, '${n.sourceId}')">Marcar leída</button>`;
+                            if (n.actionUrl) buttonsHtml += `<button class="notification-btn" onclick="window.location.href='${n.actionUrl}'">Ver anuncio</button>`;
+                        } else {
+                            if (isUnread) buttonsHtml += `<button class="notification-btn" onclick="handleMarkRead(event, '${n.id}')">Marcar leída</button>`;
+                            buttonsHtml += `<button class="notification-btn" onclick="handleArchive(event, '${n.id}')">Archivar</button>`;
+                        }
+
                         return `
                         <div class="notification-item ${isUnread ? 'unread' : ''}">
                             <div class="notification-item-header" ${urlAttr}>
-                                <span class="${titleClass}">${n.priority === 'urgente' ? '⚠️ ' : ''}${n.title}</span>
+                                <span class="${titleClass}">${n.priority === 'urgente' ? '⚠️ ' : (n.priority === 'importante' ? '📌 ' : '')}${n.title}</span>
                             </div>
                             <p class="notification-message" ${urlAttr}>${n.message}</p>
                             <div class="notification-actions">
-                                ${isUnread ? `<button class="notification-btn" onclick="handleMarkRead('${n.id}')">Marcar leída</button>` : ''}
-                                <button class="notification-btn" onclick="handleArchive('${n.id}')">Archivar</button>
+                                ${buttonsHtml}
                             </div>
                         </div>`;
                     }).join('');
-                });
-            }
+                } catch(e) {
+                    console.warn("Error refreshing notification UI:", e);
+                }
+            };
 
-            if (!container) return;
+            // Exponer funciones globales para botones
+            window.handleMarkRead = async (e, id) => {
+                if(e) e.stopPropagation();
+                try { await markNotificationAsRead(user.uid, id); } catch(err) { console.warn(err); }
+            };
+            window.handleArchive = async (e, id) => {
+                if(e) e.stopPropagation();
+                try { await archiveNotification(user.uid, id); } catch(err) { console.warn(err); }
+            };
+            window.handleMarkVirtualRead = async (e, sourceId) => {
+                if(e) e.stopPropagation();
+                try {
+                    await markAsRead(sourceId, user.uid);
+                    virtualAnnouncements = virtualAnnouncements.filter(a => a.sourceId !== sourceId);
+                    refreshNotificationUI();
+                } catch(err) { console.warn("Error marking virtual notification as read:", err); }
+            };
+
+            // Suscripciones
+            if (unsubscribeUnread) unsubscribeUnread();
+            unsubscribeUnread = subscribeToUnreadNotifications(user.uid, (count) => {
+                firestoreUnreadCount = count;
+                refreshNotificationUI();
+            });
+
+            if (unsubscribeRecent) unsubscribeRecent();
+            unsubscribeRecent = subscribeToRecentNotifications(user.uid, (notifications) => {
+                firestoreNotifications = notifications;
+                refreshNotificationUI();
+            });
 
             if (user) {
                 // 1. Cargar anuncios
@@ -1275,29 +1265,32 @@
                         getUserReadStatus(user.uid)
                     ]);
 
-                    const unreadUrgent = announcements.find(a => a.priority === 'urgente' && !readIds.includes(a.id));
-                    const unreadOthers = !unreadUrgent ? announcements.find(a => (a.priority === 'importante' || a.priority === 'normal') && !readIds.includes(a.id)) : null;
-
-                    if (unreadUrgent) {
-                        container.innerHTML = `
-                            <div class="urgent-alert">
-                                <span class="urgent-alert-text">⚠️ ANUNCIO URGENTE: ${unreadUrgent.title}</span>
-                                <a href="anuncios.html" class="urgent-alert-btn">Ver anuncio</a>
-                            </div>
-                        `;
-                    } else if (unreadOthers) {
-                        container.innerHTML = `
-                            <div class="info-alert">
-                                <span class="info-alert-text">ℹ️ Tienes anuncios nuevos disponibles.</span>
-                                <a href="anuncios.html" class="info-alert-link">Revisar anuncios</a>
-                            </div>
-                        `;
-                    } else {
-                        container.innerHTML = '';
+                    // Mapeo a notificaciones virtuales para la campana
+                    const virtuals = [];
+                    announcements.forEach(a => {
+                        if ((a.priority === 'urgente' || a.priority === 'importante') && !readIds.includes(a.id)) {
+                            virtuals.push({
+                                id: `virtual_announcement_${a.id}`,
+                                type: "announcement",
+                                title: a.priority === 'urgente' ? "Anuncio urgente pendiente" : "Anuncio importante pendiente",
+                                message: a.title,
+                                status: "unread",
+                                priority: a.priority,
+                                sourceType: "announcement",
+                                sourceId: a.id,
+                                createdAt: a.publishAt || a.createdAt,
+                                actionUrl: "anuncios.html",
+                                isVirtual: true
+                            });
+                        }
+                    });
+                    
+                    if (notifWrapper) {
+                        virtualAnnouncements = virtuals;
+                        refreshNotificationUI();
                     }
                 } catch (e) { 
-                    console.error("Error checking alerts:", e);
-                    container.innerHTML = '';
+                    console.warn("Error checking alerts/announcements:", e);
                 }
 
                 // 2. Cargar progreso pedagógico real
@@ -1361,8 +1354,6 @@
                 } catch (e) {
                     console.error("Error loading detailed progress:", e);
                 }
-            } else {
-                container.innerHTML = '';
             }
         });
     </script>
