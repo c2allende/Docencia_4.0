@@ -518,188 +518,37 @@
                 width: 100%;
             }
         }
-    </style>
-
-    <style id="notification-admin-scoped-styles">
-        /* Estilos Scoped para Campana Administrativa - Fase 2.0E-1 */
-        .notification-admin-wrapper {
-            position: relative;
-            margin-left: auto;
-            margin-right: var(--spacing-md);
-        }
-
-        .notification-admin-button {
-            background: var(--color-background-surface);
-            border: 1px solid var(--color-border-default);
-            border-radius: var(--radius-pill);
-            padding: var(--spacing-2) var(--spacing-3);
-            cursor: pointer;
-            font-size: var(--font-size-xl);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .notification-admin-button:hover {
-            border-color: var(--color-brand-primary);
-            transform: scale(1.05);
-        }
-
-        .notification-admin-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--color-status-error);
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            min-width: 18px;
-            height: 18px;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 4px;
-            border: 2px solid var(--color-background-page);
-        }
-
-        .notification-admin-dropdown {
-            position: absolute;
-            top: calc(100% + 10px);
+        /* Estilos de Navegación Superior (Fix para Widget) */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
             right: 0;
-            width: 340px;
-            background: var(--color-background-surface);
-            border: 1px solid var(--color-border-default);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-floating);
-            display: none;
-            z-index: 1000;
-            overflow: hidden;
-            animation: notificationAdminFadeIn 0.2s ease;
-        }
-
-        @keyframes notificationAdminFadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .notification-admin-dropdown.active {
-            display: block;
-        }
-
-        .notification-admin-header {
-            padding: var(--spacing-md);
+            height: var(--height-module-topnav, 80px);
+            background: #ffffff !important;
             border-bottom: 1px solid var(--color-border-default);
-            background: var(--color-background-surface-low);
-        }
-
-        .notification-admin-header h3 {
-            margin: 0;
-            font-size: var(--font-size-sm);
-            color: var(--color-text-display);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .notification-admin-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .notification-admin-item {
-            padding: var(--spacing-md);
-            border-bottom: 1px solid var(--color-border-subtle);
-            transition: background 0.2s ease;
-            position: relative;
-        }
-
-        .notification-admin-item:last-child {
-            border-bottom: none;
-        }
-
-        .notification-admin-item:hover {
-            background: var(--color-background-surface-low);
-        }
-
-        .notification-admin-item.unread {
-            background: rgba(var(--color-brand-primary-rgb), 0.05);
-            border-left: 3px solid var(--color-brand-primary);
-        }
-
-        .notification-admin-item-title {
-            display: block;
-            font-weight: bold;
-            font-size: var(--font-size-sm);
-            margin-bottom: 4px;
-            color: var(--color-text-primary);
-        }
-
-        .notification-admin-item-msg {
-            display: block;
-            font-size: var(--font-size-xs);
-            color: var(--color-text-secondary);
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .notification-admin-item-footer {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            padding: 0 var(--spacing-xl);
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-
-        .notification-admin-item-date {
-            font-size: 10px;
-            color: var(--color-text-muted);
-        }
-
-        .notification-admin-actions {
+        .nav-left {
             display: flex;
-            gap: var(--spacing-2);
+            align-items: center;
+            gap: var(--spacing-md);
         }
-
-        .notification-admin-btn-action {
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: var(--radius-pill);
-            border: 1px solid var(--color-border-default);
-            background: transparent;
-            cursor: pointer;
-            color: var(--color-text-muted);
-            transition: all 0.2s ease;
+        .logo-container img {
+            height: 40px;
+            width: auto;
         }
-
-        .notification-admin-btn-action:hover {
-            color: var(--color-brand-primary);
-            border-color: var(--color-brand-primary);
-        }
-
-        .notification-admin-footer {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: var(--color-background-surface-low);
-            text-align: center;
-            font-size: 11px;
-            color: var(--color-text-muted);
-            border-top: 1px solid var(--color-border-default);
-        }
-
-        .notification-admin-empty {
-            padding: var(--spacing-xl) var(--spacing-md);
-            text-align: center;
-            color: var(--color-text-muted);
-            font-style: italic;
-            font-size: var(--font-size-sm);
-        }
-
-        .notification-admin-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
+        .module-title-nav {
+            font-weight: 700;
+            color: var(--color-text-display);
         }
     </style>
+
+
 
 </head>
 
@@ -722,24 +571,9 @@
             <span class="module-title-nav">Panel Operativo LMS</span>
         </div>
 
-        <div class="notification-admin-wrapper">
-            <button class="notification-admin-button" id="admin-bell-toggle" aria-label="Notificaciones administrativas">
-                🔔
-                <span class="notification-admin-badge" id="admin-unread-badge" style="display: none;">0</span>
-            </button>
-            <div class="notification-admin-dropdown" id="admin-notif-dropdown">
-                <div class="notification-admin-header">
-                    <h3>Notificaciones Recientes</h3>
-                </div>
-                <div class="notification-admin-list" id="admin-notif-list">
-                    <div class="notification-admin-empty">Cargando...</div>
-                </div>
-                <div class="notification-admin-footer">
-                    <span>Mostrando notificaciones recientes</span>
-                </div>
-            </div>
-        </div>
+        <div id="admin-notification-widget" style="display: flex; margin-left: auto;"></div>
     </nav>
+
 
     <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
 
@@ -1083,130 +917,11 @@
     <script type="module" src="scripts/admin-guard.js"></script>
 
     <script type="module">
-        /* Lógica Scoped de Notificaciones Administrativas - Fase 2.0E-1 */
-        import { auth } from './scripts/firebase-config.js';
-        import { 
-            subscribeToUnreadNotifications, 
-            subscribeToRecentNotifications, 
-            markNotificationAsRead, 
-            archiveNotification 
-        } from './scripts/notification-service.js';
-
-        let unsubUnread = null;
-        let unsubRecent = null;
-
-        const ui = {
-            toggle: document.getElementById('admin-bell-toggle'),
-            dropdown: document.getElementById('admin-notif-dropdown'),
-            badge: document.getElementById('admin-unread-badge'),
-            list: document.getElementById('admin-notif-list')
-        };
-
-        // --- MANEJO DE UI ---
-        ui.toggle?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            ui.dropdown?.classList.toggle('active');
-        });
-
-        document.addEventListener('click', () => {
-            ui.dropdown?.classList.remove('active');
-        });
-
-        ui.dropdown?.addEventListener('click', (e) => e.stopPropagation());
-
-        // --- SUSCRIPCIONES ---
-        auth.onAuthStateChanged(user => {
-            // Limpiar listeners previos
-            if (unsubUnread) unsubUnread();
-            if (unsubRecent) unsubRecent();
-
-            if (user) {
-                initNotifications(user.uid);
-            }
-        });
-
-        function initNotifications(uid) {
-            // 1. Suscribirse al conteo
-            unsubUnread = subscribeToUnreadNotifications(uid, (count) => {
-                if (count > 0) {
-                    ui.badge.textContent = count > 99 ? '99+' : count;
-                    ui.badge.style.display = 'flex';
-                } else {
-                    ui.badge.style.display = 'none';
-                }
-            });
-
-            // 2. Suscribirse a la lista (top 5 recientes)
-            unsubRecent = subscribeToRecentNotifications(uid, (notifs) => {
-                renderNotifications(uid, notifs);
-            }, 5);
-        }
-
-        function renderNotifications(uid, notifs) {
-            if (!ui.list) return;
-
-            if (notifs.length === 0) {
-                ui.list.innerHTML = '<div class="notification-admin-empty">No hay notificaciones recientes</div>';
-                return;
-            }
-
-            ui.list.innerHTML = '';
-            notifs.forEach(notif => {
-                const item = document.createElement('div');
-                item.className = `notification-admin-item ${notif.status === 'unread' ? 'unread' : ''}`;
-                
-                const dateStr = notif.createdAt?.toDate 
-                    ? notif.createdAt.toDate().toLocaleString('es-PR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) 
-                    : 'Reciente';
-
-                let actionBtns = '';
-                if (notif.status === 'unread') {
-                    actionBtns += `<button class="notification-admin-btn-action mark-read" data-id="${notif.id}">Marcar leída</button>`;
-                }
-                actionBtns += `<button class="notification-admin-btn-action archive-notif" data-id="${notif.id}">Archivar</button>`;
-
-                const contentHtml = `
-                    <span class="notification-admin-item-title">${escapeHtml(notif.title)}</span>
-                    <span class="notification-admin-item-msg">${escapeHtml(notif.message)}</span>
-                    <div class="notification-admin-item-footer">
-                        <span class="notification-admin-item-date">${dateStr}</span>
-                        <div class="notification-admin-actions">
-                            ${actionBtns}
-                        </div>
-                    </div>
-                `;
-
-                if (notif.actionUrl) {
-                    item.innerHTML = `<a href="${notif.actionUrl}" class="notification-admin-link">${contentHtml}</a>`;
-                } else {
-                    item.innerHTML = contentHtml;
-                }
-
-                // Eventos de botones (con stopPropagation para no navegar si se clica el botón)
-                item.querySelector('.mark-read')?.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    markNotificationAsRead(uid, notif.id).catch(err => console.error("Error al marcar leída:", err));
-                });
-
-                item.querySelector('.archive-notif')?.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    archiveNotification(uid, notif.id).catch(err => console.error("Error al archivar:", err));
-                });
-
-                ui.list.appendChild(item);
-            });
-        }
-
-        function escapeHtml(unsafe) {
-            if (!unsafe) return '';
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+        import { initAdminNotifications } from './scripts/admin-notifications-widget-v2.js';
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => initAdminNotifications());
+        } else {
+            initAdminNotifications();
         }
     </script>
 </body>
