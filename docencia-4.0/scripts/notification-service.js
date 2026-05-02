@@ -190,3 +190,90 @@ export async function createProgressCompletionNotification(uid, moduleId, module
         console.warn(`[Notification] No se pudo procesar notificación de progreso para ${moduleId}:`, error);
     }
 }
+
+// ==========================================
+// HELPERS INTERNOS
+// ==========================================
+
+/**
+ * Mapea un foroId a su nombre legible y URL correspondiente.
+ * Fase 2.0D-A: Notificaciones de moderación.
+ */
+const FORO_MAP = {
+    general: { nombre: "Foro General",   url: "foro_general.html" },
+    modulo1: { nombre: "Foro Módulo 1",  url: "foro_modulo1.html" },
+    modulo2: { nombre: "Foro Módulo 2",  url: "foro_modulo2.html" },
+    modulo3: { nombre: "Foro Módulo 3",  url: "foro_modulo3.html" }
+};
+
+// ==========================================
+// FASE 2.0D-A: NOTIFICACIONES DE MODERACIÓN
+// ==========================================
+
+/**
+ * Crea una notificación de moderación para el autor de una publicación o respuesta.
+ * Solo puede ser llamada por admin. Generada desde forum-service.js.
+ *
+ * @param {string} targetUid  - UID del autor que recibirá la notificación.
+ * @param {object} payload    - Datos de la moderación.
+ * @param {string} payload.contentType  - "post" o "reply"
+ * @param {string} payload.sourceId     - postId o replyId
+ * @param {string} payload.foroId       - ID del foro (general, modulo1, modulo2, modulo3)
+ * @param {string} payload.newStatus    - "hidden" o "archived"
+ */
+export async function createModerationNotification(targetUid, payload) {
+    if (!auth.currentUser) return;
+    if (!targetUid) {
+        console.warn("[Notification] createModerationNotification: targetUid no proporcionado.");
+        return;
+    }
+
+    const { contentType, sourceId, foroId, newStatus } = payload;
+
+    // Validar contentType y newStatus
+    if (!["post", "reply"].includes(contentType)) {
+        console.warn(`[Notification] contentType inválido: ${contentType}`);
+        return;
+    }
+    if (!["hidden", "archived"].includes(newStatus)) {
+        console.warn(`[Notification] newStatus inválido: ${newStatus}`);
+        return;
+    }
+
+    // ID determinístico: incluye newStatus para permitir ocultar + archivar como eventos distintos
+    const notificationId = `moderation_${contentType}_${sourceId}_${newStatus}`;
+    const notifRef = doc(db, "usuarios", targetUid, "notificaciones", notificationId);
+
+    try {
+        // Verificar si ya existe → no sobrescribir
+        const notifSnap = await getDoc(notifRef);
+        if (notifSnap.exists()) {
+            console.log(`[Notification] Notificación de moderación ya existe: ${notificationId}. No se modifica.`);
+            return;
+        }
+
+        // Resolver nombre y URL del foro
+        const foroInfo = FORO_MAP[foroId] || { nombre: foroId, url: "dashboard.html" };
+        const esPublicacion = contentType === "post";
+        const tipoTexto = esPublicacion ? "publicación" : "respuesta";
+        const accionTexto = newStatus === "hidden" ? "ocultada" : "archivada";
+
+        const notificationData = {
+            type: "moderation",
+            title: esPublicacion ? "Publicación moderada" : "Respuesta moderada",
+            message: `Tu ${tipoTexto} fue ${accionTexto} en el ${foroInfo.nombre}.`,
+            status: "unread",
+            priority: "importante",
+            sourceType: "forum",
+            sourceId: sourceId,
+            moduleId: foroId,
+            createdAt: serverTimestamp(),
+            actionUrl: foroInfo.url
+        };
+
+        await setDoc(notifRef, notificationData);
+        console.log(`[Notification] Notificación de moderación creada: ${notificationId}`);
+    } catch (error) {
+        console.warn(`[Notification] No se pudo crear notificación de moderación (${notificationId}):`, error);
+    }
+}

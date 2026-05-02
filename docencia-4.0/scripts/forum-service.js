@@ -280,6 +280,22 @@ export async function moderatePost(foroId, postId, newStatus, note, adminInfo) {
         });
         
         await batch.commit();
+
+        // FASE 2.0D-A: Notificación de moderación al autor de la publicación
+        if (postData.uid) {
+            try {
+                const { createModerationNotification } = await import("./notification-service.js");
+                await createModerationNotification(postData.uid, {
+                    contentType: "post",
+                    sourceId: postId,
+                    foroId: foroId,
+                    newStatus: newStatus
+                });
+            } catch (notifError) {
+                console.warn("[Forum] Error al crear notificación de moderación de publicación:", notifError);
+            }
+        }
+
         return true;
     } catch (error) {
         console.error("Error al moderar publicación:", error);
@@ -330,6 +346,22 @@ export async function moderateReply(foroId, postId, replyId, newStatus, note, ad
         });
         
         await batch.commit();
+
+        // FASE 2.0D-A: Notificación de moderación al autor de la respuesta
+        if (replyData.uid) {
+            try {
+                const { createModerationNotification } = await import("./notification-service.js");
+                await createModerationNotification(replyData.uid, {
+                    contentType: "reply",
+                    sourceId: replyId,
+                    foroId: foroId,
+                    newStatus: newStatus
+                });
+            } catch (notifError) {
+                console.warn("[Forum] Error al crear notificación de moderación de respuesta:", notifError);
+            }
+        }
+
         return true;
     } catch (error) {
         console.error("Error al moderar respuesta:", error);
