@@ -206,6 +206,31 @@ service cloud.firestore {
           && request.resource.data.actionUrl == "dashboard.html"
           && get(/databases/$(database)/documents/usuarios/$(userId)/progresoModulos/$(request.resource.data.moduleId)).data.status == "completed"
           && get(/databases/$(database)/documents/usuarios/$(userId)/progresoModulos/$(request.resource.data.moduleId)).data.percentComplete == 100
+        ) || (
+          // FASE 2.0E-3: Notificación administrativa automática por módulo completado
+          // El participante notifica a los administradores de la lista blanca
+          request.auth != null
+          && request.auth.uid == request.resource.data.participantUid
+          && notificationId == "admin_module_completed_" + request.auth.uid + "_" + request.resource.data.moduleId
+          && request.resource.data.keys().hasAll([
+            "type", "title", "message", "status", "priority", "sourceType", 
+            "sourceId", "moduleId", "participantUid", "createdAt", "actionUrl"
+          ])
+          && request.resource.data.keys().hasOnly([
+            "type", "title", "message", "status", "priority", "sourceType", 
+            "sourceId", "moduleId", "participantUid", "createdAt", "actionUrl"
+          ])
+          && request.resource.data.type == "system_alert"
+          && request.resource.data.sourceType == "progress"
+          && request.resource.data.priority == "importante"
+          && request.resource.data.status == "unread"
+          && request.resource.data.actionUrl == "admin_progreso.html"
+          && request.resource.data.sourceId in ["modulo1", "modulo2", "modulo3"]
+          && request.resource.data.moduleId == request.resource.data.sourceId
+          && get(/databases/$(database)/documents/usuarios/$(userId)).data.role == "admin"
+          && get(/databases/$(database)/documents/usuarios/$(userId)).data.status == "active"
+          && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)/progresoModulos/$(request.resource.data.moduleId)).data.status == "completed"
+          && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)/progresoModulos/$(request.resource.data.moduleId)).data.percentComplete == 100
         );
 
         allow update: if isOwner(userId)
@@ -371,5 +396,19 @@ service cloud.firestore {
         }
       }
     }
+
+    // ─── CONFIGURACIÓN DE ACCESO POR MÓDULO ───────────────────────────────────
+    // configuracion/modulos — fuente única de verdad para control de acceso
+    match /configuracion/{docId} {
+      // Cualquier usuario autenticado puede leer (necesario para el guard)
+      allow get, list: if signedIn();
+
+      // Solo admin activo puede crear o actualizar
+      allow create, update: if isAdmin() && docId == "modulos";
+
+      // Delete bloqueado permanentemente
+      allow delete: if false;
+    }
+
   }
 }

@@ -157,6 +157,54 @@ export async function createPostReply(foroId, postId, content, authorName, autho
     }
 }
 
+/**
+ * Verifica si un usuario específico ya ha realizado al menos una publicación en un foro.
+ */
+export async function checkUserParticipation(foroId, uid) {
+    if (!uid) return false;
+    
+    try {
+        const postsRef = collection(db, "foros", foroId, "publicaciones");
+        const q = query(
+            postsRef,
+            where("uid", "==", uid),
+            where("status", "==", "active"),
+            limit(1)
+        );
+        
+        const snapshot = await getDocs(q);
+        return !snapshot.empty;
+    } catch (error) {
+        console.error("Error al verificar participación:", error);
+        return false;
+    }
+}
+
+/**
+ * Elimina físicamente una publicación y sus respuestas.
+ */
+export async function deleteForumPost(foroId, postId) {
+    if (!auth.currentUser) throw new Error("No autenticado");
+    
+    try {
+        const postRef = doc(db, "foros", foroId, "publicaciones", postId);
+        
+        // Primero borramos las respuestas si existen (para no dejar huérfanos)
+        const repliesRef = collection(db, "foros", foroId, "publicaciones", postId, "respuestas");
+        const repliesSnap = await getDocs(repliesRef);
+        for (const rDoc of repliesSnap.docs) {
+            await deleteDoc(doc(db, "foros", foroId, "publicaciones", postId, "respuestas", rDoc.id));
+        }
+        
+        // Borramos el post
+        await deleteDoc(postRef);
+        return true;
+    } catch (error) {
+        console.error("Error al eliminar publicación:", error);
+        throw error;
+    }
+}
+
 // ==========================================
 // MÉTODOS DE ADMINISTRACIÓN (FASE 1.9D)
 // ==========================================
@@ -264,20 +312,22 @@ export async function moderatePost(foroId, postId, newStatus, note, adminInfo) {
             moderatedBy: auth.currentUser.uid
         });
         
-        // 2. Crear el registro en adminLogs
-        batch.set(logRef, {
+        // 2. Crear el registro en adminLogs (Debe tener exactamente los 11 campos de la regla)
+        const logData = {
             action: "moderate_forum_post",
-            foroId: foroId,
+            foroId: foroId || "general",
             postId: postId,
-            targetUid: postData.uid,
-            targetAuthorName: postData.authorName,
-            previousStatus: postData.status,
+            targetUid: postData.uid || "unknown",
+            targetAuthorName: postData.authorName || "Anónimo",
+            previousStatus: postData.status || "active",
             newStatus: newStatus,
             performedBy: auth.currentUser.uid,
             performedByEmail: adminInfo.email || auth.currentUser.email || "no-email",
             createdAt: serverTimestamp(),
             note: note || "Moderación administrativa"
-        });
+        };
+
+        batch.set(logRef, logData);
         
         await batch.commit();
 
