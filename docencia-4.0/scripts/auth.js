@@ -4,6 +4,7 @@ import {
     signOut, 
     sendPasswordResetEmail,
     sendEmailVerification,
+    updateProfile,
     setPersistence,
     browserLocalPersistence,
     browserSessionPersistence
@@ -17,9 +18,12 @@ export const loginUser = async (email, password, rememberMe) => {
     return signInWithEmailAndPassword(auth, email, password);
 };
 
-// Registro y envío automático de verificación
-export const registerUser = async (email, password) => {
+// Registro: crea cuenta, setea displayName en Auth y envía verificación
+export const registerUser = async (email, password, displayName = '') => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    if (displayName) {
+        await updateProfile(userCredential.user, { displayName });
+    }
     await sendEmailVerification(userCredential.user);
     return userCredential;
 };

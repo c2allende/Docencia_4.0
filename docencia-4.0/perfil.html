@@ -595,10 +595,9 @@
                         <div class="panel-header">
                             <div>
                                 <h2 id="account-status-title">Estado de cuenta</h2>
-                                <p>Estos datos se actualizarán automáticamente cuando Antigravity conecte Firebase
-                                    Authentication.</p>
+                                <p>Información de sesión, verificación y rol cargada desde Firebase.</p>
                             </div>
-                            <span id="sessionBadge" class="badge-status">Sesión pendiente</span>
+                            <span id="sessionBadge" class="badge-status">Cargando…</span>
                         </div>
 
                         <div class="status-grid">
@@ -621,8 +620,7 @@
                         <div class="panel-header">
                             <div>
                                 <h2 id="profile-form-title">Información básica</h2>
-                                <p>Estos campos preparan la estructura para mostrar o actualizar datos mínimos del
-                                    participante.</p>
+                                <p>Actualiza tu nombre visible y contexto de rol. El email y rol de sistema no son editables aquí.</p>
                             </div>
                         </div>
 
@@ -639,19 +637,15 @@
                                     <label for="roleContext" class="profile-label">Rol o contexto</label>
                                     <select id="roleContext" name="roleContext" class="profile-select">
                                         <option value="participante">Participante</option>
-                                        <option value="maestro-cooperador">Maestro cooperador</option>
-                                        <option value="docente">Docente</option>
-                                        <option value="facilitador">Facilitador</option>
-                                        <option value="otro">Otro</option>
+                                        <option value="observador">Observador</option>
                                     </select>
                                 </div>
 
                                 <div class="profile-field full-width">
                                     <label for="email" class="profile-label">Email de acceso</label>
                                     <input id="email" name="email" class="profile-input" type="email"
-                                        value="usuario@docencia40.com" autocomplete="email" readonly>
-                                    <span class="field-helper">El email de acceso se administra desde Firebase
-                                        Authentication.</span>
+                                        autocomplete="email" readonly>
+                                    <span class="field-helper">El email es de solo lectura. Se administra desde Firebase Authentication.</span>
                                 </div>
                             </div>
 
@@ -719,6 +713,7 @@
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
     <script>
+        // Resolución de rutas de imágenes
         function resolveAssetPath(img) {
             const rawAssets = img.dataset.assets || img.dataset.asset;
             if (!rawAssets) return;
@@ -808,69 +803,6 @@
             event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        function showAuthMessage(message, type = 'info') {
-            const authMessage = document.getElementById('authMessage');
-            if (!authMessage) return;
-
-            authMessage.textContent = message;
-            authMessage.className = `auth-message is-visible is-${type}`;
-        }
-
-        function getInitials(value) {
-            const text = value.trim();
-            if (!text) return 'P';
-
-            const parts = text.split(/\s+/).slice(0, 2);
-            return parts.map((part) => part[0]).join('').toUpperCase();
-        }
-
-        function updateProfilePreview() {
-            const displayNameInput = document.getElementById('displayName');
-            const roleContextInput = document.getElementById('roleContext');
-            const profileAvatar = document.getElementById('profileAvatar');
-            const profileName = document.getElementById('profile-summary-title');
-            const profileRoleBadge = document.getElementById('profileRoleBadge');
-            const roleStatus = document.getElementById('roleStatus');
-
-            const displayName = displayNameInput?.value.trim() || 'Participante';
-            const role = roleContextInput?.options[roleContextInput.selectedIndex]?.text || 'Participante';
-
-            if (profileAvatar) profileAvatar.textContent = getInitials(displayName);
-            if (profileName) profileName.textContent = displayName;
-            if (profileRoleBadge) profileRoleBadge.textContent = role;
-            if (roleStatus) roleStatus.textContent = role;
-        }
-
-        const profileForm = document.getElementById('profileForm');
-        const displayNameInput = document.getElementById('displayName');
-        const roleContextInput = document.getElementById('roleContext');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const resendVerificationBtn = document.getElementById('resendVerificationBtn');
-        const reloadProfileBtn = document.getElementById('reloadProfileBtn');
-
-        displayNameInput?.addEventListener('input', updateProfilePreview);
-        roleContextInput?.addEventListener('change', updateProfilePreview);
-
-        profileForm?.addEventListener('submit', (event) => {
-            event.preventDefault();
-            updateProfilePreview();
-            showAuthMessage('La estructura del perfil está lista. Los cambios reales se guardarán cuando se conecte Firebase Authentication y Firestore.', 'success');
-        });
-
-        logoutBtn?.addEventListener('click', () => {
-            showAuthMessage('El cierre de sesión real se activará cuando Antigravity conecte Firebase Authentication.', 'info');
-        });
-
-        resendVerificationBtn?.addEventListener('click', () => {
-            showAuthMessage('El reenvío de verificación se activará cuando Firebase Authentication esté conectado.', 'info');
-        });
-
-        reloadProfileBtn?.addEventListener('click', () => {
-            showAuthMessage('La actualización de datos reales se activará cuando Firebase esté conectado.', 'info');
-        });
-
-        updateProfilePreview();
     </script>
 
     <!-- Firebase Auth Integration -->
@@ -878,4 +810,4 @@
     <script type="module" src="scripts/profile-handler.js"></script>
 </body>
 
-</html>
+</html>

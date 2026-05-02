@@ -33,8 +33,8 @@ registerForm?.addEventListener('submit', async (e) => {
     showMessage('Creando cuenta...', 'info');
 
     try {
-        // 1. Registro en Firebase Auth
-        const userCredential = await registerUser(email, password);
+        // 1. Registro en Firebase Auth (con displayName)
+        const userCredential = await registerUser(email, password, displayName);
         const user = userCredential.user;
 
         // 2. Creación de perfil en Firestore
