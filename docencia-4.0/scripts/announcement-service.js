@@ -11,7 +11,9 @@ import {
     where, 
     orderBy, 
     serverTimestamp,
-    Timestamp 
+    Timestamp,
+    writeBatch,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /**
@@ -199,5 +201,130 @@ export function formatAnnouncementDateTime(timestamp) {
     } catch (e) {
         console.error("Error formateando fecha:", e);
         return "Fecha no válida";
+    }
+}
+
+/**
+ * Fase 2.0F-11: Obtiene el conteo de anuncios archivados para purga.
+ */
+export async function getArchivedAnnouncementsCount() {
+    try {
+        const q = query(
+            collection(db, "anuncios"),
+            where("status", "==", "archived")
+        );
+        const snapshot = await getDocs(q);
+        const count = snapshot.size;
+        
+        return {
+            archivedAnnouncements: count,
+            totalPurgable: count
+        };
+    } catch (error) {
+        console.error("Error al contar anuncios archivados:", error);
+        throw error;
+    }
+}
+
+/**
+ * Fase 2.0F-11: Elimina físicamente los anuncios con estado 'archived'.
+ * @param {Object} adminInfo - Información del administrador { uid, email }
+ */
+export async function purgeArchivedAnnouncements(adminInfo) {
+    if (!adminInfo || !adminInfo.uid) throw new Error("Información de admin requerida");
+
+    try {
+        const q = query(
+            collection(db, "anuncios"),
+            where("status", "==", "archived")
+        );
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+            return {
+                announcementsDeleted: 0,
+                skippedAnnouncements: 0,
+                totalDeleted: 0
+            };
+        }
+
+        const batch = writeBatch(db);
+        let deletedCount = 0;
+        let skippedCount = 0;
+
+        snapshot.forEach(docSnap => {
+            // Límite de batch de seguridad (Firestore permite 500, usamos 450)
+            if (deletedCount < 450) {
+                batch.delete(docSnap.ref);
+                deletedCount++;
+            } else {
+                skippedCount++;
+            }
+        });
+
+        try {
+            await batch.commit();
+        } catch (e) {
+            throw new Error(`Fallo al ejecutar batch de eliminación: ${e.message}`);
+        }
+
+        // Registrar en adminLogs
+        try {
+            const logRef = doc(collection(db, "adminLogs"));
+            await setDoc(logRef, {
+                action: "purge_archived_announcements",
+                announcementsDeleted: deletedCount,
+                skippedAnnouncements: skippedCount,
+                performedBy: adminInfo.uid,
+                performedByEmail: adminInfo.email || "admin@docencia4.pr",
+                createdAt: serverTimestamp(),
+                note: `Purga de anuncios archivados finalizada. Eliminados: ${deletedCount}, Omitidos: ${skippedCount}.`
+            });
+        } catch (e) {
+            console.warn("Purga exitosa, pero falló el registro en adminLogs:", e);
+        }
+
+        return {
+            announcementsDeleted: deletedCount,
+            skippedAnnouncements: skippedCount,
+            totalDeleted: deletedCount
+        };
+    } catch (error) {
+        console.error("Error en purga de anuncios:", error);
+        throw error;
+    }
+}
+
+/**
+ * Fase 2.0F-11B: Elimina físicamente un anuncio individual.
+ * @param {string} id - ID del anuncio.
+ * @param {Object} adminInfo - Información del administrador.
+ */
+export async function deleteAnnouncement(id, adminInfo) {
+    if (!id || !adminInfo || !adminInfo.uid) throw new Error("ID e información de admin requeridos");
+
+    try {
+        const annRef = doc(db, "anuncios", id);
+        await deleteDoc(annRef);
+
+        // Registrar en adminLogs
+        try {
+            const logRef = doc(collection(db, "adminLogs"));
+            await setDoc(logRef, {
+                action: "delete_single_announcement",
+                targetId: id,
+                performedBy: adminInfo.uid,
+                performedByEmail: adminInfo.email || "admin@docencia4.pr",
+                createdAt: serverTimestamp(),
+                note: `Eliminación física individual del anuncio ID: ${id}`
+            });
+        } catch (e) {
+            console.warn("Anuncio eliminado, pero falló el registro en adminLogs:", e);
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Error al eliminar anuncio individual:", error);
+        throw error;
     }
 }

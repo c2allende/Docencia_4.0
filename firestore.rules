@@ -15,7 +15,9 @@ service cloud.firestore {
     function isAdmin() {
       return signedIn() && (
         request.auth.uid == "9l2MOKU8Y9ayX9yHmxtAcpGkzcJ2" ||
-        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin"
+        request.auth.token.email == "carmelo.allende@gmail.com" ||
+        (exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin")
       );
     }
 
@@ -256,7 +258,7 @@ service cloud.firestore {
         && validAnnouncementFields()
         && validAnnouncementValues();
 
-      allow delete: if false;
+      allow delete: if isAdmin() && resource.data.status == "archived";
     }
     
     // 3. Auditoría Admin
@@ -317,6 +319,28 @@ service cloud.firestore {
          request.resource.data.keys().hasOnly([
            'action', 'foroId', 'archivedPostsDeleted', 'archivedRepliesDeleted',
            'skippedPosts', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Purga de anuncios archivados (7 campos exactos)
+        (request.resource.data.action == "purge_archived_announcements" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'announcementsDeleted', 'skippedAnnouncements',
+           'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'announcementsDeleted', 'skippedAnnouncements',
+           'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Borrado individual de anuncio (6 campos exactos)
+        (request.resource.data.action == "delete_single_announcement" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'targetId', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'targetId', 'performedBy', 'performedByEmail', 'createdAt', 'note'
          ]))
       );
       allow update, delete: if false;
