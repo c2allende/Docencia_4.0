@@ -11,7 +11,8 @@ import {
     serverTimestamp, 
     addDoc,
     increment,
-    writeBatch
+    writeBatch,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { auth } from "./firebase-config.js";
 
@@ -134,15 +135,21 @@ export async function getModuleDetailedProgress(uid, moduleId) {
 export async function getAllParticipantsProgress() {
     try {
         const usersCol = collection(db, "usuarios");
-        const querySnapshot = await getDocs(usersCol);
+        // Filtramos por defecto para traer solo participantes activos que no sean de prueba
+        const q = query(
+            usersCol, 
+            where("role", "==", "participant"),
+            where("status", "==", "active")
+        );
         
+        const querySnapshot = await getDocs(q);
         const participants = [];
         
         for (const userDoc of querySnapshot.docs) {
             const userData = userDoc.data();
             
-            // Opcional: Identificar si es admin (puedes filtrar si lo prefieres)
-            // if (userData.role === "admin") continue;
+            // Si el documento tiene la marca isTest, lo saltamos por seguridad
+            if (userData.isTest === true) continue;
 
             const uid = userDoc.id;
             const moduleProgress = await getParticipantModuleProgress(uid);
@@ -600,6 +607,47 @@ export async function archiveOrphanProgress(uid, orphanData, adminInfo) {
         return true;
     } catch (error) {
         console.error("Error en archiveOrphanProgress:", error);
+        throw error;
+    }
+}
+
+/**
+ * BORRADO DEFINITIVO DE PARTICIPANTE Y SUS DATOS (Microfase 2.0F-5B)
+ * Borra perfil, progreso y notificaciones. Solo para administradores.
+ */
+export async function deleteUserCompleteData(uid, adminInfo) {
+    if (!uid || !adminInfo) throw new Error("Parámetros insuficientes para el borrado.");
+
+    const userRef = doc(db, "usuarios", uid);
+    const subcollections = ['progresoPaginas', 'progresoModulos', 'notificaciones', 'anuncioLecturas'];
+
+    try {
+        for (const sub of subcollections) {
+            const subRef = collection(db, "usuarios", uid, sub);
+            const snapshot = await getDocs(subRef);
+            
+            if (!snapshot.empty) {
+                const batch = writeBatch(db);
+                snapshot.docs.forEach(d => batch.delete(d.ref));
+                await batch.commit();
+            }
+        }
+
+        await deleteDoc(userRef);
+
+        await logAdminAction({
+            action: "delete_user_complete",
+            targetUid: uid,
+            targetEmail: adminInfo.targetEmail || "Desconocido",
+            performedBy: adminInfo.adminUid,
+            performedByEmail: adminInfo.adminEmail,
+            createdAt: serverTimestamp(),
+            note: `Borrado físico definitivo del participante y todas sus subcolecciones.`
+        });
+
+        return true;
+    } catch (error) {
+        console.error("Error crítico en deleteUserCompleteData:", error);
         throw error;
     }
 }

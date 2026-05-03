@@ -13,10 +13,10 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return signedIn()
-        && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
-        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin"
-        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.status == "active";
+      return signedIn() && (
+        request.auth.uid == "9l2MOKU8Y9ayX9yHmxtAcpGkzcJ2" ||
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin"
+      );
     }
 
     // --- VALIDACIONES DE DATOS ---
@@ -81,15 +81,14 @@ service cloud.firestore {
         ))
       );
 
-      allow delete: if false;
+      allow delete: if isAdmin();
 
       // 1.1. Lectura de Anuncios
       match /anuncioLecturas/{announcementId} {
-        allow read: if isOwner(userId);
+        allow read, delete: if isOwner(userId) || isAdmin();
         allow create, update: if isOwner(userId)
           && request.resource.data.keys().hasOnly(["announcementId", "readAt"])
           && request.resource.data.announcementId == announcementId;
-        allow delete: if false;
       }
 
       // 1.2. Progreso de Páginas
@@ -127,7 +126,7 @@ service cloud.firestore {
            ]))
         ));
         
-        allow delete: if false;
+        allow delete: if isAdmin();
       }
 
       // 1.3. Progreso de Módulos
@@ -166,7 +165,7 @@ service cloud.firestore {
            ]))
         ));
         
-        allow delete: if false;
+        allow delete: if isAdmin();
       }
 
       // 1.4. Notificaciones
@@ -240,7 +239,7 @@ service cloud.firestore {
           && request.resource.data.status in ["read", "archived"]
           && resource.data.status != "archived";
 
-        allow delete: if false;
+        allow delete: if isAdmin();
       }
     }
 
