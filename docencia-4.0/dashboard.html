@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -697,7 +697,7 @@
     <style id="notification-scoped-styles">
         .notification-wrapper { position: relative; display: flex; align-items: center; }
         .notification-bell-btn { background: transparent; border: none; font-size: var(--font-size-xl); cursor: pointer; position: relative; padding: 0; display: flex; align-items: center; }
-        .notification-badge { position: absolute; top: -6px; right: -8px; background: var(--color-red-600, #dc2626); color: white; font-size: 0.65rem; font-weight: bold; padding: 2px 5px; border-radius: 10px; line-height: 1; border: 2px solid var(--color-white); }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background: var(--color-feedback-error); color: var(--color-white); font-size: 0.65rem; font-weight: bold; padding: 2px 5px; border-radius: 10px; line-height: 1; border: 2px solid var(--color-white); }
         .notification-badge.hidden { display: none; }
         .notification-dropdown { position: absolute; top: 100%; right: 0; margin-top: 10px; width: 320px; background: var(--color-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-floating); border: 1px solid var(--color-border-subtle); z-index: 100; overflow: hidden; display: flex; flex-direction: column; max-height: 400px; }
         .notification-dropdown.hidden { display: none; }
@@ -705,10 +705,10 @@
         .notification-list { overflow-y: auto; display: flex; flex-direction: column; }
         .notification-item { padding: var(--spacing-3) var(--spacing-4); border-bottom: 1px solid var(--color-border-subtle); display: flex; flex-direction: column; gap: var(--spacing-1); font-size: var(--font-size-sm); color: var(--color-text-secondary); background: var(--color-white); }
         .notification-item:last-child { border-bottom: none; }
-        .notification-item.unread { background: #f0f9ff; border-left: 3px solid var(--color-brand-primary); }
+        .notification-item.unread { background: var(--color-brand-primary-container); border-left: 3px solid var(--color-brand-primary); }
         .notification-item-header { display: flex; justify-content: space-between; align-items: center; }
         .notification-title { font-weight: bold; color: var(--color-text-primary); }
-        .notification-priority-urgente { color: #dc2626; font-weight: bold; }
+        .notification-priority-urgente { color: var(--color-feedback-error); font-weight: bold; }
         .notification-message { margin: 0; line-height: 1.4; }
         .notification-actions { display: flex; gap: var(--spacing-2); margin-top: var(--spacing-2); }
         .notification-btn { background: transparent; border: none; color: var(--color-brand-primary); font-size: var(--font-size-xs); cursor: pointer; padding: 0; font-weight: bold; text-decoration: underline; }

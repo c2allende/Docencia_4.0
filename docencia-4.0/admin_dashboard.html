@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -525,13 +525,13 @@
             left: 0;
             right: 0;
             height: var(--height-module-topnav, 80px);
-            background: #ffffff !important;
-            border-bottom: 1px solid var(--color-border-default);
+            background: var(--color-background-header-solid) !important;
+            border-bottom: var(--border-width-1) solid var(--color-border-header-bottom);
             display: flex;
             align-items: center;
             padding: 0 var(--spacing-xl);
             z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-flat);
         }
         .nav-left {
             display: flex;
@@ -672,7 +672,7 @@
                     </header>
 
                     <!-- La gestión detallada se realiza desde admin_anuncios.html -->
-                    <div style="padding: var(--spacing-xl); text-align: center; color: var(--color-text-muted); font-size: var(--font-size-sm); background: var(--color-background-surface-low); border-radius: var(--radius-lg); border: 1px dashed var(--color-border-subtle);">
+                    <div style="padding: var(--spacing-xl); text-align: center; color: var(--color-text-muted); font-size: var(--font-size-sm); background: var(--color-background-surface-low); border-radius: var(--radius-lg); border: var(--border-width-1) dashed var(--color-border-subtle);">
                         <p>Usa el botón superior para gestionar los anuncios oficiales.</p>
                     </div>
                 </section>
@@ -794,8 +794,8 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <span class="participant-name">Participante 01</span>
-                                    <span class="participant-email">usuario01@ejemplo.com</span>
+                                    <span class="participant-name">Nombre Participante</span>
+                                    <span class="participant-email">correo@ejemplo.com</span>
                                 </td>
                                 <td><span class="badge-soft">Módulo 2</span></td>
                                 <td>
