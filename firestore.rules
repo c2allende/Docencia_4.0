@@ -410,5 +410,27 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // 5. Tableros Interactivos (Sessions)
+    match /sessions/{sessionId} {
+      allow get: if signedIn();
+      
+      match /responses/{responseId} {
+        allow read: if signedIn();
+        
+        allow create: if signedIn()
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.status == "active"
+          && request.resource.data.text.size() <= 200
+          && request.resource.data.keys().hasAll([
+            "text", "uid", "displayName", "timestamp", "likes", "colorIndex", "pageId", "moduleId", "status"
+          ])
+          && request.resource.data.keys().hasOnly([
+            "text", "uid", "displayName", "timestamp", "likes", "colorIndex", "pageId", "moduleId", "status"
+          ]);
+
+        allow update, delete: if isAdmin();
+      }
+    }
+
   }
 }

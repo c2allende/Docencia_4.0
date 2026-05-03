@@ -284,6 +284,34 @@
             resize: vertical;
             min-height: 80px;
         }
+        /* Estilos de Navegación Superior (Fix para Widget) */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--height-module-topnav, 80px);
+            background: #ffffff !important;
+            border-bottom: 1px solid var(--color-border-default);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-xl);
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        .logo-container img {
+            height: 40px;
+            width: auto;
+        }
+        .module-title-nav {
+            font-weight: 700;
+            color: var(--color-text-display);
+        }
     </style>
 </head>
 
@@ -302,7 +330,9 @@
             </div>
             <span class="module-title-nav">Administrar Foros</span>
         </div>
+        <div id="admin-notification-widget" style="display: flex; margin-left: auto;"></div>
     </nav>
+
 
     <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
@@ -317,6 +347,7 @@
             <li><a href="admin_accesos.html">🔐 Accesos</a></li>
             <li><a href="admin_progreso.html">📈 Progreso</a></li>
             <li><a href="admin_foros.html" class="active">💬 Foros</a></li>
+            <li><a href="debug_clean_board.html">🧹 Limpiar Tablero</a></li>
             <li><a href="admin_configuracion.html">🧩 Configuración</a></li>
             <li><span class="menu-section-label">Vista participante</span></li>
             <li><a href="anuncios.html">📢 Leer anuncios</a></li>
@@ -333,7 +364,10 @@
                     <h1 class="admin-title">Administrar <span>Foros</span></h1>
                     <p class="admin-description">Revisa y modera las publicaciones de los foros dinámicos. Puedes ocultar o archivar mensajes que incumplan las normas sin eliminarlos físicamente.</p>
                 </div>
-                <button id="openExportModalBtn" class="btn-action" style="background:var(--color-brand-primary); color:white; font-size:14px; padding:10px 16px;">📥 Exportar Datos</button>
+                <div style="display: flex; gap: 10px;">
+                    <a href="debug_clean_board.html" class="btn-action" style="background:var(--color-orange-600); color:white; font-size:14px; padding:10px 16px; text-decoration:none; display:inline-flex; align-items:center;">🧹 Limpiar Tablero</a>
+                    <button id="openExportModalBtn" class="btn-action" style="background:var(--color-brand-primary); color:white; font-size:14px; padding:10px 16px;">📥 Exportar Datos</button>
+                </div>
             </header>
 
             <section class="metrics-grid">
@@ -517,6 +551,14 @@
             if (document.getElementById('sidebar').classList.contains('active')) {
                 toggleSidebar();
             }
+        }
+    </script>
+    <script type="module">
+        import { initAdminNotifications } from './scripts/admin-notifications-widget-v2.js';
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => initAdminNotifications());
+        } else {
+            initAdminNotifications();
         }
     </script>
 </body>

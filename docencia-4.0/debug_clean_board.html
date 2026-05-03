@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limpieza de Tablero | Docencia 4.0 Admin</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body { padding: 40px; background: #f8fafc; }
+        .admin-tool { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .warning-box { background: #fef2f2; border: 1px solid #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-download { background: var(--color-brand-primary, #0ea5e9); color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; flex: 1; transition: background 0.2s; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-download:hover { opacity: 0.9; }
+        .btn-danger { background: #ef4444; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; flex: 1; transition: background 0.2s; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-danger:disabled, .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
+        #status { margin-top: 20px; font-size: 14px; color: #475569; }
+    </style>
+</head>
+<body>
+    <div class="admin-tool">
+        <h1>Gestión de Tablero Interactivo</h1>
+        <p>Herramienta para administrar los resultados de la <strong>Actividad 1.1</strong>.</p>
+        
+        <div class="btn-group">
+            <button id="download-btn" class="btn-download">📊 Descargar Resultados (CSV)</button>
+            <button id="clean-btn" class="btn-danger">🧹 Limpiar Tablero</button>
+        </div>
+
+        <div id="status"></div>
+        
+        <div class="warning-box" style="margin-top: 20px;">
+            <strong>⚠️ Atención:</strong> La limpieza eliminará permanentemente todas las reflexiones. Se recomienda descargar los resultados primero.
+        </div>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #e2e8f0; pt: 20px;">
+            <a href="admin_dashboard.html" style="color: var(--color-brand-primary); text-decoration: none; font-size: 14px;">← Volver al Panel de Administración</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './scripts/firebase-config.js';
+        import { collection, getDocs, deleteDoc, doc, writeBatch } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+        const cleanBtn = document.getElementById('clean-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const status = document.getElementById('status');
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        // Lógica de Descarga CSV
+        downloadBtn.addEventListener('click', async () => {
+            downloadBtn.disabled = true;
+            status.textContent = 'Preparando descarga...';
+
+            try {
+                const querySnapshot = await getDocs(collection(db, 'sessions/actividad1_1/responses'));
+                
+                if (querySnapshot.empty) {
+                    status.textContent = 'No hay datos para descargar.';
+                    downloadBtn.disabled = false;
+                    return;
+                }
+
+                let csvContent = "\uFEFF"; // BOM para Excel (UTF-8)
+                csvContent += "Fecha,Participante,Reflexión,UID\n";
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const date = data.timestamp ? data.timestamp.toDate().toLocaleString() : 'N/A';
+                    const name = `"${(data.displayName || 'Participante').replace(/"/g, '""')}"`;
+                    const text = `"${(data.text || '').replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+                    const uid = data.uid || '';
+                    
+                    csvContent += `${date},${name},${text},${uid}\n`;
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", `resultados_tablero_act1_1_${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                status.innerHTML = `<span style="color: #16a34a;">✅ Archivo generado con éxito.</span>`;
+            } catch (error) {
+                console.error("Error al descargar CSV:", error);
+                status.innerHTML = `<span style="color: #dc2626;">❌ Error: ${error.message}</span>`;
+            } finally {
+                downloadBtn.disabled = false;
+            }
+        });
+
+        // Lógica de Limpieza
+        cleanBtn.addEventListener('click', async () => {
+            if (!confirm('¿Estás seguro de que deseas borrar TODAS las participaciones? Esta acción es irreversible.')) return;
+
+            cleanBtn.disabled = true;
+            status.textContent = 'Iniciando limpieza...';
+
+            try {
+                const querySnapshot = await getDocs(collection(db, 'sessions/actividad1_1/responses'));
+                const batch = writeBatch(db);
+                
+                let count = 0;
+                querySnapshot.forEach((document) => {
+                    batch.delete(doc(db, 'sessions/actividad1_1/responses', document.id));
+                    count++;
+                });
+
+                if (count > 0) {
+                    await batch.commit();
+                    status.innerHTML = `<span style="color: #16a34a;">✅ Éxito: Se han eliminado ${count} participaciones.</span>`;
+                } else {
+                    status.textContent = 'No había participaciones que eliminar.';
+                }
+            } catch (error) {
+                console.error("Error limpiando el tablero:", error);
+                status.innerHTML = `<span style="color: #dc2626;">❌ Error: ${error.message}</span>`;
+            } finally {
+                cleanBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

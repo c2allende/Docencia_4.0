@@ -7,7 +7,7 @@
     <meta name="description"
         content="Actividad 1.1 de Docencia 4.0: Taller práctico inicial Rompiendo el Hielo. Primer acceso a un LLM, configuración básica de privacidad y generación de un producto pedagógico útil en menos de 5 minutos.">
     <meta name="keywords"
-        content="Docencia 4.0, Actividad 1.1, LLM, IA educativa, ChatGPT, Copilot, privacidad, Hola Mundo Pedagógico, Padlet, maestros cooperadores">
+        content="Docencia 4.0, Actividad 1.1, LLM, IA educativa, ChatGPT, Copilot, privacidad, Hola Mundo Pedagógico, Mentimeter, maestros cooperadores">
     <title>Actividad 1.1 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +17,8 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+    <script type="module" src="scripts/interactive-board.js"></script>
 
     <style>
         :root {
@@ -745,7 +747,7 @@
                     <section class="instruction-step" aria-labelledby="paso1-title">
                         <div class="step-icon" aria-hidden="true">🚀</div>
                         <div class="step-text">
-                            <h3 id="paso1-title">Paso 1: Activación y acceso</h3>
+                            <h3 id="paso1-title">Paso 1: Activación y acceso (El "Check-in" Digital)</h3>
                             <p><strong>Enfoque:</strong> superar la barrera técnica de entrada.</p>
                             <ol class="content-list-ordered">
                                 <li><strong>Para quienes tienen Copilot (DEPR):</strong> abrir el navegador Edge o la
@@ -755,6 +757,8 @@
                                 </li>
                                 <li><strong>Configuración de privacidad:</strong> revisar los ajustes de Data Controls
                                     en ChatGPT o el escudo de Protected en Copilot empresarial.</li>
+                                <li><strong>Verificación de modelos LLM:</strong> Identificar los modelos de LLM a los
+                                    cuales tiene acceso según el Bot que utilice.</li>
                             </ol>
                             <div class="privacy-note">
                                 <strong>Regla de oro:</strong> aunque configuremos privacidad, nunca escribimos nombres
@@ -767,12 +771,12 @@
                     <section class="instruction-step" aria-labelledby="paso2-title">
                         <div class="step-icon" aria-hidden="true">👀</div>
                         <div class="step-text">
-                            <h3 id="paso2-title">Paso 2: La primera interacción</h3>
+                            <h3 id="paso2-title">Paso 2: La interacción</h3>
                             <p><strong>Enfoque:</strong> modelaje cognitivo, “yo hago, tú observas”. El facilitador
                                 realizará una demostración en tiempo real proyectada en pantalla.</p>
                             <p>Prompt del facilitador:</p>
                             <pre
-                                class="prompt-block"><code>Hola, soy maestro de [Materia] en Puerto Rico. Necesito explicarles a mis estudiantes de 12 años por qué es importante llegar temprano a clase, pero sin sonar regañón. Dame 3 ideas divertidas o analogías.</code></pre>
+                                class="prompt-block"><code>"Actúa como un mentor educativo. Escribe un mensaje breve para mis estudiantes de 12 años en Puerto Rico sobre la importancia de la puntualidad. Usa una analogía relacionada con el deporte o la música y mantén un tono motivador, no punitivo".</code></pre>
                         </div>
                     </section>
 
@@ -811,13 +815,15 @@
                     <section class="instruction-step" aria-labelledby="paso4-title">
                         <div class="step-icon" aria-hidden="true">💬</div>
                         <div class="step-text">
-                            <h3 id="paso4-title">Paso 4: Cierre</h3>
+                            <h3 id="paso4-title">Paso 4: Cierre (Reflexión Metacognitiva)</h3>
                             <ol class="content-list-ordered">
-                                <li><strong>Validación:</strong> dos voluntarios leerán lo que la IA generó.</li>
-                                <li><strong>Pregunta clave:</strong> ¿cuánto tiempo les hubiera tomado redactar esto
+                                <li><strong>Validación:</strong> 1. Luego de tu interacción con un LLM, ¿qué
+                                    posibilidad concreta identificas para apoyar tu labor como maestro cooperador y qué
+                                    precaución consideras importante antes de usarlo en un contexto educativo?</li>
+                                <li><strong>Pregunta clave:</strong> ¿cuánto tiempo te hubiera tomado redactar esto
                                     desde cero, desde la página en blanco, versus editar lo que la IA les dio?</li>
                                 <li><strong>Conclusión reflexiva:</strong> identificar qué parte del producto generado
-                                    fue útil, qué hubo que corregir y qué responsabilidad conserva el docente.</li>
+                                    fue útil, qué necesita corrección y qué responsabilidad conserva el docente.</li>
                             </ol>
                             <div class="reflection-card">
                                 <strong>Idea central:</strong> la IA no reemplaza el criterio profesional; reduce el
@@ -829,21 +835,185 @@
                 </div>
             </section>
 
-            <section class="text-section" aria-labelledby="padlet-title">
-                <h2 id="padlet-title" class="section-title">Muro colaborativo</h2>
-                <p>Comparte tu producto generado, reflexión o aprendizaje principal en el siguiente espacio colaborativo
-                    de Padlet.</p>
+            <section class="text-section" aria-labelledby="board-title">
+                <h2 id="board-title" class="section-title">Reflexión rápida: experiencia con el LLM</h2>
+                <p>Antes de continuar con la próxima actividad, comparte una respuesta breve en el tablero interactivo.
+                    Puedes escribir una palabra, frase o idea corta sobre cómo fue tu experiencia utilizando un Modelo
+                    de Lenguaje de Gran Tamaño para generar un producto pedagógico.</p>
 
-                <div class="padlet-wrapper">
-                    <div class="padlet-embed">
-                        <iframe title="Muro colaborativo de Padlet para la Actividad 1.1"
-                            src="https://padlet.com/padlets/rhh9pzzm2aj969bs/embeds/preview_embed"
-                            allow="camera; microphone" loading="lazy"></iframe>
-                    </div>
-                    <a class="btn-padlet"
-                        href="https://padlet.com/carmeloallende/llm-actividad-1-1-taller-practico-inicial-rompiendo-el-hielo-rhh9pzzm2aj969bs"
-                        target="_blank" rel="noreferrer noopener">Abrir Padlet en una pestaña nueva →</a>
+                <div class="reflection-card">
+                    <strong>Pregunta guía:</strong> ¿Qué descubriste, qué te sorprendió o qué precaución tendrías
+                    presente al usar un LLM en tu práctica educativa?
                 </div>
+
+                <!-- Tablero Interactivo Nativo -->
+                <div class="interactive-board-container">
+                    <form id="board-form" class="board-input-group">
+                        <div class="input-wrapper">
+                            <textarea id="board-input" placeholder="Escribe tu reflexión aquí (máx. 200 caracteres)..."
+                                maxlength="200" required></textarea>
+                            <div class="input-footer">
+                                <span id="char-counter" class="char-counter">0/200</span>
+                                <button type="submit" id="board-submit" class="btn-board" disabled>
+                                    Compartir reflexión
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="interactive-board-grid" class="board-grid">
+                        <!-- Las respuestas se inyectarán aquí dinámicamente -->
+                        <div class="loading-state">Cargando tablero...</div>
+                    </div>
+                </div>
+
+                <style>
+                    .interactive-board-container {
+                        margin-top: var(--spacing-xl);
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--spacing-xl);
+                    }
+
+                    .board-input-group {
+                        background: var(--color-background-surface);
+                        padding: var(--spacing-lg);
+                        border: var(--border-width-1) solid var(--color-border-default);
+                        border-radius: var(--radius-xl);
+                        box-shadow: var(--shadow-flat);
+                    }
+
+                    .input-wrapper textarea {
+                        width: 100%;
+                        min-height: 100px;
+                        padding: var(--spacing-md);
+                        border: var(--border-width-2) solid var(--color-border-default);
+                        border-radius: var(--radius-lg);
+                        background: var(--color-background-surface-low);
+                        color: var(--color-text-primary);
+                        font-family: inherit;
+                        font-size: var(--font-size-base);
+                        resize: none;
+                        transition: border-color 0.2s, box-shadow 0.2s;
+                    }
+
+                    .input-wrapper textarea:focus {
+                        outline: none;
+                        border-color: var(--color-brand-primary);
+                        box-shadow: var(--shadow-focus-primary);
+                    }
+
+                    .input-footer {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-top: var(--spacing-sm);
+                    }
+
+                    .char-counter {
+                        font-size: var(--font-size-xs);
+                        color: var(--color-text-muted);
+                        font-weight: var(--font-weight-bold);
+                    }
+
+                    .btn-board {
+                        padding: var(--spacing-2) var(--spacing-6);
+                        background: var(--gradient-orange);
+                        color: white;
+                        border: none;
+                        border-radius: var(--radius-pill);
+                        font-weight: var(--font-weight-bold);
+                        cursor: pointer;
+                        transition: transform 0.2s, opacity 0.2s;
+                    }
+
+                    .btn-board:hover:not(:disabled) {
+                        transform: translateY(-2px);
+                        box-shadow: var(--shadow-floating);
+                    }
+
+                    .btn-board:disabled {
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+
+                    .board-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                        gap: var(--spacing-lg);
+                        padding-bottom: var(--spacing-xl);
+                        align-items: start;
+                    }
+
+                    .response-card {
+                        position: relative;
+                        background: var(--color-background-surface);
+                        padding: var(--spacing-xl);
+                        border-radius: var(--radius-xl);
+                        border: var(--border-width-1) solid var(--color-border-default);
+                        border-top: var(--border-width-6) solid var(--color-brand-primary);
+                        box-shadow: var(--shadow-ambient);
+                        animation: cardPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--spacing-md);
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }
+
+                    .response-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: var(--shadow-floating);
+                        border-color: var(--color-brand-primary);
+                    }
+
+                    .response-text {
+                        font-size: var(--font-size-base);
+                        line-height: var(--line-height-relaxed);
+                        color: var(--color-text-primary);
+                        margin: 0;
+                        font-weight: var(--font-weight-medium);
+                    }
+
+                    .response-meta {
+                        display: flex;
+                        align-items: center;
+                        gap: var(--spacing-sm);
+                        padding-top: var(--spacing-md);
+                        border-top: var(--border-width-1) solid var(--color-alpha-black-5);
+                    }
+
+                    .response-author {
+                        font-size: var(--font-size-2xs);
+                        font-weight: var(--font-weight-extrabold);
+                        color: var(--color-brand-primary);
+                        text-transform: uppercase;
+                        letter-spacing: var(--letter-spacing-wide);
+                    }
+
+                    @keyframes cardPop {
+                        from {
+                            opacity: 0;
+                            transform: scale(0.9) translateY(20px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: scale(1) translateY(0);
+                        }
+                    }
+
+                    .loading-state,
+                    .empty-board {
+                        grid-column: 1 / -1;
+                        text-align: center;
+                        padding: var(--spacing-20);
+                        background: var(--color-background-surface-low);
+                        border: var(--border-width-2) dashed var(--color-border-default);
+                        border-radius: var(--radius-2xl);
+                        color: var(--color-text-muted);
+                        font-style: italic;
+                    }
+                </style>
             </section>
 
             <div id="completion-section"></div>

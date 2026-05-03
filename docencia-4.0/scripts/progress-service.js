@@ -9,10 +9,11 @@ import {
     query, 
     where, 
     serverTimestamp, 
+    addDoc,
     increment,
-    writeBatch,
-    addDoc
+    writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth } from "./firebase-config.js";
 
 /**
  * MAPA DEL CURSO (PARA EL PILOTO)
@@ -347,13 +348,22 @@ export async function updateModuleProgress(uid, moduleId) {
             await updateDoc(moduleRef, data);
         }
 
-        // FASE 2.0C: Disparar notificación de progreso completado
+        // FASE 2.0E-3: Disparar notificaciones (Personal y Administrativa)
         if (percentComplete === 100 && completedCount === totalPages && data.status === "completed") {
             try {
-                const { createProgressCompletionNotification } = await import("./notification-service.js");
+                const { 
+                    createProgressCompletionNotification, 
+                    notifyAdminModuleCompleted 
+                } = await import("./notification-service.js");
+                
+                // 1. Notificación personal para el participante
                 await createProgressCompletionNotification(uid, moduleId, moduleConfig.title);
+                
+                // 2. Notificación operativa para los administradores
+                const participantName = auth.currentUser?.displayName || "Un participante";
+                await notifyAdminModuleCompleted(uid, participantName, moduleId, moduleConfig.title);
             } catch (error) {
-                console.warn("[Progress] Error al intentar disparar notificación de progreso:", error);
+                console.warn("[Progress] Error al intentar disparar notificaciones de completitud:", error);
             }
         }
     } catch (error) {

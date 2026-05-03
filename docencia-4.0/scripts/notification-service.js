@@ -37,7 +37,7 @@ export async function getUserNotifications(uid) {
  * Escucha cambios en tiempo real en la cantidad de notificaciones no leídas.
  */
 export function subscribeToUnreadNotifications(uid, callback) {
-    if (!auth.currentUser) return () => {};
+    if (!uid) return () => {};
     const notifsRef = collection(db, "usuarios", uid, "notificaciones");
     const q = query(notifsRef, where("status", "==", "unread"));
     return onSnapshot(q, (snapshot) => {
@@ -51,14 +51,14 @@ export function subscribeToUnreadNotifications(uid, callback) {
 /**
  * Escucha en tiempo real las 5 notificaciones recientes (leídas y no leídas).
  */
-export function subscribeToRecentNotifications(uid, callback) {
-    if (!auth.currentUser) return () => {};
+export function subscribeToRecentNotifications(uid, callback, limitCount = 5) {
+    if (!uid) return () => {};
     const notifsRef = collection(db, "usuarios", uid, "notificaciones");
     const q = query(
         notifsRef, 
         where("status", "in", ["unread", "read"]), 
         orderBy("createdAt", "desc"), 
-        limit(5)
+        limit(limitCount)
     );
     
     return onSnapshot(q, (snapshot) => {
@@ -275,5 +275,53 @@ export async function createModerationNotification(targetUid, payload) {
         console.log(`[Notification] Notificación de moderación creada: ${notificationId}`);
     } catch (error) {
         console.warn(`[Notification] No se pudo crear notificación de moderación (${notificationId}):`, error);
+    }
+}
+
+/**
+ * Lista blanca de administradores para el piloto (Fase 2.0E-3).
+ */
+const ADMIN_UIDS = [
+    "9l2MOKU8Y9ayX9yHmxtAcpGkzcJ2"
+];
+
+/**
+ * Crea una notificación administrativa automática cuando un participante completa un módulo.
+ * Fase 2.0E-3: Notificaciones operativas automáticas.
+ */
+export async function notifyAdminModuleCompleted(participantUid, participantName, moduleId, moduleTitle) {
+    if (!auth.currentUser) return;
+
+    for (const adminUid of ADMIN_UIDS) {
+        // ID determinístico: admin_module_completed_{participantUid}_{moduleId}
+        const notificationId = `admin_module_completed_${participantUid}_${moduleId}`;
+        const notifRef = doc(db, "usuarios", adminUid, "notificaciones", notificationId);
+
+        try {
+            // NOTA FASE 2.0E-3: No verificamos existencia con getDoc porque el participante 
+            // no tiene permisos de lectura sobre las notificaciones del admin.
+            // La regla de seguridad 'allow create' impedirá duplicados o sobreescrituras.
+
+            const notificationData = {
+                type: "system_alert",
+                title: "Participante completó módulo",
+                message: `${participantName} completó el ${moduleTitle}.`,
+                status: "unread",
+                priority: "importante",
+                sourceType: "progress",
+                sourceId: moduleId,
+                moduleId: moduleId,
+                participantUid: participantUid,
+                createdAt: serverTimestamp(),
+                actionUrl: "admin_progreso.html"
+            };
+
+            // Intentar creación directa (Falla si ya existe por reglas de seguridad)
+            await setDoc(notifRef, notificationData);
+            console.log(`[Notification-Admin] Notificación operativa enviada a ${adminUid} para ${moduleId}`);
+        } catch (error) {
+            // Fallo silencioso (ej. si ya existe o por error de red)
+            console.warn(`[Notification-Admin] No se pudo enviar notificación a ${adminUid} (puede que ya exista):`, error);
+        }
     }
 }

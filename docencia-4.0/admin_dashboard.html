@@ -588,6 +588,7 @@
             <li><a href="admin_accesos.html">🔐 Accesos</a></li>
             <li><a href="admin_progreso.html">📈 Progreso</a></li>
             <li><a href="admin_foros.html">💬 Foros</a></li>
+            <li><a href="debug_clean_board.html">🧹 Limpiar Tablero</a></li>
             <li><a href="admin_configuracion.html">🧩 Configuración</a></li>
             <li><span class="menu-section-label">Vista participante</span></li>
             <li><a href="anuncios.html">📢 Leer anuncios</a></li>
@@ -602,12 +603,12 @@
                 <span class="hero-kicker">Prototipo funcional · LMS Docencia 4.0</span>
                 <h1 id="lms-title" class="hero-title">Centro de Control <span>Operativo</span></h1>
                 <p class="hero-description">Panel administrativo para gestionar anuncios, participantes, accesos,
-                    progreso, foros, notificaciones y configuraciones generales del programa. Este prototipo muestra
-                    cómo debería verse la capa operativa antes de conectarla a Firebase.</p>
+                    progreso, foros, notificaciones y configuraciones generales del programa. Esta versión opera con Firebase y controles de acceso activos.</p>
                 <div class="hero-actions">
                     <a href="admin_anuncios.html" class="btn btn-primary">Crear anuncio</a>
                     <a href="admin_accesos.html" class="btn-lms-secondary">Configurar accesos</a>
                     <a href="admin_progreso.html" class="btn-lms-secondary">Ver progreso</a>
+                    <a href="debug_clean_board.html" class="btn-lms-secondary">🧹 Limpiar Tablero</a>
                 </div>
             </div>
 
@@ -617,19 +618,19 @@
                 <div class="status-list">
                     <article class="status-item">
                         <span>Conexión Firebase</span>
-                        <span class="status-value">Pendiente</span>
+                        <span class="status-value">Activa</span>
                     </article>
                     <article class="status-item">
                         <span>UI / UX Operativo</span>
-                        <span class="status-value">Diseño listo</span>
+                        <span class="status-value">Validado</span>
                     </article>
                     <article class="status-item">
                         <span>Lógica de Negocio</span>
-                        <span class="status-value">Modelo definido</span>
+                        <span class="status-value">Implementada</span>
                     </article>
                     <article class="status-item">
-                        <span>Fase de Proyecto</span>
-                        <span class="status-value">Fase posterior</span>
+                        <span>Control de Accesos</span>
+                        <span class="status-value">Operativo</span>
                     </article>
                 </div>
             </section>
@@ -691,33 +692,81 @@
                             <h3>Módulo 1</h3>
                             <div class="access-row">
                                 <span>Lecciones</span>
-                                <button class="toggle-pill" aria-pressed="true" aria-label="Módulo 1: Lecciones activas"></button>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo1" data-section="lecciones"
+                                    aria-label="Módulo 1: Lecciones"></button>
                             </div>
                             <div class="access-row">
                                 <span>Actividades</span>
-                                <button class="toggle-pill" aria-pressed="true" aria-label="Módulo 1: Actividades activas"></button>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo1" data-section="actividades"
+                                    aria-label="Módulo 1: Actividades"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Recursos</span>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo1" data-section="recursos"
+                                    aria-label="Módulo 1: Recursos"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Foros</span>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo1" data-section="foros"
+                                    aria-label="Módulo 1: Foros"></button>
                             </div>
                         </article>
                         <article class="access-card">
                             <h3>Módulo 2</h3>
                             <div class="access-row">
                                 <span>Lecciones</span>
-                                <button class="toggle-pill" aria-pressed="true" aria-label="Módulo 2: Lecciones activas"></button>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo2" data-section="lecciones"
+                                    aria-label="Módulo 2: Lecciones"></button>
                             </div>
                             <div class="access-row">
                                 <span>Actividades</span>
-                                <button class="toggle-pill" aria-pressed="false" aria-label="Módulo 2: Actividades inactivas"></button>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo2" data-section="actividades"
+                                    aria-label="Módulo 2: Actividades"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Recursos</span>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo2" data-section="recursos"
+                                    aria-label="Módulo 2: Recursos"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Foros</span>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo2" data-section="foros"
+                                    aria-label="Módulo 2: Foros"></button>
                             </div>
                         </article>
                         <article class="access-card">
                             <h3>Módulo 3</h3>
                             <div class="access-row">
                                 <span>Lecciones</span>
-                                <button class="toggle-pill" aria-pressed="false" aria-label="Módulo 3: Lecciones inactivas"></button>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo3" data-section="lecciones"
+                                    aria-label="Módulo 3: Lecciones"></button>
                             </div>
                             <div class="access-row">
                                 <span>Actividades</span>
-                                <button class="toggle-pill" aria-pressed="false" aria-label="Módulo 3: Actividades inactivas"></button>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo3" data-section="actividades"
+                                    aria-label="Módulo 3: Actividades"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Recursos</span>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo3" data-section="recursos"
+                                    aria-label="Módulo 3: Recursos"></button>
+                            </div>
+                            <div class="access-row">
+                                <span>Foros</span>
+                                <button class="toggle-pill" aria-pressed="true"
+                                    data-module-id="modulo3" data-section="foros"
+                                    aria-label="Módulo 3: Foros"></button>
                             </div>
                         </article>
                     </div>
@@ -903,24 +952,21 @@
         }
 
         document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
-
-        document.querySelectorAll('.toggle-pill').forEach((button) => {
-            button.addEventListener('click', () => {
-                const isPressed = button.getAttribute('aria-pressed') === 'true';
-                button.setAttribute('aria-pressed', String(!isPressed));
-            });
-        });
     </script>
 
     <script type="module" src="scripts/admin-ui.js"></script>
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>
-
     <script type="module">
+        import { initAccessToggles } from './scripts/admin-access-handler.js';
         import { initAdminNotifications } from './scripts/admin-notifications-widget-v2.js';
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => initAdminNotifications());
+            document.addEventListener('DOMContentLoaded', () => {
+                initAccessToggles();
+                initAdminNotifications();
+            });
         } else {
+            initAccessToggles();
             initAdminNotifications();
         }
     </script>

@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "docencia-4-lms"
-  }
+  },
+  "targets": {
+    "docencia-4-lms": {
+      "hosting": {
+        "sitio-temporal": [
+          "docencia-temp"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

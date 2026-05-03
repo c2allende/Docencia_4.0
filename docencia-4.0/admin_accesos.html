@@ -544,15 +544,12 @@
                 <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
                 <h1 id="admin-title" class="admin-title">Configurar <span>Accesos</span></h1>
                 <p class="admin-description">Define qué páginas, módulos, actividades, recursos y foros estarán
-                    disponibles para los participantes. Esta versión es un prototipo frontend preparado para integrarse
-                    con Firestore.</p>
+                    disponibles para los participantes. El control funcional opera mediante el Mapa de accesos por módulos.</p>
             </header>
 
             <section class="admin-alert" aria-label="Aviso de estado de integración">
-                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
-                <p><strong>Modo prototipo:</strong> los cambios de acceso se guardan temporalmente en este navegador.
-                    Para uso real, cada regla debe guardarse en Firestore y validarse con reglas de seguridad y un auth
-                    guard.</p>
+                <span class="admin-alert-icon" aria-hidden="true">🔒</span>
+                <p><strong>Control activo:</strong> Las reglas de acceso se validan en tiempo real mediante Firestore y el Auth Guard de la plataforma. El control se aplica por categorías (Lecciones, Actividades, Foros, Recursos).</p>
             </section>
 
             <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
@@ -584,8 +581,8 @@
                 <aside class="panel-card" aria-labelledby="edit-access-title">
                     <div class="panel-header">
                         <div>
-                            <h2 id="edit-access-title">Editar regla de acceso</h2>
-                            <p>Selecciona una página y configura su disponibilidad.</p>
+                            <h2 id="edit-access-title">Configuración avanzada de reglas, próximamente</h2>
+                            <p>Las reglas por página, fecha de apertura, cohorte, prerrequisitos y rol mínimo se implementarán en una fase posterior. Actualmente, el control funcional disponible opera por módulo y sección mediante el Mapa de accesos.</p>
                         </div>
                     </div>
 
@@ -593,14 +590,12 @@
                         <div class="form-grid">
                             <div class="form-field">
                                 <label for="pageId" class="form-label">Página</label>
-                                <select id="pageId" name="pageId" class="form-select" required></select>
-                                <span class="field-helper">La página seleccionada cargará su configuración
-                                    actual.</span>
+                                <select id="pageId" name="pageId" class="form-select" disabled></select>
                             </div>
 
                             <div class="form-field">
                                 <label for="isPublished" class="form-label">Estado</label>
-                                <select id="isPublished" name="isPublished" class="form-select" required>
+                                <select id="isPublished" name="isPublished" class="form-select" disabled>
                                     <option value="true">Publicado</option>
                                     <option value="false">Bloqueado</option>
                                 </select>
@@ -608,7 +603,7 @@
 
                             <div class="form-field">
                                 <label for="unlockMode" class="form-label">Modo de apertura</label>
-                                <select id="unlockMode" name="unlockMode" class="form-select" required>
+                                <select id="unlockMode" name="unlockMode" class="form-select" disabled>
                                     <option value="manual">Manual</option>
                                     <option value="date">Por fecha</option>
                                     <option value="prerequisite">Por prerrequisito</option>
@@ -617,12 +612,12 @@
 
                             <div class="form-field">
                                 <label for="unlockAt" class="form-label">Fecha de apertura</label>
-                                <input id="unlockAt" name="unlockAt" class="form-input" type="date">
+                                <input id="unlockAt" name="unlockAt" class="form-input" type="date" disabled>
                             </div>
 
                             <div class="form-field">
                                 <label for="requiredRole" class="form-label">Rol mínimo</label>
-                                <select id="requiredRole" name="requiredRole" class="form-select">
+                                <select id="requiredRole" name="requiredRole" class="form-select" disabled>
                                     <option value="participante">Participante</option>
                                     <option value="facilitador">Facilitador</option>
                                     <option value="admin">Administrador</option>
@@ -631,7 +626,7 @@
 
                             <div class="form-field">
                                 <label for="allowedCohort" class="form-label">Cohorte</label>
-                                <select id="allowedCohort" name="allowedCohort" class="form-select">
+                                <select id="allowedCohort" name="allowedCohort" class="form-select" disabled>
                                     <option value="all">Todas</option>
                                     <option value="cohorte-2026">Cohorte 2026</option>
                                     <option value="piloto">Piloto</option>
@@ -640,12 +635,12 @@
 
                             <div class="form-field">
                                 <label for="prerequisitePageId" class="form-label">Prerrequisito</label>
-                                <select id="prerequisitePageId" name="prerequisitePageId" class="form-select"></select>
+                                <select id="prerequisitePageId" name="prerequisitePageId" class="form-select" disabled></select>
                             </div>
 
                             <div class="form-field">
                                 <label for="requiresAuth" class="form-label">Requiere sesión</label>
-                                <select id="requiresAuth" name="requiresAuth" class="form-select">
+                                <select id="requiresAuth" name="requiresAuth" class="form-select" disabled>
                                     <option value="true">Sí</option>
                                     <option value="false">No</option>
                                 </select>
@@ -653,9 +648,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <button id="resetDefaultsBtn" class="btn-admin-secondary" type="button">Restaurar
-                                demo</button>
-                            <button id="saveAccessBtn" class="btn btn-primary" type="submit">Guardar regla</button>
+                            <button id="saveAccessBtn" class="btn btn-primary" type="submit" disabled>Guardar regla</button>
                         </div>
                     </form>
                 </aside>
@@ -709,248 +702,187 @@
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
-    <script>
-        function createId() {
-            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-                return window.crypto.randomUUID();
-            }
-            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        }
-    </script>
-
     <script type="module" src="scripts/admin-ui.js"></script>
 
-    <script>
-        const storageKey = 'docencia40_admin_access_v1';
-        const accessList = document.getElementById('accessList');
-        const accessForm = document.getElementById('accessForm');
-        const pageIdInput = document.getElementById('pageId');
-        const prerequisiteInput = document.getElementById('prerequisitePageId');
-        const searchPages = document.getElementById('searchPages');
-        const moduleFilter = document.getElementById('moduleFilter');
-        const statusFilter = document.getElementById('statusFilter');
+    <script type="module">
+        import {
+            subscribeModuleAccessConfig,
+            updateModuleAccess,
+            getDefaultModuleAccess,
+            mapPageTypeToSection
+        } from './scripts/module-access-service.js';
+        import { initAccessToggles } from './scripts/admin-access-handler.js';
 
+        // ─── Datos estáticos de páginas del LMS ─────────────────────────────────
+        // Estos datos son de presentación. El control real es configuracion/modulos.
         const defaultPages = [
-            { pageId: 'dashboard', title: 'Dashboard del curso', moduleId: 'general', type: 'dashboard', url: 'dashboard.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'perfil', title: 'Mi Perfil', moduleId: 'general', type: 'perfil', url: 'perfil.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'anuncios', title: 'Anuncios', moduleId: 'general', type: 'anuncios', url: 'anuncios.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'foro_general', title: 'Foro General', moduleId: 'general', type: 'foro', url: 'foro_general.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'modulo1_intro', title: 'Inicio Módulo 1', moduleId: 'modulo1', type: 'intro', url: 'modulo1_intro.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion1_1', title: 'Lección 1.1', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'leccion1_2', title: 'Lección 1.2', moduleId: 'modulo1', type: 'leccion', url: 'leccion1_2.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'leccion1_1', allowedCohort: 'all' },
-            { pageId: 'actividad1_1', title: 'Actividad 1.1', moduleId: 'modulo1', type: 'actividad', url: 'actividad1_1.html', isPublished: true, requiresAuth: true, requiredRole: 'participante', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'modulo2_intro', title: 'Inicio Módulo 2', moduleId: 'modulo2', type: 'intro', url: 'modulo2_intro.html', isPublished: false, requiresAuth: true, requiredRole: 'participante', unlockMode: 'prerequisite', unlockAt: '', prerequisitePageId: 'actividad1_2', allowedCohort: 'all' },
-            { pageId: 'admin_dashboard', title: 'Centro de control', moduleId: 'admin', type: 'admin', url: 'admin_dashboard.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'admin_anuncios', title: 'Administrar anuncios', moduleId: 'admin', type: 'admin', url: 'admin_anuncios.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'admin_usuarios', title: 'Administrar usuarios', moduleId: 'admin', type: 'admin', url: 'admin_usuarios.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' },
-            { pageId: 'admin_accesos', title: 'Configurar accesos', moduleId: 'admin', type: 'admin', url: 'admin_accesos.html', isPublished: true, requiresAuth: true, requiredRole: 'admin', unlockMode: 'manual', unlockAt: '', prerequisitePageId: '', allowedCohort: 'all' }
+            { pageId: 'modulo1_intro',  title: 'Inicio Módulo 1',     moduleId: 'modulo1', section: 'lecciones',   type: 'intro',     url: 'modulo1_intro.html'  },
+            { pageId: 'leccion1_1',     title: 'Lección 1.1',         moduleId: 'modulo1', section: 'lecciones',   type: 'leccion',   url: 'leccion1_1.html'     },
+            { pageId: 'leccion1_2',     title: 'Lección 1.2',         moduleId: 'modulo1', section: 'lecciones',   type: 'leccion',   url: 'leccion1_2.html'     },
+            { pageId: 'leccion1_3',     title: 'Lección 1.3',         moduleId: 'modulo1', section: 'lecciones',   type: 'leccion',   url: 'leccion1_3.html'     },
+            { pageId: 'actividad1_1',   title: 'Actividad 1.1',       moduleId: 'modulo1', section: 'actividades', type: 'actividad', url: 'actividad1_1.html'   },
+            { pageId: 'actividad1_2',   title: 'Actividad 1.2',       moduleId: 'modulo1', section: 'actividades', type: 'actividad', url: 'actividad1_2.html'   },
+            { pageId: 'foro_modulo1',   title: 'Foro Módulo 1',       moduleId: 'modulo1', section: 'foros',       type: 'foro',      url: 'foro_modulo1.html'   },
+            { pageId: 'recursos_m1',    title: 'Recursos Módulo 1',   moduleId: 'modulo1', section: 'recursos',    type: 'recursos',  url: 'recursos_m1.html'    },
+            { pageId: 'modulo2_intro',  title: 'Inicio Módulo 2',     moduleId: 'modulo2', section: 'lecciones',   type: 'intro',     url: 'modulo2_intro.html'  },
+            { pageId: 'leccion2_1',     title: 'Lección 2.1',         moduleId: 'modulo2', section: 'lecciones',   type: 'leccion',   url: 'leccion2_1.html'     },
+            { pageId: 'leccion2_2',     title: 'Lección 2.2',         moduleId: 'modulo2', section: 'lecciones',   type: 'leccion',   url: 'leccion2_2.html'     },
+            { pageId: 'leccion2_3',     title: 'Lección 2.3',         moduleId: 'modulo2', section: 'lecciones',   type: 'leccion',   url: 'leccion2_3.html'     },
+            { pageId: 'actividad2_1',   title: 'Actividad 2.1',       moduleId: 'modulo2', section: 'actividades', type: 'actividad', url: 'actividad2_1.html'   },
+            { pageId: 'foro_modulo2',   title: 'Foro Módulo 2',       moduleId: 'modulo2', section: 'foros',       type: 'foro',      url: 'foro_modulo2.html'   },
+            { pageId: 'recursos_m2',    title: 'Recursos Módulo 2',   moduleId: 'modulo2', section: 'recursos',    type: 'recursos',  url: 'recursos_m2.html'    },
+            { pageId: 'modulo3_intro',  title: 'Inicio Módulo 3',     moduleId: 'modulo3', section: 'lecciones',   type: 'intro',     url: 'modulo3_intro.html'  },
+            { pageId: 'leccion3_1',     title: 'Lección 3.1',         moduleId: 'modulo3', section: 'lecciones',   type: 'leccion',   url: 'leccion3_1.html'     },
+            { pageId: 'leccion3_2',     title: 'Lección 3.2',         moduleId: 'modulo3', section: 'lecciones',   type: 'leccion',   url: 'leccion3_2.html'     },
+            { pageId: 'leccion3_3',     title: 'Lección 3.3',         moduleId: 'modulo3', section: 'lecciones',   type: 'leccion',   url: 'leccion3_3.html'     },
+            { pageId: 'leccion3_4',     title: 'Lección 3.4',         moduleId: 'modulo3', section: 'lecciones',   type: 'leccion',   url: 'leccion3_4.html'     },
+            { pageId: 'actividad3_1',   title: 'Actividad 3.1',       moduleId: 'modulo3', section: 'actividades', type: 'actividad', url: 'actividad3_1.html'   },
+            { pageId: 'foro_modulo3',   title: 'Foro Módulo 3',       moduleId: 'modulo3', section: 'foros',       type: 'foro',      url: 'foro_modulo3.html'   },
+            { pageId: 'recursos_m3',    title: 'Recursos Módulo 3',   moduleId: 'modulo3', section: 'recursos',    type: 'recursos',  url: 'recursos_m3.html'    },
         ];
 
-        let accessRules = [];
+        const sectionLabels = {
+            lecciones: 'Lecciones', actividades: 'Actividades',
+            foros: 'Foros', recursos: 'Recursos'
+        };
+        const moduleLabels = { modulo1: 'Módulo 1', modulo2: 'Módulo 2', modulo3: 'Módulo 3' };
+
+        // ─── Estado local de configuración (sincronizado por onSnapshot) ─────────
+        let currentConfig = getDefaultModuleAccess();
 
         function showStatusMessage(message, type = 'info') {
-            const statusMessage = document.getElementById('statusMessage');
-            if (!statusMessage) return;
-            statusMessage.textContent = message;
-            statusMessage.className = `status-message is-visible is-${type}`;
-        }
-
-        function getSavedAccessRules() {
-            const raw = localStorage.getItem(storageKey);
-            if (!raw) {
-                localStorage.setItem(storageKey, JSON.stringify(defaultPages));
-                return [...defaultPages];
-            }
-            try {
-                const parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch { return []; }
-        }
-
-        function saveAccessRules() {
-            localStorage.setItem(storageKey, JSON.stringify(accessRules));
-        }
-
-        function labelFromValue(value) {
-            const labels = {
-                general: 'General', modulo1: 'Módulo 1', modulo2: 'Módulo 2', modulo3: 'Módulo 3', admin: 'Administración',
-                dashboard: 'Dashboard', perfil: 'Perfil', anuncios: 'Anuncios', foro: 'Foro', intro: 'Introducción',
-                leccion: 'Lección', actividad: 'Actividad', recursos: 'Recursos', manual: 'Manual', date: 'Por fecha',
-                prerequisite: 'Prerrequisito', participante: 'Participante', facilitador: 'Facilitador', all: 'Todas',
-                'cohorte-2026': 'Cohorte 2026', piloto: 'Piloto'
-            };
-            return labels[value] || value || 'No aplica';
+            const el = document.getElementById('statusMessage');
+            if (!el) return;
+            el.textContent = message;
+            el.className = `status-message is-visible is-${type}`;
+            setTimeout(() => { el.classList.remove('is-visible'); }, 3000);
         }
 
         function createElement(tag, className, text) {
-            const element = document.createElement(tag);
-            if (className) element.className = className;
-            if (text !== undefined) element.textContent = text;
-            return element;
+            const el = document.createElement(tag);
+            if (className) el.className = className;
+            if (text !== undefined) el.textContent = text;
+            return el;
         }
 
-        function populateSelects() {
-            pageIdInput.textContent = '';
-            prerequisiteInput.textContent = '';
-            const emptyPrereq = document.createElement('option');
-            emptyPrereq.value = ''; emptyPrereq.textContent = 'Ninguno';
-            prerequisiteInput.appendChild(emptyPrereq);
-
-            accessRules.forEach((rule) => {
-                const pageOption = document.createElement('option');
-                pageOption.value = rule.pageId; pageOption.textContent = `${rule.title} (${rule.url})`;
-                pageIdInput.appendChild(pageOption);
-
-                const prereqOption = document.createElement('option');
-                prereqOption.value = rule.pageId; prereqOption.textContent = rule.title;
-                prerequisiteInput.appendChild(prereqOption);
-            });
+        function isPublished(page) {
+            return currentConfig[page.moduleId]?.[page.section] !== false;
         }
 
         function updateMetrics() {
-            document.getElementById('metricPublished').textContent = String(accessRules.filter((rule) => rule.isPublished).length);
-            document.getElementById('metricLocked').textContent = String(accessRules.filter((rule) => !rule.isPublished).length);
-            document.getElementById('metricScheduled').textContent = String(accessRules.filter((rule) => rule.unlockMode === 'date').length);
-            document.getElementById('metricPrereq').textContent = String(accessRules.filter((rule) => rule.unlockMode === 'prerequisite').length);
+            const published = defaultPages.filter(isPublished).length;
+            const locked    = defaultPages.filter(p => !isPublished(p)).length;
+            document.getElementById('metricPublished').textContent = String(published);
+            document.getElementById('metricLocked').textContent    = String(locked);
+            document.getElementById('metricScheduled').textContent = '0';
+            document.getElementById('metricPrereq').textContent    = '0';
         }
 
-        function loadSelectedRule() {
-            const selected = accessRules.find((rule) => rule.pageId === pageIdInput.value);
-            if (!selected) return;
-            document.getElementById('isPublished').value = String(selected.isPublished);
-            document.getElementById('unlockMode').value = selected.unlockMode;
-            document.getElementById('unlockAt').value = selected.unlockAt || '';
-            document.getElementById('requiredRole').value = selected.requiredRole || 'participante';
-            document.getElementById('allowedCohort').value = selected.allowedCohort || 'all';
-            document.getElementById('prerequisitePageId').value = selected.prerequisitePageId || '';
-            document.getElementById('requiresAuth').value = String(selected.requiresAuth);
-        }
-
-        function getFilteredRules() {
-            const query = searchPages.value.trim().toLowerCase();
-            const moduleValue = moduleFilter.value;
-            const statusValue = statusFilter.value;
-            return accessRules.filter((rule) => {
-                const matchesSearch = !query || rule.title.toLowerCase().includes(query) || rule.url.toLowerCase().includes(query);
-                const matchesModule = moduleValue === 'all' || rule.moduleId === moduleValue;
-                const matchesStatus = statusValue === 'all' || (statusValue === 'published' && rule.isPublished) || (statusValue === 'locked' && !rule.isPublished);
-                return matchesSearch && matchesModule && matchesStatus;
+        function getFilteredPages() {
+            const query  = document.getElementById('searchPages').value.trim().toLowerCase();
+            const modVal = document.getElementById('moduleFilter').value;
+            const stVal  = document.getElementById('statusFilter').value;
+            return defaultPages.filter(p => {
+                const matchSearch = !query || p.title.toLowerCase().includes(query) || p.url.includes(query);
+                const matchMod    = modVal === 'all' || p.moduleId === modVal;
+                const pub         = isPublished(p);
+                const matchStatus = stVal === 'all' || (stVal === 'published' && pub) || (stVal === 'locked' && !pub);
+                return matchSearch && matchMod && matchStatus;
             });
         }
 
-        function renderAccessRules() {
-            accessList.textContent = '';
+        function renderAccessList() {
+            const list = document.getElementById('accessList');
+            list.textContent = '';
             updateMetrics();
-            const filteredRules = getFilteredRules();
-            if (filteredRules.length === 0) {
-                accessList.appendChild(createElement('div', 'empty-state', 'No se encontraron reglas.'));
+            const pages = getFilteredPages();
+            if (!pages.length) {
+                list.appendChild(createElement('div', 'empty-state', 'No se encontraron páginas.'));
                 return;
             }
-            filteredRules.forEach((rule) => {
-                const card = createElement('article', 'access-card');
-                const header = createElement('div', 'access-card-header');
-                const titleGroup = createElement('div', 'access-title-group');
-                titleGroup.append(createElement('h3', '', rule.title), createElement('span', 'access-url', rule.url));
+            pages.forEach(p => {
+                const pub   = isPublished(p);
+                const card  = createElement('article', 'access-card');
+                const hdr   = createElement('div', 'access-card-header');
+                const tg    = createElement('div', 'access-title-group');
+                tg.append(createElement('h3', '', p.title), createElement('span', 'access-url', p.url));
+
                 const toggle = createElement('button', 'toggle-pill');
-                toggle.setAttribute('aria-pressed', String(rule.isPublished));
-                toggle.addEventListener('click', () => togglePublished(rule.pageId));
-                header.append(titleGroup, toggle);
+                toggle.setAttribute('aria-pressed', String(pub));
+                toggle.setAttribute('aria-label', `${p.title}: ${pub ? 'activo' : 'inactivo'}`);
+                toggle.addEventListener('click', async () => {
+                    const newVal = toggle.getAttribute('aria-pressed') !== 'true';
+                    toggle.disabled = true;
+                    try {
+                        await updateModuleAccess(p.moduleId, p.section, newVal);
+                        showStatusMessage(`${p.title}: ${newVal ? 'Activado' : 'Bloqueado'}`, 'success');
+                    } catch {
+                        showStatusMessage('Error al guardar. Verifica permisos.', 'error');
+                    } finally {
+                        toggle.disabled = false;
+                    }
+                });
+                hdr.append(tg, toggle);
 
                 const meta = createElement('div', 'access-meta');
                 meta.append(
-                    createElement('span', rule.isPublished ? 'badge-soft badge-important' : 'badge-soft', rule.isPublished ? 'Publicado' : 'Bloqueado'),
-                    createElement('span', 'badge-soft', labelFromValue(rule.moduleId)),
-                    createElement('span', rule.requiredRole === 'admin' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(rule.requiredRole))
+                    createElement('span', pub ? 'badge-soft badge-important' : 'badge-soft', pub ? 'Publicado' : 'Bloqueado'),
+                    createElement('span', 'badge-soft', moduleLabels[p.moduleId] ?? p.moduleId),
+                    createElement('span', 'badge-soft', sectionLabels[p.section] ?? p.section)
                 );
 
                 const details = createElement('div', 'access-details');
-                const addDetail = (label, value) => {
+                [[' Sección', sectionLabels[p.section]], ['Módulo', moduleLabels[p.moduleId]], ['ID', p.pageId]].forEach(([lbl, val]) => {
                     const item = createElement('div', 'detail-item');
-                    item.append(createElement('span', '', label), createElement('strong', '', value));
+                    item.append(createElement('span', '', lbl), createElement('strong', '', val));
                     details.appendChild(item);
-                };
-                addDetail('Apertura', labelFromValue(rule.unlockMode));
-                addDetail('Fecha', rule.unlockAt || 'No aplica');
-                addDetail('ID', rule.pageId);
+                });
 
                 const actions = createElement('div', 'access-actions');
-                const editBtn = createElement('button', 'btn-admin-secondary', 'Editar');
-                editBtn.addEventListener('click', () => selectRule(rule.pageId));
-                actions.append(editBtn, createElement('a', 'btn-admin-secondary', 'Abrir'));
-                actions.querySelector('a').href = rule.url;
+                const openBtn = createElement('a', 'btn-admin-secondary', 'Abrir');
+                openBtn.href = p.url;
+                openBtn.target = '_blank';
+                actions.appendChild(openBtn);
 
-                card.append(header, meta, details, actions);
-                accessList.appendChild(card);
+                card.append(hdr, meta, details, actions);
+                list.appendChild(card);
             });
         }
 
-        function saveSelectedRule() {
-            const selectedPageId = pageIdInput.value;
-            const selectedRule = accessRules.find((rule) => rule.pageId === selectedPageId);
-            if (!selectedRule) return;
+        // ─── Suscribir a Firestore en tiempo real ─────────────────────────────────
+        subscribeModuleAccessConfig((config) => {
+            currentConfig = config;
+            renderAccessList();
+        });
 
-            const updatedRule = {
-                ...selectedRule,
-                isPublished: document.getElementById('isPublished').value === 'true',
-                unlockMode: document.getElementById('unlockMode').value,
-                unlockAt: document.getElementById('unlockAt').value,
-                requiredRole: document.getElementById('requiredRole').value,
-                allowedCohort: document.getElementById('allowedCohort').value,
-                prerequisitePageId: document.getElementById('prerequisitePageId').value,
-                requiresAuth: document.getElementById('requiresAuth').value === 'true',
-                updatedAt: new Date().toISOString()
-            };
+        // ─── Filtros ──────────────────────────────────────────────────────────────
+        document.getElementById('searchPages').addEventListener('input', renderAccessList);
+        document.getElementById('moduleFilter').addEventListener('change', renderAccessList);
+        document.getElementById('statusFilter').addEventListener('change', renderAccessList);
 
-            accessRules = accessRules.map((rule) => rule.pageId === selectedPageId ? updatedRule : rule);
-            saveAccessRules();
-            renderAccessRules();
-            showStatusMessage('Regla guardada temporalmente.', 'success');
-        }
+        // ─── También inicializar los toggles si existen en esta página ────────────
+        initAccessToggles();
 
-        function togglePublished(pageId) {
-            accessRules = accessRules.map((rule) => rule.pageId === pageId ? { ...rule, isPublished: !rule.isPublished } : rule);
-            saveAccessRules(); renderAccessRules();
-        }
-
-        function selectRule(pageId) {
-            pageIdInput.value = pageId; loadSelectedRule();
-            document.getElementById('edit-access-title')?.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        accessForm.addEventListener('submit', (e) => { e.preventDefault(); saveSelectedRule(); });
-        pageIdInput.addEventListener('change', loadSelectedRule);
-        searchPages.addEventListener('input', renderAccessRules);
-        moduleFilter.addEventListener('change', renderAccessRules);
-        statusFilter.addEventListener('change', renderAccessRules);
-        document.getElementById('resetDefaultsBtn')?.addEventListener('click', () => { accessRules = [...defaultPages]; saveAccessRules(); populateSelects(); renderAccessRules(); });
-
-        accessRules = getSavedAccessRules();
-        populateSelects(); loadSelectedRule(); renderAccessRules();
-
-        function resolveAssetPath(img) {
-            const rawAssets = img.dataset.assets || img.dataset.asset;
-            if (!rawAssets) return;
-            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
-            const paths = [];
-            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
-            fileNames.forEach((fileName) => {
-                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
-                bases.forEach((base) => {
-                    paths.push(`${base}${fileName}`);
-                    paths.push(`${base}${encodedFileName}`);
-                });
+        // ─── Eliminar handlers del formulario estático (ya no aplica) ─────────────
+        // El formulario de edición de regla se mantiene visualmente pero se desactiva
+        const accessForm = document.getElementById('accessForm');
+        if (accessForm) {
+            accessForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showStatusMessage('Usa los toggles del mapa de accesos para cambiar estado.', 'info');
             });
-            const uniqueCandidates = [...new Set(paths)];
-            let index = 0;
-            img.onerror = () => {
-                if (index < uniqueCandidates.length) {
-                    img.src = uniqueCandidates[index];
-                    index += 1;
-                } else { img.onerror = null; }
-            };
-            if (uniqueCandidates.length > 0) { img.src = uniqueCandidates[index]; index += 1; }
         }
-        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
+        document.getElementById('openAllBtn')?.addEventListener('click', async () => {
+            const mods  = ['modulo1', 'modulo2', 'modulo3'];
+            const sects = ['lecciones', 'actividades', 'foros', 'recursos'];
+            try {
+                for (const m of mods) for (const s of sects) await updateModuleAccess(m, s, true);
+                showStatusMessage('Todos los accesos activados.', 'success');
+            } catch (err) {
+                console.error("Error activating all:", err);
+                showStatusMessage('Error al activar todos. Verifica permisos.', 'error');
+            }
+        });
     </script>
 
     <script type="module" src="scripts/auth-guard.js"></script>
