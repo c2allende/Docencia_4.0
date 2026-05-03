@@ -11,12 +11,12 @@ onAuthStateChanged(auth, async (user) => {
         try {
             const profile = await getUserProfile(user.uid);
             
-            // Lógica de autorización: Rol Admin en Firestore OR Fallback por Email (Temporal)
+            // Lógica de autorización: Rol Admin Activo en Firestore OR Fallback por Email (Temporal)
             const isAuthorized = (profile?.role === "admin" && profile?.status === "active") || 
-                                 (user.email === "carmelo.allende@gmail.com");
+                                 (user.email === "carmelo.allende@gmail.com" && profile?.status !== "archived");
 
             if (!isAuthorized) {
-                console.warn("Acceso denegado: Se requiere cuenta administrativa.");
+                console.warn("Acceso denegado: Se requiere cuenta administrativa activa.");
                 window.location.href = "dashboard.html";
             }
         } catch (error) {

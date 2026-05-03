@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/main.css?v=2">
 
     <style>
         .admin-usuarios-page {
@@ -215,12 +215,6 @@
         .admin-usuarios-page .form-grid {
             display: grid;
             gap: var(--spacing-md);
-        }
-
-        .admin-usuarios-page .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-2);
         }
 
         .admin-usuarios-page .form-label {
@@ -512,15 +506,12 @@
             <header class="admin-header">
                 <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
                 <h1 id="admin-title" class="admin-title">Administrar <span>Usuarios</span></h1>
-                <p class="admin-description">Registra usuarios de prueba, revisa su estado y prepara la estructura para
-                    conectar usuarios reales desde Firebase Authentication y Firestore.</p>
+                <p class="admin-description">Gestión operativa de participantes y facilitadores en tiempo real desde Firestore.</p>
             </header>
 
-            <section class="admin-alert" aria-label="Aviso de estado de integración">
-                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
-                <p><strong>Modo prototipo:</strong> esta página usa almacenamiento temporal en el navegador. Cuando se
-                    conecte Firebase, la lista real de usuarios vendrá de Authentication y los datos extendidos del
-                    perfil se guardarán en Firestore.</p>
+            <section class="admin-alert" aria-label="Información de gestión">
+                <span class="admin-alert-icon" aria-hidden="true">🛡️</span>
+                <p><strong>Gestión de accesos:</strong> Desde este panel puedes controlar el estado de los usuarios registrados en Firestore. La creación de cuentas nuevas se gestiona exclusivamente desde Firebase Authentication.</p>
             </section>
 
             <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
@@ -528,22 +519,22 @@
             <section class="metrics-grid" aria-label="Métricas de usuarios">
                 <article class="metric-card">
                     <div class="metric-icon" aria-hidden="true">👥</div>
-                    <p id="metricTotal" class="metric-value">0</p>
+                    <p id="metricTotal" class="metric-value">...</p>
                     <p class="metric-label">Usuarios registrados</p>
                 </article>
                 <article class="metric-card">
                     <div class="metric-icon" aria-hidden="true">✅</div>
-                    <p id="metricActive" class="metric-value">0</p>
+                    <p id="metricActive" class="metric-value">...</p>
                     <p class="metric-label">Cuentas activas</p>
                 </article>
                 <article class="metric-card">
                     <div class="metric-icon" aria-hidden="true">✉️</div>
-                    <p id="metricVerified" class="metric-value">0</p>
+                    <p id="metricVerified" class="metric-value">...</p>
                     <p class="metric-label">Emails verificados</p>
                 </article>
                 <article class="metric-card">
                     <div class="metric-icon" aria-hidden="true">🛡️</div>
-                    <p id="metricAdmins" class="metric-value">0</p>
+                    <p id="metricAdmins" class="metric-value">...</p>
                     <p class="metric-label">Administradores</p>
                 </article>
             </section>
@@ -552,90 +543,46 @@
                 <aside class="panel-card" aria-labelledby="create-user-title">
                     <div class="panel-header">
                         <div>
-                            <h2 id="create-user-title">Crear usuario de prueba</h2>
-                            <p>Usa este formulario para simular usuarios antes de conectar Firebase.</p>
+                            <h2 id="create-user-title">Registro de Usuarios</h2>
+                            <p>Información sobre la creación de cuentas.</p>
                         </div>
                     </div>
 
-                    <form id="userForm" novalidate data-admin-form="user">
-                        <div class="form-grid">
-                            <div class="form-field">
-                                <label for="displayName" class="form-label">Nombre visible</label>
-                                <input id="displayName" name="displayName" class="form-input" type="text" maxlength="60"
-                                    placeholder="Ej. Participante 01" required>
-                            </div>
+                    <div class="form-grid">
+                        <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            La creación de usuarios reales está centralizada en <strong>Firebase Authentication</strong> para garantizar la seguridad de las credenciales.
+                        </p>
+                        <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            Una vez que un usuario se registra o es invitado, aparecerá automáticamente en la lista de la derecha para que puedas gestionar su rol y permisos de acceso.
+                        </p>
+                    </div>
 
-                            <div class="form-field">
-                                <label for="email" class="form-label">Email</label>
-                                <input id="email" name="email" class="form-input" type="email"
-                                    placeholder="usuario@ejemplo.com" required>
-                            </div>
-
-                            <div class="form-field">
-                                <label for="role" class="form-label">Rol</label>
-                                <select id="role" name="role" class="form-select" required>
-                                    <option value="participante">Participante</option>
-                                    <option value="facilitador">Facilitador</option>
-                                    <option value="admin">Administrador</option>
-                                </select>
-                            </div>
-
-                            <div class="form-field">
-                                <label for="cohort" class="form-label">Cohorte</label>
-                                <select id="cohort" name="cohort" class="form-select">
-                                    <option value="cohorte-2026">Cohorte 2026</option>
-                                    <option value="piloto">Piloto</option>
-                                    <option value="sin-asignar">Sin asignar</option>
-                                </select>
-                            </div>
-
-                            <div class="form-field">
-                                <label for="status" class="form-label">Estado</label>
-                                <select id="status" name="status" class="form-select">
-                                    <option value="active">Activo</option>
-                                    <option value="inactive">Inactivo</option>
-                                </select>
-                            </div>
-
-                            <div class="form-field">
-                                <label for="verified" class="form-label">Email verificado</label>
-                                <select id="verified" name="verified" class="form-select">
-                                    <option value="false">No</option>
-                                    <option value="true">Sí</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <span class="field-helper">En producción, el usuario real se creará desde Firebase
-                            Authentication. Este formulario es solo una maqueta funcional.</span>
-
-                        <div class="form-actions">
-                            <button id="clearFormBtn" class="btn-admin-secondary" type="button">Limpiar</button>
-                            <button id="addUserBtn" class="btn btn-primary" type="submit">Añadir usuario</button>
-                        </div>
-                    </form>
+                    <div class="form-actions" style="opacity: 0.5; pointer-events: none;">
+                        <button class="btn-admin-secondary" type="button" disabled>Limpiar</button>
+                        <button class="btn btn-primary" type="button" disabled>Añadir usuario</button>
+                    </div>
                 </aside>
 
                 <section class="panel-card" aria-labelledby="users-list-title">
                     <div class="panel-header">
                         <div>
-                            <h2 id="users-list-title">Usuarios registrados</h2>
-                            <p>Filtra por nombre, email, rol o estado de cuenta.</p>
+                            <h2 id="users-list-title">Usuarios en Firestore</h2>
+                            <p>Control de acceso y auditoría en tiempo real.</p>
                         </div>
-                        <button id="resetDemoBtn" class="btn-admin-secondary" type="button">Restaurar demo</button>
+                        <button id="refreshUsersBtn" class="btn-admin-secondary" type="button">Actualizar lista</button>
                     </div>
 
                     <div class="toolbar" aria-label="Filtros de usuarios">
                         <div class="form-field">
                             <label for="searchUsers" class="form-label">Buscar</label>
                             <input id="searchUsers" class="form-input" type="search"
-                                placeholder="Buscar por nombre o email">
+                                placeholder="Nombre o email...">
                         </div>
                         <div class="form-field">
                             <label for="roleFilter" class="form-label">Rol</label>
                             <select id="roleFilter" class="form-select">
                                 <option value="all">Todos</option>
-                                <option value="participante">Participantes</option>
+                                <option value="participant">Participantes</option>
                                 <option value="facilitador">Facilitadores</option>
                                 <option value="admin">Administradores</option>
                             </select>
@@ -643,240 +590,54 @@
                         <div class="form-field">
                             <label for="statusFilter" class="form-label">Estado</label>
                             <select id="statusFilter" class="form-select">
-                                <option value="all">Todos</option>
-                                <option value="active">Activos</option>
-                                <option value="inactive">Inactivos</option>
+                                <option value="active_inactive">Activos/Inactivos</option>
+                                <option value="active">Solo Activos</option>
+                                <option value="inactive">Solo Inactivos</option>
+                                <option value="archived">Archivados</option>
+                                <option value="all">Ver Todos</option>
                             </select>
                         </div>
                     </div>
 
-                    <div id="usersList" class="users-list" aria-live="polite"></div>
+                    <div id="usersList" class="users-list" aria-live="polite">
+                        <div class="empty-state">Conectando con base de datos...</div>
+                    </div>
                 </section>
             </section>
 
             <nav class="footer-nav" aria-label="Navegación del panel de usuarios">
-                <a href="admin_anuncios.html" class="btn-footer btn-back">← Administrar anuncios</a>
-                <a href="admin_accesos.html" class="btn-footer btn-next">Configurar accesos →</a>
+                <a href="admin_dashboard.html" class="btn-footer btn-back">← Centro de control</a>
+                <a href="admin_progreso.html" class="btn-footer btn-next">Ver progreso →</a>
             </nav>
         </article>
     </main>
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
-    <script>
-        function createId() {
-            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-                return window.crypto.randomUUID();
+    <!-- Scripts de Funcionalidad -->
+    <script type="module" src="scripts/admin-ui.js?v=2"></script>
+    <script type="module">
+        import { adminUsersHandler } from './scripts/admin-users-handler.js?v=2';
+        import { initAdminNotifications } from './scripts/admin-notifications-widget-v2.js?v=2';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el controlador de usuarios reales
+            adminUsersHandler.init();
+            
+            // Inicializar notificaciones administrativas
+            initAdminNotifications();
+
+            // Configurar botón de refresco manual
+            const refreshBtn = document.getElementById('refreshUsersBtn');
+            if (refreshBtn) {
+                refreshBtn.onclick = () => adminUsersHandler.loadUsers();
             }
-            return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        }
+        });
     </script>
 
-    <script type="module" src="scripts/admin-ui.js"></script>
-
-    <script>
-        const storageKey = 'docencia40_admin_users_v1';
-        const usersList = document.getElementById('usersList');
-        const userForm = document.getElementById('userForm');
-        const searchUsers = document.getElementById('searchUsers');
-        const roleFilter = document.getElementById('roleFilter');
-        const statusFilter = document.getElementById('statusFilter');
-
-        const demoUsers = [
-            { id: createId(), displayName: 'Carmelo Allende', email: 'carmelo.allende@gmail.com', role: 'admin', cohort: 'piloto', status: 'active', verified: true, lastAccess: 'Hoy' },
-            { id: createId(), displayName: 'Participante 01', email: 'participante01@ejemplo.com', role: 'participante', cohort: 'cohorte-2026', status: 'active', verified: true, lastAccess: 'Hoy' },
-            { id: createId(), displayName: 'Participante 02', email: 'participante02@ejemplo.com', role: 'participante', cohort: 'cohorte-2026', status: 'active', verified: false, lastAccess: 'Ayer' },
-            { id: createId(), displayName: 'Facilitador 01', email: 'facilitador01@ejemplo.com', role: 'facilitador', cohort: 'piloto', status: 'inactive', verified: true, lastAccess: 'Hace 4 días' }
-        ];
-
-        let users = [];
-
-        function showStatusMessage(message, type = 'info') {
-            const statusMessage = document.getElementById('statusMessage');
-            if (!statusMessage) return;
-            statusMessage.textContent = message;
-            statusMessage.className = `status-message is-visible is-${type}`;
-        }
-
-        function getInitials(value) {
-            const text = value.trim();
-            if (!text) return 'U';
-            const parts = text.split(/\s+/).slice(0, 2);
-            return parts.map((part) => part[0]).join('').toUpperCase();
-        }
-
-        function getSavedUsers() {
-            const raw = localStorage.getItem(storageKey);
-            if (!raw) {
-                localStorage.setItem(storageKey, JSON.stringify(demoUsers));
-                return [...demoUsers];
-            }
-            try {
-                const parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch {
-                return [];
-            }
-        }
-
-        function saveUsers() {
-            localStorage.setItem(storageKey, JSON.stringify(users));
-        }
-
-        function labelFromValue(value) {
-            const labels = {
-                participante: 'Participante',
-                facilitador: 'Facilitador',
-                admin: 'Administrador',
-                active: 'Activo',
-                inactive: 'Inactivo',
-                'cohorte-2026': 'Cohorte 2026',
-                piloto: 'Piloto',
-                'sin-asignar': 'Sin asignar'
-            };
-            return labels[value] || value;
-        }
-
-        function createElement(tag, className, text) {
-            const element = document.createElement(tag);
-            if (className) element.className = className;
-            if (text !== undefined) element.textContent = text;
-            return element;
-        }
-
-        function updateMetrics() {
-            document.getElementById('metricTotal').textContent = String(users.length);
-            document.getElementById('metricActive').textContent = String(users.filter((user) => user.status === 'active').length);
-            document.getElementById('metricVerified').textContent = String(users.filter((user) => user.verified).length);
-            document.getElementById('metricAdmins').textContent = String(users.filter((user) => user.role === 'admin').length);
-        }
-
-        function getFilteredUsers() {
-            const query = searchUsers.value.trim().toLowerCase();
-            const selectedRole = roleFilter.value;
-            const selectedStatus = statusFilter.value;
-            return users.filter((user) => {
-                const matchesSearch = !query || user.displayName.toLowerCase().includes(query) || user.email.toLowerCase().includes(query);
-                const matchesRole = selectedRole === 'all' || user.role === selectedRole;
-                const matchesStatus = selectedStatus === 'all' || user.status === selectedStatus;
-                return matchesSearch && matchesRole && matchesStatus;
-            });
-        }
-
-        function renderUsers() {
-            usersList.textContent = '';
-            updateMetrics();
-            const filteredUsers = getFilteredUsers();
-            if (filteredUsers.length === 0) {
-                const empty = createElement('div', 'empty-state', 'No se encontraron usuarios con los filtros seleccionados.');
-                usersList.appendChild(empty);
-                return;
-            }
-            filteredUsers.forEach((user) => {
-                const card = createElement('article', 'user-card');
-                const avatar = createElement('div', 'user-avatar', getInitials(user.displayName));
-                const info = createElement('div', 'user-info');
-                const name = createElement('h3', '', user.displayName);
-                const email = createElement('span', 'user-email', user.email);
-                const meta = createElement('div', 'user-meta');
-                meta.append(
-                    createElement('span', user.role === 'admin' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(user.role)),
-                    createElement('span', user.status === 'active' ? 'badge-soft badge-important' : 'badge-soft', labelFromValue(user.status)),
-                    createElement('span', user.verified ? 'badge-soft badge-important' : 'badge-soft', user.verified ? 'Email verificado' : 'Sin verificar'),
-                    createElement('span', 'badge-soft', labelFromValue(user.cohort))
-                );
-                info.append(name, email, meta);
-                const actions = createElement('div', 'user-actions');
-                const toggleStatus = createElement('button', 'btn-admin-secondary', user.status === 'active' ? 'Desactivar' : 'Activar');
-                toggleStatus.addEventListener('click', () => toggleUserStatus(user.id));
-                const toggleVerification = createElement('button', 'btn-admin-secondary', user.verified ? 'Quitar verificación' : 'Marcar verificado');
-                toggleVerification.addEventListener('click', () => toggleUserVerification(user.id));
-                const removeButton = createElement('button', 'btn-admin-secondary', 'Eliminar');
-                removeButton.addEventListener('click', () => removeUser(user.id));
-                actions.append(toggleStatus, toggleVerification, removeButton);
-                card.append(avatar, info, actions);
-                usersList.appendChild(card);
-            });
-        }
-
-        function addUserFromForm() {
-            const displayName = document.getElementById('displayName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const role = document.getElementById('role').value;
-            const cohort = document.getElementById('cohort').value;
-            const status = document.getElementById('status').value;
-            const verified = document.getElementById('verified').value === 'true';
-            if (!displayName || !email) {
-                showStatusMessage('Escribe el nombre visible y el email antes de añadir el usuario.', 'error');
-                return;
-            }
-            users = [{ id: createId(), displayName, email, role, cohort, status, verified, lastAccess: 'Nuevo' }, ...users];
-            saveUsers();
-            userForm.reset();
-            renderUsers();
-            showStatusMessage('Usuario añadido temporalmente.', 'success');
-        }
-
-        function toggleUserStatus(id) {
-            users = users.map((user) => user.id === id ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' } : user);
-            saveUsers();
-            renderUsers();
-        }
-
-        function toggleUserVerification(id) {
-            users = users.map((user) => user.id === id ? { ...user, verified: !user.verified } : user);
-            saveUsers();
-            renderUsers();
-        }
-
-        function removeUser(id) {
-            users = users.filter((user) => user.id !== id);
-            saveUsers();
-            renderUsers();
-        }
-
-        userForm.addEventListener('submit', (e) => { e.preventDefault(); addUserFromForm(); });
-        document.getElementById('resetDemoBtn')?.addEventListener('click', () => { users = [...demoUsers]; saveUsers(); renderUsers(); });
-        searchUsers.addEventListener('input', renderUsers);
-        roleFilter.addEventListener('change', renderUsers);
-        statusFilter.addEventListener('change', renderUsers);
-
-        users = getSavedUsers();
-        renderUsers();
-
-        function resolveAssetPath(img) {
-            const rawAssets = img.dataset.assets || img.dataset.asset;
-            if (!rawAssets) return;
-            const fileNames = rawAssets.split('|').map((item) => item.trim()).filter(Boolean);
-            const paths = [];
-            const bases = ['./assets/', 'assets/', '../assets/', '../../assets/', '/assets/'];
-            fileNames.forEach((fileName) => {
-                const encodedFileName = fileName.split('/').map((part) => encodeURIComponent(part)).join('/');
-                bases.forEach((base) => {
-                    paths.push(`${base}${fileName}`);
-                    paths.push(`${base}${encodedFileName}`);
-                });
-            });
-            const uniqueCandidates = [...new Set(paths)];
-            let index = 0;
-            img.onerror = () => {
-                if (index < uniqueCandidates.length) {
-                    img.src = uniqueCandidates[index];
-                    index += 1;
-                } else {
-                    img.onerror = null;
-                }
-            };
-            if (uniqueCandidates.length > 0) {
-                img.src = uniqueCandidates[index];
-                index += 1;
-            }
-        }
-        document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
-    </script>
-
-    <script type="module" src="scripts/auth-guard.js"></script>
-    <script type="module" src="scripts/admin-guard.js"></script>
+    <!-- Guardias de Seguridad -->
+    <script type="module" src="scripts/auth-guard.js?v=2"></script>
+    <script type="module" src="scripts/admin-guard.js?v=2"></script>
 </body>
 
 </html>

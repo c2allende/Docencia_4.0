@@ -10,6 +10,7 @@ import {
     browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { auth } from "./firebase-config.js";
+import { createUserProfile } from "./user-service.js";
 
 // Login con persistencia opcional
 export const loginUser = async (email, password, rememberMe) => {
@@ -18,13 +19,23 @@ export const loginUser = async (email, password, rememberMe) => {
     return signInWithEmailAndPassword(auth, email, password);
 };
 
-// Registro: crea cuenta, setea displayName en Auth y envía verificación
+// Registro: crea cuenta, setea displayName en Auth, crea perfil en Firestore y envía verificación
 export const registerUser = async (email, password, displayName = '') => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
     if (displayName) {
-        await updateProfile(userCredential.user, { displayName });
+        await updateProfile(user, { displayName });
     }
-    await sendEmailVerification(userCredential.user);
+
+    // Crear perfil en Firestore
+    await createUserProfile(user, { 
+        displayName: displayName || user.displayName || "Participante",
+        role: "participant",
+        status: "active"
+    });
+
+    await sendEmailVerification(user);
     return userCredential;
 };
 

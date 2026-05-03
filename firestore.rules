@@ -263,65 +263,12 @@ service cloud.firestore {
     match /adminLogs/{logId} {
       allow read: if isAdmin();
       allow create: if isAdmin() && (
-        // Validación para reset_module_progress (1.8A)
-        (request.resource.data.action == "reset_module_progress" &&
+        // FASE 2.0F-6: Gestión de Usuarios (Activación, Inactivación, Archivado)
+        (request.resource.data.action in ["user_activated", "user_deactivated", "user_archived", "user_updated"] &&
          request.resource.data.performedBy == request.auth.uid &&
-         request.resource.data.moduleId in ["modulo1", "modulo2", "modulo3"] &&
          request.resource.data.keys().hasAll([
-           'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle', 
+           'action', 'targetUid', 'targetEmail', 'previousStatus', 'newStatus', 
            'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ]) &&
-         request.resource.data.keys().hasOnly([
-           'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle', 
-           'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ])) ||
-         // Validación para archive_orphan_progress (1.8B-B)
-        (request.resource.data.action == "archive_orphan_progress" &&
-         request.resource.data.performedBy == request.auth.uid &&
-         request.resource.data.orphanType in ["page", "module"] &&
-         request.resource.data.keys().hasAll([
-           'action', 'targetUid', 'targetEmail', 'orphanType', 'orphanId', 
-           'moduleId', 'reason', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ]) &&
-         request.resource.data.keys().hasOnly([
-           'action', 'targetUid', 'targetEmail', 'orphanType', 'orphanId', 
-           'moduleId', 'reason', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ])) ||
-        // Validación para moderate_forum_post (1.9D)
-        (request.resource.data.action == "moderate_forum_post" &&
-         request.resource.data.performedBy == request.auth.uid &&
-         request.resource.data.newStatus in ["hidden", "archived"] &&
-         request.resource.data.keys().hasAll([
-           'action', 'foroId', 'postId', 'targetUid', 'targetAuthorName', 
-           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ]) &&
-         request.resource.data.keys().hasOnly([
-           'action', 'foroId', 'postId', 'targetUid', 'targetAuthorName', 
-           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ])) ||
-        // Validación para moderate_forum_reply (1.9D)
-        (request.resource.data.action == "moderate_forum_reply" &&
-         request.resource.data.performedBy == request.auth.uid &&
-         request.resource.data.newStatus in ["hidden", "archived"] &&
-         request.resource.data.keys().hasAll([
-           'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName', 
-           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ]) &&
-         request.resource.data.keys().hasOnly([
-           'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName', 
-           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ])) ||
-        // Validación para export_forum_data (1.9F)
-        (request.resource.data.action == "export_forum_data" &&
-         request.resource.data.performedBy == request.auth.uid &&
-         request.resource.data.exportType in ["full", "anonymous"] &&
-         request.resource.data.keys().hasAll([
-           'action', 'exportType', 'foroId', 'statusFilter', 'typeFilter', 
-           'dateFrom', 'dateTo', 'performedBy', 'performedByEmail', 'createdAt', 'note'
-         ]) &&
-         request.resource.data.keys().hasOnly([
-           'action', 'exportType', 'foroId', 'statusFilter', 'typeFilter', 
-           'dateFrom', 'dateTo', 'performedBy', 'performedByEmail', 'createdAt', 'note'
          ]))
       );
       allow update, delete: if false;
