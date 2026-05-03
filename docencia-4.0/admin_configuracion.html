@@ -117,7 +117,7 @@
 
         .admin-configuracion-page .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
@@ -258,6 +258,24 @@
             transform: translateX(20px);
         }
 
+        .admin-configuracion-page .toggle-pill:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .admin-configuracion-page .setting-row-badge {
+            display: inline-block;
+            margin-top: var(--spacing-2, 8px);
+            padding: 2px var(--spacing-2, 8px);
+            border-radius: var(--border-radius-full, 9999px);
+            background: var(--color-background-surface-medium, #e2e8f0);
+            color: var(--color-text-secondary, #64748b);
+            font-size: var(--font-size-xs, 0.75rem);
+            font-family: var(--font-family-body, sans-serif);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
         .admin-configuracion-page .btn-admin-secondary {
             display: inline-flex;
             align-items: center;
@@ -362,9 +380,9 @@
                 <p class="admin-description">Administra parámetros generales, reglas operativas y privacidad.</p>
             </header>
 
-            <section class="admin-alert" aria-label="Aviso de prototipo">
-                <span class="admin-alert-icon" aria-hidden="true">🧪</span>
-                <p><strong>Modo prototipo:</strong> la configuración se guarda temporalmente en este navegador.</p>
+            <section class="admin-alert" aria-label="Aviso de configuración">
+                <span class="admin-alert-icon" aria-hidden="true">⚙️</span>
+                <p><strong>Configuración operativa:</strong> panel de configuración institucional. Algunas opciones avanzadas pueden estar deshabilitadas hasta su validación operativa.</p>
             </section>
 
             <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
@@ -396,7 +414,7 @@
                                 </div>
                                 <div class="form-field">
                                     <label for="adminEmail" class="form-label">Email administrador</label>
-                                    <input id="adminEmail" class="form-input" type="email" value="admin@docencia40.local">
+                                    <input id="adminEmail" class="form-input" type="email" value="" placeholder="correo administrativo institucional">
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -412,9 +430,10 @@
                         <div class="setting-row">
                             <div>
                                 <h3>Moderación preventiva</h3>
-                                <p>Revisa publicaciones antes de publicarlas.</p>
+                                <p>La revisión previa de publicaciones estará disponible en una fase posterior. Actualmente, la moderación se realiza después de la publicación mediante ocultar o archivar mensajes desde el panel de foros.</p>
+                                <span class="setting-row-badge">En evaluación</span>
                             </div>
-                            <button class="toggle-pill" type="button" aria-pressed="true"></button>
+                            <button class="toggle-pill" type="button" aria-pressed="false" disabled aria-disabled="true"></button>
                         </div>
                     </section>
                 </div>

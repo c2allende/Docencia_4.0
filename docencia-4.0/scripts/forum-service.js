@@ -12,7 +12,8 @@ import {
     serverTimestamp,
     runTransaction,
     increment,
-    writeBatch
+    writeBatch,
+    getCountFromServer
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 /**
@@ -234,7 +235,7 @@ export async function getAdminForumPosts(filters = {}) {
             }
             
             const snap = await getDocs(q);
-            snap.forEach(doc => {
+            for (const doc of snap.docs) {
                 const data = doc.data();
                 // Filtro local adicional de texto si aplica
                 let passText = true;
@@ -245,9 +246,24 @@ export async function getAdminForumPosts(filters = {}) {
                 }
                 
                 if (passText) {
-                    allPosts.push({ id: doc.id, foroId: fId, ...data });
+                    // Obtener conteo real de respuestas desde el servidor
+                    let actualReplyCount = data.replyCount || 0;
+                    try {
+                        const repliesRef = collection(db, "foros", fId, "publicaciones", doc.id, "respuestas");
+                        const countSnap = await getCountFromServer(repliesRef);
+                        actualReplyCount = countSnap.data().count;
+                    } catch (countError) {
+                        console.warn(`[Forum] Error al contar respuestas para ${doc.id}:`, countError);
+                    }
+
+                    allPosts.push({ 
+                        id: doc.id, 
+                        foroId: fId, 
+                        ...data,
+                        replyCount: actualReplyCount 
+                    });
                 }
-            });
+            }
         }
         
         // Ordenar en memoria por fecha descendente
@@ -639,6 +655,247 @@ export function exportToCSV(rows, filename) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+// ==========================================
+// PURGA DE ARCHIVADOS (FASE 2.0F-7+)
+// ==========================================
+
+/**
+ * Cuenta publicaciones y respuestas archivadas según filtros.
+ * Devuelve { archivedPosts, archivedReplies, total }.
+ */
+export async function getArchivedForumRecordsCount(filters = {}) {
+    if (!auth.currentUser) throw new Error("No autenticado");
+
+    const targetForums = filters.foroId && filters.foroId !== 'all'
+        ? [filters.foroId]
+        : ["general", "modulo1", "modulo2", "modulo3"];
+
+    let archivedPosts = 0;
+    let archivedReplies = 0;
+    let purgablePosts = 0;
+    let skippedPosts = 0;
+    let liveRepliesInArchivedPosts = 0;
+
+    for (const fId of targetForums) {
+        const postsRef = collection(db, "foros", fId, "publicaciones");
+
+        // 1. Contar posts archivados y verificar si son purgables
+        const archivedPostsQ = query(postsRef, where("status", "==", "archived"));
+        const archivedPostsSnap = await getDocs(archivedPostsQ);
+        archivedPosts += archivedPostsSnap.size;
+
+        for (const postDoc of archivedPostsSnap.docs) {
+            const repliesRef = collection(db, "foros", fId, "publicaciones", postDoc.id, "respuestas");
+            const liveRepliesQ = query(repliesRef, where("status", "in", ["active", "hidden"]));
+            const liveRepliesSnap = await getDocs(liveRepliesQ);
+            
+            if (liveRepliesSnap.empty) {
+                purgablePosts++;
+            } else {
+                skippedPosts++;
+                liveRepliesInArchivedPosts += liveRepliesSnap.size;
+            }
+        }
+
+        // 2. Contar respuestas archivadas en TODOS los posts (incluyendo activos/ocultos)
+        const allPostsSnap = await getDocs(postsRef);
+        for (const postDoc of allPostsSnap.docs) {
+            const repliesRef = collection(db, "foros", fId, "publicaciones", postDoc.id, "respuestas");
+            const archivedRepliesQ = query(repliesRef, where("status", "==", "archived"));
+            const archivedRepliesSnap = await getDocs(archivedRepliesQ);
+            archivedReplies += archivedRepliesSnap.size;
+        }
+    }
+
+    return { 
+        archivedPosts, 
+        archivedReplies, 
+        purgablePosts,
+        skippedPosts,
+        liveRepliesInArchivedPosts,
+        total: purgablePosts + archivedReplies 
+    };
+}
+
+/**
+ * Purga físicamente los registros archivados de los foros.
+ * - Borra respuestas archivadas primero (evita huérfanos).
+ * - Borra publicaciones archivadas sin respuestas activas/ocultas.
+ * - Procesa en lotes de 450 operaciones.
+ * - Registra adminLog al finalizar.
+ */
+export async function purgeArchivedForumRecords(filters = {}, adminInfo) {
+    if (!auth.currentUser) throw new Error("No autenticado");
+
+    const BATCH_LIMIT = 450;
+    const targetForums = filters.foroId && filters.foroId !== 'all'
+        ? [filters.foroId]
+        : ["general", "modulo1", "modulo2", "modulo3"];
+
+    const archivedReplyRefs = [];
+    const purgablePostRefs = [];
+    let skippedPosts = 0;
+
+    // Fase de recopilación: reunir referencias sin borrar nada todavía
+    for (const fId of targetForums) {
+        const postsRef = collection(db, "foros", fId, "publicaciones");
+        
+        // Solo necesitamos iterar sobre posts archivados para ver si se purgan
+        const archivedPostsQ = query(postsRef, where("status", "==", "archived"));
+        const archivedPostsSnap = await getDocs(archivedPostsQ);
+
+        for (const postDoc of archivedPostsSnap.docs) {
+            const repliesRef = collection(db, "foros", fId, "publicaciones", postDoc.id, "respuestas");
+            
+            // Verificar si el post archivado tiene respuestas vivas
+            const liveRepliesQ = query(repliesRef, where("status", "in", ["active", "hidden"]));
+            const liveRepliesSnap = await getDocs(liveRepliesQ);
+            
+            if (liveRepliesSnap.empty) {
+                purgablePostRefs.push(postDoc.ref);
+            } else {
+                skippedPosts++;
+            }
+        }
+
+        // Para las respuestas archivadas, lamentablemente hay que revisar todos los posts
+        // pero podemos optimizar pidiendo solo las que existen
+        const allPostsSnap = await getDocs(postsRef);
+        for (const postDoc of allPostsSnap.docs) {
+            const repliesRef = collection(db, "foros", fId, "publicaciones", postDoc.id, "respuestas");
+            const archivedRepliesQ = query(repliesRef, where("status", "==", "archived"));
+            const archivedRepliesSnap = await getDocs(archivedRepliesQ);
+            archivedRepliesSnap.forEach(rDoc => archivedReplyRefs.push(rDoc.ref));
+        }
+    }
+
+    // Fase 1: borrar respuestas archivadas en lotes
+    let batch = writeBatch(db);
+    let batchCount = 0;
+    let archivedRepliesDeleted = 0;
+
+    for (let i = 0; i < archivedReplyRefs.length; i++) {
+        batch.delete(archivedReplyRefs[i]);
+        batchCount++;
+        archivedRepliesDeleted++;
+        if (batchCount === BATCH_LIMIT) {
+            await batch.commit();
+            batch = writeBatch(db);
+            batchCount = 0;
+        }
+    }
+    if (batchCount > 0) {
+        await batch.commit();
+        batch = writeBatch(db);
+        batchCount = 0;
+    }
+
+    // Fase 2: borrar publicaciones archivadas purgables en lotes
+    let archivedPostsDeleted = 0;
+
+    for (let i = 0; i < purgablePostRefs.length; i++) {
+        batch.delete(purgablePostRefs[i]);
+        batchCount++;
+        archivedPostsDeleted++;
+        if (batchCount === BATCH_LIMIT) {
+            await batch.commit();
+            batch = writeBatch(db);
+            batchCount = 0;
+        }
+    }
+    if (batchCount > 0) {
+        await batch.commit();
+    }
+
+    // Fase 3: registrar adminLog
+    const foroLabel = filters.foroId && filters.foroId !== 'all' ? filters.foroId : 'all';
+    await addDoc(collection(db, "adminLogs"), {
+        action: "purge_archived_forum_records",
+        foroId: foroLabel,
+        archivedPostsDeleted,
+        archivedRepliesDeleted,
+        skippedPosts,
+        performedBy: auth.currentUser.uid,
+        performedByEmail: adminInfo?.email || auth.currentUser.email || "no-email",
+        createdAt: serverTimestamp(),
+        note: `Purga completada — posts: ${archivedPostsDeleted}, respuestas: ${archivedRepliesDeleted}, omitidos: ${skippedPosts}`
+    });
+
+    return { archivedPostsDeleted, archivedRepliesDeleted, skippedPosts };
+}
+
+/**
+ * Encuentra y archiva lógicamente las respuestas activas/ocultas que están bajo posts archivados.
+ * Esto prepara los posts archivados para que puedan ser purgados físicamente.
+ */
+export async function archiveLiveRepliesForArchivedPosts(filters = {}, adminInfo) {
+    if (!auth.currentUser) throw new Error("No autenticado");
+
+    const BATCH_LIMIT = 450;
+    const targetForums = filters.foroId && filters.foroId !== 'all'
+        ? [filters.foroId]
+        : ["general", "modulo1", "modulo2", "modulo3"];
+
+    let repliesArchived = 0;
+    let postsAffected = 0;
+
+    for (const fId of targetForums) {
+        const postsRef = collection(db, "foros", fId, "publicaciones");
+        const archivedPostsQ = query(postsRef, where("status", "==", "archived"));
+        const archivedPostsSnap = await getDocs(archivedPostsQ);
+
+        for (const postDoc of archivedPostsSnap.docs) {
+            const repliesRef = collection(db, "foros", fId, "publicaciones", postDoc.id, "respuestas");
+            const liveRepliesQ = query(repliesRef, where("status", "in", ["active", "hidden"]));
+            const liveRepliesSnap = await getDocs(liveRepliesQ);
+
+            if (!liveRepliesSnap.empty) {
+                postsAffected++;
+                let batch = writeBatch(db);
+                let batchCount = 0;
+
+                for (const rDoc of liveRepliesSnap.docs) {
+                    batch.update(rDoc.ref, {
+                        status: "archived",
+                        moderatedAt: serverTimestamp(),
+                        moderatedBy: auth.currentUser.uid
+                    });
+                    
+                    // Registrar adminLog por cada respuesta (moderación lógica)
+                    await addDoc(collection(db, "adminLogs"), {
+                        action: "moderate_forum_reply",
+                        foroId: fId,
+                        postId: postDoc.id,
+                        replyId: rDoc.id,
+                        targetUid: rDoc.data().uid,
+                        targetAuthorName: rDoc.data().authorName,
+                        previousStatus: rDoc.data().status,
+                        newStatus: "archived",
+                        performedBy: auth.currentUser.uid,
+                        performedByEmail: adminInfo?.email || auth.currentUser.email || "no-email",
+                        createdAt: serverTimestamp(),
+                        note: "Archivado automático por purga masiva de foros"
+                    });
+
+                    repliesArchived++;
+                    batchCount++;
+
+                    if (batchCount === BATCH_LIMIT) {
+                        await batch.commit();
+                        batch = writeBatch(db);
+                        batchCount = 0;
+                    }
+                }
+                if (batchCount > 0) {
+                    await batch.commit();
+                }
+            }
+        }
+    }
+
+    return { repliesArchived, postsAffected };
 }
 
 /**

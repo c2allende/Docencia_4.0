@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -284,6 +284,20 @@
             resize: vertical;
             min-height: 80px;
         }
+        .btn-danger {
+            background: var(--color-feedback-error-container);
+            color: var(--color-feedback-error);
+            border-color: var(--color-feedback-error);
+        }
+        .btn-danger:hover:not(:disabled) {
+            background: var(--color-feedback-error);
+            color: var(--color-background-surface);
+        }
+        .btn-danger:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* Estilos de Navegación Superior (Fix para Widget) */
         .top-nav {
             position: fixed;
@@ -364,9 +378,10 @@
                     <h1 class="admin-title">Administrar <span>Foros</span></h1>
                     <p class="admin-description">Revisa y modera las publicaciones de los foros dinámicos. Puedes ocultar o archivar mensajes que incumplan las normas sin eliminarlos físicamente.</p>
                 </div>
-                <div style="display: flex; gap: 10px;">
-                    <a href="debug_clean_board.html" class="btn-action" style="background:var(--color-orange-600); color:white; font-size:14px; padding:10px 16px; text-decoration:none; display:inline-flex; align-items:center;">🧹 Limpiar Tablero</a>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
                     <button id="openExportModalBtn" class="btn-action" style="background:var(--color-brand-primary); color:white; font-size:14px; padding:10px 16px;">📥 Exportar Datos</button>
+                    <a href="debug_clean_board.html" class="btn-action" style="font-size:14px; padding:10px 16px; text-decoration:none; display:inline-flex; align-items:center;" title="Limpia comentarios del tablero interactivo de la Actividad 1.1, no los foros.">🧹 Limpiar Board Act. 1.1</a>
+                    <button id="openPurgeModalBtn" class="btn-action btn-danger" style="font-size:14px; padding:10px 16px;">🗑️ Purgar archivados</button>
                 </div>
             </header>
 
@@ -466,6 +481,33 @@
             <div class="modal-footer">
                 <button id="cancelModerateBtn" class="btn-action">Cancelar</button>
                 <button id="confirmModerateBtn" class="btn-action hide-btn" style="color:white; background:#cf222e;">Confirmar Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Purga de Archivados -->
+    <div id="purgeModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title" style="color:var(--color-feedback-error);">⚠️ Purgar registros archivados</h2>
+
+            <div style="background:var(--color-feedback-error-container,#ffebe9); border:1px solid var(--color-feedback-error,#cf222e); border-radius:8px; padding:12px; margin:16px 0; font-size:13px; color:var(--color-feedback-error-on,#6e1313);">
+                <strong>Esta acción eliminará permanentemente los registros archivados de los foros.</strong>
+                No se eliminarán publicaciones activas ni ocultas. Esta acción no se puede deshacer.
+                Se recomienda exportar los datos antes de continuar.
+                <p style="margin-top:8px; color:var(--color-feedback-error-on,#6e1313); font-style:italic;">* Los mensajes ocultos deben archivarse antes de poder purgarse.</p>
+            </div>
+
+            <div style="background:var(--color-background-surface-low); border-radius:8px; padding:12px; margin:12px 0; font-size:13px;">
+                💡 <strong>Recomendación:</strong> usa <em>Exportar Datos</em> para conservar evidencia antes de purgar.
+            </div>
+
+            <div id="purgeCountsInfo" style="margin:16px 0; font-size:14px; line-height:1.8;">
+                <p>⏳ Calculando registros archivados...</p>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancelPurgeBtn" class="btn-action">Cancelar</button>
+                <button id="confirmPurgeBtn" class="btn-action btn-danger" disabled>Purgar definitivamente</button>
             </div>
         </div>
     </div>

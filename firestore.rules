@@ -267,8 +267,56 @@ service cloud.firestore {
         (request.resource.data.action in ["user_activated", "user_deactivated", "user_archived", "user_updated"] &&
          request.resource.data.performedBy == request.auth.uid &&
          request.resource.data.keys().hasAll([
-           'action', 'targetUid', 'targetEmail', 'previousStatus', 'newStatus', 
+           'action', 'targetUid', 'targetEmail', 'previousStatus', 'newStatus',
            'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Moderación de foros: publicación (11 campos exactos)
+        (request.resource.data.action == "moderate_forum_post" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'foroId', 'postId', 'targetUid', 'targetAuthorName',
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'foroId', 'postId', 'targetUid', 'targetAuthorName',
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Moderación de foros: respuesta (12 campos exactos, incluye replyId)
+        (request.resource.data.action == "moderate_forum_reply" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName',
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'foroId', 'postId', 'replyId', 'targetUid', 'targetAuthorName',
+           'previousStatus', 'newStatus', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Exportación de datos de foros (11 campos exactos)
+        (request.resource.data.action == "export_forum_data" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'exportType', 'foroId', 'statusFilter', 'typeFilter',
+           'dateFrom', 'dateTo', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'exportType', 'foroId', 'statusFilter', 'typeFilter',
+           'dateFrom', 'dateTo', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Purga de registros archivados de foros (9 campos exactos)
+        (request.resource.data.action == "purge_archived_forum_records" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'foroId', 'archivedPostsDeleted', 'archivedRepliesDeleted',
+           'skippedPosts', 'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'foroId', 'archivedPostsDeleted', 'archivedRepliesDeleted',
+           'skippedPosts', 'performedBy', 'performedByEmail', 'createdAt', 'note'
          ]))
       );
       allow update, delete: if false;
@@ -311,8 +359,8 @@ service cloud.firestore {
           && request.resource.data.status in ["active", "hidden", "archived"]
         ));
         
-        allow delete: if false;
-        
+        allow delete: if isAdmin() && resource.data.status == "archived";
+
         match /respuestas/{replyId} {
           allow read: if (signedIn() && resource.data.status == "active") || isAdmin();
           
@@ -338,7 +386,7 @@ service cloud.firestore {
             && request.resource.data.status in ["active", "hidden", "archived"]
           ));
           
-          allow delete: if false;
+          allow delete: if isAdmin() && resource.data.status == "archived";
         }
       }
     }

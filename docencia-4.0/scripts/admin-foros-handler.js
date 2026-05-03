@@ -1,5 +1,5 @@
 import { auth } from './firebase-config.js';
-import { getAdminForumPosts, getAdminPostReplies, moderatePost, moderateReply, getForumExportData, buildForumExportRows, exportToCSV, logForumExportAction } from './forum-service.js';
+import { getAdminForumPosts, getAdminPostReplies, moderatePost, moderateReply, getForumExportData, buildForumExportRows, exportToCSV, logForumExportAction, getArchivedForumRecordsCount, purgeArchivedForumRecords, archiveLiveRepliesForArchivedPosts } from './forum-service.js';
 
 class AdminForosHandler {
     constructor() {
@@ -53,6 +53,11 @@ class AdminForosHandler {
         document.getElementById('openExportModalBtn')?.addEventListener('click', () => this.openExportModal());
         document.getElementById('cancelExportBtn')?.addEventListener('click', () => this.closeExportModal());
         document.getElementById('confirmExportBtn')?.addEventListener('click', () => this.executeExport());
+
+        // Purge events
+        document.getElementById('openPurgeModalBtn')?.addEventListener('click', () => this.openPurgeModal());
+        document.getElementById('cancelPurgeBtn')?.addEventListener('click', () => this.closePurgeModal());
+        document.getElementById('confirmPurgeBtn')?.addEventListener('click', () => this.executePurge());
     }
 
     async loadPosts() {
@@ -116,6 +121,10 @@ class AdminForosHandler {
                     <button class="btn-action moderate-btn hide-btn" data-type="post" data-foroid="${post.foroId}" data-postid="${post.id}" data-action="hidden">Ocultar</button>
                     <button class="btn-action moderate-btn archive-btn" data-type="post" data-foroid="${post.foroId}" data-postid="${post.id}" data-action="archived">Archivar</button>
                 `;
+            } else if (post.status === 'hidden') {
+                actionsHtml += `
+                    <button class="btn-action moderate-btn archive-btn" data-type="post" data-foroid="${post.foroId}" data-postid="${post.id}" data-action="archived">Archivar</button>
+                `;
             }
 
             tr.innerHTML = `
@@ -167,6 +176,14 @@ class AdminForosHandler {
             }
 
             container.innerHTML = '';
+            
+            // Actualizar el contador en el botón de la tabla si difiere (corrección en tiempo real)
+            const countInTable = replies.length;
+            const tableBtn = document.querySelector(`.view-replies[data-postid="${postId}"]`);
+            if (tableBtn) {
+                tableBtn.textContent = `Respuestas (${countInTable})`;
+            }
+
             replies.forEach(reply => {
                 const div = document.createElement('div');
                 div.className = `reply-card status-${reply.status}`;
@@ -181,6 +198,10 @@ class AdminForosHandler {
                 if (reply.status === 'active') {
                     actionsHtml = `
                         <button class="btn-action hide-btn reply-mod-btn" data-type="reply" data-foroid="${foroId}" data-postid="${postId}" data-replyid="${reply.id}" data-action="hidden">Ocultar</button>
+                        <button class="btn-action archive-btn reply-mod-btn" data-type="reply" data-foroid="${foroId}" data-postid="${postId}" data-replyid="${reply.id}" data-action="archived">Archivar</button>
+                    `;
+                } else if (reply.status === 'hidden') {
+                    actionsHtml = `
                         <button class="btn-action archive-btn reply-mod-btn" data-type="reply" data-foroid="${foroId}" data-postid="${postId}" data-replyid="${reply.id}" data-action="archived">Archivar</button>
                     `;
                 }
@@ -265,6 +286,131 @@ class AdminForosHandler {
             this.currentModerationTask = null;
         }
     }
+
+    // ── PURGA DE ARCHIVADOS ──────────────────────────────────────────────────
+
+    async openPurgeModal() {
+        const modal = document.getElementById('purgeModal');
+        const countsEl = document.getElementById('purgeCountsInfo');
+        const confirmBtn = document.getElementById('confirmPurgeBtn');
+        if (!modal || !countsEl || !confirmBtn) return;
+
+        confirmBtn.disabled = true;
+        countsEl.innerHTML = '<p>⏳ Calculando registros archivados...</p>';
+        modal.classList.add('active');
+        this.pendingPurgeFilters = null;
+
+        try {
+            const foroId = this.currentFilters.foroId || 'all';
+            const foroLabel = foroId === 'all' ? 'Todos los foros'
+                : foroId === 'general' ? 'Foro General'
+                : foroId === 'modulo1' ? 'Módulo 1'
+                : foroId === 'modulo2' ? 'Módulo 2'
+                : foroId === 'modulo3' ? 'Módulo 3'
+                : foroId;
+
+            const counts = await getArchivedForumRecordsCount({ foroId });
+
+            let skippedHtml = '';
+            if (counts.skippedPosts > 0) {
+                skippedHtml = `
+                    <div style="margin-top:12px; padding:12px; border-radius:8px; background:rgba(207, 34, 46, 0.1); border:1px solid rgba(207, 34, 46, 0.2);">
+                        <p style="font-size:13px; color:var(--color-feedback-error,#cf222e); margin:0;">⚠️ <strong>${counts.skippedPosts} publicaciones archivadas se omitirán</strong> por tener respuestas activas u ocultas.</p>
+                        <button id="preparePurgeBtn" class="btn-action" style="margin-top:8px; width:100%; border-color:var(--color-feedback-error); color:var(--color-feedback-error);">Archivar respuestas asociadas (${counts.liveRepliesInArchivedPosts})</button>
+                    </div>`;
+            }
+
+            if (counts.total === 0) {
+                countsEl.innerHTML = `
+                    <p><strong>Foro:</strong> ${foroLabel}</p>
+                    <p>✅ No hay registros purgables para eliminar en este momento.</p>
+                    ${skippedHtml}`;
+            } else {
+                countsEl.innerHTML = `
+                    <p><strong>Foro:</strong> ${foroLabel}</p>
+                    <p>📦 Publicaciones archivadas purgables: <strong>${counts.purgablePosts}</strong></p>
+                    <p>💬 Respuestas archivadas detectadas: <strong>${counts.archivedReplies}</strong></p>
+                    <p><strong>Total que realmente se eliminará: ${counts.total}</strong></p>
+                    ${skippedHtml}`;
+                confirmBtn.disabled = false;
+                this.pendingPurgeFilters = { foroId };
+            }
+
+            // Listener para el botón de preparación (si existe)
+            const prepBtn = document.getElementById('preparePurgeBtn');
+            if (prepBtn) {
+                prepBtn.addEventListener('click', () => this.executePreparePurge());
+                this.pendingPurgeFilters = { foroId }; // Asegurar filtros para la acción
+            }
+        } catch (error) {
+            console.error("[Purge] Error calculando registros:", error);
+            countsEl.innerHTML = '<p style="color:var(--color-feedback-error,#cf222e);">Error al calcular registros. Verifica permisos y consola.</p>';
+        }
+    }
+
+    closePurgeModal() {
+        document.getElementById('purgeModal')?.classList.remove('active');
+        this.pendingPurgeFilters = null;
+    }
+
+    async executePurge() {
+        if (!this.pendingPurgeFilters) return;
+
+        const btn = document.getElementById('confirmPurgeBtn');
+        const countsEl = document.getElementById('purgeCountsInfo');
+        if (!btn) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Purgando...';
+
+        try {
+            const result = await purgeArchivedForumRecords(this.pendingPurgeFilters, this.adminInfo);
+
+            countsEl.innerHTML = `
+                <p style="color:var(--color-feedback-success,#1a7f37);font-weight:700;">✅ Purga completada.</p>
+                <p>Publicaciones eliminadas: <strong>${result.archivedPostsDeleted}</strong></p>
+                <p>Respuestas eliminadas: <strong>${result.archivedRepliesDeleted}</strong></p>
+                ${result.skippedPosts > 0
+                    ? `<p>Publicaciones omitidas (tienen respuestas activas/ocultas): <strong>${result.skippedPosts}</strong></p>`
+                    : ''}`;
+
+            await this.loadPosts();
+            setTimeout(() => this.closePurgeModal(), 3000);
+        } catch (error) {
+            console.error("[Purge] Error durante la purga:", error);
+            countsEl.innerHTML = `<p style="color:var(--color-feedback-error,#cf222e);">❌ Error durante la purga: ${error.message}. Verifica permisos y consola.</p>`;
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Purgar definitivamente';
+        }
+    }
+
+    async executePreparePurge() {
+        if (!this.pendingPurgeFilters) return;
+        const btn = document.getElementById('preparePurgeBtn');
+        const countsEl = document.getElementById('purgeCountsInfo');
+        if (!btn) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Archivando respuestas...';
+
+        try {
+            const result = await archiveLiveRepliesForArchivedPosts(this.pendingPurgeFilters, this.adminInfo);
+            alert(`Se archivaron ${result.repliesArchived} respuestas en ${result.postsAffected} publicaciones. Ahora puede proceder con la purga.`);
+            // Recargar modal para actualizar conteos
+            await this.openPurgeModal();
+        } catch (error) {
+            console.error("[Purge] Error preparando:", error);
+            alert("Error al preparar registros: " + error.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = 'Archivar respuestas asociadas';
+            }
+        }
+    }
+
+    // ── EXPORTACIÓN ──────────────────────────────────────────────────────────
 
     openExportModal() {
         document.getElementById('exportModal')?.classList.add('active');
