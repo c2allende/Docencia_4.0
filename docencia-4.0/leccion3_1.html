@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -991,6 +991,85 @@
             box-shadow: var(--shadow-sm);
         }
 
+        /* TOOLBOX & PROMPT CARDS (Local) */
+        .toolbox-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-xl);
+            margin: var(--spacing-16) 0;
+            background: var(--color-background-card-inverse);
+            border-radius: var(--radius-xl);
+            color: var(--color-text-inverse);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .toolbox-card::before {
+            content: "TOOLBOX";
+            position: absolute;
+            top: -24px;
+            right: -18px;
+            color: var(--color-alpha-white-15);
+            font-family: var(--font-family-heading);
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: var(--font-weight-extrabold);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .toolbox-title {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .prompt-template {
+            position: relative;
+            z-index: 1;
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed rgba(125, 230, 255, 0.45);
+            border-radius: var(--radius-lg);
+            background: var(--color-alpha-white-10);
+            color: var(--color-white);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-template strong {
+            color: var(--color-white);
+        }
+
+        .token-tag {
+            display: inline;
+            padding: 0.1em 0.35em;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 194, 255, 0.16);
+            color: var(--color-cyan-100);
+            font-weight: var(--font-weight-bold);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         @media (max-width: 900px) {
             .content-wrapper {
                 padding: 0 var(--spacing-4);
@@ -1170,38 +1249,68 @@
                 </div>
             </section>
 
-            <section class="text-section" aria-labelledby="prompt-rubrica-title">
-                <div class="highlight-box">
-                    <h2 id="prompt-rubrica-title" class="subsection-title">Prompt efectivo para rúbrica analítica</h2>
-                    <div class="prompt-example">
-                        <p><strong>Rol:</strong> Eres un especialista en evaluación educativa del Departamento de
-                            Educación de Puerto Rico.</p>
-                        <p><strong>Tarea:</strong> Diseña una rúbrica analítica para evaluar una presentación oral en
-                            español de 5to grado sobre “El ciclo del agua”, alineada al estándar [indicar estándar DEPR
-                            exacto].</p>
-                        <p><strong>Requisitos de la rúbrica (Salida estructurada):</strong></p>
-                        <ol class="content-list-ordered">
-                            <li>[#] Criterios de evaluación (Filas): contenido, organización, expresión oral y uso de
-                                recursos visuales.</li>
-                            <li>[#] Niveles de desempeño (Columnas): Avanzado, Proficiente, Básico, Por Debajo de lo
-                                Básico.</li>
-                            <li>Descriptores: Deben ser claros, específicos y utilizar un lenguaje apropiado para el
-                                desarrollo cognitivo de 5to grado.</li>
-                            <li>Alineación DUA: Asegura que los descriptores sean accesibles y promuevan el aprendizaje
-                                activo.</li>
-                        </ol>
-                        <p><strong>Restricciones:</strong></p>
-                        <ul class="content-list">
-                            <li>Evita la ambigüedad en los niveles de desempeño; cada salto de nivel debe ser observable
-                                y medible.</li>
-                            <li>Mantén la precisión técnica sobre el tema de la fotosíntesis dentro de los descriptores
-                                de contenido.</li>
-                        </ul>
-                        <p><strong>Formato:</strong> Presenta la información en una tabla de Markdown para facilitar su
-                            lectura y transferencia a documentos oficiales.</p>
-                    </div>
+            <section class="toolbox-card" aria-labelledby="prompt-rubrica-title">
+                <h2 id="prompt-rubrica-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Prompt efectivo para rúbrica analítica
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong><br>
+                    <span class="token-tag">Eres un especialista en evaluación educativa del Departamento de Educación de Puerto Rico</span>.<br><br>
+                    
+                    <strong>Tarea:</strong><br>
+                    <span class="token-tag">Diseña una rúbrica analítica para evaluar una presentación oral en español de 5to grado sobre “El ciclo del agua”</span>, alineada al estándar [indicar estándar DEPR exacto].<br><br>
+                    
+                    <strong>Requisitos de la rúbrica:</strong><br>
+                    1. <span class="token-tag">Criterios de evaluación: contenido, organización, expresión oral y uso de recursos visuales</span>.<br>
+                    2. <span class="token-tag">Niveles de desempeño: Avanzado, Proficiente, Básico, Por Debajo de lo Básico</span>.<br>
+                    3. <span class="token-tag">Descriptores: claros, específicos y apropiados para el desarrollo cognitivo de 5to grado</span>.<br>
+                    4. <span class="token-tag">Alineación DUA: accesibles y promotores del aprendizaje activo</span>.<br><br>
+                    
+                    <strong>Restricciones:</strong><br>
+                    • <span class="token-tag">Evita la ambigüedad en los niveles de desempeño</span>; cada salto de nivel debe ser observable y medible.<br>
+                    • <span class="token-tag">Mantén la precisión técnica sobre el tema</span> dentro de los descriptores de contenido.<br><br>
+                    
+                    <strong>Formato:</strong><br>
+                    <span class="token-tag">Presenta la información en una tabla de Markdown</span> para facilitar su lectura y transferencia a documentos oficiales.
                 </div>
             </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <section class="text-section" aria-labelledby="reactivos-title">
                 <h2 id="reactivos-title" class="section-title">Banco de reactivos y niveles de complejidad</h2>

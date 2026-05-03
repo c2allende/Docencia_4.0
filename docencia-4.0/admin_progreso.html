@@ -646,12 +646,12 @@
             color: var(--color-feedback-error);
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
             font-weight: 600;
         }
         .btn-admin-danger-outline:hover:not(:disabled) {
             background: var(--color-feedback-error-container);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
         }
         .btn-admin-danger-outline:disabled {
             opacity: 0.5;
@@ -666,13 +666,13 @@
             left: 0;
             right: 0;
             height: var(--height-module-topnav, 80px);
-            background: #ffffff !important;
+            background: var(--color-background-surface);
             border-bottom: 1px solid var(--color-border-default);
             display: flex;
             align-items: center;
             padding: 0 var(--spacing-xl);
             z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-xs);
         }
         .nav-left {
             display: flex;
@@ -686,6 +686,50 @@
         .module-title-nav {
             font-weight: 700;
             color: var(--color-text-display);
+        }
+
+        /* Modal de Detalle Pedagógico */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-alpha-black-70);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .modal-container {
+            background: var(--color-background-surface);
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: var(--radius-xl);
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--shadow-floating);
+            border: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-5);
+            right: var(--spacing-5);
+            background: none;
+            border: none;
+            font-size: var(--font-size-2xl);
+            cursor: pointer;
+            color: var(--color-text-muted);
+        }
+
+        .modal-footer-bar {
+            padding: var(--spacing-5);
+            text-align: right;
+            border-top: var(--border-width-1) solid var(--color-border-default);
         }
     </style>
 </head>
@@ -845,13 +889,13 @@
     </main>
 
     <!-- Modal de Detalle Pedagógico -->
-    <div id="detailModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-        <div class="modal-container" style="background: var(--color-background-surface); width: 90%; max-width: 900px; max-height: 90vh; border-radius: var(--radius-xl); overflow-y: auto; position: relative; box-shadow: var(--shadow-floating); border: 1px solid var(--color-border-default);">
-            <button onclick="closeAdminModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--color-text-muted);">×</button>
+    <div id="detailModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <button onclick="closeAdminModal()" class="modal-close-btn" aria-label="Cerrar modal">×</button>
             <div id="modalContent">
                 <!-- Se rellena dinámicamente -->
             </div>
-            <div style="padding: 20px; text-align: right; border-top: 1px solid var(--color-border-default);">
+            <div class="modal-footer-bar">
                 <button class="btn-admin-secondary" onclick="closeAdminModal()">Cerrar</button>
             </div>
         </div>

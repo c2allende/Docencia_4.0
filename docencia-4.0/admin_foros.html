@@ -99,7 +99,7 @@
             border-radius: var(--radius-xl);
             padding: var(--spacing-xl);
             box-shadow: var(--shadow-flat);
-            transition: transform 0.2s;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
         .metric-card:hover {
@@ -183,7 +183,7 @@
 
         .status-badge {
             padding: 4px 10px;
-            border-radius: 20px;
+            border-radius: var(--radius-pill);
             font-size: 12px;
             font-weight: 700;
         }
@@ -193,13 +193,13 @@
 
         .btn-action {
             padding: 6px 12px;
-            border-radius: 6px;
+            border-radius: var(--border-radius-md);
             border: 1px solid var(--color-border-default);
             background: var(--color-white);
             cursor: pointer;
             font-weight: 600;
             font-size: 12px;
-            transition: all 0.2s;
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
             margin-right: 4px;
         }
 
@@ -207,15 +207,18 @@
             background: var(--color-background-surface-low);
         }
 
-        .btn-action.hide-btn { color: #cf222e; border-color: #cf222e; }
-        .btn-action.archive-btn { color: #0969da; border-color: #0969da; }
+        .btn-action.hide-btn { color: var(--color-feedback-error); border-color: var(--color-feedback-error); }
+        .btn-action.archive-btn { color: var(--color-feedback-info); border-color: var(--color-feedback-info); }
+
+        .modal-title-danger { color: var(--color-feedback-error); }
+        .btn-danger-confirm { color: var(--color-white); background: var(--color-feedback-error); border-color: var(--color-feedback-error); }
 
         /* Modals */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: var(--color-alpha-black-40);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -228,7 +231,7 @@
         .modal-content {
             background: var(--color-white);
             padding: 32px;
-            border-radius: 16px;
+            border-radius: var(--border-radius-xl);
             width: 90%;
             max-width: 600px;
             max-height: 90vh;
@@ -255,8 +258,8 @@
             background: var(--color-background-surface-low);
         }
 
-        .reply-card.status-hidden { opacity: 0.7; border-color: #cf222e; }
-        .reply-card.status-archived { opacity: 0.7; border-color: #0969da; }
+        .reply-card.status-hidden { opacity: 0.7; border-color: var(--color-feedback-error); }
+        .reply-card.status-archived { opacity: 0.7; border-color: var(--color-feedback-info); }
 
         .reply-header {
             display: flex;
@@ -470,7 +473,7 @@
     <!-- Modal de Confirmación de Moderación -->
     <div id="moderationModal" class="modal-overlay">
         <div class="modal-content">
-            <h2 class="modal-title" style="color: #cf222e;">Confirmar Moderación</h2>
+            <h2 class="modal-title modal-title-danger">Confirmar Moderación</h2>
             <p id="modWarningText" style="margin: 16px 0; font-weight: 500;"></p>
             
             <div class="form-field" style="margin-top: 16px;">
@@ -480,7 +483,7 @@
 
             <div class="modal-footer">
                 <button id="cancelModerateBtn" class="btn-action">Cancelar</button>
-                <button id="confirmModerateBtn" class="btn-action hide-btn" style="color:white; background:#cf222e;">Confirmar Acción</button>
+                <button id="confirmModerateBtn" class="btn-action hide-btn btn-danger-confirm">Confirmar Acción</button>
             </div>
         </div>
     </div>
@@ -490,11 +493,11 @@
         <div class="modal-content">
             <h2 class="modal-title" style="color:var(--color-feedback-error);">⚠️ Purgar registros archivados</h2>
 
-            <div style="background:var(--color-feedback-error-container,#ffebe9); border:1px solid var(--color-feedback-error,#cf222e); border-radius:8px; padding:12px; margin:16px 0; font-size:13px; color:var(--color-feedback-error-on,#6e1313);">
+            <div style="background:var(--color-feedback-error-container); border:1px solid var(--color-feedback-error); border-radius:8px; padding:12px; margin:16px 0; font-size:13px; color:var(--color-feedback-error-on);">
                 <strong>Esta acción eliminará permanentemente los registros archivados de los foros.</strong>
                 No se eliminarán publicaciones activas ni ocultas. Esta acción no se puede deshacer.
                 Se recomienda exportar los datos antes de continuar.
-                <p style="margin-top:8px; color:var(--color-feedback-error-on,#6e1313); font-style:italic;">* Los mensajes ocultos deben archivarse antes de poder purgarse.</p>
+                <p style="margin-top:8px; color:var(--color-feedback-error-on); font-style:italic;">* Los mensajes ocultos deben archivarse antes de poder purgarse.</p>
             </div>
 
             <div style="background:var(--color-background-surface-low); border-radius:8px; padding:12px; margin:12px 0; font-size:13px;">
@@ -517,7 +520,7 @@
         <div class="modal-content">
             <h2 class="modal-title">Exportar Datos de Foros</h2>
             
-            <div style="background: #fff8c5; border: 1px solid #e3cc44; border-radius: 8px; padding: 12px; margin: 16px 0; font-size: 13px; color: #7d6b04;">
+            <div style="background: var(--color-feedback-warning-container); border: 1px solid var(--color-feedback-warning); border-radius: 8px; padding: 12px; margin: 16px 0; font-size: 13px; color: var(--color-feedback-warning-on);">
                 <strong>⚠️ Nota ética e investigativa:</strong> La exportación completa puede contener información identificable. Para análisis o investigación formal, utilice preferiblemente la exportación anonimizada y asegúrese de contar con los permisos, consentimientos o aprobaciones institucionales requeridas.
             </div>
 
