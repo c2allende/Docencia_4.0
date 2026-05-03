@@ -221,7 +221,7 @@
 
         .admin-progreso-page .toolbar {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 200px 200px 200px;
+            grid-template-columns: minmax(0, 1fr) 180px 180px 180px 180px;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
         }
@@ -621,7 +621,7 @@
             }
 
             .admin-progreso-page .table-wrap {
-                display: none;
+                display: block;
             }
 
             .admin-progreso-page .participants-grid {
@@ -776,6 +776,9 @@
                                 <p>Filtra por nombre, módulo actual, estado o cohorte para identificar avances y
                                     rezagos.</p>
                             </div>
+                            <button class="btn-admin-secondary" onclick="runProgressSync()" title="Sincroniza el progreso histórico con el nuevo monitor en tiempo real">
+                                🔄 Sincronizar Métricas
+                            </button>
                         </div>
 
                         <div class="toolbar" aria-label="Filtros de progreso">
@@ -800,6 +803,8 @@
                                     <option value="not_started">No iniciado</option>
                                     <option value="in_progress">En progreso</option>
                                     <option value="completed">Completado</option>
+                                </select>
+                            </div>
                                 </select>
                             </div>
                         </div>
@@ -856,6 +861,7 @@
 
     <script type="module" src="scripts/admin-ui.js"></script>
     <script type="module" src="scripts/admin-progreso-handler.js"></script>
+    <script type="module" src="scripts/maintenance/sync-progress.js"></script>
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>
     <script type="module">

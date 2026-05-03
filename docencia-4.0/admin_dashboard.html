@@ -960,14 +960,18 @@
     <script type="module">
         import { initAccessToggles } from './scripts/admin-access-handler.js';
         import { initAdminNotifications } from './scripts/admin-notifications-widget-v2.js';
+        import { adminDashboardHandler } from './scripts/admin-dashboard-handler.js';
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
                 initAccessToggles();
                 initAdminNotifications();
+                adminDashboardHandler.init();
             });
         } else {
             initAccessToggles();
             initAdminNotifications();
+            adminDashboardHandler.init();
         }
     </script>
 </body>

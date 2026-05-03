@@ -12,7 +12,8 @@ import {
     addDoc,
     increment,
     writeBatch,
-    deleteDoc
+    deleteDoc,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { auth } from "./firebase-config.js";
 
@@ -355,6 +356,14 @@ export async function updateModuleProgress(uid, moduleId) {
             await updateDoc(moduleRef, data);
         }
 
+        // --- ACTUALIZACIÓN DE DOCUMENTO RAÍZ (PARA CENTRO DE OPERACIONES TIEMPO REAL) ---
+        const userRef = doc(db, "usuarios", uid);
+        await updateDoc(userRef, {
+            [`progress.${moduleId}`]: percentComplete,
+            lastActivity: serverTimestamp(),
+            updatedAt: serverTimestamp()
+        });
+
         // FASE 2.0E-3: Disparar notificaciones (Personal y Administrativa)
         if (percentComplete === 100 && completedCount === totalPages && data.status === "completed") {
             try {
@@ -650,4 +659,45 @@ export async function deleteUserCompleteData(uid, adminInfo) {
         console.error("Error crítico en deleteUserCompleteData:", error);
         throw error;
     }
+}
+
+/**
+ * SUSCRIPCIÓN EN TIEMPO REAL A PARTICIPANTES (Centro de Operaciones)
+ * Escucha cambios en la colección 'usuarios' y devuelve los datos procesados.
+ */
+export function subscribeToParticipantsProgress(callback) {
+    const usersCol = collection(db, "usuarios");
+    // Filtramos solo por estado activo, el rol lo manejamos en el mapeo
+    const q = query(
+        usersCol, 
+        where("status", "==", "active")
+    );
+
+    return onSnapshot(q, (snapshot) => {
+        const participants = snapshot.docs
+            .map(doc => {
+                const data = doc.data();
+                const role = (data.role || "").toLowerCase();
+                const isParticipant = role === "participant" || role === "participante";
+                
+                if (!isParticipant) return null;
+
+                return {
+                    uid: doc.id,
+                    displayName: data.displayName || "Participante",
+                    email: data.email || "S/E",
+                    role: data.role,
+                    status: data.status,
+                    roleContext: data.roleContext || "No especificado",
+                    modulo1: data.progress?.modulo1 || 0,
+                    modulo2: data.progress?.modulo2 || 0,
+                    modulo3: data.progress?.modulo3 || 0,
+                    lastActivity: data.lastActivity ? data.lastActivity.toDate() : null
+                };
+            })
+            .filter(p => p !== null);
+        callback(participants);
+    }, (error) => {
+        console.error("Error en suscripción en tiempo real:", error);
+    });
 }

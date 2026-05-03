@@ -1,5 +1,11 @@
 import { auth, db } from "./firebase-config.js";
-import { getAllParticipantsProgress, getParticipantDetailedProgress, resetUserModuleProgress, detectUserOrphanData, archiveOrphanProgress } from "./progress-service.js";
+import { 
+    subscribeToParticipantsProgress, 
+    getParticipantDetailedProgress, 
+    detectUserOrphanData, 
+    archiveOrphanProgress,
+    deleteUserCompleteData
+} from "./progress-service.js";
 
 /**
  * AdminProgresoHandler
@@ -46,25 +52,31 @@ const AdminProgresoHandler = {
     },
 
     async loadData() {
-        this.showStatus("Cargando participantes desde Firestore...", "info");
-        try {
-            this.participants = await getAllParticipantsProgress();
-            
-            // FILTRO DE INTEGRIDAD: Definir la población real para el panel
-            const TEST_PATTERNS = /^(test|qa|alumno_qa|testusers|qatest|test_participant|test_progress|test_verify|test_final)/i;
-            this.realParticipants = this.participants.filter(p => {
-                const isTestEmail = TEST_PATTERNS.test(p.email);
-                const isAdmin = p.role === 'admin';
-                const isInactive = p.status === 'archived' || p.status === 'inactive';
-                return !isTestEmail && !isAdmin && !isInactive;
-            });
+        this.showStatus("Estableciendo conexión en tiempo real...", "info");
+        
+        // Cancelar suscripción previa si existe
+        if (this.unsubscribe) this.unsubscribe();
 
-            this.updateMetrics();
-            this.filterAndRender();
-            this.showStatus("Datos actualizados correctamente.", "success", 3000);
+        try {
+            this.unsubscribe = subscribeToParticipantsProgress((data) => {
+                this.participants = data;
+                
+                // FILTRO DE INTEGRIDAD: Definir la población real para el panel
+                const TEST_PATTERNS = /^(test|qa|alumno_qa|testusers|qatest|test_participant|test_progress|test_verify|test_final)/i;
+                this.realParticipants = this.participants.filter(p => {
+                    const isTestEmail = TEST_PATTERNS.test(p.email);
+                    const isAdmin = p.role === 'admin';
+                    const isInactive = p.status === 'archived' || p.status === 'inactive';
+                    return !isTestEmail && !isAdmin && !isInactive;
+                });
+
+                this.updateMetrics();
+                this.filterAndRender();
+                this.showStatus("Operaciones en vivo: Sincronizado", "success", 2000);
+            });
         } catch (error) {
-            console.error("Error al cargar datos de administración:", error);
-            this.showStatus("Error al cargar datos. Revisa la consola.", "error");
+            console.error("Error al iniciar suscripción en tiempo real:", error);
+            this.showStatus("Error de conexión. Revisa la consola.", "error");
         }
     },
 
