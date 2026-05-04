@@ -49,5 +49,32 @@ Para activar estas protecciones en el entorno de producción, es necesario ejecu
 firebase deploy --only firestore:rules,hosting
 ```
 
+## QA Final — 2026-05-04
+
+Pruebas ejecutadas via Firebase Auth REST API + Firestore REST API contra el proyecto de producción `docencia-4-lms`. Reglas desplegadas antes de iniciar (`firebase deploy --only firestore:rules`).
+
+**Resultado: 16/16 pruebas pasadas.**
+
+| # | Escenario | Resultado |
+|---|-----------|-----------|
+| 1 | Login admin y participante existente | ✅ |
+| 2 | Perfil ausente en Firestore detectado (test2@gmail.com) — creado correctamente vía `allow create` con matrícula abierta | ✅ |
+| 3 | Lectura de perfil propio (admin y participante) | ✅ |
+| 4 | Lectura de `progresoPaginas` sin restricción de matrícula | ✅ |
+| 5 | Lectura de `progresoModulos` sin restricción de matrícula | ✅ |
+| 6 | Aislamiento: participante bloqueado al leer perfil ajeno | ✅ |
+| 7 | Config `configuracion/registro` legible y evaluada correctamente | ✅ |
+| 8 | Matrícula cerrada: usuario existente activo conserva acceso a perfil y progreso | ✅ |
+| 9 | Matrícula cerrada: nuevo registro de perfil bloqueado (HTTP 403) | ✅ |
+| 10 | `role:admin` rechazado en `allow create` (HTTP 403) | ✅ |
+| 11 | Admin lee `configuracion/registro` | ✅ |
+| 12 | Admin lista colección `usuarios` (5 perfiles) | ✅ |
+
+**Notas:**
+- La cuenta `test2@gmail.com` tenía Auth creada pero sin documento en Firestore (`usuarios/{uid}`). Esto confirmó el escenario F del plan de QA y la corrección del `auth-guard`.
+- La verificación post-registro (retry en `register-handler.js`) no genera race condition: el perfil fue legible de inmediato tras la creación.
+- La función `enrollmentIsOpen()` en las reglas evalúa correctamente `configuracion/registro` en tiempo real.
+- Las reglas de Firestore están desplegadas. Pendiente: `firebase deploy --only hosting`.
+
 ---
-*Archivo generado para el historial de versiones de Docencia 4.0 - Fase 2.0F-13 (revisión correctiva).*
+*Archivo generado para el historial de versiones de Docencia 4.0 - Fase 2.0F-13 (revisión correctiva). Archivado: 2026-05-04.*
