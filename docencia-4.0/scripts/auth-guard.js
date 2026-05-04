@@ -4,53 +4,49 @@ import { getUserProfile } from "./user-service.js";
 
 /**
  * AUTH GUARD: Protege las páginas privadas.
- * Verifica autenticación y estado del usuario en Firestore.
- * Sin perfil válido en Firestore → cierre de sesión y redirección.
+ * Verifica autenticación y estado del perfil en Firestore.
+ * La matrícula NO es relevante aquí — controla solo el registro de nuevas cuentas.
  */
 onAuthStateChanged(auth, async (user) => {
+    console.log("GUARD: Auth state changed. User:", user ? user.email : "none");
+
     if (!user) {
-        window.location.href = "index.html";
+        // Espera breve para descartar retrasos del SDK antes de redirigir
+        setTimeout(() => {
+            if (!auth.currentUser) {
+                console.warn("GUARD: No session after wait. Redirecting to login.");
+                window.location.href = "index.html";
+            }
+        }, 1000);
         return;
     }
 
     try {
+        console.log("GUARD: Loading Firestore profile for UID:", user.uid);
         const profile = await getUserProfile(user.uid);
+        console.log("GUARD: Profile received:", profile);
 
         if (!profile) {
+            console.error("GUARD: Profile NOT found in Firestore. UID:", user.uid);
             await signOut(auth);
-            sessionStorage.setItem("auth_redirect_message", "Tu cuenta no tiene un perfil activo. Comunícate con el administrador.");
+            sessionStorage.setItem("auth_redirect_message", "Tu cuenta no tiene un perfil activo en el programa. Comunícate con el administrador.");
             window.location.href = "index.html";
             return;
         }
 
-        // 1. Verificar si el usuario es administrador (bypass de periodo de matrícula)
-        const userIsAdmin = profile.role === "admin";
-
-        // 2. Si no es admin, verificar si la matrícula está abierta
-        if (!userIsAdmin) {
-            const { getEnrollmentConfig, evaluateEnrollmentStatus } = await import("./enrollment-service.js");
-            const config = await getEnrollmentConfig();
-            const enrollmentStatus = evaluateEnrollmentStatus(config);
-
-            if (!enrollmentStatus.isOpen) {
-                console.warn("Acceso denegado: Periodo de matrícula cerrado.");
-                await signOut(auth);
-                alert(enrollmentStatus.message);
-                window.location.href = "index.html";
-                return;
-            }
-        }
-
-        // 3. Bloqueo por estado o revocación manual
         if (profile.status === "inactive" || profile.status === "archived" || profile.accessRevoked === true) {
-            console.warn("Acceso denegado: cuenta inactiva o acceso revocado.");
+            console.warn("GUARD: Access denied — account inactive or revoked.");
             await signOut(auth);
-            alert("Tu acceso al programa no está activo. Comunícate con el administrador.");
+            sessionStorage.setItem("auth_redirect_message", "Tu acceso al programa no está activo. Comunícate con el administrador.");
             window.location.href = "index.html";
+            return;
         }
+
+        // status === "active" (participant o admin) → acceso permitido
+        console.log("GUARD: Access granted for", profile.role, profile.email);
+
     } catch (error) {
-        console.error("Error al verificar estado del usuario:", error);
-        // Ante error inesperado, cerrar sesión por seguridad
+        console.error("GUARD: Unexpected error verifying user state:", error);
         try { await signOut(auth); } catch (_) { /* ignorar */ }
         window.location.href = "index.html";
     }

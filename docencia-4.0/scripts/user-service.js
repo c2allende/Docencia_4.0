@@ -34,11 +34,17 @@ export async function createUserProfile(user, additionalData = {}) {
         updatedAt: serverTimestamp()
     };
 
+    console.log("DIAGNÓSTICO: Intentando crear perfil para UID:", user.uid);
+    console.log("DIAGNÓSTICO: Datos del perfil:", profile);
+
     try {
         await setDoc(userRef, profile, { merge: true });
+        console.log("DIAGNÓSTICO: Perfil creado exitosamente en Firestore.");
         return profile;
     } catch (error) {
-        console.error("Error al crear perfil en Firestore:", error);
+        console.error("DIAGNÓSTICO: Error crítico al crear perfil:", error);
+        console.error("DIAGNÓSTICO: Código de error:", error.code);
+        console.error("DIAGNÓSTICO: Mensaje de error:", error.message);
         throw error;
     }
 }

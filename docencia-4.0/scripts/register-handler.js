@@ -1,5 +1,5 @@
 import { registerUser } from "./auth.js";
-import { createUserProfile } from "./user-service.js";
+import { getUserProfile } from "./user-service.js";
 import { getEnrollmentConfig, evaluateEnrollmentStatus } from "./enrollment-service.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { auth } from "./firebase-config.js";
@@ -35,7 +35,6 @@ function setEnrollmentBanner(status) {
     banner.removeAttribute('hidden');
 }
 
-// Verificar estado de matrícula al cargar la página
 async function initEnrollmentStatus() {
     const banner = document.getElementById('enrollmentBanner');
     if (banner) {
@@ -83,30 +82,39 @@ registerForm?.addEventListener('submit', async (e) => {
 
     showMessage('Creando cuenta...', 'info');
 
-    // roleContext fijo — no se lee del DOM para evitar manipulación
-    const roleContext = "Participante";
-
     try {
-        // 1. Registro en Firebase Auth
         const userCredential = await registerUser(email, password, displayName);
-        const user = userCredential.user;
+        const uid = userCredential.user.uid;
 
-        // 2. Actualizar perfil con roleContext (segunda llamada — flujo original)
-        showMessage('Configurando perfil...', 'info');
-        await createUserProfile(user, {
-            displayName,
-            roleContext
-        });
+        // Verificar que el perfil sea legible en Firestore antes de redirigir.
+        // Evita que auth-guard llegue al dashboard antes de que el documento esté disponible.
+        let profile = null;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            profile = await getUserProfile(uid);
+            if (profile) break;
+            if (attempt < 3) await new Promise(r => setTimeout(r, 600));
+        }
+
+        if (!profile) {
+            try { await signOut(auth); } catch (_) { /* ignorar */ }
+            showMessage(
+                'La cuenta fue creada pero hubo un problema al inicializar el perfil. ' +
+                (enrollmentStatus.adminContactEmail
+                    ? 'Comunícate con: ' + enrollmentStatus.adminContactEmail
+                    : 'Comunícate con el administrador.'),
+                'error'
+            );
+            return;
+        }
 
         showMessage('Cuenta creada con éxito. Redirigiendo...', 'success');
         setTimeout(() => {
-            window.location.href = "index.html";
-        }, 2000);
+            window.location.href = "dashboard.html";
+        }, 1500);
 
     } catch (error) {
         console.error("Error en registro:", error);
 
-        // Si Auth se creó pero Firestore rechazó el perfil, cerrar sesión
         if (auth.currentUser) {
             try { await signOut(auth); } catch (_) { /* ignorar */ }
         }
@@ -118,7 +126,10 @@ registerForm?.addEventListener('submit', async (e) => {
         } else if (error.code === 'auth/weak-password') {
             errorMsg = 'La contraseña es muy débil (mínimo 6 caracteres).';
         } else if (error.code === 'permission-denied' || (error.message && error.message.includes('permission'))) {
-            errorMsg = 'El periodo de matrícula está cerrado o tu registro no fue autorizado. Comunícate con el administrador.';
+            errorMsg = 'El periodo de matrícula está cerrado o tu registro no fue autorizado. ' +
+                (enrollmentStatus.adminContactEmail
+                    ? 'Comunícate con: ' + enrollmentStatus.adminContactEmail
+                    : 'Comunícate con el administrador.');
         }
 
         showMessage(errorMsg, 'error');

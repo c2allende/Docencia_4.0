@@ -22,13 +22,13 @@ service cloud.firestore {
     }
 
     // --- CONTROL DE MATRÍCULA ---
+    // Solo controla la creación de cuentas nuevas. No bloquea lectura de usuarios existentes.
 
     function enrollmentIsOpen() {
-      let cfgPath = /databases/$(database)/documents/configuracion/registro;
-      return exists(cfgPath) &&
-        get(cfgPath).data.enrollmentEnabled == true &&
-        request.time >= get(cfgPath).data.enrollmentStartAt &&
-        request.time <= get(cfgPath).data.enrollmentEndAt;
+      return exists(/databases/$(database)/documents/configuracion/registro)
+          && get(/databases/$(database)/documents/configuracion/registro).data.enrollmentEnabled == true
+          && request.time >= get(/databases/$(database)/documents/configuracion/registro).data.enrollmentStartAt
+          && request.time <= get(/databases/$(database)/documents/configuracion/registro).data.enrollmentEndAt;
     }
 
     // --- VALIDACIONES DE DATOS ---
@@ -64,24 +64,13 @@ service cloud.firestore {
 
     // 1. Usuarios
     match /usuarios/{userId} {
-      allow get: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
       allow list: if isAdmin();
 
-      allow create: if isOwner(userId)
-        && request.resource.data.keys().hasAll([
-          "uid", "email", "displayName", "roleContext", "role",
-          "status", "emailVerified", "createdAt", "updatedAt"
-        ])
-        && request.resource.data.keys().hasOnly([
-          "uid", "email", "displayName", "roleContext", "role",
-          "status", "emailVerified", "createdAt", "updatedAt"
-        ])
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.email == request.auth.token.email
-        && request.resource.data.role == "participant"
-        && request.resource.data.roleContext == "Participante"
-        && request.resource.data.status == "active"
-        && enrollmentIsOpen();
+      allow create: if isOwner(userId) && enrollmentIsOpen()
+          && request.resource.data.role == "participant"
+          && request.resource.data.roleContext == "Participante"
+          && request.resource.data.status == "active";
 
       allow update: if signedIn() && (
         (isOwner(userId) && (
@@ -107,8 +96,8 @@ service cloud.firestore {
 
       // 1.2. Progreso de Páginas
       match /progresoPaginas/{pageId} {
-        allow get: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
-        allow list: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
+        allow get: if isOwner(userId) || isAdmin();
+        allow list: if isOwner(userId) || isAdmin();
         
         allow create: if isOwner(userId)
           && request.resource.data.keys().hasOnly([
@@ -145,8 +134,8 @@ service cloud.firestore {
 
       // 1.3. Progreso de Módulos
       match /progresoModulos/{moduleId} {
-        allow get: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
-        allow list: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
+        allow get: if isOwner(userId) || isAdmin();
+        allow list: if isOwner(userId) || isAdmin();
         
         allow create: if isOwner(userId)
           && request.resource.data.keys().hasOnly([
