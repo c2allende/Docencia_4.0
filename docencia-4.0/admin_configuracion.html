@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -236,12 +236,15 @@
             background: var(--color-border-default);
             cursor: pointer;
             transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
+            display: flex;
+            align-items: center;
         }
 
         .admin-configuracion-page .toggle-pill::after {
             content: '';
             position: absolute;
-            left: var(--spacing-1);
+            left: 3px;
+            top: 3px;
             width: 22px;
             height: 22px;
             border-radius: var(--radius-pill);
@@ -261,6 +264,12 @@
         .admin-configuracion-page .toggle-pill:disabled {
             opacity: 0.4;
             cursor: not-allowed;
+        }
+
+        .admin-configuracion-page .form-actions {
+            margin-top: var(--spacing-lg);
+            display: flex;
+            justify-content: flex-start;
         }
 
         .admin-configuracion-page .setting-row-badge {
@@ -425,6 +434,39 @@
 
                     <section class="panel-card">
                         <div class="panel-header">
+                            <h2>Periodo de matrícula</h2>
+                        </div>
+                        <div id="enrollmentStatusMessage" class="status-message" role="status" aria-live="polite"></div>
+                        <form id="enrollmentForm" novalidate>
+                            <div class="setting-row" style="margin-bottom: var(--spacing-lg);">
+                                <div>
+                                    <h3>Activar matrícula</h3>
+                                    <p>Permite el registro de nuevos participantes durante el periodo definido.</p>
+                                </div>
+                                <button id="enrollmentEnabled" class="toggle-pill" type="button" aria-pressed="false" aria-label="Activar periodo de matrícula"></button>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="enrollmentStartAt" class="form-label">Inicio de matrícula</label>
+                                    <input id="enrollmentStartAt" class="form-input" type="datetime-local">
+                                </div>
+                                <div class="form-field">
+                                    <label for="enrollmentEndAt" class="form-label">Cierre de matrícula</label>
+                                    <input id="enrollmentEndAt" class="form-input" type="datetime-local">
+                                </div>
+                                <div class="form-field full-width">
+                                    <label for="enrollmentContactEmail" class="form-label">Email de contacto administrativo</label>
+                                    <input id="enrollmentContactEmail" class="form-input" type="email" placeholder="contacto@institucion.edu">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" type="submit">Guardar configuración de matrícula</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="panel-card">
+                        <div class="panel-header">
                             <h2>Reglas operativas</h2>
                         </div>
                         <div class="setting-row">
@@ -521,6 +563,7 @@
 
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/admin-guard.js"></script>
+    <script type="module" src="scripts/admin-configuracion-handler.js"></script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>

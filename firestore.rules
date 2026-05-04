@@ -21,6 +21,16 @@ service cloud.firestore {
       );
     }
 
+    // --- CONTROL DE MATRÍCULA ---
+
+    function enrollmentIsOpen() {
+      let cfgPath = /databases/$(database)/documents/configuracion/registro;
+      return exists(cfgPath) &&
+        get(cfgPath).data.enrollmentEnabled == true &&
+        request.time >= get(cfgPath).data.enrollmentStartAt &&
+        request.time <= get(cfgPath).data.enrollmentEndAt;
+    }
+
     // --- VALIDACIONES DE DATOS ---
 
     function validAnnouncementFields() {
@@ -54,22 +64,24 @@ service cloud.firestore {
 
     // 1. Usuarios
     match /usuarios/{userId} {
-      allow get: if isOwner(userId) || isAdmin();
+      allow get: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
       allow list: if isAdmin();
 
       allow create: if isOwner(userId)
         && request.resource.data.keys().hasAll([
-          "uid", "email", "displayName", "roleContext", "role", 
+          "uid", "email", "displayName", "roleContext", "role",
           "status", "emailVerified", "createdAt", "updatedAt"
         ])
         && request.resource.data.keys().hasOnly([
-          "uid", "email", "displayName", "roleContext", "role", 
+          "uid", "email", "displayName", "roleContext", "role",
           "status", "emailVerified", "createdAt", "updatedAt"
         ])
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.role == "participant"
-        && request.resource.data.status == "active";
+        && request.resource.data.roleContext == "Participante"
+        && request.resource.data.status == "active"
+        && enrollmentIsOpen();
 
       allow update: if signedIn() && (
         (isOwner(userId) && (
@@ -95,8 +107,8 @@ service cloud.firestore {
 
       // 1.2. Progreso de Páginas
       match /progresoPaginas/{pageId} {
-        allow get: if isOwner(userId) || isAdmin();
-        allow list: if isOwner(userId) || isAdmin();
+        allow get: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
+        allow list: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
         
         allow create: if isOwner(userId)
           && request.resource.data.keys().hasOnly([
@@ -133,8 +145,8 @@ service cloud.firestore {
 
       // 1.3. Progreso de Módulos
       match /progresoModulos/{moduleId} {
-        allow get: if isOwner(userId) || isAdmin();
-        allow list: if isOwner(userId) || isAdmin();
+        allow get: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
+        allow list: if (isOwner(userId) && (enrollmentIsOpen() || isAdmin())) || isAdmin();
         
         allow create: if isOwner(userId)
           && request.resource.data.keys().hasOnly([
@@ -415,14 +427,16 @@ service cloud.firestore {
       }
     }
 
-    // ─── CONFIGURACIÓN DE ACCESO POR MÓDULO ───────────────────────────────────
-    // configuracion/modulos — fuente única de verdad para control de acceso
+    // ─── CONFIGURACIÓN DE PLATAFORMA ──────────────────────────────────────────
+    // configuracion/modulos — control de acceso por módulo
+    // configuracion/registro — periodo de matrícula (lectura pública para registro.html)
     match /configuracion/{docId} {
-      // Cualquier usuario autenticado puede leer (necesario para el guard)
-      allow get, list: if signedIn();
+      // registro es legible sin autenticación (para verificar matrícula en registro.html)
+      allow get: if signedIn() || docId == "registro";
+      allow list: if signedIn();
 
-      // Solo admin activo puede crear o actualizar
-      allow create, update: if isAdmin() && docId == "modulos";
+      // Solo admin puede crear o actualizar documentos autorizados
+      allow create, update: if isAdmin() && (docId == "modulos" || docId == "registro");
 
       // Delete bloqueado permanentemente
       allow delete: if false;

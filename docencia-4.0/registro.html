@@ -431,6 +431,45 @@
                 padding: var(--spacing-lg) var(--spacing-md);
             }
         }
+
+        .enrollment-banner {
+            display: none;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            border: var(--border-width-1) solid transparent;
+        }
+
+        .enrollment-banner:not([hidden]) {
+            display: flex;
+        }
+
+        .enrollment-banner.is-loading {
+            background: var(--color-background-surface-low);
+            border-color: var(--color-border-default);
+            color: var(--color-text-muted);
+        }
+
+        .enrollment-banner.is-open {
+            background: var(--color-feedback-success-container);
+            border-color: var(--color-feedback-success);
+            color: var(--color-text-primary);
+        }
+
+        .enrollment-banner.is-closed {
+            background: var(--color-feedback-warning-container);
+            border-color: var(--color-feedback-warning);
+            color: var(--color-text-primary);
+        }
+
+        .enrollment-banner-icon {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
     </style>
 </head>
 
@@ -460,6 +499,17 @@
                     <h1 id="register-title">Crear Cuenta</h1>
                     <p>Completa la información básica para preparar tu acceso a la plataforma Docencia 4.0.</p>
                 </header>
+
+                <div id="enrollmentBanner" class="enrollment-banner" hidden role="status" aria-live="polite">
+                    <span class="enrollment-banner-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </span>
+                    <span id="enrollmentBannerText"></span>
+                </div>
 
                 <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
 

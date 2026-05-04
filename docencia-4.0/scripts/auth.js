@@ -28,10 +28,11 @@ export const registerUser = async (email, password, displayName = '') => {
         await updateProfile(user, { displayName });
     }
 
-    // Crear perfil en Firestore
-    await createUserProfile(user, { 
+    // Crear perfil en Firestore (roleContext fijo — requerido por regla Firestore)
+    await createUserProfile(user, {
         displayName: displayName || user.displayName || "Participante",
         role: "participant",
+        roleContext: "Participante",
         status: "active"
     });
 
