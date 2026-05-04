@@ -1120,6 +1120,7 @@
         import { auth } from "./scripts/firebase-config.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
         import { getVisibleAnnouncements, getUserReadStatus, markAsRead } from "./scripts/announcement-service.js";
+        import { getUserProfile } from "./scripts/user-service.js";
         import { getModuleDetailedProgress } from "./scripts/progress-service.js";
         import { subscribeToUnreadNotifications, subscribeToRecentNotifications, markNotificationAsRead, archiveNotification } from "./scripts/notification-service.js";
 
@@ -1260,15 +1261,27 @@
             if (user) {
                 // 1. Cargar anuncios
                 try {
-                    const [announcements, readIds] = await Promise.all([
+                    const [announcements, readIds, profile] = await Promise.all([
                         getVisibleAnnouncements(),
-                        getUserReadStatus(user.uid)
+                        getUserReadStatus(user.uid),
+                        getUserProfile(user.uid)
                     ]);
+
+                    // Fecha de creación del usuario (para no mostrar anuncios previos al registro - Fase 2.0F-11C)
+                    const userCreatedAt = profile?.createdAt?.toMillis() || Date.now();
 
                     // Mapeo a notificaciones virtuales para la campana
                     const virtuals = [];
                     announcements.forEach(a => {
-                        if ((a.priority === 'urgente' || a.priority === 'importante') && !readIds.includes(a.id)) {
+                        const announceTime = a.publishAt?.toMillis() || a.createdAt?.toMillis() || 0;
+
+                        // Solo contar como "pendiente" si:
+                        // 1. Es urgente o importante
+                        // 2. No ha sido leído
+                        // 3. Fue publicado DESPUÉS de que el usuario se uniera
+                        if ((a.priority === 'urgente' || a.priority === 'importante') && 
+                            !readIds.includes(a.id) &&
+                            announceTime >= userCreatedAt) {
                             virtuals.push({
                                 id: `virtual_announcement_${a.id}`,
                                 type: "announcement",
@@ -1360,4 +1373,5 @@
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
+
 </html>
