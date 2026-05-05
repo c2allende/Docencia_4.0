@@ -15,20 +15,17 @@ service cloud.firestore {
     function isAdmin() {
       return signedIn() && (
         request.auth.uid == "9l2MOKU8Y9ayX9yHmxtAcpGkzcJ2" ||
-        request.auth.token.email == "carmelo.allende@gmail.com" ||
-        (exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) && 
-         get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == "admin")
+        request.auth.token.email == "carmelo.allende@gmail.com"
       );
     }
 
     // --- CONTROL DE MATRÍCULA ---
-    // Solo controla la creación de cuentas nuevas. No bloquea lectura de usuarios existentes.
-
     function enrollmentIsOpen() {
+      let config = get(/databases/$(database)/documents/configuracion/registro).data;
       return exists(/databases/$(database)/documents/configuracion/registro)
-          && get(/databases/$(database)/documents/configuracion/registro).data.enrollmentEnabled == true
-          && request.time >= get(/databases/$(database)/documents/configuracion/registro).data.enrollmentStartAt
-          && request.time <= get(/databases/$(database)/documents/configuracion/registro).data.enrollmentEndAt;
+          && config.enrollmentEnabled == true
+          && request.time >= config.get("enrollmentStartAt", request.time)
+          && request.time <= config.get("enrollmentEndAt", request.time);
     }
 
     // --- VALIDACIONES DE DATOS ---
@@ -64,10 +61,14 @@ service cloud.firestore {
 
     // 1. Usuarios
     match /usuarios/{userId} {
-      allow get: if isOwner(userId) || isAdmin();
+      // Lectura individual: Solo el dueño o un administrador
+      allow get: if signedIn() && (request.auth.uid == userId || isAdmin());
+      
+      // Listado: Solo administradores
       allow list: if isAdmin();
 
-      allow create: if isOwner(userId) && enrollmentIsOpen()
+      // Creación: Solo el propio usuario y si la matrícula está abierta
+      allow create: if signedIn() && request.auth.uid == userId && enrollmentIsOpen()
           && request.resource.data.role == "participant"
           && request.resource.data.roleContext == "Participante"
           && request.resource.data.status == "active";

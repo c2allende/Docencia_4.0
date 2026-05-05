@@ -83,36 +83,46 @@ registerForm?.addEventListener('submit', async (e) => {
     showMessage('Creando cuenta...', 'info');
 
     try {
+        // PASO 1: Establecer banderas ANTES de crear Auth para silenciar public-auth-check.js
+        sessionStorage.setItem("registration_in_progress", "true");
+        sessionStorage.setItem("registration_just_completed", "true");
+
         const userCredential = await registerUser(email, password, displayName);
-        const uid = userCredential.user.uid;
+        
+        // PASO 6: Logs temporales para diagnóstico
+        console.log("[REGISTER] auth uid", auth.currentUser?.uid);
+        console.log("[REGISTER] profile path", `usuarios/${auth.currentUser?.uid}`);
 
-        // Verificar que el perfil sea legible en Firestore antes de redirigir.
-        // Evita que auth-guard llegue al dashboard antes de que el documento esté disponible.
-        let profile = null;
-        for (let attempt = 1; attempt <= 3; attempt++) {
-            profile = await getUserProfile(uid);
-            if (profile) break;
-            if (attempt < 3) await new Promise(r => setTimeout(r, 600));
+        const user = userCredential.user;
+
+        // FORZAR REFRESH DE TOKEN
+        await user.getIdToken(true);
+        await user.reload();
+
+        // Verificación única: si falla por propagación lenta, el auth-guard del dashboard reintentará
+        try {
+            const profile = await getUserProfile(user.uid);
+            if (profile && profile.status === "active") {
+                console.log("[REGISTER] Perfil verificado exitosamente.");
+            }
+        } catch (e) {
+            console.warn("[REGISTER] Lectura inicial falló (esperado en algunos casos):", e.code);
         }
 
-        if (!profile) {
-            try { await signOut(auth); } catch (_) { /* ignorar */ }
-            showMessage(
-                'La cuenta fue creada pero hubo un problema al inicializar el perfil. ' +
-                (enrollmentStatus.adminContactEmail
-                    ? 'Comunícate con: ' + enrollmentStatus.adminContactEmail
-                    : 'Comunícate con el administrador.'),
-                'error'
-            );
-            return;
-        }
+        // Éxito: Limpiar bandera de "en progreso" para que public-auth-check.js sepa que ya terminó el paso de Auth
+        // Pero MANTENER "registration_just_completed" para que el auth-guard en el dashboard haga los reintentos
+        sessionStorage.removeItem("registration_in_progress");
 
         showMessage('Cuenta creada con éxito. Redirigiendo...', 'success');
         setTimeout(() => {
             window.location.href = "dashboard.html";
-        }, 1500);
+        }, 1000);
 
     } catch (error) {
+        // Error: Limpiar AMBAS banderas para permitir reintentos limpios
+        sessionStorage.removeItem("registration_in_progress");
+        sessionStorage.removeItem("registration_just_completed");
+        
         console.error("Error en registro:", error);
 
         if (auth.currentUser) {

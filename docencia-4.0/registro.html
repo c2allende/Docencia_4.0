@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -529,12 +529,11 @@
                                 <input id="displayName" name="displayName" type="text" class="input input-field"
                                     placeholder="Ej. Participante 01" autocomplete="name" maxlength="60">
                             </div>
-                            <span class="field-helper">Utiliza tu nombre real. Es necesario escribir
-                                nombre completo.</span>
+                            <span class="field-helper">Utilice su nombre completo para facilitar la identificación institucional dentro del programa.</span>
                         </div>
 
                         <div class="form-group">
-                            <label for="roleContext" class="form-label">Rol</label>
+                            <label for="roleContextDisplay" class="form-label">Rol</label>
                             <div class="input-wrapper">
                                 <span class="input-icon" aria-hidden="true">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -545,12 +544,13 @@
                                         <path d="M19 21V11l-6-4"></path>
                                     </svg>
                                 </span>
-                                <select id="roleContext" name="roleContext" class="select-field">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="participante">Participante</option>
-
-                                </select>
+                                <input id="roleContextDisplay" type="text" class="input input-field"
+                                    value="Participante" readonly
+                                    aria-label="Rol asignado: Participante"
+                                    style="color: var(--color-text-muted); cursor: default; padding-right: var(--spacing-lg);">
+                                <input type="hidden" id="roleContext" name="roleContext" value="Participante">
                             </div>
+                            <span class="field-helper">Todos los participantes del programa acceden con este rol.</span>
                         </div>
 
                         <div class="form-group full-width">
@@ -789,8 +789,8 @@
     </script>
 
     <!-- Firebase Auth Integration -->
-    <script type="module" src="scripts/public-auth-check.js"></script>
-    <script type="module" src="scripts/register-handler.js"></script>
+    <script type="module" src="scripts/public-auth-check.js?v=2.0F13f"></script>
+    <script type="module" src="scripts/register-handler.js?v=2.0F13f"></script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>

@@ -1,4 +1,4 @@
-import { db } from "./firebase-config.js";
+import { db, auth } from "./firebase-config.js";
 import { 
     doc, 
     getDoc, 
@@ -11,7 +11,6 @@ import {
     getDocs,
     addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { auth } from "./firebase-config.js";
 
 /**
  * Crea o actualiza el perfil de un usuario en Firestore.
@@ -55,13 +54,33 @@ export async function createUserProfile(user, additionalData = {}) {
  */
 export async function getUserProfile(uid) {
     if (!uid) return null;
+    
+    // PASO 6: Logs temporales para diagnóstico
+    console.log("[USER_SERVICE] getUserProfile uid requested", uid);
+    console.log("[USER_SERVICE] current auth uid", auth.currentUser?.uid);
+    console.log("[USER_SERVICE] uid match", auth.currentUser?.uid === uid);
+
     try {
         const userRef = doc(db, "usuarios", uid);
         const snap = await getDoc(userRef);
-        return snap.exists() ? snap.data() : null;
+        if (!snap.exists()) {
+            console.warn(`[USER_SERVICE] Perfil no encontrado para UID: ${uid}`);
+            return null; // El documento no existe
+        }
+        return snap.data();
     } catch (error) {
-        console.error("Error al obtener perfil:", error);
-        return null;
+        // Enriquecemos el error para el diagnóstico
+        const enhancedError = new Error(error.message);
+        enhancedError.code = error.code || "unknown";
+        enhancedError.uid = uid;
+        
+        console.error("[USER_SERVICE] Fallo en lectura de perfil:", {
+            code: enhancedError.code,
+            message: enhancedError.message,
+            uid: uid
+        });
+        
+        throw enhancedError; 
     }
 }
 

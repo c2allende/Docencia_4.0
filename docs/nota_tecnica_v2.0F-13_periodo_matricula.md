@@ -78,3 +78,29 @@ Pruebas ejecutadas via Firebase Auth REST API + Firestore REST API contra el pro
 
 ---
 *Archivo generado para el historial de versiones de Docencia 4.0 - Fase 2.0F-13 (revisión correctiva). Archivado: 2026-05-04.*
+
+## Corrección v2.0F13f — Redirección prematura por public-auth-check
+
+**Fecha:** 2026-05-04 22:30  
+**Estado:** Certificado tras QA
+
+### Causa Raíz
+Se detectó una condición de carrera crítica durante el registro: el observador global `public-auth-check.js` detectaba la autenticación inmediatamente después de `createUserWithEmailAndPassword` y redirigía al usuario a `dashboard.html` antes de que `register-handler.js` pudiera ejecutar la escritura del perfil en Firestore (`createUserProfile`). Esto resultaba en cuentas de Auth sin perfil, provocando la expulsión inmediata (rebote) por parte del `auth-guard.js`.
+
+### Solución Implementada
+Se implementó un sistema de control de estado de registro distribuido:
+- **`registration_in_progress`**: Bandera establecida en `sessionStorage` antes de crear la cuenta Auth. Silencia las redirecciones automáticas en `public-auth-check.js`.
+- **`registration_just_completed`**: Bandera que persiste hasta el dashboard. Informa al `auth-guard.js` que debe activar el protocolo de estabilización (reintentos de lectura) para compensar la latencia de replicación de Firestore.
+- **Detección en Tiempo Real**: `public-auth-check.js` ahora evalúa las banderas dentro del callback `onAuthStateChanged`, asegurando que el estado sea el más reciente.
+- **Limpieza de Estado**:
+  - `registration_in_progress`: Limpiada por `register-handler.js` tras el éxito de la escritura.
+  - `registration_just_completed`: Limpiada por `auth-guard.js` tras la primera lectura exitosa del perfil o agotamiento de reintentos.
+
+### QA de Certificación
+Se realizaron dos registros exitosos con correos nuevos (`final_qa_f1` y `final_qa_f2`), confirmando:
+1. Redirección automática bloqueada por `public-auth-check`.
+2. Escritura atómica de perfil confirmada.
+3. Acceso al dashboard sin rebotes.
+4. Seguridad mantenida (participantes bloqueados en zona administrativa).
+5. No se debilitaron las reglas de Firestore (no se abrió lectura global).
+

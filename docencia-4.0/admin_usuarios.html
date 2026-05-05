@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.css?v=2">
+    <link rel="stylesheet" href="styles/main.css">
 
     <style>
         .admin-usuarios-page {
@@ -543,23 +543,18 @@
                 <aside class="panel-card" aria-labelledby="create-user-title">
                     <div class="panel-header">
                         <div>
-                            <h2 id="create-user-title">Registro de Usuarios</h2>
-                            <p>Información sobre la creación de cuentas.</p>
+                            <h2 id="create-user-title">Creación de cuentas</h2>
+                            <p>Gestión del acceso al programa.</p>
                         </div>
                     </div>
 
                     <div class="form-grid">
                         <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                            La creación de usuarios reales está centralizada en <strong>Firebase Authentication</strong> para garantizar la seguridad de las credenciales.
+                            La creación inicial de cuentas se gestiona desde el formulario de registro y las reglas de matrícula configuradas en el panel de configuración.
                         </p>
                         <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                            Una vez que un usuario se registra o es invitado, aparecerá automáticamente en la lista de la derecha para que puedas gestionar su rol y permisos de acceso.
+                            Desde este panel puedes <strong>activar, inactivar o archivar</strong> usuarios existentes. Una vez registrados, los participantes aparecen automáticamente en la lista de la derecha.
                         </p>
-                    </div>
-
-                    <div class="form-actions" style="opacity: 0.5; pointer-events: none;">
-                        <button class="btn-admin-secondary" type="button" disabled>Limpiar</button>
-                        <button class="btn btn-primary" type="button" disabled>Añadir usuario</button>
                     </div>
                 </aside>
 
