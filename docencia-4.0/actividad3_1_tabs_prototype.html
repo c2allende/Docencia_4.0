@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,7 @@
             --color-border-subtle: #e1e8f0;
             --radius-lg: 12px;
             --radius-xl: 20px;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
             --spacing-md: 16px;
             --spacing-lg: 24px;
             --spacing-xl: 32px;
@@ -58,12 +59,15 @@
             border-bottom: 2px solid var(--color-border-subtle);
             padding-bottom: 2px;
             overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE/Edge */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
         }
 
         .tabs-nav::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
+            display: none;
+            /* Chrome/Safari */
         }
 
         .tab-btn {
@@ -111,8 +115,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Activity Content Layout */
@@ -155,9 +166,20 @@
             letter-spacing: 0.5px;
         }
 
-        .badge-sync { background: #e3f2fd; color: #1976d2; }
-        .badge-async { background: #f3e5f5; color: #7b1fa2; }
-        .badge-evidence { background: #e8f5e9; color: #2e7d32; }
+        .badge-sync {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-async {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-evidence {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
 
         /* Grid for Cards */
         .activity-grid {
@@ -183,7 +205,8 @@
             gap: 8px;
         }
 
-        .content-block p, .content-block li {
+        .content-block p,
+        .content-block li {
             font-size: 0.95rem;
             color: var(--color-text-secondary);
             line-height: 1.6;
@@ -247,38 +270,66 @@
             border-radius: var(--radius-xl);
         }
 
-        .closing-card h2 { color: white; margin-bottom: var(--spacing-md); }
-        .closing-card p { color: #e1e8f0; font-size: 1.2rem; line-height: 1.6; }
+        .closing-card h2 {
+            color: white;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .closing-card p {
+            color: #e1e8f0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
         .closing-card .quote {
             font-style: italic;
             margin-top: var(--spacing-lg);
             font-weight: 500;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             padding-top: var(--spacing-md);
         }
 
         @media (max-width: 768px) {
-            .activity-grid { grid-template-columns: 1fr; }
-            .steps-container { grid-template-columns: 1fr; }
-            .prototype-header h1 { font-size: 1.5rem; }
-            .tab-btn { padding: 10px 16px; font-size: 0.85rem; }
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="prototype-container">
         <header class="prototype-header">
             <h1>Ruta práctica: integración de IA en evaluación, retroalimentación y gestión docente</h1>
-            <p>Explore las actividades del módulo antes de participar en el espacio colaborativo. Cada pestaña presenta una experiencia de aplicación práctica y la evidencia que compartirá en el tablero.</p>
+            <p>Explore las actividades del módulo antes de participar en el espacio colaborativo. Cada pestaña presenta
+                una experiencia de aplicación práctica y la evidencia que compartirá en el tablero.</p>
         </header>
 
         <nav class="tabs-nav" role="tablist">
-            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="act1-panel" id="act1-tab">Actividad 1</button>
-            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act2-panel" id="act2-tab">Actividad 2</button>
-            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act3-panel" id="act3-tab">Actividad 3</button>
-            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act4-panel" id="act4-tab">Actividad 4</button>
-            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="cierre-panel" id="cierre-tab">Cierre</button>
+            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="act1-panel"
+                id="act1-tab">Actividad 1</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act2-panel" id="act2-tab">Actividad
+                2</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act3-panel" id="act3-tab">Actividad
+                3</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act4-panel" id="act4-tab">Actividad
+                4</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="cierre-panel"
+                id="cierre-tab">Cierre</button>
         </nav>
 
         <!-- Panel Actividad 1 -->
@@ -294,19 +345,22 @@
 
                 <div class="content-block" style="margin-bottom: var(--spacing-lg);">
                     <h3>Objetivo que atiende</h3>
-                    <p>Formular instrumentos de evaluación con IA y organizarlos en flujos de trabajo para su integración eficiente.</p>
+                    <p>Formular instrumentos de evaluación con IA y organizarlos en flujos de trabajo para su
+                        integración eficiente.</p>
                 </div>
 
                 <div class="steps-container">
                     <div class="step-card">
                         <span class="step-number">1</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Selección de estándar</h4>
-                        <p>Seleccione un estándar del DEPR y defina el tipo de instrumento (rúbrica, lista de cotejo, etc.).</p>
+                        <p>Seleccione un estándar del DEPR y defina el tipo de instrumento (rúbrica, lista de cotejo,
+                            etc.).</p>
                     </div>
                     <div class="step-card">
                         <span class="step-number">2</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Prompt y Generación</h4>
-                        <p>Redacte el prompt con rol, grado y formato. Revise el resultado con "La Lupa del Maestro".</p>
+                        <p>Redacte el prompt con rol, grado y formato. Revise el resultado con "La Lupa del Maestro".
+                        </p>
                     </div>
                     <div class="step-card">
                         <span class="step-number">3</span>
@@ -317,7 +371,8 @@
 
                 <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
                     <h3>Evidencia para compartir</h3>
-                    <p>Publicación en Padlet: estándar usado, captura del instrumento y reflexión sobre la utilidad de la IA y los ajustes necesarios.</p>
+                    <p>Publicación en Padlet: estándar usado, captura del instrumento y reflexión sobre la utilidad de
+                        la IA y los ajustes necesarios.</p>
                 </div>
             </div>
         </div>
@@ -345,23 +400,27 @@
                     <div class="step-card">
                         <span class="step-number">1</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Caso y Feedback</h4>
-                        <p>Redacte un prompt para generar retroalimentación personalizada de 3–5 oraciones con tono empático.</p>
+                        <p>Redacte un prompt para generar retroalimentación personalizada de 3–5 oraciones con tono
+                            empático.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-number">2</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Patrones de Error</h4>
-                        <p>Use la IA para identificar 2–3 errores frecuentes y estrategias de re-enseñanza para el grupo.</p>
+                        <p>Use la IA para identificar 2–3 errores frecuentes y estrategias de re-enseñanza para el
+                            grupo.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-number">3</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Evidencia</h4>
-                        <p>Publique el feedback editado, el plan de re-enseñanza y su reflexión sobre la "voz docente".</p>
+                        <p>Publique el feedback editado, el plan de re-enseñanza y su reflexión sobre la "voz docente".
+                        </p>
                     </div>
                 </div>
 
                 <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
                     <h3>Evidencia para compartir</h3>
-                    <p>En Padlet: ejemplo de feedback editado, breve plan de re-enseñanza y ajuste realizado para humanizar la respuesta.</p>
+                    <p>En Padlet: ejemplo de feedback editado, breve plan de re-enseñanza y ajuste realizado para
+                        humanizar la respuesta.</p>
                 </div>
             </div>
         </div>
@@ -379,7 +438,8 @@
 
                 <div class="content-block" style="margin-bottom: var(--spacing-lg);">
                     <h3>Objetivo que atiende</h3>
-                    <p>Generar y adaptar modelos de documentos administrativos y comunicaciones institucionales con IA.</p>
+                    <p>Generar y adaptar modelos de documentos administrativos y comunicaciones institucionales con IA.
+                    </p>
                 </div>
 
                 <div class="steps-container">
@@ -396,13 +456,15 @@
                     <div class="step-card">
                         <span class="step-number">3</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Plantilla</h4>
-                        <p>Edite el borrador, ajuste la terminología y comparta cuánto tiempo le ahorraría reutilizarlo.</p>
+                        <p>Edite el borrador, ajuste la terminología y comparta cuánto tiempo le ahorraría reutilizarlo.
+                        </p>
                     </div>
                 </div>
 
                 <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
                     <h3>Evidencia para compartir</h3>
-                    <p>Fragmento del documento editado (sin datos reales), situación de uso y estimación de tiempo ahorrado.</p>
+                    <p>Fragmento del documento editado (sin datos reales), situación de uso y estimación de tiempo
+                        ahorrado.</p>
                 </div>
             </div>
         </div>
@@ -430,7 +492,8 @@
                     <div class="step-card">
                         <span class="step-number">1</span>
                         <h4 style="margin-top: 10px; font-weight: 700;">Caso de Riesgo</h4>
-                        <p>Identificación de datos PII y aplicación de "La Lupa del Maestro" en sección de privacidad.</p>
+                        <p>Identificación de datos PII y aplicación de "La Lupa del Maestro" en sección de privacidad.
+                        </p>
                     </div>
                     <div class="step-card">
                         <span class="step-number">2</span>
@@ -446,7 +509,8 @@
 
                 <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
                     <h3>Evidencia para compartir</h3>
-                    <p>Ejemplo de anonimización (antes simulado / después) y compromiso personal sobre el manejo de datos.</p>
+                    <p>Ejemplo de anonimización (antes simulado / después) y compromiso personal sobre el manejo de
+                        datos.</p>
                 </div>
             </div>
         </div>
@@ -455,12 +519,15 @@
         <div class="tab-panel" id="cierre-panel" role="tabpanel" aria-labelledby="cierre-tab">
             <div class="closing-card">
                 <h2>Cierre de la Actividad</h2>
-                <p>La integración de la IA en nuestra labor docente no busca reemplazar nuestro criterio, sino potenciar nuestra capacidad de respuesta y reducir la carga operativa.</p>
+                <p>La integración de la IA en nuestra labor docente no busca reemplazar nuestro criterio, sino potenciar
+                    nuestra capacidad de respuesta y reducir la carga operativa.</p>
                 <div class="quote">
-                    "La IA reduce la carga operativa, pero la evaluación, la comunicación y la ética siguen siendo responsabilidad profesional del docente."
+                    "La IA reduce la carga operativa, pero la evaluación, la comunicación y la ética siguen siendo
+                    responsabilidad profesional del docente."
                 </div>
                 <div style="margin-top: var(--spacing-lg); font-size: 0.9rem; opacity: 0.8;">
-                    Reflexión final: Identifique qué herramienta o plantilla se llevará directamente a su práctica mañana mismo.
+                    Reflexión final: Identifique qué herramienta o plantilla se llevará directamente a su práctica
+                    mañana mismo.
                 </div>
             </div>
         </div>
@@ -493,4 +560,5 @@
         });
     </script>
 </body>
+
 </html>
