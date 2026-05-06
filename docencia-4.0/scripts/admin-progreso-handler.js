@@ -2,6 +2,7 @@ import { auth, db } from "./firebase-config.js";
 import { 
     subscribeToParticipantsProgress, 
     getParticipantDetailedProgress, 
+    resetUserModuleProgress,
     detectUserOrphanData, 
     archiveOrphanProgress,
     deleteUserCompleteData

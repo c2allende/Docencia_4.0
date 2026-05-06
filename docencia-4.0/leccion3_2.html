@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -1094,10 +1094,75 @@
                 border-radius: var(--radius-lg);
             }
         }
+
+        /* TOOLBOX & PROMPT CARDS (Local) */
+        .toolbox-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-xl);
+            margin: var(--spacing-16) 0;
+            background: var(--color-background-card-inverse);
+            border-radius: var(--radius-xl);
+            color: var(--color-text-inverse);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .toolbox-card::before {
+            content: "TOOLBOX";
+            position: absolute;
+            top: -24px;
+            right: -18px;
+            color: var(--color-alpha-white-15);
+            font-family: var(--font-family-heading);
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: var(--font-weight-extrabold);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .toolbox-title {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .prompt-template {
+            position: relative;
+            z-index: 1;
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed rgba(125, 230, 255, 0.45);
+            border-radius: var(--radius-lg);
+            background: var(--color-alpha-white-10);
+            color: var(--color-white);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-template strong {
+            color: var(--color-white);
+        }
+
+        .token-tag {
+            display: inline;
+            padding: 0.1em 0.35em;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 194, 255, 0.16);
+            color: var(--color-cyan-100);
+            font-weight: var(--font-weight-bold);
+        }
     </style>
 </head>
 
-<body data-page-id="leccion3_2" data-module-id="modulo3" data-page-type="leccion" data-title="Retroalimentación formativa y afectiva">
+<body data-page-id="leccion3_2" data-module-id="modulo3" data-page-type="leccion"
+    data-title="Retroalimentación formativa y afectiva">
     <nav class="top-nav" aria-label="Navegación superior de la lección">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -1188,7 +1253,7 @@
                     emocionales humanos, incluyendo emociones asociadas al proceso de aprender y recibir crítica. Un
                     cuerpo de evidencia sugiere que la retroalimentación que incorpora reconocimiento del esfuerzo,
                     empatía y sugerencias constructivas tiene efectos más positivos en la motivación y la
-                    autorregulación del estudiante que comentarios puramente correctivos (D’Mello &amp; Kory, 2015).</p>
+                    autorregulación del estudiante que comentarios puramente correctivos (D’Mello &amp; Kory, 2015).
                 <p>Investigaciones recientes sobre retroalimentación “emocionalmente enriquecida” generada por IA
                     indican que es posible diseñar prompts y sistemas que produzcan comentarios que combinan elementos
                     cognitivos (qué mejorar) y afectivos (cómo animar y sostener al estudiante), generando mayor
@@ -1212,53 +1277,67 @@
                 </ol>
             </section>
 
-            <section class="text-section" aria-labelledby="prompt-feedback-title">
-                <div class="highlight-box prompt-box">
-                    <h2 id="prompt-feedback-title" class="subsection-title">Ejemplo de prompt para generar feedback</h2>
-                    <div class="prompt-example">
-                        <p><strong>Rol:</strong> Actúa como un Maestro Mentor de [ grado ] en Puerto Rico, experto en
-                            pedagogía positiva y enseñanza de [ materia ] a [nivel ]. Tu tono debe ser alentador,
-                            cercano y motivador, similar al de un guía que celebra el esfuerzo mientras corrige el
-                            camino.</p>
-                        <p><strong>Contexto del estudiante:</strong></p>
-                        <ul class="content-list">
-                            <li>Nivel: 4to Grado (9–10 años).</li>
-                            <li>Desempeño: Obtuvo 65/100 en un examen de fracciones.</li>
-                            <li>Logros: Dominó correctamente las sumas de fracciones.</li>
-                            <li>Desafíos: Confusión entre numerador/denominador, falta de simplificación y errores en
-                                las restas.</li>
-                        </ul>
-                        <p><strong>Tarea:</strong> Redacta un comentario de retroalimentación de 4 a 5 oraciones
-                            dirigido directamente al estudiante. Debes seguir esta estructura de salida estructurada:
-                        </p>
-                        <ol class="content-list-ordered">
-                            <li>Validación positiva: comienza felicitándolo por su excelente trabajo en las sumas.</li>
-                            <li>Claridad empática: explica los errores (numerador/denominador y restas) de forma
-                                sencilla, tratándolos como “oportunidades de aprendizaje” y no como fallos.</li>
-                            <li>Acción concreta: sugiere un paso práctico, por ejemplo, una estrategia de dibujo o una
-                                regla mnemotécnica para no olvidar simplificar.</li>
-                            <li>Cierre motivador: termina con una frase que refuerce su potencial para mejorar en el
-                                próximo reto.</li>
-                        </ol>
-                        <p><strong>Restricciones de estilo:</strong></p>
-                        <ul class="content-list">
-                            <li>No menciones la nota numérica (65/100).</li>
-                            <li>No uses lenguaje condescendiente ni demasiado técnico.</li>
-                            <li>Usa un español natural y cálido, apropiado para el contexto escolar de Puerto Rico.</li>
-                        </ul>
-                    </div>
+            <section class="toolbox-card" aria-labelledby="prompt-feedback-title">
+
+                <h2 id="prompt-feedback-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Ejemplo de prompt para generar feedback
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong><br> Actúa como un Maestro Mentor de [ grado ] en Puerto Rico, experto en
+                    pedagogía positiva y enseñanza de [ materia ] a [nivel ]. Tu tono debe ser alentador,
+                    cercano y motivador, similar al de un guía que celebra el esfuerzo mientras corrige el
+                    camino.<br><br>
+                    <strong>Contexto del estudiante:</strong><br><br>
+
+                    • <span class="token-tag">Nivel: 4to Grado (9–10 años).</span>.<br>
+                    • <span class="token-tag">Desempeño: Obtuvo 65/100 en un examen de fracciones.</span>.<br>
+                    • <span class="token-tag">Logros: Dominó correctamente las sumas de fracciones.</span>.<br>
+                    • <span class="token-tag">Desafíos: Confusión entre numerador/denominador, falta de simplificación y
+                        errores en
+                        las restas.</span>.<br>
+
+                    <strong>Tarea:</strong><br> Redacta un comentario de retroalimentación de 4 a 5 oraciones
+                    dirigido directamente al estudiante. Debes seguir esta estructura de salida estructurada:
+                    <br><br>
+
+                    • <span class="token-tag">Validación positiva: comienza felicitándolo por su excelente trabajo en
+                        las sumas.</span>.<br>
+                    • <span class="token-tag">Claridad empática: explica los errores (numerador/denominador y restas) de
+                        forma
+                        sencilla, tratándolos como “oportunidades de aprendizaje” y no como fallos.</span>.<br>
+                    • <span class="token-tag">Acción concreta: sugiere un paso práctico, por ejemplo, una estrategia de
+                        dibujo o una
+                        regla mnemotécnica para no olvidar simplificar.</span>.<br>
+                    • <span class="token-tag">Cierre motivador: termina con una frase que refuerce su potencial para
+                        mejorar en el
+                        próximo reto.</span>.<br>
+
+                    <strong>Restricciones de estilo:</strong><br><br>
+
+                    • <span class="token-tag">No menciones la nota numérica (65/100).</span>.<br>
+                    • <span class="token-tag">No uses lenguaje condescendiente ni demasiado técnico.</span>.<br>
+                    • <span class="token-tag">Usa un español natural y cálido, apropiado para el contexto escolar de
+                        Puerto Rico.</span>.<br>
+
                 </div>
+
             </section>
 
             <section class="text-section" aria-labelledby="ahorro-title">
                 <h2 id="ahorro-title" class="section-title">Ahorro de tiempo y aumento de calidad</h2>
                 <p>La generación asistida de retroalimentación permite al docente:</p>
                 <ul class="content-list">
+
                     <li>Mantener consistencia en el tono y nivel de detalle.</li>
                     <li>Personalizar comentarios masivamente en menos tiempo, especialmente cuando se usan bots o
                         módulos de retroalimentación incrustados en el LMS que llaman a un LLM.</li>
                     <li>Enfocarse en casos que requieren atención especializada.</li>
                 </ul>
+
                 <div class="highlight-box ethical-box">
                     <p><strong>Limitación ética importante:</strong> El docente siempre debe revisar y personalizar el
                         comentario generado antes de enviarlo, asegurando que refleje su conocimiento del estudiante, su
@@ -1280,6 +1359,7 @@
             <section class="text-section" aria-labelledby="flujo-title">
                 <h2 id="flujo-title" class="section-title">En términos operativos, el flujo típico consiste en</h2>
                 <ol class="content-list-ordered">
+
                     <li><strong>Anonimizar completamente las respuestas:</strong> eliminar nombres, números de
                         estudiante y cualquier información identificable.</li>
                     <li><strong>Compilar respuestas por pregunta o tarea:</strong> agrupar las respuestas a una misma
@@ -1289,53 +1369,64 @@
                     <li><strong>Generar estrategias de re-enseñanza:</strong> basándose en los patrones identificados,
                         solicitar sugerencias de actividades correctivas.</li>
                 </ol>
+
                 <p>Este uso mantiene al maestro como intérprete principal del significado pedagógico de los datos,
                     mientras la IA facilita el procesamiento inicial de grandes volúmenes de información sobre el
                     desempeño estudiantil.</p>
             </section>
 
-            <section class="text-section" aria-labelledby="prompt-errores-title">
-                <div class="highlight-box prompt-box">
-                    <h2 id="prompt-errores-title" class="subsection-title">Ejemplo de prompt para análisis de errores
-                    </h2>
-                    <div class="prompt-example">
-                        <p><strong>Rol:</strong> Actúa como un Especialista en Diagnóstico Pedagógico y Curriculista de
-                            [materia] del DEPR. Tu especialidad es el análisis de “misconceptions” (conceptos erróneos)
-                            y el diseño de estrategias de remediación de bajo costo y alto impacto para el salón de
-                            clases en Puerto Rico.</p>
-                        <p><strong>Contexto:</strong></p>
-                        <ul class="content-list">
-                            <li>Nivel: 6to grado de ciencias (11–12 años).</li>
-                            <li>Materia: Astronomía / Ciclo Lunar.</li>
-                            <li>Insumo: 25 respuestas anónimas de estudiantes a la pregunta: “¿Por qué la luna cambia de
-                                forma durante el mes?”.</li>
-                            <li>Datos: [Pega aquí las 25 respuestas].</li>
-                        </ul>
-                        <p><strong>Tarea:</strong> Realiza un análisis exhaustivo de estas respuestas para informar mi
-                            instrucción futura, cubriendo los siguientes puntos:</p>
-                        <ol class="content-list-ordered">
-                            <li><strong>Identificación de conceptos erróneos:</strong> clasifica y describe los 3
-                                patrones de error más frecuentes, por ejemplo, “la sombra de la Tierra causa las fases”,
-                                “las nubes tapan la luna”, etc.</li>
-                            <li><strong>Análisis de causa raíz:</strong> explica por qué pueden estar ocurriendo estas
-                                confusiones, considerando el uso del vocabulario, ideas previas comunes en esta edad o
-                                posibles fallos en la instrucción tradicional.</li>
-                            <li><strong>Plan de remediación:</strong> diseña una actividad de remediación para cada
-                                error identificado.</li>
-                        </ol>
-                        <p>Las actividades deben estar alineadas a 6to grado, ser de bajo costo o recursos limitados,
-                            utilizar materiales accesibles en una escuela pública de Puerto Rico y promover aprendizaje
-                            activo mediante observación o modelaje físico.</p>
-                        <p><strong>Formato de salida:</strong> Presenta el informe utilizando “La Lupa del Maestro” como
-                            marco de referencia: asegura que las sugerencias sean fácticamente correctas, viables y
-                            culturalmente pertinentes para Puerto Rico.</p>
-                    </div>
+            <section class="toolbox-card" aria-labelledby="prompt-errores-title">
+
+                <h2 id="prompt-errores-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Ejemplo de prompt para análisis de errores
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong><br> Actúa como un Especialista en Diagnóstico Pedagógico y Curriculista de
+                    [materia] del DEPR. Tu especialidad es el análisis de “misconceptions” (conceptos erróneos)
+                    y el diseño de estrategias de remediación de bajo costo y alto impacto para el salón de
+                    clases en Puerto Rico.
+
+                    <strong>Contexto:</strong>
+
+                    • <span class="token-tag">Nivel: 6to grado de ciencias (11–12 años).</span>.<br>
+                    • <span class="token-tag">Materia: Astronomía / Ciclo Lunar.</span>.<br>
+                    • <span class="token-tag">Insumo: 25 respuestas anónimas de estudiantes a la pregunta: “¿Por qué la
+                        luna cambia de
+                        forma durante el mes?”.</span>.<br>
+                    • <span class="token-tag">Datos: [Pega aquí las 25 respuestas].</span>.<br>
+
+                    <strong>Tarea:</strong><br> Realiza un análisis exhaustivo de estas respuestas para informar mi
+                    instrucción futura, cubriendo los siguientes puntos:
+
+                    • <span class="token-tag"><strong>Identificación de conceptos erróneos:</strong> clasifica y
+                        describe los 3
+                        patrones de error más frecuentes, por ejemplo, “la sombra de la Tierra causa las fases”,
+                        “las nubes tapan la luna”, etc.</span>.<br>
+                    • <span class="token-tag"><strong>Análisis de causa raíz:</strong> explica por qué pueden estar
+                        ocurriendo estas
+                        confusiones, considerando el uso del vocabulario, ideas previas comunes en esta edad o
+                        posibles fallos en la instrucción tradicional.</span>.<br>
+                    • <span class="token-tag"><strong>Plan de remediación:</strong> diseña una actividad de remediación
+                        para cada
+                        error identificado.</span>.<br>
+
+                    Las actividades deben estar alineadas a 6to grado, ser de bajo costo o recursos limitados,
+                    utilizar materiales accesibles en una escuela pública de Puerto Rico y promover aprendizaje
+                    activo mediante observación o modelaje físico.
+                    <strong>Formato de salida:</strong><br> Presenta el informe utilizando “La Lupa del Maestro” como
+                    marco de referencia: asegura que las sugerencias sean fácticamente correctas, viables y
+                    culturalmente pertinentes para Puerto Rico.
                 </div>
+
                 <div class="privacy-reminder">
-                    <p><strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante
-                        (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar
-                        individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
-                    </p>
+                    <strong>Consideración de privacidad:</strong> Nunca ingresar nombres, números de estudiante
+                    (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar
+                    individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+
                 </div>
             </section>
 
@@ -1447,8 +1538,8 @@
                                 personalizados y contextuales, por ejemplo, explicando errores, señalando fortalezas y
                                 sugiriendo próximos pasos, y suele integrarse dentro de bots, apps o plataformas
                                 educativas, de modo que la interacción final con el alumnado combina la capacidad
-                                generativa del modelo con el juicio pedagógico humano y salvaguardas éticas.</p>
-                            <span class="concept-ref">Matelsky et al. (2023).</span>
+                                generativa del modelo con el juicio pedagógico humano y salvaguardas éticas.
+                                <span class="concept-ref">Matelsky et al. (2023).</span>
                         </article>
 
                         <article class="slider-item"
@@ -1477,8 +1568,8 @@
                                 errores, describa las ideas equivocadas subyacentes y sugiera posibles causas o
                                 malentendidos, de modo que el profesorado pueda focalizar la instrucción en los
                                 obstáculos reales al aprendizaje sin tener que leer y codificar manualmente todos los
-                                textos.</p>
-                            <span class="concept-ref">Bewersdorff et al. (2023).</span>
+                                textos.
+                                <span class="concept-ref">Bewersdorff et al. (2023).</span>
                         </article>
                     </div>
                 </div>
@@ -1777,10 +1868,10 @@
             window.setTimeout(() => {
                 outputArea.innerHTML = `
                     <span class="feedback-tag">Feedback formativo</span>
-                    <p>${scenario.output}</p>
+                    <p>${scenario.output}
                     <div class="concept-callout">
                         <h3>Validación docente</h3>
-                        <p>Antes de enviar este comentario, verifica que el tono sea fiel a tu relación con el estudiante, que no revele datos sensibles y que incluya un próximo paso realmente viable.</p>
+                        <p>Antes de enviar este comentario, verifica que el tono sea fiel a tu relación con el estudiante, que no revele datos sensibles y que incluya un próximo paso realmente viable.
                     </div>
                 `;
             }, 450);
@@ -1793,7 +1884,7 @@
             errorGrid.innerHTML = errorPatterns.map((item) => `
                 <article class="error-item">
                     <span class="error-title">${item.title}</span>
-                    <p>${item.description}</p>
+                    <p>${item.description}
                     <div class="rem-box"><strong>Re-enseñanza:</strong> ${item.remediation}</div>
                 </article>
             `).join('');

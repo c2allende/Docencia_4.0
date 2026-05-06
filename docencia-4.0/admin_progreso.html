@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -187,7 +187,7 @@
 
         .admin-progreso-page .admin-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(340px, 0.42fr);
+            grid-template-columns: 1fr;
             gap: var(--spacing-xl);
             align-items: start;
         }
@@ -221,9 +221,10 @@
 
         .admin-progreso-page .toolbar {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 180px 180px 180px 180px;
+            grid-template-columns: 1fr 180px 180px auto;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
+            align-items: flex-end;
         }
 
         .admin-progreso-page .form-field {
@@ -653,6 +654,11 @@
             background: var(--color-feedback-error-container);
             box-shadow: var(--shadow-sm);
         }
+        
+        .btn-sync-full {
+            width: 100% !important;
+        }
+
         .btn-admin-danger-outline:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -820,9 +826,6 @@
                                 <p>Filtra por nombre, módulo actual, estado o cohorte para identificar avances y
                                     rezagos.</p>
                             </div>
-                            <button class="btn-admin-secondary" onclick="runProgressSync()" title="Sincroniza el progreso histórico con el nuevo monitor en tiempo real">
-                                🔄 Sincronizar Métricas
-                            </button>
                         </div>
 
                         <div class="toolbar" aria-label="Filtros de progreso">
@@ -849,7 +852,11 @@
                                     <option value="completed">Completado</option>
                                 </select>
                             </div>
-                                </select>
+                            <div class="form-field">
+                                <label class="form-label">&nbsp;</label>
+                                <button class="btn-admin-secondary btn-sync-full" onclick="runProgressSync()" title="Sincroniza el progreso histórico con el nuevo monitor en tiempo real">
+                                    🔄 Sincronizar Métricas
+                                </button>
                             </div>
                         </div>
 

@@ -46,15 +46,12 @@ service cloud.firestore {
         && request.resource.data.scope in ["global", "module"];
     }
 
+    // La validación de expiresAt se delega al cliente (announcement-service.js)
+    // para evitar que la condición de existencia de campo bloquee las queries filtradas.
     function isVisibleAnnouncement() {
       return resource.data.status == "published"
         && resource.data.isActive == true
-        && resource.data.publishAt <= request.time
-        && (
-          !("expiresAt" in resource.data)
-          || resource.data.expiresAt == null
-          || resource.data.expiresAt > request.time
-        );
+        && resource.data.publishAt <= request.time;
     }
 
     // --- REGLAS DE COLECCIONES ---
@@ -74,15 +71,33 @@ service cloud.firestore {
           && request.resource.data.status == "active";
 
       allow update: if signedIn() && (
-        (isOwner(userId) && (
-          request.resource.data.keys().hasOnly([
-            "uid", "email", "displayName", "roleContext", "role", 
-            "status", "emailVerified", "createdAt", "updatedAt"
+        // CAMINO 1: Actualización de perfil propio (Campos básicos)
+        (
+          isOwner(userId)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            "displayName", "roleContext", "emailVerified", "updatedAt"
           ])
-          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(["role", "status", "uid", "email", "createdAt"])
-        )) || (isAdmin() && (
-          !request.resource.data.diff(resource.data).affectedKeys().hasAny(["uid", "email", "createdAt"])
-        ))
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+            "role", "status", "uid", "email", "createdAt", "accessRevoked"
+          ])
+        ) ||
+        // CAMINO 2: Actualización de progreso propio (Resumen denormalizado para Admin)
+        (
+          isOwner(userId)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            "progress", "lastActivity", "updatedAt"
+          ])
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+            "role", "status", "uid", "email", "createdAt", "accessRevoked", 
+            "displayName", "roleContext"
+          ])
+        ) ||
+        // CAMINO 3: Actualización Administrativa
+        (
+          isAdmin() && (
+            !request.resource.data.diff(resource.data).affectedKeys().hasAny(["uid", "email", "createdAt"])
+          )
+        )
       );
 
       allow delete: if isAdmin();
@@ -272,6 +287,18 @@ service cloud.firestore {
          request.resource.data.performedBy == request.auth.uid &&
          request.resource.data.keys().hasAll([
            'action', 'targetUid', 'targetEmail', 'previousStatus', 'newStatus',
+           'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]))
+        ||
+        // Reinicio de progreso de módulos (9 campos exactos)
+        (request.resource.data.action == "reset_module_progress" &&
+         request.resource.data.performedBy == request.auth.uid &&
+         request.resource.data.keys().hasAll([
+           'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle',
+           'performedBy', 'performedByEmail', 'createdAt', 'note'
+         ]) &&
+         request.resource.data.keys().hasOnly([
+           'action', 'targetUid', 'targetEmail', 'moduleId', 'moduleTitle',
            'performedBy', 'performedByEmail', 'createdAt', 'note'
          ]))
         ||

@@ -402,6 +402,7 @@
         }
 
         @media (max-width: 768px) {
+
             .admin-usuarios-page .admin-shell,
             .admin-usuarios-page .panel-card,
             .admin-usuarios-page .metric-card {
@@ -506,12 +507,15 @@
             <header class="admin-header">
                 <span class="admin-kicker">Panel administrativo · Docencia 4.0</span>
                 <h1 id="admin-title" class="admin-title">Administrar <span>Usuarios</span></h1>
-                <p class="admin-description">Gestión operativa de participantes y facilitadores en tiempo real desde Firestore.</p>
+                <p class="admin-description">Gestión operativa de participantes y facilitadores en tiempo real desde
+                    Firestore.</p>
             </header>
 
             <section class="admin-alert" aria-label="Información de gestión">
                 <span class="admin-alert-icon" aria-hidden="true">🛡️</span>
-                <p><strong>Gestión de accesos:</strong> Desde este panel puedes controlar el estado de los usuarios registrados en Firestore. La creación de cuentas nuevas se gestiona exclusivamente desde Firebase Authentication.</p>
+                <p><strong>Gestión de accesos:</strong> Desde este panel puedes controlar el estado de los usuarios
+                    registrados en Firestore. La creación de cuentas nuevas se gestiona exclusivamente desde Firebase
+                    Authentication.</p>
             </section>
 
             <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
@@ -550,10 +554,12 @@
 
                     <div class="form-grid">
                         <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                            La creación inicial de cuentas se gestiona desde el formulario de registro y las reglas de matrícula configuradas en el panel de configuración.
+                            La creación inicial de cuentas se gestiona desde el formulario de registro y las reglas de
+                            matrícula configuradas en el panel de configuración.
                         </p>
                         <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
-                            Desde este panel puedes <strong>activar, inactivar o archivar</strong> usuarios existentes. Una vez registrados, los participantes aparecen automáticamente en la lista de la derecha.
+                            Desde este panel puedes <strong>activar, inactivar o archivar</strong> usuarios existentes.
+                            Una vez registrados, los participantes aparecen automáticamente en la lista de la derecha.
                         </p>
                     </div>
                 </aside>
@@ -561,7 +567,7 @@
                 <section class="panel-card" aria-labelledby="users-list-title">
                     <div class="panel-header">
                         <div>
-                            <h2 id="users-list-title">Usuarios en Firestore</h2>
+                            <h2 id="users-list-title">Usuarios Registrados</h2>
                             <p>Control de acceso y auditoría en tiempo real.</p>
                         </div>
                         <button id="refreshUsersBtn" class="btn-admin-secondary" type="button">Actualizar lista</button>
@@ -570,8 +576,7 @@
                     <div class="toolbar" aria-label="Filtros de usuarios">
                         <div class="form-field">
                             <label for="searchUsers" class="form-label">Buscar</label>
-                            <input id="searchUsers" class="form-input" type="search"
-                                placeholder="Nombre o email...">
+                            <input id="searchUsers" class="form-input" type="search" placeholder="Nombre o email...">
                         </div>
                         <div class="form-field">
                             <label for="roleFilter" class="form-label">Rol</label>
@@ -614,11 +619,11 @@
     <script type="module">
         import { adminUsersHandler } from './scripts/admin-users-handler.js?v=2';
         import { initAdminNotifications } from './scripts/admin-notifications-widget-v2.js?v=2';
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             // Inicializar el controlador de usuarios reales
             adminUsersHandler.init();
-            
+
             // Inicializar notificaciones administrativas
             initAdminNotifications();
 
