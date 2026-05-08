@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="La Lupa del Maestro - Lista de Cotejo para Materiales Generados con IA. Herramienta de evaluación crítica y validación pedagógica.">
+    <title>PROTOTIPO - La Lupa del Maestro: Validador de IA | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- Librería para generación de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --form-max-width: 950px;
+        }
+
+        body {
+            background-color: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-normal);
+            margin: 0;
+            padding: var(--spacing-6) 0;
+        }
+
+        .container {
+            max-width: var(--form-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+        }
+
+        /* Header Institucional */
+        .header-print {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-4);
+            padding-bottom: var(--spacing-4);
+            border-bottom: var(--border-width-2) solid var(--color-brand-primary);
+        }
+
+        .logo-lupa {
+            height: 70px;
+            width: auto;
+        }
+
+        .header-titles {
+            text-align: right;
+        }
+
+        .header-titles h1 {
+            margin: 0;
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .header-titles p {
+            margin: 0;
+            font-size: var(--font-size-md);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        /* Estructura Card */
+        .form-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6) var(--spacing-8);
+            box-shadow: var(--shadow-xl);
+            border-top: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .section-block {
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-6);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+
+        .section-block:last-child { border-bottom: none; margin-bottom: 0; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+        }
+
+        .section-number {
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+        }
+
+        /* Criterios */
+        .criteria-grid {
+            display: grid;
+            gap: var(--spacing-5);
+        }
+
+        .criterion-card {
+            background: var(--color-background-surface-low);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-5);
+            border: 1px solid var(--color-border-default);
+            page-break-inside: avoid;
+        }
+
+        .criterion-text {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-3);
+            display: block;
+            font-size: var(--font-size-sm);
+            line-height: 1.4;
+        }
+
+        .criterion-description {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-3);
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .validation-row {
+            display: flex;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .val-opt {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--color-border-default);
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 800;
+            background: white;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .val-opt input { display: none; }
+
+        .val-opt-success.active { background: var(--color-feedback-success); color: white; border-color: var(--color-feedback-success); }
+        .val-opt-warning.active { background: var(--color-feedback-warning); color: white; border-color: var(--color-feedback-warning); }
+        .val-opt-error.active { background: var(--color-feedback-error); color: white; border-color: var(--color-feedback-error); }
+
+        .notes-field {
+            width: 100%;
+            padding: var(--spacing-2) var(--spacing-3);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            min-height: 40px;
+            background: white;
+            font-family: var(--font-family-body);
+            resize: vertical;
+        }
+
+        /* Formulario General */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-4);
+        }
+
+        .form-group { margin-bottom: var(--spacing-4); }
+        .form-label { display: block; margin-bottom: var(--spacing-1); font-weight: var(--font-weight-bold); color: var(--color-text-secondary); font-size: var(--font-size-xs); text-transform: uppercase; }
+        .form-control { width: 100%; padding: var(--spacing-2) var(--spacing-3); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); font-size: var(--font-size-sm); background: var(--color-white); font-family: var(--font-family-body); }
+
+        /* Decisión Final */
+        .decision-card {
+            background: var(--color-brand-primary);
+            color: white;
+            padding: var(--spacing-6);
+            border-radius: var(--radius-lg);
+            margin-top: var(--spacing-6);
+        }
+
+        .decision-option {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+            padding: var(--spacing-3);
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .decision-option:hover { background: rgba(255,255,255,0.15); }
+        .decision-option.active { background: rgba(255,255,255,0.25); border-color: var(--color-brand-secondary); }
+        .decision-option input { margin-top: 4px; }
+        .decision-text { font-size: var(--font-size-sm); font-weight: 600; }
+
+        /* Acciones */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-8);
+            padding: var(--spacing-4) var(--spacing-6);
+            background: var(--color-background-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            bottom: var(--spacing-4);
+            z-index: 10;
+        }
+
+        .btn { display: inline-flex; align-items: center; gap: var(--spacing-3); padding: var(--spacing-3) var(--spacing-6); border-radius: var(--radius-pill); font-family: var(--font-family-heading); font-weight: var(--font-weight-bold); cursor: pointer; border: none; font-size: var(--font-size-sm); transition: all 0.2s; text-decoration: none; }
+        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-primary { background: var(--color-brand-primary); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--color-border-default); color: var(--color-text-secondary); }
+
+        /* Espejo PDF */
+        .print-mirror { display: none; white-space: pre-wrap; word-wrap: break-word; font-size: 14px; padding: 10px; border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: white; color: var(--color-text-primary); margin-top: 5px; min-height: 30px; }
+
+        @media (max-width: 768px) {
+            .header-print { flex-direction: column; text-align: center; gap: 15px; }
+            .header-titles { text-align: center; }
+            .actions-bar { flex-direction: column; gap: 12px; position: static; }
+            .btn { width: 100%; justify-content: center; }
+        }
+
+        @media print {
+            .actions-bar, .val-opt input, .decision-option input, .paste-btn { display: none !important; }
+            .print-mirror { display: block !important; }
+            textarea, input { display: none !important; }
+            body { background: white !important; padding: 0 !important; }
+            .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; border-top: none !important; }
+            .decision-card { background: #f5f5f5 !important; color: #333 !important; border: 2px solid #ccc !important; }
+            .decision-option { background: white !important; border: 1px solid #ddd !important; }
+            .decision-option.active { border: 4px solid var(--color-brand-primary) !important; }
+            .val-opt.active { border-width: 4px !important; }
+            .criterion-card { border: 1px solid #ddd !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="capture-area">
+        <header class="header-print">
+            <div class="logo-container">
+                <img src="LLM-DEPR/Lupa_MaestroValidador_imagen_-removebg.png" alt="Logo La Lupa del Maestro" class="logo-lupa">
+            </div>
+            <div class="header-titles">
+                <h1>PROTOTIPO - La Lupa del Maestro</h1>
+                <p>Módulo 2: Validador de Materiales Generados con IA</p>
+            </div>
+        </header>
+
+        <section class="section-block" style="border-bottom: none; margin-bottom: var(--spacing-4);">
+            <div style="background: var(--color-alpha-cyan-5); color: var(--color-text-primary); padding: var(--spacing-6); border-radius: var(--radius-lg); border-left: var(--border-width-4) solid var(--color-brand-primary);">
+                <p style="margin: 0; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; color: var(--color-brand-primary);">Instrucciones:</p>
+                <p style="margin: 0; font-size: 11px; font-style: italic; line-height: 1.5;">
+                    Utiliza esta lista antes de entregar cualquier material generado o asistido por IA a tus estudiantes. Marca cada criterio, añade observaciones cuando sea necesario y toma una decisión final basada en tu juicio profesional. Las listas de cotejo permiten verificar criterios específicos de calidad de forma clara y sistemática.
+                </p>
+            </div>
+        </section>
+
+        <main class="form-card">
+            <!-- Información General -->
+            <section class="section-block">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del maestro/a:</label>
+                        <input type="text" id="nombre_maestro" class="form-control" placeholder="Escribe tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fecha:</label>
+                        <input type="date" id="fecha_valid" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Grado y materia:</label>
+                        <input type="text" id="grado_materia" class="form-control" placeholder="Ej. 4to grado - Matemáticas">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Herramienta de IA utilizada (opcional):</label>
+                        <input type="text" id="ia_tool" class="form-control" placeholder="Ej. ChatGPT, Claude, Copilot">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo de material:</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-4); margin-top: 4px;">
+                        <label style="font-size: 12px; display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="tipo_mat" value="Planificacion"> Planificación</label>
+                        <label style="font-size: 12px; display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="tipo_mat" value="Recurso"> Recurso</label>
+                        <label style="font-size: 12px; display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="tipo_mat" value="Evaluacion"> Evaluación</label>
+                        <label style="font-size: 12px; display: flex; align-items: center; gap: 5px;"><input type="checkbox" name="tipo_mat" value="Otro"> Otro: <input type="text" style="border:none; border-bottom:1px solid var(--color-border-default); width: 100px; font-size: 11px;"></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label class="form-label">Tema / destreza / objetivo de aprendizaje:</label>
+                        <input type="text" id="tema_objetivo" class="form-control" placeholder="Describe brevemente la destreza u objetivo">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label class="form-label">Estándar y expectativa (DEPR):</label>
+                        <input type="text" id="estandar_depr" class="form-control" placeholder="Anota el código o texto del estándar">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Descripción -->
+            <section class="section-block">
+                <h2 class="section-title">Descripción del material</h2>
+                <div class="form-group">
+                    <label class="form-label">Describe brevemente el material, su propósito y cómo será utilizado en clase:</label>
+                    <textarea id="desc_material" class="form-control" style="min-height: 80px;" placeholder="Ej. Hoja de ejercicios sobre fracciones para práctica independiente..."></textarea>
+                    <div id="mirror_desc_material" class="print-mirror"></div>
+                </div>
+            </section>
+
+            <!-- I. DIMENSIÓN DE RIGOR TÉCNICO -->
+            <section class="section-block">
+                <h2 class="section-title">I. Dimensión de rigor técnico y factual</h2>
+                <div class="criteria-grid">
+                    <!-- Criterio 1 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">1. Exactitud, actualización y alucinaciones</span>
+                        <p class="criterion-description">¿Los datos, fechas, fórmulas, ejemplos y conceptos son correctos y están actualizados? Para información sensible o especializada, debe verificarse con al menos una fuente externa confiable, ya que la IA puede generar errores, sesgos o información inventada.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c1" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c1" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c1" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c1" class="notes-field"></textarea>
+                        <div id="mirror_obs_c1" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 2 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">2. Explicación del razonamiento</span>
+                        <p class="criterion-description">¿El material explica el “por qué” de manera comprensible y guía el razonamiento paso a paso, en lugar de ofrecer solo respuestas finales? Las herramientas de evaluación para IA recomiendan valorar no solo el resultado, sino también la calidad del proceso de pensamiento que promueve el recurso.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c2" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c2" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c2" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c2" class="notes-field"></textarea>
+                        <div id="mirror_obs_c2" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 3 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">3. Claridad de instrucciones y carga cognitiva</span>
+                        <p class="criterion-description">¿Las instrucciones son claras, breves y secuenciales, y la cantidad de información es adecuada para evitar sobrecarga cognitiva?</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c3" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c3" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c3" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c3" class="notes-field"></textarea>
+                        <div id="mirror_obs_c3" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- II. DIMENSIÓN PEDAGÓGICA -->
+            <section class="section-block">
+                <h2 class="section-title">II. Dimensión pedagógica y curricular</h2>
+                <div class="criteria-grid">
+                    <!-- Criterio 4 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">4. Alineación al estándar y expectativa (DEPR)</span>
+                        <p class="criterion-description">¿El material responde de forma directa al estándar, expectativa e indicadores de ejecución del grado o curso? Los documentos curriculares del DEPR establecen que las expectativas e indicadores precisan el contenido que el estudiante debe dominar.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c4" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c4" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c4" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c4" class="notes-field"></textarea>
+                        <div id="mirror_obs_c4" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 5 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">5. Nivel de grado y vocabulario</span>
+                        <p class="criterion-description">¿La complejidad del contenido, el vocabulario y las tareas es adecuada para el desarrollo cognitivo y lingüístico de los estudiantes?</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c5" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c5" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c5" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c5" class="notes-field"></textarea>
+                        <div id="mirror_obs_c5" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 6 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">6. Calidad pedagógica activa</span>
+                        <p class="criterion-description">¿El material promueve análisis, aplicación, discusión, creación o resolución de problemas, en lugar de limitarse a ejercicios mecánicos o transmisión pasiva de información? Las guías para evaluación con IA recomiendan valorar recursos que fomenten participación activa y retroalimentación significativa.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c6" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c6" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c6" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c6" class="notes-field"></textarea>
+                        <div id="mirror_obs_c6" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 7 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">7. Evaluabilidad y evidencia de aprendizaje</span>
+                        <p class="criterion-description">¿El material permite observar qué aprendió el estudiante mediante productos, respuestas, explicaciones o desempeños verificables?</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c7" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c7" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c7" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c7" class="notes-field"></textarea>
+                        <div id="mirror_obs_c7" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- III. DIMENSIÓN CONTEXTO -->
+            <section class="section-block">
+                <h2 class="section-title">III. Dimensión de contexto, inclusión y accesibilidad</h2>
+                <div class="criteria-grid">
+                    <!-- Criterio 8 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">8. Pertinencia cultural y contextual (Puerto Rico)</span>
+                        <p class="criterion-description">¿Los ejemplos, situaciones y referencias son relevantes para el contexto de Puerto Rico y adecuados para la realidad de tus estudiantes?</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c8" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c8" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c8" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c8" class="notes-field"></textarea>
+                        <div id="mirror_obs_c8" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 9 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">9. Inclusión y Diseño Universal para el Aprendizaje (DUA)</span>
+                        <p class="criterion-description">¿El material ofrece múltiples formas de representación, acción y expresión, e implicación para reducir barreras al aprendizaje? El DUA se basa en ofrecer distintas formas de acceso al contenido, distintas maneras de demostrar lo aprendido y diversas estrategias para sostener el compromiso del estudiante.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c9" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c9" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c9" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c9" class="notes-field"></textarea>
+                        <div id="mirror_obs_c9" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 10 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">10. Formato accesible</span>
+                        <p class="criterion-description">¿El material utiliza títulos, negritas, listas, instrucciones visibles, espacio en blanco, tipografía legible y organización visual clara?</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c10" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c10" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c10" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c10" class="notes-field"></textarea>
+                        <div id="mirror_obs_c10" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 11 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">11. Ausencia de sesgos y lenguaje respetuoso</span>
+                        <p class="criterion-description">¿El material evita estereotipos de género, culturales, sociales o lingüísticos y utiliza un lenguaje inclusivo y respetuoso? Las guías sobre uso responsable de IA advierten que estos sistemas pueden reproducir sesgos presentes en sus datos de entrenamiento.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c11" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c11" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c11" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c11" class="notes-field"></textarea>
+                        <div id="mirror_obs_c11" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- IV. ÉTICA -->
+            <section class="section-block">
+                <h2 class="section-title">IV. Ética, seguridad y uso responsable</h2>
+                <div class="criteria-grid">
+                    <!-- Criterio 12 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">12. Privacidad de datos</span>
+                        <p class="criterion-description">¿El material está libre de información personal identificable o sensible del estudiantado? Las recomendaciones de uso responsable de IA insisten en no introducir ni exponer datos personales o confidenciales sin garantías adecuadas.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c12" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c12" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c12" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c12" class="notes-field"></textarea>
+                        <div id="mirror_obs_c12" class="print-mirror"></div>
+                    </div>
+                    <!-- Criterio 13 -->
+                    <div class="criterion-card">
+                        <span class="criterion-text">13. Transparencia y supervisión docente</span>
+                        <p class="criterion-description">¿El material fue revisado críticamente por el docente antes de usarse y no se delegó a la IA la responsabilidad profesional final? Las guías de buenas prácticas subrayan que la supervisión humana es esencial y que la responsabilidad del contenido recae en quien lo utiliza.</p>
+                        <div class="validation-row">
+                            <label class="val-opt val-opt-success"><input type="radio" name="c13" value="Cumple"> CUMPLE</label>
+                            <label class="val-opt val-opt-warning"><input type="radio" name="c13" value="Parcial"> PARCIAL</label>
+                            <label class="val-opt val-opt-error"><input type="radio" name="c13" value="No cumple"> NO CUMPLE</label>
+                        </div>
+                        <label class="form-label" style="font-size: 10px;">Observaciones:</label>
+                        <textarea id="obs_c13" class="notes-field"></textarea>
+                        <div id="mirror_obs_c13" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DECISIÓN FINAL -->
+            <section class="decision-card">
+                <h2 style="margin-top: 0; font-size: var(--font-size-md); text-transform: uppercase; margin-bottom: 20px;">Decisión final y acciones</h2>
+                <div class="decision-option">
+                    <input type="radio" name="decision" id="d1" value="Autorizado">
+                    <label for="d1" class="decision-text">AUTORIZO EL USO: El material es seguro, pertinente y pedagógicamente sólido.</label>
+                </div>
+                <div class="decision-option">
+                    <input type="radio" name="decision" id="d2" value="Ajustes">
+                    <label for="d2" class="decision-text">NECESITA AJUSTES MENORES: Corregir manualmente los criterios marcados como “Parcial”.</label>
+                </div>
+                <div class="decision-option">
+                    <input type="radio" name="decision" id="d3" value="Rechazado">
+                    <label for="d3" class="decision-text">RECHAZADO / REFINAR PROMPT: Los errores son estructurales, persisten alucinaciones o el material no es apto para su uso.</label>
+                </div>
+                
+                <div class="form-row" style="margin-top: 30px;">
+                    <div class="form-group">
+                        <label class="form-label" style="color: white; opacity: 0.9;">Firma del docente:</label>
+                        <input type="text" id="firma_docente" class="form-control" style="background: rgba(255,255,255,0.1); border: 1px solid white; color: white;" placeholder="Escribe tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="color: white; opacity: 0.9;">Próximos pasos:</label>
+                        <input type="text" id="prox_pasos" class="form-control" style="background: rgba(255,255,255,0.1); border: 1px solid white; color: white;" placeholder="Ej. Añadir contexto o pedir nueva versión">
+                    </div>
+                </div>
+            </section>
+
+            <section style="margin-top: var(--spacing-8); padding: var(--spacing-4); border-top: 1px solid var(--color-border-subtle);">
+                <h4 style="font-size: 12px; text-transform: uppercase; margin-bottom: 10px; color: var(--color-text-secondary);">Notas de implementación</h4>
+                <ul style="font-size: 11px; color: var(--color-text-muted); line-height: 1.6; padding-left: 18px; margin: 0;">
+                    <li><strong>La IA es un copiloto:</strong> El criterio profesional del docente es insustituible.</li>
+                    <li><strong>Refinamiento:</strong> Si el material es rechazado, utiliza los criterios marcados como evidencia para revisar el prompt, añadir contexto o pedir una nueva versión más precisa.</li>
+                    <li><strong>Archivo:</strong> Guarda esta hoja como evidencia de práctica ética, reflexión profesional y aseguramiento de calidad en el uso de IA educativa.</li>
+                    <li><strong>Comunidades de Aprendizaje:</strong> Puede utilizarse también en revisión entre pares docentes o en comunidades profesionales de aprendizaje para estandarizar criterios de calidad.</li>
+                </ul>
+            </section>
+        </main>
+
+        <div class="actions-bar" data-html2canvas-ignore>
+            <a href="actividad2_1.html" class="btn btn-outline">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                Volver a la actividad
+            </a>
+            <div style="display: flex; gap: var(--spacing-3);">
+                <button id="btn-clear" class="btn btn-outline">Limpiar</button>
+                <button id="btn-pdf" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Exportar Validación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal-overlay" id="confirm-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100;">
+        <div class="modal-content" style="background: white; padding: var(--spacing-8); border-radius: var(--radius-lg); max-width: 400px; text-align: center;">
+            <h3 style="margin-top: 0; color: var(--color-feedback-error);">¿Limpiar validador?</h3>
+            <p>Se borrarán todos los criterios marcados y observaciones. Esta acción no se puede deshacer.</p>
+            <div style="display: flex; gap: var(--spacing-3); justify-content: center; margin-top: 30px;">
+                <button id="modal-cancel" class="btn btn-outline">Cancelar</button>
+                <button id="modal-confirm" class="btn btn-primary" style="background: var(--color-feedback-error);">Sí, limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sincronización de espejos para PDF
+        document.querySelectorAll('textarea, input[type="text"]').forEach(tx => {
+            const mirror = document.getElementById('mirror_' + tx.id);
+            if (mirror) {
+                mirror.innerText = tx.value;
+                tx.addEventListener('input', () => { mirror.innerText = tx.value; });
+            }
+        });
+
+        // Lógica de selección visual de criterios
+        document.querySelectorAll('.val-opt').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const name = this.querySelector('input').name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                    input.parentElement.classList.remove('active');
+                });
+                this.classList.add('active');
+                this.querySelector('input').checked = true;
+            });
+        });
+
+        // Lógica de decisión final
+        document.querySelectorAll('.decision-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                document.querySelectorAll('input[name="decision"]').forEach(input => {
+                    input.parentElement.classList.remove('active');
+                });
+                this.classList.add('active');
+                this.querySelector('input').checked = true;
+            });
+        });
+
+        // Limpieza con Modal
+        const modal = document.getElementById('confirm-modal');
+        document.getElementById('btn-clear').addEventListener('click', () => modal.style.display = 'flex');
+        document.getElementById('modal-cancel').addEventListener('click', () => modal.style.display = 'none');
+        document.getElementById('modal-confirm').addEventListener('click', () => {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') {
+                    el.checked = false;
+                    el.parentElement.classList.remove('active');
+                }
+                else el.value = '';
+            });
+            document.querySelectorAll('.print-mirror').forEach(m => m.innerText = '');
+            modal.style.display = 'none';
+        });
+
+        // PDF Export Dinámico
+        document.getElementById('btn-pdf').addEventListener('click', function () {
+            const nombreRaw = document.getElementById('nombre_maestro').value.trim();
+            const sanitize = (str) => {
+                return str.normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-zA-Z0-9 ]/g, "")
+                    .replace(/\s+/g, "_");
+            };
+
+            const nombreSanitizado = nombreRaw ? sanitize(nombreRaw) : 'Participante';
+            const fileName = `LupaMaestro_Validador_${nombreSanitizado}.pdf`;
+
+            window.scrollTo(0, 0);
+            const element = document.getElementById('capture-area');
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: fileName,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        });
+    </script>
+</body>
+
+</html>

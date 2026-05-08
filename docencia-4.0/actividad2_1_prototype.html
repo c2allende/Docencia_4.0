@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="PROTOTIPO - Actividad 2.1 de Docencia 4.0: Mejora visual de acceso a plantillas.">
+    <title>PROTOTIPO - Actividad 2.1 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- <script type="module" src="scripts/auth-guard.js"></script> -->
+    <!-- <script type="module" src="scripts/module-access-guard.js"></script> -->
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            min-height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .padlet-embed iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .activity-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .activity-title {
+            display: block;
+            margin: 0 0 var(--spacing-xl);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .activity-title span {
+            color: var(--color-brand-primary);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .text-section {
+            clear: both;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .technical-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .tech-item {
+            padding: var(--spacing-md);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .tech-item h2,
+        .tech-item h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .tech-item p {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list {
+            margin: var(--spacing-sm) 0 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .instruction-list {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .instruction-step:hover {
+            transform: translateX(8px);
+            border-color: var(--color-brand-secondary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .step-icon {
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 54px;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .step-text h3 {
+            margin: 0 0 var(--spacing-1);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .step-text p {
+            margin: 0;
+            color: var(--color-text-secondary);
+        }
+
+        .privacy-note {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .padlet-wrapper {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .padlet-embed {
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .padlet-embed iframe {
+            width: 100%;
+            height: 600px;
+            display: block;
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* MEJORA VISUAL DE ACCESO A PLANTILLAS - CLASES LOCALES */
+        .template-access-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0 var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .template-access-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .template-access-label {
+            display: inline-block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .template-access-content strong {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .template-access-content p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .template-access-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .template-access-card.is-disabled {
+            opacity: var(--opacity-65);
+        }
+
+        .template-access-card.is-disabled .template-access-btn {
+            pointer-events: none;
+            background: var(--color-background-button-primary-disabled);
+            color: var(--color-text-button-primary-disabled);
+            box-shadow: none;
+        }
+
+        /* LISTAS EN GRILLA (LOCAL) */
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: var(--spacing-xl);
+            row-gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            list-style-position: inside;
+        }
+
+        @media (max-width: 720px) {
+            .suggestion-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card {
+                padding: var(--spacing-xl);
+            }
+
+            .technical-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .activity-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .instruction-step {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .template-access-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .template-access-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .technical-grid,
+            .padlet-wrapper {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .padlet-embed,
+            .padlet-embed iframe {
+                height: 520px;
+            }
+        }
+    </style>
+</head>
+
+<body class="has-top-nav" data-page-id="actividad2_1" data-module-id="modulo2" data-page-type="actividad" data-title="Actividad 2.1">
+    <nav class="top-nav" aria-label="Navegación superior de la actividad">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">PROTOTIPO: Actividad 2.1 - Mejora Visual de Accesos</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 2" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 2</span></li>
+            <li><a href="modulo2_intro.html">📍 Introducción Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html" class="active" aria-current="page">🛠️ Actividad 2.1</a></li>
+            <li><a href="recursos_m2.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo1_intro.html">⬅️ Volver al Módulo 1</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card" aria-labelledby="activity-title">
+            <header>
+                <span class="activity-kicker">Módulo 2: Actividad 2.1 (PROTOTIPO)</span>
+                <h1 id="activity-title" class="activity-title">Taller práctico: <span>“Del prompt al recurso validado”</span></h1>
+            </header>
+
+            <section class="technical-grid" aria-label="Ficha técnica de la actividad">
+                <div class="tech-item">
+                    <h2 class="subsection-title">Objetivo de la actividad</h2>
+                    <p>Que los maestros cooperadores aprendan a:</p>
+                    <ul class="content-list">
+                        <li>Diseñar prompts efectivos usando la fórmula <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong>.</li>
+                        <li>Generar, con apoyo de IA, una planificación semanal y un recurso didáctico a partir de un estándar real del DEPR.</li>
+                        <li>Validar críticamente los materiales generados utilizando una Lista de Cotejo de Validación Curricular.</li>
+                        <li>Refinar sus prompts de manera iterativa para mejorar la calidad, pertinencia e inclusión de los productos.</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h2 class="subsection-title">Ficha del taller</h2>
+                    <p><strong>⏱️ Duración estimada:</strong> 60 minutos</p>
+                    <p><strong>💻 Requisitos:</strong> Dispositivos con internet (Laptops, Tablets o Celulares).</p>
+                    <div class="materials-box">
+                        <h3 class="subsection-title" style="font-size: var(--font-size-xs); margin-top: var(--spacing-sm);">Materiales necesarios</h3>
+                        <ul class="content-list" style="margin-top: 0;">
+                            <li>Dispositivos con acceso a internet.</li>
+                            <li>Acceso a un LLM (ChatGPT o Copilot).</li>
+                            <li>Estándares y Expectativas del DEPR (impresos o digitales).</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="resultados-title">
+                <h2 id="resultados-title" class="section-title">Resultados esperados</h2>
+                <p>Al finalizar el taller, cada docente:</p>
+                <ol class="content-list-ordered">
+                    <li>Habrá transformado un prompt genérico en un prompt efectivo, contextualizado a su grado y materia.</li>
+                    <li>Habrá generado una planificación semanal (borrador) basada en un estándar del DEPR.</li>
+                    <li>Habrá generado al menos un recurso didáctico asociado (hoja de trabajo o lectura diferenciada).</li>
+                    <li>Habrá aplicado una Lista de Cotejo de Validación Curricular a esos productos.</li>
+                    <li>Habrá realizado al menos dos ciclos de refinamiento de prompts para mejorar los resultados.</li>
+                </ol>
+            </section>
+
+            <section class="text-section" aria-labelledby="pasos-title">
+                <h2 id="pasos-title" class="section-title">Pasos a seguir</h2>
+                <p>Completa las fases del taller para transformar una intención pedagógica en un recurso generado con IA, revisado y validado antes de compartirlo.</p>
+
+                <!-- FASE 1 -->
+                <div class="instruction-list">
+                    <section class="instruction-step" id="fase1">
+                        <div class="step-icon" aria-hidden="true">1</div>
+                        <div class="step-text">
+                            <h3 class="subsection-title">Fase 1: Activación</h3>
+                            <p><strong>Objetivo:</strong> Sensibilizar sobre la importancia de cómo pedimos a la IA.</p>
+                            
+                            <div class="highlight-box">
+                                <h4>1. Revisión de ejemplos de prompts genéricos</h4>
+                                <p>Lee y analiza estos prompts típicos:</p>
+                                <ul class="content-list">
+                                    <li>“Hazme una clase de fracciones.”</li>
+                                    <li>“Dame actividades para ecosistemas.”</li>
+                                    <li>“Escribe una rúbrica para un proyecto.”</li>
+                                </ul>
+                            </div>
+
+                            <h4>Análisis guiado</h4>
+                            <p>Como una nota (publicación) en la columna <strong>Fase 1</strong> del Padlet, responde brevemente para cada prompt:</p>
+                            <ul class="content-list">
+                                <li>¿Qué información le falta para que la IA pueda ayudarte de verdad?</li>
+                                <li>¿Qué datos añadirías sobre tu grupo, grado, estándar, tiempo de clase o contexto escolar?</li>
+                            </ul>
+
+                            <h4>3. Recordatorio de la fórmula del prompt efectivo</h4>
+                            <p>Relee la fórmula y compárala con tus respuestas:</p>
+                            <p style="text-align: center; font-weight: bold; padding: var(--spacing-md); background: var(--color-background-surface-low); border-radius: var(--radius-md);">
+                                Rol + Contexto + Tarea + Formato + Restricciones
+                            </p>
+                            <ul class="content-list">
+                                <li>Identifica qué componentes están ausentes en los prompts de ejemplo (grado, estándar del DEPR, tiempo, formato, contexto PR, etc.) y anótalos.</li>
+                            </ul>
+
+                            <h4>4. Elabora una lista corta (5–7 ítems) titulada:</h4>
+                            <p><strong>“Errores frecuentes que debo evitar al escribir prompts”</strong></p>
+                            <p>Añádela a tu publicación (nota) en Padlet para compartir tus hallazgos con otros compañeros.</p>
+                        </div>
+                    </section>
+
+                    <!-- FASE 2 -->
+                    <section class="instruction-step" id="fase2">
+                        <div class="step-icon" aria-hidden="true">2</div>
+                        <div class="step-text">
+                            <h3 class="subsection-title">Fase 2: El Prompt</h3>
+                            <p><strong>Objetivo:</strong> Aplicar la fórmula de prompts a una unidad real del currículo para generar una planificación semanal con apoyo de IA.</p>
+                            
+                            <h4>Paso 1. Selección de la unidad y redacción del prompt efectivo</h4>
+                            <ol class="content-list">
+                                <li>Elige una unidad real de tu currículo del DEPR que vayas a trabajar este semestre.</li>
+                                <li>Abre la plantilla guía haciendo clic en el botón “Abrir plantilla Fase 2”.</li>
+                                <li>Completa los apartados de la plantilla utilizando la fórmula <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong> para construir tu prompt de planificación semanal.</li>
+                                <li>En la sección “Prompt completo” de la plantilla, une todos los elementos en un solo texto continuo.</li>
+                                <li>Revisa que tu prompt incluya claramente los 5 componentes: Rol, Contexto, Tarea, Formato y Restricciones.</li>
+                            </ol>
+
+                            <h4>Paso 2. Generación de la planificación con IA</h4>
+                            <ol class="content-list">
+                                <li>Copia el prompt completo desde la plantilla y pégalo en la herramienta de IA que utilices (ChatGPT, Copilot u otra).</li>
+                                <li>Copia en la plantilla el primer borrador de planificación semanal generado por la IA.</li>
+                                <li>Guarda en tu dispositivo el archivo de la plantilla completada.</li>
+                            </ol>
+
+                            <h4>Paso 3. Micro-reflexión y compartición en Padlet</h4>
+                            <ol class="content-list">
+                                <li>Copia el prompt final desde la plantilla y publícalo como una entrada en Padlet, en la columna correspondiente a <strong>Fase 2</strong>.</li>
+                                <li>En la misma entrada de Padlet, adjunta el archivo de la plantilla guía completada (sube el documento como evidencia de tu trabajo).</li>
+                                <li>Añade un comentario breve (2–3 oraciones) respondiendo:
+                                    <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                        <li>¿Qué elementos de la planificación generada sí se ajustan a tu realidad (tiempos, actividades, ejemplos, nivel de tus estudiantes)?</li>
+                                        <li>¿Qué elementos no se ajustan (tiempos irreales, ejemplos lejanos a tu contexto, nivel demasiado alto o bajo, uso de recursos que no tienes)?</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="template-access-card">
+                                <div class="template-access-content">
+                                    <span class="template-access-label">Plantilla de trabajo</span>
+                                    <strong>Plantilla guía — Fase 2: Construcción del prompt</strong>
+                                    <p>Abre la plantilla para completar los componentes Rol, Contexto, Tarea, Formato y Restricciones.</p>
+                                </div>
+                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase2_prompt.html">
+                                    Abrir plantilla Fase 2
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FASE 3 -->
+                    <section class="instruction-step" id="fase3">
+                        <div class="step-icon" aria-hidden="true">3</div>
+                        <div class="step-text">
+                            <h3 class="subsection-title">Fase 3: Generación</h3>
+                            <p><strong>Objetivo:</strong> Extender el uso del prompt para generar un recurso concreto vinculado a la planificación semanal creada en la Fase 2.</p>
+                            
+                            <h4>1. Trabajo con la plantilla</h4>
+                            <ul class="content-list">
+                                <li>Revisa la planificación semanal generada en la Fase 2 y elige una sesión de clase de esa semana.</li>
+                                <li>Abre la plantilla guía haciendo clic en el botón “Abrir plantilla Fase 3”.</li>
+                                <li>Completa la información de la sesión (objetivo, tema, grado y materia) y selecciona el tipo de recurso (hoja de trabajo o lectura breve), indicando nivel de lectura y condiciones especiales.</li>
+                                <li>En la sección de construcción del prompt, completa los componentes <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong> and redacta tu “prompt completo para el recurso didáctico”.</li>
+                            </ul>
+
+                            <h4>2. Generación y resguardo del recurso con IA</h4>
+                            <ul class="content-list">
+                                <li>Copia el prompt completo desde la plantilla y pégalo en la herramienta de IA (ChatGPT o Copilot).</li>
+                                <li>Copia el recurso generado (hoja de trabajo o lectura con preguntas) y pégalo en la plantilla.</li>
+                                <li>Guarda la plantilla Fase 3 completada.</li>
+                            </ul>
+
+                            <h4>3. Compartir en Padlet (Fase 3)</h4>
+                            <p>En la columna <strong>Fase 3</strong> de Padlet, crea una entrada donde:</p>
+                            <ul class="content-list">
+                                <li>Adjuntes la plantilla Fase 3 completada.</li>
+                                <li>Añadas una nota breve indicando qué tipo de recurso generaste (por ejemplo: “hoja de trabajo para 6to – fracciones” o “lectura breve sobre ecosistemas para 5to”).</li>
+                            </ul>
+
+                            <div class="highlight-box">
+                                <strong>Producto esperado de la Fase 3:</strong>
+                                <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                    <li>Plantilla de la Fase 3 completada.</li>
+                                    <li>Un recurso didáctico inicial (hoja de trabajo o lectura con preguntas) generado con IA, vinculado a una clase específica de tu planificación semanal, que se usará luego en la validación (Fase 4) y el refinamiento (Fase 5).</li>
+                                </ul>
+                            </div>
+
+                            <div class="template-access-card">
+                                <div class="template-access-content">
+                                    <span class="template-access-label">Plantilla de trabajo</span>
+                                    <strong>Plantilla guía — Fase 3: Recurso didáctico</strong>
+                                    <p>Completa la información de la sesión y redacta tu prompt completo para el recurso didáctico.</p>
+                                </div>
+                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase3_recurso_didactico.html">
+                                    Abrir plantilla Fase 3
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FASE 4 -->
+                    <section class="instruction-step" id="fase4">
+                        <div class="step-icon" aria-hidden="true">4</div>
+                        <div class="step-text">
+                            <h3 class="subsection-title">Fase 4: Validación</h3>
+                            <p><strong>Objetivo:</strong> Revisar sistemáticamente los productos generados por la IA.</p>
+                            
+                            <h4>1. Trabajo con la plantilla</h4>
+                            <ul class="content-list">
+                                <li>Abre la plantilla de la Lista de Cotejo de Validación Curricular haciendo clic en el botón “Abrir plantilla Fase 4”.</li>
+                                <li>Sigue las instrucciones de la plantilla para revisar tu planificación semanal y tu recurso didáctico, marcar los criterios y completar la síntesis de fortalezas, aspectos a ajustar y puntos de mejora para tus prompts.</li>
+                            </ul>
+
+                            <h4>2. Compartir en Padlet</h4>
+                            <ul class="content-list">
+                                <li>Guarda la plantilla completada con tu nombre.</li>
+                                <li>En el Padlet del módulo, ve a la columna <strong>Fase 4</strong> y crea una entrada que incluya:
+                                    <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                        <li>Una fortaleza que identificaste.</li>
+                                        <li>Un aspecto concreto que piensas mejorar ajustando tu prompt.</li>
+                                    </ul>
+                                </li>
+                                <li>Adjunta en esa entrada el archivo de la plantilla Fase 4 completada como evidencia de tu proceso de validación.</li>
+                            </ul>
+
+                            <div class="highlight-box">
+                                <strong>Producto esperado de la Fase 4:</strong>
+                                <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                    <li>Plantilla de Lista de Cotejo (Fase 4) completada.</li>
+                                    <li>Al menos dos puntos claros de mejora para tus prompts, listos para usarse en la fase de refinamiento (Fase 5).</li>
+                                </ul>
+                            </div>
+
+                            <div class="template-access-card">
+                                <div class="template-access-content">
+                                    <span class="template-access-label">Herramienta de validación</span>
+                                    <strong>Lista de Cotejo — Fase 4: Validación curricular</strong>
+                                    <p>Utiliza esta lista para revisar sistemáticamente los productos generados por la IA.</p>
+                                </div>
+                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase4_validacion.html">
+                                    Abrir plantilla Fase 4
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FASE 5 -->
+                    <section class="instruction-step" id="fase5">
+                        <div class="step-icon" aria-hidden="true">5</div>
+                        <div class="step-text">
+                            <h3 class="subsection-title">Fase 5: Iteración</h3>
+                            <p><strong>Objetivo:</strong> Practicar la “conversación” con el modelo para mejorar resultados.</p>
+                            
+                            <h4>1. Trabajo con la plantilla</h4>
+                            <ul class="content-list">
+                                <li>Abre la Plantilla de Refinamiento de Prompts haciendo clic en el botón “Abrir plantilla Fase 5”.</li>
+                                <li>Sigue las instrucciones de la plantilla para:
+                                    <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                        <li>Recuperar tus puntos de mejora desde la Lista de Cotejo (Fase 4).</li>
+                                        <li>Redactar prompts de refinamiento para la planificación y el recurso.</li>
+                                        <li>Generar nuevas versiones con IA y compararlas con las iniciales.</li>
+                                    </ul>
+                                </li>
+                                <li>Guarda la plantilla completada con tu nombre.</li>
+                            </ul>
+
+                            <h4>2. Síntesis y compartición en Padlet (evidencia de iteración)</h4>
+                            <p>En la columna <strong>Fase 5</strong> de Padlet:</p>
+                            <ul class="content-list">
+                                <li>Crea una entrada breve que indique:
+                                    <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                        <li>Qué refinaste (planificación, recurso o ambos).</li>
+                                        <li>Un ejemplo corto del tipo de prompt de refinamiento que usaste.</li>
+                                        <li>Qué mejoró en la nueva versión (por ejemplo: “ahora las actividades caben en el tiempo real” o “el texto es más accesible para mi grupo”).</li>
+                                    </ul>
+                                </li>
+                                <li>Adjunta a esa entrada la plantilla de Fase 5 completada como evidencia de tu proceso de refinamiento.</li>
+                            </ul>
+
+                            <div class="highlight-box">
+                                <strong>Producto esperado de la Fase 5:</strong>
+                                <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                    <li>Versión mejorada de la planificación semanal y/o del recurso didáctico, resultado de al menos dos iteraciones de prompts guiadas por lo identificado en la Lista de Cotejo.</li>
+                                    <li>Una síntesis en Padlet, junto con la plantilla completada, que evidencie un uso iterativo y crítico de la IA, en lugar de aceptar el primer resultado.</li>
+                                </ul>
+                            </div>
+
+                            <div class="template-access-card">
+                                <div class="template-access-content">
+                                    <span class="template-access-label">Plantilla de trabajo</span>
+                                    <strong>Plantilla guía — Fase 5: Refinamiento de prompts</strong>
+                                    <p>Practica la interacción con el modelo para mejorar la calidad y pertinencia de los productos.</p>
+                                </div>
+                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase5_refinamiento.html">
+                                    Abrir plantilla Fase 5
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FASE 6 -->
+                    <section class="instruction-step" id="fase6">
+                        <div class="step-icon" aria-hidden="true">6</div>
+                        <div class="step-text">
+                            <h3 class="subsection-title">Fase 6: Reflexión</h3>
+                            <p><strong>Objetivo:</strong> Integrar lo trabajado y tomar conciencia del rol docente como experto validador en el uso de IA.</p>
+                            
+                            <h4>Paso 1. Frase de cierre sobre el uso de IA</h4>
+                            <p>En la columna <strong>Fase 6</strong> de Padlet, completa y publica la siguiente frase:</p>
+                            <p class="reflection-card">“La parte más útil de usar IA en la planificación fue ______, pero siempre debo vigilar ______.”</p>
+                            <p>Se sugiere que la segunda parte se relacione con aspectos trabajados en el taller, como:</p>
+                            <ul class="content-list suggestion-grid">
+                                <li>Alineación al estándar del DEPR</li>
+                                <li>Nivel de complejidad</li>
+                                <li>Pertinencia cultural</li>
+                                <li>Sesgos</li>
+                                <li>Viabilidad en el tiempo real</li>
+                                <li>Inclusión y accesibilidad</li>
+                            </ul>
+
+                            <h4>Paso 2. Reflexión breve sobre el ciclo completo</h4>
+                            <p>En el mismo espacio (misma entrada), escribe un párrafo breve (3–4 líneas) donde expliques:</p>
+                            <ul class="content-list">
+                                <li>Cómo aplicarías en tu práctica semanal el ciclo: <strong>estándar → prompt → IA → validación (Lista de Cotejo) → refinamiento (Fase 5)</strong>.</li>
+                                <li>Puedes mencionar, por ejemplo, en qué momento de la semana lo usarías (planificación dominical, planificación diaria), para qué tipo de tareas (plan de clase, recursos, rúbricas) y qué revisarías siempre antes de llevarlo al aula.</li>
+                            </ul>
+
+                            <h4>Paso 3. Lectura y comentario entre pares</h4>
+                            <ol class="content-list">
+                                <li>Lee al menos una reflexión de un compañero en el Padlet.</li>
+                                <li>Escribe un comentario breve destacando:
+                                    <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                        <li>Algo con lo que te identificas de su reflexión, o</li>
+                                        <li>Un ejemplo concreto de cómo también ves tu rol como experto validador de lo que genera la IA.</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="highlight-box">
+                                <strong>Producto esperado de la Fase 6:</strong>
+                                <ul class="content-list" style="margin-top: var(--spacing-xs);">
+                                    <li>Una entrada personal en Padlet que incluya la frase completada y el párrafo de reflexión.</li>
+                                    <li>Un comentario a la reflexión de un compañero.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="privacy-note">
+                    <strong>🛡️ Recordatorio de seguridad:</strong> No incluyas nombres de estudiantes, números de identificación, expedientes, diagnósticos ni datos personales identificables al redactar tus prompts o al compartir tus recursos. Trabaja con ejemplos generales, ficticios o anonimizados.
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="padlet-title">
+                <h2 id="padlet-title" class="section-title">Muro colaborativo de trabajo</h2>
+                <p>Publica tus avances en cada una de las fases siguiendo las instrucciones anteriores. Observa y comenta los trabajos de tus colegas para enriquecer la comunidad de aprendizaje.</p>
+
+                <div class="padlet-wrapper">
+                    <div class="padlet-embed">
+                        <iframe 
+                            title="Muro colaborativo de Padlet para la Actividad 2.1"
+                            src="https://padlet.com/embed/4txmilqn2bqet125" 
+                            allow="camera;microphone" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <div id="completion-section"></div>
+            <nav class="footer-nav" aria-label="Navegación de actividades del módulo">
+                <a href="leccion2_3.html" class="btn-footer btn-back">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Lección 2.3
+                </a>
+                <a href="recursos_m2.html" class="btn-footer btn-next">
+                    Ver Recursos Módulo 2
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </nav>
+        </article>
+    </main>
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function resolveAssetPath(img) {
+            const fileName = img.dataset.asset;
+            if (!fileName) return;
+
+            const candidates = [
+                `assets/${fileName}`,
+                `./assets/${fileName}`,
+                `../assets/${fileName}`,
+                `/assets/${fileName}`
+            ];
+
+            let index = 0;
+            img.onerror = () => {
+                if (index < candidates.length) {
+                    img.src = candidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen: ${fileName}`);
+                }
+            };
+
+            img.src = candidates[index];
+            index += 1;
+        }
+
+        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

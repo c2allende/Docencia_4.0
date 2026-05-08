@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Plantilla de Refinamiento de Prompts - Fase 5 del proyecto Docencia 4.0. Iteración y mejora de productos generados con IA.">
+    <title>Plantilla Fase 5: Iteración y Mejora | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- Librería para generación de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --form-max-width: 950px;
+        }
+
+        body {
+            background-color: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-normal);
+            margin: 0;
+            padding: var(--spacing-6) 0;
+        }
+
+        .container {
+            max-width: var(--form-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+        }
+
+        /* Header Institucional - Compacto para evitar saltos de página */
+        .header-print {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-4);
+            padding-bottom: var(--spacing-4);
+            border-bottom: var(--border-width-2) solid var(--color-brand-primary);
+        }
+
+        .logo-container img { height: 45px; width: auto; }
+        .header-titles { text-align: right; }
+        .header-titles h1 { margin: 0; font-family: var(--font-family-heading); font-size: var(--font-size-lg); color: var(--color-brand-primary); font-weight: var(--font-weight-extrabold); }
+        .header-titles p { margin: 0; font-size: var(--font-size-sm); color: var(--color-text-secondary); font-weight: var(--font-weight-semibold); }
+
+        /* Estructura Card */
+        .form-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6) var(--spacing-8);
+            box-shadow: var(--shadow-xl);
+            border-top: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .section-block {
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-6);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+
+        .section-block:last-child { border-bottom: none; margin-bottom: 0; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+        }
+
+        .section-number {
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+        }
+
+        .cycle-box {
+            background: var(--color-background-surface-low);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin-bottom: var(--spacing-6);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .step-title {
+            font-size: var(--font-size-sm);
+            font-weight: 800;
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-title span { background: var(--color-brand-primary); color: white; border-radius: 4px; padding: 2px 8px; font-size: 11px; }
+
+        /* Formulario */
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-4); margin-bottom: var(--spacing-4); }
+        .form-group { margin-bottom: var(--spacing-6); }
+        .form-label { display: block; margin-bottom: var(--spacing-2); font-weight: var(--font-weight-bold); color: var(--color-text-secondary); font-size: var(--font-size-xs); text-transform: uppercase; }
+        .form-control { width: 100%; padding: var(--spacing-3) var(--spacing-4); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); font-size: var(--font-size-base); background-color: var(--color-white); font-family: var(--font-family-body); transition: border-color 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--color-brand-primary); }
+
+        textarea.form-control { min-height: 80px; resize: vertical; }
+        textarea.prompt-area { font-family: 'Courier New', Courier, monospace; background: var(--color-background-surface-low); border: 2px solid var(--color-brand-primary); font-size: var(--font-size-sm); }
+        textarea.result-area { min-height: 180px; background: white; border: 1px solid var(--color-border-default); border-left: 4px solid var(--color-brand-primary); }
+
+        /* Checkboxes / Radios */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-2); margin-bottom: var(--spacing-4); }
+        .option-item { display: flex; align-items: flex-start; gap: var(--spacing-3); padding: var(--spacing-3); background: var(--color-white); border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); font-size: var(--font-size-sm); cursor: pointer; transition: background 0.2s; }
+        .option-item:hover { background: var(--color-background-surface-low); }
+
+        /* Ejemplos Guía Visibles */
+        .examples-container {
+            background: var(--color-background-surface-low);
+            border: 1px dashed var(--color-brand-primary);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-4) 0 var(--spacing-6) 0;
+        }
+        .examples-title { font-weight: 800; font-size: 11px; color: var(--color-brand-primary); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .example-item { font-size: var(--font-size-xs); color: var(--color-text-secondary); font-style: italic; margin-bottom: 6px; padding-left: 12px; border-left: 2px solid var(--color-brand-primary); line-height: 1.4; }
+
+        /* Espejo PDF */
+        .print-mirror { display: none; white-space: pre-wrap; word-wrap: break-word; font-size: 14px; padding: 15px; border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); background: white; color: var(--color-text-primary); margin-top: 5px; min-height: 40px; }
+
+        /* Instrucciones */
+        .instruction-box { background: var(--color-background-surface-low); padding: var(--spacing-6); border-radius: var(--radius-lg); border-left: var(--border-width-4) solid var(--color-brand-primary); margin-bottom: var(--spacing-6); }
+        .instruction-box h4 { margin: 0 0 8px 0; font-weight: 800; color: var(--color-brand-primary); font-size: var(--font-size-md); }
+        .instruction-box p { font-size: var(--font-size-sm); margin: 0 0 10px 0; }
+        .instruction-box ul { margin: 0; padding-left: 20px; font-size: var(--font-size-sm); line-height: 1.5; }
+
+        .padlet-instructions { background: var(--color-background-surface-low); padding: var(--spacing-6); border-radius: var(--radius-xl); margin-top: var(--spacing-8); border-left: var(--border-width-6) solid var(--color-brand-primary); box-shadow: var(--shadow-lg); border-right: 1px solid var(--color-border-default); border-top: 1px solid var(--color-border-default); border-bottom: 1px solid var(--color-border-default); }
+        .padlet-instructions h3 { margin-top: 0; color: var(--color-brand-primary); font-weight: 800; display: flex; align-items: center; gap: 10px; font-size: var(--font-size-lg); }
+
+        /* Acciones */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-8);
+            padding: var(--spacing-4) var(--spacing-6);
+            background: var(--color-background-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            bottom: var(--spacing-4);
+            z-index: 10;
+        }
+
+        .btn { display: inline-flex; align-items: center; gap: var(--spacing-3); padding: var(--spacing-3) var(--spacing-6); border-radius: var(--radius-pill); font-family: var(--font-family-heading); font-weight: var(--font-weight-bold); cursor: pointer; border: none; font-size: var(--font-size-sm); transition: all 0.2s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-primary { background: var(--color-brand-primary); color: var(--color-white); }
+        .btn-outline { background: transparent; border: 2px solid var(--color-border-default); color: var(--color-text-secondary); }
+        .btn-danger { background: var(--color-feedback-error); color: var(--color-white); }
+
+        .paste-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid var(--color-brand-primary);
+            color: var(--color-brand-primary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .paste-btn:hover { background: var(--color-brand-primary); color: white; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .modal-content { background: var(--color-white); padding: var(--spacing-8); border-radius: var(--radius-lg); max-width: 400px; text-align: center; }
+
+        .recovery-box { background: var(--color-background-surface-low); border: 1px solid var(--color-border-default); border-radius: var(--radius-lg); padding: var(--spacing-6); margin-bottom: var(--spacing-8); border-left: var(--border-width-6) solid var(--color-brand-primary); }
+        .recovery-title { font-weight: 800; color: var(--color-brand-primary); text-transform: uppercase; margin-bottom: 15px; font-size: var(--font-size-sm); display: flex; align-items: center; gap: 8px; }
+
+        .final-checklist { background: var(--color-background-surface-low); border: 1px solid var(--color-border-default); padding: var(--spacing-6); border-radius: var(--radius-lg); margin-top: 30px; }
+        .final-checklist h4 { margin-top: 0; color: var(--color-brand-primary); text-transform: uppercase; font-weight: 800; font-size: var(--font-size-md); }
+
+        .comparison-box-title { background: var(--color-brand-primary); color: white; padding: 10px 20px; font-weight: 800; border-radius: 8px 8px 0 0; font-size: 14px; text-transform: uppercase; }
+        .comparison-box-content { background: white; border: 1px solid var(--color-border-default); border-top: none; padding: 20px; border-radius: 0 0 8px 8px; margin-bottom: 30px; border-left: var(--border-width-4) solid var(--color-brand-primary); }
+
+        .comparison-box-title.secondary { background: var(--color-brand-secondary); }
+        .comparison-box-content.secondary { border-left-color: var(--color-brand-secondary); }
+
+        @media (max-width: 768px) {
+            .header-print { flex-direction: column; text-align: center; gap: 15px; }
+            .header-titles { text-align: center; }
+            .actions-bar { flex-direction: column; gap: 12px; position: static; }
+            .btn { width: 100%; justify-content: center; }
+        }
+
+        @media print {
+            .actions-bar, .modal-overlay, .instruction-box, .paste-btn, .examples-container { display: none !important; }
+            .print-mirror { display: block !important; }
+            textarea, input { display: none !important; }
+            body { background: white !important; padding: 0 !important; }
+            .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; }
+            .section-block { page-break-inside: avoid; }
+            .cycle-box { border: 1px solid var(--color-border-default) !important; }
+            .recovery-box { border: 1px solid var(--color-border-default) !important; border-left: 5px solid var(--color-brand-primary) !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="capture-area">
+        <header class="header-print">
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <div class="header-titles">
+                <h1>Plantilla Fase 5: Refinamiento de Prompts</h1>
+                <p>Iteración y Mejora de Productos Generados con IA</p>
+            </div>
+        </header>
+
+        <section class="instruction-box" data-html2canvas-ignore>
+            <h4>INSTRUCCIONES</h4>
+            <p>Usa los hallazgos de tu Lista de Cotejo (Fase 4) para refinar tus prompts y mejorar los productos generados con IA. <strong>Completarás al menos DOS ciclos de refinamiento:</strong> uno para la planificación semanal y otro para el recurso didáctico.</p>
+            <ul>
+                <li>Identifica el problema específico detectado en la Fase 4</li>
+                <li>Escribe un prompt de refinamiento claro y específico</li>
+                <li>Genera la nueva versión y evalúa si mejoró comparando con la inicial</li>
+            </ul>
+        </section>
+
+        <main class="form-card">
+            <!-- Información General -->
+            <section class="section-block" style="margin-bottom: var(--spacing-6);">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre_maestro">Nombre visible del participante:</label>
+                        <input type="text" id="nombre_maestro" class="form-control" placeholder="Escribe tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="fecha">Fecha:</label>
+                        <input type="date" id="fecha" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="grado_materia">Grado y materia:</label>
+                        <input type="text" id="grado_materia" class="form-control" placeholder="Ej. 6to grado - Matemáticas">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Producto(s) que se va a refinar:</label>
+                    <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        <label class="option-item"><input type="checkbox" name="prod_ref" value="Plan"> Planificación semanal</label>
+                        <label class="option-item"><input type="checkbox" name="prod_ref" value="Recurso"> Recurso didáctico</label>
+                        <label class="option-item"><input type="checkbox" name="prod_ref" value="Ambos"> Ambos productos</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recuperación Fase 4 -->
+            <section class="recovery-box">
+                <div class="recovery-title">🔍 RECUPERACIÓN DE HALLAZGOS DE LA FASE 4</div>
+                <p style="font-size: var(--font-size-sm); margin-bottom: 15px;">Trae de tu Lista de Cotejo de la Fase 4 los puntos clave que guiarán este refinamiento:</p>
+                <div class="form-group">
+                    <label class="form-label">Fortalezas identificadas:</label>
+                    <textarea id="rec_fortalezas" class="form-control" placeholder="Anota los puntos fuertes de tus productos..."></textarea>
+                    <div id="mirror_rec_fortalezas" class="print-mirror"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Aspectos a ajustar y puntos de mejora para el prompt:</label>
+                    <textarea id="rec_mejoras" class="form-control" placeholder="¿Qué criterios marcaron 'Parcial' o 'No cumple'?"></textarea>
+                    <div id="mirror_rec_mejoras" class="print-mirror"></div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- CICLO 1: PLANIFICACIÓN -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">1</span> CICLO 1: REFINAMIENTO DE LA PLANIFICACIÓN SEMANAL</h2>
+                
+                <div class="cycle-box">
+                    <div class="step-title"><span>Paso 1</span> Identificar el problema a resolver</div>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: 15px;">Selecciona UN problema específico de tu planificación semanal.</p>
+                    <div class="options-grid">
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Tiempos"> Tiempos poco realistas (actividades no caben en el tiempo)</label>
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Densidad"> Demasiadas actividades por sesión</label>
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Complejidad"> Nivel de complejidad inadecuado</label>
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Contexto"> Falta de ejemplos contextualizados a Puerto Rico</label>
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Recursos"> Recursos no disponibles en mi escuela</label>
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Inclusion"> Falta de estrategias de diferenciación/inclusión</label>
+                        <label class="option-item"><input type="checkbox" name="p1_prob" value="Otro"> Otro: <input type="text" style="border:none; border-bottom:1px solid var(--color-border-default); background:transparent; width:100px;"> </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Describe brevemente el problema y por qué requiere refinamiento:</label>
+                        <textarea id="desc_p1" class="form-control" placeholder="Explica el hallazgo de la Fase 4..."></textarea>
+                        <div id="mirror_desc_p1" class="print-mirror"></div>
+                    </div>
+
+                    <div class="step-title" style="margin-top: 30px;"><span>Paso 2</span> Redactar el prompt de refinamiento</div>
+                    <div class="examples-container">
+                        <div class="examples-title">💡 Ejemplos de prompts de refinamiento:</div>
+                        <div class="example-item">"Reescribe la planificación semanal reduciendo la cantidad de actividades por sesión a un máximo de 3, manteniendo el estándar [estándar] y el mismo tema."</div>
+                        <div class="example-item">"Ajusta la planificación semanal para que todas las actividades puedan realizarse en 45 minutos por clase, sin uso de computadoras ni internet."</div>
+                        <div class="example-item">"Reescribe la planificación incluyendo ejemplos y situaciones relacionadas con escuelas públicas en Puerto Rico (comunidad, transporte, deportes locales)."</div>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <label class="form-label">MI PROMPT DE REFINAMIENTO (Ciclo 1):</label>
+                        <textarea id="prompt_p1" class="form-control prompt-area" placeholder="Redacta tu prompt de refinamiento específico aquí..."></textarea>
+                        <div id="mirror_prompt_p1" class="print-mirror"></div>
+                    </div>
+
+                    <div class="step-title" style="margin-top: 30px;"><span>Paso 3</span> Generar y guardar la nueva versión</div>
+                    <div class="option-item" style="margin-bottom: 20px; border: 1px solid var(--color-brand-primary);">
+                        <input type="checkbox" id="check_p1"> <label for="check_p1"><strong>Nueva versión de la planificación generada y guardada en documento aparte</strong></label>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <button type="button" class="paste-btn" onclick="pasteFromClipboard('res_p1')">Pegar resultado</button>
+                        <label class="form-label">Respuesta mejorada de la IA (Resumen o fragmento clave):</label>
+                        <textarea id="res_p1" class="form-control result-area" placeholder="Pega aquí el resultado refinado para comparación..."></textarea>
+                        <div id="mirror_res_p1" class="print-mirror"></div>
+                    </div>
+
+                    <div class="step-title" style="margin-top: 30px;"><span>Paso 4</span> Evaluar la mejora</div>
+                    <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                        <label class="option-item"><input type="radio" name="p1_eval" value="Si"> Sí, completamente</label>
+                        <label class="option-item"><input type="radio" name="p1_eval" value="Parcial"> Parcialmente</label>
+                        <label class="option-item"><input type="radio" name="p1_eval" value="No"> No, requiere más</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">¿Qué mejoró específicamente?</label>
+                            <textarea id="mejoras_p1" class="form-control" placeholder="Describe los cambios positivos..."></textarea>
+                            <div id="mirror_mejoras_p1" class="print-mirror"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Qué todavía necesita ajuste docente?</label>
+                            <textarea id="ajustes_p1" class="form-control" placeholder="Identifica lo que todavía no está perfecto..."></textarea>
+                            <div id="mirror_ajustes_p1" class="print-mirror"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- CICLO 2: RECURSO -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">2</span> CICLO 2: REFINAMIENTO DEL RECURSO DIDÁCTICO</h2>
+                
+                <div class="cycle-box">
+                    <div class="step-title"><span>Paso 1</span> Identificar el problema a resolver</div>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: 15px;">Selecciona el problema específico de tu recurso didáctico (hoja de trabajo o lectura).</p>
+                    <div class="options-grid">
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Lectura"> Nivel de lectura muy alto o muy bajo</label>
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Instrucciones"> Instrucciones confusas o poco claras</label>
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Tecnico"> Vocabulario demasiado técnico</label>
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Contexto"> Falta de ejemplos contextualizados a Puerto Rico</label>
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Formato"> Formato poco claro o difícil de usar</label>
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Accesibilidad"> No es accesible para educación especial o ELL</label>
+                        <label class="option-item"><input type="checkbox" name="p2_prob" value="Otro"> Otro: <input type="text" style="border:none; border-bottom:1px solid var(--color-border-default); background:transparent; width:100px;"> </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Describe brevemente el problema detectado:</label>
+                        <textarea id="desc_p2" class="form-control" placeholder="Anota el hallazgo de la Fase 4..."></textarea>
+                        <div id="mirror_desc_p2" class="print-mirror"></div>
+                    </div>
+
+                    <div class="step-title" style="margin-top: 30px;"><span>Paso 2</span> Redactar el prompt de refinamiento</div>
+                    <div class="examples-container">
+                        <div class="examples-title">💡 Ejemplos de prompts de refinamiento:</div>
+                        <div class="example-item">"Ajusta la hoja de trabajo para un nivel de lectura más básico: usa frases más cortas (máx. 10 palabras), menos tecnicismos y ejemplos claros para estudiantes de ___ grado."</div>
+                        <div class="example-item">"Reescribe la lectura incluyendo ejemplos relacionados con la realidad de Puerto Rico (comunidad, deportes, comidas típicas), manteniendo el objetivo."</div>
+                        <div class="example-item">"Simplifica las instrucciones de la hoja de trabajo: usa verbos de acción claros al inicio de cada consigna y numera cada paso."</div>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <label class="form-label">MI PROMPT DE REFINAMIENTO (Ciclo 2):</label>
+                        <textarea id="prompt_p2" class="form-control prompt-area" placeholder="Redacta tu prompt de refinamiento específico aquí..."></textarea>
+                        <div id="mirror_prompt_p2" class="print-mirror"></div>
+                    </div>
+
+                    <div class="step-title" style="margin-top: 30px;"><span>Paso 3</span> Generar y guardar la nueva versión</div>
+                    <div class="option-item" style="margin-bottom: 20px; border: 1px solid var(--color-brand-secondary);">
+                        <input type="checkbox" id="check_p2"> <label for="check_p2"><strong>Nueva versión del recurso generada y guardada en documento aparte</strong></label>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <button type="button" class="paste-btn" onclick="pasteFromClipboard('res_p2')">Pegar resultado</button>
+                        <label class="form-label">Respuesta mejorada de la IA (Resumen o fragmento clave):</label>
+                        <textarea id="res_p2" class="form-control result-area" placeholder="Pega aquí el resultado refinado para comparación..."></textarea>
+                        <div id="mirror_res_p2" class="print-mirror"></div>
+                    </div>
+
+                    <div class="step-title" style="margin-top: 30px;"><span>Paso 4</span> Evaluar la mejora</div>
+                    <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                        <label class="option-item"><input type="radio" name="p2_eval" value="Si"> Sí, completamente</label>
+                        <label class="option-item"><input type="radio" name="p2_eval" value="Parcial"> Parcialmente</label>
+                        <label class="option-item"><input type="radio" name="p2_eval" value="No"> No, necesito otro</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">¿Qué mejoró específicamente?</label>
+                            <textarea id="mejoras_p2" class="form-control" placeholder="Describe los cambios positivos..."></textarea>
+                            <div id="mirror_mejoras_p2" class="print-mirror"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Qué todavía necesita ajuste docente?</label>
+                            <textarea id="ajustes_p2" class="form-control" placeholder="Identifica lo que todavía no está perfecto..."></textarea>
+                            <div id="mirror_ajustes_p2" class="print-mirror"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CICLO 3 (OPCIONAL) -->
+            <section class="section-block">
+                <h2 class="section-title" style="color: var(--color-text-muted);"><span class="section-number" style="background: var(--color-text-muted);">3</span> CICLO 3 (OPCIONAL): SEGUNDO REFINAMIENTO</h2>
+                <p style="font-size: var(--font-size-sm); margin-bottom: 20px; color: var(--color-text-secondary);">Usa este espacio si todavía hay problemas o deseas un segundo refinamiento sobre otros aspectos.</p>
+                <div class="cycle-box" style="border-left-color: var(--color-border-default);">
+                    <div class="form-group">
+                        <label class="form-label">Producto que quiero refinar adicionalmente:</label>
+                        <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                            <label class="option-item"><input type="radio" name="p3_prod" value="Plan"> Planificación semanal (2do ciclo)</label>
+                            <label class="option-item"><input type="radio" name="p3_prod" value="Recurso"> Recurso didáctico (2do ciclo)</label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <label class="form-label">Mi prompt de refinamiento (Ciclo 3):</label>
+                        <textarea id="prompt_p3" class="form-control prompt-area" placeholder="Escribe el prompt adicional aquí..."></textarea>
+                        <div id="mirror_prompt_p3" class="print-mirror"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">¿Mejoró el producto? Nota breve sobre el resultado:</label>
+                        <textarea id="eval_p3" class="form-control" style="min-height: 80px;"></textarea>
+                        <div id="mirror_eval_p3" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- COMPARACIÓN FINAL -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">4</span> COMPARACIÓN FINAL: ANTES Y DESPUÉS</h2>
+                
+                <div class="comparison-box-title">A. Planificación Semanal</div>
+                <div class="comparison-box-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Versión Inicial (Fase 2): Principales problemas detectados</label>
+                            <textarea id="comp_p1_ini" class="form-control" placeholder="¿Qué no funcionaba en la versión original?"></textarea>
+                            <div id="mirror_comp_p1_ini" class="print-mirror"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Versión Refinada (Fase 5): Principales mejoras logradas</label>
+                            <textarea id="comp_p1_ref" class="form-control" placeholder="¿Qué cambios positivos ocurrieron tras el refinamiento?"></textarea>
+                            <div id="mirror_comp_p1_ref" class="print-mirror"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Decisión Docente Final sobre la Planificación:</label>
+                        <textarea id="dec_p1" class="form-control" style="min-height: 60px;" placeholder="¿Está lista para el aula?"></textarea>
+                        <div id="mirror_dec_p1" class="print-mirror"></div>
+                    </div>
+                </div>
+
+                <div class="comparison-box-title secondary">B. Recurso Didáctico</div>
+                <div class="comparison-box-content secondary">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Versión Inicial (Fase 3): Principales problemas detectados</label>
+                            <textarea id="comp_p2_ini" class="form-control" placeholder="¿Qué dificultades presentaba el recurso original?"></textarea>
+                            <div id="mirror_comp_p2_ini" class="print-mirror"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Versión Refinada (Fase 5): Principales mejoras logradas</label>
+                            <textarea id="comp_p2_ref" class="form-control" placeholder="¿Cómo mejoró la utilidad o claridad del recurso?"></textarea>
+                            <div id="mirror_comp_p2_ref" class="print-mirror"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Decisión Docente Final sobre el Recurso:</label>
+                        <textarea id="dec_p2" class="form-control" style="min-height: 60px;" placeholder="¿Es pedagógicamente sólido ahora?"></textarea>
+                        <div id="mirror_dec_p2" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REFLEXIÓN -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">5</span> REFLEXIÓN SOBRE EL PROCESO ITERATIVO</h2>
+                <div class="form-group">
+                    <label class="form-label">1. ¿Qué aprendiste sobre la importancia de NO aceptar el primer resultado de la IA?</label>
+                    <textarea id="ref_1" class="form-control" style="min-height: 120px;" placeholder="Reflexiona sobre tu rol como validador crítico..."></textarea>
+                    <div id="mirror_ref_1" class="print-mirror"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">2. ¿Qué estrategia de refinamiento te funcionó mejor?</label>
+                    <textarea id="ref_2" class="form-control" style="min-height: 120px;" placeholder="Identifica las técnicas de prompt que mejoraron los resultados..."></textarea>
+                    <div id="mirror_ref_2" class="print-mirror"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">3. ¿Cómo aplicarás este proceso iterativo en tu trabajo futuro con IA?</label>
+                    <textarea id="ref_3" class="form-control" style="min-height: 120px;" placeholder="Planifica cómo usarás esta metodología en adelante..."></textarea>
+                    <div id="mirror_ref_3" class="print-mirror"></div>
+                </div>
+            </section>
+
+            <!-- Padlet -->
+            <section class="padlet-instructions">
+                <h3>📌 INSTRUCCIONES PARA COMPARTIR EN PADLET</h3>
+                <ol style="font-size: var(--font-size-sm); line-height: 1.8; color: var(--color-text-primary);">
+                    <li>Completa esta plantilla con tus ciclos de refinamiento y reflexiones.</li>
+                    <li>Pulsa el botón <strong>"Descargar PDF"</strong> para guardar tu evidencia oficial.</li>
+                    <li>En el Padlet del módulo, localiza la columna correspondiente a la <strong>Fase 5</strong>.</li>
+                    <li>Publica una entrada breve (3–4 oraciones) que incluya:
+                        <ul>
+                            <li>Qué refinaste (planificación, recurso o ambos).</li>
+                            <li>Un ejemplo corto del prompt de refinamiento que mejores resultados te dio.</li>
+                            <li>Una oración indicando la mejora más significativa en la nueva versión.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Adjunta este PDF generado</strong> a tu publicación como evidencia del proceso iterativo.</li>
+                </ol>
+            </section>
+
+            <section class="final-checklist">
+                <h4>PRODUCTOS FINALES DE LA FASE 5</h4>
+                <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+                    <label class="option-item"><input type="checkbox"> Versión mejorada de la planificación semanal.</label>
+                    <label class="option-item"><input type="checkbox"> Versión mejorada del recurso didáctico.</label>
+                    <label class="option-item"><input type="checkbox"> Esta plantilla completada y exportada.</label>
+                    <label class="option-item"><input type="checkbox"> Entrada publicada en Padlet Fase 5.</label>
+                </div>
+                <p style="font-size: 11px; font-style: italic; color: var(--color-text-muted); margin-top: 15px;">Recuerda: Un buen prompt inicial es el comienzo, pero saber "conversar" con el modelo para mejorar progresivamente los resultados es lo que define el uso profesional y crítico de la IA en educación.</p>
+            </section>
+        </main>
+
+        <div class="actions-bar" data-html2canvas-ignore>
+            <a href="actividad2_1.html" class="btn btn-outline">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                Volver a la actividad
+            </a>
+            <div style="display: flex; gap: var(--spacing-3);">
+                <button id="btn-clear" class="btn btn-outline">Limpiar</button>
+                <button id="btn-pdf" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-content">
+            <h3 style="margin-top: 0; color: var(--color-feedback-error);">¿Limpiar plantilla?</h3>
+            <p>Se borrará todo tu progreso de refinamiento. Esta acción no se puede deshacer.</p>
+            <div style="display: flex; gap: var(--spacing-3); justify-content: center; margin-top: 30px;">
+                <button id="modal-cancel" class="btn btn-outline">Cancelar</button>
+                <button id="modal-confirm" class="btn btn-danger">Sí, limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sincronización de espejos para PDF
+        document.querySelectorAll('textarea').forEach(tx => {
+            const mirror = document.getElementById('mirror_' + tx.id);
+            if (mirror) {
+                mirror.innerText = tx.value;
+                tx.addEventListener('input', () => {
+                    mirror.innerText = tx.value;
+                });
+            }
+        });
+
+        // Pegado inteligente
+        async function pasteFromClipboard(targetId) {
+            const textarea = document.getElementById(targetId);
+            if (textarea.value.trim() !== "") {
+                if (!confirm("¿Deseas reemplazar el contenido actual con lo que tienes copiado?")) return;
+            }
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    textarea.value = text;
+                    const mirror = document.getElementById('mirror_' + targetId);
+                    if (mirror) mirror.innerText = text;
+                    textarea.dispatchEvent(new Event('input'));
+                }
+            } catch (err) {
+                alert('No se pudo acceder al portapapeles automáticamente. Por favor, usa Ctrl+V.');
+            }
+        }
+
+        // Limpieza
+        const modal = document.getElementById('confirm-modal');
+        document.getElementById('btn-clear').addEventListener('click', () => modal.style.display = 'flex');
+        document.getElementById('modal-cancel').addEventListener('click', () => modal.style.display = 'none');
+        document.getElementById('modal-confirm').addEventListener('click', () => {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+                else el.value = '';
+            });
+            document.querySelectorAll('.print-mirror').forEach(m => m.innerText = '');
+            modal.style.display = 'none';
+        });
+
+        // PDF Export Dinámico
+        document.getElementById('btn-pdf').addEventListener('click', function () {
+            const nombreRaw = document.getElementById('nombre_maestro')?.value.trim();
+            
+            const sanitize = (str) => {
+                return str.normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .replace(/[^a-zA-Z0-9 ]/g, "")
+                          .replace(/\s+/g, '_');
+            };
+
+            const nombreSanitizado = nombreRaw ? sanitize(nombreRaw) : 'Participante';
+            const fileName = `Refinamiento_Fase5_${nombreSanitizado}.pdf`;
+
+            window.scrollTo(0, 0);
+            const element = document.getElementById('capture-area');
+            const opt = {
+                margin: [12.7, 12.7, 12.7, 12.7],
+                filename: fileName,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        });
+
+        // Pre-completar nombre desde localStorage
+        try {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const nameField = document.getElementById('nombre_participante') || document.getElementById('nombre_maestro');
+                if (nameField && !nameField.value && user.name) {
+                    nameField.value = user.name;
+                    const mirror = document.getElementById('mirror_' + nameField.id);
+                    if (mirror) mirror.innerText = user.name;
+                    nameField.dispatchEvent(new Event('input'));
+                }
+            }
+        } catch (e) { console.warn('Error al cargar nombre:', e); }
+    </script>
+</body>
+
+</html>

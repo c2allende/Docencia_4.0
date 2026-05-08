@@ -1,0 +1,2 @@
+Otra regla que necesito tengas presente de ahora en adelante. No trabajaremos sobre paginas en vivo originales. Es importante que de ahora en adelante cualquier actualización a una pagina necesito que sea un prototipo primero para ir trabajando las actualizaciones y luego de validada y aprobada se pase a produccion remplazando la original.
+Otra regla que necesito sigas siempre. Utiliza un analisis critico enfocado en diseñados instruccional elite de espacios digitales de enseñanza y aprendizaje.

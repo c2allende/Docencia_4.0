@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Plantilla digital rellenable para el diseño de prompts efectivos - Fase 2 del proyecto Docencia 4.0.">
-    <title>Plantilla Fase 2: Del estándar al prompt efectivo | Docencia 4.0</title>
+    <title>PROTOTIPO - Plantilla Fase 2: Del estándar al prompt efectivo | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -599,7 +599,7 @@
                 <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
             </div>
             <div class="header-titles">
-                <h1>Plantilla Fase 2: Del Estándar al Prompt Efectivo</h1>
+                <h1>PROTOTIPO - Fase 2: Del Estándar al Prompt Efectivo</h1>
                 <p>Módulo 2: Planificación y Diseño Curricular con IA</p>
             </div>
         </header>
@@ -620,8 +620,8 @@
                 <h2 class="section-title"><span class="section-number">1</span> Paso 1. Selección de la unidad y
                     redacción del prompt efectivo</h2>
 
-                <div class="form-group">
-                    <label class="form-label" for="nombre_participante">Nombre visible del participante:</label>
+                <div class="form-group" style="margin-top: var(--spacing-6);">
+                    <label class="form-label" for="nombre_participante">Nombre de la participante:</label>
                     <input type="text" id="nombre_participante" class="form-control"
                         placeholder="Escribe tu nombre completo">
                 </div>
@@ -724,7 +724,7 @@
                 <div class="form-group" style="margin-top: var(--spacing-6);">
                     <label class="form-label">3. TAREA (¿Qué quieres que genere la IA?)</label>
                     <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--spacing-4);">
-                        Completa los campos para indicar qué product deseas que genere la IA.
+                        Completa los campos para indicar qué producto deseas que genere la IA.
                     </p>
                     
                     <div class="form-row" style="margin-bottom: var(--spacing-4);">
@@ -1233,21 +1233,6 @@
             modal.style.display = 'none';
         });
 
-        // Pre-completar nombre desde localStorage
-        try {
-            const userData = localStorage.getItem('user');
-            if (userData) {
-                const user = JSON.parse(userData);
-                const nameField = document.getElementById('nombre_participante') || document.getElementById('nombre_maestro');
-                if (nameField && !nameField.value && user.name) {
-                    nameField.value = user.name;
-                    const mirror = document.getElementById('mirror_' + nameField.id);
-                    if (mirror) mirror.innerText = user.name;
-                    nameField.dispatchEvent(new Event('input'));
-                }
-            }
-        } catch (e) { console.warn('Error al cargar nombre:', e); }
-
         // Inicializar el prompt al cargar
         updateFinalPrompt();
 
@@ -1259,5 +1244,4 @@
         });
     </script>
 </body>
-
 </html>

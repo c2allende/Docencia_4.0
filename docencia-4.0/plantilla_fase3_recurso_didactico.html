@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Plantilla guía para generar recursos didácticos con IA - Fase 3 del proyecto Docencia 4.0.">
+    <title>Plantilla Fase 3: Generación del Recurso Didáctico | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- Librería para generación de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --form-max-width: 900px;
+        }
+
+        body {
+            background-color: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-normal);
+            margin: 0;
+            padding: var(--spacing-8) 0;
+        }
+
+        .container {
+            max-width: var(--form-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+        }
+
+        /* Header Institucional */
+        .header-print {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-4);
+            border-bottom: var(--border-width-2) solid var(--color-brand-primary);
+        }
+
+        .logo-container img {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-titles {
+            text-align: right;
+        }
+
+        .header-titles h1 {
+            margin: 0;
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .header-titles p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Card del Formulario */
+        .form-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-8) var(--spacing-10);
+            box-shadow: var(--shadow-xl);
+            border-top: var(--border-width-6) solid var(--color-brand-primary);
+            position: relative;
+        }
+
+        .section-block {
+            margin-bottom: var(--spacing-10);
+            animation: fade-in 0.5s ease-out forwards;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+        }
+
+        .section-number {
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+        }
+
+        /* Formulario */
+        .form-group {
+            margin-bottom: var(--spacing-5);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: var(--color-slate-50);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px var(--color-alpha-cyan-15);
+            background-color: var(--color-white);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Área técnica */
+        .technical-container {
+            position: relative;
+        }
+
+        textarea.technical-textarea {
+            min-height: 150px;
+            border: var(--border-width-2) solid var(--color-brand-primary);
+            background-color: var(--color-white);
+            font-family: 'Courier New', Courier, monospace;
+            padding-right: 50px;
+        }
+
+        .print-mirror {
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 15px;
+            border: 2px solid var(--color-brand-primary);
+            border-radius: 8px;
+            background: #ffffff;
+            min-height: 100px;
+            color: #333;
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-sm);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 5;
+        }
+
+        .btn-copy.copied {
+            background: var(--color-feedback-success-container);
+            color: var(--color-feedback-success-on);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-2);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-3);
+            background: var(--color-slate-50);
+            border-radius: var(--radius-sm);
+            border: var(--border-width-1) solid var(--color-border-subtle);
+            cursor: pointer;
+        }
+
+        .option-item input { width: 18px; height: 18px; }
+
+        .formula-box {
+            background: var(--color-brand-primary-container);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-brand-primary-on-container);
+            margin: var(--spacing-4) 0;
+            border: var(--border-width-2) dashed var(--color-brand-primary);
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-12);
+            padding: var(--spacing-6);
+            background: var(--color-background-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            bottom: var(--spacing-4);
+            z-index: 10;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-6);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            border: none;
+            font-size: var(--font-size-sm);
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: var(--color-brand-primary); color: var(--color-white); }
+        .btn-secondary { background: var(--color-brand-secondary); color: var(--color-white); }
+        .btn-outline { background: transparent; border: var(--border-width-2) solid var(--color-border-default); color: var(--color-text-secondary); }
+        .btn-danger { background: var(--color-feedback-error); color: var(--color-white); }
+
+        .reflection-block {
+            background: var(--color-alpha-cyan-5);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-4);
+            border-left: var(--border-width-4) solid var(--color-brand-primary);
+        }
+
+        .padlet-instructions {
+            background: var(--color-alpha-cyan-5);
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            margin-top: var(--spacing-12);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .padlet-instructions h3 { margin-top: 0; color: var(--color-brand-primary); font-family: var(--font-family-heading); font-weight: 800; display: flex; align-items: center; gap: 10px; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .modal-content { background: var(--color-white); padding: var(--spacing-8); border-radius: var(--radius-lg); max-width: 400px; text-align: center; }
+
+        .btn-scroll-top { position: fixed; bottom: 100px; right: var(--spacing-6); width: 44px; height: 44px; background: var(--color-brand-primary); color: var(--color-white); border: none; border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
+        .btn-scroll-top.visible { display: flex; }
+
+        /* Clases para campos guiados */
+        .guided-fields-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-4);
+            margin: var(--spacing-4) 0;
+            padding: var(--spacing-4);
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border-subtle);
+        }
+
+        .guided-field {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-1);
+        }
+
+        .guided-field label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+        }
+
+        .template-sentence {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            padding: var(--spacing-3);
+            background: var(--color-slate-100);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--color-brand-primary);
+            margin-bottom: var(--spacing-4);
+            font-style: italic;
+        }
+
+        @media print {
+            .actions-bar, .btn-scroll-top, .modal-overlay, .btn-copy, .technical-textarea { display: none !important; }
+            .print-mirror { display: block !important; }
+            body { background: white !important; padding: 0 !important; }
+            .container { max-width: 800px !important; margin: 0 auto !important; }
+            .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; }
+            .section-block { page-break-inside: avoid; margin-bottom: var(--spacing-8) !important; }
+            .html2pdf__page-break { display: block; height: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .actions-bar { flex-direction: column; gap: var(--spacing-3); position: static; }
+            .btn { width: 100%; justify-content: center; }
+        }
+
+        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="capture-area">
+        <header class="header-print">
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <div class="header-titles">
+                <h1>Plantilla Fase 3: Creación del Recurso Didáctico</h1>
+                <p>Módulo 2: Planificación y Diseño Curricular con IA</p>
+            </div>
+        </header>
+
+        <section class="section-block" style="border-bottom: none; margin-bottom: var(--spacing-6);">
+            <div style="background: var(--color-slate-50); padding: var(--spacing-4); border-radius: var(--radius-md); border-left: var(--border-width-4) solid var(--color-brand-primary);">
+                <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-primary);">
+                    <strong>Objetivo:</strong> Extender el uso del prompt para generar un recurso concreto vinculado a la planificación semanal creada en la Fase 2.
+                </p>
+            </div>
+        </section>
+
+        <main class="form-card">
+            <div class="form-group" style="margin-bottom: var(--spacing-8);">
+                <label class="form-label" for="nombre_participante">Nombre visible del participante:</label>
+                <input type="text" id="nombre_participante" class="form-control" placeholder="Escribe tu nombre completo">
+            </div>
+
+            <!-- Paso 1 -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">1</span> Paso 1: CONEXIÓN CON LA PLANIFICACIÓN SEMANAL (FASE 2)</h2>
+                <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-4);">
+                    <div class="form-group">
+                        <label class="form-label" for="tema_unidad">Tema de mi unidad:</label>
+                        <input type="text" id="tema_unidad" class="form-control" placeholder="Ej. El ciclo del agua">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="grado_materia">Grado y materia:</label>
+                        <input type="text" id="grado_materia" class="form-control" placeholder="Ej. 4to grado - Ciencias">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sesión seleccionada de la planificación semanal:</label>
+                    <div class="options-grid">
+                        <label class="option-item"><input type="radio" name="sesion" value="Día 1"> Día 1</label>
+                        <label class="option-item"><input type="radio" name="sesion" value="Día 2"> Día 2</label>
+                        <label class="option-item"><input type="radio" name="sesion" value="Día 3"> Día 3</label>
+                        <label class="option-item"><input type="radio" name="sesion" value="Día 4"> Día 4</label>
+                        <label class="option-item"><input type="radio" name="sesion" value="Día 5"> Día 5</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="obj_sesion">Objetivo específico de esa sesión:</label>
+                    <textarea id="obj_sesion" class="form-control" placeholder="Copia el objetivo correspondiente de tu planificación semanal..."></textarea>
+                </div>
+
+                <div class="html2pdf__page-break"></div>
+
+                <div style="margin-top: var(--spacing-8);">
+                    <h3 style="font-size: var(--font-size-sm); color: var(--color-brand-secondary); text-transform: uppercase; font-weight: 800;">TIPO DE RECURSO QUE NECESITO</h3>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-3);">Selecciona UNA opción:</p>
+                    <div class="options-grid" style="grid-template-columns: 1fr;">
+                        <label class="option-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <input type="radio" name="tipo_recurso" value="Opción A: Hoja de trabajo">
+                                <strong>Opción A: Hoja de trabajo</strong>
+                            </div>
+                            <span style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-left: 26px;">(Ejercicios, problemas, actividades de práctica, preguntas de repaso, etc.)</span>
+                        </label>
+                        <label class="option-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <input type="radio" name="tipo_recurso" value="Opción B: Lectura breve">
+                                <strong>Opción B: Lectura breve</strong>
+                            </div>
+                            <span style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-left: 26px;">(Texto informativo o narrativo sobre el tema, con preguntas de comprensión al final)</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Paso 2 -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">2</span> Paso 2: ESPECIFICACIONES DEL RECURSO</h2>
+                <div class="form-group">
+                    <label class="form-label" for="grado_est">Grado de los estudiantes:</label>
+                    <input type="text" id="grado_est" class="form-control" placeholder="Ej. 4to grado">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nivel general de lectura del grupo:</label>
+                    <div class="options-grid">
+                        <label class="option-item"><input type="radio" name="nivel_lectura" value="Básico"> Básico</label>
+                        <label class="option-item"><input type="radio" name="nivel_lectura" value="Intermedio"> Intermedio</label>
+                        <label class="option-item"><input type="radio" name="nivel_lectura" value="Avanzado"> Avanzado</label>
+                        <label class="option-item"><input type="radio" name="nivel_lectura" value="Mixto"> Mixto</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Características especiales a considerar:</label>
+                    <div class="options-grid" style="grid-template-columns: 1fr;">
+                        <label class="option-item"><input type="checkbox" name="caract" value="Educación Especial"> Estudiantes de educación especial (requieren adaptaciones)</label>
+                        <label class="option-item"><input type="checkbox" name="caract" value="Aprendices de Inglés"> Estudiantes aprendices de inglés/segundo idioma</label>
+                        <label class="option-item"><input type="checkbox" name="caract" value="Dificultades Lectura"> Estudiantes con dificultades de lectura</label>
+                        <label class="option-item"><input type="checkbox" name="caract" value="Diferentes Niveles"> Grupo con diferentes niveles de dominio del tema</label>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Paso 3 -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">3</span> Paso 3: CONSTRUCCIÓN DEL PROMPT PARA EL RECURSO DIDÁCTICO</h2>
+                <p style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-4);">Usa nuevamente la fórmula:</p>
+                <div class="formula-box">Rol + Contexto + Tarea + Formato + Restricciones</div>
+
+                <div class="form-group">
+                    <label class="form-label">1. ROL</label>
+                    <div class="template-sentence">
+                        "Actúa como maestro/a de [Grado] grado de [Materia] en Puerto Rico."
+                    </div>
+                    <div class="guided-fields-grid">
+                        <div class="guided-field">
+                            <label for="rol_grado">Grado:</label>
+                            <input type="text" id="rol_grado" class="form-control" placeholder="Ej. 4to grado">
+                        </div>
+                        <div class="guided-field">
+                            <label for="rol_materia">Materia:</label>
+                            <input type="text" id="rol_materia" class="form-control" placeholder="Ej. Ciencias">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">2. CONTEXTO DEL RECURSO</label>
+                    <div class="reflection-block">
+                        <p style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-2);">El objetivo de esta clase es que los estudiantes puedan:</p>
+                        <textarea id="contexto_obj" class="form-control" placeholder="Escribe el objetivo aquí..."></textarea>
+                        <p style="font-size: var(--font-size-sm); margin-top: var(--spacing-3); margin-bottom: var(--spacing-2);">Este recurso será utilizado en:</p>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="momento" value="Inicio"> Inicio de clase</label>
+                            <label class="option-item"><input type="radio" name="momento" value="Desarrollo"> Desarrollo</label>
+                            <label class="option-item"><input type="radio" name="momento" value="Cierre"> Cierre</label>
+                            <label class="option-item"><input type="radio" name="momento" value="Tarea"> Tarea</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">3. TAREA ESPECÍFICA</label>
+                    
+                    <!-- Opción A: Hoja de Trabajo -->
+                    <div id="tarea-opcion-a" style="margin-bottom: var(--spacing-6); padding: var(--spacing-4); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md);">
+                        <p style="font-size: var(--font-size-sm); font-weight: bold; color: var(--color-brand-secondary); margin-bottom: var(--spacing-3);">Para Opción A (Hoja de trabajo):</p>
+                        <div class="template-sentence">
+                            "Genera una hoja de trabajo con [Cantidad] ejercicios/preguntas sobre [Tema], alineados al objetivo descrito."
+                        </div>
+                        <div class="guided-fields-grid">
+                            <div class="guided-field">
+                                <label for="tarea_a_cant">Cantidad de ejercicios:</label>
+                                <input type="text" id="tarea_a_cant" class="form-control" placeholder="Ej. 5">
+                            </div>
+                            <div class="guided-field">
+                                <label for="tarea_a_tema">Tema del recurso:</label>
+                                <input type="text" id="tarea_a_tema" class="form-control" placeholder="Ej. El ciclo del agua">
+                            </div>
+                        </div>
+                        <p class="form-label" style="margin-top: var(--spacing-3);">Tipos de ejercicios que necesito:</p>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="checkbox" name="tipo_ej" value="Selección múltiple"> Selección múltiple</label>
+                            <label class="option-item"><input type="checkbox" name="tipo_ej" value="Abiertas cortas"> Abiertas cortas</label>
+                            <label class="option-item"><input type="checkbox" name="tipo_ej" value="Problemas paso a paso"> Problemas paso a paso</label>
+                            <label class="option-item"><input type="checkbox" name="tipo_ej" value="Pareo/Clasificación"> Pareo/Clasificación</label>
+                            <label class="option-item"><input type="checkbox" name="tipo_ej" value="Completar espacios"> Completar espacios</label>
+                            <label class="option-item" style="grid-column: span 2;"><input type="text" id="otro_ej" class="form-control" placeholder="Escribe otro tipo de ejercicio aquí..."></label>
+                        </div>
+                    </div>
+
+                    <!-- Opción B: Lectura Breve -->
+                    <div id="tarea-opcion-b" style="padding: var(--spacing-4); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md);">
+                        <p style="font-size: var(--font-size-sm); font-weight: bold; color: var(--color-brand-secondary); margin-bottom: var(--spacing-3);">Para Opción B (Lectura breve):</p>
+                        <div class="template-sentence">
+                            "Escribe una lectura breve sobre [Tema], de aproximadamente [Cantidad] párrafos, y añade [Cantidad] preguntas de comprensión alineadas al objetivo descrito."
+                        </div>
+                        <div class="guided-fields-grid">
+                            <div class="guided-field">
+                                <label for="tarea_b_tema">Tema de la lectura:</label>
+                                <input type="text" id="tarea_b_tema" class="form-control" placeholder="Ej. Fotosíntesis">
+                            </div>
+                            <div class="guided-field">
+                                <label for="tarea_b_parr">Cantidad de párrafos:</label>
+                                <input type="text" id="tarea_b_parr" class="form-control" placeholder="Ej. 3">
+                            </div>
+                            <div class="guided-field">
+                                <label for="tarea_b_preg">Cantidad de preguntas:</label>
+                                <input type="text" id="tarea_b_preg" class="form-control" placeholder="Ej. 5">
+                            </div>
+                        </div>
+                        <p class="form-label" style="margin-top: var(--spacing-3);">Tipo de lectura que necesito:</p>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="tipo_lect" value="Informativo"> Informativo</label>
+                            <label class="option-item"><input type="radio" name="tipo_lect" value="Narrativo"> Narrativo</label>
+                            <label class="option-item"><input type="radio" name="tipo_lect" value="Descriptivo"> Descriptivo</label>
+                            <label class="option-item"><input type="radio" name="tipo_lect" value="Instructivo"> Instructivo</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="html2pdf__page-break"></div>
+
+                <div class="form-group">
+                    <label class="form-label">4. FORMATO DEL RECURSO</label>
+                    <div class="options-grid" style="grid-template-columns: 1fr; gap: var(--spacing-2);">
+                        <div style="background: var(--color-slate-100); padding: var(--spacing-3); border-radius: var(--radius-sm); font-size: var(--font-size-xs); border-left: 3px solid var(--color-brand-secondary);">
+                            <strong>Hoja de trabajo:</strong> "Presenta los ejercicios numerados claramente, con espacio suficiente para que los estudiantes escriban sus respuestas."
+                        </div>
+                        <div style="background: var(--color-slate-100); padding: var(--spacing-3); border-radius: var(--radius-sm); font-size: var(--font-size-xs); border-left: 3px solid var(--color-brand-secondary);">
+                            <strong>Lectura:</strong> "Presenta la lectura con párrafos cortos y claramente separados, seguida de las preguntas de comprensión numeradas."
+                        </div>
+                    </div>
+                    <label class="form-label" style="margin-top: var(--spacing-3);">Otro formato específico que necesito:</label>
+                    <input type="text" id="otro_formato" class="form-control" placeholder="Ej. Formato Cornell, mapa conceptual incompleto, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">5. CRITERIOS DE INCLUSIÓN Y RESTRICCIONES</label>
+                    <div class="options-grid" style="grid-template-columns: 1fr;">
+                        <label class="option-item">
+                            <input type="checkbox" name="restr" value="Lenguaje accesible"> 
+                            <span>Usa lenguaje accesible para el grado indicado en el Rol.</span>
+                        </label>
+                        <label class="option-item"><input type="checkbox" name="restr" value="Contextualizado PR"> Usa ejemplos contextualizados a Puerto Rico (lugares, nombres, situaciones locales).</label>
+                        <label class="option-item"><input type="checkbox" name="restr" value="Sin tecnicismos"> Evita vocabulario demasiado técnico; incluye definiciones sencillas.</label>
+                        <label class="option-item"><input type="checkbox" name="restr" value="Oraciones cortas"> Usa oraciones cortas y estructura clara (importante para educación especial).</label>
+                        <label class="option-item"><input type="checkbox" name="restr" value="Apoyos visuales"> Incluye apoyos visuales descriptivos si es posible (íconos, diagramas simples).</label>
+                        <label class="option-item"><input type="checkbox" name="restr" value="Adaptable"> Propón un recurso que pueda adaptarse a diferentes niveles de lectura.</label>
+                        <label class="option-item"><input type="checkbox" name="restr" value="Niveles Bloom"> Asegúrate de que las preguntas midan diferentes niveles de complejidad (Bloom).</label>
+                    </div>
+                    <label class="form-label" style="margin-top: var(--spacing-3);">Otras restricciones importantes:</label>
+                    <textarea id="otras_restr" class="form-control" placeholder="Escribe aquí cualquier otra condición..."></textarea>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Prompt Final -->
+            <section class="section-block">
+                <h2 class="section-title">MI PROMPT COMPLETO PARA EL RECURSO DIDÁCTICO</h2>
+                <p style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-3);">Integra todos los componentes anteriores en un texto continuo:</p>
+                <div class="technical-container">
+                    <button type="button" class="btn-copy" title="Copiar prompt" onclick="copyToClipboard('prompt_completo', this)" data-html2canvas-ignore>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                    <textarea id="prompt_completo" class="form-control technical-textarea" placeholder="Aquí aparecerá tu prompt completo..."></textarea>
+                    <div id="mirror_prompt_completo" class="print-mirror"></div>
+                </div>
+            </section>
+
+            <!-- Paso 4 -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">4</span> Paso 4: NOTAS SOBRE EL RECURSO GENERADO</h2>
+                
+                <div class="reflection-block" style="background: var(--color-alpha-cyan-5); border: 1px solid var(--color-alpha-cyan-15); margin-bottom: var(--spacing-4); padding: var(--spacing-4); border-radius: var(--radius-md);">
+                    <p style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-2); color: var(--color-text-primary);">
+                        <strong>Instrucciones:</strong> Primero copia el recurso generado en tu herramienta de IA. Luego regresa aquí y presiona <strong>"Pegar resultado de la IA"</strong>.
+                    </p>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin: 0;">
+                        Nota: Si el acceso automático está bloqueado, usa Ctrl+V para pegar manualmente.
+                    </p>
+                </div>
+
+                <div style="display: flex; gap: var(--spacing-2); margin-bottom: var(--spacing-4); align-items: center;">
+                    <button type="button" id="pasteAiResultBtn" class="btn btn-secondary" style="gap: var(--spacing-2);" aria-label="Pegar recurso copiado desde la IA">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        Pegar resultado de la IA
+                    </button>
+                    <span id="paste-feedback" style="font-size: var(--font-size-xs); color: var(--color-feedback-success); font-weight: bold; opacity: 0; transition: opacity 0.3s;">
+                        ✓ Resultado pegado correctamente
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Resultado generado por la IA:</label>
+                    <div class="technical-container">
+                        <button type="button" class="btn-copy" title="Copiar resultado" onclick="copyToClipboard('resultado_ia', this)" data-html2canvas-ignore>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                        <textarea id="resultado_ia" class="form-control technical-textarea" style="min-height: 300px;" placeholder="Pega el contenido generado aquí..."></textarea>
+                        <div id="mirror_resultado_ia" class="print-mirror"></div>
+                    </div>
+                </div>
+
+                <div class="reflection-block">
+                    <p style="font-weight: bold; margin-bottom: 10px;">Después de generar el recurso con la IA, anota observaciones rápidas:</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">1. ¿El recurso se ajusta al objetivo de la sesión?</label>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="qa_obj" value="Sí"> Sí, completamente</label>
+                            <label class="option-item"><input type="radio" name="qa_obj" value="Parcialmente"> Parcialmente</label>
+                            <label class="option-item"><input type="radio" name="qa_obj" value="Ajustes"> Necesita ajustes importantes</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">2. ¿El nivel de complejidad es apropiado para mis estudiantes?</label>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="qa_nivel" value="Adecuado"> Sí, adecuado</label>
+                            <label class="option-item"><input type="radio" name="qa_nivel" value="Fácil"> Muy fácil</label>
+                            <label class="option-item"><input type="radio" name="qa_nivel" value="Difícil"> Muy difícil</label>
+                            <label class="option-item"><input type="radio" name="qa_nivel" value="Mixto"> Mixto (requiere diferenciación)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">3. ¿Los ejemplos son pertinentes al contexto de Puerto Rico?</label>
+                        <div class="options-grid">
+                            <label class="option-item"><input type="radio" name="qa_pr" value="Sí"> Sí</label>
+                            <label class="option-item"><input type="radio" name="qa_pr" value="No"> No</label>
+                            <label class="option-item"><input type="radio" name="qa_pr" value="Algunos"> Algunos sí, otros no</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">4. ¿Qué ajustes inmediatos necesito hacer antes de usarlo en clase?</label>
+                        <textarea id="qa_ajustes" class="form-control" placeholder="Escribe tus notas aquí..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Instrucciones -->
+            <section class="padlet-instructions">
+                <h3>📌 INSTRUCCIONES PARA COMPLETAR Y COMPARTIR</h3>
+                <ol>
+                    <li>Completa esta plantilla con toda la información solicitada.</li>
+                    <li>Copia tu prompt final y pégalo en la herramienta de IA (ChatGPT, Copilot).</li>
+                    <li>Guarda el recurso generado (hoja de trabajo o lectura) en un documento separado.</li>
+                    <li>Pulsa el botón <strong>"Descargar PDF"</strong> para guardar tu trabajo como evidencia.</li>
+                    <li>En el Padlet del módulo, busca la columna correspondiente a <strong>Fase 3: El Recurso</strong>.</li>
+                    <li>Adjunta este PDF completado como evidencia de tu trabajo.</li>
+                </ol>
+            </section>
+
+            <section style="margin-top: var(--spacing-8); padding: var(--spacing-4); background: var(--color-slate-50); border-radius: var(--radius-md); border: 1px dashed var(--color-border-default); text-align: center;">
+                <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-muted); font-style: italic;">
+                    <strong>Recuerda:</strong> Este recurso será validado en la Fase 4 usando la Lista de Cotejo de Validación Curricular, y refinado en la Fase 5 según los hallazgos de esa validación.
+                </p>
+            </section>
+        </main>
+
+        <div class="actions-bar" data-html2canvas-ignore>
+            <a href="actividad2_1.html" id="btn-back" class="btn btn-outline">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Volver a la actividad
+            </a>
+            <div style="display: flex; gap: var(--spacing-3);">
+                <button id="btn-clear" class="btn btn-outline">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Limpiar
+                </button>
+                <button id="btn-pdf" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button id="btn-scroll-top" class="btn-scroll-top" title="Volver arriba" data-html2canvas-ignore>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-content">
+            <h3 style="margin-top: 0;">¿Limpiar formulario?</h3>
+            <p>Se borrarán todos los datos ingresados. Esta acción no se puede deshacer.</p>
+            <div style="display: flex; gap: var(--spacing-3); justify-content: center; margin-top: var(--spacing-6);">
+                <button id="modal-cancel" class="btn btn-outline">Cancelar</button>
+                <button id="modal-confirm" class="btn btn-danger">Sí, limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PDF Export
+        document.getElementById('btn-pdf').addEventListener('click', function () {
+            const nombreRaw = document.getElementById('nombre_participante').value.trim();
+            const sanitize = (str) => {
+                return str.normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-zA-Z0-9 ]/g, "")
+                    .replace(/\s+/g, "_");
+            };
+
+            const nombreSanitizado = nombreRaw ? sanitize(nombreRaw) : 'Participante';
+            const fileName = `Recurso_Didactico_Fase3_${nombreSanitizado}.pdf`;
+            window.scrollTo(0, 0);
+            const element = document.getElementById('capture-area');
+            const opt = {
+                margin: 12.7,
+                filename: fileName,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true, onclone: (clonedDoc) => {
+                    clonedDoc.querySelectorAll('.technical-textarea').forEach(el => el.style.display = 'none');
+                    clonedDoc.querySelectorAll('.print-mirror').forEach(el => el.style.display = 'block');
+                }},
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak: { mode: 'css' }
+            };
+            html2pdf().set(opt).from(element).save();
+        });
+
+        // Smart Paste
+        document.getElementById('pasteAiResultBtn').addEventListener('click', async function() {
+            const textarea = document.getElementById('resultado_ia');
+            if (textarea.value.trim() !== "") {
+                if (!confirm("Este campo ya contiene texto. ¿Deseas reemplazarlo con el contenido copiado?")) return;
+            }
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text && text.trim() !== "") {
+                    textarea.value = text;
+                    textarea.dispatchEvent(new Event('input'));
+                    const feedback = document.getElementById('paste-feedback');
+                    feedback.style.opacity = '1';
+                    setTimeout(() => feedback.style.opacity = '0', 3000);
+                } else {
+                    alert('No se encontró texto copiado.');
+                }
+            } catch (err) {
+                alert('Acceso al portapapeles bloqueado. Usa Ctrl+V para pegar manualmente.');
+            }
+        });
+
+        // Copy functionality
+        function copyToClipboard(elementId, btn) {
+            const textarea = document.getElementById(elementId);
+            textarea.select();
+            document.execCommand('copy');
+            const originalIcon = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = originalIcon; }, 2000);
+        }
+
+        // Mirror Sync
+        document.querySelectorAll('textarea').forEach(tx => {
+            const mirror = document.getElementById('mirror_' + tx.id);
+            if (mirror) {
+                tx.addEventListener('input', () => mirror.innerText = tx.value);
+            }
+        });
+
+        // Clear Modal
+        const modal = document.getElementById('confirm-modal');
+        document.getElementById('btn-clear').addEventListener('click', () => modal.style.display = 'flex');
+        document.getElementById('modal-cancel').addEventListener('click', () => modal.style.display = 'none');
+        document.getElementById('modal-confirm').addEventListener('click', () => {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+                else el.value = '';
+            });
+            document.querySelectorAll('.print-mirror').forEach(m => m.innerText = '');
+            updateFinalPrompt();
+            modal.style.display = 'none';
+        });
+
+        // Scroll Top
+        const scrollBtn = document.getElementById('btn-scroll-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) scrollBtn.classList.add('visible');
+            else scrollBtn.classList.remove('visible');
+        });
+        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Dynamic Prompt Generation
+        function updateFinalPrompt() {
+            const rolGrado = document.getElementById('rol_grado').value || '[grado]';
+            const rolMateria = document.getElementById('rol_materia').value || '[materia]';
+            const obj = document.getElementById('contexto_obj').value || '[objetivo]';
+            const momento = document.querySelector('input[name="momento"]:checked')?.value || '[momento]';
+            
+            let prompt = `Actúa como maestro/a de ${rolGrado} grado de ${rolMateria} en Puerto Rico. \n\nCONTEXTO: El objetivo de esta clase es que los estudiantes puedan: ${obj}. Este recurso será utilizado en el ${momento}. `;
+            
+            const tipo = document.querySelector('input[name="tipo_recurso"]:checked')?.value;
+            if (tipo === 'Opción A: Hoja de trabajo') {
+                const cant = document.getElementById('tarea_a_cant').value || '[X]';
+                const tema = document.getElementById('tarea_a_tema').value || '[tema]';
+                const tiposEj = Array.from(document.querySelectorAll('input[name="tipo_ej"]:checked')).map(cb => cb.value).join(', ');
+                prompt += `\n\nTAREA: Genera una hoja de trabajo con ${cant} ejercicios/preguntas sobre ${tema}, alineados al objetivo descrito. Tipos de ejercicios: ${tiposEj}.`;
+                prompt += `\n\nFORMATO: Presenta los ejercicios numerados claramente, con espacio suficiente para que los estudiantes escriban sus respuestas.`;
+            } else if (tipo === 'Opción B: Lectura breve') {
+                const tema = document.getElementById('tarea_b_tema').value || '[tema]';
+                const parr = document.getElementById('tarea_b_parr').value || '[X]';
+                const preg = document.getElementById('tarea_b_preg').value || '[Y]';
+                const tipoLect = document.querySelector('input[name="tipo_lect"]:checked')?.value || '[tipo]';
+                prompt += `\n\nTAREA: Escribe una lectura breve de tipo ${tipoLect} sobre ${tema}, de aproximadamente ${parr} párrafos, y añade ${preg} preguntas de comprensión alineadas al objetivo descrito.`;
+                prompt += `\n\nFORMATO: Presenta la lectura con párrafos cortos y claramente separados, seguida de las preguntas de comprensión numeradas.`;
+            }
+
+            const otroF = document.getElementById('otro_formato').value;
+            if (otroF) prompt += ` Además, usa este formato: ${otroF}.`;
+
+            const restr = Array.from(document.querySelectorAll('input[name="restr"]:checked')).map(cb => {
+                if (cb.value === 'Lenguaje accesible') {
+                    const g = document.getElementById('rol_grado').value.trim();
+                    return `Usa lenguaje accesible para estudiantes de ${g ? g : 'del grado indicado'}`;
+                }
+                return cb.value;
+            });
+            const otrasR = document.getElementById('otras_restr').value;
+            if (otrasR) restr.push(otrasR);
+            if (restr.length > 0) prompt += `\n\nRESTRICCIONES: ${restr.join('. ')}.`;
+
+            document.getElementById('prompt_completo').value = prompt;
+            document.getElementById('mirror_prompt_completo').innerText = prompt;
+        }
+
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('input', updateFinalPrompt);
+            el.addEventListener('change', updateFinalPrompt);
+        });
+        updateFinalPrompt();
+        // Pre-completar nombre desde localStorage
+        try {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const nameField = document.getElementById('nombre_participante') || document.getElementById('nombre_maestro');
+                if (nameField && !nameField.value && user.name) {
+                    nameField.value = user.name;
+                    const mirror = document.getElementById('mirror_' + nameField.id);
+                    if (mirror) mirror.innerText = user.name;
+                    nameField.dispatchEvent(new Event('input'));
+                }
+            }
+        } catch (e) { console.warn('Error al cargar nombre:', e); }
+    </script>
+</body>
+
+</html>
