@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | [NOMBRE DE TU LMS]</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--spacing-md); background: var(--color-background-page); }
+        .login-card-container { width: 100%; max-width: 1000px; display: grid; grid-template-columns: 1fr 1fr; background: var(--color-background-surface); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-ambient); }
+        .login-sidebar { padding: var(--spacing-xl); background: var(--color-brand-primary); color: var(--color-white); display: flex; flex-direction: column; justify-content: center; }
+        .login-content { padding: var(--spacing-xl); display: flex; flex-direction: column; justify-content: center; }
+        .form-group { margin-bottom: var(--spacing-lg); }
+        .form-label { display: block; margin-bottom: var(--spacing-xs); font-weight: bold; font-size: var(--font-size-xs); text-transform: uppercase; }
+        .input-field { width: 100%; padding: var(--spacing-3) var(--spacing-4); border-radius: var(--radius-pill); border: 1px solid var(--color-border-default); background: var(--color-background-surface-low); }
+        @media (max-width: 768px) { .login-card-container { grid-template-columns: 1fr; } .login-sidebar { display: none; } }
+    </style>
+</head>
+<body>
+    <main class="login-page">
+        <section class="login-card-container">
+            <aside class="login-sidebar">
+                <h1 class="text-display" style="color: white;">Bienvenido</h1>
+                <p>Ingresa tus credenciales para acceder a la plataforma de aprendizaje.</p>
+            </aside>
+            <div class="login-content">
+                <h2 class="text-h2">Iniciar Sesión</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="input-field" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="input-field" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">ENTRAR</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

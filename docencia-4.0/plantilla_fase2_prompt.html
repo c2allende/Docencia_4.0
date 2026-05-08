@@ -100,6 +100,32 @@
             font-weight: var(--font-weight-bold);
             text-transform: uppercase;
             letter-spacing: var(--letter-spacing-wider);
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        h2, h3 {
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        p {
+            orphans: 3;
+            widows: 3;
+        }
+
+        /* Estilos para tablas que puedan generarse o pegarse */
+        table {
+            table-layout: fixed;
+            width: 100%;
+            word-wrap: break-word;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-4);
+        }
+
+        table td, table th {
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         .section-number {
@@ -149,18 +175,83 @@
         textarea.form-control {
             min-height: 100px;
             resize: vertical;
-            border: var(--border-width-2) solid var(--color-brand-secondary);
-            background-color: var(--color-orange-50);
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: var(--font-weight-medium);
-            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+            border: var(--border-width-1) solid var(--color-border-default);
+            background-color: var(--color-white);
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         textarea.form-control:focus {
             outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px var(--color-alpha-cyan-15);
+        }
+
+        /* Área técnica (Prompts e IA) */
+        .technical-container {
+            position: relative;
+        }
+
+        textarea.technical-textarea {
+            min-height: 150px;
+            border: var(--border-width-2) solid var(--color-brand-secondary);
+            background-color: var(--color-orange-50);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: var(--font-weight-medium);
+            padding-right: 50px; /* Espacio para el botón de copiado */
+        }
+
+        textarea.technical-textarea:focus {
             border-color: var(--color-brand-secondary-hover);
             box-shadow: 0 0 0 3px var(--color-alpha-orange-15);
             background-color: var(--color-white);
+        }
+
+        /* Divs para impresión (espejo de textareas) */
+        .print-mirror {
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px; /* Tamaño fijo */
+            line-height: 1.6;
+            padding: 15px;
+            border: 2px solid #00acc1; /* Color brand-secondary fijo */
+            border-radius: 8px;
+            background: #ffffff;
+            min-height: 100px;
+            color: #333333; /* Color de texto fijo */
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-sm);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--color-text-secondary);
+            z-index: 5;
+        }
+
+        .btn-copy:hover {
+            background: var(--color-slate-100);
+            color: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .btn-copy.copied {
+            background: var(--color-feedback-success-container);
+            color: var(--color-feedback-success-on);
+            border-color: var(--color-feedback-success);
         }
 
         .form-row {
@@ -213,6 +304,42 @@
         }
 
 
+
+        .btn-scroll-top {
+            position: fixed;
+            bottom: 100px;
+            right: var(--spacing-6);
+            width: 44px;
+            height: 44px;
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: 50%;
+            display: none; /* Se activa con JS */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 50;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-5px);
+            filter: brightness(1.1);
+        }
+
+        .btn-scroll-top.visible {
+            display: flex;
+            animation: bounce-in 0.5s;
+        }
+
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.1); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
 
         /* Acciones */
         .actions-bar {
@@ -341,17 +468,23 @@
 
         /* Estilos para Impresión / PDF */
         @media print {
-            .actions-bar, .btn-scroll-top, .modal-overlay {
+            * {
+                box-sizing: border-box !important;
+            }
+            .actions-bar, .btn-scroll-top, .modal-overlay, .btn-copy, .technical-textarea {
                 display: none !important;
+            }
+            .print-mirror {
+                display: block !important;
             }
             body {
                 background: white !important;
                 padding: 0 !important;
             }
             .container {
-                max-width: 100% !important;
+                max-width: 800px !important; /* Ancho fijo para coincidir con el cálculo de PDF */
                 padding: 0 !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
             }
             .form-card {
                 box-shadow: none !important;
@@ -359,9 +492,21 @@
                 padding: 0 !important;
                 border-left: none !important;
             }
+            .html2pdf__page-break {
+                /* No añadir estilos de salto aquí si se usa la clase nativa de la librería */
+                display: block;
+                height: 0;
+                margin: 0;
+                padding: 0;
+            }
             .section-block {
                 page-break-inside: avoid;
+                break-inside: avoid;
                 margin-bottom: var(--spacing-8) !important;
+            }
+            .section-title {
+                break-after: avoid;
+                page-break-after: avoid;
             }
             .form-control {
                 background: white !important;
@@ -374,11 +519,26 @@
                 overflow: visible !important;
                 height: auto !important;
                 min-height: 40px !important;
+                text-align: justify !important;
+                word-wrap: break-word !important;
             }
             .option-item {
                 background: white !important;
                 border: none !important;
                 padding: 2px 0 !important;
+                page-break-inside: avoid;
+            }
+            .technical-container {
+                border: none !important;
+            }
+            .technical-textarea {
+                background: white !important;
+                border: 1px solid var(--color-brand-secondary) !important;
+                padding-right: var(--spacing-4) !important;
+                font-size: var(--font-size-sm) !important; /* Ajuste para mejor legibilidad */
+                text-align: justify !important;
+                line-height: 1.6 !important;
+                width: 100% !important;
             }
             .formula-box {
                 border: 1px solid var(--color-brand-primary) !important;
@@ -412,6 +572,10 @@
         }
 
         /* Animación */
+        .html2pdf__page-break {
+            display: none;
+        }
+
         @keyframes fade-in {
             from {
                 opacity: 0;
@@ -491,6 +655,8 @@
                 </div>
             </section>
 
+            <div class="html2pdf__page-break"></div>
+
             <!-- Sección: Construcción del Prompt -->
             <section class="section-block">
                 <div style="margin-bottom: var(--spacing-6);">
@@ -549,18 +715,16 @@
                             Materiales reciclables/de bajo costo</label>
                         <label class="option-item"><input type="checkbox" name="recurso" value="Otros"> Otros</label>
                     </div>
-
-                    <label class="form-label" style="font-weight: normal; margin-top: var(--spacing-4);">Modalidad de
-                        clases:</label>
+                    <label class="form-label" style="font-weight: normal; margin-top: var(--spacing-4);">Modalidad de clases:</label>
                     <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
-                        <label class="option-item"><input type="radio" name="modalidad" value="Presencial">
-                            Presencial</label>
+                        <label class="option-item"><input type="radio" name="modalidad" value="Presencial"> Presencial</label>
                         <label class="option-item"><input type="radio" name="modalidad" value="Híbrida"> Híbrida</label>
                         <label class="option-item"><input type="radio" name="modalidad" value="Virtual"> Virtual</label>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="html2pdf__page-break"></div>
+                <div class="form-group" style="margin-top: var(--spacing-6);">
                     <label class="form-label">3. TAREA (¿Qué quieres que genere la IA?)</label>
                     <p style="font-size: var(--font-size-sm);">
                         "Diseña una planificación semanal de
@@ -619,6 +783,8 @@
                 </div>
             </section>
 
+            <div class="html2pdf__page-break"></div>
+
             <!-- Paso 2: MI PROMPT COMPLETO -->
             <section class="section-block">
                 <h2 class="section-title"><span class="section-number">2</span> Paso 2. Generación de la planificación
@@ -638,33 +804,41 @@
 
                 <!-- Bloque de Ejemplo Guía -->
                 <div
-                    style="margin-bottom: var(--spacing-4); border: var(--border-width-1) solid var(--color-brand-primary-container); border-radius: var(--radius-md); overflow: hidden;">
+                    style="margin-bottom: var(--spacing-4); border: var(--border-width-2) solid var(--color-brand-primary); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
                     <div
-                        style="background: var(--color-brand-primary-container); padding: var(--spacing-2) var(--spacing-4); font-size: var(--font-size-2xs); font-weight: 800; color: var(--color-brand-primary-on-container); text-transform: uppercase;">
-                        💡 Ejemplo guía para guiarte
+                        style="background: var(--color-brand-primary); padding: var(--spacing-2) var(--spacing-4); font-size: var(--font-size-xs); font-weight: 800; color: var(--color-white); text-transform: uppercase; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2rem;">💡</span> Ejemplo guía para el docente
                     </div>
                     <div
-                        style="padding: var(--spacing-4); background: var(--color-white); font-size: var(--font-size-xs); line-height: var(--line-height-relaxed);">
-                        <p style="margin: 0 0 var(--spacing-2) 0; color: var(--color-text-secondary);">
-                            <span style="color: var(--color-brand-primary); font-weight: bold;">[Rol]</span> Actúa como
+                        style="padding: var(--spacing-5); background: var(--color-slate-50); font-size: var(--font-size-sm); line-height: var(--line-height-relaxed); color: var(--color-text-primary); border-bottom: 4px solid var(--color-brand-primary-container);">
+                        <p style="margin: 0; font-style: italic;">
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Rol]</span> Actúa como
                             maestro de 4to grado de Matemáticas en Puerto Rico.
-                            <span style="color: var(--color-brand-primary); font-weight: bold;">[Contexto]</span> Mi
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Contexto]</span> Mi
                             grupo tiene 25 estudiantes y cuento con proyector y pizarra, pero sin internet para ellos.
-                            <span style="color: var(--color-brand-primary); font-weight: bold;">[Tarea]</span> Diseña
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Tarea]</span> Diseña
                             una planificación de 3 clases de 50 minutos sobre suma de fracciones, basada en el estándar
                             [M.N.4.1].
-                            <span style="color: var(--color-brand-primary); font-weight: bold;">[Formato]</span>
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Formato]</span>
                             Presenta el plan en una tabla con objetivos, actividades y recursos.
-                            <span style="color: var(--color-brand-primary); font-weight: bold;">[Restricciones]</span>
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Restricciones]</span>
                             Usa ejemplos de cocina puertorriqueña, no uses tecnología digital para los alumnos e incluye
                             estrategias de diferenciación.
                         </p>
                     </div>
                 </div>
 
-                <textarea id="prompt_completo" class="form-control"
-                    placeholder="Escribe tu prompt final aquí..."></textarea>
+                <div class="technical-container">
+                    <button class="btn-copy" title="Copiar prompt" onclick="copyToClipboard('prompt_completo', this)" data-html2canvas-ignore>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                    <textarea id="prompt_completo" class="form-control technical-textarea"
+                        placeholder="Escribe tu prompt final aquí..."></textarea>
+                    <div id="mirror_prompt_completo" class="print-mirror"></div>
+                </div>
             </section>
+
+            <div class="html2pdf__page-break"></div>
 
             <!-- Paso 3: Instrucciones de Generación -->
             <section class="section-block">
@@ -682,11 +856,19 @@
 
                 <div style="margin-top: var(--spacing-4);">
                     <label class="form-label" for="resultado_ia">Resultado generado por la IA:</label>
-                    <textarea id="resultado_ia" class="form-control" 
-                        style="min-height: 250px;" 
-                        placeholder="Pega aquí la planificación, actividades o recursos generados por la IA..."></textarea>
+                    <div class="technical-container">
+                        <button class="btn-copy" title="Copiar resultado" onclick="copyToClipboard('resultado_ia', this)" data-html2canvas-ignore>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                        <textarea id="resultado_ia" class="form-control technical-textarea" 
+                            style="min-height: 300px;" 
+                            placeholder="Pega aquí la planificación, actividades o recursos generados por la IA..."></textarea>
+                        <div id="mirror_resultado_ia" class="print-mirror"></div>
+                    </div>
                 </div>
             </section>
+
+            <div class="html2pdf__page-break"></div>
 
             <!-- Paso 4: Micro-reflexión -->
             <section class="section-block">
@@ -698,13 +880,18 @@
                     de generar la planificación con la IA:</p>
 
                 <div class="reflection-block">
-                    <p class="reflection-q">1. ¿Qué elementos de la planificación generada SÍ se ajustan a mi realidad?
+                    <p class="reflection-q">1. ¿Qué elementos de la planificación generada SÍ se ajustan a mi realidad?</p>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-2);">
+                        Ejemplo: tiempos realistas, actividades viables, ejemplos pertinentes, nivel apropiado.
                     </p>
                     <textarea id="refl_si" class="form-control"></textarea>
                 </div>
 
                 <div class="reflection-block">
                     <p class="reflection-q">2. ¿Qué elementos NO se ajustan?</p>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-2);">
+                        Ejemplo: tiempos muy largos, actividades poco viables con mis recursos, ejemplos descontextualizados.
+                    </p>
                     <textarea id="refl_no" class="form-control"></textarea>
                 </div>
 
@@ -713,6 +900,8 @@
                     <textarea id="refl_ajustes" class="form-control"></textarea>
                 </div>
             </section>
+
+            <div class="html2pdf__page-break"></div>
 
             <!-- Instrucciones Padlet -->
             <section class="padlet-instructions">
@@ -738,7 +927,7 @@
             </section>
         </main>
 
-        <div class="actions-bar">
+        <div class="actions-bar" data-html2canvas-ignore>
             <button id="btn-back" class="btn btn-outline" disabled title="Enlace no disponible todavía">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="15 18 9 12 15 6"></polyline>
@@ -765,6 +954,10 @@
         </div>
     </div>
 
+    <button id="btn-scroll-top" class="btn-scroll-top" title="Volver arriba" data-html2canvas-ignore>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
     <!-- Modal de Confirmación -->
     <div class="modal-overlay" id="confirm-modal">
         <div class="modal-content">
@@ -785,6 +978,9 @@
                 ? `Plantilla_Fase2_Prompt_${nombre.replace(/\s+/g, '_')}.pdf` 
                 : 'Plantilla_Fase2_Prompt_Docencia40.pdf';
 
+            // Ocultar elementos que no queremos en el PDF momentáneamente si fuera necesario
+            // html2pdf ya maneja las media queries @media print
+
             // Asegurar que estamos al inicio de la página para la captura
             window.scrollTo(0, 0);
 
@@ -792,24 +988,66 @@
             
             // Configuración de html2pdf mejorada
             const opt = {
-                margin:       [10, 10, 10, 10], // top, left, buttom, right
+                margin:       12.7, // 0.5 pulgadas en todos los lados
                 filename:     fileName,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true,
                     logging: false,
-                    letterRendering: true
+                    letterRendering: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: document.documentElement.offsetWidth,
+                    onclone: (clonedDoc) => {
+                        // Forzar visibilidad de espejos y ocultar textareas en el clon
+                        clonedDoc.querySelectorAll('.technical-textarea').forEach(el => el.style.display = 'none');
+                        clonedDoc.querySelectorAll('.print-mirror').forEach(el => el.style.display = 'block');
+                    }
                 },
                 jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
-                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+                pagebreak:    { mode: 'css' }
             };
 
             // Ejecutar generación
             html2pdf().set(opt).from(element).save();
         });
 
-        // Lógica de limpieza con modal
+        // Funcionalidad de copiado
+        function copyToClipboard(elementId, btn) {
+            const textarea = document.getElementById(elementId);
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Efecto visual en el botón
+            const originalIcon = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.innerHTML = originalIcon;
+            }, 2000);
+        }
+
+        // Botón volver arriba
+        const scrollTopBtn = document.getElementById('btn-scroll-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Lógica de limpieza y variables del modal
         const clearBtn = document.getElementById('btn-clear');
         const modal = document.getElementById('confirm-modal');
         const cancelBtn = document.getElementById('modal-cancel');
@@ -823,8 +1061,88 @@
             modal.style.display = 'none';
         });
 
+        // Lógica de generación automática del prompt
+        const promptInputs = [
+            'rol_grado', 'rol_materia', 'num_estudiantes', 'caract_grupo', 
+            'tarea_clases', 'tarea_minutos', 'tarea_tema', 'tarea_estandar', 
+            'otro_formato', 'restr_grado', 'otras_restr'
+        ];
+        
+        const promptCheckboxes = document.querySelectorAll('input[name="recurso"], input[name="modalidad"], input[name="restriccion"]');
+        const finalPromptArea = document.getElementById('prompt_completo');
+        let isManualEdit = false;
+
+        function updateFinalPrompt() {
+            if (isManualEdit) return;
+
+            const rolGrado = document.getElementById('rol_grado').value || '[grado]';
+            const rolMateria = document.getElementById('rol_materia').value || '[materia]';
+            const numEst = document.getElementById('num_estudiantes').value;
+            const caract = document.getElementById('caract_grupo').value;
+            const clases = document.getElementById('tarea_clases').value || '[X]';
+            const mins = document.getElementById('tarea_minutos').value || '[Y]';
+            const tema = document.getElementById('tarea_tema').value || '[tema]';
+            const estandar = document.getElementById('tarea_estandar').value || '[estándar]';
+            const otroFormato = document.getElementById('otro_formato').value;
+            const restrGrado = document.getElementById('restr_grado').value || '[grado]';
+            const otrasRestr = document.getElementById('otras_restr').value;
+
+            // Recursos
+            const recursos = Array.from(document.querySelectorAll('input[name="recurso"]:checked')).map(cb => cb.value);
+            // Modalidad
+            const modalidad = document.querySelector('input[name="modalidad"]:checked')?.value;
+            // Restricciones
+            const restricciones = Array.from(document.querySelectorAll('input[name="restriccion"]:checked')).map(cb => {
+                if (cb.value === 'Lenguaje accesible') return `Usa lenguaje accesible para estudiantes de ${restrGrado} grado`;
+                return cb.value;
+            });
+
+            let prompt = `Actúa como maestro/a de ${rolGrado} grado de ${rolMateria} en Puerto Rico. `;
+            
+            let contexto = "";
+            if (numEst) contexto += `Mi grupo tiene ${numEst} estudiantes. `;
+            if (caract) contexto += `Características del grupo: ${caract}. `;
+            if (recursos.length > 0) contexto += `Recursos disponibles: ${recursos.join(', ')}. `;
+            if (modalidad) contexto += `Modalidad: ${modalidad}. `;
+            if (contexto) prompt += `\n\nCONTEXTO: ${contexto}`;
+
+            prompt += `\n\nTAREA: Diseña una planificación semanal de ${clases} clases de ${mins} minutos sobre el tema ${tema}, basada en el estándar ${estandar}.`;
+
+            let formato = "Presenta el plan en formato de tabla con las siguientes columnas: objetivos, actividades (inicio, desarrollo, cierre), recursos y tiempo estimado.";
+            if (otroFormato) formato += ` Además, usa este formato: ${otroFormato}.`;
+            prompt += `\n\nFORMATO: ${formato}`;
+
+            let restrFinal = [...restricciones];
+            if (otrasRestr) restrFinal.push(otrasRestr);
+            if (restrFinal.length > 0) prompt += `\n\nRESTRICCIONES: ${restrFinal.join('. ')}.`;
+
+            finalPromptArea.value = prompt;
+            document.getElementById('mirror_prompt_completo').innerText = prompt;
+        }
+
+        // Sincronizar el espejo del resultado IA
+        document.getElementById('resultado_ia').addEventListener('input', function() {
+            document.getElementById('mirror_resultado_ia').innerText = this.value;
+        });
+
+        // Agregar listeners a inputs de texto y textareas
+        promptInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateFinalPrompt);
+        });
+
+        // Agregar listeners a checkboxes y radios
+        promptCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateFinalPrompt);
+        });
+
+        // Detectar si el usuario edita el prompt final manualmente
+        finalPromptArea.addEventListener('input', function() {
+            isManualEdit = true;
+            document.getElementById('mirror_prompt_completo').innerText = this.value;
+        });
+
+        // Modificar el botón limpiar para resetear el flag de edición manual
         confirmBtn.addEventListener('click', () => {
-            // Limpiar todos los inputs y textareas
             document.querySelectorAll('input, textarea').forEach(el => {
                 if (el.type === 'checkbox' || el.type === 'radio') {
                     el.checked = false;
@@ -832,8 +1150,14 @@
                     el.value = '';
                 }
             });
+            isManualEdit = false;
+            updateFinalPrompt(); // Resetear el prompt a su estado inicial
+            document.getElementById('mirror_resultado_ia').innerText = '';
             modal.style.display = 'none';
         });
+
+        // Inicializar el prompt al cargar
+        updateFinalPrompt();
 
         // Cerrar modal al hacer clic fuera
         window.addEventListener('click', (e) => {
@@ -843,5 +1167,4 @@
         });
     </script>
 </body>
-
 </html>

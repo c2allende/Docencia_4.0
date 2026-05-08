@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Operativo | [TU LMS]</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/admin-guard.js"></script>
+</head>
+<body class="admin-dashboard-page">
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="module-title-nav">Panel Operativo LMS</span>
+        </div>
+    </nav>
+
+    <main class="lms-wrapper">
+        <section class="lms-hero">
+            <div class="hero-card">
+                <span class="hero-kicker">Panel Administrativo</span>
+                <h1 class="hero-title">Centro de <span>Control</span></h1>
+                <p class="hero-description">Gestiona participantes, anuncios y configuración general.</p>
+                <div class="hero-actions">
+                    <a href="admin_anuncios.html" class="btn btn-primary">Crear anuncio</a>
+                    <a href="admin_usuarios.html" class="btn btn-tertiary">Ver Usuarios</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="metric-grid">
+            <article class="metric-card">
+                <div class="metric-icon">👥</div>
+                <p class="metric-value" id="totalUsers">0</p>
+                <h3 class="metric-label">Participantes</h3>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">📢</div>
+                <p class="metric-value" id="totalAnnouncements">0</p>
+                <h3 class="metric-label">Anuncios</h3>
+            </article>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

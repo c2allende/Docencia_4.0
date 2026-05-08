@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad | [TU LMS]</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+</head>
+<body class="has-top-nav">
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="module-title-nav">Actividad [X.X]: [NOMBRE DE LA ACTIVIDAD]</span>
+        </div>
+    </nav>
+
+    <main class="content-wrapper">
+        <article class="activity-card">
+            <h1 class="lesson-title">Actividad Práctica</h1>
+            
+            <section class="instructions-box">
+                <h3 class="section-title">Instrucciones</h3>
+                <p>[DESCRIBE LOS PASOS DE LA ACTIVIDAD AQUÍ]</p>
+            </section>
+
+            <div class="submission-area" style="margin-top: var(--spacing-xl);">
+                <h3 class="section-title">Tu Entrega</h3>
+                <textarea class="form-control" placeholder="Escribe tu respuesta aquí..." style="width: 100%; min-height: 200px; padding: var(--spacing-md); border-radius: var(--radius-lg);"></textarea>
+                <button class="btn btn-primary" style="margin-top: var(--spacing-md);">ENVIAR ACTIVIDAD</button>
+            </div>
+
+            <div class="footer-nav">
+                <a href="leccion1_1.html" class="btn-footer btn-back">Volver a la Lección</a>
+                <a href="foro_modulo1.html" class="btn-footer btn-next">Ir al Foro</a>
+            </div>
+        </article>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

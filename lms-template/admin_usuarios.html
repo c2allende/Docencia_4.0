@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Usuarios | [TU LMS]</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/admin-guard.js"></script>
+</head>
+<body class="admin-usuarios-page">
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="module-title-nav">Administración de Usuarios</span>
+        </div>
+    </nav>
+
+    <main class="admin-wrapper">
+        <header class="admin-header">
+            <h1 class="admin-title">Gestión de <span>Participantes</span></h1>
+            <p>Control de acceso y estados de cuenta en tiempo real.</p>
+        </header>
+
+        <section class="metrics-grid">
+            <article class="metric-card">
+                <div class="metric-icon">👥</div>
+                <p class="metric-value" id="metricTotal">0</p>
+                <p class="metric-label">Total Registrados</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">✅</div>
+                <p class="metric-value" id="metricActive">0</p>
+                <p class="metric-label">Activos</p>
+            </article>
+        </section>
+
+        <section class="panel-card">
+            <div class="panel-header">
+                <h2>Lista de Usuarios</h2>
+                <button id="refreshBtn" class="btn btn-secondary">Actualizar</button>
+            </div>
+            
+            <div id="usersList" class="users-list">
+                <!-- Los usuarios se cargarán aquí dinámicamente -->
+                <div class="empty-state">Buscando usuarios en la base de datos...</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Mi Nuevo LMS</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="container header-content">
+            <div class="brand-block">
+                <div class="logo-placeholder" style="width: 60px; height: 60px; background: white; border-radius: 8px;"></div>
+                <div class="welcome-text">
+                    <h1 class="dashboard-title">[NOMBRE DE TU ACADEMIA]</h1>
+                    <p class="header-subtitle">[DESCRIPCIÓN BREVE DE TU CURSO O PROGRAMA]</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav-links">
+                <a href="perfil.html">👤 Mi Perfil</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro-container">
+            <h2 class="section-title">Bienvenido al Programa</h2>
+            <p>Este es el espacio central donde podrás ver tu progreso y acceder a los módulos de aprendizaje.</p>
+        </section>
+
+        <h2 class="section-title-lg">Módulos del Curso</h2>
+        <div class="modules-grid" id="modulesGrid">
+            <!-- Módulo de Ejemplo 1 -->
+            <div class="module-card-refined">
+                <div class="module-number-prominent">01</div>
+                <h3 class="module-title-refined">Introducción al Curso</h3>
+                <div class="module-footer">
+                    <div class="progress"><div class="progress-fill" style="width: 0%"></div></div>
+                    <a href="modulo1_intro.html" class="btn btn-primary btn-continuar">EMPEZAR</a>
+                </div>
+            </div>
+
+            <!-- Módulo de Ejemplo 2 -->
+            <div class="module-card-refined">
+                <div class="module-number-prominent">02</div>
+                <h3 class="module-title-refined">Conceptos Avanzados</h3>
+                <div class="module-footer">
+                    <div class="progress"><div class="progress-fill" style="width: 0%"></div></div>
+                    <button class="btn btn-primary btn-continuar" disabled>BLOQUEADO</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección | [TU LMS]</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+</head>
+<body class="has-top-nav" data-page-id="leccion_1_1" data-module-id="modulo1">
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="module-title-nav">Lección [X.X]: [TÍTULO DE LA LECCIÓN]</span>
+        </div>
+    </nav>
+
+    <main class="content-wrapper">
+        <article class="lesson-card">
+            <h1 class="lesson-title">[TÍTULO DE LA LECCIÓN]</h1>
+            
+            <div class="text-section">
+                <p>[CONTENIDO DE LA LECCIÓN - TEXTO, EXPLICACIONES, ETC.]</p>
+            </div>
+
+            <section class="highlight-box">
+                <h3 class="section-title">Punto Clave</h3>
+                <p>[RECOMENDACIÓN O NOTA IMPORTANTE]</p>
+            </section>
+
+            <div class="video-wrapper" style="margin: var(--spacing-lg) 0;">
+                <div class="video-frame-inner">
+                    <!-- Reemplaza con tu video de YouTube/Vimeo -->
+                    <iframe src="https://www.youtube.com/embed/placeholder" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                <a href="modulo1_intro.html" class="btn-footer btn-back">Anterior</a>
+                <a href="leccion1_2.html" class="btn-footer btn-next">Siguiente Lección</a>
+            </div>
+        </article>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

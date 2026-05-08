@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos Módulo 1 | [TU LMS]</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+</head>
+<body class="has-top-nav">
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="module-title-nav">Recursos: Módulo 1</span>
+        </div>
+    </nav>
+
+    <main class="content-wrapper">
+        <h1 class="lesson-title">Materiales y Recursos Adicionales</h1>
+        <p>Descarga y consulta los materiales complementarios para este módulo.</p>
+
+        <div class="resource-grid" style="display: grid; gap: var(--spacing-md); margin-top: var(--spacing-xl);">
+            <div class="resource-card" style="padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-lg); display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="display: block;">[NOMBRE DEL RECURSO 1]</strong>
+                    <span style="font-size: var(--font-size-xs); color: var(--color-text-muted);">PDF | 2.4 MB</span>
+                </div>
+                <a href="#" class="btn btn-tertiary">DESCARGAR</a>
+            </div>
+
+            <div class="resource-card" style="padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-lg); display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="display: block;">[ENLACE DE INTERÉS]</strong>
+                    <span style="font-size: var(--font-size-xs); color: var(--color-text-muted);">Sitio Web Externo</span>
+                </div>
+                <a href="#" class="btn btn-tertiary">VISITAR</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+</body>
+</html>

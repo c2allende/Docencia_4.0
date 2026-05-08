@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Actividad 2.1 de Docencia 4.0: Taller práctico Del prompt al recurso validado. Diseño de prompts, generación de recursos y validación curricular.">
+    <meta name="keywords"
+        content="Docencia 4.0, Actividad 2.1, prompt, recurso validado, LLM, DEPR, planificación, validación curricular, Padlet">
     <title>Actividad 2.1 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -513,86 +515,6 @@
             transform: translateY(-3px);
         }
 
-        /* MEJORA VISUAL DE ACCESO A PLANTILLAS - CLASES LOCALES */
-        .template-access-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: var(--spacing-md);
-            margin: var(--spacing-md) 0 var(--spacing-lg);
-            padding: var(--spacing-lg);
-            background: var(--color-background-surface-low);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-left: var(--border-width-6) solid var(--color-brand-primary);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-flat);
-        }
-
-        .template-access-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .template-access-label {
-            display: inline-block;
-            margin-bottom: var(--spacing-2);
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
-            text-transform: uppercase;
-        }
-
-        .template-access-content strong {
-            display: block;
-            margin-bottom: var(--spacing-2);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .template-access-content p {
-            margin: 0;
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .template-access-btn {
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-
-        .template-access-card.is-disabled {
-            opacity: var(--opacity-65);
-        }
-
-        .template-access-card.is-disabled .template-access-btn {
-            pointer-events: none;
-            background: var(--color-background-button-primary-disabled);
-            color: var(--color-text-button-primary-disabled);
-            box-shadow: none;
-        }
-
-        /* LISTAS EN GRILLA (LOCAL) */
-        .suggestion-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            column-gap: var(--spacing-xl);
-            row-gap: var(--spacing-sm);
-            margin-top: var(--spacing-sm);
-            list-style-position: inside;
-        }
-
-        @media (max-width: 720px) {
-            .suggestion-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         @media (max-width: 900px) {
             .content-wrapper {
                 padding: 0 var(--spacing-4);
@@ -632,17 +554,6 @@
             }
         }
 
-        @media (max-width: 720px) {
-            .template-access-card {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .template-access-btn {
-                width: 100%;
-            }
-        }
-
         @media (max-width: 520px) {
             :root {
                 --module-sidebar-width: 86vw;
@@ -667,7 +578,7 @@
     </style>
 </head>
 
-<body class="has-top-nav" data-page-id="actividad2_1" data-module-id="modulo2" data-page-type="actividad" data-title="Actividad 2.1">
+<body data-page-id="actividad2_1" data-module-id="modulo2" data-page-type="actividad" data-title="Actividad 2.1">
     <nav class="top-nav" aria-label="Navegación superior de la actividad">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -804,7 +715,7 @@
                             <h4>Paso 1. Selección de la unidad y redacción del prompt efectivo</h4>
                             <ol class="content-list">
                                 <li>Elige una unidad real de tu currículo del DEPR que vayas a trabajar este semestre.</li>
-                                <li>Abre la plantilla guía haciendo clic en el botón “Abrir plantilla Fase 2”.</li>
+                                <li>Abre la <a href="plantilla_fase2_prompt.html" class="btn-link">plantilla guía: plantilla_fase2_prompt.html</a></li>
                                 <li>Completa los apartados de la plantilla utilizando la fórmula <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong> para construir tu prompt de planificación semanal.</li>
                                 <li>En la sección “Prompt completo” de la plantilla, une todos los elementos en un solo texto continuo.</li>
                                 <li>Revisa que tu prompt incluya claramente los 5 componentes: Rol, Contexto, Tarea, Formato y Restricciones.</li>
@@ -828,17 +739,6 @@
                                     </ul>
                                 </li>
                             </ol>
-
-                            <div class="template-access-card">
-                                <div class="template-access-content">
-                                    <span class="template-access-label">Plantilla de trabajo</span>
-                                    <strong>Plantilla guía — Fase 2: Construcción del prompt</strong>
-                                    <p>Abre la plantilla para completar los componentes Rol, Contexto, Tarea, Formato y Restricciones.</p>
-                                </div>
-                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase2_prompt.html">
-                                    Abrir plantilla Fase 2
-                                </a>
-                            </div>
                         </div>
                     </section>
 
@@ -851,16 +751,16 @@
                             
                             <h4>1. Trabajo con la plantilla</h4>
                             <ul class="content-list">
-                                <li>Revisa la planificación semanal generada en la Fase 2 and elige una sesión de clase de esa semana.</li>
-                                <li>Abre la plantilla guía haciendo clic en el botón “Abrir plantilla Fase 3”.</li>
+                                <li>Revisa la planificación semanal generada en la Fase 2 y elige una sesión de clase de esa semana.</li>
+                                <li>Abre la <a href="plantilla_fase3_recurso_didactico.html" class="btn-link">Plantilla guía de Fase 3: plantilla_fase3_recurso_didactico.html</a></li>
                                 <li>Completa la información de la sesión (objetivo, tema, grado y materia) y selecciona el tipo de recurso (hoja de trabajo o lectura breve), indicando nivel de lectura y condiciones especiales.</li>
-                                <li>En la sección de construcción del prompt, completa los componentes <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong> and redacta tu “prompt completo para el recurso didáctico”.</li>
+                                <li>En la sección de construcción del prompt, completa los componentes <strong>Rol + Contexto + Tarea + Formato + Restricciones</strong> y redacta tu “prompt completo para el recurso didáctico”.</li>
                             </ul>
 
                             <h4>2. Generación y resguardo del recurso con IA</h4>
                             <ul class="content-list">
                                 <li>Copia el prompt completo desde la plantilla y pégalo en la herramienta de IA (ChatGPT o Copilot).</li>
-                                <li>Copia el recurso generado (hoja de trabajo o lectura con preguntas) and pégalo en la plantilla.</li>
+                                <li>Copia el recurso generado (hoja de trabajo o lectura con preguntas) y pégalo en la plantilla.</li>
                                 <li>Guarda la plantilla Fase 3 completada.</li>
                             </ul>
 
@@ -878,17 +778,6 @@
                                     <li>Un recurso didáctico inicial (hoja de trabajo o lectura con preguntas) generado con IA, vinculado a una clase específica de tu planificación semanal, que se usará luego en la validación (Fase 4) y el refinamiento (Fase 5).</li>
                                 </ul>
                             </div>
-
-                            <div class="template-access-card">
-                                <div class="template-access-content">
-                                    <span class="template-access-label">Plantilla de trabajo</span>
-                                    <strong>Plantilla guía — Fase 3: Recurso didáctico</strong>
-                                    <p>Completa la información de la sesión y redacta tu prompt completo para el recurso didáctico.</p>
-                                </div>
-                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase3_recurso_didactico.html">
-                                    Abrir plantilla Fase 3
-                                </a>
-                            </div>
                         </div>
                     </section>
 
@@ -901,7 +790,7 @@
                             
                             <h4>1. Trabajo con la plantilla</h4>
                             <ul class="content-list">
-                                <li>Abre la plantilla de la Lista de Cotejo de Validación Curricular haciendo clic en el botón “Abrir plantilla Fase 4”.</li>
+                                <li>Abre la <a href="plantilla_fase4_validacion.html" class="btn-link">plantilla de la Lista de Cotejo de Validación Curricular (Fase 4): plantilla_fase4_validacion.html</a></li>
                                 <li>Sigue las instrucciones de la plantilla para revisar tu planificación semanal y tu recurso didáctico, marcar los criterios y completar la síntesis de fortalezas, aspectos a ajustar y puntos de mejora para tus prompts.</li>
                             </ul>
 
@@ -924,17 +813,6 @@
                                     <li>Al menos dos puntos claros de mejora para tus prompts, listos para usarse en la fase de refinamiento (Fase 5).</li>
                                 </ul>
                             </div>
-
-                            <div class="template-access-card">
-                                <div class="template-access-content">
-                                    <span class="template-access-label">Herramienta de validación</span>
-                                    <strong>Lista de Cotejo — Fase 4: Validación curricular</strong>
-                                    <p>Utiliza esta lista para revisar sistemáticamente los productos generados por la IA.</p>
-                                </div>
-                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase4_validacion.html">
-                                    Abrir plantilla Fase 4
-                                </a>
-                            </div>
                         </div>
                     </section>
 
@@ -947,7 +825,7 @@
                             
                             <h4>1. Trabajo con la plantilla</h4>
                             <ul class="content-list">
-                                <li>Abre la Plantilla de Refinamiento de Prompts haciendo clic en el botón “Abrir plantilla Fase 5”.</li>
+                                <li>Abre la <a href="plantilla_fase5_refinamiento.html" class="btn-link">Plantilla de Refinamiento de Prompts (Fase 5): plantilla_fase5_refinamiento.html</a></li>
                                 <li>Sigue las instrucciones de la plantilla para:
                                     <ul class="content-list" style="margin-top: var(--spacing-xs);">
                                         <li>Recuperar tus puntos de mejora desde la Lista de Cotejo (Fase 4).</li>
@@ -978,17 +856,6 @@
                                     <li>Una síntesis en Padlet, junto con la plantilla completada, que evidencie un uso iterativo y crítico de la IA, en lugar de aceptar el primer resultado.</li>
                                 </ul>
                             </div>
-
-                            <div class="template-access-card">
-                                <div class="template-access-content">
-                                    <span class="template-access-label">Plantilla de trabajo</span>
-                                    <strong>Plantilla guía — Fase 5: Refinamiento de prompts</strong>
-                                    <p>Practica la interacción con el modelo para mejorar la calidad y pertinencia de los productos.</p>
-                                </div>
-                                <a class="btn btn-secondary template-access-btn" href="plantilla_fase5_refinamiento.html">
-                                    Abrir plantilla Fase 5
-                                </a>
-                            </div>
                         </div>
                     </section>
 
@@ -1003,20 +870,20 @@
                             <p>En la columna <strong>Fase 6</strong> de Padlet, completa y publica la siguiente frase:</p>
                             <p class="reflection-card">“La parte más útil de usar IA en la planificación fue ______, pero siempre debo vigilar ______.”</p>
                             <p>Se sugiere que la segunda parte se relacione con aspectos trabajados en el taller, como:</p>
-                            <ul class="content-list suggestion-grid">
-                                <li>Alineación al estándar del DEPR</li>
-                                <li>Nivel de complejidad</li>
-                                <li>Pertinencia cultural</li>
-                                <li>Sesgos</li>
-                                <li>Viabilidad en el tiempo real</li>
-                                <li>Inclusión y accesibilidad</li>
+                            <ul class="content-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xs);">
+                                <li>• Alineación al estándar del DEPR</li>
+                                <li>• Nivel de complejidad</li>
+                                <li>• Pertinencia cultural</li>
+                                <li>• Sesgos</li>
+                                <li>• Viabilidad en el tiempo real</li>
+                                <li>• Inclusión y accesibilidad</li>
                             </ul>
 
                             <h4>Paso 2. Reflexión breve sobre el ciclo completo</h4>
                             <p>En el mismo espacio (misma entrada), escribe un párrafo breve (3–4 líneas) donde expliques:</p>
                             <ul class="content-list">
                                 <li>Cómo aplicarías en tu práctica semanal el ciclo: <strong>estándar → prompt → IA → validación (Lista de Cotejo) → refinamiento (Fase 5)</strong>.</li>
-                                <li>Puedes mencionar, por ejemplo, en qué momento de la semana lo usarías (planificación dominical, planificación diaria), para qué tipo de tareas (plan de clase, recursos, rúbricas) and qué revisarías siempre antes de llevarlo al aula.</li>
+                                <li>Puedes mencionar, por ejemplo, en qué momento de la semana lo usarías (planificación dominical, planificación diaria), para qué tipo de tareas (plan de clase, recursos, rúbricas) y qué revisarías siempre antes de llevarlo al aula.</li>
                             </ul>
 
                             <h4>Paso 3. Lectura y comentario entre pares</h4>
