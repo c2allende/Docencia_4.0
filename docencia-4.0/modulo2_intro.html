@@ -728,17 +728,27 @@
                     Expectativas del DEPR antes de integrarlo a su planificación.</p>
             </section>
 
-            <section class="reflection-banner" aria-labelledby="reflection-title">
-                <span id="reflection-title" class="reflection-title">Pregunta reflexiva para iniciar</span>
-                <p class="reflection-intro">Antes de entrar en los contenidos técnicos, tómese un momento para pensar y,
-                    si lo desea, anotar en su cuaderno de trabajo:</p>
-                <p class="reflection-question">“Si pudiera automatizar solo UNA parte de mi proceso de planificación
-                    (por ejemplo: escribir objetivos, diseñar actividades de inicio, nivelar lecturas, crear rúbricas),
-                    ¿cuál elegiría y por qué? ¿Qué esperaría de un bot o aplicación basada en LLM para que ese apoyo
-                    realmente respete mi criterio profesional y el contexto de mi escuela?”</p>
-                <p class="reflection-note">No hay respuestas “correctas”; esta reflexión busca que conecte de inmediato
-                    la ingeniería de prompts y el diseño con IA con las tareas concretas que más tiempo y energía le
-                    consumen en su práctica docente diaria.</p>
+            <!-- Reflexión Inicial (Optimized Accordion) -->
+            <section class="reflection-accordion" aria-labelledby="reflection-title-m2" data-reflection-accordion>
+                <button type="button" class="reflection-accordion__header" id="reflection-header-m2"
+                    aria-expanded="false" aria-controls="reflection-content-m2" data-reflection-toggle>
+                    <div class="reflection-accordion__header-content">
+                        <span id="reflection-title-m2" class="reflection-accordion__label">Pregunta reflexiva para iniciar</span>
+                        <span class="reflection-accordion__question">“Si pudiera automatizar solo UNA parte de mi proceso de planificación (por ejemplo: escribir objetivos, diseñar actividades de inicio, nivelar lecturas, crear rúbricas), ¿cuál elegiría y por qué? ¿Qué esperaría de un bot o aplicación basada en LLM para que ese apoyo realmente respete mi criterio profesional y el contexto de mi escuela?”</span>
+                        <span class="reflection-accordion__action-text" data-reflection-action>Ver orientación completa</span>
+                    </div>
+                    <div class="reflection-accordion__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                </button>
+                <div id="reflection-content-m2" class="reflection-accordion__content" role="region" aria-labelledby="reflection-header-m2" data-reflection-panel>
+                    <div class="reflection-accordion__inner">
+                        <div class="reflection-accordion__body">
+                            <p class="reflection-accordion__context">Antes de entrar en los contenidos técnicos, tómese un momento para pensar y, si lo desea, anotar en su cuaderno de trabajo:</p>
+                            <p class="reflection-accordion__note">No hay respuestas “correctas”; esta reflexión busca que conecte de inmediato la ingeniería de prompts y el diseño con IA con las tareas concretas que más tiempo y energía le consumen en su práctica docente diaria.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <div id="completion-section"></div>
@@ -759,6 +769,7 @@
         </div>
     </div>
 
+    <script src="scripts/reflection-accordion.js"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');

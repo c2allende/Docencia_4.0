@@ -787,14 +787,27 @@
                 </ul>
             </section>
 
-            <section class="reflection-banner" aria-labelledby="reflection-title">
-                <span id="reflection-title" class="reflection-title">Pregunta reflexiva para iniciar</span>
-                <p class="reflection-intro">Antes de profundizar en los contenidos, reflexionen por un momento:</p>
-                <p class="reflection-question">“¿Qué tarea de mi gestión docente me toma más tiempo cada semana? ¿Podría
-                    un recurso como un LLM o una aplicación basada en LLM ayudarme a hacerla mejor o más rápido, sin
-                    sacrificar calidad o creatividad pedagógica?”</p>
-                <p class="reflection-note">No hay respuesta "correcta"; la intención es que vean de inmediato la
-                    pertinencia práctica de lo que van a aprender.</p>
+            <!-- Reflexión Inicial (Optimized Accordion) -->
+            <section class="reflection-accordion" aria-labelledby="reflection-title-m1" data-reflection-accordion>
+                <button type="button" class="reflection-accordion__header" id="reflection-header-m1"
+                    aria-expanded="false" aria-controls="reflection-content-m1" data-reflection-toggle>
+                    <div class="reflection-accordion__header-content">
+                        <span id="reflection-title-m1" class="reflection-accordion__label">Pregunta reflexiva para iniciar</span>
+                        <span class="reflection-accordion__question">“¿Qué tarea de mi gestión docente me toma más tiempo cada semana? ¿Podría un recurso como un LLM o una aplicación basada en LLM ayudarme a hacerla mejor o más rápido, sin sacrificar calidad o creatividad pedagógica?”</span>
+                        <span class="reflection-accordion__action-text" data-reflection-action>Ver orientación completa</span>
+                    </div>
+                    <div class="reflection-accordion__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                </button>
+                <div id="reflection-content-m1" class="reflection-accordion__content" role="region" aria-labelledby="reflection-header-m1" data-reflection-panel>
+                    <div class="reflection-accordion__inner">
+                        <div class="reflection-accordion__body">
+                            <p class="reflection-accordion__context">Antes de profundizar en los contenidos, reflexionen por un momento:</p>
+                            <p class="reflection-accordion__note">No hay respuesta "correcta"; la intención es que vean de inmediato la pertinencia práctica de lo que van a aprender.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <div id="completion-section"></div>
@@ -816,6 +829,7 @@
         </div>
     </div>
 
+    <script src="scripts/reflection-accordion.js"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');

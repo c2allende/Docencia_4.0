@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -655,19 +655,27 @@
                     trazabilidad y la calidad de la comunicación institucional que sale bajo su nombre.</p>
             </section>
 
-            <section class="reflection-banner" aria-labelledby="reflection-title">
-                <span id="reflection-title" class="reflection-title">Reflexión Inicial</span>
-                <p class="reflection-intro">Antes de entrar en las actividades del módulo, tómese un momento para pensar
-                    y, si lo desea, anotar en su cuaderno de trabajo:</p>
-                <p class="reflection-question">“Si pudiera automatizar solo UNA parte de mi carga evaluativa o
-                    administrativa (por ejemplo: redactar comentarios en las notas, crear rúbricas, escribir cartas a
-                    familias, preparar informes de progreso), ¿cuál elegiría y por qué? ¿Qué necesitaría que hiciera un
-                    bot o aplicación basada en LLM para que ese apoyo respete mi criterio profesional, la
-                    confidencialidad de mis estudiantes y las normas de mi escuela?”</p>
-                <p class="reflection-note">No hay respuestas correctas o incorrectas; esta reflexión busca que conecte
-                    de inmediato los contenidos del módulo con las tareas administrativas y evaluativas que más tiempo y
-                    energía le consumen, y que visualice cómo la IA puede convertirse en un apoyo estratégico bajo su
-                    propio liderazgo profesional.</p>
+            <!-- Reflexión Inicial (Optimized Accordion) -->
+            <section class="reflection-accordion" aria-labelledby="reflection-title-m3" data-reflection-accordion>
+                <button type="button" class="reflection-accordion__header" id="reflection-header-m3"
+                    aria-expanded="false" aria-controls="reflection-content-m3" data-reflection-toggle>
+                    <div class="reflection-accordion__header-content">
+                        <span id="reflection-title-m3" class="reflection-accordion__label">Pregunta reflexiva para iniciar</span>
+                        <span class="reflection-accordion__question">“Pensando en su propia carga administrativa y evaluativa actual: ¿qué tan dispuesto/a estaría a delegar la generación de materiales de apoyo, guías o borradores de evaluación a un recurso como un LLM? ¿Cuál sería su límite infranqueable para asegurar que la ética y la calidad no se vean comprometidas?”</span>
+                        <span class="reflection-accordion__action-text" data-reflection-action>Ver orientación completa</span>
+                    </div>
+                    <div class="reflection-accordion__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                </button>
+                <div id="reflection-content-m3" class="reflection-accordion__content" role="region" aria-labelledby="reflection-header-m3" data-reflection-panel>
+                    <div class="reflection-accordion__inner">
+                        <div class="reflection-accordion__body">
+                            <p class="reflection-accordion__context">Antes de entrar en las actividades del módulo, tómese un momento para pensar y, si lo desea, anotar en su cuaderno de trabajo:</p>
+                            <p class="reflection-accordion__note">No hay respuestas correctas o incorrectas; esta reflexión busca que conecte de inmediato los contenidos del módulo con las tareas administrativas y evaluativas que más tiempo y energía le consumen, y que visualice cómo la IA puede convertirse en un apoyo estratégico bajo su propio liderazgo profesional.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <div id="completion-section"></div>
@@ -679,6 +687,7 @@
         </article>
     </main>
 
+    <script src="scripts/reflection-accordion.js"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
