@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -230,6 +230,7 @@
             background: var(--color-brand-primary);
             color: var(--color-brand-primary-on);
             font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-md);
         }
 
         .content-wrapper {
@@ -1347,6 +1348,44 @@
                     real de trabajo institucional, sobre todo en escuelas que ya usan Microsoft 365 como plataforma
                     base.</p>
             </section>
+
+            <section class="text-section" aria-labelledby="modelos-lenguaje-gpt">
+                <hr class="section-separator">
+                <h2 id="modelos-lenguaje-gpt" class="section-title">¿Qué modelos de lenguaje usan ChatGPT y Copilot?</h2>
+
+                <p>Cuando hablamos de ChatGPT y Copilot, es importante recordar que ambos son “bots” construidos sobre modelos de lenguaje grande (LLM) de la familia GPT, desarrollados por OpenAI. El LLM es el “motor de lenguaje” y el bot es el carro con volante, pedales y tablero que el docente realmente maneja.</p>
+
+                <div class="comparison-grid">
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">💬</div>
+                        <h3>ChatGPT</h3>
+                        <p>ChatGPT es un asistente conversacional que usa modelos GPT de propósito general (por ejemplo, GPT-4o) capaces de trabajar con texto, imágenes y archivos. En la versión gratuita actual, el modelo por defecto es un GPT multimodal optimizado para dar respuestas rápidas y de buena calidad en tareas generales: redactar textos, proponer ideas, explicar conceptos o resumir contenido. El usuario interactúa en una página o app de chat “neutra”, sin estar directamente conectada a los documentos de la escuela, lo que lo hace útil como laboratorio de experimentación y diseño de materiales.</p>
+                    </article>
+
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">🏢</div>
+                        <h3>Microsoft Copilot (Microsoft 365)</h3>
+                        <p>Copilot también utiliza modelos GPT avanzados (como GPT-4 y variantes recientes) pero integrados en el entorno de Microsoft 365 y en otros servicios de Microsoft. En la práctica, Copilot “orquesta” varios modelos de IA: recibe la petición, consulta el contexto de la organización (correos, documentos, calendario) a través de Microsoft Graph y envía esa información al LLM para generar un borrador adaptado al trabajo del docente. Por eso es especialmente útil para resumir actas, generar presentaciones o redactar informes directamente sobre archivos de Word, PowerPoint o Excel ya existentes.</p>
+                    </article>
+                </div>
+
+                <p>En resumen, tanto ChatGPT como Copilot comparten la misma familia de modelos de lenguaje (GPT), pero se presentan al docente de formas diferentes: ChatGPT como espacio generalista de conversación y creación de texto, y Copilot como asistente incrustado en las herramientas de trabajo diario que usa datos institucionales bajo las políticas de seguridad de Microsoft.</p>
+
+                <h2 class="section-title section-title-sm">¿Por qué son tan importantes los modelos LLM?</h2>
+                <p>Los modelos de lenguaje de gran tamaño (LLM) son la base de muchas herramientas que hoy usamos en educación, como ChatGPT, Copilot u otros asistentes. Se entrenan con enormes cantidades de texto para aprender patrones de lenguaje y así poder comprender nuestras preguntas y generar respuestas en un español natural.</p>
+
+                <p>Gracias a esta capacidad, un LLM puede resumir textos, proponer ideas, traducir, explicar conceptos o redactar borradores, tareas que antes requerían mucho tiempo del docente. En el contexto escolar, esto se traduce en apoyo para preparación de clases, elaboración de materiales y acompañamiento al estudiante, siempre que el profesorado revise y ajuste lo que produce el modelo.</p>
+
+                <h2 class="section-title section-title-sm">¿Cómo funciona, en sencillo, un bot con LLM?</h2>
+                <p>Un bot con LLM es una aplicación (por ejemplo, una página de chat o un asistente dentro de Word o un LMS) que se conecta a un LLM para responder a las personas. El docente escribe una pregunta o instrucción, el bot la envía al modelo de lenguaje y el modelo devuelve un texto generado palabra por palabra según lo que considera más probable y coherente.</p>
+
+                <button class="img-editorial-right image-zoom-trigger" type="button" onclick="openZoom('assets/LLM_M1_LLM_&_BOT_imagen.png')" aria-label="Ampliar diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente">
+                    <img src="assets/LLM_M1_LLM_&_BOT_imagen.png" alt="Diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente" loading="lazy">
+                </button>
+
+                <p>Además del LLM, el bot añade cosas que el modelo solo no tiene: una interfaz amigable, reglas de uso, opciones de idioma y, en algunos casos, acceso a documentos o datos de la institución. Por eso hablamos de que el LLM es el “cerebro” y el bot es el “cuerpo” que permite al docente interactuar con ese cerebro de forma segura y práctica en el día a día escolar.</p>
+            </section>
+
 
             <section class="slider-section" aria-labelledby="conceptos-repasar">
                 <div class="slider-header">
