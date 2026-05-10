@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infográfico Premium: La Ruta del Maestro Validador v2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Docencia 4.0 Design Tokens - Strictly from main.css */
+            --color-brand-primary: #00C2FF;
+            --color-brand-secondary: #FF8D5C;
+            --color-text-display: #001E2B;
+            --color-background-page: #F6FAFE;
+            --color-background-surface: #FFFFFF;
+            --color-slate-850: #171C1F;
+            --color-slate-700: #475569;
+            --color-slate-600: #6D7980;
+            --shadow-xl: 0 20px 40px -10px rgba(15, 23, 42, 0.12), 0 8px 16px -6px rgba(15, 23, 42, 0.06);
+            --radius-xl: 16px;
+            --radius-2xl: 24px;
+            --radius-pill: 9999px;
+            --font-family-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-family-body: 'Manrope', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-background-page);
+            font-family: var(--font-family-body);
+            color: var(--color-slate-850);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .canvas {
+            width: 1600px;
+            height: 900px;
+            background: linear-gradient(135deg, #F6FAFE 0%, #FFFFFF 100%);
+            position: relative;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            padding: 80px;
+            box-sizing: border-box;
+        }
+
+        /* Decorative background elements */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--color-brand-primary);
+            filter: blur(150px);
+            opacity: 0.05;
+            z-index: 0;
+        }
+        .bg-circle-1 { width: 600px; height: 600px; top: -100px; right: -100px; }
+        .bg-circle-2 { width: 400px; height: 400px; bottom: -50px; left: -50px; }
+
+        .header {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: var(--font-family-heading);
+            font-weight: 800;
+            font-size: 3.5rem;
+            color: var(--color-text-display);
+            margin: 0;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .header p {
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--color-brand-primary);
+            margin: 12px 0 0 0;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .main-content {
+            flex: 1;
+            position: relative;
+            display: flex;
+            z-index: 10;
+        }
+
+        /* The Curve Route */
+        .route-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .cards-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            z-index: 2;
+        }
+
+        .card {
+            width: 260px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 32px;
+            border-radius: var(--radius-2xl);
+            box-shadow: 0 15px 35px rgba(0, 30, 43, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Staggered positioning */
+        .card-1 { transform: translateY(-60px); }
+        .card-2 { transform: translateY(40px); }
+        .card-3 { transform: translateY(-40px); }
+        .card-4 { transform: translateY(60px); }
+        .card-5 { transform: translateY(-20px); }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-10px);
+            background: white;
+            box-shadow: 0 25px 50px rgba(0, 30, 43, 0.1);
+            border-color: var(--color-brand-primary);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .step-num {
+            font-family: var(--font-family-heading);
+            font-weight: 800;
+            font-size: 2rem;
+            color: rgba(0, 30, 43, 0.1);
+        }
+
+        .icon-box {
+            width: 64px;
+            height: 64px;
+            background: var(--color-background-page);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-brand-primary);
+        }
+
+        .card:nth-child(even) .icon-box {
+            color: var(--color-brand-secondary);
+        }
+
+        .icon-box svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .card-title {
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--color-text-display);
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--color-slate-600);
+            margin: 0;
+        }
+
+        /* Teacher Metaphor Element */
+        .validator-element {
+            position: absolute;
+            bottom: -40px;
+            right: -20px;
+            width: 450px;
+            height: 450px;
+            z-index: 5;
+            opacity: 0.9;
+        }
+
+        .footer-badge {
+            position: absolute;
+            bottom: 60px;
+            left: 80px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            background: var(--color-text-display);
+            color: white;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            z-index: 20;
+            box-shadow: 0 10px 20px rgba(0, 30, 43, 0.2);
+        }
+
+        .footer-badge::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--color-brand-secondary);
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+
+        <div class="header">
+            <p>Guía de uso responsable de LLM</p>
+            <h1>La ruta del maestro validador</h1>
+        </div>
+
+        <div class="main-content">
+            <!-- Curve SVG connecting the steps -->
+            <svg class="route-svg" viewBox="0 0 1440 400" preserveAspectRatio="none">
+                <path d="M0,200 C300,50 600,350 900,100 C1200,-50 1440,200 1440,200" fill="none" stroke="url(#grad)" stroke-width="8" stroke-dasharray="15,15" />
+                <defs>
+                    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:var(--color-brand-primary);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:var(--color-brand-secondary);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <div class="cards-container">
+                <!-- Step 1 -->
+                <div class="card card-1">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="step-num">01</div>
+                    </div>
+                    <div class="card-title">Uso responsable</div>
+                    <p class="card-text">Ética, seguridad y propósito pedagógico antes de usar IA.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="card card-2">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                            </svg>
+                        </div>
+                        <div class="step-num">02</div>
+                    </div>
+                    <div class="card-title">Prompting estratégico</div>
+                    <p class="card-text">Solicitudes claras, contextualizadas y alineadas al aprendizaje.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="card card-3">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <path d="M11 8v6M8 11h6"></path>
+                            </svg>
+                        </div>
+                        <div class="step-num">03</div>
+                    </div>
+                    <div class="card-title">Evaluación crítica</div>
+                    <p class="card-text">Valida utilidad, pertinencia, sesgos y exactitud del resultado.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="card card-4">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="step-num">04</div>
+                    </div>
+                    <div class="card-title">Revisión experta</div>
+                    <p class="card-text">El docente adapta, corrige y decide qué se usa en clase.</p>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="card card-5">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            </svg>
+                        </div>
+                        <div class="step-num">05</div>
+                    </div>
+                    <div class="card-title">Transferencia ética</div>
+                    <p class="card-text">Modela prácticas responsables y seguras con sus estudiantes.</p>
+                </div>
+            </div>
+
+            <!-- Abstract Metaphor Illustration -->
+            <div class="validator-element">
+                <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="200" cy="200" r="180" fill="url(#paint0_linear)" fill-opacity="0.05"/>
+                    <rect x="100" y="80" width="200" height="240" rx="20" fill="white" shadow="0 10 30 rgba(0,0,0,0.1)"/>
+                    <rect x="120" y="110" width="160" height="20" rx="4" fill="#E0F7FF"/>
+                    <rect x="120" y="140" width="120" height="20" rx="4" fill="#E0F7FF"/>
+                    <circle cx="250" cy="280" r="50" fill="#00C2FF" fill-opacity="0.2"/>
+                    <path d="M230 280L245 295L275 265" stroke="#00C2FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="200" y1="20" x2="200" y2="380" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#00C2FF"/>
+                            <stop offset="100%" stop-color="#FF8D5C"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <div class="footer-badge">
+            EL DOCENTE VALIDA, ADAPTA Y DECIDE.
+        </div>
+    </div>
+</body>
+</html>

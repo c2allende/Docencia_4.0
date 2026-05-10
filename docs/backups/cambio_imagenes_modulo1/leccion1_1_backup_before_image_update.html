@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lección 1.1: ¿Qué es (y qué no es) un LLM? - Academia Docencia 4.0">
+    <title>Lección 1.1: ¿Qué es (y qué no es) un LLM? | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            line-height: var(--line-height-loose);
+            font-family: var(--font-family-body);
+            padding-top: var(--nav-height);
+            margin: 0;
+        }
+
+        p {
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-base);
+            color: var(--color-brand-primary);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+            z-index: 2000;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+            display: none;
+            z-index: 1999;
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .menu-btn {
+            background: var(--color-background-surface-medium);
+            border: var(--border-width-1) solid var(--color-border-default);
+            padding: var(--spacing-2);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            color: var(--color-brand-primary);
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-back:focus-visible,
+        .action-button:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        .side-menu-title {
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            font-size: var(--font-size-xl);
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            font-size: var(--font-size-2xs);
+            color: var(--color-cyan-100);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+            font-weight: var(--font-weight-extrabold);
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            text-decoration: none;
+            color: var(--color-alpha-white-70);
+            font-weight: var(--font-weight-semibold);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* CONTENIDO */
+        .content-wrapper {
+            max-width: 1000px;
+            margin: var(--spacing-md) auto var(--spacing-xl) auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            background: var(--color-background-surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-ambient);
+            border: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .lesson-header {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .lesson-title {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            line-height: var(--line-height-tight);
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-display);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-label {
+            display: block;
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .content-heading {
+            margin: var(--spacing-lg) 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            line-height: var(--line-height-snug);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+        }
+
+        /* BLOQUES ESPECIALES */
+        .highlight-box {
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-4) solid var(--color-brand-primary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .warning-box {
+            background: var(--color-background-surface-medium);
+            border: var(--border-width-1) solid var(--color-border-default);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) 0;
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .warning-icon {
+            color: var(--color-orange-600);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .warning-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* GRID DE COMPARACIÓN */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .comparison-card {
+            background: var(--color-background-surface-low);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brand-primary);
+        }
+
+        .comparison-card h3 {
+            color: var(--color-brand-primary);
+            margin-top: 0;
+            font-size: var(--font-size-lg);
+        }
+
+        /* INTERACTIVO: JERARQUÍA */
+        .hierarchy-interactive {
+            background: var(--color-background-surface-medium);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .hierarchy-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .box {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .box--active {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .box--dimmed {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .info-panel {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            min-height: 120px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .info-panel h3 {
+            margin-top: 0;
+            color: var(--color-brand-primary);
+        }
+
+        /* INTERACTIVO: TOKENS */
+        .token-playground {
+            background: var(--color-background-surface-low);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            margin: var(--spacing-lg) 0;
+            border: 1px solid var(--color-border-default);
+        }
+
+        .token-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-base);
+        }
+
+        .token-visualizer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-1);
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            min-height: 100px;
+            margin-bottom: var(--spacing-md);
+            border: 1px dashed var(--color-border-strong);
+        }
+
+        .token-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: var(--font-size-sm);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .token-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        /* SLIDER: USOS PRÁCTICOS */
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            padding: var(--spacing-xl);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .slide-icon {
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--color-background-surface-low);
+        }
+
+        .slider-btn {
+            background: var(--color-brand-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-2) var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .slider-btn:disabled {
+            background: var(--color-border-default);
+            cursor: not-allowed;
+        }
+
+        /* IMÁGENES CON ZOOM */
+        .image-container {
+            margin: var(--spacing-lg) 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-ambient);
+            background: white;
+        }
+
+        .image-zoom-trigger {
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: zoom-in;
+        }
+
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .image-zoom-trigger:hover img {
+            transform: scale(1.02);
+        }
+
+        .image-caption {
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            padding: var(--spacing-sm);
+            font-weight: bold;
+            background: var(--color-background-surface-low);
+        }
+
+        /* NAVEGACIÓN INFERIOR */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border-default);
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-weight: bold;
+        }
+
+        /* MODAL ZOOM */
+        .modal-zoom {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-6);
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-height: 90vh;
+            max-width: 100%;
+            border-radius: var(--radius-md);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .lesson-card {
+                padding: var(--spacing-md);
+            }
+
+            .lesson-title {
+                font-size: var(--font-size-2xl);
+            }
+        }
+    </style>
+</head>
+
+<body data-page-id="leccion1_1" data-module-id="modulo1" data-page-type="lesson">
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menú">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo">
+            </div>
+            <span class="module-title-nav">Lección 1.1: ¿Qué es (y qué no es) un LLM?</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <aside class="module-sidebar" id="sidebar">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio</a></li>
+            <li><span class="menu-section-label">Módulo 1</span></li>
+            <li><a href="modulo1_intro.html">📍 Introducción</a></li>
+            <li><a href="leccion1_1.html" class="active">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
+            <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
+            <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card">
+            <header class="lesson-header">
+                <span class="section-label">Fundamentos Tecnológicos</span>
+                <h1 class="lesson-title">¿Qué es (y qué no es) un LLM?</h1>
+            </header>
+
+            <section id="introduccion">
+                <p>Para entender el impacto de la inteligencia artificial en la educación, primero debemos desmitificar
+                    el término. Muchas veces hablamos de "IA" como algo genérico, pero lo que realmente estamos usando
+                    en el aula son, en su mayoría, **Modelos de Lenguaje de Gran Tamaño (LLM)**.</p>
+
+                <div class="highlight-box">
+                    <strong>Definición Pedagógica:</strong> Imagine un LLM como un "estudiante superdotado en lectura"
+                    que ha leído casi todo el internet público. No es una enciclopedia estática; es un sistema que ha
+                    aprendido las reglas, los matices y las probabilidades del lenguaje humano para generar respuestas
+                    coherentes.
+                </div>
+            </section>
+
+            <section id="que-es">
+                <h2 class="content-heading">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                    El LLM como Motor de Lenguaje
+                </h2>
+                <p>Las siglas LLM significan *Large Language Model*. Analicémoslo por partes:</p>
+                <ul>
+                    <li><strong>Large (Grande):</strong> Se refiere al volumen masivo de datos (billones de palabras) con
+                        los que fue entrenado.</li>
+                    <li><strong>Language (Lenguaje):</strong> Su especialidad es el procesamiento de palabras, no el
+                        cálculo matemático puro ni el razonamiento lógico infalible.</li>
+                    <li><strong>Model (Modelo):</strong> Es una representación matemática compleja de cómo se conectan
+                        las ideas y las palabras.</li>
+                </ul>
+
+                <div class="image-container">
+                    <button class="image-zoom-trigger"
+                        onclick="openZoom('assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen.png')">
+                        <img src="assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen.png" alt="Evolución de los LLM">
+                    </button>
+                    <p class="image-caption">FIGURA 1: EVOLUCIÓN Y ESCALA DE LOS LLM</p>
+                </div>
+            </section>
+
+            <section id="que-no-es">
+                <h2 class="content-heading">Diferencias Cruciales: LLM vs. Buscador vs. Bot</h2>
+                <p>Es común confundirlos, pero para un docente, entender la diferencia es vital para la evaluación
+                    crítica:</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h3>🔎 Buscador (Google/Bing)</h3>
+                        <p>Busca información existente en la web y te da enlaces. Es una "biblioteca con índice".</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h3>🤖 Bot / App (ChatGPT/Claude)</h3>
+                        <p>Es la interfaz (el "carro") que usa el LLM (el "motor") para hablar contigo.</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h3>🧠 LLM (GPT-4/Gemini)</h3>
+                        <p>Es la inteligencia base que procesa y genera el lenguaje. No "sabe" cosas, las "predice".</p>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <button class="image-zoom-trigger"
+                        onclick="openZoom('assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen.png')">
+                        <img src="assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen.png"
+                            alt="Diferencia entre LLM, Bot y Buscador">
+                    </button>
+                    <p class="image-caption">FIGURA 2: RELACIÓN ENTRE TECNOLOGÍA BASE Y APLICACIONES DE USUARIO</p>
+                </div>
+            </section>
+
+            <section id="jerarquia">
+                <h2 class="content-heading">¿Dónde encaja el LLM en la IA?</h2>
+                <p>Haga clic en cada nivel para entender la jerarquía tecnológica:</p>
+
+                <div class="hierarchy-interactive">
+                    <div class="hierarchy-visual">
+                        <button id="ia" class="box" style="background: #1a237e">Inteligencia Artificial</button>
+                        <button id="ml" class="box" style="background: #283593">Machine Learning</button>
+                        <button id="dl" class="box" style="background: #3949ab">Deep Learning</button>
+                        <button id="gen" class="box" style="background: #5c6bc0">IA Generativa</button>
+                        <button id="llm" class="box" style="background: #00e676">LLM</button>
+                    </div>
+                    <div id="infoPanel" class="info-panel">
+                        <h3 id="infoTitle">Seleccione un nivel</h3>
+                        <p id="infoDesc">Explore cómo se ubican los modelos de lenguaje dentro del ecosistema de la IA.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="como-funciona">
+                <h2 class="content-heading">¿Cómo "piensa" un LLM? El concepto de Token</h2>
+                <p>Un LLM no lee letras ni palabras completas como nosotros. Divide el texto en fragmentos llamados
+                    **tokens** (que pueden ser palabras, sílabas o signos de puntuación).</p>
+
+                <div class="token-playground">
+                    <h3>Visualizador de Tokens</h3>
+                    <p>Escriba una frase pedagógica para ver cómo la fragmenta un LLM:</p>
+                    <input type="text" id="tokenInput" class="token-input"
+                        placeholder="Ej: El aprendizaje es un proceso social.">
+                    <div id="tokenVisualizer" class="token-visualizer"></div>
+                    <div class="token-stats">
+                        <span>Tokens generados: <strong id="tokenCount">0</strong></span>
+                        <span id="tokenIdList"></span>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-content">
+                        <strong>Nota importante:</strong> Debido a que son "predictores de tokens", los LLM pueden
+                        "alucinar" (inventar datos que suenan muy reales) o fallar en tareas lógicas simples si la
+                        secuencia de tokens más probable no es la correcta.
+                    </div>
+                </div>
+            </section>
+
+            <section id="usos-docentes">
+                <h2 class="content-heading">Usos Estratégicos en la Gestión Docente</h2>
+                <p>Explore algunos ejemplos de cómo un LLM puede aliviar la carga administrativa:</p>
+
+                <div class="slider-container">
+                    <div id="sliderTrack" class="slider-track">
+                        <div class="slide">
+                            <div class="slide-icon">📝</div>
+                            <h3>Generación de Material</h3>
+                            <p>Crear 10 problemas de matemáticas contextualizados en la historia de Puerto Rico para 5to
+                                grado.</p>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-icon">⚖️</div>
+                            <h3>Adaptación de Niveles</h3>
+                            <p>Tomar un artículo científico complejo y reescribirlo para que un estudiante de nivel
+                                intermedio lo comprenda.</p>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-icon">📋</div>
+                            <h3>Borradores Administrativos</h3>
+                            <p>Redactar la estructura inicial de un Plan Educativo Individualizado (PEI) basado en
+                                observaciones específicas.</p>
+                        </div>
+                    </div>
+                    <div class="slider-nav">
+                        <button id="prevBtn" class="slider-btn" disabled>Anterior</button>
+                        <button id="nextBtn" class="slider-btn">Siguiente</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="human-in-the-loop">
+                <h2 class="content-heading">El Rol del Docente: Human in the Loop</h2>
+                <p>Aquí es donde su capital profesional es insustituible. El LLM propone, pero el docente **dispone,
+                    valida y corrige**.</p>
+
+                <div class="image-container">
+                    <button class="image-zoom-trigger" onclick="openZoom('assets/LLM_M1_LLM_&_BOT_imagen.png')">
+                        <img src="assets/LLM_M1_LLM_&_BOT_imagen.png" alt="Docente como validador">
+                    </button>
+                    <p class="image-caption">FIGURA 3: EL CICLO DE VALIDACIÓN HUMANA</p>
+                </div>
+
+                <p>Un LLM nunca debería tener la "última palabra" en una decisión pedagógica. Su valor está en ser un
+                    asistente de alto nivel que le permite a usted enfocarse en la parte humana y estratégica de la
+                    enseñanza.</p>
+            </section>
+
+            <footer class="nav-footer">
+                <a href="modulo1_intro.html" class="btn-back">← Volver a Introducción</a>
+                <a href="leccion1_2.html" class="btn btn-primary">Siguiente Lección →</a>
+            </footer>
+        </article>
+    </main>
+
+    <div id="zoomModal" class="modal-zoom" onclick="closeZoom()">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeZoom()">×</button>
+            <img id="zoomedImg" src="" alt="Zoom">
+        </div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        function openZoom(src) {
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeZoom() {
+            zoomModal.classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) {
+                    closeZoom();
+                }
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) {
+                closeZoom();
+            }
+        });
+
+        const hierarchyData = {
+            ia: {
+                title: 'Inteligencia Artificial',
+                desc: 'Campo amplio de la informática que busca crear sistemas capaces de realizar tareas que normalmente requieren inteligencia humana.',
+                color: '#1a237e'
+            },
+            ml: {
+                title: 'Machine Learning',
+                desc: 'Subcampo de la IA en el que los sistemas aprenden patrones a partir de datos para mejorar su desempeño en una tarea.',
+                color: '#283593'
+            },
+            dl: {
+                title: 'Deep Learning',
+                desc: 'Rama del aprendizaje automático que utiliza redes neuronales profundas para identificar patrones complejos.',
+                color: '#3949ab'
+            },
+            gen: {
+                title: 'IA Generativa',
+                desc: 'Tipo de IA capaz de generar contenido nuevo, como texto, imágenes, audio o código, a partir de patrones aprendidos.',
+                color: '#5c6bc0'
+            },
+            llm: {
+                title: 'Modelos de Lenguaje de Gran Tamaño',
+                desc: 'Modelos de IA generativa especializados en comprender y producir lenguaje natural a gran escala.',
+                color: '#00e676'
+            }
+        };
+
+        document.querySelectorAll('.box').forEach((button) => {
+            button.addEventListener('click', () => {
+                const item = hierarchyData[button.id];
+                if (!item) return;
+
+                document.querySelectorAll('.box').forEach((box) => {
+                    box.classList.add('box--dimmed');
+                    box.classList.remove('box--active');
+                });
+
+                button.classList.remove('box--dimmed');
+                button.classList.add('box--active');
+
+                const title = document.getElementById('infoTitle');
+                const desc = document.getElementById('infoDesc');
+                const panel = document.getElementById('infoPanel');
+
+                title.textContent = item.title;
+                desc.textContent = item.desc;
+                title.style.color = item.color;
+                panel.style.borderColor = item.color;
+            });
+        });
+
+        const tokenInput = document.getElementById('tokenInput');
+        const tokenVisualizer = document.getElementById('tokenVisualizer');
+        const tokenIdList = document.getElementById('tokenIdList');
+        const tokenCount = document.getElementById('tokenCount');
+        const tokenColors = ['#E0F2FE', '#FCE7F3', '#DCFCE7', '#FEF3C7', '#EDE9FE', '#FFE4E6'];
+
+        function simpleTokenize(text) {
+            return text.trim().length ? text.match(/\S+|\s+|[.,;:!?¿¡()]/g) || [] : [];
+        }
+
+        function renderTokens() {
+            if (!tokenInput || !tokenVisualizer || !tokenIdList || !tokenCount) return;
+
+            const tokens = simpleTokenize(tokenInput.value).filter((token) => token.trim().length > 0);
+            tokenCount.textContent = tokens.length;
+
+            tokenVisualizer.innerHTML = tokens.map((token, index) => {
+                const color = tokenColors[index % tokenColors.length];
+                return `<span class="token-badge" style="background:${color}">${token}</span>`;
+            }).join(' ');
+
+            tokenIdList.textContent = tokens.map((token, index) => {
+                const pseudoId = Array.from(token).reduce((sum, char) => sum + char.charCodeAt(0), 0) + index;
+                return `[${pseudoId}]`;
+            }).join(' ');
+        }
+
+        tokenInput?.addEventListener('input', renderTokens);
+        renderTokens();
+
+        const sliderTrack = document.getElementById('sliderTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function updateSlider() {
+            if (!sliderTrack || !prevBtn || !nextBtn) return;
+            const slides = sliderTrack.children.length;
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide >= slides - 1;
+        }
+
+        prevBtn?.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide -= 1;
+                updateSlider();
+            }
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            const slides = sliderTrack?.children.length || 0;
+            if (currentSlide < slides - 1) {
+                currentSlide += 1;
+                updateSlider();
+            }
+        });
+
+        updateSlider();
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

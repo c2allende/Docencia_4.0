@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo: Tarjeta CTA Padlet | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../docencia-4.0/styles/main.css">
+    <style>
+        :root {
+            --nav-height: 80px;
+        }
+
+        body {
+            padding-top: var(--nav-height);
+            background: var(--color-background-page);
+            font-family: var(--font-family-body);
+        }
+
+        /* Dashboard de Métricas */
+        .metrics-dashboard {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: var(--color-background-surface-dark);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            gap: var(--spacing-lg);
+            font-size: var(--font-size-xs);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .metric-label {
+            opacity: 0.7;
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-family: monospace;
+            font-size: var(--font-size-sm);
+            color: var(--color-cyan-300);
+        }
+
+        /* Contenedor del Prototipo */
+        .prototype-container {
+            max-width: 800px;
+            margin: var(--spacing-16) auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .prototype-section {
+            margin-bottom: var(--spacing-20);
+            padding: var(--spacing-xl);
+            background: var(--color-alpha-white-50);
+            border: 1px dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            position: relative;
+        }
+
+        .section-badge {
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-xl);
+            background: var(--color-brand-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* --- COMPONENTE: TARJETA CTA PADLET (SOLUCIÓN FINAL) --- */
+        .padlet-cta-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-flat);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .padlet-cta-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-brand-primary), var(--color-brand-secondary));
+        }
+
+        .padlet-cta-card__badge {
+            font-size: var(--font-size-xs);
+            font-weight: 800;
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-xs);
+            display: block;
+        }
+
+        .padlet-cta-card__title {
+            color: var(--color-text-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            margin: 0 0 var(--spacing-xs);
+        }
+
+        .padlet-cta-card__description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-md);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .padlet-cta-card__steps {
+            background: var(--color-background-surface-low);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-md) 0;
+            list-style: none;
+            padding-left: var(--spacing-xl);
+        }
+
+        .padlet-cta-card__steps li {
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-primary);
+            font-weight: 500;
+        }
+
+        .padlet-cta-card__steps li::before {
+            content: "";
+            position: absolute;
+            left: -20px;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--color-brand-secondary);
+            border-radius: 50%;
+        }
+
+        .padlet-cta-card__footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-border-subtle);
+        }
+
+        .btn-cta-padlet {
+            width: 100%;
+            max-width: 400px;
+            background: var(--color-brand-primary);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: var(--font-size-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .btn-cta-padlet:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-focus-primary);
+            background: var(--color-brand-primary-dark, #003366);
+        }
+
+        .btn-cta-padlet svg {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-cta-padlet:hover svg {
+            transform: translateX(4px) translateY(-4px);
+        }
+
+        .external-disclaimer {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav" style="background: white; position: fixed; top: 0; width: 100%; height: var(--nav-height); display: flex; align-items: center; padding: 0 40px; border-bottom: 1px solid #ddd; z-index: 1000;">
+        <div style="font-weight: 800; color: var(--color-brand-primary); font-size: 20px;">DOCENCIA 4.0 <span style="font-weight: 400; color: #666; margin-left: 10px; font-size: 16px;">| Prototipo CTA Final</span></div>
+    </nav>
+
+    <div class="metrics-dashboard" id="global-metrics">
+        <div class="metric-item">
+            <span class="metric-label">Viewport</span>
+            <span class="metric-value" id="vp-width">0px</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Altura (Estándar)</span>
+            <span class="metric-value" id="h-std">0px</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Altura (Instruccional)</span>
+            <span class="metric-value" id="h-inst">0px</span>
+        </div>
+    </div>
+
+    <main class="prototype-container">
+
+        <!-- ACTIVIDAD 1.2 / 3.1 -->
+        <section class="prototype-section" id="section-std">
+            <span class="section-badge">Solución Act 1.2 y 3.1</span>
+            
+            <div class="padlet-cta-card">
+                <span class="padlet-cta-card__badge">Muro Colaborativo</span>
+                <h3 class="padlet-cta-card__title">Reflexión Docente</h3>
+                <p class="padlet-cta-card__description">
+                    Comparta sus hallazgos sobre el uso de LLM en la planificación docente con la comunidad de aprendizaje.
+                </p>
+
+                <div class="padlet-cta-card__footer">
+                    <a href="#" class="btn-cta-padlet" target="_blank" rel="noopener noreferrer">
+                        <span>Participar en Padlet</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                    <span class="external-disclaimer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        El tablero se abrirá en una nueva pestaña.
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTIVIDAD 2.1 -->
+        <section class="prototype-section" id="section-inst">
+            <span class="section-badge">Solución Act 2.1 (Instruccional)</span>
+            
+            <div class="padlet-cta-card">
+                <span class="padlet-cta-card__badge">Taller Práctico</span>
+                <h3 class="padlet-cta-card__title">Publicación de Evidencias</h3>
+                
+                <ul class="padlet-cta-card__steps">
+                    <li>Revise su producto final de prompt engineering.</li>
+                    <li>Abra el tablero en Padlet usando el botón inferior.</li>
+                    <li>Publique su evidencia en la columna correspondiente.</li>
+                    <li>Regrese a Docencia 4.0 para continuar con el módulo.</li>
+                </ul>
+
+                <div class="padlet-cta-card__footer">
+                    <a href="#" class="btn-cta-padlet" target="_blank" rel="noopener noreferrer">
+                        <span>Ir al Tablero de Padlet</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                    <span class="external-disclaimer">Una vez completado, no olvide marcar la actividad como realizada.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function updateMetrics() {
+            document.getElementById('vp-width').textContent = window.innerWidth + 'px';
+            document.getElementById('h-std').textContent = document.getElementById('section-std').offsetHeight + 'px';
+            document.getElementById('h-inst').textContent = document.getElementById('section-inst').offsetHeight + 'px';
+        }
+        window.addEventListener('resize', updateMetrics);
+        window.addEventListener('load', updateMetrics);
+        setTimeout(updateMetrics, 500);
+    </script>
+</body>
+</html>

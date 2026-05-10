@@ -143,8 +143,7 @@
         .resource-link:focus-visible,
         .image-zoom-trigger:focus-visible,
         .modal-close-btn:focus-visible,
-        .video-wrapper iframe:focus-visible,
-        .padlet-embed iframe:focus-visible {
+        .video-wrapper iframe:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
@@ -377,25 +376,6 @@
             border-radius: var(--radius-xl);
             background: var(--color-background-surface);
             box-shadow: var(--shadow-flat);
-        }
-
-        .padlet-embed {
-            width: 100%;
-            height: 450px;
-            overflow: hidden;
-            padding: 0;
-            margin: 0;
-            border: 0;
-            background: var(--color-background-surface-low);
-        }
-
-        .padlet-embed iframe {
-            width: 100%;
-            height: 100%;
-            display: block;
-            padding: 0;
-            margin: 0;
-            border: 0;
         }
 
         /* INFOGRAFÍAS */
@@ -776,10 +756,6 @@
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
-
-            .padlet-embed {
-                height: 520px;
-            }
         }
     </style>
 </head>
@@ -839,9 +815,9 @@
                     <p>Explora y colabora en nuestro repositorio dinámico de prompts específicamente curados para
                         docentes.</p>
                     <div class="padlet-container">
-                        <div class="padlet-embed">
+                        <div class="video-container" style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-flat);">
                             <iframe title="Banco de prompts interactivo del Módulo 2"
-                                src="https://padlet.com/padlets/vcbkosovob1f8fo9/embeds/preview_embed" loading="lazy">
+                                src="https://padlet.com/padlets/vcbkosovob1f8fo9/embeds/preview_embed" loading="lazy" style="width: 100%; height: 450px; display: block; border: 0;">
                             </iframe>
                         </div>
                     </div>

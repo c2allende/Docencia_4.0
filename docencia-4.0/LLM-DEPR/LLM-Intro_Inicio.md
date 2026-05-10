@@ -4,7 +4,7 @@ Título: Integración estratégica de modelos de lenguaje de gran tamaño (LLM) 
 
 Objetivo General 
 
-Capacitar a los maestros cooperadores en el uso instrumental, ético y pedagógico de Modelos de Lenguaje de Gran Tamaño (LLM) y de bots o aplicaciones que los integran para optimizar los procesos de planificación didáctica, evaluación de aprendizajes y gestión administrativa, reduciendo el tiempo operativo y mejorando la calidad de la retroalimentación educativa.
+Capacitar a los maestros y maestras en el uso instrumental, ético y pedagógico de Modelos de Lenguaje de Gran Tamaño (LLM) y de bots o aplicaciones que los integran para optimizar los procesos de planificación didáctica, evaluación de aprendizajes y gestión administrativa, reduciendo el tiempo operativo y mejorando la calidad de la retroalimentación educativa.
 
 Objetivos Específicos 
 

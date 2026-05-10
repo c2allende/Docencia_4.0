@@ -13,7 +13,7 @@ Por eso, este módulo se fundamenta en tres pilares teóricos que ustedes, como 
 2.	El Modelo de Aceptación Tecnológica (TAM): Entenderemos no solo cómo funcionan estas herramientas, sino por qué vale la pena usarlas: qué tan útil es para su trabajo real (utilidad percibida) y qué tan fácil será aprender a usarla (facilidad de uso). 
 3.	Capital Profesional (Hargreaves & Fullan): Este programa no busca reemplazar su expertise. Al contrario, busca que sean más expertos aún: que amplíen su capacidad de tomar decisiones profesionales y que mentoreen a otros (estudiantes practicantes, colegas) en el uso responsable de la IA. 
 Objetivo general 
-Capacitar a los maestros cooperadores para que comprendan de forma pedagógica qué es un LLM, lo distingan de los bots, aplicaciones o recursos tecnológicos que lo utilizan (como ChatGPT, Copilot u otras herramientas educativas), reconozcan sus riesgos éticos y legales, y asuman el rol de experto validador que utiliza la IA como apoyo manteniendo siempre el control, la revisión crítica y la responsabilidad profesional. 
+Capacitar a los maestros y maestras para que comprendan de forma pedagógica qué es un LLM, lo distingan de los bots, aplicaciones o recursos tecnológicos que lo utilizan (como ChatGPT, Copilot u otras herramientas educativas), reconozcan sus riesgos éticos y legales, y asuman el rol de experto validador que utiliza la IA como apoyo manteniendo siempre el control, la revisión crítica y la responsabilidad profesional. 
 Objetivos específicos 
 Al finalizar este módulo, usted: 
 •	Comprenderá qué es un LLM en términos que tengan sentido pedagógico (sin tecnicismos innecesarios). 
