@@ -1,20 +1,20 @@
-# Inventario de Imágenes Reemplazadas
+# Inventario de Imágenes Reemplazadas - Módulo 3
 
-Este documento registra las imágenes originales que han sido sustituidas por versiones revisadas (`_Rev.png`) y movidas al archivo para preservar la integridad del proyecto y reducir el peso del despliegue en producción.
+Este archivo registra las sustituciones de imágenes realizadas en las lecciones 3.3 y 3.4 del proyecto Docencia 4.0.
 
-| Imagen original | Reemplazada por | Página | Ruta anterior | Ruta de archivo | Verificación |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `LLM_M1_Intro_guia_uso_responsable_LLM_imagen.png` | `LLM_M1_Intro_guia_uso_responsable_LLM_imagen_Rev.png` | `modulo1_intro.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Contenido_1.1_Evolucion_LLM_imagen.png` | `LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png` | `leccion1_1.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Contenido_1.1_LLM&Bot&Buscador_imagen.png` | `LLM_M1_Contenido_1.1_LLM&Bot&Buscador_imagen_Rev.png` | `leccion1_1.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_LLM_&_BOT_imagen.png` | `LLM_M1_LLM_&_BOT_imagen_Rev.png` | `leccion1_1.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Ilustracion_1.2_stem.png` | `LLM_M1_Ilustracion_1.2_stem_Rev.png` | `leccion1_2.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Ilustracion_1.2_humanidades.png` | `LLM_M1_Ilustracion_1.2_humanidades_Rev.png` | `leccion1_2.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Ilustracion_1.2_inclusion.png` | `LLM_M1_Ilustracion_1.2_inclusion_Rev.png` | `leccion1_2.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Contenido_1.3_privasidad_datos_imagen.png` | `LLM_M1_Contenido_1.3_privasidad_datos_imagen_Rev.png` | `leccion1_3.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M1_Ilustracion_1.3_Human_in_the_Loop.png` | `LLM_M1_Ilustracion_1.3_Human_in_the_Loop_Rev.png` | `leccion1_3.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo1/` | Confirmado |
-| `LLM_M2-Grafico_introduccion.png` | `LLM_M2-Grafico_introduccion_Rev.png` | `modulo2_intro.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo2/` | Confirmado |
-| `LLM_M3_ContenidoA_3.1_Diseño automatizado de instrumentos de evaluación.png` | `LLM_M3_ContenidoA_3.1_Diseño automatizado de instrumentos de evaluación_Rev.png` | `leccion3_1.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo3/` | Confirmado |
-| `LLM_M3_Leccion_3.2_Feedback_Formativo.png` | `LLM_M3_Leccion_3.2_Feedback_Formativo_Rev.png` | `leccion3_2.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo3/` | Confirmado |
-| `LLM_M3_Leccion_3.2_Computacion_Afectiva.png` | `LLM_M3_Leccion_3.2_Computacion_Afectiva_Rev.png` | `leccion3_2.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo3/` | Confirmado |
-| `LLM_M3_ContenidoA_3.2_Retroalimentación formativa y computación afectiva.png` | `LLM_M3_ContenidoA_3.2_Retroalimentación formativa y computación afectiva_Rev.png` | `leccion3_2.html` | `docencia-4.0/assets/` | `docs/archive/imagenes_reemplazadas/modulo3/` | Confirmado |
+## Sustituciones Realizadas
+
+| Fecha | Archivo HTML | Imagen Original | Imagen Revisada (_Rev) | Motivo |
+| :--- | :--- | :--- | :--- | :--- |
+| 2026-05-10 | `leccion3_3.html` | `LLM_M3_ContenidoA_3.3_Automatización de la burocracia educativa.png` | `LLM_M3_ContenidoA_3.3_Automatización de la burocracia educativa_Rev.png` | Actualización visual / Revisión pedagógica |
+| 2026-05-10 | `leccion3_4.html` | `LLM_M3_Leccion_3.4_PII_no ingresas LLM_imagen.png` | `LLM_M3_Leccion_3.4_PII_no ingresas LLM_imagen_Rev.png` | Corrección de nombre y actualización visual |
+| 2026-05-10 | `leccion3_4.html` | `LLM_M3_Leccion_3.4_practicas minimas_imagen.png` | `LLM_M3_Leccion_3.4_practicas minimas_imagen_Rev.png` | Corrección de nombre y actualización visual |
+| 2026-05-10 | `leccion3_4.html` | `LLM_M3_ContenidoA_3.4_Seguridad de datos en tareas administrativas.png` | `LLM_M3_ContenidoA_3.4_Seguridad de datos en tareas administrativas_Rev.png` | Actualización visual / Revisión pedagógica |
+
+## Ubicación de Archivos
+
+- **Backups:** `docs/backups/image_replacements_modulo3/`
+- **Archivo de Imágenes Obsoletas:** `docs/archive/imagenes_reemplazadas/modulo3/`
+
+---
+*Nota: Las imágenes originales han sido marcadas para su traslado al archivo seguro.*
