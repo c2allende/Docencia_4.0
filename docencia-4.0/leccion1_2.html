@@ -1582,7 +1582,7 @@
                     <section class="screen on" id="screenIntro" aria-labelledby="activity-intro-title">
                         <div class="activity-card intro-inner">
                             <span class="big-emoji" aria-hidden="true">🧭</span>
-                            <h2 id="activity-intro-title">LLM en el Aula: Aplicaciones Estratégicas</h2>
+                            <h2 id="activity-intro-title">LLM en el Aula: Aplicaciones Estratégicas (Test)</h2>
                             <p>Explora tres escenarios breves para decidir cómo aplicar modelos de lenguaje de gran
                                 tamaño con criterio pedagógico, ético y contextual.</p>
                             <div class="chips" aria-hidden="true">
@@ -1861,24 +1861,49 @@
                     intervención pedagógica y tu juicio profesional.</p>
             </section>
 
-            <section class="checkpoint-container" id="checkpoint" aria-labelledby="checkpoint-title">
-                <h2 id="checkpoint-title">Checkpoint de Saberes</h2>
-                <p>Para cerrar este bloque, te invito a realizar el Checkpoint de Saberes, una evaluación formativa
-                    breve y no punitiva diseñada para ayudarte a responder a dos preguntas clave: ¿qué entendí sobre las
-                    aplicaciones de los LLM en mi área de enseñanza? y ¿qué necesito reforzar para llevarlas a la
-                    práctica con seguridad?, de modo que puedas revisar cómo puedes aprovechar los LLM en ciencias y
-                    matemáticas, en español e historia y en educación especial, identificando ejemplos concretos que
-                    hagan sentido a tu contexto. Al completarlo, estarás generando evidencia de tu propio proceso de
-                    actualización profesional y podrás decidir con más claridad qué estrategias probar primero en el
-                    aula, qué ajustes necesitas y qué precauciones éticas y pedagógicas debes mantener.</p>
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
 
-                <div class="genially-frame-wrap">
-                    <div class="genially-frame-inner">
-                        <iframe title="Contenido 1.2: Quiz práctico-LLM"
-                            src="https://view.genially.com/69adc3837b9712bda8dc3d6f" allowfullscreen="true"
-                            scrolling="yes"></iframe>
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 1.2</h2>
+
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre las aplicaciones estratégicas de los LLM en STEM, humanidades y educación especial.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-1-2">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69adc3837b9712bda8dc3d6f" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+
+
+
+
+
+
+
+
+
+                <div id="checkpoint-panel-1-2" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69adc3837b9712bda8dc3d6f" src="about:blank" title="Checkpoint de saberes: Lección 1.2" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
+
+
+
+
+
+
             </section>
 
             <section class="text-section" aria-labelledby="referencias-title">
@@ -2219,6 +2244,7 @@
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
+    <script src="scripts/genially-checkpoint.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 

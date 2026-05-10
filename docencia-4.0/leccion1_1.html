@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- Test Edit 2 -->
+<!-- Test 3 -->
 <html lang="es">
 
 <head>
@@ -1481,18 +1483,30 @@
                     práctica docente, manteniendo siempre tu criterio profesional en el centro.</p>
             </section>
 
-            <section class="checkpoint-container" aria-labelledby="checkpoint-title">
-                <h2 id="checkpoint-title">Invitación al checkpoint de saberes</h2>
-                <p>Para cerrar este bloque, te invitamos a realizar el Checkpoint de Saberes, una evaluación formativa
-                    breve y no punitiva diseñada para ayudarte a responder a dos preguntas clave: ¿qué entendí? y ¿qué
-                    necesito reforzar?, de modo que puedas clarificar tus ideas sobre LLM, bots y buscadores y orientar
-                    tus siguientes pasos de aprendizaje con enfoque de mejora continua.</p>
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 1.1</h2>
+                    <p class="genially-checkpoint__description">Esta actividad formativa breve te ayudará a clarificar tus ideas sobre LLM, bots y buscadores, orientando tus siguientes pasos de aprendizaje.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-1-1">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69adb05030c4d6416b2c3cb5" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
 
-                <div class="genially-frame-wrap">
-                    <div class="genially-frame-inner">
-                        <iframe title="Contenido 1.1: Quiz práctico-LLM"
-                            src="https://view.genially.com/69adb05030c4d6416b2c3cb5" allowfullscreen="true"
-                            scrolling="yes"></iframe>
+                <div id="checkpoint-panel-1-1" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69adb05030c4d6416b2c3cb5" src="about:blank" title="Checkpoint de saberes: Lección 1.1" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
             </section>
@@ -1727,6 +1741,7 @@
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
+    <script src="scripts/genially-checkpoint.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 

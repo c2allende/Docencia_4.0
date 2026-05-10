@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación Técnica: Checkpoints Genially | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-brand-primary: #00C2FF;
+            --color-brand-secondary: #FF8D5C;
+            --color-text-display: #001E2B;
+            --color-text-primary: #171C1F;
+            --color-text-secondary: #475569;
+            --color-text-muted: #6D7980;
+            --color-background-page: #F6FAFE;
+            --color-background-surface: #FFFFFF;
+            --color-border-default: #EAEEF2;
+            --color-white: #FFFFFF;
+            --font-family-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-family-body: 'Manrope', sans-serif;
+            --spacing-1: 4px; --spacing-2: 8px; --spacing-3: 12px; --spacing-4: 16px; --spacing-6: 24px; --spacing-8: 32px; --spacing-12: 48px;
+            --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 9999px;
+            --shadow-elevated: 0 4px 6px -1px rgba(15, 23, 42, 0.08);
+            --shadow-ambient: 0 24px 40px rgba(0, 102, 136, 0.06);
+            --shadow-focus-secondary: 0 8px 24px rgba(255, 141, 92, 0.30);
+        }
+        body { margin: 0; font-family: var(--font-family-body); background-color: var(--color-background-page); padding: var(--spacing-8); }
+        .proto-header { text-align: center; margin-bottom: var(--spacing-12); max-width: 800px; margin-left: auto; margin-right: auto; }
+        .proto-header h1 { font-family: var(--font-family-heading); color: var(--color-text-display); }
+        .validation-grid { display: grid; grid-template-columns: 1fr; gap: var(--spacing-8); max-width: 900px; margin: 0 auto; }
+        
+        /* PATRÓN V3 APROBADO */
+        .checkpoint-card-refined { 
+            padding: var(--spacing-8); 
+            border: 1px solid var(--color-border-default); 
+            border-top: 4px solid var(--color-brand-secondary); 
+            border-radius: var(--radius-lg); 
+            background: var(--color-white); 
+            box-shadow: var(--shadow-elevated); 
+            position: relative;
+        }
+        .card-eyebrow { display: block; text-transform: uppercase; font-size: 11px; font-weight: 800; color: var(--color-brand-secondary); letter-spacing: 1px; margin-bottom: var(--spacing-1); }
+        .card-title { font-family: var(--font-family-heading); font-size: 20px; color: var(--color-text-display); margin: 0 0 var(--spacing-2); }
+        .card-description { color: var(--color-text-secondary); font-size: 14px; margin-bottom: var(--spacing-6); line-height: 1.5; }
+        
+        .btn-primary-lms { display: inline-flex; align-items: center; justify-content: center; padding: var(--spacing-3) var(--spacing-8); background: var(--color-brand-secondary); color: white; border-radius: var(--radius-pill); text-decoration: none; font-family: var(--font-family-heading); font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
+        .btn-primary-lms:hover { transform: translateY(-2px); }
+        
+        .btn-secondary-external { display: inline-flex; font-size: 14px; color: var(--color-brand-primary); text-decoration: none; font-family: var(--font-family-heading); font-weight: 600; border: 1px solid var(--color-brand-primary); padding: var(--spacing-2) var(--spacing-6); border-radius: var(--radius-pill); margin-top: var(--spacing-4); }
+        .btn-secondary-external:hover { background: var(--color-brand-primary); color: white; }
+        
+        .accordion-body { display: none; padding-top: var(--spacing-8); border-top: 1px solid var(--color-border-default); margin-top: var(--spacing-8); }
+        .accordion-body.active { display: block; }
+        
+        .genially-frame-wrap { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #f0f0f0; border-radius: var(--radius-md); overflow: hidden; }
+        .genially-placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #666; font-style: italic; }
+        .note-fallback { font-size: 12px; color: var(--color-text-muted); margin-top: var(--spacing-4); }
+        
+        .status-badge { position: absolute; top: var(--spacing-4); right: var(--spacing-4); background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <header class="proto-header">
+        <h1>Previsualización de Validación: Checkpoints Genially</h1>
+        <p>Esta página permite validar técnicamente los 10 recursos antes de su implementación final en producción. Los recursos se cargan bajo demanda (Patrón V3).</p>
+    </header>
+
+    <main class="validation-grid">
+        <!-- LECCIÓN 1.1 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 1.1</h2>
+            <p class="card-description">Conceptualización y panorama tecnológico.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-1-1" onclick="loadCheckpoint('1-1', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69adb05030c4d6416b2c3cb5" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-1-1" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-1-1" data-src="https://view.genially.com/69adb05030c4d6416b2c3cb5" src="about:blank" title="Checkpoint 1.1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-1-1" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 1.2 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 1.2</h2>
+            <p class="card-description">Aplicaciones estratégicas por áreas de contenido.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-1-2" onclick="loadCheckpoint('1-2', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69adc3837b9712bda8dc3d6f" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-1-2" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-1-2" data-src="https://view.genially.com/69adc3837b9712bda8dc3d6f" src="about:blank" title="Checkpoint 1.2" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-1-2" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 1.3 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 1.3</h2>
+            <p class="card-description">Ética, seguridad y responsabilidad (el “Human in the Loop”).</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-1-3" onclick="loadCheckpoint('1-3', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69adcaa514c7191a9da873a6" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-1-3" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-1-3" data-src="https://view.genially.com/69adcaa514c7191a9da873a6" src="about:blank" title="Checkpoint 1.3" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-1-3" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 2.1 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 2.1</h2>
+            <p class="card-description">Ingeniería de prompts aplicada a educación.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-2-1" onclick="loadCheckpoint('2-1', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69add0e91ea68d18517aaeeb" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-2-1" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-2-1" data-src="https://view.genially.com/69add0e91ea68d18517aaeeb" src="about:blank" title="Checkpoint 2.1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-2-1" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 2.2 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 2.2</h2>
+            <p class="card-description">Del estándar a la planificación con IA.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-2-2" onclick="loadCheckpoint('2-2', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69add5e230c4d6416b397b59" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-2-2" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-2-2" data-src="https://view.genially.com/69add5e230c4d6416b397b59" src="about:blank" title="Checkpoint 2.2" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-2-2" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 2.3 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 2.3</h2>
+            <p class="card-description">Inclusión y evaluación asistidas por IA.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-2-3" onclick="loadCheckpoint('2-3', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69add8841ea68d18517e0c0d" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-2-3" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-2-3" data-src="https://view.genially.com/69add8841ea68d18517e0c0d" src="about:blank" title="Checkpoint 2.3" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-2-3" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 3.1 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 3.1</h2>
+            <p class="card-description">Diseño automatizado de instrumentos de evaluación.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-3-1" onclick="loadCheckpoint('3-1', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69addc9d377503787d4f1379" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-3-1" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-3-1" data-src="https://view.genially.com/69addc9d377503787d4f1379" src="about:blank" title="Checkpoint 3.1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-3-1" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 3.2 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 3.2</h2>
+            <p class="card-description">Retroalimentación formativa y computación afectiva.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-3-2" onclick="loadCheckpoint('3-2', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69ade0ddae2905e0eba66841" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-3-2" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-3-2" data-src="https://view.genially.com/69ade0ddae2905e0eba66841" src="about:blank" title="Checkpoint 3.2" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-3-2" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 3.3 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 3.3</h2>
+            <p class="card-description">Automatización de la burocracia educativa.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-3-3" onclick="loadCheckpoint('3-3', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69ade2ee14c7191a9db13e73" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-3-3" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-3-3" data-src="https://view.genially.com/69ade2ee14c7191a9db13e73" src="about:blank" title="Checkpoint 3.3" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-3-3" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- LECCIÓN 3.4 -->
+        <article class="checkpoint-card-refined">
+            <span class="status-badge">Validado</span>
+            <span class="card-eyebrow">Cierre de la lección</span>
+            <h2 class="card-title">Checkpoint de saberes: Lección 3.4</h2>
+            <p class="card-description">Seguridad de datos en tareas administrativas.</p>
+            <div>
+                <button class="btn-primary-lms" aria-expanded="false" aria-controls="body-3-4" onclick="loadCheckpoint('3-4', this)">Probar checkpoint aquí</button><br>
+                <a href="https://view.genially.com/69ade5ab9abf43c2f0514822" target="_blank" rel="noopener noreferrer" class="btn-secondary-external">Abrir en Genially en nueva pestaña</a>
+                <p class="note-fallback">Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.</p>
+            </div>
+            <div id="body-3-4" class="accordion-body" role="region">
+                <div class="genially-frame-wrap">
+                    <iframe id="ifr-3-4" data-src="https://view.genially.com/69ade5ab9abf43c2f0514822" src="about:blank" title="Checkpoint 3.4" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    <span id="ph-3-4" class="genially-placeholder">Cargando actividad interactiva...</span>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        function loadCheckpoint(id, btn) {
+            const body = document.getElementById(`body-${id}`);
+            const isAct = body.classList.contains('active');
+            if (isAct) { 
+                body.classList.remove('active'); 
+                btn.textContent = 'Probar checkpoint aquí'; 
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            else { 
+                body.classList.add('active'); 
+                btn.textContent = 'Ocultar actividad'; 
+                btn.setAttribute('aria-expanded', 'true');
+                const ifr = document.getElementById(`ifr-${id}`);
+                const ph = document.getElementById(`ph-${id}`);
+                if (ifr.src.includes('about:blank')) { 
+                    ifr.src = ifr.getAttribute('data-src'); 
+                    ifr.onload = () => { ph.style.display = 'none'; };
+                }
+            }
+        }
+    </script>
+</body>
+</html>

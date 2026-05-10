@@ -1928,7 +1928,6 @@ body.has-top-nav {
 }
 
 /* ----- MEDIA / IFRAMES ----- */
-.genially-frame-wrap,
 .video-wrapper {
    width: 100%;
    overflow: hidden;
@@ -1937,7 +1936,6 @@ body.has-top-nav {
    box-shadow: var(--shadow-ambient);
 }
 
-.genially-frame-inner,
 .video-frame-inner {
    position: relative;
    width: 100%;
@@ -1945,7 +1943,6 @@ body.has-top-nav {
    padding-bottom: 56.25%;
 }
 
-.genially-frame-inner iframe,
 .video-frame-inner iframe {
    position: absolute;
    inset: 0;
@@ -2038,15 +2035,11 @@ body.has-top-nav {
    box-shadow: var(--shadow-sm);
 }
 
-/* ----- CHECKPOINT / COMPLETION ----- */
-.completion-card,
-.checkpoint-container {
+/* ----- COMPLETION ----- */
+.completion-card {
    margin-top: var(--spacing-16);
    padding: var(--spacing-xl);
    border-radius: var(--radius-xl);
-}
-
-.completion-card {
    position: relative;
    background: var(--color-background-surface);
    border: var(--border-width-1) solid var(--color-border-default);
@@ -2065,18 +2058,6 @@ body.has-top-nav {
    font-weight: var(--font-weight-extrabold);
    letter-spacing: var(--letter-spacing-wide);
    text-transform: uppercase;
-}
-
-.checkpoint-container {
-   background: var(--gradient-orange);
-   color: var(--color-white);
-   box-shadow: var(--shadow-focus-secondary);
-}
-
-.checkpoint-container h2,
-.checkpoint-container h3,
-.checkpoint-container p {
-   color: var(--color-white);
 }
 
 /* ----- REFLECTION ACCORDION ----- */
@@ -2583,3 +2564,103 @@ body.has-top-nav {
       border-radius: var(--radius-lg);
    }
 }
+
+/* ----- GENIALLY CHECKPOINT (V3) ----- */
+.genially-checkpoint {
+   margin: var(--spacing-16) 0;
+   padding: var(--spacing-8);
+   background: var(--color-background-surface);
+   border: var(--border-width-1) solid var(--color-border-default);
+   border-top: var(--border-width-4) solid var(--color-brand-secondary);
+   border-radius: var(--radius-lg);
+   box-shadow: var(--shadow-elevated);
+}
+
+.genially-checkpoint__eyebrow {
+   display: block;
+   margin-bottom: var(--spacing-1);
+   color: var(--color-brand-secondary);
+   font-size: var(--font-size-2xs);
+   font-weight: var(--font-weight-extrabold);
+   text-transform: uppercase;
+   letter-spacing: var(--letter-spacing-wider);
+}
+
+.genially-checkpoint__title {
+   margin: 0 0 var(--spacing-2);
+   color: var(--color-text-display);
+   font-family: var(--font-family-heading);
+   font-size: var(--font-size-xl);
+   font-weight: var(--font-weight-extrabold);
+   line-height: var(--line-height-tight);
+}
+
+.genially-checkpoint__description {
+   margin-bottom: var(--spacing-6);
+   color: var(--color-text-secondary);
+   font-size: var(--font-size-sm);
+   line-height: var(--line-height-relaxed);
+}
+
+.genially-checkpoint__actions {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: var(--spacing-4);
+}
+
+.genially-checkpoint__fallback {
+   display: inline-flex;
+   padding: var(--spacing-2) var(--spacing-6);
+   color: var(--color-brand-primary);
+   font-size: var(--font-size-sm);
+   font-weight: var(--font-weight-bold);
+   text-decoration: none;
+   border: var(--border-width-1) solid var(--color-brand-primary);
+   border-radius: var(--radius-pill);
+   transition: all var(--motion-duration-default) var(--motion-easing-standard);
+}
+
+.genially-checkpoint__fallback:hover {
+   background: var(--color-brand-primary);
+   color: var(--color-white);
+}
+
+.genially-checkpoint__note {
+   margin-top: var(--spacing-2);
+   color: var(--color-text-muted);
+   font-size: var(--font-size-2xs);
+   font-style: italic;
+}
+
+.genially-checkpoint__panel {
+   margin-top: var(--spacing-8);
+   padding-top: var(--spacing-8);
+   border-top: var(--border-width-1) solid var(--color-border-default);
+   animation: slide-up var(--motion-duration-normal) var(--motion-easing-standard) both;
+}
+
+.genially-checkpoint__frame-wrap {
+   position: relative;
+   width: 100%;
+   height: 0;
+   padding-bottom: 56.25%;
+   background: var(--color-background-surface-low);
+   border-radius: var(--radius-md);
+   overflow: hidden;
+   box-shadow: var(--shadow-ambient);
+}
+
+.genially-checkpoint__frame-wrap iframe {
+   position: absolute;
+   inset: 0;
+   width: 100%;
+   height: 100%;
+   border: 0;
+}
+
+@media (max-width: 640px) {
+   .genially-checkpoint {
+      padding: var(--spacing-6);
+   }
+}

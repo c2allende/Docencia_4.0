@@ -1089,22 +1089,47 @@
                     decisiones pedagógicas.</p>
             </section>
 
-            <section class="checkpoint-container" id="checkpoint" aria-labelledby="checkpoint-title">
-                <h2 id="checkpoint-title">Checkpoint de Saberes</h2>
-                <p>Para cerrar este bloque, te invito a realizar el Checkpoint de Saberes, una evaluación formativa
-                    breve y no punitiva centrada en tres ejes: privacidad de datos estudiantiles, sesgos y dependencia
-                    tecnológica, y el rol del docente como “Human in the Loop”. Al completarlo, estarás generando
-                    evidencia de tu propio criterio profesional en torno a la IA: podrás identificar situaciones de
-                    riesgo, definir qué información nunca debe entrar a un bot y reconocer cuándo es necesario
-                    contrastar las respuestas del modelo con otras fuentes y con la realidad de tu escuela.</p>
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
 
-                <div class="genially-frame-wrap">
-                    <div class="genially-frame-inner">
-                        <iframe title="Contenido 1.3: Quiz práctico-LLM"
-                            src="https://view.genially.com/69adcaa514c7191a9da873a6" allowfullscreen="true"
-                            scrolling="yes"></iframe>
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 1.3</h2>
+                    
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre privacidad de datos, sesgos algorítmicos, dependencia tecnológica y el enfoque Human in the Loop.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-1-3">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69add0629a73847e17df20b0" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+
+
+
+
+
+
+
+                <div id="checkpoint-panel-1-3" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69add0629a73847e17df20b0" src="about:blank" title="Checkpoint de saberes: Lección 1.3" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
+
+
+
+
+
+
             </section>
 
             <section class="text-section" aria-labelledby="referencias-title">
@@ -1294,6 +1319,7 @@
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
+    <script src="scripts/genially-checkpoint.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 
