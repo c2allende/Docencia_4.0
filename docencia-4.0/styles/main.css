@@ -1952,6 +1952,42 @@ body.has-top-nav {
       justify-content: center;
       width: 100%;
    }
+
+   .dashboard-page #notificationDropdown {
+      position: fixed;
+      top: clamp(6.5rem, 15vh, 8.5rem);
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: min(95vw, 380px);
+      max-width: calc(100vw - 1rem);
+      max-height: calc(100dvh - 12rem);
+      overflow-y: auto;
+      z-index: 2000;
+      border: 1px solid var(--color-border-subtle);
+      box-shadow: var(--shadow-overlay);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      background: color-mix(in srgb, var(--color-white) 85%, transparent);
+   }
+}
+
+/* Reset para escritorio: Asegurar anclaje original en pantallas > 768px */
+@media (min-width: 769px) {
+   .dashboard-page #notificationDropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: auto;
+      transform: none;
+      width: 320px;
+      margin-top: 10px;
+      z-index: 100;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-floating);
+   }
 }
 
 @media (max-width: 480px) {
