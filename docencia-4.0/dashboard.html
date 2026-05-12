@@ -647,21 +647,21 @@
                     <h1 class="dashboard-title">Academia Docencia 4.0</h1>
                     <p class="header-subtitle">Integración estratégica de modelos de lenguaje de gran tamaño (LLM) como
                         apoyo en la gestión docente</p>
-                    <nav class="dashboard-nav-links" style="margin-top: var(--spacing-4); display: flex; gap: var(--spacing-6); align-items: center;">
-                        <div class="notification-wrapper" id="notificationWrapper" style="display: none;">
-                            <button id="notificationBellBtn" class="notification-bell-btn" aria-label="Notificaciones">
-                                🔔 <span id="notificationBadge" class="notification-badge hidden">0</span>
-                            </button>
-                            <div id="notificationDropdown" class="notification-dropdown hidden">
-                                <div class="notification-header">Notificaciones</div>
-                                <div id="notificationList" class="notification-list"></div>
-                            </div>
-                        </div>
-                        <a href="perfil.html" style="color: var(--color-brand-primary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); display: flex; align-items: center; gap: var(--spacing-2);">👤 Mi Perfil</a>
-                        <a id="adminDashboardLink" href="admin_dashboard.html" style="display: none; color: var(--color-brand-secondary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); align-items: center; gap: var(--spacing-2);">🛠 Panel Operativo</a>
-                    </nav>
                 </div>
             </div>
+            <nav class="dashboard-nav-links">
+                <div class="notification-wrapper" id="notificationWrapper">
+                    <button id="notificationBellBtn" class="notification-bell-btn" aria-label="Notificaciones">
+                        🔔 <span id="notificationBadge" class="notification-badge hidden">0</span>
+                    </button>
+                    <div id="notificationDropdown" class="notification-dropdown hidden">
+                        <div class="notification-header">Notificaciones</div>
+                        <div id="notificationList" class="notification-list"></div>
+                    </div>
+                </div>
+                <a href="perfil.html" class="dashboard-profile-link">👤 Mi Perfil</a>
+                <a id="adminDashboardLink" href="admin_dashboard.html" style="display: none; color: var(--color-brand-secondary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); align-items: center; gap: var(--spacing-2);">🛠 Panel Operativo</a>
+            </nav>
         </div>
     </header>
 
@@ -1013,6 +1013,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
             renderDashboard();
+
+            // Manejo de scroll para header sticky
+            const header = document.querySelector('.dashboard-header');
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 20) {
+                        header.classList.add('is-scrolled');
+                    } else {
+                        header.classList.remove('is-scrolled');
+                    }
+                }, { passive: true });
+            }
 
             // Verificador de acceso administrativo (Carmelo)
             import("./scripts/firebase-config.js").then(config => {
