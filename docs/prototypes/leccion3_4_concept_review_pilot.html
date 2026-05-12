@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PILOTO — Concept Review Alt E3 | Lección 3.4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../docencia-4.0/styles/main.css">
+    <style>
+        :root {
+            --nav-height: 80px;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* ===== PILOT CHROME ===== */
+        .pilot-banner {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            height: var(--nav-height);
+            display: flex; align-items: center; justify-content: center; gap: var(--spacing-sm);
+            background: var(--color-brand-secondary);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            font-size: var(--font-size-sm);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+        .pilot-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-lg);
+        }
+        .section-title {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        /* ===== CONTEXT SECTIONS ===== */
+        .context-placeholder {
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        /* ===== LEGACY SLIDER — BEFORE (referencia visual) ===== */
+        .slider-section {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+        .slider-header {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: var(--spacing-md); margin-bottom: var(--spacing-xl);
+        }
+        .slider-header h2 {
+            margin: 0; color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl); font-weight: var(--font-weight-extrabold);
+        }
+        .slider-controls { display: flex; gap: var(--spacing-sm); }
+        .control-btn {
+            width: 52px; height: 52px;
+            display: flex; align-items: center; justify-content: center;
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg); cursor: pointer;
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+        }
+        .control-btn:hover:not(:disabled) {
+            background: var(--color-brand-primary); color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary); transform: scale(1.05);
+        }
+        .control-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .slider-container { overflow: hidden; position: relative; padding: var(--spacing-2); }
+        .slider-track {
+            display: flex; gap: var(--spacing-lg);
+            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
+        }
+        .slider-item {
+            min-width: 100%; padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl); box-shadow: var(--shadow-flat);
+        }
+        .slider-item h3 {
+            margin: 0 0 var(--spacing-sm); color: var(--color-brand-primary);
+            font-family: var(--font-family-heading); font-size: var(--font-size-xl);
+        }
+        .concept-ref {
+            display: block; margin-top: var(--spacing-md);
+            color: var(--color-text-muted); font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed); font-style: italic;
+        }
+
+        /* ===== CONCEPT REVIEW — ALT E3 (propuesta) ===== */
+        .concept-review {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-md);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+        .concept-review__header {
+            display: flex; align-items: center; gap: var(--spacing-sm); flex-wrap: wrap;
+        }
+        .concept-review__icon { font-size: var(--font-size-2xl); line-height: 1; }
+        .concept-review__meta { flex: 1; min-width: 0; }
+        .concept-review__title {
+            margin: 0; color: var(--color-brand-primary-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl); font-weight: var(--font-weight-extrabold);
+        }
+        .concept-review__subtitle {
+            margin: var(--spacing-1) 0 0;
+            color: var(--color-text-muted); font-size: var(--font-size-sm);
+        }
+        .concept-review__count {
+            display: inline-flex; align-items: center;
+            padding: var(--spacing-1) var(--spacing-3);
+            background: var(--color-brand-primary-container);
+            color: var(--color-brand-primary-active);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold);
+            white-space: nowrap;
+        }
+        .concept-review__toggle {
+            display: block; width: 100%; margin-top: var(--spacing-sm);
+            padding: var(--spacing-3) var(--spacing-md);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary-active);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm); font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-instant),
+                        border-color var(--motion-duration-instant),
+                        color var(--motion-duration-instant);
+        }
+        .concept-review__toggle:hover {
+            background: var(--color-brand-primary-container);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary-display);
+        }
+        .concept-review__toggle:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+        .concept-review__toggle[aria-expanded="true"] {
+            background: var(--color-background-surface-medium);
+            border-color: var(--color-border-strong);
+        }
+        .concept-review__panel { margin-top: var(--spacing-sm); }
+        .concept-review__list {
+            display: flex; flex-direction: column; gap: var(--spacing-3);
+        }
+        .concept-review__item {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-sm); overflow: hidden;
+        }
+        .concept-review__item[open] { border-color: var(--color-brand-primary); }
+        .concept-review__summary {
+            display: flex; align-items: center; gap: var(--spacing-3);
+            padding: var(--spacing-sm);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold);
+            color: var(--color-brand-primary-display);
+            cursor: pointer; list-style: none;
+            transition: background-color var(--motion-duration-instant);
+        }
+        .concept-review__summary::-webkit-details-marker { display: none; }
+        .concept-review__summary::before {
+            content: "▸"; flex-shrink: 0;
+            font-size: var(--font-size-xs); color: var(--color-text-disabled);
+            transition: transform var(--motion-duration-instant);
+        }
+        .concept-review__item[open] > .concept-review__summary::before {
+            transform: rotate(90deg);
+        }
+        .concept-review__summary:hover { background: var(--color-background-surface-low); }
+        .concept-review__body {
+            padding: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
+            border-top: var(--border-width-1) solid var(--color-border-subtle);
+        }
+        .concept-review__body p {
+            margin: var(--spacing-3) 0 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm); line-height: var(--line-height-relaxed);
+        }
+        .concept-review__citation {
+            display: block; margin-top: var(--spacing-3);
+            padding-top: var(--spacing-2);
+            border-top: var(--border-width-1) solid var(--color-border-subtle);
+            color: var(--color-text-muted); font-size: var(--font-size-xs);
+            font-style: italic; line-height: var(--line-height-relaxed);
+        }
+        .concept-review__more {
+            display: block; width: 100%; margin-top: var(--spacing-3);
+            padding: var(--spacing-2) var(--spacing-sm);
+            background: transparent; color: var(--color-text-link);
+            border: var(--border-width-1) dashed var(--color-brand-primary);
+            border-radius: var(--radius-xs);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-instant),
+                        color var(--motion-duration-instant);
+        }
+        .concept-review__more:hover {
+            background: var(--color-brand-primary-container);
+            color: var(--color-brand-primary-display);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .concept-review { padding: var(--spacing-sm); }
+            .concept-review__header {
+                flex-direction: column; align-items: flex-start; gap: var(--spacing-2);
+            }
+            .concept-review__count { align-self: flex-start; }
+        }
+
+        /* ===== COMPARISON LAYOUT ===== */
+        .comparison-label {
+            display: inline-block;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xs); font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide); text-transform: uppercase;
+        }
+        .comparison-label--before {
+            background: var(--color-brand-secondary);
+            color: var(--color-brand-secondary-on);
+        }
+        .comparison-label--after {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PILOT BANNER ===== -->
+    <div class="pilot-banner">
+        ⚠️ PROTOTIPO PILOTO — NO ES PRODUCCIÓN — Lección 3.4
+    </div>
+
+    <div class="pilot-content">
+
+        <!-- ===== CONTEXT: sección anterior (placeholder) ===== -->
+        <div class="context-placeholder">
+            [ Contenido de la lección 3.4 — Escudo ético, protocolo de anonimización, etc. ]<br>
+            <em>Se omite para enfocarse en el componente "Conceptos a repasar".</em>
+        </div>
+
+        <hr style="border: none; border-top: var(--border-width-2) dashed var(--color-border-default); margin: var(--spacing-xl) 0;">
+
+        <!-- ======================================================================
+             ANTES — Componente slider actual (leccion3_4.html líneas 1528-1575)
+             Contenido 100% idéntico al original
+             ====================================================================== -->
+        <span class="comparison-label comparison-label--before">Antes — Slider actual</span>
+
+        <section class="slider-section" aria-labelledby="conceptos-title-before">
+            <div class="slider-header">
+                <h2 id="conceptos-title-before">Conceptos a repasar</h2>
+                <div class="slider-controls">
+                    <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
+                    <button class="control-btn" type="button" id="nextBtn" aria-label="Concepto siguiente">→</button>
+                </div>
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-track" id="sliderTrack">
+                    <article class="slider-item" aria-label="Concepto: Protocolo de anonimización">
+                        <h3>Lista de verificación ética: Protocolo de anonimización</h3>
+                        <p>La lista de verificación ética: Protocolo de anonimización es un conjunto estructurado de
+                            pasos y criterios que guía al personal educativo para eliminar o transformar toda
+                            información personal identificable antes de introducir textos en sistemas de IA, en
+                            particular en modelos de lenguaje grandes (LLM) o en bots y aplicaciones que los
+                            integran. Técnicamente, este protocolo define qué datos deben considerarse
+                            identificadores directos o indirectos (por ejemplo, nombres, códigos de estudiante,
+                            direcciones, diagnósticos, detalles familiares), y establece procedimientos sistemáticos
+                            de supresión, sustitución por pseudónimos y revisión de contexto para reducir el riesgo
+                            de reidentificación, de forma coherente con marcos legales como FERPA y con las buenas
+                            prácticas generales de anonimización de datos.</p>
+                        <span class="concept-ref">Introducción a la anonimización de datos: técnicas y casos
+                            prácticos | datos.gob.es. (2024). Agencia Española de Protección de Datos. (2014). Guía
+                            básica de anonimización. AEPD.</span>
+                    </article>
+
+                    <article class="slider-item" aria-label="Concepto: Marco conceptual de seguridad FERPA">
+                        <h3>Marco conceptual de seguridad, adaptado de principios FERPA</h3>
+                        <p>El marco conceptual de seguridad (adaptado de principios FERPA) es un conjunto de
+                            criterios y preguntas guía que orienta a las instituciones y al personal educativo en
+                            cómo recoger, almacenar, procesar y compartir datos de estudiantes de forma compatible
+                            con la Ley de Derechos Educativos y Privacidad de la Familia (FERPA), incluyendo su uso
+                            en sistemas de IA y modelos de lenguaje grandes (LLM). Técnicamente, traduce los
+                            principios legales de FERPA (confidencialidad de los expedientes educativos, control de
+                            acceso, consentimiento informado y registro de divulgaciones) en decisiones operativas
+                            concretas: limitar el envío de información personal identificable a servicios externos,
+                            exigir controles de acceso y cifrado en plataformas que integran LLM, minimizar los
+                            datos compartidos y exigir contratos y políticas claras cuando se usan herramientas de
+                            terceros para apoyar la evaluación, la comunicación o la analítica educativa.</p>
+                        <span class="concept-ref">U.S. Department of Education. (2011). FERPA general guidance for
+                            students and parents. Student Privacy Policy Office.</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <hr style="border: none; border-top: var(--border-width-2) dashed var(--color-border-default); margin: var(--spacing-xl) 0;">
+
+        <!-- ======================================================================
+             DESPUÉS — Alt E3: Panel colapsado + micro-repaso adaptativo
+             Contenido 100% idéntico al original — solo cambia la estructura
+             ====================================================================== -->
+        <span class="comparison-label comparison-label--after">Después — Alt E3 propuesta</span>
+
+        <section class="concept-review" aria-labelledby="concept-review-title">
+            <div class="concept-review__header">
+                <div class="concept-review__icon" aria-hidden="true">📖</div>
+                <div class="concept-review__meta">
+                    <h2 id="concept-review-title" class="concept-review__title">Conceptos a repasar</h2>
+                    <p class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</p>
+                </div>
+                <span class="concept-review__count">2 conceptos disponibles</span>
+            </div>
+
+            <button type="button"
+                    class="concept-review__toggle"
+                    aria-expanded="false"
+                    aria-controls="concept-review-panel">
+                Repasar conceptos
+            </button>
+
+            <div id="concept-review-panel"
+                 class="concept-review__panel"
+                 role="region"
+                 aria-label="Conceptos a repasar"
+                 hidden>
+
+                <div class="concept-review__list">
+
+                    <!-- Concepto 1 — Texto 100% original de leccion3_4.html -->
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">
+                            Lista de verificación ética: Protocolo de anonimización
+                        </summary>
+                        <div class="concept-review__body">
+                            <p>La lista de verificación ética: Protocolo de anonimización es un conjunto estructurado de
+                                pasos y criterios que guía al personal educativo para eliminar o transformar toda
+                                información personal identificable antes de introducir textos en sistemas de IA, en
+                                particular en modelos de lenguaje grandes (LLM) o en bots y aplicaciones que los
+                                integran. Técnicamente, este protocolo define qué datos deben considerarse
+                                identificadores directos o indirectos (por ejemplo, nombres, códigos de estudiante,
+                                direcciones, diagnósticos, detalles familiares), y establece procedimientos sistemáticos
+                                de supresión, sustitución por pseudónimos y revisión de contexto para reducir el riesgo
+                                de reidentificación, de forma coherente con marcos legales como FERPA y con las buenas
+                                prácticas generales de anonimización de datos.</p>
+                            <cite class="concept-review__citation">Introducción a la anonimización de datos: técnicas y casos
+                                prácticos | datos.gob.es. (2024). Agencia Española de Protección de Datos. (2014). Guía
+                                básica de anonimización. AEPD.</cite>
+                        </div>
+                    </details>
+
+                    <!-- Concepto 2 — Texto 100% original de leccion3_4.html -->
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">
+                            Marco conceptual de seguridad, adaptado de principios FERPA
+                        </summary>
+                        <div class="concept-review__body">
+                            <p>El marco conceptual de seguridad (adaptado de principios FERPA) es un conjunto de
+                                criterios y preguntas guía que orienta a las instituciones y al personal educativo en
+                                cómo recoger, almacenar, procesar y compartir datos de estudiantes de forma compatible
+                                con la Ley de Derechos Educativos y Privacidad de la Familia (FERPA), incluyendo su uso
+                                en sistemas de IA y modelos de lenguaje grandes (LLM). Técnicamente, traduce los
+                                principios legales de FERPA (confidencialidad de los expedientes educativos, control de
+                                acceso, consentimiento informado y registro de divulgaciones) en decisiones operativas
+                                concretas: limitar el envío de información personal identificable a servicios externos,
+                                exigir controles de acceso y cifrado en plataformas que integran LLM, minimizar los
+                                datos compartidos y exigir contratos y políticas claras cuando se usan herramientas de
+                                terceros para apoyar la evaluación, la comunicación o la analítica educativa.</p>
+                            <cite class="concept-review__citation">U.S. Department of Education. (2011). FERPA general guidance for
+                                students and parents. Student Privacy Policy Office.</cite>
+                        </div>
+                    </details>
+
+                </div>
+                <!-- No hay botón "Ver más" porque ≤ 3 conceptos -->
+            </div>
+        </section>
+
+        <!-- ===== CONTEXT: sección posterior (placeholder) ===== -->
+        <div class="context-placeholder">
+            [ Bloque de cierre "Felicidades" + Checkpoint de saberes ]<br>
+            <em>Se omite para enfocarse en el componente "Conceptos a repasar".</em>
+        </div>
+
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        /* === SLIDER LEGACY (solo para la sección "Antes") === */
+        let currentSlide = 0;
+        const sliderTrack = document.getElementById('sliderTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlider() {
+            if (!sliderTrack || !prevBtn || !nextBtn) return;
+            const totalSlides = sliderTrack.children.length;
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide >= totalSlides - 1;
+        }
+
+        function moveSlider(direction) {
+            if (!sliderTrack) return;
+            const totalSlides = sliderTrack.children.length;
+            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
+            updateSlider();
+        }
+
+        prevBtn?.addEventListener('click', () => moveSlider(-1));
+        nextBtn?.addEventListener('click', () => moveSlider(1));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSlider();
+        });
+
+        /* === CONCEPT REVIEW — ALT E3 === */
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.concept-review').forEach(section => {
+                const toggle = section.querySelector('.concept-review__toggle');
+                const panel = section.querySelector('.concept-review__panel');
+                const moreBtn = section.querySelector('.concept-review__more');
+                const overflow = section.querySelector('.concept-review__overflow');
+
+                if (!toggle || !panel) return;
+
+                toggle.addEventListener('click', () => {
+                    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                    toggle.setAttribute('aria-expanded', String(!expanded));
+                    panel.hidden = expanded;
+                    toggle.textContent = expanded ? 'Repasar conceptos' : 'Ocultar conceptos';
+                });
+
+                if (moreBtn && overflow) {
+                    moreBtn.addEventListener('click', () => {
+                        overflow.hidden = false;
+                        moreBtn.hidden = true;
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

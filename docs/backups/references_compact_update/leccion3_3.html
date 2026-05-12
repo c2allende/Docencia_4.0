@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 3.3 de Docencia 4.0: Automatización de la burocracia educativa con LLM para documentación estándar, PEI, informes, minutas y comunicaciones institucionales.">
+    <meta name="keywords"
+        content="Docencia 4.0, Lección 3.3, burocracia educativa, documentación docente, LLM, IA educativa, PEI, minutas, cartas, comunicación institucional">
+    <title>Lección 3.3 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            min-height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .control-btn:focus-visible,
+        .admin-tab-btn:focus-visible,
+        .generate-btn:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .genially-frame-inner iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .subsection-title {
+            margin: var(--spacing-md) 0 var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .text-section {
+            clear: both;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .audio-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        .content-list,
+        .content-list-ordered {
+            margin: var(--spacing-md) 0 var(--spacing-xl);
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li,
+        .content-list-ordered li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker,
+        .content-list-ordered li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .highlight-box {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+            box-shadow: var(--shadow-flat);
+        }
+
+        .prompt-box,
+        .privacy-box {
+            background: var(--color-background-surface);
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .prompt-example {
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-example p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .document-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .doc-type-card {
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .doc-type-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .doc-type-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .image-zoom-trigger {
+            display: block;
+            padding: 0;
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            box-shadow: var(--shadow-ambient);
+            cursor: zoom-in;
+        }
+
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .image-zoom-trigger:hover img {
+            transform: scale(1.01);
+        }
+
+        .img-container-premium {
+            margin: var(--spacing-16) 0;
+            text-align: center;
+        }
+
+        .img-container-premium .image-zoom-trigger {
+            display: inline-block;
+            max-width: min(900px, 100%);
+        }
+
+        .img-caption {
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* COMPONENTE ADMINISTRATIVO */
+        .admin-assist-component {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .admin-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .admin-header h2 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .admin-header p {
+            margin: 0;
+            color: var(--color-brand-primary-on);
+            opacity: 0.92;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-20);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            overflow-x: auto;
+            padding: var(--spacing-2);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .admin-tab-btn {
+            padding: var(--spacing-3) var(--spacing-5);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-text-muted);
+            font-family: var(--font-family-body);
+            font-weight: var(--font-weight-bold);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .admin-tab-btn:hover,
+        .admin-tab-btn.active {
+            transform: translateY(-2px);
+            background: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .admin-main-card {
+            min-height: 540px;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .admin-section-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .admin-section-header h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .admin-section-badge {
+            flex: 0 0 auto;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: var(--spacing-xl);
+        }
+
+        .panel-title {
+            display: block;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .input-box {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+        }
+
+        .data-item {
+            padding: var(--spacing-3) var(--spacing-4);
+            margin-bottom: var(--spacing-sm);
+            border-left: var(--border-width-4) solid var(--color-brand-secondary);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .output-box {
+            min-height: 450px;
+            max-height: 620px;
+            overflow-y: auto;
+            padding: var(--spacing-xl);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+            white-space: pre-wrap;
+        }
+
+        .placeholder-text {
+            margin-top: var(--spacing-16);
+            color: var(--color-text-muted);
+            font-weight: var(--font-weight-semibold);
+            text-align: center;
+            font-style: italic;
+        }
+
+        .generate-btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4);
+            margin-top: var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-lg);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            cursor: pointer;
+            box-shadow: var(--shadow-focus-primary);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .review-notice {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+            background: var(--color-background-surface-low);
+        }
+
+        .review-notice p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* SLIDER */
+        .slider-section {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .slider-header h2 {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .control-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: var(--spacing-2);
+        }
+
+        .slider-track {
+            display: flex;
+            gap: var(--spacing-lg);
+            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
+        }
+
+        .slider-item {
+            min-width: 100%;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .slider-item h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+        }
+
+        .concept-ref {
+            display: block;
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+            font-style: italic;
+        }
+
+        .completion-card {
+            position: relative;
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: calc(-1 * var(--spacing-5));
+            right: var(--spacing-xl);
+            padding: var(--spacing-2) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .checkpoint-container {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--gradient-orange);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .checkpoint-container h2,
+        .checkpoint-container h3,
+        .checkpoint-container p {
+            color: var(--color-white);
+        }
+
+        .genially-frame-wrap {
+            width: 100%;
+            margin-top: var(--spacing-lg);
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .genially-frame-inner {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+        }
+
+        .genially-frame-inner iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .references-section {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .references-section h2 {
+            margin-top: 0;
+        }
+
+        .ref-list {
+            margin: 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .ref-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* MODAL */
+        .modal-zoom {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-6);
+            background: var(--color-alpha-black-90);
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-overlay);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-3);
+            right: var(--spacing-3);
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-90);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card,
+            .admin-assist-component,
+            .slider-section,
+            .checkpoint-container,
+            .completion-card,
+            .references-section {
+                padding: var(--spacing-xl);
+            }
+
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .slider-header,
+            .footer-nav,
+            .admin-section-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .slider-controls,
+            .admin-tabs {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+            .module-title-nav {
+                display: none;
+            }
+            .lesson-card,
+            .admin-assist-component,
+            .slider-section,
+            .checkpoint-container,
+            .completion-card,
+            .references-section,
+            .admin-main-card,
+            .doc-type-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+        }
+
+        /* TOOLBOX & PROMPT CARDS (Local) */
+        .toolbox-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-xl);
+            margin: var(--spacing-16) 0;
+            background: var(--color-background-card-inverse);
+            border-radius: var(--radius-xl);
+            color: var(--color-text-inverse);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .toolbox-card::before {
+            content: "TOOLBOX";
+            position: absolute;
+            top: -24px;
+            right: -18px;
+            color: var(--color-alpha-white-15);
+            font-family: var(--font-family-heading);
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: var(--font-weight-extrabold);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .toolbox-title {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .prompt-template {
+            position: relative;
+            z-index: 1;
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed rgba(125, 230, 255, 0.45);
+            border-radius: var(--radius-lg);
+            background: var(--color-alpha-white-10);
+            color: var(--color-white);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-template strong {
+            color: var(--color-white);
+        }
+
+        .token-tag {
+            display: inline;
+            padding: 0.1em 0.35em;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 194, 255, 0.16);
+            color: var(--color-cyan-100);
+            font-weight: var(--font-weight-bold);
+        }
+    </style>
+</head>
+
+<body data-page-id="leccion3_3" data-module-id="modulo3" data-page-type="leccion"
+    data-title="Automatización de la burocracia">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Lección 3.3: Automatización de la burocracia educativa</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 3" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 3</span></li>
+            <li><a href="modulo3_intro.html">📍 Introducción Módulo 3</a></li>
+            <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
+            <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
+            <li><a href="leccion3_3.html" class="active" aria-current="page">📖 Lección 3.3</a></li>
+            <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
+            <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
+            <li><a href="recursos_m3.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">⬅️ Volver al Módulo 2</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card" aria-labelledby="lesson-title">
+            <h1 id="lesson-title" class="lesson-title">Lección 3.3: Automatización de la burocracia educativa</h1>
+
+            <div class="audio-player-container">
+                <label class="audio-label" for="lessonAudio">Escuchar Lección 3.3</label>
+                <audio id="lessonAudio" controls preload="metadata" class="audio-player">
+                    <source src="LLM-DEPR/LLM_M3_Leccion_3.3_Automatización de la burocracia educativa_audio.mp3"
+                        type="audio/mpeg">
+                    <source
+                        src="LLM-DEPR/LLM_M3_Leccion_3.3_Automatizaci%C3%B3n%20de%20la%20burocracia%20educativa_audio.mp3"
+                        type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+
+            <section class="text-section" aria-labelledby="documentacion-title">
+                <h2 id="documentacion-title" class="section-title">Documentación estándar: Cartas, permisos, minutas y
+                    referencias</h2>
+                <p>Las tareas administrativas, como redactar cartas a familias, permisos de excursión, minutas de
+                    reuniones o referencias para estudiantes y practicantes— consumen una parte considerable del tiempo
+                    docente y suelen seguir formatos relativamente estables. Recursos tecnológicos de IA pueden generar
+                    borradores bien estructurados a partir de indicaciones breves sobre propósito, destinatarios y tono
+                    deseado, permitiendo que el docente utilice un LLM directamente o a través de un bot o app integrada
+                    en el LMS para obtener un texto inicial y se concentre en ajustar detalles específicos y asegurar
+                    coherencia con las políticas institucionales (Kwak, 2025).</p>
+                <p>La investigación sobre herramientas impulsadas por IA en contextos educativos destaca que el mayor
+                    potencial de estas tecnologías está en reducir la carga de redacción rutinaria y estandarizada,
+                    siempre que el usuario mantenga control sobre la revisión y la decisión final sobre el contenido
+                    emitido en su nombre (Luo et al., 2025).</p>
+
+                <div class="highlight-box">
+                    <p><strong>En el ámbito escolar, esto implica:</strong></p>
+                    <ul class="content-list">
+                        <li>Usar la IA para generar plantillas base, por ejemplo, estructuras de carta, secciones
+                            estándar de minutas.</li>
+                        <li>Personalizar manualmente los elementos sensibles: nombres de estudiantes, detalles de
+                            situaciones, medidas específicas de apoyo.</li>
+                        <li>Asegurar que el tono y la terminología sean consistentes con los lineamientos del DEPR y la
+                            cultura escolar.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="tipos-documentos-title">
+                <h2 id="tipos-documentos-title" class="section-title">Tipos de documentos frecuentes</h2>
+                <div class="document-types-grid">
+                    <article class="doc-type-card">
+                        <h3>Cartas a padres/tutores</h3>
+                        <ul class="content-list">
+                            <li>Notificaciones de eventos escolares.</li>
+                            <li>Comunicaciones sobre desempeño académico o conductual.</li>
+                            <li>Invitaciones a reuniones o conferencias.</li>
+                            <li>Información sobre cambios en programación.</li>
+                        </ul>
+                    </article>
+                    <article class="doc-type-card">
+                        <h3>Permisos de excursión</h3>
+                        <ul class="content-list">
+                            <li>Documentos formales que incluyen destino, fecha, hora, propósito educativo, medidas de
+                                seguridad y autorizaciones requeridas.</li>
+                        </ul>
+                    </article>
+                    <article class="doc-type-card">
+                        <h3>Minutas de reuniones</h3>
+                        <ul class="content-list">
+                            <li>Registros de reuniones de facultad, IEP, conferencias con padres o comités escolares.
+                            </li>
+                            <li>Incluyen asistentes, temas discutidos, decisiones tomadas y acciones a seguir.</li>
+                        </ul>
+                    </article>
+                    <article class="doc-type-card">
+                        <h3>Referencias profesionales</h3>
+                        <ul class="content-list">
+                            <li>Cartas de recomendación para estudiantes, becas o programas especiales.</li>
+                            <li>Referencias para colegas o practicantes.</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="toolbox-card" aria-labelledby="prompt-documentacion-title">
+                <h2 id="prompt-documentacion-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Estructura de prompt efectivo para documentación
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong> Actúa como un Coordinador Académico del Departamento de Educación de
+                        Puerto Rico (DEPR). Eres experto en la redacción oficial y en la comunicación efectiva con
+                        las comunidades escolares, manteniendo un equilibrio entre el formalismo institucional y la
+                        calidez necesaria para conectar con las familias puertorriqueñas.<br><br>
+                    <strong>Tarea:</strong> Redacta una carta formal dirigida a los padres y encargados de
+                        estudiantes de 3er grado sobre una excursión educativa al Jardín Botánico de Río Piedras.<br><br>
+                    <strong>Contenido obligatorio (Contexto):</strong><br><br>
+                    • <span class="token-tag">Propósito educativo: conectar la visita con el estándar de ciencias sobre el estudio de
+                        las plantas y su ciclo de vida.</span><br>
+                    • <span class="token-tag">Logística: fecha 15 de marzo de 2026; horario 8:00 AM a 2:00 PM; costo $10.00, incluye
+                        transporte y entrada.</span><br>
+                    • <span class="token-tag">Requerimientos: los estudiantes deben traer almuerzo, agua y gorra.</span><br>
+                    • <span class="token-tag">Fecha límite: los permisos deben entregarse a más tardar el 8 de marzo.</span><br>
+                    • <span class="token-tag">Contacto: incluye espacios para el teléfono y correo electrónico de la escuela.</span><br><br>
+                    <strong>Restricciones de estilo y formato:</strong><br><br>
+                    • <span class="token-tag">Tono formal, respetuoso y cercano, apropiado para el contexto de Puerto Rico.</span><br>
+                    • <span class="token-tag">Saludo con encabezado formal común en el sistema público de enseñanza.</span><br>
+                    • <span class="token-tag">Extensión aproximada de una página.</span><br>
+                    • <span class="token-tag">Formato de salida en Markdown para facilitar su edición en procesadores de texto.</span>
+                </div>
+                <div class="highlight-box privacy-box" style="margin-top: var(--spacing-lg); background: rgba(0,0,0,0.2); border-left-color: var(--color-brand-secondary); color: var(--color-text-inverse);">
+                    <p style="color: var(--color-text-inverse);"><strong>Personalización necesaria:</strong> el docente debe verificar fechas, nombres y datos
+                        específicos; ajustar el tono según la relación con las familias; añadir detalles contextuales
+                        que el LLM no puede conocer; y asegurar que el lenguaje sea culturalmente apropiado.</p>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="pei-title">
+                <h2 id="pei-title" class="section-title">Informes de progreso y documentos PEI</h2>
+                <p>Los informes de progreso y los documentos como los Planes Educativos Individualizados (PEI) requieren
+                    un lenguaje técnico que describa niveles de desempeño, avances y necesidades con precisión y
+                    objetividad. La literatura sobre scoring automatizado y apoyo a la redacción evaluativa muestra que
+                    la IA puede asistir en la generación de descriptores basados en datos de desempeño, produciendo
+                    textos más consistentes y alineados con rúbricas predefinidas (Yan et al., 2020). En la práctica,
+                    esta funcionalidad suele ofrecerse a través de aplicaciones o módulos dentro del LMS que llaman a un
+                    LLM para redactar borradores, sin que el docente tenga que interactuar directamente con el modelo
+                    subyacente.</p>
+
+                <div class="highlight-box">
+                    <p><strong>En este marco, el docente puede:</strong></p>
+                    <ul class="content-list">
+                        <li>Proveer a la IA notas de observación, resultados de evaluaciones y metas acordadas.</li>
+                        <li>Solicitar que el sistema estructure esa información en secciones típicas de un informe:
+                            logros, áreas de oportunidad y recomendaciones.</li>
+                        <li>Revisar el borrador para asegurar que refleje fielmente la realidad del estudiante, la
+                            cultura del programa y las exigencias normativas.</li>
+                    </ul>
+                </div>
+
+                <p>La IA debe entenderse como un asistente de redacción que ayuda a transformar notas dispersas en un
+                    texto coherente y profesional, pero la interpretación pedagógica y la responsabilidad legal siguen
+                    siendo del docente y del equipo institucional.</p>
+
+                <h3 class="subsection-title">Estructura de un informe de progreso efectivo</h3>
+                <ol class="content-list-ordered">
+                    <li><strong>Contexto:</strong> periodo evaluado y áreas trabajadas.</li>
+                    <li><strong>Logros:</strong> qué ha avanzado el estudiante, con evidencias específicas.</li>
+                    <li><strong>Áreas de oportunidad:</strong> qué necesita continuar desarrollando.</li>
+                    <li><strong>Recomendaciones:</strong> pasos sugeridos para el próximo periodo.</li>
+                </ol>
+
+                <h3 class="subsection-title">Terminología técnica en PEI</h3>
+                <p>Los documentos PEI requieren lenguaje especializado que refleje:</p>
+                <ul class="content-list">
+                    <li><strong>Acomodaciones:</strong> ajustes en cómo se presenta la información o cómo el estudiante
+                        responde.</li>
+                    <li><strong>Modificaciones:</strong> cambios en qué se espera que el estudiante aprenda.</li>
+                    <li><strong>Servicios relacionados:</strong> terapias y apoyos especializados.</li>
+                    <li><strong>Metas SMART:</strong> específicas, medibles, alcanzables, relevantes y con tiempo
+                        definido.</li>
+                </ul>
+            </section>
+
+            <section class="toolbox-card" aria-labelledby="prompt-pei-title">
+                <h2 id="prompt-pei-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Ejemplo de prompt para narrativa de PEI
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong> Actúa como un Especialista en Educación Especial del Departamento de
+                        Educación de Puerto Rico (DEPR). Eres experto en la redacción de Programas Educativos
+                        Individualizados (PEI/PIE), con un dominio profundo de la terminología técnica necesaria
+                        para describir el Presente Nivel de Ejecución Académica y Funcional (PLEP) de manera
+                        objetiva y profesional.<br><br>
+                    <strong>Contexto del estudiante:</strong><br><br>
+                    • <span class="token-tag">Grado: 2do grado.</span><br>
+                    • <span class="token-tag">Condición: diagnóstico de dislexia.</span><br>
+                    • <span class="token-tag">Lectura: identifica palabras aisladas a nivel de Kindergarten; confusión persistente de
+                        grafemas con formas similares (b/d, p/q).</span><br>
+                    • <span class="token-tag">Comprensión: excelente nivel de comprensión auditiva y participación activa en
+                        discusiones orales.</span><br>
+                    • <span class="token-tag">Conducta: presenta frustración durante tareas de lectura independiente.</span><br>
+                    • <span class="token-tag">Respuesta a intervención: progreso positivo mediante enfoques multisensoriales.</span><br><br>
+                    <strong>Tarea:</strong> Redacta el párrafo del PLEP (150-200 palabras) utilizando
+                        exclusivamente los datos proporcionados. El texto debe analizar el nivel de lectura,
+                        equilibrar fortalezas y necesidades, utilizar terminología técnica e incluir una base
+                        suficiente para derivar metas anuales medibles.<br><br>
+                    <strong>Restricciones de estilo:</strong> tono estrictamente objetivo, profesional y
+                        empático. No inventes puntajes de pruebas ni datos que no estén en la lista de
+                        observaciones. Formato de salida: texto en bloque profesional.
+                </div>
+                <div class="highlight-box privacy-box" style="margin-top: var(--spacing-lg); background: rgba(0,0,0,0.2); border-left-color: var(--color-brand-secondary); color: var(--color-text-inverse);">
+                    <p style="color: var(--color-text-inverse);"><strong>Consideración de privacidad:</strong> nunca ingresar nombres, números de estudiante
+                        (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar
+                        individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                    </p>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="comunicacion-title">
+                <h2 id="comunicacion-title" class="section-title">Comunicación institucional: Correos, memorandos y
+                    justificaciones</h2>
+                <p>La comunicación institucional efectiva requiere tono profesional, claridad y asertividad. En la
+                    comunicación institucional —correos a directivos, memorandos internos, justificaciones y
+                    comunicaciones formales con familias— la IA puede ayudar a:</p>
+                <ul class="content-list">
+                    <li>Ajustar el registro, formalidad, y el tono, asertivo, empático o colaborativo.</li>
+                    <li>Organizar el contenido en una estructura clara: contexto, situación, acciones realizadas,
+                        solicitud o propuesta.</li>
+                    <li>Reducir ambigüedades y asegurar que el mensaje sea comprensible para destinatarios diversos.
+                    </li>
+                </ul>
+                <p>Estudios sobre la integración de IA en tareas de apoyo laboral resaltan que las herramientas
+                    generativas son especialmente útiles para profesionales que deben producir múltiples versiones de
+                    mensajes similares, siempre que se establezcan guías claras de estilo y políticas de revisión previa
+                    al envío (Kwak, 2025). En el caso de maestros cooperadores, esto se alinea con la necesidad de
+                    comunicar de manera profesional y consistente con distintas audiencias (familias, equipo escolar,
+                    supervisores y practicantes), ya sea trabajando directamente con un LLM en un chat o mediante
+                    copilotos y apps de correo que incorporan ese modelo.</p>
+
+                <h3 class="subsection-title">Tipos de comunicaciones frecuentes</h3>
+                <ul class="content-list">
+                    <li>Correos a supervisores sobre situaciones de aula.</li>
+                    <li>Memorandos internos sobre procedimientos.</li>
+                    <li>Justificaciones de ausencias o solicitudes de permisos.</li>
+                    <li>Respuestas a padres sobre situaciones académicas o disciplinarias.</li>
+                    <li>Comunicaciones con colegas sobre coordinación de actividades.</li>
+                </ul>
+
+                <h3 class="subsection-title">Elementos de comunicación institucional efectiva</h3>
+                <ol class="content-list-ordered">
+                    <li><strong>Claridad:</strong> propósito evidente desde el inicio.</li>
+                    <li><strong>Concisión:</strong> información necesaria sin rodeos.</li>
+                    <li><strong>Profesionalismo:</strong> tono respetuoso y lenguaje formal apropiado.</li>
+                    <li><strong>Asertividad:</strong> comunicar necesidades o posiciones de forma directa pero
+                        diplomática.</li>
+                    <li><strong>Orientación a soluciones:</strong> enfoque constructivo.</li>
+                </ol>
+            </section>
+
+            <section class="toolbox-card" aria-labelledby="prompt-correo-title">
+                <h2 id="prompt-correo-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Prompt para correo institucional delicado
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong> Actúa como un Maestro Cooperador del Departamento de Educación de
+                        Puerto Rico (DEPR). Eres un profesional con alto sentido de ética, experto en la redacción
+                        de informes institucionales y comunicaciones oficiales que requieren intervención
+                        multidisciplinaria (Trabajo Social/Consejería). Tu estilo es preciso, basado en la
+                        observación directa y orientado a la protección del menor.<br><br>
+                    <strong>Contexto de la situación:</strong> notificación de posible inseguridad alimentaria y
+                        baja en rendimiento académico de un estudiante. Hallazgos: el estudiante llega
+                        frecuentemente sin desayunar; manifestación directa del estudiante: “En mi casa no hay
+                        comida a veces”; impacto: descenso notable en el rendimiento académico, cansancio extremo y
+                        falta de concentración en las últimas 3 semanas.<br><br>
+                    <strong>Tarea:</strong> Redacta un correo electrónico formal dirigido a la Directora Escolar.
+                        El correo debe exponer los hechos de forma objetiva, vincular bienestar y academia,
+                        solicitar la activación del protocolo de apoyo a través del Trabajador Social o Consejero
+                        Escolar y garantizar ética, confidencialidad y respeto por la dignidad de la unidad
+                        familiar.<br><br>
+                    <strong>Restricciones de estilo:</strong> tono preocupado pero balanceado, profesional y
+                        resolutivo. Extensión: 200-250 palabras. Idioma: español formal, estilo administrativo del
+                        DEPR. Formato de salida: texto en Markdown con campos editables entre corchetes [ ].
+                </div>
+                <div class="highlight-box privacy-box" style="margin-top: var(--spacing-lg); background: rgba(0,0,0,0.2); border-left-color: var(--color-brand-secondary); color: var(--color-text-inverse);">
+                    <p style="color: var(--color-text-inverse);"><strong>Consideración de privacidad:</strong> nunca ingresar nombres, números de estudiante
+                        (SIE), calificaciones asociadas a identidades o cualquier información que permita identificar
+                        individuos. El análisis debe ser estrictamente sobre patrones de contenido, no sobre individuos.
+                    </p>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="figura-title">
+                <h2 id="figura-title" class="sr-only">Figura de automatización de burocracia educativa</h2>
+                <div class="img-container-premium">
+                    <button class="image-zoom-trigger" type="button"
+                        onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                        aria-label="Ampliar figura de automatización de la burocracia educativa">
+                        <img data-asset="LLM_M3_ContenidoA_3.3_Automatización de la burocracia educativa_Rev.png"
+                            src="./assets/LLM_M3_ContenidoA_3.3_Automatización de la burocracia educativa_Rev.png"
+                            alt="Esquema de automatización de la burocracia educativa">
+                    </button>
+                    <p class="img-caption">Figura: Flujo de automatización para la gestión de documentos y procesos
+                        administrativos en la escuela.</p>
+                </div>
+            </section>
+
+            <section class="admin-assist-component" aria-labelledby="admin-assist-title">
+                <div class="admin-container">
+                    <header class="admin-header">
+                        <span class="admin-badge">Gestión administrativa con IA</span>
+                        <h2 id="admin-assist-title">IA: El copiloto en la documentación docente</h2>
+                        <p>Optimiza tiempos de redacción sin perder el juicio profesional.</p>
+                    </header>
+
+                    <nav class="admin-tabs" role="tablist" aria-label="Tipos de documentación administrativa">
+                        <button class="admin-tab-btn active" type="button" role="tab" aria-selected="true"
+                            aria-controls="adminContent" onclick="loadAdminTab(event, 'standard')">📄 Cartas y
+                            permisos</button>
+                        <button class="admin-tab-btn" type="button" role="tab" aria-selected="false"
+                            aria-controls="adminContent" onclick="loadAdminTab(event, 'pei')">🧩 Narrativa PEI</button>
+                        <button class="admin-tab-btn" type="button" role="tab" aria-selected="false"
+                            aria-controls="adminContent" onclick="loadAdminTab(event, 'comms')">✉️ Comms.
+                            institucional</button>
+                        <button class="admin-tab-btn" type="button" role="tab" aria-selected="false"
+                            aria-controls="adminContent" onclick="loadAdminTab(event, 'minutes')">📝 Minutas y
+                            referencias</button>
+                    </nav>
+
+                    <div class="admin-main-card" id="adminContent" role="tabpanel" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <!-- ===== CONCEPTOS A REPASAR — ALT E3 ===== -->
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">4 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Documentación estándar: Cartas, permisos, minutas y referencias</summary>
+                            <div class="concept-review__body">
+                                <p>La documentación estándar en el entorno escolar incluye el conjunto de registros escritos de carácter administrativo, informativo o normativo (por ejemplo, cartas a padres, permisos para excursiones, minutas de reuniones y referencias de estudiantes) que siguen formatos preestablecidos y registros lingüísticos formales. En el marco de los LLM, estos modelos se utilizan para generar borradores rápidos de este tipo de documentos a partir de plantillas o instrucciones clave, permitiendo que el docente o directivo reduzca el tiempo de redacción técnica, siempre que la persona responsable valide el contenido, ajuste los datos específicos y asegure que el documento final cumpla con las normativas institucionales y legales vigentes.</p>
+                                <cite class="concept-review__citation">Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Planes Educativos Individualizados (PEI)</summary>
+                            <div class="concept-review__body">
+                                <p>El Plan Educativo Individualizado (PEI) es un documento legal y pedagógico que describe las metas de aprendizaje, los servicios y las acomodaciones específicas para un estudiante con una discapacidad identificada, con el fin de garantizar su acceso a una educación pública, gratuita y apropiada. Con el apoyo de LLM, el equipo multidisciplinario puede generar narrativas iniciales del Presente Nivel de Ejecución Académica y Funcional (PLEP) y borradores de metas medibles a partir de datos de observación y evaluación previa, lo que facilita la consistencia terminológica y la organización del documento, mientras que la responsabilidad de la toma de decisiones pedagógicas y el cumplimiento legal recae exclusivamente en los profesionales certificados y el comité de programación.</p>
+                                <cite class="concept-review__citation">Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Terminología técnica en PEI</summary>
+                            <div class="concept-review__body">
+                                <p>La terminología técnica en el PEI es el vocabulario especializado y estandarizado que se utiliza para describir de manera objetiva, precisa y medible las fortalezas, necesidades y progresos del estudiante (por ejemplo, acomodaciones, modificaciones, servicios relacionados, PLEP, metas SMART). En el contexto de los LLM, estos modelos pueden configurarse mediante prompts específicos para aplicar este lenguaje técnico de forma consistente en borradores de informes y metas, evitando juicios subjetivos y asegurando que la documentación cumpla con los estándares administrativos y pedagógicos del sistema educativo.</p>
+                                <cite class="concept-review__citation">Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</cite>
+                            </div>
+                        </details>
+
+                        <!-- Overflow para 4 conceptos (3 visibles, 1 oculto) -->
+                        <div class="concept-review__overflow" hidden>
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Comunicación institucional: Correos, memorandos y justificaciones</summary>
+                                <div class="concept-review__body">
+                                    <p>La comunicación institucional (correos, memorandos y justificaciones) es el conjunto de mensajes escritos formales que circulan entre los distintos actores de la comunidad educativa (dirección, docentes, familias, personal de apoyo, supervisores) para informar, solicitar, justificar o acordar acciones, siguiendo convenciones de registro profesional, claridad y trazabilidad. En el contexto de los LLM, estos modelos se utilizan como asistentes de redacción que generan borradores de correos, memorandos y justificaciones a partir de indicaciones sobre propósito, destinatarios, tono y puntos clave, mientras que el docente o directivo revisa, ajusta y valida el contenido para garantizar que sea fiel a la situación, cumpla con las políticas institucionales y respete la confidencialidad y la ética profesional.</p>
+                                    <cite class="concept-review__citation">Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</cite>
+                                </div>
+                            </details>
+                        </div>
+
+                        <button type="button" class="concept-review__more">Ver todos los conceptos (+1)</button>
+
+                    </div>
+                </div>
+            </details>
+
+            <section class="completion-card" aria-labelledby="cierre-title">
+                <span class="completion-badge">Meta alcanzada</span>
+                <h2 id="cierre-title" class="section-title">Felicidades</h2>
+                <p>Has culminado la lección 3.3 del programa de formación profesional.</p>
+                <p>Al completar el contenido 3.3, reconoces que los LLM pueden ser aliados potentes para reducir la
+                    carga de burocracia educativa: te ayudan a generar borradores de cartas, permisos, minutas, informes
+                    y comunicaciones institucionales, manteniendo tu tiempo más libre para enseñar. Al mismo tiempo,
+                    reafirmas tu rol como responsable último del contenido, el tono y la fidelidad de todo documento
+                    emitido en tu nombre, especialmente cuando se trata de PEI y situaciones delicadas con estudiantes y
+                    familias.</p>
+            </section>
+
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 3.3</h2>
+                    
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre asistentes de enseñanza virtuales y tutoría inteligente.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-3-3">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69ade2ee14c7191a9db13e73" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+
+
+
+
+
+
+
+                <div id="checkpoint-panel-3-3" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69ade2ee14c7191a9db13e73" src="about:blank" title="Checkpoint de saberes: Lección 3.3" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </section>
+
+            <section class="references-section" aria-labelledby="referencias-title">
+                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas</h2>
+                <ul class="ref-list">
+                    <li>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes
+                        Compared to Traditional Methods. <em>Issues in Information Systems</em>, 26(4), 233-247.</li>
+                    <li>Luo, J., Zheng, C., Yin, J., &amp; Teo, H. H. (2025). Design and assessment of AI-based learning
+                        tools in higher education: A systematic review. <em>International Journal of Educational
+                            Technology in Higher Education</em>, 22(1), 42.</li>
+                    <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring:
+                            Theory into practice</em>. CRC Press.</li>
+                </ul>
+            </section>
+
+            <div id="completion-section"></div>
+
+            <nav class="footer-nav" aria-label="Navegación de lecciones">
+                <a href="leccion3_2.html" class="btn-footer btn-back">← Volver a la Lección 3.2</a>
+                <a href="leccion3_4.html" class="btn-footer btn-next">Ir a la Lección 3.4 →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
+        aria-hidden="true">
+        <div class="modal-content">
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada del recurso</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()"
+                aria-label="Cerrar imagen ampliada">×</button>
+            <img id="zoomedImg" alt="Imagen ampliada del recurso">
+        </div>
+    </div>
+
+    <script>
+        function resolveAssetPath(img) {
+            const fileName = img.dataset.asset;
+            if (!fileName) return;
+
+            const encodedFileName = fileName
+                .split('/')
+                .map((part) => encodeURIComponent(part))
+                .join('/');
+
+            const candidates = [
+                `./assets/${fileName}`,
+                `assets/${fileName}`,
+                `assets/${fileName}`,
+                `../assets/${fileName}`,
+                `../../assets/${fileName}`,
+                `/assets/${fileName}`,
+                `./assets/${encodedFileName}`,
+                `assets/${encodedFileName}`,
+                `assets/${encodedFileName}`,
+                `../assets/${encodedFileName}`,
+                `../../assets/${encodedFileName}`,
+                `/assets/${encodedFileName}`
+            ];
+
+            const uniqueCandidates = [...new Set(candidates)];
+            let index = 0;
+
+            img.onerror = () => {
+                if (index < uniqueCandidates.length) {
+                    img.src = uniqueCandidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen. Verifica que exista en la carpeta assets y que el nombre coincida exactamente: ${fileName}`);
+                }
+            };
+
+            img.src = uniqueCandidates[index];
+            index += 1;
+        }
+
+        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        let lastFocusedElement = null;
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        function openZoom(src) {
+            if (!zoomModal || !zoomedImg) return;
+            lastFocusedElement = document.activeElement;
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            zoomModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            const closeButton = zoomModal.querySelector('.modal-close-btn');
+            if (closeButton) closeButton.focus();
+        }
+
+        function closeZoom() {
+            if (!zoomModal || !zoomedImg) return;
+            zoomModal.classList.remove('is-open');
+            zoomModal.setAttribute('aria-hidden', 'true');
+            zoomedImg.removeAttribute('src');
+            document.body.style.overflow = '';
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) closeZoom();
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) closeZoom();
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+
+
+        const adminDocsData = {
+            standard: {
+                title: 'Carta de permiso de excursión',
+                badge: 'Documentación estándar',
+                prompt: 'Rol: Coordinador Académico DEPR. Redacta carta a padres sobre excursión al Jardín Botánico de Río Piedras.',
+                inputs: [
+                    'Propósito: estándar de Ciencias sobre ciclo de vida de las plantas.',
+                    'Fecha: 15 de marzo de 2026.',
+                    'Horario: 8:00 AM a 2:00 PM.',
+                    'Costo: $10.00, incluye transporte y entrada.',
+                    'Requerimientos: almuerzo, agua y gorra.',
+                    'Fecha límite de permisos: 8 de marzo.'
+                ],
+                output: `Saludos cordiales, familias de tercer grado:
+
+Reciban un cordial saludo. Como parte de las experiencias educativas alineadas al estudio de las plantas y su ciclo de vida, estaremos realizando una excursión educativa al Jardín Botánico de Río Piedras el 15 de marzo de 2026, en horario de 8:00 AM a 2:00 PM.
+
+El propósito de esta visita es ofrecer al estudiantado una experiencia directa de observación y aprendizaje en un ambiente natural, fortaleciendo los conceptos trabajados en la clase de Ciencias. El costo de participación será de $10.00, cantidad que incluye transportación y entrada.
+
+Solicitamos que cada estudiante traiga almuerzo, agua y gorra. Los permisos firmados deberán entregarse no más tarde del 8 de marzo de 2026.
+
+Para información adicional, puede comunicarse con la escuela al [teléfono] o al correo electrónico [correo]. Agradecemos su apoyo a esta experiencia educativa.
+
+Atentamente,
+[Nombre del docente]`
+            },
+            pei: {
+                title: 'Narrativa PLEP para PEI',
+                badge: 'Documento especializado',
+                prompt: 'Rol: Especialista en Educación Especial DEPR. Redacta PLEP con lenguaje técnico, objetivo y empático.',
+                inputs: [
+                    'Grado: 2do grado.',
+                    'Condición: diagnóstico de dislexia.',
+                    'Lectura: palabras aisladas a nivel de Kindergarten.',
+                    'Confusión persistente de grafemas b/d y p/q.',
+                    'Fortaleza: comprensión auditiva y participación oral.',
+                    'Progreso positivo con intervención multisensorial.'
+                ],
+                output: `El estudiante presenta fortalezas significativas en comprensión auditiva y participación oral, demostrando capacidad para responder activamente a discusiones guiadas y comprender instrucciones presentadas de forma verbal. En el área de lectura, se observa un rezago en destrezas de decodificación, identificando palabras aisladas a un nivel aproximado de Kindergarten y mostrando confusión persistente entre grafemas de formas similares, tales como b/d y p/q.
+
+Estas dificultades sugieren necesidades relacionadas con el procesamiento fonológico y la discriminación visual de letras durante tareas de lectoescritura. Durante actividades de lectura independiente, el estudiante puede presentar frustración, por lo que requiere apoyos estructurados, tiempo adicional y estrategias explícitas. Se ha observado progreso positivo cuando participa en intervención multisensorial, por lo que se recomienda continuar utilizando enfoques que integren lo visual, auditivo y kinestésico.
+
+Esta descripción puede servir de base para desarrollar metas anuales medibles enfocadas en decodificación, reconocimiento de grafemas y fluidez lectora inicial.`
+            },
+            comms: {
+                title: 'Correo institucional delicado',
+                badge: 'Comunicación institucional',
+                prompt: 'Rol: Maestro Cooperador DEPR. Redacta correo formal a directora sobre posible inseguridad alimentaria.',
+                inputs: [
+                    'Asunto: posible inseguridad alimentaria.',
+                    'Observación: llega frecuentemente sin desayunar.',
+                    'Manifestación: “En mi casa no hay comida a veces”.',
+                    'Impacto: bajo rendimiento, cansancio y falta de concentración.',
+                    'Periodo observado: últimas 3 semanas.',
+                    'Acción solicitada: activar protocolo de apoyo.'
+                ],
+                output: `Asunto: Solicitud de apoyo confidencial para estudiante
+
+Estimada Directora [apellido]:
+
+Reciba un cordial saludo. Me dirijo a usted para compartir una preocupación observada durante las últimas tres semanas en relación con un estudiante de mi grupo. He notado que el estudiante llega frecuentemente sin desayunar y ha manifestado, de manera directa, que en ocasiones no hay comida disponible en su hogar.
+
+Durante este mismo periodo, se ha observado un descenso notable en su rendimiento académico, cansancio extremo y dificultad para mantener la concentración durante las actividades de clase. Comparto esta información desde una perspectiva objetiva y con el propósito de procurar el bienestar del menor, evitando cualquier juicio sobre la unidad familiar.
+
+Solicito respetuosamente que se considere la activación del protocolo correspondiente mediante el Trabajador Social o Consejero Escolar, de modo que se pueda evaluar la situación y brindar el apoyo necesario.
+
+Agradezco que esta información sea manejada con estricta confidencialidad y respeto por la dignidad del estudiante y su familia.
+
+Cordialmente,
+[Nombre del docente]`
+            },
+            minutes: {
+                title: 'Minuta y referencia profesional',
+                badge: 'Registro institucional',
+                prompt: 'Rol: Secretario de comité escolar. Redacta minuta breve con acuerdos, responsables y próximos pasos.',
+                inputs: [
+                    'Reunión: comité de apoyo académico.',
+                    'Asistentes: docente, consejería, trabajo social y dirección.',
+                    'Tema: seguimiento académico y bienestar estudiantil.',
+                    'Acuerdos: recopilar evidencia, coordinar reunión y revisar apoyos.',
+                    'Próxima acción: seguimiento en dos semanas.'
+                ],
+                output: `Minuta de reunión: Comité de apoyo académico
+
+Fecha: [fecha]
+Lugar: [lugar o modalidad]
+Asistentes: docente, personal de consejería, trabajo social y dirección escolar.
+
+Propósito de la reunión:
+Dar seguimiento a indicadores académicos y de bienestar observados en el grupo, con énfasis en la coordinación de apoyos institucionales.
+
+Temas discutidos:
+1. Revisión de observaciones académicas recientes.
+2. Identificación de posibles necesidades de apoyo socioemocional.
+3. Coordinación de estrategias de intervención y seguimiento.
+
+Acuerdos:
+- El docente recopilará evidencia adicional de desempeño y participación.
+- Consejería coordinará una orientación inicial según disponibilidad.
+- Trabajo Social evaluará posibles apoyos familiares o comunitarios.
+- Dirección dará seguimiento al cumplimiento de los acuerdos.
+
+Próximo seguimiento:
+Se acuerda revisar el progreso en un periodo aproximado de dos semanas.
+
+Preparado por:
+[Nombre y rol]`
+            }
+        };
+
+        function loadAdminTab(event, key) {
+            document.querySelectorAll('.admin-tab-btn').forEach((button) => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            if (event?.currentTarget) {
+                event.currentTarget.classList.add('active');
+                event.currentTarget.setAttribute('aria-selected', 'true');
+            }
+
+            const data = adminDocsData[key];
+            const content = document.getElementById('adminContent');
+            if (!data || !content) return;
+
+            content.innerHTML = `
+                <div class="admin-section-header">
+                    <h3>${data.title}</h3>
+                    <span class="admin-section-badge">${data.badge}</span>
+                </div>
+                <div class="editor-container">
+                    <div>
+                        <span class="panel-title">Datos de entrada</span>
+                        <div class="input-box">
+                            <div class="data-item"><strong>Prompt base:</strong> ${data.prompt}</div>
+                            ${data.inputs.map((item) => `<div class="data-item">${item}</div>`).join('')}
+                        </div>
+                        <button class="generate-btn" type="button" onclick="generateAdminDoc('${key}')">✨ Generar borrador</button>
+                    </div>
+                    <div>
+                        <span class="panel-title">Borrador generado</span>
+                        <div class="output-box" id="adminOutput">
+                            <div class="placeholder-text">Selecciona “Generar borrador” para ver una simulación del documento.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-notice">
+                    <span aria-hidden="true">⚠️</span>
+                    <p><strong>Revisión humana obligatoria:</strong> verifica datos, fechas, tono, confidencialidad, alineación institucional y pertinencia cultural antes de compartir o enviar cualquier documento.</p>
+                </div>
+            `;
+        }
+
+        function generateAdminDoc(key) {
+            const output = document.getElementById('adminOutput');
+            const data = adminDocsData[key];
+            if (!output || !data) return;
+
+            output.innerHTML = '<div class="placeholder-text">Redactando borrador con IA...</div>';
+            window.setTimeout(() => {
+                output.textContent = data.output;
+            }, 350);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminTab(null, 'standard');
+        });
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

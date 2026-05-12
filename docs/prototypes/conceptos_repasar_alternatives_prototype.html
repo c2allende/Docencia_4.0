@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo: Alternativas de Conceptos a Repasar | Docencia 4.0</title>
+    <link rel="stylesheet" href="../../docencia-4.0/styles/main.css">
+    <style>
+        body { background-color: #f8fafc; padding: 0; margin: 0; font-family: var(--font-family-body, system-ui, sans-serif); }
+        .prototype-header { background: #1e293b; color: white; padding: 1.5rem 2rem; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .prototype-title { margin: 0; font-size: 1.25rem; font-weight: 600; }
+        .controls-wrapper { display: flex; gap: 1rem; align-items: center; }
+        .selector-label { font-size: 0.875rem; color: #cbd5e1; }
+        select { padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid #475569; background: #334155; color: white; font-size: 0.95rem; outline: none; }
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .metric-box { background: #e2e8f0; border: 1px dashed #94a3b8; padding: 0.5rem; text-align: center; font-family: monospace; font-size: 0.85rem; color: #475569; margin-top: 1rem; border-radius: 4px; }
+        .mock-lesson-content { padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem; border: 1px solid #e2e8f0; }
+        .mock-text { color: #64748b; line-height: 1.6; margin-bottom: 1.5rem; }
+        .mock-text.placeholder { height: 12px; background: #f1f5f9; border-radius: 4px; margin-bottom: 0.5rem; }
+        .mock-text.placeholder.w-full { width: 100%; }
+        .mock-text.placeholder.w-3-4 { width: 75%; }
+        .mock-text.placeholder.w-1-2 { width: 50%; }
+        .alt-container { display: none; }
+        .alt-container.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Alt 0 */
+        .alt0-slider-section { background: var(--color-background-surface-low, #f8f9fa); padding: var(--spacing-6, 1.5rem); border-radius: var(--radius-lg, 8px); margin-bottom: var(--spacing-8, 2rem); }
+        .alt0-slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-4, 1rem); }
+        .alt0-slider-header h2 { margin: 0; font-size: 1.5rem; }
+        .alt0-slider-controls button { background: white; border: 1px solid #ccc; padding: 0.5rem 1rem; cursor: pointer; }
+        .alt0-slider-container { background: white; padding: var(--spacing-6, 1.5rem); border-radius: var(--radius-md, 6px); box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1)); }
+
+        /* General / Alt E2 / Alt E3 Icons */
+        .altE2-header-icon { color: var(--color-text-secondary, #475569); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.5rem; }
+        .altE2-header-icon svg { width: 24px; height: 24px; }
+        
+        /* Concept Cards */
+        .altE2-micro-card { background: white; border: 1px solid var(--color-border-default, #e2e8f0); border-radius: var(--radius-md, 6px); padding: var(--spacing-4, 1rem); box-shadow: 0 1px 2px rgba(0,0,0,0.02); margin-bottom: var(--spacing-3, 0.75rem); transition: border-color 0.2s; }
+        .altE2-micro-card:hover { border-color: #cbd5e1; }
+        .altE2-micro-card h3 { margin: 0; font-size: 1rem; color: var(--color-text-primary, #1e293b); font-weight: 600; }
+        
+        .small-citation { color: var(--color-text-muted, #64748b); display: block; margin-top: 0.75rem; font-size: 0.85rem; line-height: 1.4; border-top: 1px dashed var(--color-border-default, #e2e8f0); padding-top: 0.75rem; }
+
+        /* Customizing <details> */
+        .altE2-details { margin-top: 0.5rem; }
+        .altE2-summary { color: var(--color-brand-primary, #0f172a); cursor: pointer; font-weight: 500; font-size: 0.9rem; outline-offset: 2px; list-style: none; display: inline-flex; align-items: center; }
+        .altE2-summary::-webkit-details-marker { display: none; }
+        .altE2-summary::before { content: '▸'; display: inline-block; margin-right: 0.25rem; transition: transform 0.2s; }
+        .altE2-details[open] .altE2-summary::before { transform: rotate(90deg); }
+        .altE2-summary:hover { text-decoration: underline; }
+        
+        .altE2-details-content { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-border-default, #e2e8f0); font-size: 0.95rem; color: var(--color-text-primary, #334155); line-height: 1.6; }
+
+        /* Secondary Button Style for "Ver más" */
+        .e2-more-btn { background: transparent; border: 1px solid var(--color-border-default, #e2e8f0); color: var(--color-text-secondary, #475569); padding: 0.5rem 1rem; border-radius: var(--radius-sm, 4px); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; }
+        .e2-more-btn:hover { background: var(--color-background-surface-low, #f8fafc); border-color: #cbd5e1; color: var(--color-text-primary, #1e293b); }
+        
+        /* Prototype specific controls */
+        .e2-scenario-controls { margin-bottom: 1.5rem; padding: 1rem; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 6px; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .e2-scenario-btn, .e3-scenario-btn { padding: 0.4rem 0.8rem; font-size: 0.85rem; background: white; border: 1px solid #94a3b8; border-radius: 4px; cursor: pointer; font-weight: 600; color: #475569; transition: all 0.2s; }
+        .e2-scenario-btn.active, .e3-scenario-btn.active { background: #334155; color: white; border-color: #334155; }
+        
+        .e2-hidden-concept, .e3-hidden-concept { display: none; }
+        .e2-hidden-concept.revealed, .e3-hidden-concept.revealed { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+        /* Alt E3 specific */
+        .e3-main-card { background: white; border: 1px solid var(--color-border-default, #e2e8f0); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .e3-count-badge { background: #f1f5f9; color: #475569; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
+        .e3-toggle-btn { background: white; border: 1px solid var(--color-brand-primary, #0f172a); color: var(--color-brand-primary, #0f172a); padding: 0.5rem 1.25rem; border-radius: 4px; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .e3-toggle-btn:hover { background: #f8fafc; border-color: #334155; }
+        .e3-top-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; }
+        .e3-top-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; }
+
+        @media (max-width: 600px) {
+            .e3-top-right { align-items: flex-start; width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="prototype-header">
+        <h1 class="prototype-title">Prototipo UX/UI: Conceptos a repasar</h1>
+        <div class="controls-wrapper">
+            <span class="selector-label">Seleccionar alternativa:</span>
+            <select id="altSelector" onchange="switchAlternative(this.value)">
+                <option value="altE3">Alt E3 — Panel colapsado + adaptativo (NUEVO)</option>
+                <option value="altE2">Alt E2 Refinada — Adaptativo Compacto</option>
+                <option value="alt0">Alt 0 — Diseño actual</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="mock-lesson-content">
+            <h2 style="margin-top:0;">Contexto de la lección</h2>
+            <div class="mock-text placeholder w-full"></div>
+            <div class="mock-text placeholder w-3-4"></div>
+            <p class="mock-text" style="margin-bottom: 3rem;">El siguiente componente se presenta para ayudar a afianzar los términos clave.</p>
+
+            <div id="alternativesWrapper">
+
+                <!-- ALTERNATIVA E3 (PANEL COLAPSADO) -->
+                <div id="altE3" class="alt-container active">
+                    
+                    <div class="e2-scenario-controls">
+                        <span style="width:100%; font-size:0.8rem; font-weight:bold; color:#64748b; margin-bottom:-0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Panel de prueba (No va a producción)</span>
+                        <button class="e3-scenario-btn active" onclick="loadE3Scenario(2, this)">Escenario: 2 Conceptos</button>
+                        <button class="e3-scenario-btn" onclick="loadE3Scenario(4, this)">Escenario: 4 Conceptos</button>
+                        <button class="e3-scenario-btn" onclick="loadE3Scenario(7, this)">Escenario: 7 Conceptos</button>
+                    </div>
+
+                    <section aria-labelledby="conceptos-title-E3" style="margin-bottom: var(--spacing-8, 2rem);">
+                        <div class="e3-main-card">
+                            <div class="e3-top-row">
+                                <div>
+                                    <div style="display:flex; align-items:center; margin-bottom: 0.25rem;">
+                                        <div class="altE2-header-icon" aria-hidden="true">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                            </svg>
+                                        </div>
+                                        <h2 id="conceptos-title-E3" style="margin:0; font-size:1.25rem; color:var(--color-text-primary, #1e293b);">Conceptos a repasar</h2>
+                                    </div>
+                                    <p style="color:var(--color-text-secondary, #475569); margin:0; margin-left: 2rem; font-size: 0.95rem;">Antes de continuar, repasa estas ideas clave.</p>
+                                </div>
+                                <div class="e3-top-right">
+                                    <span id="e3-count-badge" class="e3-count-badge">X conceptos disponibles</span>
+                                    <button id="e3-toggle-btn" class="e3-toggle-btn" onclick="toggleE3Panel()" aria-expanded="false" aria-controls="e3-internal-panel">Repasar conceptos</button>
+                                </div>
+                            </div>
+
+                            <!-- Panel interno -->
+                            <div id="e3-internal-panel" style="display: none; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; margin-top: 0.5rem;">
+                                <div id="e3-concepts-container">
+                                    <!-- Conceptos E3 inyectados -->
+                                </div>
+                                <div id="e3-more-container" style="display:none; margin-top: 1rem; text-align: center;">
+                                    <button id="e3-more-btn" class="e2-more-btn" onclick="revealMoreE3()" aria-expanded="false" aria-controls="e3-concepts-container">
+                                        <span>Ver más conceptos</span>
+                                        <svg aria-hidden="true" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ALTERNATIVA E2 REFINADA (ADAPTATIVA COMPACTA) -->
+                <div id="altE2" class="alt-container">
+                    
+                    <div class="e2-scenario-controls">
+                        <span style="width:100%; font-size:0.8rem; font-weight:bold; color:#64748b; margin-bottom:-0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Panel de prueba (No va a producción)</span>
+                        <button class="e2-scenario-btn active" onclick="loadE2Scenario(2, this)">Escenario: 2 Conceptos</button>
+                        <button class="e2-scenario-btn" onclick="loadE2Scenario(4, this)">Escenario: 4 Conceptos</button>
+                        <button class="e2-scenario-btn" onclick="loadE2Scenario(7, this)">Escenario: 7 Conceptos</button>
+                    </div>
+
+                    <section class="conceptos-micro" aria-labelledby="conceptos-title-E2" style="margin-bottom: var(--spacing-8, 2rem);">
+                        <header style="margin-bottom: 1.25rem;">
+                            <div style="display:flex; align-items:center; margin-bottom: 0.25rem;">
+                                <div class="altE2-header-icon" aria-hidden="true">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                </div>
+                                <h2 id="conceptos-title-E2" style="margin:0; font-size:1.25rem; color:var(--color-text-primary, #1e293b);">Conceptos a repasar</h2>
+                            </div>
+                            <p style="color:var(--color-text-secondary, #475569); margin:0; margin-left: 2rem; font-size: 0.95rem;">Antes de continuar, repasa estas ideas clave.</p>
+                        </header>
+                        
+                        <div id="e2-concepts-container">
+                            <!-- Injected by JS -->
+                        </div>
+                        
+                        <div id="e2-more-container" style="display:none; margin-top: 1rem; text-align: center;">
+                            <button id="e2-more-btn" class="e2-more-btn" onclick="revealMoreE2()" aria-expanded="false" aria-controls="e2-concepts-container">
+                                <span>Ver más conceptos</span>
+                                <svg aria-hidden="true" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ALTERNATIVA 0 -->
+                <div id="alt0" class="alt-container">
+                    <section class="alt0-slider-section" aria-labelledby="conceptos-title-0">
+                        <div class="alt0-slider-header">
+                            <h2 id="conceptos-title-0">Conceptos a repasar</h2>
+                            <div class="alt0-slider-controls">
+                                <button type="button" aria-label="Concepto anterior">←</button>
+                                <button type="button" aria-label="Concepto siguiente">→</button>
+                            </div>
+                        </div>
+                        <div class="alt0-slider-container">
+                            <article>
+                                <h3 style="margin-top:0;">Lista de verificación ética: Protocolo de anonimización</h3>
+                                <p>Es un conjunto estandarizado de criterios diseñados para garantizar que cualquier dato o escenario provisto al LLM no contenga información personal o sensible. Al aplicarse sistemáticamente, previene filtraciones de datos y asegura el cumplimiento de normativas de privacidad institucionales. Esto es crucial en entornos educativos donde se maneja información de estudiantes, garantizando un uso seguro de la Inteligencia Artificial.</p>
+                                <small class="small-citation">García, M. (2024). Privacidad en IA Educativa. Editorial Universitaria.</small>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+
+            <div class="mock-text placeholder w-full" style="margin-top:2rem;"></div>
+            <div class="mock-text placeholder w-1-2"></div>
+
+            <div class="metric-box" id="metricBox">Calculando altura...</div>
+            
+        </div>
+    </div>
+
+    <script>
+        const mockConcepts = [
+            {
+                title: "1. Lista de verificación ética: Protocolo de anonimización",
+                text: "Es un conjunto estandarizado de criterios diseñados para garantizar que cualquier dato o escenario provisto al LLM no contenga información personal o sensible. Al aplicarse sistemáticamente, previene filtraciones de datos y asegura el cumplimiento de normativas de privacidad institucionales. Esto es crucial en entornos educativos donde se maneja información de estudiantes.",
+                cite: "García, M. (2024). Privacidad en IA Educativa. Editorial Universitaria."
+            },
+            {
+                title: "2. Explicación paso a paso en STEM",
+                text: "Es una estrategia en la que un modelo de lenguaje (o el docente) descompone la resolución de un problema en una secuencia ordenada de pasos intermedios, mostrando operaciones, justificaciones y decisiones antes de presentar la respuesta final. Funciona como ejemplo trabajado que reduce la carga cognitiva.",
+                cite: "DataCamp. (2024). Chain-of-thought prompting."
+            },
+            {
+                title: "3. Sobre-dependencia algorítmica",
+                text: "Fenómeno donde el docente confía ciegamente en el resultado del LLM sin aplicar validación experta o juicio profesional, delegando su agencia pedagógica. Puede resultar en pérdida de agencia y adopción de decisiones sesgadas proporcionadas por el modelo.",
+                cite: "UNESCO. (2023). Orientaciones sobre IA."
+            },
+            {
+                title: "4. Validación humana en el lazo (HITL)",
+                text: "Enfoque donde un ser humano siempre revisa, ajusta y aprueba el contenido generado por IA antes de su uso o publicación. Garantiza que el contenido cumplo con los estándares éticos y de calidad educativa.",
+                cite: ""
+            },
+            {
+                title: "5. Alucinación del modelo",
+                text: "Generación de información falsa, incorrecta o sin sentido presentada como un hecho verídico por el LLM. Ocurre porque los modelos predicen la siguiente palabra más probable, sin tener una comprensión real del mundo.",
+                cite: ""
+            },
+            {
+                title: "6. Prompt Engineering (Ingeniería de instrucciones)",
+                text: "El proceso de diseñar y refinar instrucciones dadas a un modelo de IA para obtener resultados precisos y útiles. Involucra claridad, contexto, y restricciones.",
+                cite: ""
+            },
+            {
+                title: "7. Carga cognitiva intrínseca",
+                text: "El esfuerzo mental asociado directamente con la dificultad inherente del tema que se está aprendiendo. El diseño instruccional apoyado en IA busca no aumentar la carga cognitiva extrínseca.",
+                cite: "Sweller, J. (1988). Cognitive load during problem solving."
+            }
+        ];
+
+        let currentE2Count = 2;
+        let currentE3Count = 2;
+        let isE3Open = false;
+
+        function switchAlternative(altId) {
+            document.querySelectorAll('.alt-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(altId).classList.add('active');
+            
+            if (altId === 'altE2') {
+                loadE2Scenario(currentE2Count, document.querySelector('.e2-scenario-btn.active'));
+            } else if (altId === 'altE3') {
+                loadE3Scenario(currentE3Count, document.querySelector('.e3-scenario-btn.active'));
+            } else {
+                measureHeight(document.getElementById(altId));
+            }
+        }
+
+        // Logic for E2
+        function loadE2Scenario(count, btnEl) {
+            currentE2Count = count;
+            document.querySelectorAll('.e2-scenario-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            const container = document.getElementById('e2-concepts-container');
+            const moreBtnContainer = document.getElementById('e2-more-container');
+            const moreBtn = document.getElementById('e2-more-btn');
+            const btnText = moreBtn.querySelector('span');
+            
+            container.innerHTML = '';
+            
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                const isHidden = i >= 3;
+                const concept = mockConcepts[i];
+                html += `
+                    <div class="altE2-micro-card ${isHidden ? 'e2-hidden-concept' : ''}">
+                        <h3>${concept.title}</h3>
+                        <details class="altE2-details" ontoggle="reMeasure()">
+                            <summary class="altE2-summary">Leer explicación y cita</summary>
+                            <div class="altE2-details-content">
+                                <p style="margin:0;">${concept.text}</p>
+                                ${concept.cite ? `<small class="small-citation">${concept.cite}</small>` : ''}
+                            </div>
+                        </details>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+
+            if (count > 3) {
+                moreBtnContainer.style.display = 'block';
+                btnText.textContent = count > 6 ? 'Ver todos los conceptos' : 'Ver más conceptos';
+                moreBtn.setAttribute('aria-expanded', 'false');
+                moreBtn.style.display = 'inline-flex';
+            } else {
+                moreBtnContainer.style.display = 'none';
+            }
+
+            measureHeight(document.getElementById('altE2'));
+        }
+
+        function revealMoreE2() {
+            const hiddenConcepts = document.querySelectorAll('.e2-hidden-concept');
+            hiddenConcepts.forEach(el => el.classList.add('revealed'));
+            const moreBtn = document.getElementById('e2-more-btn');
+            moreBtn.setAttribute('aria-expanded', 'true');
+            moreBtn.style.display = 'none'; 
+            measureHeight(document.getElementById('altE2'));
+        }
+
+        // Logic for E3
+        function loadE3Scenario(count, btnEl) {
+            currentE3Count = count;
+            document.querySelectorAll('.e3-scenario-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            document.getElementById('e3-count-badge').innerText = `${count} conceptos disponibles`;
+            
+            // reset panel
+            isE3Open = false;
+            document.getElementById('e3-internal-panel').style.display = 'none';
+            const btn = document.getElementById('e3-toggle-btn');
+            btn.innerText = 'Repasar conceptos';
+            btn.setAttribute('aria-expanded', 'false');
+
+            const container = document.getElementById('e3-concepts-container');
+            const moreBtnContainer = document.getElementById('e3-more-container');
+            const moreBtn = document.getElementById('e3-more-btn');
+            const btnText = moreBtn.querySelector('span');
+            
+            container.innerHTML = '';
+            
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                const isHidden = i >= 3;
+                const concept = mockConcepts[i];
+                html += `
+                    <div class="altE2-micro-card ${isHidden ? 'e3-hidden-concept' : ''}">
+                        <h3>${concept.title}</h3>
+                        <details class="altE2-details" ontoggle="reMeasure()">
+                            <summary class="altE2-summary">Leer explicación y cita</summary>
+                            <div class="altE2-details-content">
+                                <p style="margin:0;">${concept.text}</p>
+                                ${concept.cite ? `<small class="small-citation">${concept.cite}</small>` : ''}
+                            </div>
+                        </details>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+
+            if (count > 3) {
+                moreBtnContainer.style.display = 'block';
+                btnText.textContent = count > 6 ? 'Ver todos los conceptos' : 'Ver más conceptos';
+                moreBtn.setAttribute('aria-expanded', 'false');
+                moreBtn.style.display = 'inline-flex';
+            } else {
+                moreBtnContainer.style.display = 'none';
+            }
+
+            measureHeight(document.getElementById('altE3'));
+        }
+
+        function toggleE3Panel() {
+            isE3Open = !isE3Open;
+            const panel = document.getElementById('e3-internal-panel');
+            const btn = document.getElementById('e3-toggle-btn');
+            
+            if (isE3Open) {
+                panel.style.display = 'block';
+                btn.innerText = 'Ocultar conceptos';
+                btn.setAttribute('aria-expanded', 'true');
+            } else {
+                panel.style.display = 'none';
+                btn.innerText = 'Repasar conceptos';
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            measureHeight(document.getElementById('altE3'));
+        }
+
+        function revealMoreE3() {
+            const hiddenConcepts = document.querySelectorAll('.e3-hidden-concept');
+            hiddenConcepts.forEach(el => el.classList.add('revealed'));
+            const moreBtn = document.getElementById('e3-more-btn');
+            moreBtn.setAttribute('aria-expanded', 'true');
+            moreBtn.style.display = 'none'; 
+            measureHeight(document.getElementById('altE3'));
+        }
+
+        function measureHeight(element) {
+            setTimeout(() => {
+                const section = element.querySelector('section');
+                if (section) {
+                    const height = section.offsetHeight;
+                    document.getElementById('metricBox').innerText = `Altura vertical aproximada: ${height}px`;
+                }
+            }, 10);
+        }
+
+        function reMeasure() {
+            // Find active container
+            const active = document.querySelector('.alt-container.active');
+            if(active) measureHeight(active);
+        }
+
+        window.onload = () => {
+            loadE3Scenario(2, document.querySelector('.e3-scenario-btn.active'));
+        };
+    </script>
+</body>
+</html>

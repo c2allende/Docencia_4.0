@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 3.1 de Docencia 4.0: Diseño automatizado de instrumentos de evaluación con LLM, rúbricas, listas de cotejo, bancos de reactivos e integración LMS.">
+    <meta name="keywords"
+        content="Docencia 4.0, Lección 3.1, evaluación educativa, rúbricas, listas de cotejo, bancos de reactivos, LMS, LLM, IA educativa, Bloom, Webb DOK">
+    <title>Lección 3.1 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            min-height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .control-btn:focus-visible,
+        .eval-nav-btn:focus-visible,
+        .bloom-item:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .genially-frame-inner iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .subsection-title {
+            margin: var(--spacing-md) 0 var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .text-section {
+            clear: both;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .audio-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        .content-list,
+        .content-list-ordered {
+            margin: var(--spacing-md) 0 var(--spacing-xl);
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li,
+        .content-list-ordered li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker,
+        .content-list-ordered li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .highlight-box {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+            box-shadow: var(--shadow-flat);
+        }
+
+        .warning-box {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .prompt-example {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-card-inverse);
+            color: var(--color-cyan-100);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-example p,
+        .prompt-example li {
+            color: var(--color-alpha-white-90);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .comp-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .comp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .comp-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .comp-card h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .img-container-premium {
+            margin: var(--spacing-16) 0;
+            text-align: center;
+        }
+
+        .image-zoom-trigger {
+            display: inline-block;
+            max-width: min(100%, 900px);
+            padding: 0;
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            box-shadow: var(--shadow-ambient);
+            cursor: zoom-in;
+        }
+
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .image-zoom-trigger:hover img {
+            transform: scale(1.01);
+        }
+
+        .img-caption {
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* COMPONENTE INTERACTIVO */
+        .interactive-eval-component {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-16) 0;
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .eval-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .eval-header {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .eval-header h2 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .eval-header p {
+            margin: 0;
+            color: var(--color-brand-primary-on);
+            opacity: 0.92;
+        }
+
+        .eval-badge {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-20, var(--color-alpha-white-15));
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .eval-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            overflow-x: auto;
+            padding: var(--spacing-2);
+        }
+
+        .eval-nav-btn {
+            padding: var(--spacing-3) var(--spacing-5);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-text-muted);
+            font-family: var(--font-family-body);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .eval-nav-btn:hover,
+        .eval-nav-btn.active {
+            transform: translateY(-2px);
+            background: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .eval-panel {
+            display: none;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .eval-panel.active {
+            display: block;
+            animation: fadeInEval var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        @keyframes fadeInEval {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eval-panel h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .interactive-box {
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--font-size-sm);
+        }
+
+        th,
+        td {
+            padding: var(--spacing-3);
+            border: var(--border-width-1) solid var(--color-border-default);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .bloom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .bloom-item {
+            min-height: 86px;
+            padding: var(--spacing-lg);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            text-align: center;
+            cursor: pointer;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bloom-item:hover {
+            transform: translateY(-4px);
+            background: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .alert-box {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+        }
+
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .workflow-step:hover {
+            transform: translateX(8px);
+        }
+
+        .step-num {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 36px;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        /* SLIDER */
+        .slider-section {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .slider-header h2 {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .control-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: var(--spacing-2);
+        }
+
+        .slider-track {
+            display: flex;
+            gap: var(--spacing-lg);
+            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
+        }
+
+        .slider-item {
+            min-width: 100%;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .slider-item h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+        }
+
+        .concept-ref {
+            display: block;
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+            font-style: italic;
+        }
+
+        .completion-card {
+            position: relative;
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: calc(-1 * var(--spacing-5));
+            right: var(--spacing-xl);
+            padding: var(--spacing-2) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .completion-title {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .completion-text {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-secondary);
+        }
+
+        /* CHECKPOINT GENIALLY */
+        .checkpoint-container {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--gradient-blue);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .checkpoint-container h2 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .checkpoint-container p {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-white);
+            opacity: 0.95;
+        }
+
+        .genially-frame-wrap {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            background: var(--color-alpha-white-10);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .genially-frame-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .genially-frame-inner iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* BIBLIOGRAFÍA */
+        .bibliography-section {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .bib-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-lg) 0 0;
+        }
+
+        .bib-list li {
+            position: relative;
+            padding-left: var(--spacing-8);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .bib-list li::before {
+            content: "📚";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* NAVEGACIÓN ENTRE LECCIONES */
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .nav-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            text-decoration: none;
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .nav-btn:hover {
+            border-color: var(--color-brand-primary);
+            background: var(--color-background-surface-low);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .nav-btn.prev {
+            align-items: flex-start;
+        }
+
+        .nav-btn.next {
+            align-items: flex-end;
+            text-align: right;
+            background: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+        }
+
+        .nav-btn.next:hover {
+            background: var(--color-brand-primary-dark, #0056b3);
+        }
+
+        .nav-label {
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+            color: var(--color-text-muted);
+        }
+
+        .nav-btn.next .nav-label {
+            color: var(--color-alpha-white-70);
+        }
+
+        .nav-title {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-brand-primary);
+        }
+
+        .nav-btn.next .nav-title {
+            color: var(--color-brand-primary-on);
+        }
+
+        /* MODAL DE ZOOM */
+        .modal-zoom {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            background: var(--color-alpha-black-80);
+            backdrop-filter: blur(var(--blur-md));
+            -webkit-backdrop-filter: blur(var(--blur-md));
+            cursor: zoom-out;
+        }
+
+        .modal-zoom.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 90vh;
+        }
+
+        .modal-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-2xl);
+            cursor: default;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: calc(-1 * var(--spacing-12));
+            right: 0;
+            background: none;
+            border: none;
+            color: var(--color-white);
+            font-size: var(--font-size-3xl);
+            cursor: pointer;
+            padding: var(--spacing-2);
+            line-height: 1;
+        }
+
+        /* BOTÓN SCROLL TOP */
+        .btn-scroll-top {
+            position: fixed;
+            bottom: var(--spacing-lg);
+            right: var(--spacing-lg);
+            z-index: 900;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            box-shadow: var(--shadow-floating);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .btn-scroll-top:hover {
+            background: var(--color-brand-secondary);
+            transform: translateY(-5px);
+        }
+
+        /* FOOTER INSTITUCIONAL */
+        .institutional-footer {
+            margin-top: var(--spacing-16);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .lesson-card {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .section-title {
+                font-size: var(--font-size-xl);
+            }
+
+            .eval-tabs,
+            .eval-nav-btn {
+                width: 100%;
+            }
+
+            .eval-tabs {
+                flex-direction: column;
+            }
+
+            .lesson-nav {
+                flex-direction: column;
+            }
+
+            .bloom-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .module-title-nav {
+                display: none;
+            }
+
+            .bloom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="top-nav" aria-label="Navegación principal">
+        <div class="nav-left">
+            <button class="menu-btn" id="menu-toggle" aria-expanded="false" aria-controls="module-sidebar"
+                aria-label="Abrir menú del módulo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <a href="dashboard.html" class="logo-container" title="Ir al Panel de Control">
+                <img src="assets/logo.png" alt="Logo Docencia 4.0" width="180" height="56">
+            </a>
+            <div class="module-title-nav">Módulo 3: Evaluación y Feedback Asistido</div>
+        </div>
+    </nav>
+
+    <!-- Menú Lateral -->
+    <div class="module-sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="module-sidebar" id="module-sidebar" aria-label="Menú del módulo">
+        <h2 class="side-menu-title">Contenido</h2>
+        <nav>
+            <ul class="menu-links">
+                <li><a href="modulo3_intro.html">Introducción al Módulo</a></li>
+
+                <span class="menu-section-label">Contenido Teórico</span>
+                <li><a href="leccion3_1.html" class="active">Lección 3.1: Diseño de Instrumentos</a></li>
+                <li><a href="leccion3_2.html">Lección 3.2: Retroalimentación Formativa</a></li>
+                <li><a href="leccion3_3.html">Lección 3.3: Burocracia y Gestión</a></li>
+                <li><a href="leccion3_4.html">Lección 3.4: Ética y Futuro</a></li>
+
+                <span class="menu-section-label">Práctica</span>
+                <li><a href="actividad3_1.html">Actividad 3.1: Laboratorio de Evaluación</a></li>
+                <li><a href="foro_modulo3.html">Foro de Discusión M3</a></li>
+                <li><a href="recursos_m3.html">Recursos Complementarios</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card">
+            <header>
+                <div class="eval-badge">Teoría y Aplicación</div>
+                <h1 class="lesson-title">3.1 El Diseño de Instrumentos de Evaluación</h1>
+                <p class="lesson-intro">
+                    En esta lección, exploraremos cómo los Modelos de Lenguaje de Gran Escala (LLM) transforman el diseño
+                    de instrumentos de evaluación, permitiendo crear rúbricas precisas, listas de cotejo detalladas y
+                    bancos de reactivos robustos alineados con los objetivos de aprendizaje.
+                </p>
+            </header>
+
+            <div class="audio-player-container">
+                <span class="audio-label">Resumen de la lección (Audio)</span>
+                <audio controls class="audio-player">
+                    <source src="assets/audio/m3_leccion3_1_resumen.mp3" type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+
+            <!-- Sección 1 -->
+            <section class="text-section">
+                <h2 class="section-title">1. Automatización del Diseño Evaluativo</h2>
+                <p>
+                    La evaluación es uno de los procesos más críticos y, a la vez, más demandantes en la labor docente.
+                    El diseño de instrumentos requiere una alineación perfecta entre los <strong>objetivos de
+                        aprendizaje</strong>, las <strong>actividades de instrucción</strong> y los <strong>criterios de
+                        calificación</strong>. La IA no reemplaza el juicio del docente, sino que actúa como un
+                    especialista en diseño instruccional que genera borradores de alta calidad en segundos.
+                </p>
+
+                <div class="img-container-premium">
+                    <button class="image-zoom-trigger" aria-label="Ampliar imagen sobre alineación constructiva">
+                        <img src="assets/m3_alineacion_evaluativa.png"
+                            alt="Diagrama de alineación constructiva entre objetivos, enseñanza y evaluación">
+                    </button>
+                    <p class="img-caption">Figura 1: La alineación constructiva potenciada por LLM.</p>
+                </div>
+
+                <p>
+                    Para que un LLM genere un instrumento efectivo, es fundamental proporcionarle el contexto adecuado:
+                    el nivel de dominio esperado (Taxonomía de Bloom o DOK de Webb), el perfil del estudiante y el tipo
+                    de evidencia que se desea recolectar.
+                </p>
+            </section>
+
+            <!-- Sección 2: Interactiva -->
+            <section class="text-section">
+                <h2 class="section-title">2. Instrumentos Generados por IA</h2>
+                <p>
+                    A continuación, exploraremos los tres tipos principales de instrumentos que pueden optimizarse
+                    mediante el uso de prompts estructurados.
+                </p>
+
+                <div class="interactive-eval-component">
+                    <div class="eval-container">
+                        <div class="eval-header">
+                            <span class="eval-badge">Laboratorio de Diseño</span>
+                            <h2>Generador de Instrumentos</h2>
+                            <p>Selecciona una pestaña para ver ejemplos de prompts y resultados.</p>
+                        </div>
+
+                        <div class="eval-tabs" role="tablist">
+                            <button class="eval-nav-btn active" role="tab" aria-selected="true"
+                                aria-controls="rubricas-panel" id="tab-rubricas">Rúbricas Analíticas</button>
+                            <button class="eval-nav-btn" role="tab" aria-selected="false"
+                                aria-controls="cotejo-panel" id="tab-cotejo">Listas de Cotejo</button>
+                            <button class="eval-nav-btn" role="tab" aria-selected="false"
+                                aria-controls="reactivos-panel" id="tab-reactivos">Bancos de Reactivos</button>
+                        </div>
+
+                        <!-- Panel Rúbricas -->
+                        <div class="eval-panel active" id="rubricas-panel" role="tabpanel"
+                            aria-labelledby="tab-rubricas">
+                            <h3>Rúbricas Analíticas con IA</h3>
+                            <p>Las rúbricas analíticas permiten desglosar una tarea en criterios específicos y niveles de
+                                desempeño. Los LLM son excelentes para redactar descriptores de nivel que sean
+                                mutuamente excluyentes y progresivos.</p>
+
+                            <div class="interactive-box">
+                                <span class="audio-label">Estructura Sugerida del Prompt</span>
+                                <div class="prompt-example">
+                                    "Actúa como experto en evaluación. Crea una rúbrica analítica para un [Ensayo
+                                    Argumentativo] sobre [Cambio Climático]. Usa 4 niveles: Excelente, Satisfactorio, En
+                                    Desarrollo, Insuficiente. Criterios: Coherencia, Uso de Evidencia, Estructura APA y
+                                    Pensamiento Crítico. Presenta en formato tabla."
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel Cotejo -->
+                        <div class="eval-panel" id="cotejo-panel" role="tabpanel" aria-labelledby="tab-cotejo">
+                            <h3>Listas de Cotejo Precisas</h3>
+                            <p>Ideales para evaluar procesos, ejecuciones técnicas o la presencia/ausencia de elementos
+                                obligatorios en un producto.</p>
+
+                            <div class="interactive-box">
+                                <span class="audio-label">Estructura Sugerida del Prompt</span>
+                                <div class="prompt-example">
+                                    "Genera una lista de cotejo de 10 puntos para evaluar la [Presentación Oral] de un
+                                    proyecto de investigación. Asegúrate de incluir criterios de comunicación no verbal,
+                                    calidad del material de apoyo y manejo del tiempo."
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel Reactivos -->
+                        <div class="eval-panel" id="reactivos-panel" role="tabpanel" aria-labelledby="tab-reactivos">
+                            <h3>Bancos de Reactivos y Distractores</h3>
+                            <p>Uno de los mayores desafíos es crear distractores plausibles en preguntas de opción
+                                múltiple. La IA puede generar variantes de una pregunta para evitar el plagio o para
+                                exámenes de recuperación.</p>
+
+                            <div class="interactive-box">
+                                <span class="audio-label">Estructura Sugerida del Prompt</span>
+                                <div class="prompt-example">
+                                    "Basado en el siguiente texto sobre [Fotosíntesis], crea 5 preguntas de opción
+                                    múltiple. Para cada pregunta, genera una respuesta correcta y 3 distractores
+                                    plausibles pero incorrectos. Explica por qué cada distractor es incorrecto."
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección 3 -->
+            <section class="text-section">
+                <h2 class="section-title">3. Taxonomías y Niveles de Complejidad</h2>
+                <p>
+                    Para que la evaluación sea válida, el instrumento debe medir el nivel cognitivo que se declaró en el
+                    objetivo. Si el objetivo pide "Analizar", la rúbrica no puede limitarse a evaluar la "Identificación"
+                    de elementos.
+                </p>
+
+                <div class="highlight-box">
+                    <strong>Tip Pro:</strong> Puedes pedirle al LLM que "Valide la alineación de esta rúbrica con la
+                    Taxonomía de Bloom, nivel de Evaluación" para asegurar el rigor académico.
+                </div>
+
+                <div class="bloom-grid">
+                    <div class="bloom-item" tabindex="0">Recordar</div>
+                    <div class="bloom-item" tabindex="0">Comprender</div>
+                    <div class="bloom-item" tabindex="0">Aplicar</div>
+                    <div class="bloom-item" tabindex="0">Analizar</div>
+                    <div class="bloom-item" tabindex="0">Evaluar</div>
+                    <div class="bloom-item" tabindex="0">Crear</div>
+                </div>
+            </section>
+
+            <!-- Sección 4: Integración LMS -->
+            <section class="text-section">
+                <h2 class="section-title">4. Exportación e Integración</h2>
+                <p>
+                    Finalmente, la IA puede ayudarnos a formatear estos instrumentos para su uso inmediato en
+                    plataformas como Moodle, Canvas o Google Classroom. Muchos LLM pueden generar código **Markdown**,
+                    **HTML** o incluso archivos **CSV/XML** compatibles con los bancos de preguntas de los LMS.
+                </p>
+
+                <div class="alert-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        style="color: var(--color-brand-secondary);">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                        </path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <div>
+                        <strong>Verificación Humana:</strong> Nunca exportes un examen directamente sin revisar la
+                        precisión de las claves de respuesta. La IA puede alucinar o marcar como correcta una opción
+                        ambigua.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conceptos a repasar (Alt E3) -->
+            <section class="slider-section" id="conceptos-repasar" data-concept-review>
+                <div class="slider-header">
+                    <div>
+                        <h2>Conceptos a repasar</h2>
+                        <p class="img-caption">Antes de continuar, repasa estas ideas clave.</p>
+                    </div>
+                    <div class="slider-controls">
+                        <button class="eval-nav-btn" id="concept-review-toggle">Repasar conceptos</button>
+                    </div>
+                </div>
+
+                <div class="slider-track" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+                    <!-- Conceptos Iniciales (Siempre visibles al abrir) -->
+                    <div class="slider-item">
+                        <h3>Alineación Constructiva</h3>
+                        <p>Consistencia entre los objetivos de aprendizaje, las actividades de enseñanza y los procesos de evaluación (Biggs, 2003).</p>
+                    </div>
+                    <div class="slider-item">
+                        <h3>Rúbricas Analíticas</h3>
+                        <p>Instrumentos que desglosan una tarea en múltiples dimensiones, permitiendo una retroalimentación detallada sobre fortalezas y áreas de mejora (Brookhart, 2013).</p>
+                    </div>
+                    <div class="slider-item">
+                        <h3>Distractores Plausibles</h3>
+                        <p>Opciones incorrectas en una pregunta de opción múltiple que resultan atractivas para quienes no han alcanzado el dominio del tema, revelando patrones de error (Haladyna, 2004).</p>
+                    </div>
+
+                    <!-- Contenedor para conceptos adicionales (Revelado por el botón) -->
+                    <div id="concept-review-overflow" class="concept-review__overflow" style="display: none; grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+                        <div class="slider-item">
+                            <h3>Listas de cotejo</h3>
+                            <p>Instrumentos cerrados que registran la presencia o ausencia de atributos, conductas o pasos específicos en un proceso (Popham, 2014).</p>
+                        </div>
+                        <div class="slider-item">
+                            <h3>Banco de reactivos</h3>
+                            <p>Colección organizada de preguntas clasificadas por tema, dificultad y nivel cognitivo, facilitando la creación de versiones equivalentes de un examen (Downing, 2006).</p>
+                        </div>
+                        <div class="slider-item">
+                            <h3>Generación de exámenes</h3>
+                            <p>Proceso de selección y ensamblaje de reactivos para construir un instrumento de evaluación válido y confiable (AERA, APA, & NCME, 2014).</p>
+                        </div>
+                        <div class="slider-item">
+                            <h3>LMS (Learning Management System)</h3>
+                            <p>Sistemas de gestión de aprendizaje que permiten la administración, documentación y entrega de cursos y programas de formación (García-Peñalvo, 2021).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cierre de Lección -->
+            <section class="completion-card">
+                <div class="completion-badge">Lección Completada</div>
+                <h2 class="completion-title">¡Gran trabajo!</h2>
+                <p class="completion-text">
+                    Has finalizado la Lección 3.1. Ahora comprendes cómo los LLM pueden ser aliados estratégicos en la
+                    creación de instrumentos de evaluación técnica y pedagógicamente sólidos. La automatización no solo
+                    ahorra tiempo, sino que permite elevar el estándar de calidad de nuestras evaluaciones al facilitar
+                    la alineación constructiva.
+                </p>
+
+                <!-- Checkpoint -->
+                <div class="checkpoint-container">
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <h3>Checkpoint de Saberes</h3>
+                        <p>Valida tus conocimientos sobre el diseño de instrumentos asistidos por IA antes de pasar a la siguiente lección.</p>
+                    </div>
+                    <div class="genially-frame-wrap">
+                        <div class="genially-frame-inner">
+                            <iframe frameborder="0"
+                                src="https://view.genial.ly/679168b91953936666dfa99c"
+                                type="text/html" allowscriptaccess="always" allowfullscreen="true"
+                                scrolling="yes" allownetworking="all"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bibliografía -->
+            <section class="bibliography-section">
+                <h2 class="section-title">Bibliografía Sugerida</h2>
+                <ul class="bib-list">
+                    <li>Biggs, J., & Tang, C. (2011). Teaching for quality learning at university. McGraw-Hill Education.</li>
+                    <li>Brookhart, S. M. (2018). How to create and use rubrics for formative assessment and grading. ASCD.</li>
+                    <li>Haladyna, T. M. (2004). Developing and validating multiple-choice test items. Routledge.</li>
+                    <li>Popham, W. J. (2018). Classroom assessment: What teachers need to know. Pearson.</li>
+                </ul>
+            </section>
+
+            <!-- Navegación -->
+            <nav class="lesson-nav" aria-label="Navegación de lecciones">
+                <a href="modulo3_intro.html" class="nav-btn prev">
+                    <span class="nav-label">Anterior</span>
+                    <span class="nav-title">Introducción al Módulo</span>
+                </a>
+                <a href="leccion3_2.html" class="nav-btn next">
+                    <span class="nav-label">Siguiente</span>
+                    <span class="nav-title">Retroalimentación Formativa</span>
+                </a>
+            </nav>
+        </article>
+    </main>
+
+    <!-- Botón Scroll Top -->
+    <button id="scroll-top" class="btn-scroll-top" aria-label="Volver arriba">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Modal Zoom -->
+    <div id="modal-zoom" class="modal-zoom" role="dialog" aria-modal="true" aria-label="Vista ampliada de imagen">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close" aria-label="Cerrar vista ampliada">&times;</button>
+            <img src="" alt="" class="modal-img" id="modal-img">
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/lesson-core.js"></script>
+    <script src="scripts/concept-review.js"></script>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>
