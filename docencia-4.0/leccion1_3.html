@@ -458,106 +458,206 @@
             transform: scale(1.02);
         }
 
-        .img-editorial-right img,
-        .img-editorial-left img,
-        .image-zoom-trigger img {
-            width: 100%;
-            display: block;
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
-        .slider-section {
-            margin: var(--spacing-16) 0;
-            padding: var(--spacing-xl);
+        .section-title-sm {
+            margin-top: var(--spacing-lg);
+            font-size: var(--font-size-xl);
+        }
+
+        .text-section {
+            clear: both;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .text-section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .section-separator {
+            border: 0;
+            border-top: var(--border-width-1) solid var(--color-border-default);
+            margin: var(--spacing-12) 0;
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
             background: var(--color-background-surface-low);
             border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
+            border-radius: var(--radius-lg);
         }
 
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .slider-header h2 {
-            margin: 0;
+        .audio-label {
+            display: block;
             color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-2xl);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        .content-list,
+        .reference-list {
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+        }
+
+        .content-list li::marker {
+            color: var(--color-brand-primary);
             font-weight: var(--font-weight-extrabold);
         }
 
-        .slider-controls {
-            display: flex;
-            gap: var(--spacing-sm);
+        .icon-list {
+            list-style: none;
+            padding-left: 0;
+            margin: var(--spacing-md) 0;
         }
 
-        .control-btn {
-            width: 52px;
-            height: 52px;
+        .icon-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+        }
+
+        .reference-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .highlight-box {
+            clear: both;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .recommendations-box {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) dashed var(--color-brand-primary);
+            border-radius: var(--radius-xl);
+        }
+
+        .recommendations-title {
             display: flex;
             align-items: center;
-            justify-content: center;
-            border: var(--border-width-2) solid var(--color-border-default);
-            border-radius: var(--radius-pill);
-            background: var(--color-background-surface);
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-md);
             color: var(--color-brand-primary);
-            font-size: var(--font-size-lg);
-            cursor: pointer;
-            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
-                color var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                transform var(--motion-duration-default) var(--motion-easing-standard);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
         }
 
-        .control-btn:hover:not(:disabled) {
-            background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
-            border-color: var(--color-brand-primary);
-            transform: scale(1.05);
+        .comparison-grid {
+            clear: both;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0;
         }
 
-        .control-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .slider-container {
-            overflow: hidden;
-            position: relative;
-            padding: var(--spacing-2);
-        }
-
-        .slider-track {
-            display: flex;
-            gap: var(--spacing-lg);
-            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
-        }
-
-        .slider-item {
-            min-width: 100%;
+        .comp-card {
             padding: var(--spacing-xl);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .slider-item h3 {
+        .comp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .comp-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .comp-card h3 {
             margin: 0 0 var(--spacing-sm);
             color: var(--color-brand-primary);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
         }
 
-        .slider-item small {
+        .image-zoom-trigger,
+        .img-editorial-right,
+        .img-editorial-left {
             display: block;
-            margin-top: var(--spacing-md);
-            color: var(--color-text-muted);
-            font-size: var(--font-size-xs);
-            line-height: var(--line-height-relaxed);
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: zoom-in;
+        }
+
+        .img-editorial-right,
+        .img-editorial-left {
+            width: 380px;
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-ambient);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .img-editorial-right {
+            float: right;
+            margin: var(--spacing-2) 0 var(--spacing-lg) var(--spacing-xl);
+        }
+
+        .img-editorial-left {
+            float: left;
+            margin: var(--spacing-2) var(--spacing-xl) var(--spacing-lg) 0;
+        }
+
+        .img-editorial-right:hover,
+        .img-editorial-left:hover,
+        .image-zoom-trigger:hover img {
+            transform: scale(1.02);
+        }
+
+        .img-editorial-right img,
+        .img-editorial-left img,
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
         }
 
         .completion-card {
@@ -769,15 +869,10 @@
                 font-size: var(--font-size-sm);
             }
 
-            .slider-header,
             .footer-nav {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
-            }
-
-            .slider-controls {
-                justify-content: center;
             }
         }
 
@@ -791,7 +886,6 @@
             }
 
             .lesson-card,
-            .slider-section,
             .checkpoint-container,
             .completion-card {
                 padding: var(--spacing-md);
@@ -973,110 +1067,90 @@
                 <p>En términos pedagógicos, el rol del maestro pasa de ser solo “productor desde cero” a ser
                     <strong>curador y editor experto</strong>, que sabe formular buenas solicitudes (prompts), evaluar
                     el resultado y decidir qué se incorpora y qué no. Esto preserva la centralidad del juicio docente,
-                    fortaleciendo su capital profesional (Hargreaves &amp; Fullan, 2012), y reduce el riesgo de que
-                    “salga del LLM” información no verificada o inapropiada para el contexto escolar.
+                    fortaleciendo su capital profesional (Hargreaves &amp; Fullan, 2012), y reduce
                 </p>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" id="prevBtn" type="button" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" id="nextBtn" type="button"
-                            aria-label="Concepto siguiente">→</button>
+            <details class="concept-review" data-concept-review>
+                <summary class="concept-review__summary-main">
+                    <div class="concept-review__icon" aria-hidden="true">📖</div>
+                    <div class="concept-review__meta">
+                        <span class="concept-review__subtitle">Glosario dinámico</span>
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__count">6 términos clave</span>
                     </div>
-                </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Privacidad de datos estudiantiles FERPA">
-                            <h3>Privacidad de datos estudiantiles / FERPA</h3>
-                            <p>Privacidad de datos estudiantiles / FERPA se refiere al marco legal que protege la
-                                confidencialidad de los expedientes educativos y de la información personal
-                                identificable de los estudiantes. FERPA (Family Educational Rights and Privacy Act) es
-                                una ley federal de EE. UU. que otorga a los padres y, luego, a los estudiantes
-                                elegibles, el derecho a acceder a sus registros educativos, solicitar su corrección y
-                                controlar, con ciertas excepciones, la divulgación de información identificable
-                                contenida en esos registros. En la práctica educativa, implica que las escuelas y el
-                                personal docente no pueden revelar PII de estudiantes a terceros, incluyendo plataformas
-                                de IA, sin consentimiento escrito, salvo en situaciones específicas previstas por la
-                                norma.</p>
-                            <small>U.S. Department of Education. (2011). FERPA – Protecting student privacy. Student
-                                Privacy Policy Office. https://studentprivacy.ed.gov/ferpa</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Información personal identificable PII">
-                            <h3>Información personal identificable (PII)</h3>
-                            <p>Información personal identificable (PII) es cualquier dato que puede usarse para
-                                distinguir o rastrear la identidad de una persona, ya sea de forma directa, por ejemplo,
-                                nombre, número de identificación, dirección, o indirecta, como fecha y lugar de
-                                nacimiento o combinación de características, especialmente cuando estos datos se
-                                mantienen en registros educativos. En el marco de FERPA, la PII incluye nombre del
-                                estudiante o de sus familiares, dirección, identificadores personales, número de
-                                estudiante, SSN, registros biométricos y otros datos que, solos o combinados, permitan
-                                identificar razonablemente a un estudiante.</p>
-                            <small>U.S. Department of Education. (s. f.). Personally identifiable information for
-                                education records. Student Privacy Policy Office.
-                                https://studentprivacy.ed.gov/content/personally-identifiable-information-education-records</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Sesgo algorítmico">
-                            <h3>Sesgo algorítmico</h3>
-                            <p>Sesgo algorítmico es la presencia de errores sistemáticos o resultados desbalanceados en
-                                las salidas de un sistema automatizado, como un LLM, que generan efectos injustos o
-                                discriminatorios hacia ciertos grupos, producto de datos de entrenamiento sesgados o
-                                decisiones de diseño del algoritmo. En educación, esto se traduce en recomendaciones,
-                                evaluaciones o contenidos que favorecen o desfavorecen sistemáticamente a determinados
-                                estudiantes, reproduciendo desigualdades existentes.</p>
-                            <small>IBM. (2024). What is algorithmic bias? IBM Think.
-                                https://www.ibm.com/think/topics/algorithmic-bias</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Dependencia tecnológica">
-                            <h3>Dependencia tecnológica</h3>
-                            <p>Dependencia tecnológica es el grado en que una persona, grupo u organización requiere del
-                                uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta el punto de
-                                ver mermadas su autonomía, juicio o desempeño cuando dichas tecnologías no están
-                                disponibles. En el ámbito educativo, se manifiesta cuando docentes o estudiantes confían
-                                de forma excesiva en sistemas como LLM, plataformas digitales o dispositivos, delegando
-                                decisiones pedagógicas o procesos de pensamiento que deberían seguir siendo ejercidos y
-                                supervisados por el capital profesional docente.</p>
-                            <small>Hussain, A. (2013). Technological dependence [Entrada de blog].
-                                http://www.aftabhussain.com/dependence.html</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Capital profesional">
-                            <h3>Capital profesional</h3>
-                            <p>Capital profesional es el conjunto integrado de capital humano, social y decisional de la
-                                profesión docente: el talento y la preparación individual de los profesores (capital
-                                humano), la calidad de sus redes y colaboración entre colegas (capital social) y la
-                                capacidad colectiva de tomar juicios pedagógicos sólidos en contextos complejos,
-                                desarrollada mediante la experiencia y la reflexión profesional (capital decisional). En
-                                este marco, mejorar la educación implica invertir en desarrollar, conectar y fortalecer
-                                sistemáticamente estas tres formas de capital en todos los docentes, más que depender
-                                solo de estándares, tecnología o evaluaciones externas.</p>
-                            <small>Hargreaves, A., &amp; Fullan, M. (2012). Professional capital: Transforming teaching
-                                in every school. https://eric.ed.gov/?id=ED530692</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Human in the Loop">
-                            <h3>Human in the Loop (HITL)</h3>
-                            <p>Human in the Loop (HITL) es un enfoque de diseño de sistemas de IA en el que la
-                                intervención humana se integra de forma explícita en momentos clave del ciclo de vida
-                                del modelo, entrenamiento, evaluación u operación, de modo que las personas supervisan,
-                                validan, corrigen o aprueban las salidas antes de que se tomen decisiones automatizadas.
-                                En el contexto educativo, implica que los docentes usan LLM y bots para generar
-                                borradores o sugerencias, pero conservan el control profesional sobre la revisión, la
-                                adaptación al contexto y la decisión final sobre qué se comparte con el estudiantado.
-                            </p>
-                            <small>Google Cloud. (2026). What is Human-in-the-Loop (HITL) in AI &amp; ML? Google Cloud.
-                                https://cloud.google.com/discover/human-in-the-loop<br>IBM. (2025). What is human in the
-                                loop (HITL)? IBM Think. https://www.ibm.com/think/topics/human-in-the-loop</small>
-                        </article>
+                    <div class="concept-review__toggle-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </div>
+                </summary>
+                <div class="concept-review__panel">
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Privacidad de datos estudiantiles / FERPA</summary>
+                        <div class="concept-review__body">
+                            <p>Privacidad de datos estudiantiles / FERPA se refiere al marco legal que protege la confidencialidad de los expedientes educativos y de la información personal identificable de los estudiantes. FERPA (Family Educational Rights and Privacy Act) es una ley federal de EE. UU. que otorga a los padres y, luego, a los estudiantes elegibles, el derecho a acceder a sus registros educativos, solicitar su corrección y controlar, con ciertas excepciones, la divulgación de información identificable contenida en esos registros. En la práctica educativa, implica que las escuelas y el personal docente no pueden revelar PII de estudiantes a terceros (incluyendo plataformas de IA) sin consentimiento escrito, salvo en situaciones específicas previstas por la norma.</p>
+                            <cite class="concept-review__citation">
+                                U.S. Department of Education. (2011). FERPA – Protecting student privacy. Student Privacy Policy Office. https://studentprivacy.ed.gov/ferpa
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Información personal identificable (PII)</summary>
+                        <div class="concept-review__body">
+                            <p>Información personal identificable (PII) es cualquier dato que puede usarse para distinguir o rastrear la identidad de una persona, ya sea de forma directa (por ejemplo, nombre, número de identificación, dirección) o indirecta (como fecha y lugar de nacimiento, combinación de características), especialmente cuando estos datos se mantienen en registros educativos. En el marco de FERPA, la PII incluye nombre del estudiante o de sus familiares, dirección, identificadores personales (número de estudiante, SSN, registros biométricos) y otros datos que, solos o combinados, permitan identificar razonablemente a un estudiante.</p>
+                            <cite class="concept-review__citation">
+                                U.S. Department of Education. (s. f.). Personally identifiable information for education records. Student Privacy Policy Office. https://studentprivacy.ed.gov/content/personally-identifiable-information-education-records
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Sesgo algorítmico</summary>
+                        <div class="concept-review__body">
+                            <p>Sesgo algorítmico es la presencia de errores sistemáticos o resultados desbalanceados en las salidas de un sistema automatizado (como un LLM) que generan efectos injustos o discriminatorios hacia ciertos grupos, producto de datos de entrenamiento sesgados o decisiones de diseño del algoritmo. En educación, esto se traduce en recomendaciones, evaluaciones o contenidos que favorecen o desfavorecen sistemáticamente a determinados estudiantes, reproduciendo desigualdades existentes.</p>
+                            <cite class="concept-review__citation">
+                                IBM. (2024). What is algorithmic bias? IBM Think. https://www.ibm.com/think/topics/algorithmic-bias
+                            </cite>
+                        </div>
+                    </details>
+
+                    <div class="concept-review__overflow">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Dependencia tecnológica</summary>
+                            <div class="concept-review__body">
+                                <p>Dependencia tecnológica es el grado en que una persona, grupo u organización requiere del uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta el punto de ver mermadas su autonomía, juicio o desempeño cuando dichas tecnologías no están disponibles. En el ámbito educativo, se manifiesta cuando docentes o estudiantes confían de forma excesiva en sistemas como LLM, plataformas digitales o dispositivos, delegando decisiones pedagógicas o procesos de pensamiento que deberían seguir siendo ejercidos y supervisados por el capital profesional docente.</p>
+                                <cite class="concept-review__citation">
+                                    Hussain, A. (2013). Technological dependence [Entrada de blog]. http://www.aftabhussain.com/dependence.html
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Capital profesional</summary>
+                            <div class="concept-review__body">
+                                <p>Capital profesional es el conjunto integrado de capital humano, social y decisional de la profesión docente: el talento y la preparación individual de los profesores (capital humano), la calidad de sus redes y colaboración entre colegas (capital social) y la capacidad colectiva de tomar juicios pedagógicos sólidos en contextos complejos, desarrollada mediante la experiencia y la reflexión profesional (capital decisional). En este marco, mejorar la educación implica invertir en desarrollar, conectar y fortalecer sistemáticamente estas tres formas de capital en todos los docentes, más que depender solo de estándares, tecnología o evaluaciones externas.</p>
+                                <cite class="concept-review__citation">
+                                    Hargreaves, A., & Fullan, M. (2012). Professional capital: Transforming teaching in every school. https://eric.ed.gov/?id=ED530692.
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Human in the Loop (HITL)</summary>
+                            <div class="concept-review__body">
+                                <p>Human in the Loop (HITL) es un enfoque de diseño de sistemas de IA en el que la intervención humana se integra de forma explícita en momentos clave del ciclo de vida del modelo (entrenamiento, evaluación u operación), de modo que las personas supervisan, validan, corrigen o aprueban las salidas antes de que se tomen decisiones automatizadas. En el contexto educativo, implica que los docentes usan LLM y bots para generar borradores o sugerencias, pero conservan el control profesional sobre la revisión, la adaptación al contexto y la decisión final sobre qué se comparte con el estudiantado.</p>
+                                <cite class="concept-review__citation">
+                                    Google Cloud. (2026). What is Human-in-the-Loop (HITL) in AI & ML? Google Cloud. https://cloud.google.com/discover/human-in-the-loop<br>IBM. (2025). What is human in the loop (HITL)? IBM Think. https://www.ibm.com/think/topics/human-in-the-loop
+                                </cite>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button class="concept-review__more" type="button">Ver más conceptos</button>
                 </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
@@ -1160,9 +1234,6 @@
                     </div>
                 </details>
             </section>
-
-
-            <div id="completion-section"></div>
 
             <nav class="footer-nav" aria-label="Navegación de lecciones">
                 <a href="leccion1_2.html" class="btn-footer btn-back">← Volver a la Lección 1.2</a>
@@ -1294,38 +1365,8 @@
             event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentIndex = 0;
-
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= totalSlides - 1;
-        }
-
-        nextBtn?.addEventListener('click', () => {
-            const totalSlides = sliderTrack?.children.length || 0;
-            if (currentIndex < totalSlides - 1) {
-                currentIndex += 1;
-                updateSlider();
-            }
-        });
-
-        prevBtn?.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex -= 1;
-                updateSlider();
-            }
-        });
-
-        window.addEventListener('resize', updateSlider);
-        updateSlider();
     </script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>
