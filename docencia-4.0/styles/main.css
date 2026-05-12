@@ -1946,6 +1946,12 @@ body.has-top-nav {
    .dashboard-header.is-scrolled .header-subtitle {
       display: none;
    }
+
+   .dashboard-page .dashboard-nav-links {
+      gap: var(--spacing-3);
+      justify-content: center;
+      width: 100%;
+   }
 }
 
 @media (max-width: 480px) {
