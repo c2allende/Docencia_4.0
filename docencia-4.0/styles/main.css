@@ -3267,4 +3267,99 @@ body.has-top-nav {
   font-size: 0.58rem;
   line-height: 1.22;
   color: var(--color-text-secondary);
-}
+}
+
+/* ==========================================================================
+   Book Creator Resource — Recursos Módulo 1
+   ========================================================================== */
+.bookcreator-resource {
+   display: flex;
+   gap: var(--spacing-xl);
+   padding: var(--spacing-xl);
+   background: var(--color-background-surface);
+   border: var(--border-width-1) solid var(--color-border-default);
+   border-radius: var(--radius-xl);
+   box-shadow: var(--shadow-ambient);
+   margin-bottom: var(--spacing-16);
+   transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+   align-items: center;
+}
+
+.bookcreator-resource:hover {
+   box-shadow: var(--shadow-elevated);
+}
+
+.bookcreator-resource__cover {
+   flex: 0 0 240px;
+   max-width: 240px;
+}
+
+.bookcreator-resource__cover img {
+   width: 100%;
+   height: auto;
+   border-radius: var(--radius-lg);
+   box-shadow: var(--shadow-elevated);
+   display: block;
+   transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+}
+
+.bookcreator-resource:hover .bookcreator-resource__cover img {
+   transform: scale(1.02);
+}
+
+.bookcreator-resource__content {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+}
+
+.bookcreator-resource__title {
+   margin: 0 0 var(--spacing-2);
+   color: var(--color-text-display);
+   font-family: var(--font-family-heading);
+   font-size: var(--font-size-2xl);
+   font-weight: var(--font-weight-extrabold);
+   line-height: 1.2;
+}
+
+.bookcreator-resource__description {
+   margin: 0 0 var(--spacing-lg);
+   color: var(--color-text-secondary);
+   font-size: var(--font-size-base);
+   line-height: var(--line-height-relaxed);
+}
+
+.bookcreator-resource__actions {
+   margin-bottom: var(--spacing-2);
+}
+
+.bookcreator-resource__note {
+   margin: 0;
+   color: var(--color-text-muted);
+   font-size: var(--font-size-xs);
+   font-style: italic;
+}
+
+@media (max-width: 768px) {
+   .bookcreator-resource {
+      flex-direction: column;
+      padding: var(--spacing-lg);
+      gap: var(--spacing-lg);
+      text-align: center;
+   }
+
+   .bookcreator-resource__cover {
+      flex: 0 0 auto;
+      max-width: 180px;
+      margin: 0 auto;
+   }
+
+   .bookcreator-resource__content {
+      align-items: center;
+   }
+
+   .bookcreator-resource__title {
+      font-size: var(--font-size-xl);
+   }
+}
+
