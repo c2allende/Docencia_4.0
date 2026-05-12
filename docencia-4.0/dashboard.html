@@ -30,55 +30,7 @@
             padding: 0 var(--spacing-xl);
         }
 
-        .dashboard-header {
-            padding: var(--spacing-lg) 0;
-            margin-bottom: var(--spacing-lg);
-            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-            background: var(--color-background-header-gradient);
-            box-shadow: var(--shadow-floating);
-        }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand-block {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-5);
-        }
-
-        .logo-main {
-            width: 76px;
-            height: 76px;
-            background: var(--color-white);
-            padding: var(--spacing-2);
-            border-radius: var(--radius-md);
-            object-fit: contain;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .dashboard-title {
-            color: var(--color-white);
-            font-family: var(--font-family-heading);
-            font-weight: var(--font-weight-extrabold);
-            font-size: var(--font-size-4xl);
-            line-height: var(--line-height-tight);
-            letter-spacing: var(--letter-spacing-tight);
-            margin: 0 0 var(--spacing-1);
-        }
-
-        .header-subtitle {
-            max-width: 820px;
-            color: var(--color-text-inverse);
-            opacity: 0.92;
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            line-height: var(--line-height-relaxed);
-            margin: var(--spacing-1) 0 0;
-        }
 
         .intro-container {
             background: var(--color-background-surface);
@@ -564,31 +516,7 @@
         }
 
         @media (max-width: 768px) {
-            .dashboard-header {
-                padding: var(--spacing-md) 0;
-                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-            }
 
-            .header-content {
-                justify-content: center;
-            }
-
-            .brand-block {
-                flex-direction: column;
-                text-align: center;
-                gap: var(--spacing-4);
-            }
-
-            .dashboard-title {
-                font-size: var(--font-size-3xl);
-            }
-
-            .header-subtitle {
-                font-size: var(--font-size-sm);
-                line-height: var(--line-height-relaxed);
-                margin: var(--spacing-2) auto 0;
-                max-width: 100%;
-            }
 
             .intro-container,
             .forum-general-access {
@@ -680,14 +608,7 @@
                 padding: 0 var(--spacing-md);
             }
 
-            .logo-main {
-                width: 56px;
-                height: 56px;
-            }
 
-            .dashboard-title {
-                font-size: var(--font-size-2xl);
-            }
 
             .module-number-prominent {
                 font-size: var(--font-size-3xl);
@@ -716,7 +637,7 @@
     </style>
 </head>
 
-<body>
+<body class="dashboard-page">
     <header class="dashboard-header">
         <div class="container header-content">
             <div class="brand-block">
@@ -749,19 +670,53 @@
 
         <section class="intro-container" aria-labelledby="programa-title">
             <div class="intro-layout">
-                <aside class="video-sidebar" aria-label="Video de bienvenida del programa">
-                    <div class="video-wrapper-small">
-                        <video id="welcomeVideo" autoplay muted playsinline
-                            poster="assets/LLM_Docencia_4.0_logo.png">
-                            <source src="LLM-DEPR/LLM_Intro_Inicio_audio.mp4" type="video/mp4">
-                            Su navegador no soporta la reproducción de video.
-                        </video>
-                    </div>
-                    <div class="sound-control-panel">
-                        <button id="muteBtn" class="mute-toggle-btn" type="button" onclick="toggleMute()"
-                            aria-label="Activar audio del video de bienvenida">🔈</button>
-                    </div>
-                </aside>
+                <div class="intro-layout-sidebar">
+                    <aside class="video-sidebar" aria-label="Video de bienvenida del programa">
+                        <div class="video-wrapper-small">
+                            <video id="welcomeVideo" autoplay muted playsinline
+                                poster="assets/LLM_Docencia_4.0_logo.png">
+                                <source src="LLM-DEPR/LLM_Intro_Inicio_audio.mp4" type="video/mp4">
+                                Su navegador no soporta la reproducción de video.
+                            </video>
+                        </div>
+                        <div class="sound-control-panel">
+                            <button id="muteBtn" class="mute-toggle-btn" type="button" onclick="toggleMute()"
+                                aria-label="Activar audio del video de bienvenida">🔈</button>
+                        </div>
+                    </aside>
+
+                    <aside class="researcher-mini-profile" aria-labelledby="researcher-profile-title">
+                        <p class="researcher-mini-profile__eyebrow">Perfil del investigador</p>
+                        
+                        <h3 id="researcher-profile-title" class="researcher-mini-profile__name">
+                            Carmelo II Allende Martínez
+                        </h3>
+                        
+                        <div class="researcher-mini-profile__meta">
+                            <p>Estudiante graduado</p>
+                            <p>Programa Doctoral: Educación con Especialidad en Currículo y Enseñanza</p>
+                            <p>Subespecialidad: Tecnología del Aprendizaje</p>
+                            <p>Departamento de Estudios Graduados</p>
+                            <p>Facultad de Educación</p>
+                            <p>Universidad de Puerto Rico - Recinto de Río Piedras</p>
+                        </div>
+                        
+                        <details class="researcher-mini-profile__details">
+                            <summary class="researcher-mini-profile__summary">
+                                Más información
+                            </summary>
+                            
+                            <div class="researcher-mini-profile__more">
+                                <p>
+                                    Posee formación graduada en Machine Learning e Inteligencia Artificial, así como preparación académica en Tecnología de Redes y Desarrollo de Aplicaciones.
+                                </p>
+                                <p>
+                                    Su experiencia profesional integra docencia en educación superior, desarrollo instruccional con LLMs y coordinación de iniciativas de desarrollo tecnológico en contextos educativos.
+                                </p>
+                            </div>
+                        </details>
+                    </aside>
+                </div>
 
                 <div class="intro-content">
                     <h2 id="programa-title" class="section-title section-title-md">Programa de Formación Profesional en
