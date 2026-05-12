@@ -1388,99 +1388,82 @@
             </section>
 
 
-            <section class="slider-section" aria-labelledby="conceptos-repasar">
-                <div class="slider-header">
-                    <h2 id="conceptos-repasar">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" id="prevBtn" type="button" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" id="nextBtn" type="button"
-                            aria-label="Concepto siguiente">→</button>
+            <details class="concept-review" data-concept-review>
+                <summary class="concept-review__summary-main">
+                    <div class="concept-review__icon" aria-hidden="true">📖</div>
+                    <div class="concept-review__meta">
+                        <span class="concept-review__subtitle">Glosario dinámico</span>
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__count">5 términos clave</span>
                     </div>
-                </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Modelo de Lenguaje de Gran Tamaño">
-                            <h3 class="concept-card-title">Modelo de Lenguaje de Gran Tamaño (LLM)</h3>
-                            <p>Un Modelo de Lenguaje de Gran Tamaño (LLM) es un modelo de inteligencia artificial basado
-                                en aprendizaje profundo que se preentrena con enormes volúmenes de texto para comprender
-                                y generar lenguaje natural, utilizando arquitecturas tipo Transformer con miles de
-                                millones de parámetros. Estos modelos aprenden patrones estadísticos de sintaxis y
-                                semántica para realizar tareas como generación de texto, resumen, traducción, respuesta
-                                a preguntas y diálogo conversacional, constituyendo la base técnica de muchos chatbots y
-                                asistentes educativos actuales.</p>
-                            <small>Amazon Web Services. (2026). ¿Qué es un LLM (modelo de lenguaje de gran tamaño)? AWS.
-                                https://aws.amazon.com/es/what-is/large-language-model/</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Bot o aplicación basada en LLM">
-                            <h3 class="concept-card-title">Bot o aplicación basada en LLM</h3>
-                            <p>Bot o aplicación basada en LLM es un programa o servicio que integra un modelo de
-                                lenguaje de gran tamaño como componente central para procesar entradas en lenguaje
-                                natural y generar respuestas, contenidos o asistencia contextual a usuarios finales. A
-                                diferencia del LLM “en bruto”, estas aplicaciones añaden capa de interfaz (chat, panel,
-                                integración en LMS u ofimática), reglas de uso, controles de seguridad y conexión a
-                                datos específicos (por ejemplo, documentos institucionales), lo que las hace utilizables
-                                pedagógicamente como asistentes de escritura, tutores virtuales o generadores de
-                                materiales en contextos educativos.</p>
-                            <small>Product Talk. (2025). LLM app: Definition and overview.
-                                https://www.producttalk.org/glossary-ai-llm-app/</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Buscador tradicional">
-                            <h3 class="concept-card-title">Buscador tradicional</h3>
-                            <p>Buscador tradicional (motor de búsqueda web) es un sistema de software que explora,
-                                indexa y clasifica contenido en la web y, ante una consulta del usuario, devuelve una
-                                lista ordenada de páginas o documentos relevantes, generalmente en forma de enlaces
-                                acompañados de fragmentos de texto descriptivo. Técnicamente, combina procesos de
-                                rastreo (crawling), indexación y ranking basados en algoritmos de recuperación de
-                                información para localizar fuentes primarias; en educación se utiliza para encontrar
-                                información actualizada, documentos oficiales y literatura académica que luego pueden
-                                ser analizados, resumidos o adaptados con ayuda de LLM y bots.</p>
-                            <small>TechTarget. (2022). What is a search engine? TechTarget.
-                                https://www.techtarget.com/whatis/definition/search-engine</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Chain of Thought">
-                            <h3 class="concept-card-title">Chain of Thought (CoT)</h3>
-                            <p>Chain of Thought (CoT) es una técnica de ingeniería de prompts que guía a los modelos de
-                                lenguaje a producir una secuencia explícita de pasos de razonamiento intermedios antes
-                                de dar la respuesta final, en lugar de responder directamente en una sola frase. Al
-                                pedir al modelo que “explique su respuesta paso a paso”, CoT ayuda a descomponer
-                                problemas multietapa (cálculo, lógica, decisiones) en subpasos lógicos, lo que mejora la
-                                exactitud en tareas complejas y hace el proceso más transparente y evaluable para
-                                docentes y estudiantes.</p>
-                            <small>TechTarget. (2025). What is chain-of-thought prompting (CoT)? TechTarget.
-                                https://www.techtarget.com/searchenterpriseai/definition/chain-of-thought-prompting</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Andamiaje con LLM">
-                            <h3 class="concept-card-title">Andamiaje (scaffolding) con LLM</h3>
-                            <p>Andamiaje (scaffolding) con LLM es el uso de un modelo de lenguaje grande y de los bots
-                                que lo incorporan para proporcionar apoyos temporales y graduados (explicaciones,
-                                ejemplos, descomposición de tareas, preguntas guiadas) que ayudan al estudiante a
-                                realizar actividades que aún no podría completar de manera independiente, dentro de su
-                                Zona de Desarrollo Próximo, retirando esos apoyos a medida que aumenta su dominio. En la
-                                práctica educativa, el LLM funciona como un “andamio digital” que el docente configura
-                                mediante prompts (por ejemplo, pedir pasos intermedios o pistas en lugar de respuestas
-                                finales) para reforzar la comprensión y promover la autonomía, sin sustituir la
-                                mediación pedagógica human.</p>
-                            <small>The Glossary of Education Reform. (2015). Scaffolding. Great Schools Partnership.
-                                https://www.edglossary.org/scaffolding/</small>
-                        </article>
+                    <div class="concept-review__toggle-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </div>
-                </div>
-            </section>
+                </summary>
+                <div class="concept-review__panel">
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Modelo de Lenguaje de Gran Tamaño (LLM)</summary>
+                        <div class="concept-review__body">
+                            <p>Un Modelo de Lenguaje de Gran Tamaño (LLM) es un modelo de inteligencia artificial basado en aprendizaje profundo que se preentrena con enormes volúmenes de texto para comprender y generar lenguaje natural, utilizando arquitecturas tipo Transformer con miles de millones de parámetros. Estos modelos aprenden patrones estadísticos de sintaxis y semántica para realizar tareas como generación de texto, resumen, traducción, respuesta a preguntas y diálogo conversacional, constituyendo la base técnica de muchos chatbots y asistentes educativos actuales.</p>
+                            <cite class="concept-review__citation">
+                                Amazon Web Services. (2026). ¿Qué es un LLM (modelo de lenguaje de gran tamaño)? AWS. https://aws.amazon.com/es/what-is/large-language-model/
+                            </cite>
+                        </div>
+                    </details>
 
-            <section class="text-section" aria-labelledby="cierre-leccion">
-                <hr class="section-separator">
-                <h2 id="cierre-leccion" class="section-title">Cierre de la lección</h2>
-                <h3 class="section-title section-title-sm">Felicidades</h3>
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Bot o aplicación basada en LLM</summary>
+                        <div class="concept-review__body">
+                            <p>Bot o aplicación basada en LLM es un programa o servicio que integra un modelo de lenguaje de gran tamaño como componente central para procesar entradas en lenguaje natural y generar respuestas, contenidos o asistencia contextual a usuarios finales. A diferencia del LLM “en bruto”, estas aplicaciones añaden capa de interfaz (chat, panel, integración en LMS u ofimática), reglas de uso, controles de seguridad y conexión a datos específicos (por ejemplo, documentos institucionales), lo que las hace utilizables pedagógicamente como asistentes de escritura, tutores virtuales o generadores de materiales en contextos educativos.</p>
+                            <cite class="concept-review__citation">
+                                Product Talk. (2025). LLM app: Definition and overview. https://www.producttalk.org/glossary-ai-llm-app/
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Buscador tradicional</summary>
+                        <div class="concept-review__body">
+                            <p>Buscador tradicional (motor de búsqueda web) es un sistema de software que explora, indexa y clasifica contenido en la web y, ante una consulta del usuario, devuelve una lista ordenada de páginas o documentos relevantes, generalmente en forma de enlaces acompañados de fragmentos de texto descriptivo. Técnicamente, combina procesos de rastreo (crawling), indexación y ranking basados en algoritmos de recuperación de información para localizar fuentes primarias; en educación se utiliza para encontrar información actualizada, documentos oficiales y literatura académica que luego pueden ser analizados, resumidos o adaptados con ayuda de LLM y bots.</p>
+                            <cite class="concept-review__citation">
+                                TechTarget. (2022). What is a search engine? TechTarget. https://www.techtarget.com/whatis/definition/search-engine
+                            </cite>
+                        </div>
+                    </details>
+
+                    <div class="concept-review__overflow">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Chain of Thought (CoT)</summary>
+                            <div class="concept-review__body">
+                                <p>Chain of Thought (CoT) es una técnica de ingeniería de prompts que guía a los modelos de lenguaje a producir una secuencia explícita de pasos de razonamiento intermedios antes de dar la respuesta final, en lugar de responder directamente en una sola frase. Al pedir al modelo que “explique su respuesta paso a paso”, CoT ayuda a descomponer problemas multietapa (cálculo, lógica, decisiones) en subpasos lógicos, lo que mejora la exactitud en tareas complejas y hace el proceso más transparente y evaluable para docentes y estudiantes.</p>
+                                <cite class="concept-review__citation">
+                                    TechTarget. (2025). What is chain-of-thought prompting (CoT)? TechTarget. https://www.techtarget.com/searchenterpriseai/definition/chain-of-thought-prompting
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Andamiaje (scaffolding) con LLM</summary>
+                            <div class="concept-review__body">
+                                <p>Andamiaje (scaffolding) con LLM es el uso de un modelo de lenguaje grande y de los bots que lo incorporan para proporcionar apoyos temporales y graduados (explicaciones, ejemplos, descomposición de tareas, preguntas guiadas) que ayudan al estudiante a realizar actividades que aún no podría completar de manera independiente, dentro de su Zona de Desarrollo Próximo, retirando esos apoyos a medida que aumenta su dominio. En la práctica educativa, el LLM funciona como un “andamio digital” que el docente configura mediante prompts (por ejemplo, pedir pasos intermedios o pistas en lugar de respuestas finales) para reforzar la comprensión y promover la autonomía, sin sustituir la mediación pedagógica human.</p>
+                                <cite class="concept-review__citation">
+                                    The Glossary of Education Reform. (2015). Scaffolding. Great Schools Partnership. https://www.edglossary.org/scaffolding/
+                                </cite>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button class="concept-review__more" type="button">Ver más conceptos</button>
+                </div>
+            </details>
+
+            <section class="completion-card" aria-labelledby="cierre-title">
+                <span class="completion-badge">Meta alcanzada</span>
+                <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
                 <p>Has culminado la lección 1.1 del programa de formación profesional.</p>
-                <p>Has dado un paso clave al comprender qué es un LLM, cómo funciona como motor de lenguaje y cuándo
-                    conviene usarlo frente a un buscador tradicional. Este conocimiento te coloca en una posición
-                    estratégica para tomar decisiones pedagógicas más informadas y éticas sobre el uso de IA en tu
-                    práctica docente, manteniendo siempre tu criterio profesional en el centro.</p>
+                <p>Al completar el contenido 1.1, has dado un paso clave al comprender qué es un LLM, cómo funciona como motor de lenguaje y cuándo conviene usarlo frente a un buscador tradicional. Este conocimiento te coloca en una posición estratégica para tomar decisiones pedagógicas más informadas y éticas sobre el uso de IA en tu práctica docente, manteniendo siempre tu criterio profesional en el centro.</p>
             </section>
 
             <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
@@ -1513,26 +1496,34 @@
 
             <section class="text-section" aria-labelledby="referencias-title">
                 <hr class="section-separator">
-                <h2 id="referencias-title" class="section-title">Referencias</h2>
-                <ul class="reference-list">
-                    <li>Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in
-                        higher education. <em>Computers &amp; Education: Artificial Intelligence</em>, 100157.</li>
-                    <li>Hargreaves, A., &amp; Fullan, M. (2012). <em>Professional capital: Transforming teaching in
-                            every school</em>. Teachers College Press.</li>
-                    <li>Im, E., &amp; Chee, W. (2012). Methodological issues in the recruitment of ethnic minority
-                        subjects to research via the Internet: A discussion paper. <em>International Journal of Nursing
-                            Studies</em>, 49(1), 99–106.</li>
-                    <li>Oyarzo Espinosa, J., &amp; Usero Aragonés, L. (2024). Grandes modelos lingüísticos. In J. Oyarzo
-                        Espinosa, L. Usero Aragonés, &amp; Francisco Javier Bueno Guillén (Eds.), <em>Guía Práctica</em>
-                        (2a edición). https://proyectodescartes.org/escenas-aux/IABoletin8/interactivos/libro/libro.pdf
-                    </li>
-                    <li>Russell, S. J., &amp; Norvig, P. (2020). <em>Artificial intelligence: A modern approach</em>
-                        (4th ed.). Pearson.</li>
-                    <li>Valli, P., &amp; Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI
-                        tools by teachers. <em>Education and Information Technologies</em>, 29, 123–145.</li>
-                    <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023). A
-                        survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223.</li>
-                </ul>
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">7 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+                            <li>Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in
+                                higher education. <em>Computers &amp; Education: Artificial Intelligence</em>, 100157.</li>
+                            <li>Hargreaves, A., &amp; Fullan, M. (2012). <em>Professional capital: Transforming teaching in
+                                    every school</em>. Teachers College Press.</li>
+                            <li>Im, E., &amp; Chee, W. (2012). Methodological issues in the recruitment of ethnic minority
+                                subjects to research via the Internet: A discussion paper. <em>International Journal of Nursing
+                                    Studies</em>, 49(1), 99–106.</li>
+                            <li>Oyarzo Espinosa, J., &amp; Usero Aragonés, L. (2024). Grandes modelos lingüísticos. In J. Oyarzo
+                                Espinosa, L. Usero Aragonés, &amp; Francisco Javier Bueno Guillén (Eds.), <em>Guía Práctica</em>
+                                (2a edición). https://proyectodescartes.org/escenas-aux/IABoletin8/interactivos/libro/libro.pdf
+                            </li>
+                            <li>Russell, S. J., &amp; Norvig, P. (2020). <em>Artificial intelligence: A modern approach</em>
+                                (4th ed.). Pearson.</li>
+                            <li>Valli, P., &amp; Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI
+                                tools by teachers. <em>Education and Information Technologies</em>, 29, 123–145.</li>
+                            <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023). A
+                                survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223.</li>
+                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1708,40 +1699,11 @@
 
         tokenInput?.addEventListener('input', renderTokens);
         renderTokens();
-
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentSlide = 0;
-
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const slides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= slides - 1;
-        }
-
-        prevBtn?.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide -= 1;
-                updateSlider();
-            }
-        });
-
-        nextBtn?.addEventListener('click', () => {
-            const slides = sliderTrack?.children.length || 0;
-            if (currentSlide < slides - 1) {
-                currentSlide += 1;
-                updateSlider();
-            }
-        });
-
-        updateSlider();
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 

@@ -1515,65 +1515,47 @@
                 </div>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" type="button" id="nextBtn"
-                            aria-label="Concepto siguiente">→</button>
+            <!-- ===== CONCEPTOS A REPASAR — ALT E3 ===== -->
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">3 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Feedback asistido</summary>
+                            <div class="concept-review__body">
+                                <p>El feedback asistido es un proceso de retroalimentación en el que un sistema de IA, típicamente un LLM, genera comentarios preliminares sobre el desempeño del estudiante a partir de evidencias estructuradas (respuestas, soluciones, rúbricas), con el propósito de apoyar la evaluación formativa, mientras la docente o el docente conserva el control sobre la revisión, adaptación y validación de dichos comentarios antes de entregarlos. En términos técnicos, el LLM actúa como generador automatizado de borradores de feedback personalizados y contextuales (por ejemplo, explicando errores, señalando fortalezas y sugiriendo próximos pasos), y suele integrarse dentro de bots, apps o plataformas educativas, de modo que la interacción final con el alumnado combina la capacidad generativa del modelo con el juicio pedagógico humano y salvaguardas éticas.</p>
+                                <cite class="concept-review__citation">Matelsky, J. K., Parodi, F., Liu, T., Lange, R. D., & Kording, K. P. (2023, July 25). A large language model-assisted education tool to provide feedback on open-ended responses. arXiv.org. https://arxiv.org/abs/2308.02439</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Retroalimentación emocionalmente enriquecida</summary>
+                            <div class="concept-review__body">
+                                <p>La retroalimentación emocionalmente enriquecida es un tipo de feedback generado (o co-generado) por IA, típicamente mediante un LLM, que combina información cognitiva sobre el desempeño del estudiante (aciertos, errores, próximos pasos) con elementos afectivos explícitos como elogio, reconocimiento del esfuerzo, expresiones empáticas y, en algunos diseños, recursos paralingüísticos (emojis, fórmulas de ánimo) para reducir emociones negativas y mejorar la percepción de apoyo sin rebajar los estándares académicos. Técnicamente, el LLM se configura mediante prompts o plantillas que especifican tanto el contenido disciplinar del feedback como el tono emocional deseado, y sus salidas se integran en plataformas o bots educativos donde el profesorado revisa y valida los mensajes antes de enviarlos al estudiantado.</p>
+                                <cite class="concept-review__citation">GreyEd. (n.d.). GreyEd - el AI Tutoring Platform. https://greyed.org/empathic-large-language-models; Alsaiari, O., Baghaei, N., Lahza, H., Lodge, J., Boden, M., & Khosravi, H. (2024, October 19). Emotionally enriched feedback via generative AI. arXiv.org. https://arxiv.org/abs/2410.15077</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Análisis de errores y patrones de confusión</summary>
+                            <div class="concept-review__body">
+                                <p>Análisis de errores y patrones de confusión, alineado al uso de LLM, es el proceso mediante el cual se examinan de forma sistemática las respuestas de los estudiantes para identificar tipos recurrentes de errores, lagunas conceptuales y concepciones erróneas, con el fin de orientar la retroalimentación y la re-enseñanza. Cuando se emplean LLM, el modelo recibe conjuntos de respuestas (anonimizadas) y se le solicita que clasifique los errores, describa las ideas equivocadas subyacentes y sugiera posibles causas o malentendidos, de modo que el profesorado pueda focalizar la instrucción en los obstáculos reales al aprendizaje sin tener que leer y codificar manualmente todos los textos.</p>
+                                <cite class="concept-review__citation">Bewersdorff, A., Seßler, K., Baur, A., Kasneci, E., & Nerdel, C. (2023). Assessing student errors in experimentation using artificial intelligence and large language models: A comparative study with human raters. Computers and Education: Artificial Intelligence, 5, 100177. https://doi.org/10.1016/j.caeai.2023.100177</cite>
+                            </div>
+                        </details>
+
                     </div>
                 </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Feedback asistido">
-                            <h3>Feedback asistido</h3>
-                            <p>El feedback asistido es un proceso de retroalimentación en el que un sistema de IA,
-                                típicamente un LLM, genera comentarios preliminares sobre el desempeño del estudiante a
-                                partir de evidencias estructuradas (respuestas, soluciones, rúbricas), con el propósito
-                                de apoyar la evaluación formativa, mientras la docente o el docente conserva el control
-                                sobre la revisión, adaptación y validación de dichos comentarios antes de entregarlos.
-                                En términos técnicos, el LLM actúa como generador automatizado de borradores de feedback
-                                personalizados y contextuales, por ejemplo, explicando errores, señalando fortalezas y
-                                sugiriendo próximos pasos, y suele integrarse dentro de bots, apps o plataformas
-                                educativas, de modo que la interacción final con el alumnado combina la capacidad
-                                generativa del modelo con el juicio pedagógico humano y salvaguardas éticas.
-                                <span class="concept-ref">Matelsky et al. (2023).</span>
-                        </article>
-
-                        <article class="slider-item"
-                            aria-label="Concepto: Retroalimentación emocionalmente enriquecida">
-                            <h3>Retroalimentación emocionalmente enriquecida</h3>
-                            <p>La retroalimentación emocionalmente enriquecida es un tipo de feedback generado o
-                                co-generado por IA, típicamente mediante un LLM, que combina información cognitiva sobre
-                                el desempeño del estudiante (aciertos, errores, próximos pasos) con elementos afectivos
-                                explícitos como elogio, reconocimiento del esfuerzo, expresiones empáticas y, en algunos
-                                diseños, recursos paralingüísticos como emojis o fórmulas de ánimo, para reducir
-                                emociones negativas y mejorar la percepción de apoyo sin rebajar los estándares
-                                académicos. Técnicamente, el LLM se configura mediante prompts o plantillas que
-                                especifican tanto el contenido disciplinar del feedback como el tono emocional deseado,
-                                y sus salidas se integran en plataformas o bots educativos donde el profesorado revisa y
-                                valida los mensajes antes de enviarlos al estudiantado.</p>
-                            <span class="concept-ref">GreyEd (n.d.); Alsaiari et al. (2024).</span>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Análisis de errores y patrones de confusión">
-                            <h3>Análisis de errores y patrones de confusión</h3>
-                            <p>Análisis de errores y patrones de confusión, alineado al uso de LLM, es el proceso
-                                mediante el cual se examinan de forma sistemática las respuestas de los estudiantes para
-                                identificar tipos recurrentes de errores, lagunas conceptuales y concepciones erróneas,
-                                con el fin de orientar la retroalimentación y la re-enseñanza. Cuando se emplean LLM, el
-                                modelo recibe conjuntos de respuestas anonimizadas y se le solicita que clasifique los
-                                errores, describa las ideas equivocadas subyacentes y sugiera posibles causas o
-                                malentendidos, de modo que el profesorado pueda focalizar la instrucción en los
-                                obstáculos reales al aprendizaje sin tener que leer y codificar manualmente todos los
-                                textos.
-                                <span class="concept-ref">Bewersdorff et al. (2023).</span>
-                        </article>
-                    </div>
-                </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
@@ -1629,9 +1611,17 @@
 
             </section>
 
-            <section class="references-section" aria-labelledby="referencias-title">
-                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas (APA 7)</h2>
-                <ul class="ref-list">
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">4 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>Alsaiari, O., Baghaei, N., Lahza, H., Lodge, J., Boden, M., &amp; Khosravi, H. (2024).
                         Emotionally enriched feedback via generative AI. <em>arXiv preprint arXiv:2410.15077</em>.</li>
                     <li>D’Mello, S. K., &amp; Kory, J. (2015). A review and meta-analysis of multimodal affect detection
@@ -1640,7 +1630,9 @@
                         Compared to Traditional Methods. <em>Issues in Information Systems</em>, 26(4), 233–247.</li>
                     <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring:
                             Theory into practice</em>. CRC Press.</li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1786,29 +1778,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        let currentSlide = 0;
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
 
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= totalSlides - 1;
-        }
-
-        function moveSlider(direction) {
-            if (!sliderTrack) return;
-            const totalSlides = sliderTrack.children.length;
-            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
-            updateSlider();
-        }
-
-        prevBtn?.addEventListener('click', () => moveSlider(-1));
-        nextBtn?.addEventListener('click', () => moveSlider(1));
-        window.addEventListener('resize', updateSlider);
 
         const scenarios = {
             math: {
@@ -1913,14 +1883,12 @@
             `).join('');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            updateSlider();
             loadFeedbackScenario();
-        });
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 

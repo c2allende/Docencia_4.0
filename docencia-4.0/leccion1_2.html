@@ -1743,112 +1743,80 @@
                             <button type="button" class="btn btn-primary-activity" id="restartActivityBtn">Reiniciar
                                 actividad</button>
                         </div>
-                        <div class="refs-card">
-                            <div class="refs-title">Idea clave</div>
-                            <ul>
-                                <li>Los LLM no sustituyen el juicio docente: amplían posibilidades de diseño,
-                                    razonamiento y diferenciación.</li>
-                                <li>Cada área requiere una estrategia distinta y una validación humana clara.</li>
-                            </ul>
-                        </div>
                     </section>
                 </div>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" id="prevBtn" type="button" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" id="nextBtn" type="button"
-                            aria-label="Concepto siguiente">→</button>
+            <details class="concept-review" data-concept-review>
+                <summary class="concept-review__summary-main">
+                    <div class="concept-review__icon" aria-hidden="true">📖</div>
+                    <div class="concept-review__meta">
+                        <span class="concept-review__subtitle">Glosario dinámico</span>
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__count">5 términos clave</span>
                     </div>
-                </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Generación de problemas contextualizados">
-                            <h3>Generación de problemas contextualizados</h3>
-                            <p>Generación de problemas contextualizados es el diseño (manual o asistido por IA) de
-                                problemas, especialmente matemáticos, que sitúan las tareas numéricas dentro de
-                                escenarios o narrativas de la vida real relevantes para el estudiante (por ejemplo,
-                                deportes, compras, eventos locales), de modo que mantengan la misma estructura y
-                                dificultad matemática, pero aumenten significado y motivación. Cuando se realiza con
-                                LLM, el modelo toma instrucciones sobre el contenido matemático y el contexto deseado y
-                                produce enunciados tipo “problema verbal” que preservan la intención didáctica original,
-                                permitiendo personalizar los problemas a intereses y niveles de los alumnos sin
-                                rediseñar cada ítem desde cero.</p>
-                            <small>Hwang, W. Y., &amp; Utami, I. Q. (2024, March). Contextualized and Personalized Math
-                                Word Problem Generation Using GPT and Authentic Contextual Recognition. In 2024 12th
-                                International Conference on Information and Education Technology (ICIET) (pp. 177-181).
-                                IEEE.</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Explicación paso a paso en STEM">
-                            <h3>Explicación paso a paso en STEM</h3>
-                            <p>Explicación paso a paso en STEM es una estrategia en la que un modelo de lenguaje (o el
-                                docente) descompone la resolución de un problema de Ciencia, Tecnología, Ingeniería o
-                                Matemáticas en una secuencia ordenada de pasos intermedios, mostrando operaciones,
-                                justificaciones y decisiones antes de presentar la respuesta final. Implementada con LLM
-                                mediante técnicas como Chain-of-Thought, esta explicación detallada funciona como
-                                ejemplo trabajado (worked example) que reduce la carga cognitiva, hace visibles los
-                                procesos de razonamiento y facilita la retroalimentación formativa sobre dónde se
-                                producen errores o malentendidos en el aprendizaje de STEM.</p>
-                            <small>DataCamp. (2024). Chain-of-thought prompting: Step-by-step reasoning with large
-                                language models. https://www.datacamp.com/tutorial/chain-of-thought-prompting</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Asistente de lectura y escritura">
-                            <h3>Asistente de lectura y escritura</h3>
-                            <p>Asistente de lectura y escritura es una herramienta de software, generalmente impulsada
-                                por modelos de lenguaje (LLM), que analiza y genera texto para apoyar procesos de
-                                comprensión lectora y producción escrita, ofreciendo sugerencias, explicaciones y
-                                retroalimentación en tiempo real. En educación, estos asistentes ayudan a estudiantes a
-                                mejorar gramática, vocabulario, coherencia y claridad, así como a comprender textos
-                                complejos mediante resúmenes, definiciones y preguntas guiadas, mientras proporcionan a
-                                los docentes información diagnóstica sobre el desarrollo de habilidades de lectura y
-                                escritura.</p>
-                            <small>AIContentfy. (2023). AI writing assistants in education: Revolutionizing learning and
-                                writing processes. AIContentfy.
-                                https://aicontentfy.com/en/blog/ai-writing-assistants-in-education-revolutionizing-learning-and-writing-processes</small>
-                        </article>
-
-                        <article class="slider-item"
-                            aria-label="Concepto: Diseño Universal para el Aprendizaje con LLM">
-                            <h3>Diseño Universal para el Aprendizaje (DUA) con LLM</h3>
-                            <p>Diseño Universal para el Aprendizaje (DUA) con LLM es la aplicación del marco de Diseño
-                                Universal para el Aprendizaje, que propone ofrecer múltiples medios de representación,
-                                acción/expresión y compromiso para atender la variabilidad del alumnado, utilizando
-                                modelos de lenguaje grandes para generar versiones alternativas y personalizadas de los
-                                materiales. En la práctica, esto implica usar LLM para re-nivelar textos (distintos
-                                niveles de lectura), cambiar formatos (resúmenes, esquemas, ejemplos adicionales),
-                                ofrecer explicaciones alternativas y proponer diversas formas de demostrar el
-                                aprendizaje, de manera que se reduzcan barreras y se optimice el acceso al currículo
-                                para todos los estudiantes.</p>
-                            <small>CAST. (2024). Universal Design for Learning (UDL) guidelines. CAST.
-                                https://udlguidelines.cast.org</small>
-                        </article>
-
-                        <article class="slider-item"
-                            aria-label="Concepto: Apoyo a Programas Educativos Individualizados">
-                            <h3>Apoyo a Programas Educativos Individualizados (PEI)</h3>
-                            <p>Apoyo a Programas Educativos Individualizados (PEI) con LLM es el uso de modelos de
-                                lenguaje grandes y de las aplicaciones que los incorporan para asistir en la redacción y
-                                revisión de borradores de Programas Educativos Individualizados (en el contexto de EE.
-                                UU., Individualized Education Programs, IEP), generando propuestas de metas, apoyos y
-                                adaptaciones a partir de la información que provee el docente, sin reemplazar el juicio
-                                del equipo interdisciplinario. Un PEI/IEP es un documento legal que detalla la
-                                instrucción especial, servicios relacionados, metas medibles y acomodos que un
-                                estudiante con discapacidad necesita para acceder a una educación pública, gratuita y
-                                apropiada; la IA se usa como herramienta de apoyo para formular objetivos SMART y
-                                descripciones técnicas más eficientes, que luego deben ser revisadas, ajustadas y
-                                aprobadas por el equipo profesional y la familia.</p>
-                            <small>Understood. (2023). What is an IEP? Understood.org.
-                                https://www.understood.org/en/articles/what-is-an-iep</small>
-                        </article>
+                    <div class="concept-review__toggle-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </div>
+                </summary>
+                <div class="concept-review__panel">
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Generación de problemas contextualizados</summary>
+                        <div class="concept-review__body">
+                            <p>Generación de problemas contextualizados es el diseño (manual o asistido por IA) de problemas, especialmente matemáticos, que sitúan las tareas numéricas dentro de escenarios o narrativas de la vida real relevantes para el estudiante (por ejemplo, deportes, compras, eventos locales), de modo que mantengan la misma estructura y dificultad matemática, pero aumenten significado y motivación. Cuando se realiza con LLM, el modelo toma instrucciones sobre el contenido matemático y el contexto deseado y produce enunciados tipo “problema verbal” que preservan la intención didáctica original, permitiendo personalizar los problemas a intereses y niveles de los alumnos sin rediseñar cada ítem desde cero.</p>
+                            <cite class="concept-review__citation">
+                                Hwang, W. Y., & Utami, I. Q. (2024, March). Contextualized and Personalized Math Word Problem Generation Using GPT and Authentic Contextual Recognition. In 2024 12th International Conference on Information and Education Technology (ICIET) (pp. 177-181). IEEE.
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Explicación paso a paso en STEM</summary>
+                        <div class="concept-review__body">
+                            <p>Explicación paso a paso en STEM es una estrategia en la que un modelo de lenguaje (o el docente) descompone la resolución de un problema de Ciencia, Tecnología, Ingeniería o Matemáticas en una secuencia ordenada de pasos intermedios, mostrando operaciones, justificaciones y decisiones antes de presentar la respuesta final. Implementada con LLM mediante técnicas como Chain of Thought, esta explicación detallada funciona como ejemplo trabajado (worked example) que reduce la carga cognitiva, hace visibles los procesos de razonamiento y facilita la retroalimentación formativa sobre dónde se producen errores o malentendidos en el aprendizaje de STEM.</p>
+                            <cite class="concept-review__citation">
+                                DataCamp. (2024). Chain-of-thought prompting: Step-by-step reasoning with large language models. https://www.datacamp.com/tutorial/chain-of-thought-prompting
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Asistente de lectura y escritura</summary>
+                        <div class="concept-review__body">
+                            <p>Asistente de lectura y escritura es una herramienta de software, generalmente impulsada por modelos de lenguaje (LLM), que analiza y genera texto para apoyar procesos de comprensión lectora y producción escrita, ofreciendo sugerencias, explicaciones y retroalimentación en tiempo real. En educación, estos asistentes ayudan a estudiantes a mejorar gramática, vocabulario, coherencia y claridad, así como a comprender textos complejos mediante resúmenes, definiciones y preguntas guiadas, mientras proporcionan a los docentes información diagnóstica sobre el desarrollo de habilidades de lectura y escritura.</p>
+                            <cite class="concept-review__citation">
+                                AIContentfy. (2023). AI writing assistants in education: Revolutionizing learning and writing processes. AIContentfy. https://aicontentfy.com/en/blog/ai-writing-assistants-in-education-revolutionizing-learning-and-writing-processes
+                            </cite>
+                        </div>
+                    </details>
+
+                    <div class="concept-review__overflow">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Diseño Universal para el Aprendizaje (DUA) con LLM</summary>
+                            <div class="concept-review__body">
+                                <p>Diseño Universal para el Aprendizaje (DUA) con LLM es la aplicación del marco de Diseño Universal para el Aprendizaje, que propone ofrecer múltiples medios de representación, acción/expresión y compromiso para atender la variabilidad del alumnado, utilizando modelos de lenguaje grandes para generar versiones alternativas y personalizadas de los materiales. En la práctica, esto implica usar LLM para re nivelar textos (distintos niveles de lectura), cambiar formatos (resúmenes, esquemas, ejemplos adicionales), ofrecer explicaciones alternativas y proponer diversas formas de demostrar el aprendizaje, de manera que se reduzcan barreras y se optimice el acceso al currículo para todos los estudiantes.</p>
+                                <cite class="concept-review__citation">
+                                    CAST. (2024). Universal Design for Learning (UDL) guidelines. CAST. https://udlguidelines.cast.org
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Apoyo a Programas Educativos Individualizados (PEI)</summary>
+                            <div class="concept-review__body">
+                                <p>Apoyo a Programas Educativos Individualizados (PEI) con LLM es el uso de modelos de lenguaje grandes y de las aplicaciones que los incorporan para asistir en la redacción y revisión de borradores de Programas Educativos Individualizados (en el contexto de EE. UU., Individualized Education Programs, IEP), generando propuestas de metas, apoyos y adaptaciones a partir de la información que provee el docente, sin reemplazar el juicio del equipo interdisciplinario. Un PEI/IEP es un documento legal que detalla la instrucción especial, servicios relacionados, metas medibles y acomodos que un estudiante con discapacidad necesita para acceder a una educación pública, gratuita y apropiada; la IA se usa como herramienta de apoyo para formular objetivos SMART y descripciones técnicas más eficientes, que luego deben ser revisadas, ajustadas y aprobadas por el equipo profesional y la familia.</p>
+                                <cite class="concept-review__citation">
+                                    Understood. (2023). What is an IEP? Understood.org. https://www.understood.org/en/articles/what-is-an-iep
+                                </cite>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button class="concept-review__more" type="button">Ver más conceptos</button>
                 </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
@@ -1908,8 +1876,15 @@
 
             <section class="text-section" aria-labelledby="referencias-title">
                 <hr class="section-separator">
-                <h2 id="referencias-title" class="section-title">Referencias</h2>
-                <ul class="reference-list">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">12 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>AIContentfy. (2023). <em>AI writing assistants in education: Revolutionizing learning and
                             writing processes</em>. AIContentfy.
                         https://aicontentfy.com/en/blog/ai-writing-assistants-in-education-revolutionizing-learning-and-writing-processes
@@ -1938,7 +1913,9 @@
                     </li>
                     <li>Zhang, X., et al. (2024). Chain-of-thought prompting and reasoning support in STEM learning.
                     </li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
 
@@ -2070,38 +2047,6 @@
             event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        // Slider de conceptos
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentIndex = 0;
-
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= totalSlides - 1;
-        }
-
-        nextBtn?.addEventListener('click', () => {
-            const totalSlides = sliderTrack?.children.length || 0;
-            if (currentIndex < totalSlides - 1) {
-                currentIndex += 1;
-                updateSlider();
-            }
-        });
-
-        prevBtn?.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex -= 1;
-                updateSlider();
-            }
-        });
-
-        window.addEventListener('resize', updateSlider);
-        updateSlider();
 
         // Producto interactivo: Aplicaciones Estratégicas
         (() => {
@@ -2244,6 +2189,7 @@
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
+    <script src="scripts/concept-review.js"></script>
     <script src="scripts/genially-checkpoint.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>

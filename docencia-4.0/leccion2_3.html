@@ -574,105 +574,6 @@
             line-height: var(--line-height-relaxed);
         }
 
-        /* SLIDER */
-        .slider-section {
-            margin: var(--spacing-16) 0;
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface-low);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-        }
-
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .slider-header h2 {
-            margin: 0;
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-        .slider-controls {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-
-        .control-btn {
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: var(--border-width-2) solid var(--color-border-default);
-            border-radius: var(--radius-pill);
-            background: var(--color-background-surface);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-lg);
-            cursor: pointer;
-            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
-                color var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                opacity var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .control-btn:hover:not(:disabled) {
-            background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
-            border-color: var(--color-brand-primary);
-            transform: scale(1.05);
-        }
-
-        .control-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .slider-container {
-            overflow: hidden;
-            position: relative;
-            padding: var(--spacing-2);
-        }
-
-        .slider-track {
-            display: flex;
-            gap: var(--spacing-lg);
-            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
-        }
-
-        .slider-item {
-            min-width: 100%;
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
-        }
-
-        .slider-item h3 {
-            margin: 0 0 var(--spacing-sm);
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
-        }
-
-        .slider-item small,
-        .concept-ref {
-            display: block;
-            margin-top: var(--spacing-md);
-            color: var(--color-text-muted);
-            font-size: var(--font-size-xs);
-            line-height: var(--line-height-relaxed);
-            font-style: italic;
-        }
-
         .completion-card {
             position: relative;
             margin-top: var(--spacing-16);
@@ -865,15 +766,10 @@
                 font-size: var(--font-size-sm);
             }
 
-            .slider-header,
             .footer-nav {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
-            }
-
-            .slider-controls {
-                justify-content: center;
             }
 
             .diff-validation-card {
@@ -892,7 +788,6 @@
 
             .lesson-card,
             .diff-widget-box,
-            .slider-section,
             .checkpoint-container,
             .completion-card,
             .references-section,
@@ -1192,20 +1087,24 @@
                 </div>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" type="button" id="nextBtn"
-                            aria-label="Concepto siguiente">→</button>
+            <details class="concept-review" data-concept-review>
+                <summary class="concept-review__summary-main">
+                    <div class="concept-review__icon" aria-hidden="true">📖</div>
+                    <div class="concept-review__meta">
+                        <span class="concept-review__subtitle">Glosario dinámico</span>
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__count">6 términos clave</span>
                     </div>
-                </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Simplificación automática de textos con LLM">
-                            <h3>Simplificación automática de textos con LLM</h3>
+                    <div class="concept-review__toggle-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </summary>
+                <div class="concept-review__panel">
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Simplificación automática de textos con LLM</summary>
+                        <div class="concept-review__body">
                             <p>La simplificación automática de textos con LLM es un proceso de transformación en el que
                                 un modelo de lenguaje grande reescribe un texto complejo para hacerlo más fácil de leer
                                 y comprender, manteniendo su significado esencial y la información clave. Este proceso
@@ -1213,74 +1112,100 @@
                                 de lectura a un grado escolar o perfil de lector específico, lo que resulta
                                 especialmente útil para educación diferenciada, aprendices de segunda lengua y públicos
                                 con baja alfabetización.</p>
-                            <small>Xiaojun Wan; Automatic Text Simplification. Computational Linguistics 2018; 44(4),
+                            <cite class="concept-review__citation">
+                                Xiaojun Wan; Automatic Text Simplification. Computational Linguistics 2018; 44(4),
                                 659–661. Al-Thanyyan, S. S., &amp; Azmi, A. M. (2021). Automated text simplification.
-                                ACM Computing Surveys, 54(2), 1–36.</small>
-                        </article>
+                                ACM Computing Surveys, 54(2), 1–36.
+                            </cite>
+                        </div>
+                    </details>
 
-                        <article class="slider-item" aria-label="Concepto: Taxonomía de Bloom">
-                            <h3>Taxonomía de Bloom</h3>
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Taxonomía de Bloom</summary>
+                        <div class="concept-review__body">
                             <p>Taxonomía de Bloom es un marco jerárquico que clasifica los objetivos educativos según la
                                 complejidad de los procesos de aprendizaje en tres dominios: cognitivo, afectivo y
                                 psicomotor. En su revisión más utilizada en el ámbito cognitivo, organiza las metas
                                 desde habilidades de menor a mayor complejidad: recordar, comprender, aplicar, analizar,
                                 evaluar y crear, ofreciendo a los docentes una estructura para diseñar resultados de
                                 aprendizaje, actividades y evaluaciones alineadas.</p>
-                            <small>Krathwohl, D. R. (2002). A revision of Bloom’s taxonomy: An overview. Theory Into
-                                Practice, 41(4), 212–218.</small>
-                        </article>
+                            <cite class="concept-review__citation">
+                                Krathwohl, D. R. (2002). A revision of Bloom’s taxonomy: An overview. Theory Into
+                                Practice, 41(4), 212–218.
+                            </cite>
+                        </div>
+                    </details>
 
-                        <article class="slider-item" aria-label="Concepto: Profundidad de conocimiento de Webb DOK">
-                            <h3>Profundidad de conocimiento de Webb (DOK)</h3>
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Profundidad de conocimiento de Webb (DOK)</summary>
+                        <div class="concept-review__body">
                             <p>La Profundidad de conocimiento de Webb es un marco que clasifica las tareas educativas
                                 según su complejidad cognitiva, es decir, el tipo y la profundidad de pensamiento que
                                 requieren más que su dificultad superficial. Distingue cuatro niveles: recuerdo y
                                 reproducción, habilidades y conceptos, pensamiento estratégico y pensamiento extendido.
                                 Se utiliza para alinear estándares, instrucción y evaluación, y para diseñar ítems y
                                 actividades con el rigor cognitivo adecuado.</p>
-                            <small>Advisors, L. E. (2025). Webb's Depth of Knowledge: A Framework for Deeper Learning.
-                                LearnButWhy.</small>
-                        </article>
+                            <cite class="concept-review__citation">
+                                Advisors, L. E. (2025). Webb's Depth of Knowledge: A Framework for Deeper Learning.
+                                LearnButWhy.
+                            </cite>
+                        </div>
+                    </details>
 
-                        <article class="slider-item" aria-label="Concepto: Bancos de reactivos generados con IA">
-                            <h3>Bancos de reactivos generados con IA</h3>
-                            <p>Los bancos de reactivos generados con IA son conjuntos estructurados y organizados de
-                                ítems de evaluación que se producen de manera automatizada o semiautomatizada mediante
-                                modelos de inteligencia artificial a partir de currículos, temarios, textos fuente o
-                                estándares de aprendizaje. Estos bancos suelen incluir metadatos técnicos por ítem y
-                                pueden actualizarse dinámicamente en función del desempeño de los estudiantes y del
-                                análisis estadístico de los resultados.</p>
-                            <small>Pearson. (2025, 30 de enero). Evaluaciones generadas por IA: Más allá de las pruebas
-                                tradicionales. Blog Educación del Futuro, Pearson Higher Education.</small>
-                        </article>
+                    <div class="concept-review__overflow">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Bancos de reactivos generados con IA</summary>
+                            <div class="concept-review__body">
+                                <p>Los bancos de reactivos generados con IA son conjuntos estructurados y organizados de
+                                    ítems de evaluación que se producen de manera automatizada o semiautomatizada mediante
+                                    modelos de inteligencia artificial a partir de currículos, temarios, textos fuente o
+                                    estándares de aprendizaje. Estos bancos suelen incluir metadatos técnicos por ítem y
+                                    pueden actualizarse dinámicamente en función del desempeño de los estudiantes y del
+                                    análisis estadístico de los resultados.</p>
+                                <cite class="concept-review__citation">
+                                    Pearson. (2025, 30 de enero). Evaluaciones generadas por IA: Más allá de las pruebas
+                                    tradicionales. Blog Educación del Futuro, Pearson Higher Education.
+                                </cite>
+                            </div>
+                        </details>
 
-                        <article class="slider-item" aria-label="Concepto: Rúbrica analítica asistida por IA">
-                            <h3>Rúbrica analítica asistida por IA</h3>
-                            <p>Rúbrica analítica asistida por IA es una matriz de evaluación en la que los criterios,
-                                niveles de desempeño y descriptores se generan inicialmente con ayuda de un modelo de
-                                IA, por ejemplo, un bot basado en LLM como ChatGPT, a partir de la descripción de la
-                                tarea, los objetivos de aprendizaje y el tipo de producto a evaluar. La IA propone
-                                borradores de criterios y descriptores para cada nivel, que luego el docente revisa,
-                                ajusta y valida.</p>
-                            <small>Hashemi, H., Eisner, J., Rosset, C., Van Durme, B., &amp; Kedzie, C. (2024).
-                                Llm-rubric: A multidimensional, calibrated approach to automated evaluation of natural
-                                language texts.</small>
-                        </article>
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Rúbrica analítica asistida por IA</summary>
+                            <div class="concept-review__body">
+                                <p>Rúbrica analítica asistida por IA es una matriz de evaluación en la que los criterios,
+                                    niveles de desempeño y descriptores se generan inicialmente con ayuda de un modelo de
+                                    IA, por ejemplo, un bot basado en LLM como ChatGPT, a partir de la descripción de la
+                                    tarea, los objetivos de aprendizaje y el tipo de producto a evaluar. La IA propone
+                                    borradores de criterios y descriptores para cada nivel, que luego el docente revisa,
+                                    ajusta y valida.</p>
+                                <cite class="concept-review__citation">
+                                    Hashemi, H., Eisner, J., Rosset, C., Van Durme, B., &amp; Kedzie, C. (2024).
+                                    Llm-rubric: A multidimensional, calibrated approach to automated evaluation of natural
+                                    language texts.
+                                </cite>
+                            </div>
+                        </details>
 
-                        <article class="slider-item" aria-label="Concepto: Lista de Cotejo de Validación para IA">
-                            <h3>Lista de Cotejo de Validación para IA</h3>
-                            <p>Lista de Cotejo de Validación para IA es un instrumento estructurado que el docente
-                                utiliza para evaluar sistemáticamente la calidad, pertinencia y seguridad de productos
-                                generados por IA antes de usarlos en el aula. Suele incluir criterios como exactitud
-                                factual, alineación con el currículo, nivel de complejidad adecuado, pertinencia
-                                cultural, ausencia de sesgos y cumplimiento de normas de privacidad, funcionando como
-                                filtro de control de calidad dentro del enfoque de human in the loop.</p>
-                            <small>Guides: WRIT 1150 Library Toolkit: Evaluating AI Generated Content. Georgetown
-                                University Library.</small>
-                        </article>
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Lista de Cotejo de Validación para IA</summary>
+                            <div class="concept-review__body">
+                                <p>Lista de Cotejo de Validación para IA es un instrumento estructurado que el docente
+                                    utiliza para evaluar sistemáticamente la calidad, pertinencia y seguridad de productos
+                                    generados por IA antes de usarlos en el aula. Suele incluir criterios como exactitud
+                                    factual, alineación con el currículo, nivel de complejidad adecuado, pertinencia
+                                    cultural, ausencia de sesgos y cumplimiento de normas de privacidad, funcionando como
+                                    filtro de control de calidad dentro del enfoque de human in the loop.</p>
+                                <cite class="concept-review__citation">
+                                    Guides: WRIT 1150 Library Toolkit: Evaluating AI Generated Content. Georgetown
+                                    University Library.
+                                </cite>
+                            </div>
+                        </details>
                     </div>
+
+                    <button class="concept-review__more" type="button">Ver más conceptos</button>
                 </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
@@ -1316,29 +1241,24 @@
                     </p>
                 </div>
 
-
-
-
-
-
-
-
                 <div id="checkpoint-panel-2-3" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
                     <div class="genially-checkpoint__frame-wrap">
                         <iframe data-src="https://view.genially.com/69add8841ea68d18517e0c0d" src="about:blank" title="Checkpoint de saberes: Lección 2.3" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
-
-
-
-
-
-
             </section>
 
-            <section class="references-section" aria-labelledby="referencias-title">
-                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas (APA 7)</h2>
-                <ul class="ref-list">
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">12 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., &amp; Zhao, N. (2024). Early perceptions of
                         teaching and learning using generative AI in higher education. <em>Journal of Educational
                             Technology Systems</em>, 52(3), 346–375.</li>
@@ -1376,7 +1296,9 @@
                     <li>Zubiaga, A. (2024). Natural language processing in the era of large language models.
                         <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.
                     </li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1463,30 +1385,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        let currentSlide = 0;
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= totalSlides - 1;
-        }
-
-        function moveSlider(direction) {
-            if (!sliderTrack) return;
-            const totalSlides = sliderTrack.children.length;
-            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
-            updateSlider();
-        }
-
-        prevBtn?.addEventListener('click', () => moveSlider(-1));
-        nextBtn?.addEventListener('click', () => moveSlider(1));
-        window.addEventListener('resize', updateSlider);
-
         const diffOutputs = {
             basic: {
                 tag: 'Nivel básico',
@@ -1538,13 +1436,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateSlider();
             const firstDiffButton = document.querySelector('.diff-btn.active');
             if (firstDiffButton) transformContent('basic', firstDiffButton);
         });
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
+    <script src="scripts/concept-review.js"></script>
     <script src="scripts/genially-checkpoint.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>

@@ -1375,71 +1375,53 @@
                 prompts, ha mostrado mejorar la pertinencia y la estructura de los planes de lección generados, lo cual
                 respalda el uso de plantillas sistemáticas como las que este módulo propone.</p>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" type="button" id="nextBtn"
-                            aria-label="Concepto siguiente">→</button>
+            <!-- ===== CONCEPTOS A REPASAR — ALT E3 ===== -->
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">3 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Ingeniería de prompts</summary>
+                            <div class="concept-review__body">
+                                <p>La ingeniería de prompts es la práctica técnica de diseñar, estructurar y optimizar las instrucciones o entradas de texto (prompts) que se proporcionan a modelos de inteligencia artificial generativa, especialmente a grandes modelos de lenguaje, con el fin de orientar de manera precisa su comportamiento y obtener salidas específicas, pertinentes y de alta calidad. En términos formales, consiste en formular y refinar sistemáticamente los elementos del prompt (rol, contexto, datos de entrada, tarea, restricciones, formato de salida) para alinear la respuesta del modelo con la intención del usuario, reduciendo ambigüedad, errores y sesgos, y maximizando la utilidad de la interacción humano-IA.</p>
+                                <cite class="concept-review__citation">Janke, T., et al. (2024). Prompt engineering as a new 21st century skill. Frontiers in Education. IBM. (2023). ¿Qué es la prompt engineering? IBM Think.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Estructura Rol–Contexto–Tarea–Formato–Restricciones</summary>
+                            <div class="concept-review__body">
+                                <p>La estructura Rol–Contexto–Tarea–Formato–Restricciones es un esquema de diseño de prompts que organiza la instrucción a un modelo de IA en cinco componentes: el Rol define la identidad o perfil experto que debe asumir el modelo; el Contexto aporta la información de fondo necesaria, como audiencia, propósito y datos relevantes; la Tarea especifica la acción principal a realizar mediante un verbo claro; el Formato indica cómo debe presentarse la respuesta, por ejemplo lista, tabla, párrafo o esquema; y las Restricciones establecen límites de estilo, extensión, idioma u otros criterios que acotan la salida para hacerla más útil y controlable.</p>
+                                <cite class="concept-review__citation">PromptingGuide. (s. f.). Prompt engineering guide.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Few-shot prompting / Few-shot learning</summary>
+                            <div class="concept-review__body">
+                                <p>Few-shot prompting, o few-shot learning en el contexto de LLM, es una técnica en la que se proporciona al modelo un pequeño conjunto de ejemplos de entrada–salida dentro del propio prompt para que "aprenda por demostración" cómo debe realizar una tarea, y luego se le pide que generalice ese patrón a casos nuevos sin volver a entrenar el modelo. En términos técnicos, se sitúa entre el zero-shot, sin ejemplos, y el fine-tuning supervisado: el modelo aprovecha su entrenamiento previo y ajusta su comportamiento a partir de 2–5 ejemplos bien escogidos, lo que mejora la precisión, la coherencia de formato y la alineación con la intención del usuario en tareas como clasificación, reformulación de textos o generación condicionada.</p>
+                                <cite class="concept-review__citation">Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., ... &amp; Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877-1901.</cite>
+                            </div>
+                        </details>
+
                     </div>
                 </div>
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Ingeniería de prompts">
-                            <h3>Ingeniería de prompts</h3>
-                            <p>La ingeniería de prompts es la práctica técnica de diseñar, estructurar y optimizar las
-                                instrucciones o entradas de texto (prompts) que se proporcionan a modelos de
-                                inteligencia artificial generativa, especialmente a grandes modelos de lenguaje, con el
-                                fin de orientar de manera precisa su comportamiento y obtener salidas específicas,
-                                pertinentes y de alta calidad. En términos formales, consiste en formular y refinar
-                                sistemáticamente los elementos del prompt (rol, contexto, datos de entrada, tarea,
-                                restricciones, formato de salida) para alinear la respuesta del modelo con la intención
-                                del usuario, reduciendo ambigüedad, errores y sesgos, y maximizando la utilidad de la
-                                interacción humano-IA.</p>
-                            <small>Janke, T., et al. (2024). Prompt engineering as a new 21st century skill.
-                                <em>Frontiers in Education</em>. IBM. (2023). ¿Qué es la prompt engineering? IBM
-                                Think.</small>
-                        </article>
-
-                        <article class="slider-item"
-                            aria-label="Concepto: Estructura Rol Contexto Tarea Formato Restricciones">
-                            <h3>Estructura Rol–Contexto–Tarea–Formato–Restricciones</h3>
-                            <p>La estructura Rol–Contexto–Tarea–Formato–Restricciones es un esquema de diseño de prompts
-                                que organiza la instrucción a un modelo de IA en cinco componentes: el Rol define la
-                                identidad o perfil experto que debe asumir el modelo; el Contexto aporta la información
-                                de fondo necesaria, como audiencia, propósito y datos relevantes; la Tarea especifica la
-                                acción principal a realizar mediante un verbo claro; el Formato indica cómo debe
-                                presentarse la respuesta, por ejemplo lista, tabla, párrafo o esquema; y las
-                                Restricciones establecen límites de estilo, extensión, idioma u otros criterios que
-                                acotan la salida para hacerla más útil y controlable.</p>
-                            <small>PromptingGuide. (s. f.). Prompt engineering guide.</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Few-shot prompting">
-                            <h3>Few-shot prompting / Few-shot learning</h3>
-                            <p>Few-shot prompting, o few-shot learning en el contexto de LLM, es una técnica en la que
-                                se proporciona al modelo un pequeño conjunto de ejemplos de entrada–salida dentro del
-                                propio prompt para que “aprenda por demostración” cómo debe realizar una tarea, y luego
-                                se le pide que generalice ese patrón a casos nuevos sin volver a entrenar el modelo. En
-                                términos técnicos, se sitúa entre el zero-shot, sin ejemplos, y el fine-tuning
-                                supervisado: el modelo aprovecha su entrenamiento previo y ajusta su comportamiento a
-                                partir de 2–5 ejemplos bien escogidos, lo que mejora la precisión, la coherencia de
-                                formato y la alineación con la intención del usuario en tareas como clasificación,
-                                reformulación de textos o generación condicionada.</p>
-                            <small>Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., ... &amp;
-                                Amodei, D. (2020). Language models are few-shot learners. <em>Advances in Neural
-                                    Information Processing Systems</em>, 33, 1877-1901.</small>
-                        </article>
-                    </div>
-                </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
                 <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
                 <p>Has culminado la lección 2.1 del programa de formación profesional.</p>
-                <p>Al completar el contenido 2.1, has pasado de “probar” la IA a entender cómo dirigirla: sabes qué es
+                <p>Al completar el contenido 2.1, has pasado de "probar" la IA a entender cómo dirigirla: sabes qué es
                     un prompt, cómo estructurarlo con Rol, Contexto, Tarea, Formato y Restricciones, y cómo iterar hasta
                     obtener respuestas realmente útiles para tu aula. Esta competencia te coloca en un lugar
                     estratégico, porque convierte al LLM en una herramienta a tu servicio y no al revés, alineando lo
@@ -1488,9 +1470,17 @@
 
             </section>
 
-            <section class="references-section" aria-labelledby="referencias-title">
-                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas (APA 7)</h2>
-                <ul class="ref-list">
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">10 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>Adiguzel, T., Kaya, M. H., &amp; Cansu, F. K. (2023). Revolutionizing education with AI:
                         Exploring the transformative potential of ChatGPT. <em>Contemporary Educational Technology</em>,
                         15(3), ep429. https://doi.org/10.30935/cedtech/13152</li>
@@ -1520,7 +1510,9 @@
                         <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.
                         https://doi.org/10.3389/frai.2023.1350306
                     </li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1607,30 +1599,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        let currentSlide = 0;
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= totalSlides - 1;
-        }
-
-        function moveSlider(direction) {
-            if (!sliderTrack) return;
-            const totalSlides = sliderTrack.children.length;
-            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
-            updateSlider();
-        }
-
-        prevBtn?.addEventListener('click', () => moveSlider(-1));
-        nextBtn?.addEventListener('click', () => moveSlider(1));
-        window.addEventListener('resize', updateSlider);
-
         const chatStages = [
             {
                 user: 'Genera preguntas de comprensión sobre un cuento.',
@@ -1679,7 +1647,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateSlider();
+
             const firstChatButton = document.querySelector('.chat-step-card');
             if (firstChatButton) loadChatStage(0, firstChatButton);
         });
@@ -1687,6 +1655,7 @@
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 

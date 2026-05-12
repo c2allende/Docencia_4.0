@@ -1107,86 +1107,58 @@
                 </div>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" type="button" id="nextBtn"
-                            aria-label="Concepto siguiente">→</button>
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">4 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Alineación constructiva</summary>
+                            <div class="concept-review__body">
+                                <p>La alineación constructiva es un enfoque de diseño curricular en el que los resultados de aprendizaje, las actividades de enseñanza y las evaluaciones se planifican de forma coherente y mutuamente consistente, de modo que todo el sistema instruccional "empuje" al estudiante hacia las mismas metas de desempeño. En términos técnicos, supone: (1) definir resultados de aprendizaje observables y medibles; (2) seleccionar tareas y experiencias de aprendizaje que requieran demostrar esos resultados; y (3) diseñar criterios e instrumentos de evaluación que valoren precisamente esas actuaciones, evitando desajustes entre lo que se declara, lo que se enseña y lo que se evalúa.</p>
+                                <cite class="concept-review__citation">Biggs, J. (1996). Enhancing teaching through constructive alignment. Higher Education, 32(3), 347–364.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">LessonPlanner (asistente de planificación con LLM)</summary>
+                            <div class="concept-review__body">
+                                <p>LessonPlanner es un asistente interactivo de planificación didáctica que utiliza un modelo de lenguaje grande (LLM) para ayudar a las personas docentes a construir planes de lección guiados por principios pedagógicos, generando de forma adaptativa objetivos, actividades, estrategias y recursos a partir de información básica sobre el curso y la sesión (por ejemplo, tema, duración, nivel del estudiantado). Técnicamente, integra un LLM (GPT 4) en una interfaz web que organiza el contenido según marcos instruccionales como los nueve eventos de Gagné, permite iterar sobre cada sección del plan con sugerencias de actividades y materiales, y ha mostrado en estudios experimentales reducir la carga de trabajo percibida y mejorar la calidad de los planes de clase elaborados por docentes noveles frente a un uso genérico de ChatGPT.</p>
+                                <cite class="concept-review__citation">Fan, H., Chen, G., Wang, X., &amp; Peng, Z. (2024). LessonPlanner: Assisting novice teachers to prepare pedagogy-driven lesson plans with large language models. Proceedings of the 37th Annual ACM Symposium on User Interface Software and Technology (UIST 2024). https://doi.org/10.1145/3654777.3676390</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Microplanificación (clase diaria)</summary>
+                            <div class="concept-review__body">
+                                <p>La microplanificación (en el sentido de clase diaria) es la planificación didáctica a nivel de aula en la que el docente organiza de manera detallada y anticipada una sesión específica, precisando objetivos de aprendizaje, contenidos, actividades, recursos, tiempos y formas de evaluación para un grupo concreto de estudiantes en un día determinado. Se considera el nivel más fino de la planificación educativa (derivado de la macro y mesoplanificación), pues busca reducir la incertidumbre en la ejecución de la clase y asegurar la coherencia entre lo que se pretende lograr, las estrategias que se emplean y la evaluación de los aprendizajes.</p>
+                                <cite class="concept-review__citation">AI Lesson Planner | ITC ThinkDrive. (2025). https://itcthinkdrive.com.au/ai-lesson-planner
+
+Molina, Z. (1997). Planeamiento didáctico. Fundamentos, principios, estrategias y procedimientos para su desarrollo. Costa Rica, UNAED.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Macroplanificación (unidad o secuencia didáctica)</summary>
+                            <div class="concept-review__body">
+                                <p>La macroplanificación, entendida como unidad o secuencia didáctica, es el nivel de planificación curricular en el que se organizan y articulan de manera coherente varios objetivos, contenidos, actividades y evaluaciones en un período mediano de tiempo (por ejemplo, una unidad, bloque o módulo), de forma alineada con el currículo oficial y el proyecto educativo institucional. En términos técnicos, establece la progresión de aprendizajes, la secuencia lógica de temas, la distribución temporal, los recursos y criterios de evaluación que luego se concretan en la microplanificación de las clases diarias, funcionando como puente entre las orientaciones curriculares generales y la práctica de aula.</p>
+                                <cite class="concept-review__citation">LessonPlanner: Assisting Novice Teachers to Prepare Pedagogy-Driven Lesson Plans with Large Language Models. (2024). https://arxiv.org/html/2408.01102v1
+
+Molina, Z. (1997). Planeamiento didáctico. Fundamentos, principios, estrategias y procedimientos para su desarrollo. Costa Rica, UNAED.</cite>
+                            </div>
+                        </details>
+
                     </div>
                 </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Alineación constructiva">
-                            <h3>Alineación constructiva</h3>
-                            <p>La alineación constructiva es un enfoque de diseño curricular en el que los resultados de
-                                aprendizaje, las actividades de enseñanza y las evaluaciones se planifican de forma
-                                coherente y mutuamente consistente, de modo que todo el sistema instruccional “empuje”
-                                al estudiante hacia las mismas metas de desempeño. En términos técnicos, supone: (1)
-                                definir resultados de aprendizaje observables y medibles; (2) seleccionar tareas y
-                                experiencias de aprendizaje que requieran demostrar esos resultados; y (3) diseñar
-                                criterios e instrumentos de evaluación que valoren precisamente esas actuaciones,
-                                evitando desajustes entre lo que se declara, lo que se enseña y lo que se evalúa.</p>
-                            <small>Biggs, J. (1996). Enhancing teaching through constructive alignment. <em>Higher
-                                    Education</em>, 32(3), 347–364.</small>
-                        </article>
-
-                        <article class="slider-item"
-                            aria-label="Concepto: LessonPlanner asistente de planificación con LLM">
-                            <h3>LessonPlanner (asistente de planificación con LLM)</h3>
-                            <p>LessonPlanner es un asistente interactivo de planificación didáctica que utiliza un
-                                modelo de lenguaje grande (LLM) para ayudar a las personas docentes a construir planes
-                                de lección guiados por principios pedagógicos, generando de forma adaptativa objetivos,
-                                actividades, estrategias y recursos a partir de información básica sobre el curso y la
-                                sesión, por ejemplo, tema, duración y nivel del estudiantado. Técnicamente, integra un
-                                LLM (GPT-4) en una interfaz web que organiza el contenido según marcos instruccionales
-                                como los nueve eventos de Gagné, permite iterar sobre cada sección del plan con
-                                sugerencias de actividades y materiales, y ha mostrado en estudios experimentales
-                                reducir la carga de trabajo percibida y mejorar la calidad de los planes de clase
-                                elaborados por docentes noveles frente a un uso genérico de ChatGPT.</p>
-                            <small>Fan, H., Chen, G., Wang, X., &amp; Peng, Z. (2024). LessonPlanner: Assisting novice
-                                teachers to prepare pedagogy-driven lesson plans with large language models.
-                                <em>Proceedings of the 37th Annual ACM Symposium on User Interface Software and
-                                    Technology</em>. https://doi.org/10.1145/3654777.3676390</small>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Microplanificación clase diaria">
-                            <h3>Microplanificación (clase diaria)</h3>
-                            <p>La microplanificación, en el sentido de clase diaria, es la planificación didáctica a
-                                nivel de aula en la que el docente organiza de manera detallada y anticipada una sesión
-                                específica, precisando objetivos de aprendizaje, contenidos, actividades, recursos,
-                                tiempos y formas de evaluación para un grupo concreto de estudiantes en un día
-                                determinado. Se considera el nivel más fino de la planificación educativa, derivado de
-                                la macro y mesoplanificación, pues busca reducir la incertidumbre en la ejecución de la
-                                clase y asegurar la coherencia entre lo que se pretende lograr, las estrategias que se
-                                emplean y la evaluación de los aprendizajes.</p>
-                            <small>AI Lesson Planner | ITC ThinkDrive. (2025).
-                                https://itcthinkdrive.com.au/ai-lesson-planner. Molina, Z. (1997). <em>Planeamiento
-                                    didáctico. Fundamentos, principios, estrategias y procedimientos para su
-                                    desarrollo</em>. Costa Rica, UNAED.</small>
-                        </article>
-
-                        <article class="slider-item"
-                            aria-label="Concepto: Macroplanificación unidad o secuencia didáctica">
-                            <h3>Macroplanificación (unidad o secuencia didáctica)</h3>
-                            <p>La macroplanificación, entendida como unidad o secuencia didáctica, es el nivel de
-                                planificación curricular en el que se organizan y articulan de manera coherente varios
-                                objetivos, contenidos, actividades y evaluaciones en un período mediano de tiempo, por
-                                ejemplo, una unidad, bloque o módulo, de forma alineada con el currículo oficial y el
-                                proyecto educativo institucional. En términos técnicos, establece la progresión de
-                                aprendizajes, la secuencia lógica de temas, la distribución temporal, los recursos y
-                                criterios de evaluación que luego se concretan en la microplanificación de las clases
-                                diarias, funcionando como puente entre las orientaciones curriculares generales y la
-                                práctica de aula.</p>
-                            <small>LessonPlanner: Assisting Novice Teachers to Prepare Pedagogy-Driven Lesson Plans with
-                                Large Language Models. (2024). https://arxiv.org/html/2408.01102v1. Molina, Z. (1997).
-                                <em>Planeamiento didáctico. Fundamentos, principios, estrategias y procedimientos para
-                                    su desarrollo</em>. Costa Rica, UNAED.</small>
-                        </article>
-                    </div>
-                </div>
+            </details>
             </section>
 
             <section class="completion-card" aria-labelledby="cierre-title">
@@ -1232,19 +1204,25 @@
                 <div id="checkpoint-panel-2-2" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
                     <div class="genially-checkpoint__frame-wrap">
                         <iframe data-src="https://view.genially.com/69add46bc455dbca18a7065f" src="about:blank" title="Checkpoint de saberes: Lección 2.2" allowfullscreen loading="lazy"></iframe>
-                    </div>
+                    </div>
                 </div>
-
-
 
 
 
 
             </section>
 
-            <section class="references-section" aria-labelledby="referencias-title">
-                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas (APA 7)</h2>
-                <ul class="ref-list">
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">7 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., &amp; Zhao, N. (2024). Early perceptions of
                         teaching and learning using generative AI in higher education. <em>Journal of Educational
                             Technology Systems</em>, 52(3), 346-375.</li>
@@ -1267,7 +1245,9 @@
                     <li>Zubiaga, A. (2024). Natural language processing in the era of large language models.
                         <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.
                     </li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1354,29 +1334,29 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        let currentSlide = 0;
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
 
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= totalSlides - 1;
-        }
 
-        function moveSlider(direction) {
-            if (!sliderTrack) return;
-            const totalSlides = sliderTrack.children.length;
-            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
-            updateSlider();
-        }
 
-        prevBtn?.addEventListener('click', () => moveSlider(-1));
-        nextBtn?.addEventListener('click', () => moveSlider(1));
-        window.addEventListener('resize', updateSlider);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         let currentAppStep = 1;
         const plan = { topic: '', obj: '', start: '', dev: '', end: '', eval: '' };
@@ -1493,10 +1473,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateSlider();
+
             renderApp();
         });
     </script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>

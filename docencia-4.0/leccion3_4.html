@@ -1525,54 +1525,39 @@
                 </div>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" type="button" id="nextBtn"
-                            aria-label="Concepto siguiente">→</button>
+            <!-- ===== CONCEPTOS A REPASAR — ALT E3 ===== -->
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">2 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Lista de verificación ética: Protocolo de anonimización</summary>
+                            <div class="concept-review__body">
+                                <p>La lista de verificación ética: Protocolo de anonimización es un conjunto estructurado de pasos y criterios que guía al personal educativo para eliminar o transformar toda información personal identificable (PII) antes de introducir textos en sistemas de IA, en particular en modelos de lenguaje grandes (LLM) o en bots y aplicaciones que los integran. Técnicamente, este protocolo define qué datos deben considerarse identificadores directos o indirectos (por ejemplo, nombres, códigos de estudiante, direcciones, diagnósticos, detalles familiares), y establece procedimientos sistemáticos de supresión, sustitución por pseudónimos y revisión de contexto para reducir el riesgo de reidentificación, de forma coherente con marcos legales como FERPA y con las buenas prácticas generales de anonimización de datos.</p>
+                                <cite class="concept-review__citation">Introducción a la anonimización de datos: técnicas y casos prácticos | datos.gob.es. (2024); Agencia Española de Protección de Datos. (2014). Guía básica de anonimización. AEPD.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Marco conceptual de seguridad (adaptado de principios FERPA)</summary>
+                            <div class="concept-review__body">
+                                <p>El marco conceptual de seguridad (adaptado de principios FERPA) es un conjunto de criterios y preguntas guía que orienta a las instituciones y al personal educativo en cómo recoger, almacenar, procesar y compartir datos de estudiantes de forma compatible con la Ley de Derechos Educativos y Privacidad de la Familia (FERPA), incluyendo su uso en sistemas de IA y modelos de lenguaje grandes (LLM). Técnicamente, traduce los principios legales de FERPA (confidencialidad de los expedientes educativos, control de acceso, consentimiento informado y registro de divulgaciones) en decisiones operativas concretas: limitar el envío de información personal identificable (PII) a servicios externos, exigir controles de acceso y cifrado en plataformas que integran LLM, minimizar los datos compartidos y exigir contratos y políticas claras cuando se usan herramientas de terceros para apoyar la evaluación, la comunicación o la analítica educativa.</p>
+                                <cite class="concept-review__citation">U.S. Department of Education. (2011). FERPA general guidance for students and parents. Student Privacy Policy Office.</cite>
+                            </div>
+                        </details>
+
                     </div>
                 </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Protocolo de anonimización">
-                            <h3>Lista de verificación ética: Protocolo de anonimización</h3>
-                            <p>La lista de verificación ética: Protocolo de anonimización es un conjunto estructurado de
-                                pasos y criterios que guía al personal educativo para eliminar o transformar toda
-                                información personal identificable antes de introducir textos en sistemas de IA, en
-                                particular en modelos de lenguaje grandes (LLM) o en bots y aplicaciones que los
-                                integran. Técnicamente, este protocolo define qué datos deben considerarse
-                                identificadores directos o indirectos (por ejemplo, nombres, códigos de estudiante,
-                                direcciones, diagnósticos, detalles familiares), y establece procedimientos sistemáticos
-                                de supresión, sustitución por pseudónimos y revisión de contexto para reducir el riesgo
-                                de reidentificación, de forma coherente con marcos legales como FERPA y con las buenas
-                                prácticas generales de anonimización de datos.</p>
-                            <span class="concept-ref">Introducción a la anonimización de datos: técnicas y casos
-                                prácticos | datos.gob.es. (2024). Agencia Española de Protección de Datos. (2014). Guía
-                                básica de anonimización. AEPD.</span>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Marco conceptual de seguridad FERPA">
-                            <h3>Marco conceptual de seguridad, adaptado de principios FERPA</h3>
-                            <p>El marco conceptual de seguridad (adaptado de principios FERPA) es un conjunto de
-                                criterios y preguntas guía que orienta a las instituciones y al personal educativo en
-                                cómo recoger, almacenar, procesar y compartir datos de estudiantes de forma compatible
-                                con la Ley de Derechos Educativos y Privacidad de la Familia (FERPA), incluyendo su uso
-                                en sistemas de IA y modelos de lenguaje grandes (LLM). Técnicamente, traduce los
-                                principios legales de FERPA (confidencialidad de los expedientes educativos, control de
-                                acceso, consentimiento informado y registro de divulgaciones) en decisiones operativas
-                                concretas: limitar el envío de información personal identificable a servicios externos,
-                                exigir controles de acceso y cifrado en plataformas que integran LLM, minimizar los
-                                datos compartidos y exigir contratos y políticas claras cuando se usan herramientas de
-                                terceros para apoyar la evaluación, la comunicación o la analítica educativa.</p>
-                            <span class="concept-ref">U.S. Department of Education. (2011). FERPA general guidance for
-                                students and parents. Student Privacy Policy Office.</span>
-                        </article>
-                    </div>
-                </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
@@ -1628,9 +1613,17 @@
 
             </section>
 
-            <section class="references-section" aria-labelledby="referencias-title">
-                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas (APA 7)</h2>
-                <ul class="ref-list">
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">6 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>Agencia Española de Protección de Datos. (2014). <em>Guía básica de anonimización</em>. AEPD.
                         https://www.aepd.es/documento/guia-basica-anonimizacion.pdf</li>
                     <li>Introducción a la anonimización de datos: técnicas y casos prácticos | datos.gob.es. (2024).
@@ -1646,7 +1639,9 @@
                             (FERPA)</em>. https://www2.ed.gov/policy/gen/guid/fpco/ferpa</li>
                     <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring:
                             Theory into practice</em>. CRC Press.</li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1794,30 +1789,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        let currentSlide = 0;
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= totalSlides - 1;
-        }
-
-        function moveSlider(direction) {
-            if (!sliderTrack) return;
-            const totalSlides = sliderTrack.children.length;
-            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
-            updateSlider();
-        }
-
-        prevBtn?.addEventListener('click', () => moveSlider(-1));
-        nextBtn?.addEventListener('click', () => moveSlider(1));
-        window.addEventListener('resize', updateSlider);
-
         function showEthicsTab(event, tabId) {
             const component = document.querySelector('.ethics-shield-component');
             if (!component) return;
@@ -1840,13 +1811,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateSlider();
             document.querySelectorAll('.ethics-checkbox').forEach((button) => button.setAttribute('aria-pressed', 'false'));
         });
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 

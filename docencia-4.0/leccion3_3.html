@@ -1460,80 +1460,60 @@
                 </div>
             </section>
 
-            <section class="slider-section" aria-labelledby="conceptos-title">
-                <div class="slider-header">
-                    <h2 id="conceptos-title">Conceptos a repasar</h2>
-                    <div class="slider-controls">
-                        <button class="control-btn" type="button" id="prevBtn" aria-label="Concepto anterior">←</button>
-                        <button class="control-btn" type="button" id="nextBtn"
-                            aria-label="Concepto siguiente">→</button>
+            <!-- ===== CONCEPTOS A REPASAR — ALT E3 ===== -->
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">4 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Documentación estándar: Cartas, permisos, minutas y referencias</summary>
+                            <div class="concept-review__body">
+                                <p>La documentación estándar en el entorno escolar incluye el conjunto de registros escritos de carácter administrativo, informativo o normativo (por ejemplo, cartas a padres, permisos para excursiones, minutas de reuniones y referencias de estudiantes) que siguen formatos preestablecidos y registros lingüísticos formales. En el marco de los LLM, estos modelos se utilizan para generar borradores rápidos de este tipo de documentos a partir de plantillas o instrucciones clave, permitiendo que el docente o directivo reduzca el tiempo de redacción técnica, siempre que la persona responsable valide el contenido, ajuste los datos específicos y asegure que el documento final cumpla con las normativas institucionales y legales vigentes.</p>
+                                <cite class="concept-review__citation">Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Planes Educativos Individualizados (PEI)</summary>
+                            <div class="concept-review__body">
+                                <p>El Plan Educativo Individualizado (PEI) es un documento legal y pedagógico que describe las metas de aprendizaje, los servicios y las acomodaciones específicas para un estudiante con una discapacidad identificada, con el fin de garantizar su acceso a una educación pública, gratuita y apropiada. Con el apoyo de LLM, el equipo multidisciplinario puede generar narrativas iniciales del Presente Nivel de Ejecución Académica y Funcional (PLEP) y borradores de metas medibles a partir de datos de observación y evaluación previa, lo que facilita la consistencia terminológica y la organización del documento, mientras que la responsabilidad de la toma de decisiones pedagógicas y el cumplimiento legal recae exclusivamente en los profesionales certificados y el comité de programación.</p>
+                                <cite class="concept-review__citation">Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Terminología técnica en PEI</summary>
+                            <div class="concept-review__body">
+                                <p>La terminología técnica en el PEI es el vocabulario especializado y estandarizado que se utiliza para describir de manera objetiva, precisa y medible las fortalezas, necesidades y progresos del estudiante (por ejemplo, acomodaciones, modificaciones, servicios relacionados, PLEP, metas SMART). En el contexto de los LLM, estos modelos pueden configurarse mediante prompts específicos para aplicar este lenguaje técnico de forma consistente en borradores de informes y metas, evitando juicios subjetivos y asegurando que la documentación cumpla con los estándares administrativos y pedagógicos del sistema educativo.</p>
+                                <cite class="concept-review__citation">Yan, D., Rupp, A. A., & Foltz, P. W. (Eds.). (2020). Handbook of automated scoring: Theory into practice. CRC Press.</cite>
+                            </div>
+                        </details>
+
+                        <!-- Overflow para 4 conceptos (3 visibles, 1 oculto) -->
+                        <div class="concept-review__overflow" hidden>
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Comunicación institucional: Correos, memorandos y justificaciones</summary>
+                                <div class="concept-review__body">
+                                    <p>La comunicación institucional (correos, memorandos y justificaciones) es el conjunto de mensajes escritos formales que circulan entre los distintos actores de la comunidad educativa (dirección, docentes, familias, personal de apoyo, supervisores) para informar, solicitar, justificar o acordar acciones, siguiendo convenciones de registro profesional, claridad y trazabilidad. En el contexto de los LLM, estos modelos se utilizan como asistentes de redacción que generan borradores de correos, memorandos y justificaciones a partir de indicaciones sobre propósito, destinatarios, tono y puntos clave, mientras que el docente o directivo revisa, ajusta y valida el contenido para garantizar que sea fiel a la situación, cumpla con las políticas institucionales y respete la confidencialidad y la ética profesional.</p>
+                                    <cite class="concept-review__citation">Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. Issues in Information Systems, 26(4), 233-247.</cite>
+                                </div>
+                            </details>
+                        </div>
+
+                        <button type="button" class="concept-review__more">Ver todos los conceptos (+1)</button>
+
                     </div>
                 </div>
-
-                <div class="slider-container">
-                    <div class="slider-track" id="sliderTrack">
-                        <article class="slider-item" aria-label="Concepto: Documentación estándar">
-                            <h3>Documentación estándar: Cartas, permisos, minutas y referencias</h3>
-                            <p>Documentación estándar generada con IA (cartas, permisos, minutas y referencias) es el
-                                uso de un modelo de lenguaje grande (LLM), ya sea de forma directa o incrustado en un
-                                bot o app educativa, para producir borradores estructurados de documentos
-                                administrativos escolares que siguen formatos relativamente estables (por ejemplo,
-                                cartas a familias, formularios de permiso, actas de reunión o cartas de recomendación) a
-                                partir de instrucciones breves sobre propósito, destinatarios y tono. En términos
-                                técnicos, el LLM actúa como motor generativo que se encarga de la redacción inicial y
-                                del ajuste de estilo, mientras que el docente mantiene el control sobre la revisión, la
-                                personalización de datos sensibles (nombres, fechas, situaciones concretas) y la
-                                verificación de alineación con políticas institucionales y normativas educativas.</p>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Planes Educativos Individualizados PEI">
-                            <h3>Planes Educativos Individualizados (PEI)</h3>
-                            <p>Los Planes Educativos Individualizados (PEI) son documentos formales de planificación que
-                                establecen, para un estudiante con discapacidad o necesidades educativas especiales, los
-                                objetivos anuales, las adaptaciones y/o modificaciones curriculares, los servicios
-                                relacionados y los criterios de evaluación, de manera individualizada, con base en una
-                                evaluación diagnóstica y en acuerdos entre familia, escuela y equipos de apoyo. En el
-                                contexto de los LLM, estos modelos pueden utilizarse como asistentes de redacción para
-                                organizar observaciones, datos de desempeño y metas en secciones típicas del PEI (por
-                                ejemplo, PLEP, metas SMART, apoyos), pero la definición de objetivos, la selección de
-                                adaptaciones y la responsabilidad legal del documento siguen recayendo exclusivamente en
-                                el equipo docente y profesional humano.</p>
-                            <span class="concept-ref">Inclusive Education: What, Why, and How: A handbook for program
-                                implementers - Save the Children’s Resource Centre. (n.d.).</span>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Terminología técnica en PEI">
-                            <h3>Terminología técnica en PEI</h3>
-                            <p>La terminología técnica en PEI es el conjunto de términos especializados que se utilizan
-                                de forma estandarizada dentro de un Plan Educativo Individualizado para describir con
-                                precisión la situación del estudiante, los apoyos que recibirá y cómo se evaluará su
-                                progreso (por ejemplo: nivel presente de ejecución, acomodaciones, modificaciones,
-                                servicios relacionados, metas anuales y metas SMART, plan de transición). En el contexto
-                                de los LLM, esta terminología funciona como un vocabulario controlado que se puede
-                                incorporar en prompts y plantillas, de modo que el modelo genere borradores de secciones
-                                del PEI con el lenguaje técnico correcto, mientras el equipo educativo revisa que cada
-                                término se use adecuadamente y se corresponda con decisiones pedagógicas y legales
-                                reales.</p>
-                            <span class="concept-ref">De Understood, E. E. (2025). Términos usados en la educación
-                                especial y el IEP.</span>
-                        </article>
-
-                        <article class="slider-item" aria-label="Concepto: Comunicación institucional">
-                            <h3>Comunicación institucional: Correos, memorandos y justificaciones</h3>
-                            <p>La comunicación institucional (correos, memorandos y justificaciones) es el conjunto de
-                                mensajes escritos formales que circulan entre los distintos actores de la comunidad
-                                educativa (dirección, docentes, familias, personal de apoyo, supervisores) para
-                                informar, solicitar, justificar o acordar acciones, siguiendo convenciones de registro
-                                profesional, claridad y trazabilidad. En el contexto de los LLM, estos modelos se
-                                utilizan como asistentes de redacción que generan borradores de correos, memorandos y
-                                justificaciones a partir de indicaciones sobre propósito, destinatarios, tono y puntos
-                                clave, mientras que el docente o directivo revisa, ajusta y valida el contenido para
-                                garantizar que sea fiel a la situación, cumpla con las políticas institucionales y
-                                respete la confidencialidad y la ética profesional.</p>
-                        </article>
-                    </div>
-                </div>
-            </section>
+            </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
@@ -1589,9 +1569,17 @@
 
             </section>
 
-            <section class="references-section" aria-labelledby="referencias-title">
-                <h2 id="referencias-title" class="section-title">Referencias Bibliográficas</h2>
-                <ul class="ref-list">
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">3 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
                     <li>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes
                         Compared to Traditional Methods. <em>Issues in Information Systems</em>, 26(4), 233-247.</li>
                     <li>Luo, J., Zheng, C., Yin, J., &amp; Teo, H. H. (2025). Design and assessment of AI-based learning
@@ -1599,7 +1587,9 @@
                             Technology in Higher Education</em>, 22(1), 42.</li>
                     <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring:
                             Theory into practice</em>. CRC Press.</li>
-                </ul>
+                                        </ul>
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
@@ -1745,29 +1735,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        let currentSlide = 0;
-        const sliderTrack = document.getElementById('sliderTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
 
-        function updateSlider() {
-            if (!sliderTrack || !prevBtn || !nextBtn) return;
-            const totalSlides = sliderTrack.children.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide >= totalSlides - 1;
-        }
-
-        function moveSlider(direction) {
-            if (!sliderTrack) return;
-            const totalSlides = sliderTrack.children.length;
-            currentSlide = Math.max(0, Math.min(currentSlide + direction, totalSlides - 1));
-            updateSlider();
-        }
-
-        prevBtn?.addEventListener('click', () => moveSlider(-1));
-        nextBtn?.addEventListener('click', () => moveSlider(1));
-        window.addEventListener('resize', updateSlider);
 
         const adminDocsData = {
             standard: {
@@ -1934,13 +1902,13 @@ Preparado por:
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateSlider();
             loadAdminTab(null, 'standard');
         });
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
 
