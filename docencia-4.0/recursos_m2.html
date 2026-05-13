@@ -496,88 +496,7 @@
             border: 0;
         }
 
-        /* BIBLIOGRAFÍA */
-        .biblio-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
 
-        .biblio-item {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .biblio-item:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .biblio-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: var(--spacing-lg);
-        }
-
-        .biblio-info {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            gap: var(--spacing-2);
-        }
-
-        .biblio-tag {
-            width: fit-content;
-            padding: var(--spacing-1) var(--spacing-3);
-            border-radius: var(--radius-pill);
-            background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-2xs);
-            font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
-            text-transform: uppercase;
-        }
-
-        .biblio-name {
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .biblio-apa {
-            padding-left: var(--spacing-md);
-            border-left: var(--border-width-4) solid var(--color-border-default);
-            color: var(--color-text-muted);
-            font-size: var(--font-size-sm);
-            font-style: italic;
-            line-height: var(--line-height-relaxed);
-        }
-
-        .biblio-summary {
-            padding: var(--spacing-md);
-            margin: 0;
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface-low);
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
 
         .footer-nav {
             display: flex;
@@ -902,86 +821,84 @@
                 </div>
             </section>
 
-            <section class="resource-section" aria-labelledby="bibliografia-title">
-                <div class="resource-header">
-                    <div class="resource-icon" aria-hidden="true">📚</div>
-                    <h2 id="bibliografia-title" class="section-title">Bibliografía Recomendada Módulo 2</h2>
-                </div>
+            <section class="bibliographic-resources" aria-labelledby="bibliographic-resources-title-m2">
+                <details class="bibliographic-resources__panel">
+                    <summary class="bibliographic-resources__summary">
+                        <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
+                        <span class="bibliographic-resources__summary-text">
+                            <span class="bibliographic-resources__title" id="bibliographic-resources-title-m2">Bibliografía Recomendada Módulo 2</span>
+                            <span class="bibliographic-resources__count">4 recursos disponibles</span>
+                        </span>
+                        <span class="bibliographic-resources__action">Ver recursos</span>
+                        <span class="bibliographic-resources__arrow" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </summary>
 
-                <ul class="biblio-list">
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">REVISIÓN SISTEMÁTICA (2024)</span>
-                                <span class="biblio-name">A Systematic Review on Prompt Engineering in Large Language
-                                    Models for K-12 STEM Education</span>
-                                <div class="biblio-apa">Chen, E., Wang, D., Xu, L., Cao, C., Fang, X., &amp; Lin, J.
-                                    (2024, October 14). A Systematic Review on Prompt Engineering in Large Language
-                                    Models for K-12 STEM Education. arXiv.org. https://arxiv.org/abs/2410.11123</div>
-                            </div>
-                            <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education.pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Este estudio analiza exhaustivamente cómo la ingeniería de prompts
-                            influye en la enseñanza de áreas STEM en los niveles primario y secundario. Ofrece un marco
-                            de referencia sobre las estrategias más efectivas para personalizar el aprendizaje en
-                            ciencias y matemáticas.</p>
-                    </li>
+                    <div class="bibliographic-resources__list">
 
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">ESTUDIO DOCENTE (2025)</span>
-                                <span class="biblio-name">El diseño de prompts como competencia emergente en la
-                                    formación docente (Modelo CRETA+R)</span>
-                                <div class="biblio-apa">García-Beltrán, E. (2025). No es magia, es prompting: el diseño
-                                    de prompts como competencia emergente en la formación docente. Un estudio desde el
-                                    modelo CRETA+R. Pixel-Bit Revista De Medios Y Educación, 75, 1–18.
-                                    https://doi.org/10.12795/pixelbit.115487</div>
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">REVISIÓN SISTEMÁTICA (2024)</span>
+                                <h3 class="bibliographic-resource__title">A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education</h3>
+                                <p class="bibliographic-resource__citation">Chen, E., Wang, D., Xu, L., Cao, C., Fang, X., &amp; Lin, J. (2024, October 14). A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education. arXiv.org. https://arxiv.org/abs/2410.11123</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Este estudio analiza exhaustivamente cómo la ingeniería de prompts influye en la enseñanza de áreas STEM en los niveles primario y secundario. Ofrece un marco de referencia sobre las estrategias más efectivas para personalizar el aprendizaje en ciencias y matemáticas.</p>
+                                </details>
                             </div>
-                            <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_El diseño de prompts como competencia emergente (CRETA+R).pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Propone el modelo CRETA+R como una estructura pedagógica para que los
-                            educadores desarrollen habilidades críticas en la creación de prompts, transformando la IA
-                            en un asistente de enseñanza eficiente y alineado con los objetivos curriculares.</p>
-                    </li>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
 
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">ALFABETIZACIÓN DIGITAL (2024)</span>
-                                <span class="biblio-name">Prompt engineering as a new 21st century skill</span>
-                                <div class="biblio-apa">Federiakin, D., Molerov, D., Zlatkin-Troitschanskaia, O., &amp;
-                                    Maur, A. (2024). Prompt engineering as a new 21st century skill. Frontiers in
-                                    Education, 9. https://doi.org/10.3389/feduc.2024.1366434</div>
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">ESTUDIO DOCENTE (2025)</span>
+                                <h3 class="bibliographic-resource__title">El diseño de prompts como competencia emergente en la formación docente (Modelo CRETA+R)</h3>
+                                <p class="bibliographic-resource__citation">García-Beltrán, E. (2025). No es magia, es prompting: el diseño de prompts como competencia emergente en la formación docente. Un estudio desde el modelo CRETA+R. Pixel-Bit Revista De Medios Y Educación, 75, 1–18. https://doi.org/10.12795/pixelbit.115487</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Propone el modelo CRETA+R como una estructura pedagógica para que los educadores desarrollen habilidades críticas en la creación de prompts, transformando la IA en un asistente de enseñanza eficiente y alineado con los objetivos curriculares.</p>
+                                </details>
                             </div>
-                            <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt engineering as a new 21st century skill.pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Sitúa la ingeniería de prompts como una competencia transversal e
-                            indispensable para la era actual. El artículo debate la importancia de integrar esta
-                            habilidad en la educación superior y profesional para asegurar la adaptabilidad tecnológica.
-                        </p>
-                    </li>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_El diseño de prompts como competencia emergente (CRETA+R).pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
 
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">ALINEACIÓN PEDAGÓGICA (2025)</span>
-                                <span class="biblio-name">Prompt engineering for LLMs educational alignment</span>
-                                <div class="biblio-apa">Barbero, G., Preuss, M., &amp; Leiden University. (2025). Prompt
-                                    engineering for LLMs educational alignment. In CEUR Workshop Proceedings (pp. 1–18).
-                                    CEUR. https://ceur-ws.org/Vol-4138/paper1.pdf</div>
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">ALFABETIZACIÓN DIGITAL (2024)</span>
+                                <h3 class="bibliographic-resource__title">Prompt engineering as a new 21st century skill</h3>
+                                <p class="bibliographic-resource__citation">Federiakin, D., Molerov, D., Zlatkin-Troitschanskaia, O., &amp; Maur, A. (2024). Prompt engineering as a new 21st century skill. Frontiers in Education, 9. https://doi.org/10.3389/feduc.2024.1366434</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Sitúa la ingeniería de prompts como una competencia transversal e indispensable para la era actual. El artículo debate la importancia de integrar esta habilidad en la educación superior y profesional para asegurar la adaptabilidad tecnológica.</p>
+                                </details>
                             </div>
-                            <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt Engineering for LLMs Educational Alignment.pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Explora metodologías técnicas para "domar" y alinear las salidas de
-                            los modelos de lenguaje con estándares educativos y éticos, garantizando que el contenido
-                            generado sea académicamente válido y seguro.</p>
-                    </li>
-                </ul>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt engineering as a new 21st century skill.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
+
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">ALINEACIÓN PEDAGÓGICA (2025)</span>
+                                <h3 class="bibliographic-resource__title">Prompt engineering for LLMs educational alignment</h3>
+                                <p class="bibliographic-resource__citation">Barbero, G., Preuss, M., &amp; Leiden University. (2025). Prompt engineering for LLMs educational alignment. In CEUR Workshop Proceedings (pp. 1–18). CEUR. https://ceur-ws.org/Vol-4138/paper1.pdf</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Explora metodologías técnicas para "domar" y alinear las salidas de los modelos de lenguaje con estándares educativos y éticos, garantizando que el contenido generado sea académicamente válido y seguro.</p>
+                                </details>
+                            </div>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt Engineering for LLMs Educational Alignment.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
+
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>

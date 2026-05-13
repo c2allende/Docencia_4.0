@@ -570,88 +570,6 @@
             box-shadow: var(--shadow-floating);
         }
 
-        /* BIBLIOGRAFÍA */
-        .biblio-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-
-        .biblio-item {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .biblio-item:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .biblio-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: var(--spacing-lg);
-        }
-
-        .biblio-info {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            gap: var(--spacing-2);
-        }
-
-        .biblio-tag {
-            width: fit-content;
-            padding: var(--spacing-1) var(--spacing-3);
-            border-radius: var(--radius-pill);
-            background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-2xs);
-            font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
-            text-transform: uppercase;
-        }
-
-        .biblio-name {
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .biblio-apa {
-            padding-left: var(--spacing-md);
-            border-left: var(--border-width-4) solid var(--color-border-default);
-            color: var(--color-text-muted);
-            font-size: var(--font-size-sm);
-            font-style: italic;
-            line-height: var(--line-height-relaxed);
-        }
-
-        .biblio-summary {
-            padding: var(--spacing-md);
-            margin: 0;
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface-low);
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
 
         .footer-nav {
             display: flex;
@@ -1033,92 +951,84 @@
                 </div>
             </section>
 
-            <section class="resource-section" aria-labelledby="bibliografia-title">
-                <div class="resource-header">
-                    <div class="resource-icon" aria-hidden="true">📚</div>
-                    <h2 id="bibliografia-title" class="section-title">Recursos Bibliográficos de Referencia</h2>
-                </div>
+            <section class="bibliographic-resources" aria-labelledby="bibliographic-resources-title-m1">
+                <details class="bibliographic-resources__panel">
+                    <summary class="bibliographic-resources__summary">
+                        <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
+                        <span class="bibliographic-resources__summary-text">
+                            <span class="bibliographic-resources__title" id="bibliographic-resources-title-m1">Recursos Bibliográficos de Referencia</span>
+                            <span class="bibliographic-resources__count">4 recursos disponibles</span>
+                        </span>
+                        <span class="bibliographic-resources__action">Ver recursos</span>
+                        <span class="bibliographic-resources__arrow" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </summary>
 
-                <ul class="biblio-list">
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">Artículo de investigación (2026)</span>
-                                <span class="biblio-name">Classroom AI: Large Language Models as Grade-Specific
-                                    Teachers</span>
-                                <div class="biblio-apa">Oh, J., Whang, S. E., Evans, J., &amp; Wang, J. (2026).
-                                    Classroom AI: large language models as grade-specific teachers. <em>Npj Artificial
-                                        Intelligence</em>, 2(1). https://doi.org/10.1038/s44387-026-00081-7</div>
-                            </div>
-                            <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Este artículo analiza cómo los modelos de lenguaje de gran tamaño
-                            pueden ser refinados para actuar como tutores especializados por nivel escolar. Explora la
-                            efectividad pedagógica de la IA cuando se alinea con las capacidades cognitivas y
-                            curriculares específicas de cada grado académico.</p>
-                    </li>
+                    <div class="bibliographic-resources__list">
 
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">Estudio crítico (2025)</span>
-                                <span class="biblio-name">“Don’t Forget the Teachers”: Educator-Centered Understanding
-                                    of LLM Harms</span>
-                                <div class="biblio-apa">Harvey, E., Koenecke, A., &amp; Kizilcec, R. F. (2025). “Don’t
-                                    Forget the Teachers”: Towards an Educator-Centered Understanding of Harms from large
-                                    language Models in education. arXiv:2502.14592v1 [cs.CY].
-                                    https://doi.org/10.1145/3706598.3713210</div>
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Artículo de investigación (2026)</span>
+                                <h3 class="bibliographic-resource__title">Classroom AI: Large Language Models as Grade-Specific Teachers</h3>
+                                <p class="bibliographic-resource__citation">Oh, J., Whang, S. E., Evans, J., &amp; Wang, J. (2026). Classroom AI: large language models as grade-specific teachers. <em>Npj Artificial Intelligence</em>, 2(1). https://doi.org/10.1038/s44387-026-00081-7</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Este artículo analiza cómo los modelos de lenguaje de gran tamaño pueden ser refinados para actuar como tutores especializados por nivel escolar. Explora la efectividad pedagógica de la IA cuando se alinea con las capacidades cognitivas y curriculares específicas de cada grado académico.</p>
+                                </details>
                             </div>
-                            <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf" download
-                                target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Una investigación fundamental que aboga por incluir la perspectiva del
-                            docente en la implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso
-                            desmedido de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la
-                            autonomía del educador.</p>
-                    </li>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
 
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">Ética y marco legal (2023)</span>
-                                <span class="biblio-name">Ética y Responsabilidad en la Implementación de la IA en la
-                                    Educación</span>
-                                <div class="biblio-apa">Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T.,
-                                    Morrillo, C. F. S., &amp; Salazar, A. J. (2023). Ética y Responsabilidad en la
-                                    Implementación de la Inteligencia Artificial en la Educación. <em>Ciencia Latina
-                                        Revista Científica Multidisciplinar</em>, 7(6), 2054–2076.
-                                    https://doi.org/10.37811/cl_rcm.v7i6.8833</div>
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Estudio crítico (2025)</span>
+                                <h3 class="bibliographic-resource__title">"Don't Forget the Teachers": Educator-Centered Understanding of LLM Harms</h3>
+                                <p class="bibliographic-resource__citation">Harvey, E., Koenecke, A., &amp; Kizilcec, R. F. (2025). "Don't Forget the Teachers": Towards an Educator-Centered Understanding of Harms from large language Models in education. arXiv:2502.14592v1 [cs.CY]. https://doi.org/10.1145/3706598.3713210</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Una investigación fundamental que aboga por incluir la perspectiva del docente en la implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso desmedido de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la autonomía del educador.</p>
+                                </details>
                             </div>
-                            <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Estudio multidisciplinar sobre los pilares éticos necesarios para una
-                            integración segura de la IA en el aula. Se enfoca en la privacidad de los datos
-                            estudiantiles, la equidad en el acceso y la responsabilidad institucional de los centros
-                            educativos.</p>
-                    </li>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
 
-                    <li class="biblio-item">
-                        <div class="biblio-header">
-                            <div class="biblio-info">
-                                <span class="biblio-tag">Guía docente</span>
-                                <span class="biblio-name">Inteligencia Artificial Generativa: Aplicaciones para la
-                                    Docencia e Investigación</span>
-                                <div class="biblio-apa">Edunet UAH (n.d.). Inteligencia Artificial generativa –
-                                    Aplicaciones para la docencia y la investigación de Modelos Lingüísticos (LLM).
-                                    https://edunet.uah.es/wp/ia/</div>
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Ética y marco legal (2023)</span>
+                                <h3 class="bibliographic-resource__title">Ética y Responsabilidad en la Implementación de la IA en la Educación</h3>
+                                <p class="bibliographic-resource__citation">Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T., Morrillo, C. F. S., &amp; Salazar, A. J. (2023). Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación. <em>Ciencia Latina Revista Científica Multidisciplinar</em>, 7(6), 2054–2076. https://doi.org/10.37811/cl_rcm.v7i6.8833</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Estudio multidisciplinar sobre los pilares éticos necesarios para una integración segura de la IA en el aula. Se enfoca en la privacidad de los datos estudiantiles, la equidad en el acceso y la responsabilidad institucional de los centros educativos.</p>
+                                </details>
                             </div>
-                            <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf"
-                                download target="_blank" class="btn-download is-primary">📥 Descargar PDF</a>
-                        </div>
-                        <p class="biblio-summary">Un recurso práctico y completo que recorre las herramientas de IA
-                            generativa disponibles para el profesorado. Ofrece estrategias concretas para mejorar la
-                            preparación de clases, la personalización del aprendizaje y la optimización de procesos de
-                            investigación académica.</p>
-                    </li>
-                </ul>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
+
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Guía docente</span>
+                                <h3 class="bibliographic-resource__title">Inteligencia Artificial Generativa: Aplicaciones para la Docencia e Investigación</h3>
+                                <p class="bibliographic-resource__citation">Edunet UAH (n.d.). Inteligencia Artificial generativa – Aplicaciones para la docencia y la investigación de Modelos Lingüísticos (LLM). https://edunet.uah.es/wp/ia/</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Un recurso práctico y completo que recorre las herramientas de IA generativa disponibles para el profesorado. Ofrece estrategias concretas para mejorar la preparación de clases, la personalización del aprendizaje y la optimización de procesos de investigación académica.</p>
+                                </details>
+                            </div>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </article>
+
+                    </div>
+                </details>
             </section>
 
             <div id="completion-section"></div>
