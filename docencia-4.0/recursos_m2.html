@@ -725,22 +725,37 @@
                 ingeniería de prompts, facilitando la creación de interacciones efectivas con la IA en entornos
                 educativos.</p>
 
-            <section class="resource-section" aria-labelledby="banco-prompts-title">
+            <section class="resource-section prompt-bank-section" aria-labelledby="banco-prompts-title">
                 <div class="resource-header">
                     <div class="resource-icon" aria-hidden="true">💡</div>
                     <h2 id="banco-prompts-title" class="section-title">Banco de Prompts Interactivo</h2>
                 </div>
-                <div class="resource-card">
-                    <p>Explora y colabora en nuestro repositorio dinámico de prompts específicamente curados para
-                        docentes.</p>
-                    <div class="padlet-container">
-                        <div class="video-container" style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-flat);">
-                            <iframe title="Banco de prompts interactivo del Módulo 2"
-                                src="https://padlet.com/padlets/vcbkosovob1f8fo9/embeds/preview_embed" loading="lazy" style="width: 100%; height: 450px; display: block; border: 0;">
-                            </iframe>
+                <details class="prompt-bank-shell" data-prompt-bank-shell>
+                    <summary class="prompt-bank-shell__summary">
+                        <span class="prompt-bank-shell__eyebrow">Recurso interactivo</span>
+                        <span class="prompt-bank-shell__title">Banco de Prompts Interactivo</span>
+                        <span class="prompt-bank-shell__description">
+                            Explora, adapta y copia prompts modelo para planificar, crear recursos, evaluar, diferenciar y refinar materiales con apoyo de IA.
+                        </span>
+                        <span class="prompt-bank-shell__meta">11 prompts disponibles</span>
+                        <span class="prompt-bank-shell__action">Explorar banco de prompts</span>
+                    </summary>
+
+                    <div class="prompt-bank" data-prompt-bank>
+                        <div class="prompt-bank__toolbar" aria-label="Herramientas del banco de prompts">
+                            <div class="prompt-bank__search-wrap">
+                                <label for="promptBankSearch" class="prompt-bank__label">Buscar prompt</label>
+                                <input id="promptBankSearch" class="input searchbar prompt-bank__search" type="search" placeholder="Buscar por tema, categoría o uso..." data-prompt-search>
+                            </div>
+                            <div class="prompt-bank__filters" aria-label="Filtrar prompts por categoría" data-prompt-filters></div>
+                            <p class="prompt-bank__ethics-note">
+                                Recuerda: antes de usar un prompt, adapta el contexto, revisa la pertinencia pedagógica y valida el resultado generado por IA.
+                            </p>
                         </div>
+                        <div class="prompt-bank__status" aria-live="polite" data-prompt-status></div>
+                        <div class="prompt-bank__grid" data-prompt-grid></div>
                     </div>
-                </div>
+                </details>
             </section>
 
             <section class="resource-section" aria-labelledby="infografias-title">
@@ -1030,6 +1045,7 @@
         });
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
+    <script src="scripts/prompt-bank.js" defer></script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
