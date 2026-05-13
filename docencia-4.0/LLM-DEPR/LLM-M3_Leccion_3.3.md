@@ -86,7 +86,7 @@ La comunicación institucional efectiva requiere tono profesional, claridad y as
 •	Ajustar el registro (formalidad) y el tono (asertivo, empático, colaborativo).
 •	Organizar el contenido en una estructura clara: contexto, situación, acciones realizadas, solicitud o propuesta.
 •	Reducir ambigüedades y asegurar que el mensaje sea comprensible para destinatarios diversos.
-Estudios sobre la integración de IA en tareas de apoyo laboral resaltan que las herramientas generativas son especialmente útiles para profesionales que deben producir múltiples versiones de mensajes similares, siempre que se establezcan guías claras de estilo y políticas de revisión previa al envío (Kwak, 2025). En el caso de maestros cooperadores, esto se alinea con la necesidad de comunicar de manera profesional y consistente con distintas audiencias (familias, equipo escolar, supervisores y practicantes), ya sea trabajando directamente con un LLM en un chat o mediante copilotos y apps de correo que incorporan ese modelo.
+Estudios sobre la integración de IA en tareas de apoyo laboral resaltan que las herramientas generativas son especialmente útiles para profesionales que deben producir múltiples versiones de mensajes similares, siempre que se establezcan guías claras de estilo y políticas de revisión previa al envío (Kwak, 2025). En el caso de los y las docentes, esto se alinea con la necesidad de comunicar de manera profesional y consistente con distintas audiencias (familias, equipo escolar, supervisores y practicantes), ya sea trabajando directamente con un LLM en un chat o mediante copilotos y apps de correo que incorporan ese modelo.
 Tipos de comunicaciones frecuentes:
 •	Correos a supervisores sobre situaciones de aula
 •	Memorandos internos sobre procedimientos

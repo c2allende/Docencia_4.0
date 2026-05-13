@@ -2,7 +2,7 @@ Actividad 2.1
 Taller práctico: "Del prompt al recurso validado"
 
 Objetivo de la actividad:
-Que los maestros cooperadores aprendan a:
+Que los y las docentes aprendan a:
 •	Diseñar prompts efectivos usando la fórmula Rol + Contexto + Tarea + Formato + Restricciones.
 •	Generar, con apoyo de IA, una planificación semanal y un recurso didáctico a partir de un estándar real del DEPR.
 •	Validar críticamente los materiales generados utilizando una Lista de Cotejo de Validación Curricular.

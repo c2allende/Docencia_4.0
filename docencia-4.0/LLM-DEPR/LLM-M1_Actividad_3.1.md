@@ -2,7 +2,7 @@ Actividad 3.1
 Taller práctico: “IA al servicio de la evaluación y la gestión docente”
 
 Objetivo de la actividad:
-Que los maestros cooperadores aprendan a:
+Que los y las docentes aprendan a:
 •	Diseñar instrumentos de evaluación e integrarlos a flujos de trabajo digitales.
 •	Generar retroalimentación formativa empática a partir de notas numéricas y análisis de errores.
 •	Automatizar documentos administrativos clave.

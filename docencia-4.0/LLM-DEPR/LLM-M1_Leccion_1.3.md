@@ -21,7 +21,7 @@ Por eso se recomienda que las instituciones formen a los docentes en:
 •	contrastar con fuentes diversas y con la realidad del estudiantado,
 •	mantener un uso crítico y consciente, evitando la sustitución total de la reflexión pedagógica por sugerencias automáticas.
 El docente como “experto validador” (Human in the Loop)
-Muchos marcos actuales de uso responsable de IA en educación promueven el modelo de 'human in the loop' (Alhalthli et al., 2025; Seufert et al., 2022), donde la tecnología asume tareas de apoyo, pero la decisión final recae siempre en la persona profesional. En el caso de los LLM, esto significa que el maestro cooperador:
+Muchos marcos actuales de uso responsable de IA en educación promueven el modelo de 'human in the loop' (Alhalthli et al., 2025; Seufert et al., 2022), donde la tecnología asume tareas de apoyo, pero la decisión final recae siempre en la persona profesional. En el caso de los LLM, esto significa que el docente:
 •	Genera borradores: Usa bots y asistentes basados en LLM para generar borradores de planificaciones, actividades, rúbricas o retroalimentación.
 •	Revisa cuidadosamente el contenido: Exactitud factual, alineación curricular, pertinencia cultural, adecuación al nivel del grupo, tono y lenguaje,
 •	Decide y adapta: Corrige, adapta o descarta según su criterio profesional, antes de que ese material llegue a estudiantes, familias o documentos oficiales.

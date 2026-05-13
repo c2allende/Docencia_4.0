@@ -2,7 +2,7 @@ Actividad 1.1
 Taller práctico: "Rompiendo el Hielo"
 Ejercicio: "Hola mundo pedagógico"
 Objetivo de la actividad:
-Que cada maestro cooperador logre su primer acceso exitoso a un LLM, configure las opciones básicas de privacidad y genere un producto útil en menos de 5 minutos, experimentando la facilidad de uso y la inmediatez de la herramienta.
+Que cada docente logre su primer acceso exitoso a un LLM, configure las opciones básicas de privacidad y genere un producto útil en menos de 5 minutos, experimentando la facilidad de uso y la inmediatez de la herramienta.
 Duración estimada: 30-40 minutos
 Requisitos: Dispositivos con internet (Laptops, Tablets o Celulares)
 
@@ -35,7 +35,7 @@ Paso 4: Cierre
 Cierre (Reflexión Metacognitiva)
 Acceda al foro de discusión del Modulo 1 
 1.	Preguntas guía: 
-1.	Luego de tu primer acercamiento a un LLM, ¿qué posibilidad concreta identificas para apoyar tu labor como maestro cooperador y qué precaución consideras importante antes de usarlo en un contexto educativo?
+1.	Luego de tu primer acercamiento a un LLM, ¿qué posibilidad concreta identificas para apoyar tu labor como docente y qué precaución consideras importante antes de usarlo en un contexto educativo?
 2.	"¿Cuánto tiempo les hubiera tomado redactar esto desde cero (la página en blanco) versus editar lo que la IA les dio?"
 La Regla del "1 + 2" (Participación Activa)
 1.	Publica: Comparte tu experiencia respondiendo a las preguntas guías.
