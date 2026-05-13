@@ -742,18 +742,32 @@
                     <h2 id="plantillas-title" class="section-title">PROMPTS: Banco de Plantillas Administrativas</h2>
                 </div>
 
-                <div class="resource-card">
-                    <div class="genially-frame-wrap">
-                        <div class="genially-frame-inner">
-                            <iframe title="Prompts: Banco de plantillas administrativas"
-                                src="https://view.genially.com/6988ec0c6f18bc8243bfad4a" allowfullscreen="true"
-                                scrolling="yes" loading="lazy"></iframe>
+                <details class="prompt-bank-shell" data-prompt-bank-shell-admin>
+                    <summary class="prompt-bank-shell__summary">
+                        <span class="prompt-bank-shell__eyebrow">Recurso interactivo</span>
+                        <span class="prompt-bank-shell__title">Banco de Plantillas Administrativas</span>
+                        <span class="prompt-bank-shell__description">
+                            Explora plantillas de prompts para generar borradores de cartas, minutas, comunicaciones y documentos administrativos escolares. Copia la plantilla, adáptala al contexto institucional y valida el resultado antes de compartirlo.
+                        </span>
+                        <span class="prompt-bank-shell__meta">3 plantillas disponibles</span>
+                        <span class="prompt-bank-shell__action">Explorar banco de plantillas</span>
+                    </summary>
+
+                    <div class="prompt-bank" data-prompt-bank-admin>
+                        <div class="prompt-bank__toolbar" aria-label="Herramientas del banco de plantillas">
+                            <div class="prompt-bank__search-wrap">
+                                <label for="promptBankAdminSearch" class="prompt-bank__label">Buscar plantilla</label>
+                                <input id="promptBankAdminSearch" class="input searchbar prompt-bank__search" type="search" placeholder="Buscar por tipo, categor\u00EDa o uso..." data-prompt-search-admin>
+                            </div>
+                            <div class="prompt-bank__filters" aria-label="Filtrar plantillas por categor\u00EDa" data-prompt-filters-admin></div>
+                            <p class="prompt-bank__ethics-note">
+                                Recuerda: evita incluir nombres completos, informaci\u00F3n m\u00E9dica, datos estudiantiles sensibles o informaci\u00F3n confidencial en herramientas de IA. Revisa y valida todo documento antes de compartirlo.
+                            </p>
                         </div>
+                        <div class="prompt-bank__status" aria-live="polite" data-prompt-status-admin></div>
+                        <div class="prompt-bank__grid" data-prompt-grid-admin></div>
                     </div>
-                    <p class="resource-instruction">💡 Instrucciones de uso:</p>
-                    <p>Copia los prompts del interactivo para generar borradores de cartas, minutas IEP y documentos
-                        escolares en segundos.</p>
-                </div>
+                </details>
             </section>
 
             <section class="resource-section" aria-labelledby="videos-title">
@@ -1061,6 +1075,7 @@
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
+    <script src="scripts/prompt-bank-admin.js" defer></script>
 </body>
 
 </html>
