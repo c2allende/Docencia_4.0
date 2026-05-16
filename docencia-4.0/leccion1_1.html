@@ -1068,81 +1068,85 @@
         <article class="lesson-card" aria-labelledby="lesson-title">
             <h1 id="lesson-title" class="lesson-title">Lección 1.1: Conceptualización y panorama tecnológico</h1>
 
-            <div class="audio-player-container">
-                <label class="audio-label" for="lessonAudio">Escuchar Lección 1.1</label>
+            <div class="audio-player-container lesson-audio-intro">
+                <label class="audio-label" for="lessonAudio">🎧 Escuchar Lección 1.1</label>
+                <p class="lesson-audio-intro__text">Acompaña la lectura con la narración guiada. Te ayudará a fijar los conceptos clave mientras avanzas por las secciones interactivas.</p>
                 <audio id="lessonAudio" controls class="audio-player">
-                    <source src="LLM-DEPR/LLM_M1_Leccion_1.1_ Conceptualización y Panorama Tecnológico_audio.mp3"
-                        type="audio/mpeg">
+                    <source src="LLM-DEPR/LLM_M1_Leccion_1.1_ Conceptualización y Panorama Tecnológico_audio.mp3" type="audio/mpeg">
                     Su navegador no soporta la reproducción de audio.
                 </audio>
             </div>
 
-            <section class="text-section" aria-labelledby="que-es-llm">
-                <h2 id="que-es-llm" class="section-title">¿Qué es un Modelo de Lenguaje de Gran Tamaño (LLM)?</h2>
+            <section class="lesson-summary-card" aria-labelledby="resumen-title">
+                <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
+                <p><strong>En esta lección…</strong> comprenderás qué es un Modelo de Lenguaje de Gran Tamaño (LLM), cómo se sitúa dentro del universo de la inteligencia artificial, cómo funciona internamente mediante tokenización, y qué lo diferencia de un bot, una aplicación o un buscador tradicional. Al finalizar, sabrás cuándo conviene usar cada recurso en tu práctica docente y reconocerás el panorama actual del ecosistema (ChatGPT y Microsoft Copilot).</p>
+            </section>
 
-                <aside class="llm-interactive-card" aria-label="Diagrama interactivo sobre la jerarquía de IA y LLM">
-                    <h3>¿Dónde se sitúan los LLM?</h3>
-                    <p class="subtitle">Haz clic en las capas para ver la jerarquía de la IA.</p>
+            <section class="lesson-core-callout" aria-label="Concepto central">
+                <p class="lesson-core-callout__label">🎯 Concepto central</p>
+                <p><strong>Un LLM es el "motor de lenguaje". El bot es el "vehículo" que usas. El buscador es el "localizador de fuentes".</strong> Distinguir entre estos tres roles es la primera competencia que necesitas como docente para tomar decisiones tecnológicas informadas.</p>
+            </section>
 
-                    <div class="hierarchy-container">
-                        <button id="ia" class="box" type="button"
-                            aria-label="Ver información sobre Inteligencia Artificial">Inteligencia Artificial</button>
-                        <button id="ml" class="box" type="button"
-                            aria-label="Ver información sobre Machine Learning">Machine Learning</button>
-                        <button id="dl" class="box" type="button" aria-label="Ver información sobre Deep Learning">Deep
-                            Learning</button>
-                        <button id="gen" class="box" type="button" aria-label="Ver información sobre IA Generativa">IA
-                            Generativa</button>
-                        <button id="llm" class="box" type="button" aria-label="Ver información sobre LLM">LLM</button>
+            <section class="text-section lesson-editorial-section" aria-labelledby="que-es-llm">
+                <div class="lesson-split lesson-split--interactive">
+                    <div class="lesson-split__content">
+                        <h2 id="que-es-llm" class="section-title">1️⃣ ¿Qué es un Modelo de Lenguaje de Gran Tamaño (LLM)?</h2>
+
+                        <div class="lesson-content-block">
+                            <h3>Definición básica y propósito</h3>
+                            <p>Un Modelo de Lenguaje de Gran Tamaño es un sistema de inteligencia artificial entrenado con enormes cantidades de texto para predecir la siguiente palabra más probable en una secuencia (Zhao et al., 2023). Para lograrlo, estos modelos utilizan la arquitectura <strong>Transformer</strong>, que permite analizar relaciones entre palabras en distintos puntos de una oración o un texto extenso, capturando tanto significado como contexto.</p>
+                        </div>
+
+                        <div class="lesson-content-block">
+                            <h3>Arquitectura y lugar en la IA</h3>
+                            <p>Desde la perspectiva de la inteligencia artificial, los LLM se sitúan dentro de la <strong>IA generativa</strong> y del <strong>aprendizaje profundo</strong>: utilizan técnicas de Deep Learning para realizar tareas de procesamiento del lenguaje natural, como clasificación, resumen y generación de textos, ampliando de forma notable la capacidad de los sistemas para trabajar con lenguaje humano en múltiples idiomas y temas (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+                        </div>
+
+                        <div class="lesson-alert-callout">
+                            <h3>⚠️ Importante: predicción probabilística y alucinaciones</h3>
+                            <p>Durante el entrenamiento, el modelo ve millones de ejemplos de lenguaje y ajusta sus parámetros internos para minimizar el error en la predicción de las próximas palabras; al finalizar, puede generar respuestas coherentes, redactar textos, resumir, traducir y responder preguntas a partir de instrucciones en lenguaje natural (Zhao et al., 2023).</p>
+                            <p>Esta lógica de "predicción probabilística" explica por qué los LLM a veces <strong>"alucinan"</strong>: cuando no tienen suficiente base factual o el prompt es ambiguo, el modelo sigue produciendo la palabra "más probable" según sus estadísticas, aunque el contenido no sea verdadero (Russell &amp; Norvig, 2020).</p>
+                        </div>
                     </div>
 
-                    <div class="info-panel" id="infoPanel" aria-live="polite" aria-atomic="true">
-                        <div class="info-title" id="infoTitle">Instrucción</div>
-                        <div class="info-desc" id="infoDesc">Selecciona una categoría en el diagrama superior para
-                            entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
-                    </div>
-                </aside>
+                    <aside class="llm-interactive-card lesson-split__media" aria-label="Diagrama interactivo sobre la jerarquía de IA y LLM">
+                        <h3>¿Dónde se sitúan los LLM?</h3>
+                        <p class="subtitle">Haz clic en las capas para ver la jerarquía de la IA.</p>
 
-                <p>Un Modelo de Lenguaje de Gran Tamaño es un sistema de inteligencia artificial entrenado con enormes
-                    cantidades de texto para predecir la siguiente palabra más probable en una secuencia (Zhao et al.,
-                    2023). Para lograrlo, estos modelos utilizan la arquitectura <strong>Transformer</strong>, que
-                    permite analizar relaciones entre palabras en distintos puntos de una oración o un texto extenso,
-                    capturando tanto significado como contexto.</p>
+                        <div class="hierarchy-container">
+                            <button id="ia" class="box" type="button" aria-label="Ver información sobre Inteligencia Artificial">Inteligencia Artificial</button>
+                            <button id="ml" class="box" type="button" aria-label="Ver información sobre Machine Learning">Machine Learning</button>
+                            <button id="dl" class="box" type="button" aria-label="Ver información sobre Deep Learning">Deep Learning</button>
+                            <button id="gen" class="box" type="button" aria-label="Ver información sobre IA Generativa">IA Generativa</button>
+                            <button id="llm" class="box" type="button" aria-label="Ver información sobre LLM">LLM</button>
+                        </div>
 
-                <p>Desde la perspectiva de la inteligencia artificial, los LLM se sitúan dentro de la IA generativa y
-                    del aprendizaje profundo: utilizan técnicas de <strong>Deep Learning</strong> para realizar tareas
-                    de procesamiento del lenguaje natural, como clasificación, resumen y generación de textos, ampliando
-                    de forma notable la capacidad de los sistemas para trabajar con lenguaje humano en múltiples idiomas
-                    y temas (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+                        <div class="info-panel" id="infoPanel" aria-live="polite" aria-atomic="true">
+                            <div class="info-title" id="infoTitle">Instrucción</div>
+                            <div class="info-desc" id="infoDesc">Selecciona una categoría en el diagrama superior para entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
+                        </div>
+                    </aside>
+                </div>
+            </section>
 
-                <p>Durante el entrenamiento, el modelo ve millones de ejemplos de lenguaje y ajusta sus parámetros
-                    internos para minimizar el error en la predicción de las próximas palabras; al finalizar, puede
-                    generar respuestas coherentes, redactar textos, resumir, traducir y responder preguntas a partir de
-                    instrucciones en lenguaje natural (Zhao et al., 2023). Esta lógica de “predicción probabilística”
-                    explica por qué los LLM a veces “alucinan”: cuando no tienen suficiente base factual o el
-                    <em>prompt</em> es ambiguo, el modelo sigue produciendo la palabra “más probable” según sus
-                    estadísticas, aunque el contenido no sea verdadero (Russell &amp; Norvig, 2020).
-                </p>
+            <section class="text-section lesson-editorial-section" aria-labelledby="tokenizacion">
+                <h2 id="tokenizacion" class="section-title">2️⃣ La tokenización: cómo "lee" un LLM</h2>
 
-                <div class="highlight-box">“La tokenización permite manejar textos extensos, adaptarse a distintos
-                    idiomas y generar respuestas continuas.”</div>
+                <div class="highlight-box lesson-quote-callout">"La tokenización permite manejar textos extensos, adaptarse a distintos idiomas y generar respuestas continuas."</div>
 
                 <section class="tokenization-simulator" aria-labelledby="token-title">
                     <div class="token-header">
-                        <h3 id="token-title">Simulador de Tokenización</h3>
-                        <p>Escribe cualquier idea abajo para ver cómo la IA descompone el lenguaje en piezas
-                            procesables, llamadas tokens.</p>
+                        <h3 id="token-title">🧪 Simulador de Tokenización</h3>
+                        <p>Escribe cualquier idea para ver cómo la IA descompone el lenguaje en piezas procesables, llamadas tokens.</p>
                     </div>
 
                     <div class="token-grid">
                         <div class="token-card">
                             <label for="tokenInput" class="token-label">Bloque de Entrada</label>
-                            <textarea id="tokenInput"
-                                class="token-textarea">En educación, la tokenización permite que los modelos comprendan contextos complejos y generen respuestas personalizadas para cada estudiante.</textarea>
+                            <textarea id="tokenInput" class="token-textarea">En educación, la tokenización permite que los modelos comprendan contextos complejos y generen respuestas personalizadas para cada estudiante.</textarea>
 
                             <div class="token-tip">
-                                <strong>💡 ¿Cómo funciona?</strong> Los LLM agrupan fragmentos de caracteres para
-                                “mapear” el significado. Nota cómo los espacios y signos también cuentan.
+                                <strong>💡 ¿Cómo funciona?</strong> Los LLM agrupan fragmentos de caracteres para "mapear" el significado. Nota cómo los espacios y signos también cuentan.
                             </div>
                         </div>
 
@@ -1161,230 +1165,302 @@
                     </div>
                 </section>
 
-                <p>En términos de funcionamiento interno, los LLM descomponen la entrada en unidades más pequeñas
-                    llamadas <strong>tokens</strong> (fragmentos de palabras, palabras completas o grupos de palabras),
-                    que son procesados por la red neuronal para calcular la probabilidad de cada token siguiente. Este
-                    proceso de tokenización permite manejar textos extensos, adaptarse a distintos idiomas y generar
-                    respuestas continuas, lo que explica su capacidad para sostener “conversaciones” o redactar textos
-                    largos en el ámbito académico (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
-
-                <p>En educación, esta capacidad de generar texto permite que el LLM funcione como “motor de lenguaje”
-                    que impulsa distintas aplicaciones, capaz de:</p>
-                <ul class="content-list">
-                    <li>proponer actividades y materiales,</li>
-                    <li>sugerir explicaciones alternativas,</li>
-                    <li>redactar borradores de retroalimentación,</li>
-                </ul>
-                <p>siempre bajo la revisión crítica del docente (Damiano et al., 2024).</p>
-
-                <p>Además, los LLM se usan para automatizar tareas repetitivas (corrección preliminar, elaboración de
-                    planes de aprendizaje, generación de preguntas evaluativas) y ofrecer apoyo en investigación
-                    mediante resúmenes y sugerencias de fuentes, lo que puede optimizar el tiempo del profesorado
-                    (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+                <p>En términos de funcionamiento interno, los LLM descomponen la entrada en unidades más pequeñas llamadas <strong>tokens</strong> (fragmentos de palabras, palabras completas o grupos de palabras), que son procesados por la red neuronal para calcular la probabilidad de cada token siguiente. Este proceso permite manejar textos extensos, adaptarse a distintos idiomas y generar respuestas continuas, lo que explica su capacidad para sostener "conversaciones" o redactar textos largos en el ámbito académico (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
             </section>
 
-            <section class="text-section" aria-labelledby="evolucion-modelos">
-                <hr class="section-separator">
-                <h2 id="evolucion-modelos" class="section-title">La evolución de los modelos de lenguaje</h2>
+            <section class="text-section lesson-editorial-section" aria-labelledby="aplicaciones-educativas">
+                <h2 id="aplicaciones-educativas" class="section-title">3️⃣ Aplicaciones educativas de los LLM</h2>
 
-                <button class="img-editorial-right image-zoom-trigger" type="button"
-                    onclick="openZoom('assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png')"
-                    aria-label="Ampliar línea de tiempo sobre la evolución de la inteligencia artificial aplicada al lenguaje">
-                    <img src="assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png"
-                        alt="Línea de tiempo sobre la evolución de la inteligencia artificial aplicada al lenguaje">
-                </button>
+                <p>En educación, esta capacidad de generar texto permite que el LLM funcione como <strong>"motor de lenguaje"</strong> que impulsa distintas aplicaciones, capaz de:</p>
 
-                <p>La evolución de la inteligencia artificial aplicada al lenguaje ha transformado radicalmente la forma
-                    en que las máquinas procesan la información, pasando de sistemas rígidos a modelos con capacidades
-                    de razonamiento casi humano. Este recorrido histórico se puede sintetizar en cuatro grandes etapas:
-                </p>
-
-                <ul class="timeline-list">
-                    <li><strong>Modelos Basados en Reglas (Pre-1990):</strong> Definidos por la IA Simbólica, dependían
-                        de reglas manuales y estructuras frágiles como las de ELIZA o SHRDLU.</li>
-                    <li><strong>Modelos Estadísticos (1990 - 2000s):</strong> Introdujeron el aprendizaje basado en
-                        datos mediante n-gramas y modelos probabilísticos, permitiendo una mayor flexibilidad.</li>
-                    <li><strong>Modelos de Lenguaje Neuronales (2000s - 2017):</strong> El auge del Deep Learning y el
-                        uso de vectores permitió capturar relaciones semánticas profundas a través de arquitecturas como
-                        LSTM y GRU.</li>
-                    <li><strong>La Era de los Transformers y LLMs (2017 - Presente):</strong> Iniciada por el mecanismo
-                        de "Atención", esta fase marca el punto de inflexión con la democratización de ChatGPT en 2022,
-                        el surgimiento del razonamiento de "Sistema 2" en 2024 y la consolidación de modelos de pesos
-                        abiertos de alta calidad en 2025.</li>
-                </ul>
-            </section>
-
-            <section class="text-section" aria-labelledby="llm-buscador">
-                <hr class="section-separator">
-                <h2 id="llm-buscador" class="section-title">LLM vs. buscador tradicional: ¿cuándo usar cuál?</h2>
-
-                <button class="img-editorial-left image-zoom-trigger" type="button"
-                    onclick="openZoom('assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen_Rev.png')"
-                    aria-label="Ampliar comparativa entre LLM, bot y buscador tradicional">
-                    <img src="assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen_Rev.png"
-                        alt="Comparativa entre LLM, bot o aplicación con LLM y buscador tradicional">
-                </button>
-
-                <p>Es importante que el docente distinga entre LLM, bot y buscador, ya que cumplen roles distintos y se
-                    complementan. Un LLM es el “cerebro de lenguaje”, el bot es la aplicación que usa ese “cerebro” para
-                    interactuar con el usuario, y el buscador es el “localizador de fuentes en la web”. En otras
-                    palabras, debe diferenciar entre el LLM como tecnología subyacente, las aplicaciones que lo utilizan
-                    y los buscadores tradicionales que ofrecen acceso directo a las fuentes de información.</p>
-
-                <h3 class="section-title section-title-sm">¿Qué es cada uno?</h3>
-                <div class="comparison-grid">
-                    <article class="comp-card">
-                        <div class="comp-icon" aria-hidden="true">🧠</div>
-                        <h3>LLM</h3>
-                        <p>Modelo de IA que genera texto a partir de instrucciones, pero no es, por sí mismo, una app de
-                            uso docente; es la tecnología base.</p>
+                <div class="lesson-mini-card-grid">
+                    <article class="lesson-mini-card">
+                        <span aria-hidden="true">✏️</span>
+                        <h3>Proponer</h3>
+                        <p>Actividades y materiales.</p>
                     </article>
-                    <article class="comp-card">
-                        <div class="comp-icon" aria-hidden="true">📱</div>
-                        <h3>Bot o app con LLM</h3>
-                        <p>Recurso tecnológico concreto (ChatGPT, Copilot, un asistente en un LMS) que usa un LLM y
-                            añade interfaz, configuraciones, accesos a datos y reglas de uso.</p>
+                    <article class="lesson-mini-card">
+                        <span aria-hidden="true">🧩</span>
+                        <h3>Explicar</h3>
+                        <p>Explicaciones alternativas.</p>
                     </article>
-                    <article class="comp-card">
-                        <div class="comp-icon" aria-hidden="true">🔍</div>
-                        <h3>Buscador tradicional</h3>
-                        <p>Servicio que indexa la web y responde con enlaces (Google, Bing, Perplexity, motores
-                            académicos), mostrando fuentes, fechas y procedencia.</p>
+                    <article class="lesson-mini-card">
+                        <span aria-hidden="true">📝</span>
+                        <h3>Redactar</h3>
+                        <p>Borradores de retroalimentación.</p>
                     </article>
                 </div>
 
-                <h3 class="section-title section-title-sm">¿Cuándo usar el LLM como capacidad?</h3>
-                <p>En la práctica, el docente no “usa el LLM puro”, sino su capacidad dentro de una app, cuando
-                    necesita:</p>
-                <ul class="content-list">
-                    <li><strong>Generar borradores de textos:</strong> cartas a familias, rúbricas, instrucciones,
-                        descripciones de actividades.</li>
-                    <li><strong>Reformular o adaptar:</strong> simplificar un texto, ajustar a distintos niveles de
-                        lectura, traducir con matiz pedagógico.</li>
-                    <li><strong>Crear ideas y variaciones:</strong> ejemplos, preguntas, casos, explicaciones
-                        alternativas.</li>
-                </ul>
-                <p>Aquí lo clave es ver el LLM como motor generador de lenguaje que se usa para producir y transformar
-                    texto, siempre con revisión crítica.</p>
+                <p>Siempre bajo la <strong>revisión crítica del docente</strong> (Damiano et al., 2024).</p>
 
-                <h3 class="section-title section-title-sm">¿Cuándo usar un bot o app con LLM?</h3>
-                <p>Se recurre a un bot o app con LLM cuando, además de generar texto, necesitas un contexto y unas
-                    funciones concretas:</p>
-                <ul class="content-list">
-                    <li><strong>Un bot conversacional como ChatGPT:</strong> explorar ideas en diálogo, pedir
-                        aclaraciones e iterar una planificación.</li>
-                    <li>Probar prompts, diseñar actividades y cocrear materiales fuera del entorno institucional.</li>
-                    <li><strong>Un asistente integrado como Copilot en Word, PowerPoint, LMS, etc.:</strong> trabajar
-                        derechamente sobre tus documentos, resumir actas, crear borradores de informes y extraer listas
-                        de tareas.</li>
-                    <li>Generar presentaciones, esquemas o tablas usando archivos y datos que ya tienes en la
-                        plataforma.</li>
-                </ul>
-                <p>En resumen: usas el bot cuando necesitas una herramienta concreta, con interfaz y funciones
-                    específicas, que aplica la capacidad del LLM a tu contexto real de trabajo.</p>
+                <p>Además, los LLM se usan para automatizar tareas repetitivas (corrección preliminar, elaboración de planes de aprendizaje, generación de preguntas evaluativas) y ofrecer apoyo en investigación mediante resúmenes y sugerencias de fuentes, lo que puede optimizar el tiempo del profesorado (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+            </section>
 
-                <h3 class="section-title section-title-sm">¿Cuándo usar un buscador tradicional?</h3>
-                <p>El buscador sigue siendo insustituible cuando lo importante es la fuente:</p>
-                <ul class="content-list">
-                    <li>Buscar información actualizada (fechas, estadísticas recientes, cambios de currículo, normativa
-                        vigente).</li>
-                    <li>Localizar y citar fuentes primarias (artículos científicos, documentos oficiales, comunicados de
-                        agencia).</li>
-                    <li>Verificar datos que el bot/LLM ha generado o sospechas que pueden estar desactualizados o ser
-                        erróneos.</li>
-                </ul>
-                <p>Aquí el foco no es que alguien “escriba por ti”, sino encontrar quién lo dijo, cuándo y dónde.</p>
-                <p>La literatura reciente subraya que, en contextos educativos, la combinación de estos enfoques,
-                    primero localizar fuentes confiables y luego usar aplicaciones basadas en LLM para ayudar a
-                    sintetizar, adaptar o explicar, ofrece más precisión y control pedagógico.</p>
+            <section class="text-section lesson-editorial-section" aria-labelledby="evolucion-modelos">
+                <hr class="section-separator">
+                <div class="lesson-split lesson-split--media">
+                    <div class="lesson-split__content">
+                        <h2 id="evolucion-modelos" class="section-title">4️⃣ La evolución de los modelos de lenguaje</h2>
+                        <p>📅 <strong>Línea de tiempo:</strong> evolución de la inteligencia artificial aplicada al lenguaje.</p>
+                        <p>La evolución de la IA aplicada al lenguaje ha transformado radicalmente la forma en que las máquinas procesan la información, pasando de sistemas rígidos a modelos con capacidades de razonamiento casi humano. Este recorrido se sintetiza en cuatro grandes etapas:</p>
 
-                <div class="highlight-box">
-                    <strong>Desde esta perspectiva, una regla práctica para docentes puede formularse
-                        así:</strong><br><br>
-                    Si necesitas información comprobable y citada → empieza por el buscador.<br>
-                    Si necesitas texto, ideas o adaptaciones a partir de esa información → usa un bot/app con LLM.<br>
-                    Si quieres entender la tecnología y sus límites, enseñar su funcionamiento o decidir qué recurso
-                    tecnológico adoptar → piensa en el LLM como el “motor” que está detrás y en cómo se integra en las
-                    aplicaciones que tus estudiantes y tú ya usan.
+                        <ul class="timeline-list">
+                            <li><strong>🧱 Modelos basados en reglas (Pre-1990):</strong> IA simbólica con reglas manuales y estructuras frágiles (ELIZA, SHRDLU).</li>
+                            <li><strong>📊 Modelos estadísticos (1990–2000s):</strong> aprendizaje basado en datos mediante n-gramas y probabilidades.</li>
+                            <li><strong>🧠 Modelos neuronales (2000s–2017):</strong> Deep Learning y vectores capturan relaciones semánticas profundas (LSTM, GRU).</li>
+                            <li><strong>🚀 Era de los Transformers y LLMs (2017–presente):</strong> mecanismo de "Atención", democratización de ChatGPT en 2022, razonamiento "Sistema 2" en 2024 y modelos de pesos abiertos de alta calidad en 2025.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-split__media">
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom('assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png')"
+                            aria-label="Ampliar línea de tiempo sobre la evolución de la inteligencia artificial aplicada al lenguaje">
+                            <img src="assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png"
+                                alt="Línea de tiempo sobre la evolución de la inteligencia artificial aplicada al lenguaje" loading="lazy">
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            <section class="text-section" aria-labelledby="ecosistema-actual">
+            <section class="text-section lesson-editorial-section" aria-labelledby="llm-bot-buscador">
                 <hr class="section-separator">
-                <h2 id="ecosistema-actual" class="section-title">Ecosistema actual: ChatGPT y Microsoft Copilot</h2>
-                <p>El ecosistema de LLM es dinámico; sin embargo, dos herramientas son especialmente relevantes para
-                    docentes por su presencia en entornos educativos y administrativos: bots conversacionales generales
-                    y asistentes integrados en suites de productividad.</p>
+                <h2 id="llm-bot-buscador" class="section-title">5️⃣ LLM vs. bot vs. buscador: ¿cuándo usar cuál?</h2>
 
-                <div class="comparison-grid">
-                    <article class="comp-card">
-                        <span class="concept-tag is-chatgpt">ChatGPT (OpenAI)</span>
-                        <p>Funciona como asistente conversacional general (bot) construido sobre LLM de la familia GPT,
-                            capaz de generar textos, actividades, ejemplos y explicaciones sobre una amplia variedad de
-                            temas (Zhao et al., 2023). En sus versiones más recientes, el plan gratuito de ChatGPT
-                            ofrece acceso a modelos de la familia GPT4o como modelo por defecto, con ciertas
-                            limitaciones de uso, es decir, a un LLM multimodal capaz de trabajar con texto, imágenes y
-                            archivos, diseñado para equilibrar velocidad y calidad en tareas generales de asistencia
-                            (OpenAI, 2024). Estudios en educación superior muestran que docentes y estudiantes lo usan
-                            para apoyo en redacción, generación de ideas y revisión de comprensión, aunque se señalan
-                            riesgos de dependencia y de errores factuales (Damiano et al., 2024).</p>
-                    </article>
+                <div class="lesson-split lesson-split--media">
+                    <div class="lesson-split__content">
+                        <p>Es importante que el docente distinga entre LLM, bot y buscador, ya que cumplen roles distintos y se complementan. Un LLM es el "cerebro de lenguaje", el bot es la aplicación que usa ese cerebro para interactuar con el usuario, y el buscador es el "localizador de fuentes" en la web.</p>
 
-                    <article class="comp-card">
-                        <span class="concept-tag is-copilot">Microsoft Copilot</span>
-                        <p>Es un asistente basado en LLM que se conecta con documentos, correos y archivos del entorno
-                            institucional (Word, PowerPoint, Excel, Outlook), lo que lo hace especialmente útil para
-                            automatizar informes, minutas, borradores de planes y presentaciones. En la actualidad,
-                            Microsoft 365 Copilot orquesta varios modelos de lenguaje grande, incluyendo versiones
-                            avanzadas de la familia GPT (como GPT4 y GPT5), a través de una capa de orquestación que
-                            decide qué modelo usar según la tarea y el contexto de los datos institucionales. Desde la
-                            perspectiva de gestión educativa, permite transformar datos y borradores existentes en
-                            resúmenes, listas de acciones, tablas y comunicados, lo que puede reducir carga
-                            administrativa si el docente mantiene el control y revisa los resultados (Valli &amp;
-                            Zafiropoulos, 2024).</p>
-                    </article>
+                        <h3 class="section-title section-title-sm">¿Qué es cada uno?</h3>
+
+                        <div class="comparison-grid lesson-concept-grid">
+                            <article class="comp-card">
+                                <div class="comp-icon" aria-hidden="true">🧠</div>
+                                <h3>LLM</h3>
+                                <p>Modelo de IA que genera texto a partir de instrucciones, pero no es por sí mismo una app de uso docente; es la tecnología base.</p>
+                            </article>
+                            <article class="comp-card">
+                                <div class="comp-icon" aria-hidden="true">📱</div>
+                                <h3>Bot o app con LLM</h3>
+                                <p>Recurso tecnológico concreto (ChatGPT, Copilot, asistente en un LMS) que usa un LLM y añade interfaz, configuraciones, accesos a datos y reglas de uso.</p>
+                            </article>
+                            <article class="comp-card">
+                                <div class="comp-icon" aria-hidden="true">🔍</div>
+                                <h3>Buscador tradicional</h3>
+                                <p>Servicio que indexa la web y responde con enlaces (Google, Bing, Perplexity, motores académicos), mostrando fuentes, fechas y procedencia.</p>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="lesson-split__media">
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom('assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen_Rev.png')"
+                            aria-label="Ampliar comparativa entre LLM, bot y buscador tradicional">
+                            <img src="assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen_Rev.png"
+                                alt="Comparativa entre LLM, bot o aplicación con LLM y buscador tradicional" loading="lazy">
+                        </button>
+                    </div>
                 </div>
 
-                <p>Para los maestros y maestras, la diferencia práctica es que ChatGPT se utiliza principalmente como
-                    “espacio neutro” de experimentación y diseño textual, mientras que Copilot se integra en el flujo
-                    real de trabajo institucional, sobre todo en escuelas que ya usan Microsoft 365 como plataforma
-                    base.</p>
+                <section class="lesson-decision-section" aria-labelledby="decision-title">
+                    <h3 id="decision-title" class="section-title section-title-sm">¿Cuándo usar cada uno en la práctica docente?</h3>
+
+                    <div class="lesson-decision-grid">
+                        <article class="lesson-decision-card">
+                            <h4>LLM como capacidad</h4>
+                            <p>Úsalo cuando necesites trabajar principalmente texto:</p>
+                            <ul>
+                                <li>Generar borradores.</li>
+                                <li>Reformular o adaptar.</li>
+                                <li>Crear ideas y variaciones.</li>
+                            </ul>
+                        </article>
+
+                        <article class="lesson-decision-card">
+                            <h4>Bot o app con LLM</h4>
+                            <p>Úsalo cuando necesites interfaz, contexto y funciones concretas:</p>
+                            <ul>
+                                <li>ChatGPT para explorar ideas.</li>
+                                <li>Copilot para trabajar con documentos.</li>
+                                <li>Funciones integradas al flujo de trabajo.</li>
+                            </ul>
+                        </article>
+
+                        <article class="lesson-decision-card">
+                            <h4>Buscador tradicional</h4>
+                            <p>Úsalo cuando lo importante sea encontrar y verificar fuentes:</p>
+                            <ul>
+                                <li>Información actualizada.</li>
+                                <li>Fuentes primarias.</li>
+                                <li>Verificación de datos generados por IA.</li>
+                            </ul>
+                        </article>
+                    </div>
+
+                    <div class="lesson-progressive-grid">
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span>Leer más 1: LLM como capacidad y bot/app con LLM</span>
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <h4>¿Cuándo usar el LLM como capacidad?</h4>
+                                <p>En la práctica, el docente no "usa el LLM puro", sino su capacidad dentro de una app, cuando necesita:</p>
+                                <ul>
+                                    <li><strong>Generar borradores de textos:</strong> cartas a familias, rúbricas, instrucciones, descripciones de actividades.</li>
+                                    <li><strong>Reformular o adaptar:</strong> simplificar un texto, ajustar a distintos niveles de lectura, traducir con matiz pedagógico.</li>
+                                    <li><strong>Crear ideas y variaciones:</strong> ejemplos, preguntas, casos, explicaciones alternativas.</li>
+                                </ul>
+                                <p>Aquí lo clave es ver el LLM como <strong>motor generador de lenguaje</strong> que se usa para producir y transformar texto, siempre con revisión crítica.</p>
+
+                                <h4>¿Cuándo usar un bot o app con LLM?</h4>
+                                <p>Se recurre a un bot o app cuando, además de generar texto, necesitas un contexto y unas funciones concretas:</p>
+                                <ul>
+                                    <li><strong>Bot conversacional (ChatGPT):</strong> explorar ideas en diálogo, pedir aclaraciones, iterar una planificación, probar prompts y cocrear materiales fuera del entorno institucional.</li>
+                                    <li><strong>Asistente integrado (Copilot en Word, PowerPoint, LMS):</strong> trabajar directamente sobre tus documentos, resumir actas, crear borradores de informes, generar presentaciones o tablas usando archivos y datos que ya tienes.</li>
+                                </ul>
+                                <p>Usas el bot cuando necesitas <strong>una herramienta concreta</strong>, con interfaz y funciones específicas, que aplica la capacidad del LLM a tu contexto real de trabajo.</p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span>Leer más 2: buscador tradicional y verificación</span>
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <h4>¿Cuándo usar un buscador tradicional?</h4>
+                                <p>El buscador sigue siendo insustituible cuando lo importante es <strong>la fuente</strong>:</p>
+                                <ul>
+                                    <li>Buscar información actualizada (fechas, estadísticas, normativa vigente, cambios curriculares).</li>
+                                    <li>Localizar y citar fuentes primarias (artículos científicos, documentos oficiales).</li>
+                                    <li>Verificar datos que el bot/LLM ha generado o sospechas que pueden estar desactualizados.</li>
+                                </ul>
+                                <p>Aquí el foco no es que alguien "escriba por ti", sino <strong>encontrar quién lo dijo, cuándo y dónde</strong>.</p>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <div class="lesson-practical-rule">
+                    <h3>🧭 Regla práctica para docentes</h3>
+                    <ul>
+                        <li>Si necesitas <strong>información comprobable y citada</strong> → empieza por el buscador.</li>
+                        <li>Si necesitas <strong>texto, ideas o adaptaciones</strong> → usa un <strong>bot/app con LLM</strong>.</li>
+                        <li>Si quieres <strong>entender la tecnología y sus límites</strong> → piensa en el <strong>LLM</strong> como el "motor" detrás de las aplicaciones.</li>
+                    </ul>
+                </div>
+
+                <p>La literatura reciente subraya que, en contextos educativos, la combinación de estos enfoques (primero localizar fuentes confiables y luego usar aplicaciones con LLM para sintetizar, adaptar o explicar) ofrece más precisión y control pedagógico.</p>
             </section>
 
-            <section class="text-section" aria-labelledby="modelos-lenguaje-gpt">
+            <section class="text-section lesson-editorial-section" aria-labelledby="ecosistema-actual">
                 <hr class="section-separator">
-                <h2 id="modelos-lenguaje-gpt" class="section-title">¿Qué modelos de lenguaje usan ChatGPT y Copilot?</h2>
+                <h2 id="ecosistema-actual" class="section-title">6️⃣ Ecosistema actual: ChatGPT y Microsoft Copilot</h2>
+                <p>El ecosistema de LLM es dinámico; sin embargo, dos herramientas son especialmente relevantes para docentes por su presencia en entornos educativos y administrativos.</p>
 
-                <p>Cuando hablamos de ChatGPT y Copilot, es importante recordar que ambos son “bots” construidos sobre modelos de lenguaje grande (LLM) de la familia GPT, desarrollados por OpenAI. El LLM es el “motor de lenguaje” y el bot es el carro con volante, pedales y tablero que el docente realmente maneja.</p>
-
-                <div class="comparison-grid">
-                    <article class="comp-card">
-                        <div class="comp-icon" aria-hidden="true">💬</div>
-                        <h3>ChatGPT</h3>
-                        <p>ChatGPT es un asistente conversacional que usa modelos GPT de propósito general (por ejemplo, GPT-4o) capaces de trabajar con texto, imágenes y archivos. En la versión gratuita actual, el modelo por defecto es un GPT multimodal optimizado para dar respuestas rápidas y de buena calidad en tareas generales: redactar textos, proponer ideas, explicar conceptos o resumir contenido. El usuario interactúa en una página o app de chat “neutra”, sin estar directamente conectada a los documentos de la escuela, lo que lo hace útil como laboratorio de experimentación y diseño de materiales.</p>
+                <div class="lesson-tools-grid">
+                    <article class="lesson-tool-card">
+                        <h3>💬 ChatGPT (OpenAI)</h3>
+                        <p>Funciona como <strong>asistente conversacional general</strong> (bot) construido sobre LLM de la familia GPT, capaz de generar textos, actividades, ejemplos y explicaciones sobre una amplia variedad de temas (Zhao et al., 2023). En sus versiones más recientes, el plan gratuito ofrece acceso a modelos de la familia GPT-4o como modelo por defecto, es decir, un LLM <strong>multimodal</strong> capaz de trabajar con texto, imágenes y archivos, diseñado para equilibrar velocidad y calidad (OpenAI, 2024). Estudios en educación superior muestran que docentes y estudiantes lo usan para apoyo en redacción, generación de ideas y revisión de comprensión, aunque se señalan riesgos de dependencia y de errores factuales (Damiano et al., 2024).</p>
                     </article>
 
-                    <article class="comp-card">
-                        <div class="comp-icon" aria-hidden="true">🏢</div>
-                        <h3>Microsoft Copilot (Microsoft 365)</h3>
-                        <p>Copilot también utiliza modelos GPT avanzados (como GPT-4 y variantes recientes) pero integrados en el entorno de Microsoft 365 y en otros servicios de Microsoft. En la práctica, Copilot “orquesta” varios modelos de IA: recibe la petición, consulta el contexto de la organización (correos, documentos, calendario) a través de Microsoft Graph y envía esa información al LLM para generar un borrador adaptado al trabajo del docente. Por eso es especialmente útil para resumir actas, generar presentaciones o redactar informes directamente sobre archivos de Word, PowerPoint o Excel ya existentes.</p>
+                    <article class="lesson-tool-card">
+                        <h3>🏢 Microsoft Copilot</h3>
+                        <p>Es un asistente basado en LLM que se conecta con <strong>documentos, correos y archivos del entorno institucional</strong> (Word, PowerPoint, Excel, Outlook), lo que lo hace especialmente útil para automatizar informes, minutas, borradores de planes y presentaciones. Microsoft 365 Copilot orquesta varios modelos de lenguaje grande, incluyendo versiones avanzadas de la familia GPT, a través de una capa de orquestación que decide qué modelo usar según la tarea y el contexto. Desde la gestión educativa, permite transformar datos y borradores existentes en resúmenes, listas de acciones, tablas y comunicados, lo que puede reducir carga administrativa si el docente mantiene el control y revisa los resultados (Valli &amp; Zafiropoulos, 2024).</p>
                     </article>
                 </div>
 
-                <p>En resumen, tanto ChatGPT como Copilot comparten la misma familia de modelos de lenguaje (GPT), pero se presentan al docente de formas diferentes: ChatGPT como espacio generalista de conversación y creación de texto, y Copilot como asistente incrustado en las herramientas de trabajo diario que usa datos institucionales bajo las políticas de seguridad de Microsoft.</p>
+                <div class="lesson-difference-callout">
+                    <h3>Diferencia práctica para maestros y maestras</h3>
+                    <p>ChatGPT se utiliza principalmente como <strong>"espacio neutro" de experimentación y diseño textual</strong>, mientras que Copilot se integra en el <strong>flujo real de trabajo institucional</strong>, sobre todo en escuelas que ya usan Microsoft 365.</p>
+                </div>
+            </section>
 
-                <h2 class="section-title section-title-sm">¿Por qué son tan importantes los modelos LLM?</h2>
-                <p>Los modelos de lenguaje de gran tamaño (LLM) son la base de muchas herramientas que hoy usamos en educación, como ChatGPT, Copilot u otros asistentes. Se entrenan con enormes cantidades de texto para aprender patrones de lenguaje y así poder comprender nuestras preguntas y generar respuestas en un español natural.</p>
+            <section class="text-section lesson-editorial-section" aria-labelledby="modelos-lenguaje-gpt">
+                <hr class="section-separator">
+                <h2 id="modelos-lenguaje-gpt" class="section-title">7️⃣ ¿Qué modelos de lenguaje usan ChatGPT y Copilot?</h2>
 
-                <p>Gracias a esta capacidad, un LLM puede resumir textos, proponer ideas, traducir, explicar conceptos o redactar borradores, tareas que antes requerían mucho tiempo del docente. En el contexto escolar, esto se traduce en apoyo para preparación de clases, elaboración de materiales y acompañamiento al estudiante, siempre que el profesorado revise y ajuste lo que produce el modelo.</p>
+                <p>Ambos son "bots" construidos sobre modelos GPT desarrollados por OpenAI. El LLM es el <strong>"motor de lenguaje"</strong>; el bot es <strong>"el carro con volante, pedales y tablero"</strong> que el docente realmente maneja.</p>
 
-                <h2 class="section-title section-title-sm">¿Cómo funciona, en sencillo, un bot con LLM?</h2>
-                <p>Un bot con LLM es una aplicación (por ejemplo, una página de chat o un asistente dentro de Word o un LMS) que se conecta a un LLM para responder a las personas. El docente escribe una pregunta o instrucción, el bot la envía al modelo de lenguaje y el modelo devuelve un texto generado palabra por palabra según lo que considera más probable y coherente.</p>
-                <button class="img-editorial-right image-zoom-trigger" type="button" onclick="openZoom('assets/LLM_M1_LLM_&_BOT_imagen_Rev.png')" aria-label="Ampliar diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente">
-                    <img src="assets/LLM_M1_LLM_&_BOT_imagen_Rev.png" alt="Diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente" loading="lazy">
-                </button>
+                <div class="lesson-tools-grid">
+                    <article class="lesson-tool-card">
+                        <h3>💬 ChatGPT</h3>
+                        <p><strong>Modelos GPT de propósito general</strong> (ej. GPT-4o, multimodal). Asistente conversacional "neutro", sin conexión directa a documentos institucionales. Ideal como <strong>laboratorio de experimentación</strong>.</p>
+                    </article>
 
-                <p>Además del LLM, el bot añade cosas que el modelo solo no tiene: una interfaz amigable, reglas de uso, opciones de idioma y, en algunos casos, acceso a documentos o datos de la institución. Por eso hablamos de que el LLM es el “cerebro” y el bot es el “cuerpo” que permite al docente interactuar con ese cerebro de forma segura y práctica en el día a día escolar.</p>
+                    <article class="lesson-tool-card">
+                        <h3>🏢 Microsoft Copilot</h3>
+                        <p><strong>Modelos GPT avanzados</strong> (GPT-4 y variantes) integrados con Microsoft 365. "Orquesta" varios modelos, consulta contexto vía <strong>Microsoft Graph</strong> (correos, documentos, calendario). Genera borradores adaptados al trabajo del docente.</p>
+                    </article>
+                </div>
+
+                <p><strong>En resumen:</strong> ambos comparten la misma familia de modelos (GPT), pero se presentan al docente de formas diferentes — ChatGPT como espacio generalista de conversación, Copilot como asistente incrustado en herramientas diarias bajo políticas de seguridad de Microsoft.</p>
+            </section>
+
+            <section class="text-section lesson-editorial-section" aria-labelledby="importancia-llm">
+                <hr class="section-separator">
+                <div class="lesson-split lesson-split--media">
+                    <div class="lesson-split__content">
+                        <h2 id="importancia-llm" class="section-title">8️⃣ ¿Por qué son tan importantes los modelos LLM?</h2>
+                        <p>Los LLM son la <strong>base de muchas herramientas que hoy usamos en educación</strong> (ChatGPT, Copilot u otros asistentes). Se entrenan con enormes cantidades de texto para aprender patrones de lenguaje y poder comprender preguntas y generar respuestas en un español natural.</p>
+                        <p>Gracias a esta capacidad, un LLM puede resumir textos, proponer ideas, traducir, explicar conceptos o redactar borradores: tareas que antes requerían mucho tiempo del docente. En el contexto escolar, esto se traduce en apoyo para preparación de clases, elaboración de materiales y acompañamiento al estudiante, <strong>siempre que el profesorado revise y ajuste lo que produce el modelo</strong>.</p>
+
+                        <h3 class="section-title section-title-sm">¿Cómo funciona, en sencillo, un bot con LLM?</h3>
+                        <p>Un bot con LLM es una aplicación (por ejemplo, una página de chat o un asistente dentro de Word o un LMS) que se conecta a un LLM para responder a las personas. El docente escribe una pregunta o instrucción, el bot la envía al modelo de lenguaje, y el modelo devuelve un texto generado <strong>palabra por palabra</strong> según lo que considera más probable y coherente.</p>
+                        <p>Además del LLM, el bot añade cosas que el modelo solo no tiene: una interfaz amigable, reglas de uso, opciones de idioma y, en algunos casos, acceso a documentos o datos institucionales.</p>
+                        <p><strong>Metáfora clave:</strong> el LLM es el <strong>"cerebro"</strong> y el bot es el <strong>"cuerpo"</strong> que permite al docente interactuar con ese cerebro de forma segura y práctica en el día a día escolar.</p>
+                    </div>
+
+                    <div class="lesson-split__media">
+                        <p class="lesson-media-caption">🖼️ Diagrama comparativo entre un modelo de lenguaje grande (LLM) y un bot con interfaz de uso docente.</p>
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom('assets/LLM_M1_LLM_&_BOT_imagen_Rev.png')"
+                            aria-label="Ampliar diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente">
+                            <img src="assets/LLM_M1_LLM_&_BOT_imagen_Rev.png"
+                                alt="Diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente" loading="lazy">
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section lesson-editorial-section" aria-labelledby="rol-facilitador">
+                <hr class="section-separator">
+                <h2 id="rol-facilitador" class="section-title">👩‍🏫 Conexión con tu rol como facilitador docente</h2>
+                <p>Como facilitador o facilitadora docente del DEPR, esta lección te equipa para transferir lo aprendido sobre LLM, bots, apps y buscadores a situaciones concretas de acompañamiento curricular, capacitación docente y gestión administrativa.</p>
+
+                <div class="lesson-role-grid">
+                    <article class="lesson-role-card">
+                        <h3>📋 Acompañamiento curricular</h3>
+                        <p><strong>Orientar con criterio técnico:</strong> podrás explicar a maestros y maestras la diferencia entre el "motor" (LLM) y la "herramienta" (bot/app) que están usando o piensan adoptar, evitando confusiones comunes.</p>
+                        <p><strong>Tomar decisiones de adopción tecnológica:</strong> al recomendar recursos para tu programa o región, podrás distinguir si conviene un asistente generalista (ChatGPT) o uno integrado al ecosistema institucional (Copilot en Microsoft 365).</p>
+                    </article>
+
+                    <article class="lesson-role-card">
+                        <h3>🎓 Capacitación docente</h3>
+                        <p><strong>Modelar el uso combinado de herramientas:</strong> podrás enseñar a docentes y practicantes la regla práctica (buscador para fuentes, LLM para producir, modelar para decidir), una destreza clave para el desarrollo profesional alineado con las normativas del DEPR.</p>
+                        <p><strong>Diseñar capacitaciones contextualizadas:</strong> podrás integrar estos conceptos en talleres, foros y comunidades de aprendizaje profesional (MECPA), conectando la teoría con la práctica real del personal docente que acompañas.</p>
+                    </article>
+
+                    <article class="lesson-role-card">
+                        <h3>📄 Gestión administrativa</h3>
+                        <p><strong>Anticipar riesgos:</strong> comprender el fenómeno de la "alucinación" te permite advertir a colegas sobre la necesidad de validar siempre la información generada antes de incorporarla a planes, informes o materiales oficiales.</p>
+                        <p><strong>Optimizar procesos sin perder control profesional:</strong> el uso combinado de buscadores, bots con LLM y criterio docente puede apoyar la redacción de informes, comunicaciones, rúbricas y materiales, siempre bajo revisión humana.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="lesson-remember-card" aria-labelledby="recordar-title">
+                <h2 id="recordar-title" class="section-title">🏁 Qué debes recordar</h2>
+                <ul>
+                    <li>✅ Un <strong>LLM</strong> es el "motor de lenguaje"; un <strong>bot/app</strong> es la herramienta concreta que lo usa; un <strong>buscador</strong> es el localizador de fuentes.</li>
+                    <li>✅ Los LLM funcionan por <strong>predicción probabilística</strong> mediante <strong>tokens</strong> — por eso pueden "alucinar".</li>
+                    <li>✅ <strong>ChatGPT y Microsoft Copilot</strong> comparten la familia GPT, pero se usan en contextos distintos: experimentación vs. flujo institucional.</li>
+                    <li>✅ La <strong>revisión crítica del docente</strong> es insustituible: el modelo propone, el docente decide.</li>
+                    <li>✅ Combinar <strong>buscador + LLM + criterio profesional</strong> ofrece más precisión y control pedagógico.</li>
+                </ul>
             </section>
 
 
