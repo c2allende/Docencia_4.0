@@ -1435,169 +1435,274 @@
 
     <main class="content-wrapper">
         <article class="lesson-card" aria-labelledby="lesson-title">
-            <h1 id="lesson-title" class="lesson-title">Lección 1.2: Aplicaciones estratégicas por áreas de contenido
-            </h1>
+            <h1 id="lesson-title" class="lesson-title">Lección 1.2: Aplicaciones estratégicas por áreas de contenido</h1>
 
-            <div class="audio-player-container">
-                <label class="audio-label" for="lessonAudio">Escuchar Lección 1.2</label>
+            <div class="audio-player-container lesson-audio-intro">
+                <label class="audio-label" for="lessonAudio">🎧 Escuchar Lección 1.2</label>
+                <p class="lesson-audio-intro__text">Acompaña la lectura con la narración guiada. Te ayudará a visualizar cómo cada área de contenido aprovecha los <strong>LLM</strong> de manera distinta.</p>
                 <audio id="lessonAudio" controls class="audio-player">
-                    <source src="LLM-DEPR/LLM_M1_Leccion_1.2_Aplicaciones por Áreas de Contenido_audio.mp3"
-                        type="audio/mpeg">
+                    <source src="LLM-DEPR/LLM_M1_Leccion_1.2_Aplicaciones por Áreas de Contenido_audio.mp3" type="audio/mpeg">
                     Su navegador no soporta la reproducción de audio.
                 </audio>
             </div>
 
-            <section class="text-section" aria-labelledby="intro-title">
-                <h2 id="intro-title" class="section-title">Aplicaciones estratégicas por áreas de contenido</h2>
-                <p>La integración de los modelos de lenguaje de gran tamaño (LLM) no ocurre de la misma manera en todas
-                    las disciplinas. Cada área académica presenta desafíos cognitivos particulares que los LLM pueden
-                    abordar mediante estrategias de <em>reasoning</em> (razonamiento), generación de texto y adaptación
-                    de contenidos. A continuación, se detallan oportunidades de uso específicas validadas por la
-                    investigación reciente.</p>
+            <section class="lesson-summary-card" aria-labelledby="resumen-title">
+                <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
+                <p>En esta lección explorarás cómo los <strong>Modelos de Lenguaje de Gran Tamaño (LLM)</strong> se integran de manera diferenciada según el área académica. Conocerás aplicaciones validadas por la investigación reciente en <strong>Ciencias y Matemáticas (STEM)</strong>, <strong>Español e Historia (Humanidades)</strong>, <strong>Educación Especial</strong> e <strong>Inglés y otros idiomas</strong>. Al finalizar, contarás con un <strong>mapa estratégico</strong> para decidir <strong>dónde la IA aporta valor real al aprendizaje</strong> y dónde tu <strong>intervención pedagógica debe ser más activa</strong>.</p>
             </section>
 
-            <section class="text-section" aria-labelledby="stem-title">
-                <h2 id="stem-title" class="section-title">Ciencias y Matemáticas: razonamiento paso a paso y resolución
-                    de problemas</h2>
-
-                <button class="img-editorial-right image-zoom-trigger" type="button"
-                    onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                    aria-label="Ampliar imagen sobre razonamiento STEM y Chain of Thought">
-                    <img data-asset="LLM_M1_Ilustracion_1.2_stem_Rev.png" src="assets/LLM_M1_Ilustracion_1.2_stem_Rev.png"
-                        alt="Razonamiento STEM y Chain of Thought">
-                </button>
-
-                <p>En disciplinas STEM (Ciencia, Tecnología, Ingeniería y Matemáticas), el principal valor de los LLM
-                    reside en su capacidad para desglosar problemas complejos en pasos lógicos manejables.</p>
-
-                <p><strong>Generación de problemas verbales contextualizados:</strong> Los docentes pueden solicitar a
-                    un bot o aplicación basada en LLM que diseñe problemas matemáticos situados en contextos de interés
-                    para sus estudiantes (ej. deportes locales, música popular), lo que aumenta la relevancia y el
-                    compromiso. La literatura sobre <strong>Chain-of-Thought (CoT)</strong> o "cadena de pensamiento"
-                    demuestra que cuando se pide al modelo que genere explicaciones paso a paso, no solo mejora la
-                    precisión de la respuesta, sino que proporciona un andamiaje didáctico que el maestro puede usar
-                    para modelar el pensamiento lógico en clase (Zhang et al., 2024; Yao et al., 2023).</p>
-
-                <p><strong>Explicación de procesos:</strong> En lugar de simplemente dar una respuesta numérica,
-                    herramientas como ChatGPT pueden generar explicaciones detalladas de por qué ocurre un fenómeno
-                    científico o cómo se llega a una solución matemática. Investigaciones recientes sugieren que el uso
-                    de LLM para generar múltiples vías de razonamiento permite a los estudiantes ver diferentes enfoques
-                    para un mismo problema, fomentando la flexibilidad cognitiva (Yao et al., 2023; Wei et al., 2022).
-                </p>
+            <section class="lesson-core-callout" aria-label="Concepto central">
+                <p class="lesson-core-callout__label">🎯 Concepto central</p>
+                <p>La integración de los <strong>LLM</strong> <strong>no ocurre de la misma manera en todas las disciplinas</strong>. Cada área académica presenta <strong>desafíos cognitivos particulares</strong> que los LLM pueden abordar mediante estrategias de <strong>reasoning (razonamiento)</strong>, <strong>generación de texto</strong> y <strong>adaptación de contenidos</strong>. Conocer estas oportunidades específicas te permite tomar decisiones pedagógicas con <strong>criterio profesional</strong>.</p>
             </section>
 
-            <section class="text-section" aria-labelledby="humanidades-title">
+            <section class="text-section lesson-area-section" aria-labelledby="stem-title">
                 <hr class="section-separator">
-                <h2 id="humanidades-title" class="section-title">Español e Historia: análisis textual y síntesis crítica
-                </h2>
+                <div class="lesson-area-split">
+                    <div class="lesson-area-content">
+                        <h2 id="stem-title" class="section-title">1️⃣ Ciencias y Matemáticas: razonamiento paso a paso y resolución de problemas</h2>
 
-                <button class="img-editorial-left image-zoom-trigger" type="button"
-                    onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                    aria-label="Ampliar imagen sobre análisis textual en humanidades">
-                    <img data-asset="LLM_M1_Ilustracion_1.2_humanidades_Rev.png"
-                        src="assets/LLM_M1_Ilustracion_1.2_humanidades_Rev.png" alt="Análisis textual en Humanidades">
-                </button>
+                        <p>En disciplinas <strong>STEM</strong> (Ciencia, Tecnología, Ingeniería y Matemáticas), el principal valor de los LLM reside en su capacidad para <strong>desglosar problemas complejos en pasos lógicos manejables</strong>.</p>
 
-                <p>En las humanidades, los LLM funcionan como motores de lenguaje que impulsan bots y asistentes de
-                    lectura y escritura avanzada, permitiendo trabajar competencias de análisis y síntesis con mayor
-                    profundidad.</p>
+                        <div class="lesson-progressive-grid">
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>🔢 Generación de problemas verbales contextualizados</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Los docentes pueden solicitar a un bot o aplicación basada en LLM que diseñe <strong>problemas matemáticos situados en contextos de interés para sus estudiantes</strong> (ej. deportes locales, música popular), lo que aumenta la relevancia y el compromiso. La literatura sobre <strong>Chain-of-Thought (CoT)</strong> o <strong>"cadena de pensamiento"</strong> demuestra que cuando se pide al modelo que genere <strong>explicaciones paso a paso</strong>, no solo mejora la precisión de la respuesta, sino que proporciona un <strong>andamiaje didáctico</strong> que el maestro puede usar para modelar el <strong>pensamiento lógico</strong> en clase (Zhang et al., 2024; Yao et al., 2023).</p>
+                                </div>
+                            </details>
 
-                <p><strong>Análisis de textos y comprensión lectora:</strong> Los docentes pueden ingresar textos
-                    complejos (ej. documentos históricos primarios o fragmentos literarios) y pedir a una aplicación
-                    basada en LLM que genere preguntas de inferencia, identifique temas centrales o contraste el tono
-                    con otro documento. Esto apoya la creación rápida de material de práctica para comprensión crítica
-                    (Damiano et al., 2024).</p>
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>🧪 Explicación de procesos</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>En lugar de simplemente dar una respuesta numérica, herramientas como ChatGPT pueden generar <strong>explicaciones detalladas</strong> de por qué ocurre un fenómeno científico o cómo se llega a una solución matemática. Investigaciones recientes sugieren que el uso de LLM para generar <strong>múltiples vías de razonamiento</strong> permite a los estudiantes ver diferentes enfoques para un mismo problema, fomentando la <strong>flexibilidad cognitiva</strong> (Yao et al., 2023; Wei et al., 2022).</p>
+                                </div>
+                            </details>
+                        </div>
 
-                <p><strong>Generación de ensayos modelo y contra-argumentos:</strong> Para enseñar escritura
-                    argumentativa, el docente puede pedir a un bot conversacional que redacte un ensayo con una postura
-                    específica y luego trabajar con los estudiantes para criticar ese texto: identificar falacias,
-                    mejorar el vocabulario o fortalecer la evidencia. Este uso de la IA como "borrador imperfecto"
-                    promueve el pensamiento crítico y reduce el miedo a la página en blanco (Valli &amp; Zafiropoulos,
-                    2024).</p>
-            </section>
+                        <div class="lesson-example-callout">
+                            <h3>💡 Ejemplo práctico</h3>
+                            <p><strong>"Genera un problema de proporciones contextualizado en el béisbol puertorriqueño y resuélvelo paso a paso, mostrando dos métodos distintos."</strong></p>
+                        </div>
+                    </div>
 
-            <section class="text-section" aria-labelledby="educacion-especial-title">
-                <hr class="section-separator">
-                <h2 id="educacion-especial-title" class="section-title">Educación Especial: adaptación y accesibilidad
-                    (PEI)</h2>
-
-                <div class="highlight-box">
-                    <h3>El potencial de la diferenciación masiva</h3>
-
-                    <button class="img-editorial-right image-zoom-trigger" type="button"
-                        onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                        aria-label="Ampliar imagen sobre inclusión y accesibilidad con IA">
-                        <img data-asset="LLM_M1_Ilustracion_1.2_inclusion_Rev.png"
-                            src="assets/LLM_M1_Ilustracion_1.2_inclusion_Rev.png" alt="Inclusión y accesibilidad con IA">
-                    </button>
-
-                    <p>El potencial de los LLM para la educación inclusiva es una de sus aplicaciones más prometedoras,
-                        actuando como una herramienta de diferenciación masiva y accesible.</p>
-
-                    <ul class="content-list">
-                        <li><strong>Adaptación de niveles de lectura:</strong> Un LLM puede reescribir un mismo texto
-                            académico en múltiples niveles de complejidad (ej. nivel Lexile bajo, medio y alto) en
-                            segundos, permitiendo que estudiantes con diversas capacidades lectoras accedan al mismo
-                            contenido curricular sin estigmatización. Esta capacidad de personalización apoya
-                            directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong>
-                            (Sarkar et al., 2024).</li>
-                        <li><strong>Creación de PEI asistidos:</strong> En la redacción de Programas Educativos
-                            Individualizados (PEI), bots y asistentes basados en LLM pueden ayudar a los maestros a
-                            redactar objetivos <strong>SMART</strong> (Específicos, Medibles, Alcanzables, Relevantes y
-                            Temporales) basados en las necesidades observadas del estudiante. Aunque la decisión final y
-                            la confidencialidad de los datos siempre dependen del humano (<em>human in the loop</em>),
-                            la IA puede sugerir estrategias de acomodo razonable y redacción técnica que ahorran tiempo
-                            administrativo valioso (Dahri et al., 2025; Sarkar et al., 2024).</li>
-                    </ul>
+                    <aside class="lesson-area-media" aria-label="Imagen sobre razonamiento STEM y Chain of Thought">
+                        <p class="lesson-media-caption">🖼️ Razonamiento STEM y Chain of Thought — esquema visual del desglose lógico de un problema matemático.</p>
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar imagen sobre razonamiento STEM y Chain of Thought">
+                            <img data-asset="LLM_M1_Ilustracion_1.2_stem_Rev.png"
+                                src="assets/LLM_M1_Ilustracion_1.2_stem_Rev.png"
+                                alt="Razonamiento STEM y Chain of Thought" loading="lazy">
+                        </button>
+                    </aside>
                 </div>
             </section>
 
-            <!-- ========== Inglés y otros idiomas ========== -->
-            <section class="text-section" aria-labelledby="ingles-idiomas-title">
+            <section class="text-section lesson-area-section" aria-labelledby="humanidades-title">
                 <hr class="section-separator">
-                <h2 id="ingles-idiomas-title" class="section-title">Inglés y otros idiomas: interacción comunicativa y
-                    escritura guiada</h2>
+                <div class="lesson-area-split lesson-area-split--reverse">
+                    <div class="lesson-area-content">
+                        <h2 id="humanidades-title" class="section-title">2️⃣ Español e Historia: análisis textual y síntesis crítica</h2>
 
-                <button class="img-editorial-right image-zoom-trigger" type="button"
-                    onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                    aria-label="Ampliar imagen sobre uso de LLM en enseñanza de idiomas">
-                    <img data-asset="LLM_M1_Ilustracion_1.2_ingles_Rev.png"
-                        src="assets/LLM_M1_Ilustracion_1.2_ingles_Rev.png"
-                        alt="Ilustración sobre el uso de LLM para interacción comunicativa, vocabulario, traducción, cultura y escritura guiada en inglés y otros idiomas"
-                        loading="lazy">
-                </button>
+                        <p>En las humanidades, los LLM funcionan como <strong>motores de lenguaje</strong> que impulsan bots y <strong>asistentes de lectura y escritura avanzada</strong>, permitiendo trabajar competencias de <strong>análisis y síntesis</strong> con mayor profundidad.</p>
 
-                <p>En la enseñanza de Inglés y otros idiomas, los LLM pueden apoyar la práctica comunicativa, la
-                    escritura y el desarrollo de vocabulario mediante diálogos, simulaciones, modelos de texto y
-                    retroalimentación lingüística. Su valor principal está en ampliar las oportunidades de exposición y
-                    producción del idioma, siempre bajo la mediación del docente, quien valida la precisión, el nivel de
-                    complejidad y la pertinencia cultural de las respuestas generadas (Kohnke et al., 2023; Hockly,
-                    2023).</p>
+                        <div class="lesson-progressive-grid">
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>📖 Análisis de textos y comprensión lectora</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Los docentes pueden ingresar textos complejos (ej. documentos históricos primarios o fragmentos literarios) y pedir a una aplicación basada en LLM que:</p>
+                                    <ul class="content-list">
+                                        <li>Genere <strong>preguntas de inferencia</strong>.</li>
+                                        <li>Identifique <strong>temas centrales</strong>.</li>
+                                        <li><strong>Contraste el tono</strong> con otro documento.</li>
+                                    </ul>
+                                    <p>Esto apoya la creación rápida de material de práctica para <strong>comprensión crítica</strong> (Damiano et al., 2024).</p>
+                                </div>
+                            </details>
 
-                <ul class="content-list">
-                    <li><strong>Práctica conversacional:</strong> Los docentes pueden usar bots con LLM para generar
-                        diálogos, entrevistas o juegos de roles en contextos auténticos, como pedir direcciones,
-                        presentarse, ordenar comida o participar en conversaciones académicas breves. Esta práctica
-                        ofrece un espacio de bajo riesgo para ensayar funciones comunicativas del idioma (Huang et al.,
-                        2022).</li>
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>✍️ Generación de ensayos modelo y contra-argumentos</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Para enseñar escritura argumentativa, el docente puede pedir a un bot conversacional que redacte un ensayo con una postura específica y luego trabajar con los estudiantes para criticar ese texto:</p>
+                                    <ul class="content-list">
+                                        <li><strong>Identificar falacias</strong>.</li>
+                                        <li><strong>Mejorar el vocabulario</strong>.</li>
+                                        <li><strong>Fortalecer la evidencia</strong>.</li>
+                                    </ul>
+                                    <p>Este uso de la IA como <strong>"borrador imperfecto"</strong> promueve el <strong>pensamiento crítico</strong> y reduce el miedo a la <strong>página en blanco</strong> (Valli &amp; Zafiropoulos, 2024).</p>
+                                </div>
+                            </details>
+                        </div>
 
-                    <li><strong>Escritura y retroalimentación:</strong> Los LLM pueden producir modelos de párrafos,
-                        cartas, diálogos o ensayos breves que el estudiante analiza, revisa y mejora. También pueden
-                        ofrecer retroalimentación inicial sobre gramática, vocabulario, coherencia y tono, sin sustituir
-                        la revisión docente ni el proceso de escritura del estudiante (Warschauer et al., 2023).</li>
+                        <div class="lesson-example-callout">
+                            <h3>💡 Ejemplo práctico</h3>
+                            <p><strong>"Redacta un ensayo argumentativo a favor de la abolición de la esclavitud desde la perspectiva del siglo XIX, e incluye al menos dos falacias deliberadas para que mis estudiantes las identifiquen."</strong></p>
+                        </div>
+                    </div>
 
-                    <li><strong>Vocabulario, traducción y cultura:</strong> Los docentes pueden solicitar glosarios
-                        bilingües, ejemplos contextualizados, ejercicios con cognados y falsos cognados, o actividades
-                        de comparación entre idiomas. No obstante, deben revisar posibles traducciones literales,
-                        expresiones poco naturales o referencias culturales imprecisas (Godwin-Jones, 2023).</li>
-                </ul>
-
-                <p><strong>Síntesis pedagógica:</strong> En Inglés y otros idiomas, los LLM deben utilizarse como apoyo
-                    para practicar, revisar y reflexionar sobre el lenguaje, no solo como traductores o correctores
-                    automáticos. El docente mantiene el control pedagógico sobre la tarea, el nivel lingüístico, la
-                    precisión y la pertinencia cultural.</p>
+                    <aside class="lesson-area-media" aria-label="Imagen sobre análisis textual en humanidades">
+                        <p class="lesson-media-caption">🖼️ Análisis textual en Humanidades — ilustración de un texto con anotaciones, preguntas inferenciales y contraste tonal.</p>
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar imagen sobre análisis textual en humanidades">
+                            <img data-asset="LLM_M1_Ilustracion_1.2_humanidades_Rev.png"
+                                src="assets/LLM_M1_Ilustracion_1.2_humanidades_Rev.png"
+                                alt="Análisis textual en Humanidades" loading="lazy">
+                        </button>
+                    </aside>
+                </div>
             </section>
-            <!-- ========== Fin Inglés y otros idiomas ========== -->
+
+            <section class="text-section lesson-area-section" aria-labelledby="ingles-idiomas-title">
+                <hr class="section-separator">
+                <div class="lesson-area-split">
+                    <div class="lesson-area-content">
+                        <h2 id="ingles-idiomas-title" class="section-title">3️⃣ Inglés y otros idiomas: interacción comunicativa y escritura guiada</h2>
+
+                        <p>En la enseñanza de <strong>inglés y otros idiomas</strong>, los LLM pueden apoyar la <strong>práctica comunicativa</strong>, la <strong>escritura</strong> y el <strong>desarrollo de vocabulario</strong> mediante diálogos, simulaciones, modelos de texto y retroalimentación lingüística. Su valor principal está en ampliar las oportunidades de <strong>exposición y producción del idioma</strong>, siempre bajo la <strong>mediación del docente</strong>, quien, valida la <strong>precisión</strong>, el <strong>nivel de complejidad</strong> y la <strong>pertinencia cultural</strong> de las respuestas generadas (Kohnke et al., 2023; Hockly, 2023).</p>
+
+                        <div class="lesson-progressive-grid">
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>🗣️ Práctica conversacional</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Los docentes pueden usar bots con LLM para generar diálogos, entrevistas o juegos de roles en contextos auténticos, como:</p>
+                                    <ul class="content-list">
+                                        <li><strong>Pedir direcciones</strong>.</li>
+                                        <li><strong>Presentarse</strong>.</li>
+                                        <li><strong>Ordenar comida</strong>.</li>
+                                        <li><strong>Participar en conversaciones académicas breves</strong>.</li>
+                                    </ul>
+                                    <p>Esta práctica ofrece un <strong>espacio de bajo riesgo</strong> para ensayar funciones comunicativas del idioma (Huang et al., 2022).</p>
+                                </div>
+                            </details>
+
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>📝 Escritura y retroalimentación</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Los LLM pueden producir modelos de párrafos, cartas, diálogos o ensayos breves que el estudiante analiza, revisa y mejora. También pueden ofrecer retroalimentación inicial sobre <strong>gramática</strong>, <strong>vocabulario</strong>, <strong>coherencia</strong> y <strong>tono</strong>, <strong>sin sustituir la revisión docente</strong> ni el proceso de escritura del estudiante (Warschauer et al., 2023).</p>
+                                </div>
+                            </details>
+
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>🌍 Vocabulario, traducción y cultura</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Los docentes pueden solicitar:</p>
+                                    <ul class="content-list">
+                                        <li><strong>Glosarios bilingües</strong>.</li>
+                                        <li><strong>Ejemplos contextualizados</strong>.</li>
+                                        <li><strong>Ejercicios con cognados y falsos cognados</strong>.</li>
+                                        <li><strong>Actividades de comparación entre idiomas</strong>.</li>
+                                    </ul>
+                                    <p><strong>⚠️ Atención:</strong> Deben revisar posibles <strong>traducciones literales</strong>, <strong>expresiones poco naturales</strong> o <strong>referencias culturales imprecisas</strong> (Godwin-Jones, 2023).</p>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="lesson-practical-rule lesson-compact-callout">
+                            <h3>🎯 Síntesis pedagógica</h3>
+                            <p>En inglés y otros idiomas, los LLM deben utilizarse como <strong>apoyo para practicar, revisar y reflexionar sobre el lenguaje</strong>, no solo como traductores o correctores automáticos. El docente mantiene el <strong>control pedagógico</strong> sobre la tarea, el nivel lingüístico, la precisión y la pertinencia cultural.</p>
+                        </div>
+                    </div>
+
+                    <aside class="lesson-area-media" aria-label="Imagen sobre uso de LLM en enseñanza de idiomas">
+                        <p class="lesson-media-caption">🖼️ Uso de LLM para interacción comunicativa, vocabulario, traducción, cultura y escritura guiada en inglés y otros idiomas.</p>
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar imagen sobre uso de LLM en enseñanza de idiomas">
+                            <img data-asset="LLM_M1_Ilustracion_1.2_ingles_Rev.png"
+                                src="assets/LLM_M1_Ilustracion_1.2_ingles_Rev.png"
+                                alt="Ilustración sobre el uso de LLM para interacción comunicativa, vocabulario, traducción, cultura y escritura guiada en inglés y otros idiomas"
+                                loading="lazy">
+                        </button>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="text-section lesson-area-section" aria-labelledby="educacion-especial-title">
+                <hr class="section-separator">
+                <div class="lesson-area-split lesson-area-split--reverse">
+                    <div class="lesson-area-content">
+                        <h2 id="educacion-especial-title" class="section-title">4️⃣ Educación Especial: adaptación y accesibilidad (PEI)</h2>
+
+                        <p class="lesson-section-kicker">El potencial de la diferenciación masiva</p>
+                        <p>El potencial de los LLM para la educación inclusiva es una de sus aplicaciones más prometedoras, actuando como <strong>herramienta de diferenciación masiva y accesible</strong>.</p>
+
+                        <div class="lesson-progressive-grid">
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>📊 Adaptación de niveles de lectura</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>Un LLM puede reescribir un mismo texto académico en <strong>múltiples niveles de complejidad</strong> (ej. nivel Lexile bajo, medio y alto) en segundos, permitiendo que estudiantes con diversas capacidades lectoras accedan al mismo contenido curricular <strong>sin estigmatización</strong>. Esta capacidad de personalización apoya directamente las estrategias de <strong>Diseño Universal para el Aprendizaje (DUA)</strong> (Sarkar et al., 2024).</p>
+                                </div>
+                            </details>
+
+                            <details class="lesson-progressive-card">
+                                <summary>
+                                    <span>📋 Creación de PEI asistidos</span>
+                                    <span class="summary-more">Leer más</span>
+                                    <span class="summary-less">Ocultar</span>
+                                </summary>
+                                <div class="lesson-progressive-card__body">
+                                    <p>En la redacción de Programas Educativos Individualizados (PEI), bots y asistentes basados en LLM pueden ayudar a los maestros a:</p>
+                                    <ul class="content-list">
+                                        <li>Redactar <strong>objetivos SMART</strong> (<strong>Específicos, Medibles, Alcanzables, Relevantes y Temporales</strong>) basados en las necesidades observadas del estudiante.</li>
+                                        <li>Sugerir estrategias de <strong>acomodo razonable</strong> y redacción técnica.</li>
+                                    </ul>
+                                    <p><strong>⚠️ Importante:</strong> Aunque la decisión final y la <strong>confidencialidad de los datos</strong> siempre dependen del humano (<strong>human in the loop</strong>), la IA puede ahorrar <strong>tiempo administrativo valioso</strong> (Dahri et al., 2025; Sarkar et al., 2024).</p>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="lesson-example-callout">
+                            <h3>💡 Ejemplo práctico</h3>
+                            <p><strong>"Reescribe este texto sobre el ciclo del agua en tres niveles: lectura inicial, intermedia y avanzada, manteniendo el mismo contenido conceptual."</strong></p>
+                        </div>
+                    </div>
+
+                    <aside class="lesson-area-media" aria-label="Imagen sobre inclusión y accesibilidad con IA">
+                        <p class="lesson-media-caption">🖼️ Inclusión y accesibilidad con IA — íconos de DUA, niveles de lectura y herramientas asistivas.</p>
+                        <button class="image-zoom-trigger lesson-media-card" type="button"
+                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                            aria-label="Ampliar imagen sobre inclusión y accesibilidad con IA">
+                            <img data-asset="LLM_M1_Ilustracion_1.2_inclusion_Rev.png"
+                                src="assets/LLM_M1_Ilustracion_1.2_inclusion_Rev.png"
+                                alt="Inclusión y accesibilidad con IA" loading="lazy">
+                        </button>
+                    </aside>
+                </div>
+            </section>
 
             <section class="llm-strat-activity" aria-labelledby="interactive-title">
                 <h2 id="interactive-title" class="sr-only">Producto interactivo: Aplicaciones estratégicas de LLM por
@@ -1629,9 +1734,9 @@
                     <section class="screen on" id="screenIntro" aria-labelledby="activity-intro-title">
                         <div class="activity-card intro-inner">
                             <span class="big-emoji" aria-hidden="true">🧭</span>
-                            <h2 id="activity-intro-title">LLM en el Aula: Aplicaciones Estratégicas (Test)</h2>
+                            <h2 id="activity-intro-title">LLM en el salón de clase: Aplicaciones Estratégicas (Test)</h2>
                             <p>Explora tres escenarios breves para decidir cómo aplicar modelos de lenguaje de gran
-                                tamaño con criterio pedagógico, ético y contextual.</p>
+                                tamaño con <strong>criterio pedagógico, ético y contextual</strong>.</p>
                             <div class="chips" aria-hidden="true">
                                 <span class="chip chip-stem">STEM</span>
                                 <span class="chip chip-humanities">Humanidades</span>
@@ -1794,13 +1899,55 @@
                 </div>
             </section>
 
+            <section class="text-section lesson-role-transfer-section" aria-labelledby="rol-facilitador">
+                <hr class="section-separator">
+                <h2 id="rol-facilitador" class="section-title">👩‍🏫 Conexión con tu rol como facilitador docente</h2>
+                <p>Como facilitador o facilitadora docente del DEPR, esta lección fortalece tu capacidad para:</p>
+
+                <div class="lesson-role-grid">
+                    <article class="lesson-role-card">
+                        <h3><strong>Diseñar acompañamiento curricular diferenciado por materia</strong></h3>
+                        <p>Ahora puedes orientar a maestros de Matemáticas con estrategias como <strong>Chain-of-Thought</strong>, mientras que a maestros de español les modelas el uso de <strong>"borradores imperfectos"</strong> para fomentar el <strong>pensamiento crítico</strong>.</p>
+                    </article>
+
+                    <article class="lesson-role-card">
+                        <h3><strong>Fortalecer el Programa de Educación Especial</strong></h3>
+                        <p>Desde tu rol (especialmente si eres FDEE), podrás guiar a los docentes en el uso responsable de LLM para redactar <strong>PEI</strong> con <strong>objetivos SMART</strong>, adaptar materiales a <strong>múltiples niveles Lexile</strong> y aplicar <strong>principios de DUA</strong> sin comprometer la <strong>confidencialidad estudiantil</strong>.</p>
+                    </article>
+
+                    <article class="lesson-role-card">
+                        <h3><strong>Modelar el principio human in the loop</strong></h3>
+                        <p>En cada taller o sesión de mentoría, podrás demostrar cómo el docente valida, ajusta y se responsabiliza del producto final, alineándote con la política pública del DEPR sobre <strong>uso ético de tecnología educativa</strong>.</p>
+                    </article>
+
+                    <article class="lesson-role-card">
+                        <h3><strong>Apoyar capacitaciones contextualizadas a Puerto Rico</strong></h3>
+                        <p>Podrás guiar a docentes para que los problemas, ejemplos y materiales generados con LLM reflejen la <strong>cultura</strong>, los <strong>referentes locales</strong> y las <strong>realidades del estudiantado puertorriqueño</strong>.</p>
+                    </article>
+
+                    <article class="lesson-role-card">
+                        <h3><strong>Promover prácticas alineadas con los Estándares del DEPR</strong></h3>
+                        <p>Al revisar materiales generados por IA, podrás verificar su correspondencia con el <strong>currículo oficial</strong> antes de que llegue al salón de clases.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="lesson-remember-card" aria-labelledby="recordar-title">
+                <h2 id="recordar-title" class="section-title">🏁 Qué debes recordar</h2>
+                <ul>
+                    <li>✅ <strong>Cada disciplina tiene su mejor uso:</strong> STEM se beneficia del <strong>razonamiento paso a paso (CoT)</strong>; las humanidades, del <strong>análisis textual y la escritura crítica</strong>; la educación especial, de la <strong>diferenciación y los PEI asistidos</strong>; los idiomas, de la <strong>práctica comunicativa</strong>.</li>
+                    <li>✅ Los LLM funcionan mejor cuando se usan como <strong>andamiaje didáctico</strong>, <strong>no como reemplazo del razonamiento estudiantil</strong>.</li>
+                    <li>✅ En <strong>Educación Especial</strong>, la IA potencia la inclusión, pero la <strong>decisión final</strong> y la <strong>confidencialidad</strong> siempre dependen del docente.</li>
+                    <li>✅ En idiomas, el LLM amplía la exposición y producción, pero el docente valida <strong>precisión</strong>, <strong>complejidad</strong> y <strong>pertinencia cultural</strong>.</li>
+                    <li>✅ <strong>Tu criterio profesional</strong> decide <strong>dónde la IA aporta valor real</strong> y dónde tu <strong>intervención pedagógica debe ser más activa</strong>.</li>
+                </ul>
+            </section>
+
             <details class="concept-review" data-concept-review>
                 <summary class="concept-review__summary-main">
                     <div class="concept-review__icon" aria-hidden="true">📖</div>
                     <div class="concept-review__meta">
-                        <span class="concept-review__subtitle">Glosario dinámico</span>
                         <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
-                        <span class="concept-review__count">5 términos clave</span>
                     </div>
                     <div class="concept-review__toggle-icon" aria-hidden="true">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1868,12 +2015,8 @@
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
                 <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
-                <p>Has culminado la lección 1.2 del programa de formación profesional.</p>
-                <p>Al completar el contenido 1.2, has dado un paso importante hacia una integración más estratégica de
-                    los LLM en tu práctica: ahora reconoces que cada área, STEM, humanidades y educación especial,
-                    plantea oportunidades y cuidados distintos. Este mapa de aplicaciones te permitirá decidir con mayor
-                    intención dónde la IA aporta valor real al aprendizaje y dónde es necesario reforzar más tu
-                    intervención pedagógica y tu juicio profesional.</p>
+                <p>Has culminado la <strong>Lección 1.2</strong> del programa de formación profesional.</p>
+                <p>Al completar este contenido, has dado un paso importante hacia una integración más estratégica de los LLM en tu práctica: ahora reconoces que cada área —STEM, humanidades y educación especial— plantea oportunidades y cuidados distintos. Este mapa de aplicaciones te permitirá decidir con mayor intención dónde la IA aporta valor real al aprendizaje y dónde es necesario reforzar más tu intervención pedagógica y tu juicio profesional.</p>
             </section>
 
             <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
@@ -1926,7 +2069,6 @@
                 <details class="references-compact">
                     <summary class="references-compact__summary">
                         <span id="referencias-title" class="references-compact__title">Referencias</span>
-                        <span class="references-compact__count">17 fuentes consultadas</span>
                         <span class="references-compact__action">Ver referencias</span>
                     </summary>
                     <div class="references-compact__body">

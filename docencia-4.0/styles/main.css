@@ -4815,12 +4815,265 @@ body.has-top-nav {
 .lesson-mini-card,
 .lesson-decision-card,
 .lesson-tool-card,
+  .lesson-role-card {
+    padding: var(--spacing-md);
+  }
+}
+
+/* =========================================================
+   DOCENCIA 4.0 — LECCIÓN 1.2 EDITORIAL ORGANIZATION SYSTEM
+   UX/UI, DI y reducción de carga cognitiva por áreas
+   ========================================================= */
+
+.lesson-audio-intro {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.lesson-audio-intro__text {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.lesson-summary-card,
+.lesson-core-callout,
+.lesson-example-callout,
+.lesson-practical-rule,
+.lesson-remember-card {
+    margin-block: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.25rem, 2.4vw, 1.75rem);
+    border-radius: var(--radius-xl);
+    border: var(--border-width-1) solid var(--color-border-default);
+    background: var(--color-background-surface-low);
+    box-shadow: var(--shadow-sm);
+}
+
+.lesson-summary-card,
+.lesson-core-callout,
+.lesson-remember-card {
+    border-left: var(--border-width-6) solid var(--color-brand-primary);
+}
+
+.lesson-example-callout,
+.lesson-practical-rule {
+    border-left: var(--border-width-6) solid var(--color-brand-secondary);
+}
+
+.lesson-core-callout__label,
+.lesson-section-kicker {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    font-size: var(--font-size-sm);
+}
+
+.lesson-area-section {
+    clear: both;
+    margin-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.lesson-area-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+}
+
+.lesson-area-split--reverse .lesson-area-content {
+    order: 2;
+}
+
+.lesson-area-split--reverse .lesson-area-media {
+    order: 1;
+}
+
+.lesson-area-content,
+.lesson-area-media {
+    min-width: 0;
+}
+
+.lesson-media-card {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border: var(--border-width-1) solid var(--color-border-default);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-ambient);
+}
+
+.lesson-media-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.lesson-media-caption {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.lesson-progressive-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    margin-block: clamp(1.25rem, 3vw, 2rem);
+}
+
+.lesson-progressive-card {
+    padding: clamp(1rem, 2vw, 1.35rem);
+    border-radius: var(--radius-xl);
+    border: var(--border-width-1) solid var(--color-border-default);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+.lesson-progressive-card summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-text-display);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+}
+
+.lesson-progressive-card summary::-webkit-details-marker {
+    display: none;
+}
+
+.lesson-progressive-card .summary-more,
+.lesson-progressive-card .summary-less {
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    white-space: nowrap;
+}
+
+.lesson-progressive-card .summary-less,
+details:not([open]) > summary .summary-less {
+    display: none;
+}
+
+.lesson-progressive-card[open] .summary-more {
+    display: none;
+}
+
+.lesson-progressive-card[open] .summary-less {
+    display: inline;
+}
+
+.lesson-progressive-card__body {
+    margin-top: var(--spacing-md);
+    color: var(--color-text-secondary);
+}
+
+.lesson-progressive-card__body p:last-child {
+    margin-bottom: 0;
+}
+
+.lesson-example-callout h3,
+.lesson-practical-rule h3 {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-brand-secondary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+}
+
+.lesson-role-transfer-section {
+    margin-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.lesson-role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: clamp(1rem, 2vw, 1.35rem);
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+    align-items: start;
+}
+
 .lesson-role-card {
-  padding: clamp(1.1rem, 2vw, 1.5rem);
-  border-radius: var(--radius-xl);
-  border: var(--border-width-1) solid var(--color-border-default);
-  background: var(--color-background-surface);
-  box-shadow: var(--shadow-flat);
+    padding: clamp(1.1rem, 2vw, 1.5rem);
+    border-radius: var(--radius-xl);
+    border: var(--border-width-1) solid var(--color-border-default);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+.lesson-role-card h3 {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--line-height-snug);
+}
+
+.lesson-role-card p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.lesson-remember-card ul {
+    margin: 0;
+    padding-left: var(--spacing-lg);
+}
+
+.lesson-remember-card li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+}
+
+.concept-review__meta {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.references-compact__summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+@media (max-width: 980px) {
+    .lesson-area-split,
+    .lesson-area-split--reverse {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-area-split--reverse .lesson-area-content,
+    .lesson-area-split--reverse .lesson-area-media {
+        order: initial;
+    }
+
+    .lesson-progressive-card summary {
+        flex-direction: column;
+    }
+
+    .lesson-progressive-card .summary-more,
+    .lesson-progressive-card .summary-less {
+        margin-top: var(--spacing-xs);
+    }
+}
+
+@media (max-width: 640px) {
+    .lesson-summary-card,
+    .lesson-core-callout,
+    .lesson-example-callout,
+    .lesson-practical-rule,
+    .lesson-remember-card,
+    .lesson-progressive-card,
+    .lesson-role-card {
+        padding: var(--spacing-md);
+    }
 }
 
 .lesson-mini-card h3,
