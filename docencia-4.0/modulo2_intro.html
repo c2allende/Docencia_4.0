@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Introducción al Módulo 2 de la Academia Docencia 4.0: Optimización de la planificación y diseño de recursos didácticos con IA.">
+        content="Introducción al Módulo 2 de Docencia 4.0: Optimización de la planificación y diseño de recursos didácticos con IA.">
+    <meta name="keywords"
+        content="Docencia 4.0, Módulo 2, LLM, ingeniería de prompts, planificación didáctica, DEPR, IA educativa, validación profesional">
     <title>Introducción Módulo 2 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -163,10 +165,9 @@
 
         .menu-btn:focus-visible,
         .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
         .btn-back:focus-visible,
-        .action-button:focus-visible,
-        .image-zoom-trigger:focus-visible,
-        .modal-close-btn:focus-visible {
+        .action-button:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
@@ -293,142 +294,21 @@
             height: 32px;
         }
 
-        .quote-block {
-            text-align: center;
-            color: var(--color-brand-primary);
-            font-style: italic;
-            font-size: var(--font-size-lg);
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--color-background-surface-low);
-            border-radius: var(--radius-lg);
-            margin: var(--spacing-md) 0;
-            border: var(--border-width-1) dashed var(--color-border-strong);
-        }
-
-        .content-heading {
-            margin: var(--spacing-lg) 0 var(--spacing-sm);
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-2xl);
-            line-height: var(--line-height-snug);
-        }
-
-        .obj-list {
-            padding-left: var(--spacing-6);
-            margin: var(--spacing-md) 0;
-        }
-
-        .obj-list li {
-            margin-bottom: var(--spacing-3);
-            position: relative;
-            list-style: none;
-            color: var(--color-text-secondary);
-        }
-
-        .obj-list li::before {
-            content: '•';
-            position: absolute;
-            left: calc(-1 * var(--spacing-6));
-            color: var(--color-brand-primary);
-            font-weight: var(--font-weight-extrabold);
-            font-size: var(--font-size-xl);
-            line-height: 1;
-        }
-
-        .image-text-block {
-            margin: var(--spacing-lg) 0;
-            display: flow-root;
-        }
-
-        .image-integration {
-            float: right;
-            width: 42%;
-            margin: 0 0 var(--spacing-md) var(--spacing-md);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-ambient);
-            border: var(--border-width-4) solid var(--color-background-surface);
-            background: var(--color-background-surface);
-        }
-
-        .image-zoom-trigger {
-            display: block;
-            width: 100%;
-            padding: 0;
-            border: 0;
-            background: transparent;
-            cursor: zoom-in;
-        }
-
-        .image-zoom-trigger img {
-            width: 100%;
-            display: block;
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .image-zoom-trigger:hover img {
-            transform: scale(1.02);
-        }
-
-        .image-caption {
-            text-align: center;
+        .audio-support-note {
+            margin: var(--spacing-xs) 0 0;
             color: var(--color-text-muted);
-            font-size: var(--font-size-xs);
-            padding: var(--spacing-2);
-            margin: 0;
-        }
-
-        .human-review-section {
-            margin-top: var(--spacing-lg);
-            background: var(--color-background-surface-low);
-            border-radius: var(--radius-lg);
-            border-left: var(--border-width-4) solid var(--color-brand-secondary);
-            padding: var(--spacing-md);
-        }
-
-        .reflection-banner {
-            background: var(--gradient-orange);
-            color: var(--color-white);
-            padding: var(--spacing-xl);
-            border-radius: var(--radius-xl);
-            text-align: center;
-            margin-top: var(--spacing-xl);
-            box-shadow: var(--shadow-focus-secondary);
-            clear: both;
-        }
-
-        .reflection-banner p {
-            color: var(--color-white);
-        }
-
-        .reflection-title {
-            font-weight: var(--font-weight-extrabold);
-            text-transform: uppercase;
             font-size: var(--font-size-sm);
-            letter-spacing: var(--letter-spacing-wide);
-            margin-bottom: var(--spacing-sm);
-            display: block;
+            line-height: var(--line-height-relaxed);
         }
 
-        .reflection-intro {
-            font-weight: var(--font-weight-medium);
-            font-size: var(--font-size-base);
-            margin-bottom: var(--spacing-sm);
-            opacity: 0.95;
-        }
-
-        .reflection-question {
-            font-style: italic;
-            font-size: var(--font-size-xl);
+        .audio-support-note a {
+            color: var(--color-brand-primary);
             font-weight: var(--font-weight-bold);
-            line-height: 1.4;
-            margin-bottom: var(--spacing-md);
+            text-decoration: none;
         }
 
-        .reflection-note {
-            font-size: var(--font-size-sm);
-            margin-top: var(--spacing-md);
-            opacity: 0.9;
+        .audio-support-note a:hover {
+            text-decoration: underline;
         }
 
         .nav-footer {
@@ -458,50 +338,6 @@
             white-space: nowrap;
         }
 
-        .modal-zoom {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-            padding: var(--spacing-6);
-        }
-
-        .modal-zoom.is-open {
-            display: flex;
-        }
-
-        .modal-content {
-            position: relative;
-            max-width: min(1100px, 95vw);
-            max-height: 90vh;
-        }
-
-        .modal-content img {
-            max-height: 90vh;
-            max-width: 100%;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-overlay);
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: var(--spacing-3);
-            right: var(--spacing-3);
-            width: 44px;
-            height: 44px;
-            border: none;
-            border-radius: var(--radius-pill);
-            background: var(--color-alpha-white-90);
-            color: var(--color-text-primary);
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-        }
-
         @media (max-width: 768px) {
             .content-wrapper {
                 padding: 0 var(--spacing-4);
@@ -510,12 +346,6 @@
             .intro-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
-            }
-
-            .image-integration {
-                width: 100%;
-                float: none;
-                margin: var(--spacing-md) 0;
             }
 
             .intro-title {
@@ -593,190 +423,452 @@
         </ul>
     </aside>
 
-    <main class="content-wrapper">
-        <article class="intro-card" aria-labelledby="module-title">
-            <h1 id="module-title" class="intro-title">Módulo 2: Optimización de la planificación y diseño de recursos
-                didácticos con IA</h1>
+    <main class="content-wrapper module-intro-shell">
+        <article class="intro-card module-intro-card" aria-labelledby="module-title">
+            <h1 id="module-title" class="intro-title">Módulo 2: Optimización de la planificación y diseño de recursos didácticos con IA</h1>
 
-            <span class="section-label">Contexto del Módulo</span>
-            <section class="resumen-section" aria-label="Resumen del módulo">
-                El módulo 2 se centra en el “arte de pedirle bien” a la IA. Introduce qué es un prompt y por qué su
-                diseño es clave para que los LLM y los bots que los usan generen respuestas útiles en educación.
-                Presenta la fórmula Rol–Contexto–Tarea–Formato–Restricciones y muestra cómo convertirla en plantillas
-                adaptadas al DEPR para planificar clases, actividades y materiales. Luego trabaja la iteración y el
-                refinamiento (conversar con el modelo, chain-of-thought y few-shot) y, finalmente, cómo usar estos
-                prompts dentro de procesos de planificación: pasar de estándares a planes diarios y de unidad,
-                diferenciar actividades con DUA y generar instrumentos de evaluación (reactivos, rúbricas y listas de
-                cotejo) validados con una lista de verificación docente.
+            <!-- 1. Resumen inicial -->
+            <section class="resumen-section module-intro-summary" aria-label="Resumen inicial del módulo">
+                <span class="section-label">📌 Resumen inicial</span>
+                <p>Este módulo se centra en el <strong>"arte de pedirle bien"</strong> a la IA. Aprenderás qué es un <strong>prompt</strong> y por qué su diseño es clave para que los <strong>LLM</strong> generen respuestas útiles en educación.</p>
+                <p>Dominarás la fórmula <strong>Rol–Contexto–Tarea–Formato–Restricciones</strong>, técnicas de iteración —<strong>chain-of-thought</strong> y <strong>few-shot</strong>— y plantillas adaptadas al <strong>DEPR</strong> para planificar clases, diferenciar materiales y generar instrumentos de evaluación validados.</p>
             </section>
 
-            <span class="section-label">Bienvenida al módulo 2</span>
-            <div class="audio-container">
-                <label class="audio-label" for="moduleAudio">Reproducir Audio</label>
-                <audio id="moduleAudio" controls class="audio-player">
-                    <source
-                        src="LLM-DEPR/LLM_M2_Bienvenida Módulo 2_ Optimización de Planificación y Diseño de Recursos Didácticos con IA_audio.mp3"
-                        type="audio/mpeg">
-                    Su navegador no soporta la reproducción de audio.
-                </audio>
-            </div>
-
-            <p>Bienvenidos y bienvenidas al segundo módulo de este programa de formación profesional.</p>
-
-            <p>En el primer encuentro exploramos qué es un Modelo de Lenguaje de Gran Tamaño (LLM), sus posibilidades
-                pedagógicas y los riesgos éticos asociados a su uso en la gestión docente. En este módulo daremos un
-                paso más: llevaremos la IA directamente al corazón de la práctica cotidiana de planificación, diseño de
-                materiales y evaluación, con el objetivo de transformar la manera en que organizan y preparan su
-                enseñanza, sin perder de vista su juicio profesional como docentes.</p>
-
-            <p>Pero aquí surge una nueva pregunta que quizás muchos de ustedes se han hecho:</p>
-
-            <div class="quote-block">
-                “¿Cómo le pido exactamente a un bot o aplicación basada en LLM lo que necesito para mi clase? ¿Puede
-                ayudarme a planificar y diferenciar sin que yo pierda el control pedagógico? ¿Hasta qué punto es seguro
-                confiar en lo que genera?”
-            </div>
-
-            <p>Este módulo no se centra en más teoría sobre IA, sino en una óptica pedagógica y práctica de uso: cómo
-                traducir sus estándares, objetivos y necesidades reales de aula en instrucciones claras (prompts), cómo
-                revisar críticamente lo que devuelve la aplicación basada en LLM y cómo convertir esos borradores en
-                recursos didácticos de calidad.</p>
-
-            <p>Lo que proponemos es que transiten de la curiosidad o el uso ocasional a una comprensión clara y
-                fundamentada de cómo integrar los LLM y los bots que los utilizan en su planificación, qué pueden hacer
-                en favor de su trabajo diario y, sobre todo, qué no deben delegar nunca sin su vigilancia y criterio
-                profesional.</p>
-
-            <p>Como maestros y maestras, ustedes ya enfrentan una realidad de alta demanda: planificaciones detalladas,
-                actividades diferenciadas, instrumentos de evaluación, materiales para practicantes y documentación para
-                supervisión. Cada uno de estos componentes exige tiempo de redacción técnica que, muchas veces, compite
-                con el tiempo disponible para observar, acompañar y retroalimentar a sus estudiantes y futuros docentes.
-                Este módulo se diseña precisamente para aliviar esa carga de producción inicial, sin renunciar a la
-                calidad ni a la autonomía docente.</p>
-
-            <p>Paralelamente, el contexto educativo se mueve rápido: bots y aplicaciones basadas en LLM, como ChatGPT y
-                Microsoft Copilot, ya forman parte del ecosistema de trabajo de muchos docentes y estudiantes. Algunos
-                los usan de forma estratégica; otros, sin criterios claros de alineación curricular o sin atender a la
-                diversidad del grupo. En este escenario, ustedes tienen la responsabilidad y la oportunidad de modelar
-                un uso informado, crítico y ético de estos recursos, mostrando cómo la IA puede apoyar la planificación
-                y el diseño, pero nunca sustituir la mirada profesional del maestro.</p>
-
-            <p>Como maestros y maestras, ustedes sostienen simultáneamente la planificación diaria, la mentoría a
-                practicantes y la atención a grupos heterogéneos de estudiantes. En ese contexto, la evidencia reciente
-                muestra que los LLM se están utilizando para “generar ideas, redactar borradores y apoyar la
-                comprensión”, pero persisten dudas sobre cómo alinearlos al currículo, diferenciar materiales y mantener
-                la calidad pedagógica (Damiano et al., 2024).</p>
-
-            <p>Este módulo aparece en el momento clave en que ya conocen los fundamentos y la ética de los LLM, y
-                necesitan herramientas operativas concretas: cómo pedirle a un bot o app con LLM lo que realmente
-                necesitan (ingeniería de prompts), cómo convertir estándares del DEPR en planificaciones completas y
-                cómo adaptar un mismo contenido a distintos niveles y contextos de aula. La intención es que los LLM
-                dejen de ser una curiosidad tecnológica y se conviertan en aliados estratégicos para reducir la carga de
-                redacción “desde cero” y aumentar el tiempo disponible para el trabajo pedagógico profundo.</p>
-
-            <h2 class="content-heading">Objetivo general</h2>
-            <p>Desarrollar en los maestros la capacidad de utilizar modelos de lenguaje de gran tamaño y las
-                aplicaciones que los incorporan para diseñar, adaptar y evaluar recursos didácticos alineados al
-                currículo del DEPR, mediante el dominio de estrategias avanzadas de ingeniería de prompts,
-                planificación, diferenciación e instrumentación evaluativa.</p>
-
-            <h2 class="content-heading">Objetivos específicos</h2>
-            <p>Al finalizar este módulo, usted:</p>
-            <ul class="obj-list">
-                <li>Reconocerá los componentes de un prompt efectivo (Rol, Contexto, Tarea, Formato y Restricciones) y
-                    su impacto en la calidad de las respuestas generadas por la IA.</li>
-                <li>Comprenderá los principios básicos de alineación curricular entre los productos generados por bots y
-                    asistentes basados en LLM y los Estándares y Expectativas del DEPR.</li>
-                <li>Formulará de forma refinada prompts avanzados, utilizando iteración y estrategias como el few-shot
-                    prompting, para obtener planificaciones, actividades y recursos acordes al nivel y contexto de su
-                    grupo.</li>
-                <li>Generará borradores de planes de clase (diarios y de unidad) con apoyo de aplicaciones basadas en
-                    LLM y ajustado esos borradores al tiempo lectivo real y a los objetivos de aprendizaje establecidos.
-                </li>
-                <li>Utilizará LLM, a través de bots y asistentes, para nivelar textos y producir versiones diferenciadas
-                    de un mismo contenido, atendiendo a distintos niveles de comprensión lectora, educación especial y
-                    aprendices de un segundo idioma.</li>
-                <li>Diseñará, con apoyo de aplicaciones basadas en LLM, bancos de reactivos, ejercicios de práctica y
-                    casos de estudio, así como rúbricas analíticas y listas de cotejo alineadas a los objetivos de la
-                    lección.</li>
-                <li>Fortalecerá su disposición crítica hacia el uso de LLM y de los bots que los implementan, asumiendo
-                    su rol como curador y editor de los materiales generados, más que como usuario pasivo de la
-                    herramienta.</li>
-            </ul>
-
-            <section class="image-text-block" aria-label="Human in the Loop: el docente como validador">
-                <figure class="image-integration">
-                    <button class="image-zoom-trigger" type="button"
-                        onclick="openZoom('assets/LLM_M2-Grafico_introduccion_Rev.png')"
-                        aria-label="Ampliar gráfico Human in the Loop: el docente como validador">
-                        <img src="assets/LLM_M2-Grafico_introduccion_Rev.png"
-                            alt="Human in the Loop: El docente como validador">
-                    </button>
-                    <figcaption class="image-caption">Human in the Loop: El Docente como Validador</figcaption>
-                </figure>
-
-                <h2 class="content-heading">Un compromiso importante</h2>
-                <p>Al igual que en el Módulo 1, este módulo no busca que usted delegue la planificación en la IA, sino
-                    que transforme su rol: de “productor solitario desde cero” a arquitecto de aprendizaje que aprovecha
-                    los borradores de la IA para ganar tiempo, pero mantiene la decisión profesional sobre qué se usa,
-                    qué se ajusta y qué se descarta. El compromiso clave es mantener siempre la lógica de human in the
-                    loop: nada generado por un bot o app con LLM se utiliza con estudiantes sin pasar por su revisión
-                    curricular, ética y contextual.</p>
-
-                <p>Esto implica: verificar exactitud factual, ajustar el lenguaje al nivel del grupo, asegurar
-                    pertinencia cultural a la realidad puertorriqueña y alinear cada recurso a los Estándares y
-                    Expectativas del DEPR antes de integrarlo a su planificación.</p>
+            <!-- 2. Mensaje clave del módulo -->
+            <section class="module-key-message" aria-label="Mensaje clave del módulo">
+                <p class="module-section-kicker">💡 Mensaje clave del módulo</p>
+                <p class="module-key-message__text">La IA no reemplaza tu planificación; <strong>transforma cómo la construyes</strong>.</p>
+                <p>Tu rol evoluciona de <strong>"productor solitario desde cero"</strong> a <strong>arquitecto de aprendizaje</strong> que aprovecha los borradores de la IA para ganar tiempo, pero mantiene la <strong>decisión profesional</strong> sobre qué se usa, qué se ajusta y qué se descarta.</p>
+                <p>Nada generado por un bot o app con LLM se utiliza con estudiantes sin pasar por tu <strong>revisión curricular</strong>, <strong>ética</strong> y <strong>contextual</strong>.</p>
             </section>
 
-            <!-- Reflexión Inicial (Optimized Accordion) -->
-            <section class="reflection-accordion" aria-labelledby="reflection-title-m2" data-reflection-accordion>
-                <button type="button" class="reflection-accordion__header" id="reflection-header-m2"
-                    aria-expanded="false" aria-controls="reflection-content-m2" data-reflection-toggle>
+            <!-- 3. Pregunta reflexiva inicial -->
+            <section class="reflection-accordion module-reflection-callout" aria-labelledby="reflection-title-m2" data-reflection-accordion>
+                <button type="button" class="reflection-accordion__header" id="reflection-header-m2" aria-expanded="false"
+                    aria-controls="reflection-content-m2" data-reflection-toggle>
                     <div class="reflection-accordion__header-content">
-                        <span id="reflection-title-m2" class="reflection-accordion__label">Pregunta reflexiva para iniciar</span>
-                        <span class="reflection-accordion__question">“Si pudiera automatizar solo UNA parte de mi proceso de planificación (por ejemplo: escribir objetivos, diseñar actividades de inicio, nivelar lecturas, crear rúbricas), ¿cuál elegiría y por qué? ¿Qué esperaría de un bot o aplicación basada en LLM para que ese apoyo realmente respete mi criterio profesional y el contexto de mi escuela?”</span>
+                        <span id="reflection-title-m2" class="reflection-accordion__label">🤔 Antes de comenzar: Pregunta reflexiva</span>
+                        <span class="reflection-accordion__question">"Si pudieras automatizar solo UNA parte de tu proceso de planificación —por ejemplo: escribir objetivos, diseñar actividades de inicio, nivelar lecturas, crear rúbricas—, ¿cuál elegirías y por qué? ¿Qué esperarías de un bot o aplicación basada en LLM para que ese apoyo realmente respete tu criterio profesional y el contexto de tu escuela?"</span>
                         <span class="reflection-accordion__action-text" data-reflection-action>Ver orientación completa</span>
                     </div>
                     <div class="reflection-accordion__icon" aria-hidden="true">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </div>
                 </button>
-                <div id="reflection-content-m2" class="reflection-accordion__content" role="region" aria-labelledby="reflection-header-m2" data-reflection-panel>
+                <div id="reflection-content-m2" class="reflection-accordion__content" role="region"
+                    aria-labelledby="reflection-header-m2" data-reflection-panel>
                     <div class="reflection-accordion__inner">
                         <div class="reflection-accordion__body">
-                            <p class="reflection-accordion__context">Antes de entrar en los contenidos técnicos, tómese un momento para pensar y, si lo desea, anotar en su cuaderno de trabajo:</p>
-                            <p class="reflection-accordion__note">No hay respuestas “correctas”; esta reflexión busca que conecte de inmediato la ingeniería de prompts y el diseño con IA con las tareas concretas que más tiempo y energía le consumen en su práctica docente diaria.</p>
+                            <p class="reflection-accordion__context">Tómate un momento para anotar tu respuesta antes de avanzar. Volveremos a esta pregunta al cerrar el módulo.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- 4. Ruta de aprendizaje del módulo -->
+            <section class="module-learning-route" aria-labelledby="learning-route-title">
+                <h2 id="learning-route-title" class="module-section-title">🗺️ Ruta de aprendizaje del módulo</h2>
+
+                <div class="module-route-grid">
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">🚪 Apertura del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>Bienvenida y compromiso "Human in the Loop"</strong> — De <strong>"productor solitario"</strong> a <strong>arquitecto de aprendizaje</strong>: tu juicio profesional sigue al centro.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📘 Lección 2.1 — El arte de pedir: Ingeniería de prompts aplicada a educación</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>¿Cómo le pido bien a la IA lo que necesito?</strong></p>
+                            <ul>
+                                <li>Qué es un <strong>prompt</strong> y por qué su diseño impacta la calidad de la respuesta.</li>
+                                <li>La fórmula <strong>R-C-T-F-R</strong> —<strong>Rol + Contexto + Tarea + Formato + Restricciones</strong>.</li>
+                                <li>Iteración y refinamiento: <strong>Chain-of-Thought</strong> y <strong>Few-shot prompting</strong>.</li>
+                                <li>Plantillas de prompts adaptadas al contexto <strong>DEPR</strong>.</li>
+                            </ul>
+                            <p>✅ <strong>Checkpoint de saberes 2.1</strong></p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📗 Lección 2.2 — Del estándar a la planificación con IA</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>¿Cómo convierto un estándar del DEPR en un plan implementable?</strong></p>
+                            <ul>
+                                <li>Planificación didáctica con apoyo de <strong>LLM</strong> y <strong>alineación constructiva</strong>.</li>
+                                <li>Anclar el prompt en los <strong>Estándares y Expectativas del DEPR</strong>.</li>
+                                <li><strong>Microplanificación</strong> —clase diaria— y <strong>macroplanificación</strong> —unidad didáctica—.</li>
+                                <li>Personalización y viabilidad en el <strong>tiempo lectivo real</strong>.</li>
+                            </ul>
+                            <p>✅ <strong>Checkpoint de saberes 2.2</strong></p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📕 Lección 2.3 — Inclusión y evaluación asistidas por IA</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>¿Cómo diferencio materiales y construyo evaluaciones con calidad y equidad?</strong></p>
+                            <ul>
+                                <li>Diferenciación con apoyo de <strong>LLM</strong> y marco <strong>DUA</strong>.</li>
+                                <li>Generación de bancos de reactivos alineados a <strong>Bloom/Webb</strong>.</li>
+                                <li>Diseño de <strong>rúbricas</strong> y <strong>listas de cotejo</strong> con apoyo de IA.</li>
+                                <li>La <strong>Lista de Cotejo de Validación</strong>: exactitud, complejidad, pertinencia cultural y equidad.</li>
+                            </ul>
+                            <p>✅ <strong>Checkpoint de saberes 2.3</strong></p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">🛠️ Actividad aplicada del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>De la teoría a la práctica profesional.</strong></p>
+                            <ul>
+                                <li><strong>Actividad 2.1 — Taller práctico "Del prompt al recurso validado":</strong> seis fases integradas —<strong>Activación → Prompt → Generación → Validación → Iteración → Reflexión</strong>— con plantillas guía descargables.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">💬 Diálogo profesional</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>Foro del Módulo 2 — "Diseño de prompts y planificación didáctica":</strong> espacio de socialización sobre cómo la ingeniería de prompts transforma la planificación, la adaptación de materiales y la capacitación docente.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📚 Profundización</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>Recursos didácticos complementarios:</strong> banco interactivo de prompts, infografías, guías de implementación, herramienta digital <strong>"La Lupa del Maestro"</strong> —Validador— y video tutorial.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">🏁 Cierre del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>Reflexión integradora</strong> — Consolidación del ciclo <strong>Estándar → Prompt → IA → Validación → Refinamiento</strong> como ruta profesional sistemática.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 5. Objetivo general -->
+            <section class="module-objective-card" aria-label="Objetivo general">
+                <p class="module-section-kicker">🎯 Objetivo general</p>
+                <p>Desarrollar en los maestros la capacidad de utilizar <strong>modelos de lenguaje de gran tamaño</strong> y las aplicaciones que los incorporan para diseñar, adaptar y evaluar recursos didácticos alineados al currículo del <strong>DEPR</strong>, mediante el dominio de estrategias avanzadas de <strong>ingeniería de prompts</strong>, <strong>planificación</strong>, <strong>diferenciación</strong> e <strong>instrumentación evaluativa</strong>.</p>
+            </section>
+
+            <!-- 6. Resultados de aprendizaje -->
+            <section class="module-section" aria-labelledby="outcomes-title">
+                <h2 id="outcomes-title" class="module-section-title">✅ Resultados de aprendizaje</h2>
+                <p>Al finalizar este módulo, podrás:</p>
+                <ul class="module-outcomes-list">
+                    <li>Reconocer los componentes de un <strong>prompt efectivo</strong> —<strong>Rol, Contexto, Tarea, Formato y Restricciones</strong>— y su impacto en la calidad de las respuestas generadas.</li>
+                    <li>Comprender los principios básicos de <strong>alineación curricular</strong> entre los productos generados por bots y asistentes basados en LLM y los <strong>Estándares y Expectativas del DEPR</strong>.</li>
+                    <li>Formular de forma refinada <strong>prompts avanzados</strong>, utilizando iteración y estrategias como el <strong>few-shot prompting</strong>, para obtener planificaciones, actividades y recursos acordes al nivel y contexto del grupo.</li>
+                    <li>Generar borradores de <strong>planes de clase</strong> —diarios y de unidad— con apoyo de aplicaciones basadas en LLM, ajustados al <strong>tiempo lectivo real</strong> y a los objetivos de aprendizaje.</li>
+                    <li>Utilizar LLM, a través de bots y asistentes, para <strong>nivelar textos</strong> y producir versiones diferenciadas de un mismo contenido —educación especial, ELL, niveles distintos de comprensión lectora—.</li>
+                    <li>Diseñar <strong>bancos de reactivos</strong>, ejercicios de práctica, casos de estudio, rúbricas analíticas y listas de cotejo alineadas a los objetivos de la lección.</li>
+                    <li>Fortalecer la <strong>disposición crítica</strong> hacia el uso de LLM, asumiendo el rol como <strong>curador y editor</strong> de los materiales generados, más que como usuario pasivo de la herramienta.</li>
+                </ul>
+            </section>
+
+            <!-- 7. Conexión con la investigación -->
+            <section class="module-research-pillars" aria-labelledby="research-title">
+                <h2 id="research-title" class="module-section-title">🔬 Conexión con la investigación</h2>
+                <p>Este módulo se conecta directamente con los propósitos de la investigación, en particular con:</p>
+
+                <div class="module-research-grid">
+                    <details class="module-progressive-card module-research-card">
+                        <summary>
+                            <span class="module-route-card__title">1. Implementación del plan de acción</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Implementar un <strong>plan de acción</strong> con énfasis en la integración de LLM para optimizar las funciones del facilitador docente, particularmente en el apoyo a la <strong>planificación didáctica</strong>, la <strong>evaluación de los aprendizajes</strong> y la <strong>creación de recursos educativos</strong>.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-research-card">
+                        <summary>
+                            <span class="module-route-card__title">2. Cambio en conocimiento y percepción</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Medir el cambio en el nivel de <strong>conocimiento</strong> y <strong>percepción</strong> sobre la integración y aplicación de los LLM.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-research-card">
+                        <summary>
+                            <span class="module-route-card__title">3. Valor añadido como evidencia de aprendizaje</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Documentar el <strong>valor añadido</strong> como evidencia de aprendizaje desde la experiencia de los facilitadores docentes.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-research-card">
+                        <summary>
+                            <span class="module-route-card__title">4. Evidencia cualitativa del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Las actividades del módulo —especialmente el Taller 2.1 <strong>"Del prompt al recurso validado"</strong> y el <strong>Foro del Módulo 2</strong>— aportan evidencia cualitativa alineada con las preguntas de investigación sobre cómo perciben los facilitadores docentes que los <strong>LLM optimizan sus labores</strong>, qué recursos consideran más eficientes, qué desafíos identifican y qué valor añadido observan como evidencia de aprendizaje.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-research-card">
+                        <summary>
+                            <span class="module-route-card__title">5. Evidencia teórica de partida</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>La investigación reciente muestra que los LLM se están utilizando para <strong>"generar ideas, redactar borradores y apoyar la comprensión"</strong>, pero persisten dudas sobre cómo alinearlos al currículo, diferenciar materiales y mantener la calidad pedagógica (Damiano et al., 2024).</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 8. Conexión con el rol del facilitador docente -->
+            <section class="module-role-transfer" aria-labelledby="role-title">
+                <h2 id="role-title" class="module-section-title">👩‍🏫 Conexión con tu rol como facilitador docente</h2>
+                <p>Como facilitador o facilitadora docente del <strong>Departamento de Educación de Puerto Rico</strong>, tu rol incluye <strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong>, <strong>gestión administrativa</strong> y <strong>mentoría</strong> a maestros y practicantes.</p>
+                <p>Este módulo te equipa específicamente para:</p>
+
+                <div class="module-role-grid">
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Apoyo curricular alineado al DEPR</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Podrás guiar a maestros y maestras para que conviertan los Estándares y Expectativas oficiales en planes diarios y de unidad alineados al currículo, evitando productos genéricos generados por IA.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Capacitación docente más efectiva</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>La fórmula <strong>R-C-T-F-R</strong> y las plantillas adaptadas se convierten en contenido directamente transferible a tus talleres, MECPA y sesiones de desarrollo profesional.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Mentoría a maestros noveles y practicantes</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Podrás modelar el ciclo <strong>"Estándar → Prompt → IA → Validación → Refinamiento"</strong> como un proceso sistemático que combina ahorro de tiempo con rigor profesional.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Apoyo al Programa de Educación Especial</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Podrás demostrar cómo generar tres versiones diferenciadas de un mismo texto curricular —básica, intermedia, avanzada— y construir rúbricas accesibles, alineadas al <strong>DUA</strong> y respetando la confidencialidad estudiantil.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Optimización de la documentación profesional</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Los borradores de planes, rúbricas y materiales generados con IA y validados con tu criterio reducen la carga de redacción técnica, liberando tiempo para acompañamiento real al aula.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Modelaje del uso ético institucional</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Desde tu rol referente, fortalecerás el principio <strong>Human in the Loop</strong> en toda la red docente que acompañas, evitando dependencia tecnológica y reforzando el capital profesional del personal docente.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="module-role-reminder">
+                    <p><strong>Recuerda:</strong> Tu conocimiento del <strong>contexto puertorriqueño</strong>, la <strong>cultura escolar local</strong> y los <strong>Estándares del DEPR</strong> son insustituibles. La IA es tu aliada de producción inicial; el <strong>juicio profesional</strong> es tuyo.</p>
+                </div>
+            </section>
+
+            <!-- 9. Escucha opcional: bienvenida al módulo -->
+            <section class="module-audio-block" aria-label="Escucha opcional: bienvenida al módulo">
+                <h2 class="module-section-title">🎧 Escucha opcional: bienvenida al módulo</h2>
+                <p>Utiliza el audio como una <strong>introducción narrativa</strong> al módulo.</p>
+                <p>Mientras escuchas, identifica una tarea de tu gestión —ya sea de <strong>planificación</strong>, <strong>adaptación de materiales</strong> o <strong>diseño de evaluaciones</strong>— que podría beneficiarse del apoyo de un LLM aplicando la fórmula <strong>R-C-T-F-R</strong> y el ciclo de <strong>validación profesional</strong>.</p>
+                <div class="audio-container">
+                    <label class="audio-label" for="moduleAudio">Escuchar Introducción al Módulo 2</label>
+                    <audio id="moduleAudio" controls preload="metadata" class="audio-player" data-audio-module="modulo2">
+                        <source src="LLM-DEPR/LLM_M2_Bienvenida%20M%C3%B3dulo%202_%20Optimizaci%C3%B3n%20de%20Planificaci%C3%B3n%20y%20Dise%C3%B1o%20de%20Recursos%20Did%C3%A1cticos%20con%20IA_audio.mp3" type="audio/mpeg">
+                        <source src="LLM-DEPR/LLM_M2_Bienvenida Módulo 2_ Optimización de Planificación y Diseño de Recursos Didácticos con IA_audio.mp3" type="audio/mpeg">
+                        Su navegador no soporta la reproducción de audio.
+                    </audio>
+                </div>
+                <p id="moduleAudioHelp" class="audio-support-note" hidden>Si el audio no carga, verifique que el archivo MP3 exista en <strong>LLM-DEPR</strong> con el nombre exacto indicado en el código.</p>
+            </section>
+
+            <!-- 10. Cierre de la introducción -->
+            <section class="module-closing-card" aria-label="Cierre de la introducción">
+                <h2 class="module-section-title">🏁 Cierre de la introducción</h2>
+                <p>Al iniciar este módulo, avanzas hacia un proceso de <strong>dominio aplicado</strong>: pasarás de comprender qué es un LLM y por qué importa éticamente, a decidir cómo construir <strong>prompts efectivos</strong>, alinear los productos al <strong>currículo del DEPR</strong> y validar críticamente todo recurso generado antes de llevarlo al aula.</p>
+                <p>La meta no es automatizar la planificación, sino fortalecer tu capacidad de <strong>diseño didáctico</strong>, la eficiencia en la producción de materiales y la calidad del <strong>acompañamiento curricular</strong> que ofreces a maestros, maestras y practicantes.</p>
+                <p><strong>Tu nuevo lugar profesional:</strong> de <strong>productor solitario desde cero</strong> a <strong>arquitecto de aprendizaje</strong> y <strong>experto validador</strong>. El LLM propone; <strong>tú decides, ajustas y respondes</strong>.</p>
+            </section>
+
             <div id="completion-section"></div>
+
             <footer class="nav-footer" aria-label="Navegación del módulo">
-                <a href="dashboard.html" class="btn-back">← Volver al Dashboard</a>
+                <a href="dashboard.html" class="btn-footer btn-back">← Volver al Dashboard</a>
                 <a href="leccion2_1.html" class="btn btn-primary action-button">Iniciar Módulo 2 →</a>
             </footer>
         </article>
     </main>
-
-    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
-        aria-hidden="true">
-        <div class="modal-content">
-            <h2 id="zoom-title" class="sr-only">Imagen ampliada del módulo</h2>
-            <button class="modal-close-btn" type="button" onclick="closeZoom()"
-                aria-label="Cerrar imagen ampliada">×</button>
-            <img id="zoomedImg" alt="Imagen ampliada del módulo 2">
-        </div>
-    </div>
 
     <script src="scripts/reflection-accordion.js"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const menuButton = document.querySelector('.menu-btn');
-        const zoomModal = document.getElementById('zoomModal');
-        const zoomedImg = document.getElementById('zoomedImg');
-        let lastFocusedElement = null;
+        const moduleAudio = document.getElementById('moduleAudio');
+        const moduleAudioHelp = document.getElementById('moduleAudioHelp');
+
+        function initializeModuleAudio() {
+            if (!moduleAudio) return;
+
+            const originalAudioFile = 'LLM_M2_Bienvenida Módulo 2_ Optimización de Planificación y Diseño de Recursos Didácticos con IA_audio.mp3';
+            const asciiAudioFile = 'LLM_M2_Bienvenida Modulo 2_ Optimizacion de Planificacion y Diseno de Recursos Didacticos con IA_audio.mp3';
+            const audioCandidates = [
+                `LLM-DEPR/${originalAudioFile}`,
+                `./LLM-DEPR/${originalAudioFile}`,
+                encodeURI(`LLM-DEPR/${originalAudioFile}`),
+                encodeURI(`./LLM-DEPR/${originalAudioFile}`),
+                `LLM-DEPR/${asciiAudioFile}`,
+                `./LLM-DEPR/${asciiAudioFile}`
+            ];
+
+            let audioCandidateIndex = 0;
+
+            function setAudioCandidate(index) {
+                if (index >= audioCandidates.length) {
+                    if (moduleAudioHelp) moduleAudioHelp.hidden = false;
+                    console.warn('No se pudo cargar el audio del Módulo 2. Verifique el nombre exacto del archivo MP3 en LLM-DEPR.');
+                    return;
+                }
+
+                moduleAudio.src = audioCandidates[index];
+                moduleAudio.load();
+            }
+
+            moduleAudio.addEventListener('error', () => {
+                audioCandidateIndex += 1;
+                setAudioCandidate(audioCandidateIndex);
+            });
+
+            moduleAudio.addEventListener('loadedmetadata', () => {
+                if (moduleAudioHelp) moduleAudioHelp.hidden = true;
+            });
+
+            setAudioCandidate(audioCandidateIndex);
+        }
+
+        initializeModuleAudio();
 
         function openSidebar() {
             if (!sidebar || !overlay || !menuButton) return;
@@ -805,45 +897,10 @@
             }
         }
 
-        function openZoom(src) {
-            if (!zoomModal || !zoomedImg) return;
-            lastFocusedElement = document.activeElement;
-            zoomedImg.src = src;
-            zoomModal.classList.add('is-open');
-            zoomModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-
-            const closeButton = zoomModal.querySelector('.modal-close-btn');
-            if (closeButton) closeButton.focus();
-        }
-
-        function closeZoom() {
-            if (!zoomModal || !zoomedImg) return;
-            zoomModal.classList.remove('is-open');
-            zoomModal.setAttribute('aria-hidden', 'true');
-            zoomedImg.removeAttribute('src');
-            document.body.style.overflow = '';
-
-            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-                lastFocusedElement.focus();
-            }
-        }
-
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                if (zoomModal && zoomModal.classList.contains('is-open')) {
-                    closeZoom();
-                }
-                if (sidebar && sidebar.classList.contains('active')) {
-                    closeSidebar();
-                    menuButton?.focus();
-                }
-            }
-        });
-
-        zoomModal?.addEventListener('click', (event) => {
-            if (event.target === zoomModal) {
-                closeZoom();
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
             }
         });
     </script>
