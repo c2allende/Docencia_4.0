@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Actividad 1.1 de Docencia 4.0: Taller práctico inicial Rompiendo el Hielo. Primer acceso a un LLM, configuración básica de privacidad y generación de un producto pedagógico útil en menos de 5 minutos.">
+        content="Actividad 1.1 de Docencia 4.0: Hola Mundo Pedagógico. Primer acceso a un LLM, configuración básica de privacidad y generación de un producto pedagógico útil.">
     <meta name="keywords"
-        content="Docencia 4.0, Actividad 1.1, LLM, IA educativa, ChatGPT, Copilot, privacidad, Hola Mundo Pedagógico, Mentimeter, docentes">
+        content="Docencia 4.0, Actividad 1.1, LLM, IA educativa, ChatGPT, Copilot, privacidad, Hola Mundo Pedagógico, docentes">
     <title>Actividad 1.1 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,7 +71,6 @@
             border: 0;
         }
 
-        /* NAVBAR SUPERIOR */
         .top-nav {
             position: fixed;
             top: 0;
@@ -145,12 +144,13 @@
         .menu-links a:focus-visible,
         .btn-footer:focus-visible,
         .btn-scroll-top:focus-visible,
-        .btn-padlet:focus-visible {
+        .btn-board:focus-visible,
+        .activity-step-card__summary:focus-visible,
+        .activity-option-card__summary:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
 
-        /* MENÚ LATERAL */
         .module-sidebar {
             position: fixed;
             top: 0;
@@ -244,7 +244,6 @@
             font-weight: var(--font-weight-bold);
         }
 
-        /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
             margin: var(--spacing-xl) auto var(--spacing-16);
@@ -289,7 +288,7 @@
         }
 
         .activity-intro {
-            max-width: 900px;
+            max-width: 920px;
             margin-bottom: var(--spacing-xl);
             color: var(--color-text-secondary);
             font-size: var(--font-size-base);
@@ -304,126 +303,388 @@
             line-height: var(--line-height-snug);
         }
 
-        .subsection-title {
-            margin: 0 0 var(--spacing-sm);
-            color: var(--color-brand-secondary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
+        .activity-meta-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0 var(--spacing-xl);
         }
 
-        .text-section {
-            clear: both;
-            margin-bottom: var(--spacing-12);
+        .activity-meta-chip {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 240px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
         }
 
-        .technical-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: var(--spacing-lg);
+        .activity-meta-chip__icon {
+            font-size: var(--font-size-lg);
+        }
+
+        .activity-meta-chip__label {
+            display: block;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .activity-meta-chip__value {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .activity-purpose-card {
             padding: var(--spacing-xl);
-            margin: var(--spacing-xl) 0 var(--spacing-12);
+            margin: var(--spacing-xl) 0;
             background: var(--color-background-surface-low);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
         }
 
-        .tech-item {
+        .activity-purpose-card__title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-purpose-card__grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .activity-purpose-card__item {
             padding: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-flat);
         }
 
-        .tech-item h2,
-        .tech-item h3 {
+        .activity-purpose-card__item h3 {
             margin: 0 0 var(--spacing-xs);
             color: var(--color-brand-secondary);
             font-family: var(--font-family-heading);
-            font-size: var(--font-size-xs);
+            font-size: var(--font-size-sm);
             font-weight: var(--font-weight-extrabold);
-            letter-spacing: var(--letter-spacing-wide);
             text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
         }
 
-        .tech-item p {
+        .activity-purpose-card__item p {
             margin: 0;
-            color: var(--color-text-primary);
-            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-normal, 400);
             line-height: var(--line-height-relaxed);
         }
 
-        .content-list,
-        .content-list-ordered {
-            margin: var(--spacing-sm) 0 0;
-            padding-left: var(--spacing-6);
+        .activity-sequence {
+            margin: var(--spacing-xl) 0;
         }
 
-        .content-list li,
-        .content-list-ordered li {
-            margin-bottom: var(--spacing-3);
+        .activity-sequence__intro {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-secondary);
+        }
+
+        .activity-step-card {
+            margin-bottom: var(--spacing-md);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .activity-step-card[open] {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .activity-step-card__summary {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            gap: var(--spacing-md);
+            align-items: center;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            cursor: pointer;
+            list-style: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .activity-step-card__summary:hover {
+            background: var(--color-alpha-black-03);
+        }
+
+        .activity-step-card__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .activity-step-card__summary::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2300C2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .activity-step-card[open] .activity-step-card__summary::after {
+            transform: rotate(180deg);
+        }
+
+        .activity-step-card__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+        }
+
+        .activity-step-card__heading {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: var(--spacing-xs) var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .activity-step-card__label {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-text-display);
+        }
+
+        .activity-step-card__focus {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .activity-step-card__content {
+            padding: 0 var(--spacing-xl) var(--spacing-xl);
+        }
+
+        .activity-step-card__content > p {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-secondary);
+        }
+
+        .activity-step-card__subsections {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .activity-step-card__subsection {
+            padding: var(--spacing-md);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+        }
+
+        .activity-step-card__subsection h4 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .activity-step-card__subsection p {
+            margin: 0;
+            font-size: var(--font-size-sm);
             color: var(--color-text-secondary);
             line-height: var(--line-height-relaxed);
         }
 
-        .content-list li::marker,
-        .content-list-ordered li::marker {
-            color: var(--color-brand-primary);
+        .activity-golden-rule {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0 0;
+            background: var(--color-yellow-100);
+            border-left: var(--border-width-6) solid var(--color-yellow-500);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-yellow-800);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .activity-golden-rule strong {
+            color: inherit;
+        }
+
+        .activity-golden-rule--idea {
+            background: var(--color-cyan-50);
+            border-left-color: var(--color-brand-primary);
+            color: var(--color-cyan-900);
+        }
+
+        .activity-prompt-box {
+            margin: var(--spacing-md) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+        }
+
+        .activity-prompt-box__label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-xs);
             font-weight: var(--font-weight-extrabold);
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
         }
 
-        .instruction-list {
-            display: grid;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-lg);
+        .activity-prompt-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+            color: var(--color-text-primary);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
-        .instruction-step {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-md);
-            padding: var(--spacing-xl);
+        .activity-cognitive-note {
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0 0;
+            background: var(--color-indigo-100);
+            border-left: var(--border-width-4) solid var(--color-indigo-300);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            color: var(--color-indigo-600);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .activity-cognitive-note strong {
+            color: inherit;
+        }
+
+        .activity-option-card {
+            margin: var(--spacing-md) 0;
+            padding: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .instruction-step:hover {
-            transform: translateX(8px);
-            border-color: var(--color-brand-secondary);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .step-icon {
-            width: 58px;
-            height: 58px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 58px;
             border-radius: var(--radius-lg);
-            background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-2xl);
         }
 
-        .step-text h3 {
-            margin: 0 0 var(--spacing-2);
-            color: var(--color-brand-secondary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
+        .activity-option-card[open] {
+            border-color: var(--color-brand-primary);
+        }
+
+        .activity-option-card__summary {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .activity-option-card__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .activity-option-card__summary::after {
+            content: '';
+            margin-left: auto;
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300C2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .activity-option-card[open] .activity-option-card__summary::after {
+            transform: rotate(180deg);
+        }
+
+        .activity-option-card__badge {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-2);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-xs);
             font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
         }
 
-        .quote-card,
-        .privacy-note,
+        .activity-option-card__title {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-display);
+        }
+
+        .activity-option-card__content {
+            margin-top: var(--spacing-md);
+        }
+
+        .activity-option-card__content p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .activity-option-card__reminder {
+            margin: var(--spacing-sm) 0 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-brand-secondary);
+            font-style: italic;
+        }
+
+        .activity-reflection-card {
+            padding: var(--spacing-lg);
+            margin: 0 0 var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .activity-reflection-card h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-reflection-card__list {
+            margin: 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .activity-reflection-card__list li {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .activity-reflection-card__list li:last-child {
+            margin-bottom: 0;
+        }
+
         .reflection-card {
             padding: var(--spacing-lg);
             margin: var(--spacing-lg) 0;
@@ -433,78 +694,160 @@
             color: var(--color-text-secondary);
         }
 
-        .privacy-note {
-            border-left-color: var(--color-brand-secondary);
-        }
-
-        .prompt-block {
-            margin-top: var(--spacing-md);
-            padding: var(--spacing-lg);
-            overflow-x: auto;
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface-low);
+        .reflection-card strong {
             color: var(--color-text-primary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-            white-space: pre-wrap;
         }
 
-        .choice-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-lg);
+        .interactive-board-container {
+            margin-top: var(--spacing-xl);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
         }
 
-        .choice-card {
-            padding: var(--spacing-lg);
+        .board-input-group {
             background: var(--color-background-surface);
+            padding: var(--spacing-lg);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
+        }
+
+        .input-wrapper textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: var(--spacing-md);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+            font-family: inherit;
+            font-size: var(--font-size-base);
+            resize: none;
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .choice-card:hover {
-            transform: translateY(-5px);
+        .input-wrapper textarea:focus {
+            outline: none;
             border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .choice-card h3 {
-            margin: 0 0 var(--spacing-sm);
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-
-
-        .btn-padlet {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-2);
-            margin-top: var(--spacing-md);
-            padding: var(--spacing-3) var(--spacing-5);
-            border-radius: var(--radius-pill);
-            background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
-            font-family: var(--font-family-heading);
-            font-weight: var(--font-weight-bold);
-            text-decoration: none;
             box-shadow: var(--shadow-focus-primary);
+        }
+
+        .input-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+        }
+
+        .char-counter {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .btn-board {
+            padding: var(--spacing-2) var(--spacing-6);
+            background: var(--gradient-orange, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            border: none;
+            border-radius: var(--radius-pill);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
             transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-padlet:hover {
+        .btn-board:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: var(--shadow-floating);
+        }
+
+        .btn-board:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--spacing-lg);
+            padding-bottom: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .response-card {
+            position: relative;
+            background: var(--color-background-surface);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-top: var(--border-width-6) solid var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+            animation: cardPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .response-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-floating);
+            border-color: var(--color-brand-primary);
+        }
+
+        .response-text {
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            color: var(--color-text-primary);
+            margin: 0;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .response-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding-top: var(--spacing-md);
+            border-top: var(--border-width-1) solid var(--color-alpha-black-5);
+        }
+
+        .response-author {
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        @keyframes cardPop {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .loading-state,
+        .empty-board {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: var(--spacing-20);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-2) dashed var(--color-border-default);
+            border-radius: var(--radius-2xl);
+            color: var(--color-text-muted);
+            font-style: italic;
         }
 
         .footer-nav {
@@ -589,13 +932,21 @@
             }
 
             .lesson-card,
-            .technical-grid,
-            .instruction-step {
+            .activity-purpose-card {
                 padding: var(--spacing-xl);
             }
 
-            .technical-grid {
+            .activity-purpose-card__grid,
+            .activity-step-card__subsections {
                 grid-template-columns: 1fr;
+            }
+
+            .activity-step-card__summary {
+                padding: var(--spacing-md) var(--spacing-lg);
+            }
+
+            .activity-step-card__content {
+                padding: 0 var(--spacing-lg) var(--spacing-lg);
             }
         }
 
@@ -619,8 +970,20 @@
                 text-align: center;
             }
 
-            .instruction-step {
+            .activity-meta-grid {
                 flex-direction: column;
+            }
+
+            .activity-meta-chip {
+                width: 100%;
+            }
+
+            .activity-step-card__focus {
+                display: none;
+            }
+
+            .activity-step-card__label {
+                font-size: var(--font-size-base);
             }
         }
 
@@ -634,14 +997,35 @@
             }
 
             .lesson-card,
-            .technical-grid,
-            .tech-item,
-            .instruction-step,
-            .choice-card {
+            .activity-purpose-card,
+            .activity-step-card__summary,
+            .activity-step-card__content,
+            .activity-option-card,
+            .board-input-group,
+            .response-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
 
+            .activity-step-card__number {
+                width: 30px;
+                height: 30px;
+                font-size: var(--font-size-base);
+            }
+
+            .activity-step-card__summary {
+                grid-template-columns: auto minmax(0, 1fr) auto;
+                gap: var(--spacing-sm);
+            }
+
+            .input-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-board {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -683,140 +1067,228 @@
         </ul>
     </aside>
 
-    <main class="content-wrapper">
+    <main class="content-wrapper actividad1-1-prototype">
         <article class="lesson-card" aria-labelledby="activity-title">
             <span class="activity-kicker">Actividad 1.1 · Taller práctico inicial</span>
-            <h1 id="activity-title" class="activity-title"><span>Rompiendo el Hielo</span><br>“Hola Mundo Pedagógico”
-            </h1>
-            <p class="activity-intro">Esta actividad busca que cada docente logre su primer acceso exitoso a
-                un LLM, configure las opciones básicas de privacidad y genere un producto útil en menos de 5 minutos,
-                experimentando la facilidad de uso y la inmediatez de la herramienta.</p>
+            <h1 id="activity-title" class="activity-title"><span>"Hola Mundo Pedagógico"</span><br>Rompiendo el Hielo</h1>
+            <p class="activity-intro">
+                En esta actividad lograrás tu <strong>primer acceso exitoso</strong> a un <strong>Modelo de Lenguaje de Gran Tamaño (LLM)</strong>, configurarás las opciones básicas de <strong>privacidad</strong> y generarás un <strong>producto pedagógico útil</strong> en menos de 5 minutos.
+            </p>
+            <p class="activity-intro">
+                Experimentarás de primera mano la <strong>facilidad de uso</strong> y la <strong>inmediatez</strong> de la herramienta, mientras aplicas los <strong>principios éticos</strong> discutidos en las lecciones anteriores.
+            </p>
 
-            <section class="technical-grid" aria-label="Ficha técnica de la actividad">
-                <div class="tech-item">
-                    <h2>Objetivo de la actividad</h2>
-                    <p>Lograr el primer acceso exitoso a un LLM, configurar privacidad y generar un producto útil en
-                        menos de 5 minutos.</p>
+            <div class="activity-meta-grid" aria-label="Información técnica de la actividad">
+                <div class="activity-meta-chip">
+                    <span class="activity-meta-chip__icon" aria-hidden="true">⏱️</span>
+                    <div>
+                        <span class="activity-meta-chip__label">Duración estimada</span>
+                        <span class="activity-meta-chip__value"><strong>30 minutos</strong></span>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <h2>Duración y requisitos</h2>
-                    <p>Duración estimada: 30 minutos. Requisitos: dispositivos con internet, como laptops, tablets o
-                        celulares.</p>
+                <div class="activity-meta-chip">
+                    <span class="activity-meta-chip__icon" aria-hidden="true">💻</span>
+                    <div>
+                        <span class="activity-meta-chip__label">Requisitos</span>
+                        <span class="activity-meta-chip__value">Dispositivo con internet — laptop, tablet o celular.</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="activity-purpose-card" aria-labelledby="purpose-title">
+                <h2 id="purpose-title" class="activity-purpose-card__title">🎯 Propósito y objetivo de la actividad</h2>
+
+                <div class="activity-purpose-card__grid">
+                    <div class="activity-purpose-card__item">
+                        <h3>Propósito de la actividad</h3>
+                        <p>Lograr el primer acceso exitoso a un LLM, configurar la privacidad y generar un producto útil en menos de 5 minutos, rompiendo así la barrera técnica y emocional inicial frente a la herramienta.</p>
+                    </div>
+                    <div class="activity-purpose-card__item">
+                        <h3>Objetivo de la actividad</h3>
+                        <p>Experimentar la facilidad de uso y la inmediatez del LLM, generando un producto pedagógico concreto que puedas adaptar a tu práctica docente, mientras aplicas la regla de oro sobre protección de datos estudiantiles.</p>
+                    </div>
                 </div>
             </section>
 
-            <section class="text-section" aria-labelledby="instrucciones-title">
-                <h2 id="instrucciones-title" class="section-title">Instrucciones del taller</h2>
-                <p>Sigue la secuencia de trabajo para completar tu primera interacción guiada con un Modelo de Lenguaje
-                    de Gran Tamaño.</p>
+            <section class="activity-sequence" aria-labelledby="sequence-title">
+                <h2 id="sequence-title" class="section-title">🛠️ Secuencia de trabajo</h2>
+                <p class="activity-sequence__intro">
+                    Sigue los cuatro pasos para completar tu primera interacción guiada con un <strong>Modelo de Lenguaje de Gran Tamaño</strong>.
+                </p>
 
-                <div class="instruction-list">
-                    <section class="instruction-step" aria-labelledby="paso1-title">
-                        <div class="step-icon" aria-hidden="true">🚀</div>
-                        <div class="step-text">
-                            <h3 id="paso1-title">Paso 1: Activación y acceso (El "Check-in" Digital)</h3>
-                            <p><strong>Enfoque:</strong> superar la barrera técnica de entrada.</p>
-                            <ol class="content-list-ordered">
-                                <li><strong>Para quienes tienen Copilot (DEPR):</strong> abrir el navegador Edge o la
-                                    app de Microsoft 365 y buscar el ícono de Copilot.</li>
-                                <li><strong>Para quienes usarán ChatGPT gratuito:</strong> realizar el registro en
-                                    OpenAI.com usando un correo personal de Google o Microsoft para agilizar el proceso.
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">1</span>
+                        <span class="activity-step-card__heading">
+                            <span class="activity-step-card__label">Activación y acceso</span>
+                            <span class="activity-step-card__focus">El "Check-in" Digital</span>
+                        </span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <p><strong>Enfoque:</strong> superar la barrera técnica de entrada.</p>
+
+                        <div class="activity-step-card__subsections">
+                            <div class="activity-step-card__subsection">
+                                <h4>Copilot DEPR</h4>
+                                <p>Abrir el navegador Edge o la app de Microsoft 365 y buscar el ícono de Copilot.</p>
+                            </div>
+
+                            <div class="activity-step-card__subsection">
+                                <h4>ChatGPT gratuito</h4>
+                                <p>Realizar el registro en OpenAI.com usando un correo personal de Google o Microsoft para agilizar el proceso.</p>
+                            </div>
+
+                            <div class="activity-step-card__subsection">
+                                <h4>Configuración de privacidad</h4>
+                                <p>Revisar los ajustes de <strong>Data Controls</strong> en ChatGPT o el escudo de <strong>Protected</strong> en Copilot empresarial.</p>
+                            </div>
+
+                            <div class="activity-step-card__subsection">
+                                <h4>Verificación de modelos LLM</h4>
+                                <p>Identificar los modelos de LLM a los cuales tienes acceso según el bot que utilices.</p>
+                            </div>
+                        </div>
+
+                        <div class="activity-golden-rule">
+                            <strong>Regla de oro:</strong> Aunque configuremos privacidad, <strong>nunca escribimos nombres de estudiantes</strong>, <strong>números de identificación</strong>, <strong>diagnósticos</strong> ni <strong>información personal identificable</strong> en el LLM.
+                        </div>
+                    </div>
+                </details>
+
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">2</span>
+                        <span class="activity-step-card__heading">
+                            <span class="activity-step-card__label">La interacción</span>
+                            <span class="activity-step-card__focus">Modelaje cognitivo: "yo hago, tú observas"</span>
+                        </span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <p>El facilitador realizará una <strong>demostración en tiempo real</strong> proyectada en pantalla.</p>
+
+                        <div class="activity-prompt-box">
+                            <span class="activity-prompt-box__label">Prompt del facilitador</span>
+                            <pre><code>"Actúa como un mentor educativo. Escribe un mensaje breve para mis estudiantes de 12 años en Puerto Rico sobre la importancia de la puntualidad. Usa una analogía relacionada con el deporte o la música y mantén un tono motivador, no punitivo."</code></pre>
+                        </div>
+
+                        <div class="activity-cognitive-note">
+                            <strong>Modelaje cognitivo:</strong> el facilitador piensa en voz alta:
+                            <ul class="content-list">
+                                <li><strong>Qué formula</strong>.</li>
+                                <li><strong>Qué ajusta</strong>.</li>
+                                <li><strong>Qué acepta</strong>.</li>
+                                <li><strong>Qué corrige</strong> de la respuesta del LLM.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">3</span>
+                        <span class="activity-step-card__heading">
+                            <span class="activity-step-card__label">Ejercicio "Hola Mundo Pedagógico"</span>
+                            <span class="activity-step-card__focus">Práctica guiada</span>
+                        </span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <p>Cada participante debe elegir una de las siguientes opciones, según su necesidad actual, y ejecutarla en su dispositivo.</p>
+
+                        <details class="activity-option-card">
+                            <summary class="activity-option-card__summary">
+                                <span class="activity-option-card__badge">Opción A</span>
+                                <span class="activity-option-card__title">📋 El Administrativo</span>
+                            </summary>
+                            <div class="activity-option-card__content">
+                                <p><strong>Carta o email breve.</strong></p>
+                                <div class="activity-prompt-box">
+                                    <span class="activity-prompt-box__label">Prompt sugerido</span>
+                                    <pre><code>"Actúa como maestro de salón hogar. Redacta una carta corta de bienvenida para los padres de mi grupo de salón hogar. El tono debe ser cálido, profesional y motivador. Incluye un espacio para recordar que la primera reunión es el próximo viernes."</code></pre>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="activity-option-card">
+                            <summary class="activity-option-card__summary">
+                                <span class="activity-option-card__badge">Opción B</span>
+                                <span class="activity-option-card__title">💡 El Creativo</span>
+                            </summary>
+                            <div class="activity-option-card__content">
+                                <p><strong>Lluvia de ideas para iniciar una clase.</strong></p>
+                                <div class="activity-prompt-box">
+                                    <span class="activity-prompt-box__label">Prompt sugerido</span>
+                                    <pre><code>"Soy maestro de [Tu Materia]. Dame una lista de 5 ideas creativas y dinámicas para empezar mi clase mañana sobre el tema de [Tu Tema]. Quiero que los estudiantes se levanten de sus sillas."</code></pre>
+                                </div>
+                                <p class="activity-option-card__reminder">Recuerda adaptar <strong>[Tu Materia]</strong> y <strong>[Tu Tema]</strong> a tu contexto real.</p>
+                            </div>
+                        </details>
+
+                        <details class="activity-option-card">
+                            <summary class="activity-option-card__summary">
+                                <span class="activity-option-card__badge">Opción C</span>
+                                <span class="activity-option-card__title">📝 El Organizador</span>
+                            </summary>
+                            <div class="activity-option-card__content">
+                                <p><strong>Lista de cotejo para recibir estudiantes.</strong></p>
+                                <div class="activity-prompt-box">
+                                    <span class="activity-prompt-box__label">Prompt sugerido</span>
+                                    <pre><code>"Voy a recibir a los nuevos estudiantes la próxima semana. Crea una lista de cotejo (checklist) con los 10 documentos o materiales clave que debo entregarle el primer día para que se sientan bienvenidos y orientados."</code></pre>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">4</span>
+                        <span class="activity-step-card__heading">
+                            <span class="activity-step-card__label">Cierre y reflexión metacognitiva</span>
+                            <span class="activity-step-card__focus">Reflexión sobre la experiencia</span>
+                        </span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <div class="activity-reflection-card">
+                            <h3>Reflexión guiada</h3>
+
+                            <ol class="activity-reflection-card__list">
+                                <li>
+                                    <strong>Validación inicial:</strong> Luego de tu interacción con un LLM, ¿qué <strong>posibilidad concreta</strong> identificas para apoyar tu labor como docente y qué <strong>precaución</strong> consideras importante antes de usarlo en un contexto educativo?
                                 </li>
-                                <li><strong>Configuración de privacidad:</strong> revisar los ajustes de Data Controls
-                                    en ChatGPT o el escudo de Protected en Copilot empresarial.</li>
-                                <li><strong>Verificación de modelos LLM:</strong> Identificar los modelos de LLM a los
-                                    cuales tiene acceso según el Bot que utilice.</li>
+                                <li>
+                                    <strong>Pregunta clave de tiempo:</strong> ¿Cuánto tiempo te hubiera tomado redactar esto desde cero, desde la página en blanco, versus editar lo que la IA te dio?
+                                </li>
+                                <li>
+                                    <strong>Conclusión reflexiva:</strong> Identifica qué parte del producto generado fue <strong>útil</strong>, qué necesita <strong>corrección</strong> y qué <strong>responsabilidad conserva el docente</strong>.
+                                </li>
                             </ol>
-                            <div class="privacy-note">
-                                <strong>Regla de oro:</strong> aunque configuremos privacidad, nunca escribimos nombres
-                                de estudiantes, números de identificación, diagnósticos ni información personal
-                                identificable en el LLM.
-                            </div>
                         </div>
-                    </section>
 
-                    <section class="instruction-step" aria-labelledby="paso2-title">
-                        <div class="step-icon" aria-hidden="true">👀</div>
-                        <div class="step-text">
-                            <h3 id="paso2-title">Paso 2: La interacción</h3>
-                            <p><strong>Enfoque:</strong> modelaje cognitivo, “yo hago, tú observas”. El facilitador
-                                realizará una demostración en tiempo real proyectada en pantalla.</p>
-                            <p>Prompt del facilitador:</p>
-                            <pre
-                                class="prompt-block"><code>"Actúa como un mentor educativo. Escribe un mensaje breve para mis estudiantes de 12 años en Puerto Rico sobre la importancia de la puntualidad. Usa una analogía relacionada con el deporte o la música y mantén un tono motivador, no punitivo".</code></pre>
+                        <div class="activity-golden-rule activity-golden-rule--idea">
+                            <strong>Idea central:</strong> La IA <strong>no reemplaza el criterio profesional</strong>; reduce el tiempo inicial de redacción y permite que el docente dedique más energía a <strong>revisar</strong>, <strong>contextualizar</strong> y <strong>mejorar</strong> el producto final.
                         </div>
-                    </section>
-
-                    <section class="instruction-step" aria-labelledby="paso3-title">
-                        <div class="step-icon" aria-hidden="true">📝</div>
-                        <div class="step-text">
-                            <h3 id="paso3-title">Paso 3: Ejercicio “Hola Mundo Pedagógico”</h3>
-                            <p><strong>Enfoque:</strong> práctica guiada. Cada participante debe elegir una de las
-                                siguientes opciones, según su necesidad actual, y ejecutarla en su dispositivo.</p>
-
-                            <div class="choice-grid">
-                                <article class="choice-card">
-                                    <h3>Opción A: El Administrativo</h3>
-                                    <p>Carta o email breve.</p>
-                                    <pre
-                                        class="prompt-block"><code>Actúa como maestro de salón hogar. Redacta una carta corta de bienvenida para los padres de mi grupo de salón hogar. El tono debe ser cálido, profesional y motivador. Incluye un espacio para recordar que la primera reunión es el próximo viernes.</code></pre>
-                                </article>
-
-                                <article class="choice-card">
-                                    <h3>Opción B: El Creativo</h3>
-                                    <p>Lluvia de ideas para iniciar una clase.</p>
-                                    <pre
-                                        class="prompt-block"><code>Soy maestro de [Tu Materia]. Dame una lista de 5 ideas creativas y dinámicas para empezar mi clase mañana sobre el tema de [Tu Tema]. Quiero que los estudiantes se levanten de sus sillas.</code></pre>
-                                </article>
-
-                                <article class="choice-card">
-                                    <h3>Opción C: El Organizador</h3>
-                                    <p>Lista de cotejo para recibir estudiantes.</p>
-                                    <pre
-                                        class="prompt-block"><code>Voy a recibir a los nuevos estudiantes la próxima semana. Crea una lista de cotejo (checklist) con los 10 documentos o materiales clave que debo entregarle el primer día para que se sientan bienvenidos y orientados.</code></pre>
-                                </article>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="instruction-step" aria-labelledby="paso4-title">
-                        <div class="step-icon" aria-hidden="true">💬</div>
-                        <div class="step-text">
-                            <h3 id="paso4-title">Paso 4: Cierre (Reflexión Metacognitiva)</h3>
-                            <ol class="content-list-ordered">
-                                <li><strong>Validación:</strong> 1. Luego de tu interacción con un LLM, ¿qué
-                                    posibilidad concreta identificas para apoyar tu labor como docente y qué
-                                    precaución consideras importante antes de usarlo en un contexto educativo?</li>
-                                <li><strong>Pregunta clave:</strong> ¿cuánto tiempo te hubiera tomado redactar esto
-                                    desde cero, desde la página en blanco, versus editar lo que la IA les dio?</li>
-                                <li><strong>Conclusión reflexiva:</strong> identificar qué parte del producto generado
-                                    fue útil, qué necesita corrección y qué responsabilidad conserva el docente.</li>
-                            </ol>
-                            <div class="reflection-card">
-                                <strong>Idea central:</strong> la IA no reemplaza el criterio profesional; reduce el
-                                tiempo inicial de redacción y permite que el docente dedique más energía a revisar,
-                                contextualizar y mejorar el producto final.
-                            </div>
-                        </div>
-                    </section>
-                </div>
+                    </div>
+                </details>
             </section>
 
             <section class="text-section" aria-labelledby="board-title">
-                <h2 id="board-title" class="section-title">Reflexión rápida: experiencia con el LLM</h2>
-                <p>Antes de continuar con la próxima actividad, comparte una respuesta breve en el tablero interactivo.
-                    Puedes escribir una palabra, frase o idea corta sobre cómo fue tu experiencia utilizando un Modelo
-                    de Lenguaje de Gran Tamaño para generar un producto pedagógico.</p>
+                <h2 id="board-title" class="section-title">💭 Reflexión rápida: experiencia con el LLM</h2>
+                <p>Antes de continuar con la próxima actividad, comparte una respuesta breve en el tablero interactivo abierto —<strong>Open Ended Interactive Board</strong>—.</p>
+                <p>Puedes escribir una palabra, frase o idea corta sobre cómo fue tu experiencia utilizando un <strong>Modelo de Lenguaje de Gran Tamaño</strong> para generar un producto pedagógico.</p>
+                <p>Esta reflexión aporta <strong>evidencia inicial</strong> al estudio sobre la percepción y nivel de conocimiento de los facilitadores docentes respecto al uso de LLM como recurso de apoyo en sus funciones de <strong>acompañamiento curricular</strong>, <strong>capacitación</strong> y <strong>gestión administrativa</strong>.</p>
 
                 <div class="reflection-card">
-                    <strong>Pregunta guía:</strong> ¿Qué descubriste, qué te sorprendió o qué precaución tendrías
-                    presente al usar un LLM en tu práctica educativa?
+                    <strong>Pregunta guía:</strong> ¿Qué descubriste, qué te sorprendió o qué precaución tendrías presente al usar un LLM como apoyo en tu rol de <strong>facilitador docente</strong>, especialmente al pensar en su integración para optimizar tu <strong>acompañamiento curricular</strong>, la <strong>capacitación de maestros</strong> o la <strong>gestión administrativa</strong>?
                 </div>
 
-                <!-- Tablero Interactivo Nativo -->
                 <div class="interactive-board-container">
                     <form id="board-form" class="board-input-group">
                         <div class="input-wrapper">
+                            <label class="sr-only" for="board-input">Tablero interactivo — Escribe tu reflexión aquí.</label>
                             <textarea id="board-input" placeholder="Escribe tu reflexión aquí (máx. 200 caracteres)..."
                                 maxlength="200" required></textarea>
                             <div class="input-footer">
@@ -829,158 +1301,9 @@
                     </form>
 
                     <div id="interactive-board-grid" class="board-grid">
-                        <!-- Las respuestas se inyectarán aquí dinámicamente -->
                         <div class="loading-state">Cargando tablero...</div>
                     </div>
                 </div>
-
-                <style>
-                    .interactive-board-container {
-                        margin-top: var(--spacing-xl);
-                        display: flex;
-                        flex-direction: column;
-                        gap: var(--spacing-xl);
-                    }
-
-                    .board-input-group {
-                        background: var(--color-background-surface);
-                        padding: var(--spacing-lg);
-                        border: var(--border-width-1) solid var(--color-border-default);
-                        border-radius: var(--radius-xl);
-                        box-shadow: var(--shadow-flat);
-                    }
-
-                    .input-wrapper textarea {
-                        width: 100%;
-                        min-height: 100px;
-                        padding: var(--spacing-md);
-                        border: var(--border-width-2) solid var(--color-border-default);
-                        border-radius: var(--radius-lg);
-                        background: var(--color-background-surface-low);
-                        color: var(--color-text-primary);
-                        font-family: inherit;
-                        font-size: var(--font-size-base);
-                        resize: none;
-                        transition: border-color var(--motion-duration-default) var(--motion-easing-standard), box-shadow var(--motion-duration-default) var(--motion-easing-standard);
-                    }
-
-                    .input-wrapper textarea:focus {
-                        outline: none;
-                        border-color: var(--color-brand-primary);
-                        box-shadow: var(--shadow-focus-primary);
-                    }
-
-                    .input-footer {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-top: var(--spacing-sm);
-                    }
-
-                    .char-counter {
-                        font-size: var(--font-size-xs);
-                        color: var(--color-text-muted);
-                        font-weight: var(--font-weight-bold);
-                    }
-
-                    .btn-board {
-                        padding: var(--spacing-2) var(--spacing-6);
-                        background: var(--gradient-orange);
-                        color: white;
-                        border: none;
-                        border-radius: var(--radius-pill);
-                        font-weight: var(--font-weight-bold);
-                        cursor: pointer;
-                        transition: transform var(--motion-duration-default) var(--motion-easing-standard), opacity var(--motion-duration-default) var(--motion-easing-standard);
-                    }
-
-                    .btn-board:hover:not(:disabled) {
-                        transform: translateY(-2px);
-                        box-shadow: var(--shadow-floating);
-                    }
-
-                    .btn-board:disabled {
-                        opacity: 0.5;
-                        cursor: not-allowed;
-                    }
-
-                    .board-grid {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                        gap: var(--spacing-lg);
-                        padding-bottom: var(--spacing-xl);
-                        align-items: start;
-                    }
-
-                    .response-card {
-                        position: relative;
-                        background: var(--color-background-surface);
-                        padding: var(--spacing-xl);
-                        border-radius: var(--radius-xl);
-                        border: var(--border-width-1) solid var(--color-border-default);
-                        border-top: var(--border-width-6) solid var(--color-brand-primary);
-                        box-shadow: var(--shadow-ambient);
-                        animation: cardPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                        display: flex;
-                        flex-direction: column;
-                        gap: var(--spacing-md);
-                        transition: transform var(--motion-duration-default) var(--motion-easing-standard), box-shadow var(--motion-duration-default) var(--motion-easing-standard);
-                    }
-
-                    .response-card:hover {
-                        transform: translateY(-5px);
-                        box-shadow: var(--shadow-floating);
-                        border-color: var(--color-brand-primary);
-                    }
-
-                    .response-text {
-                        font-size: var(--font-size-base);
-                        line-height: var(--line-height-relaxed);
-                        color: var(--color-text-primary);
-                        margin: 0;
-                        font-weight: var(--font-weight-medium);
-                    }
-
-                    .response-meta {
-                        display: flex;
-                        align-items: center;
-                        gap: var(--spacing-sm);
-                        padding-top: var(--spacing-md);
-                        border-top: var(--border-width-1) solid var(--color-alpha-black-5);
-                    }
-
-                    .response-author {
-                        font-size: var(--font-size-2xs);
-                        font-weight: var(--font-weight-extrabold);
-                        color: var(--color-brand-primary);
-                        text-transform: uppercase;
-                        letter-spacing: var(--letter-spacing-wide);
-                    }
-
-                    @keyframes cardPop {
-                        from {
-                            opacity: 0;
-                            transform: scale(0.9) translateY(20px);
-                        }
-
-                        to {
-                            opacity: 1;
-                            transform: scale(1) translateY(0);
-                        }
-                    }
-
-                    .loading-state,
-                    .empty-board {
-                        grid-column: 1 / -1;
-                        text-align: center;
-                        padding: var(--spacing-20);
-                        background: var(--color-background-surface-low);
-                        border: var(--border-width-2) dashed var(--color-border-default);
-                        border-radius: var(--radius-2xl);
-                        color: var(--color-text-muted);
-                        font-style: italic;
-                    }
-                </style>
             </section>
 
             <div id="completion-section"></div>
