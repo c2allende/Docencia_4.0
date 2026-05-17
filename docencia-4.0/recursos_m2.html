@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Recursos didácticos complementarios del Módulo 2 de Docencia 4.0: banco de prompts, guías, infografías, video tutorial y bibliografía sobre prompt engineering.">
+        content="Recursos didácticos complementarios del Módulo 2 de Docencia 4.0: banco de prompts, guías, infografías, video tutorial, validador digital y bibliografía sobre prompt engineering.">
     <meta name="keywords"
-        content="Docencia 4.0, Recursos Módulo 2, prompt engineering, banco de prompts, LLM, IA educativa, guías, bibliografía">
+        content="Docencia 4.0, Recursos Módulo 2, prompt engineering, banco de prompts, LLM, IA educativa, guías, bibliografía, validación curricular">
     <title>Recursos Didácticos Módulo 2 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/module-access-guard.js"></script>
@@ -65,7 +63,6 @@
             border: 0;
         }
 
-        /* NAVBAR SUPERIOR */
         .top-nav {
             position: fixed;
             top: 0;
@@ -143,12 +140,15 @@
         .resource-link:focus-visible,
         .image-zoom-trigger:focus-visible,
         .modal-close-btn:focus-visible,
-        .video-wrapper iframe:focus-visible {
+        .video-wrapper iframe:focus-visible,
+        .prompt-bank__copy:focus-visible,
+        .prompt-bank__filter:focus-visible,
+        .prompt-bank-shell__summary:focus-visible,
+        .bibliographic-resources__summary:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
 
-        /* MENÚ LATERAL */
         .module-sidebar {
             position: fixed;
             top: 0;
@@ -206,7 +206,6 @@
             display: block;
             padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
             color: var(--color-cyan-100);
-            font-family: var(--font-family-body);
             font-size: var(--font-size-2xs);
             font-weight: var(--font-weight-extrabold);
             line-height: var(--line-height-tight);
@@ -242,7 +241,6 @@
             font-weight: var(--font-weight-bold);
         }
 
-        /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
             margin: var(--spacing-xl) auto var(--spacing-16);
@@ -282,20 +280,100 @@
         }
 
         .page-intro {
-            max-width: 820px;
+            max-width: 900px;
             margin-bottom: var(--spacing-xl);
             font-size: var(--font-size-base);
         }
 
+        .resource-summary-card,
+        .resource-guidance-card,
+        .resource-section-card,
+        .resource-route-card,
+        .resource-commitment-card,
+        .bibliographic-resources__panel,
+        .prompt-bank-shell,
+        .resource-card,
+        .info-card,
+        .validator-card,
+        .maletin-card {
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .resource-summary-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .resource-guidance-card {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0 var(--spacing-12);
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+        }
+
+        .resource-guidance-card h2,
+        .resource-section-card h3,
+        .resource-route-card h3,
+        .resource-commitment-card h2,
+        .maletin-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .resource-index {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: var(--spacing-sm);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+            align-items: stretch;
+        }
+
+        .resource-index a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            min-height: 74px;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
+            text-decoration: none;
+            text-align: center;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .resource-index a:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-flat);
+        }
+
         .resource-section {
             margin-bottom: var(--spacing-16);
+            scroll-margin-top: calc(var(--nav-height) + var(--spacing-lg));
         }
 
         .resource-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
         }
 
         .resource-icon {
@@ -320,98 +398,84 @@
             line-height: var(--line-height-snug);
         }
 
+        .section-helper {
+            max-width: 860px;
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-secondary);
+        }
+
+        .resource-section-card,
         .resource-card {
             padding: var(--spacing-xl);
             margin-bottom: var(--spacing-xl);
             background: var(--color-background-surface-low);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
+        }
+
+        .resource-card:hover,
+        .info-card:hover,
+        .maletin-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .resource-card,
+        .info-card,
+        .maletin-card {
             transition: transform var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .resource-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .resource-card h3 {
-            margin: 0 0 var(--spacing-md);
+        .resource-card h3,
+        .info-card h3 {
+            margin: 0 0 var(--spacing-sm);
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-xl);
             font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
         }
 
-        .grid-resources {
+        .grid-resources,
+        .infographics-grid,
+        .bibliographic-grid,
+        .maletin-grid,
+        .commitment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--spacing-lg);
             margin-top: var(--spacing-xl);
         }
 
-        .resource-link {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-2);
-            margin-top: var(--spacing-sm);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-            text-decoration: none;
-        }
-
-        .resource-link:hover {
-            text-decoration: underline;
-        }
-
-        /* PADLET */
-        .padlet-container {
-            width: 100%;
-            overflow: hidden;
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            background: var(--color-background-surface);
-            box-shadow: var(--shadow-flat);
-        }
-
-        /* INFOGRAFÍAS */
         .infographics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-xl);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        .info-card {
+        .bibliographic-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .maletin-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .commitment-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .info-card,
+        .maletin-card,
+        .validator-card {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-md);
             padding: var(--spacing-lg);
             background: var(--color-background-surface);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-ambient);
         }
 
         .info-card h3 {
-            margin: 0;
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-base);
             text-align: center;
+            font-size: var(--font-size-base);
         }
 
         .image-zoom-trigger {
@@ -436,11 +500,13 @@
             transform: scale(1.02);
         }
 
-        .btn-download {
+        .btn-download,
+        .resource-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: var(--spacing-2);
+            margin-top: auto;
             padding: var(--spacing-3) var(--spacing-4);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-pill);
@@ -453,11 +519,11 @@
             transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
                 color var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard),
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+                transform var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .btn-download:hover {
+        .btn-download:hover,
+        .resource-link:hover {
             background: var(--color-brand-primary);
             color: var(--color-brand-primary-on);
             border-color: var(--color-brand-primary);
@@ -465,17 +531,6 @@
             text-decoration: none;
         }
 
-        .btn-download.is-primary {
-            background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
-            border-color: var(--color-brand-primary);
-        }
-
-        .btn-download.is-primary:hover {
-            box-shadow: var(--shadow-floating);
-        }
-
-        /* VIDEOS */
         .video-wrapper {
             position: relative;
             height: 0;
@@ -487,8 +542,7 @@
             box-shadow: var(--shadow-ambient);
         }
 
-        .video-wrapper iframe,
-        .video-wrapper video {
+        .video-wrapper iframe {
             position: absolute;
             inset: 0;
             width: 100%;
@@ -496,7 +550,370 @@
             border: 0;
         }
 
+        /* Banco de Prompts Interactivo */
+        .prompt-bank-shell {
+            overflow: hidden;
+            margin-top: var(--spacing-lg);
+            background: var(--color-background-surface);
+        }
 
+        .prompt-bank-shell__summary {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: var(--spacing-md);
+            align-items: center;
+            padding: var(--spacing-xl);
+            cursor: pointer;
+            list-style: none;
+            background: var(--color-background-surface-low);
+        }
+
+        .prompt-bank-shell__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .prompt-bank-shell__eyebrow {
+            display: block;
+            margin-bottom: var(--spacing-1);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .prompt-bank-shell__title {
+            display: block;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .prompt-bank-shell__description {
+            display: block;
+            margin-top: var(--spacing-2);
+            color: var(--color-text-secondary);
+        }
+
+        .prompt-bank-shell__meta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 130px;
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-bold);
+            white-space: nowrap;
+        }
+
+        .prompt-bank-shell__action {
+            grid-column: 1 / -1;
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .prompt-bank {
+            padding: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .prompt-bank__toolbar {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .prompt-bank__label {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .prompt-bank__filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+        }
+
+        .prompt-bank__filter {
+            padding: var(--spacing-2) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-text-primary);
+            font: inherit;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .prompt-bank__filter.is-active,
+        .prompt-bank__filter:hover {
+            border-color: var(--color-brand-primary);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .prompt-bank__ethics-note {
+            padding: var(--spacing-md);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
+            font-size: var(--font-size-sm);
+        }
+
+        .prompt-bank__status {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .prompt-bank__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .prompt-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .prompt-card__category {
+            display: inline-flex;
+            width: fit-content;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .prompt-card__title {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .prompt-card__description {
+            font-size: var(--font-size-sm);
+        }
+
+        .prompt-card__template {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+            white-space: pre-wrap;
+        }
+
+        .prompt-bank__copy {
+            margin-top: auto;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-secondary);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .prompt-bank__copy:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .bibliographic-resources {
+            margin-bottom: var(--spacing-16);
+        }
+
+        .bibliographic-resources__panel {
+            overflow: hidden;
+        }
+
+        .bibliographic-resources__summary {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto auto;
+            gap: var(--spacing-md);
+            align-items: center;
+            padding: var(--spacing-xl);
+            cursor: pointer;
+            list-style: none;
+            background: var(--color-background-surface-low);
+        }
+
+        .bibliographic-resources__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .bibliographic-resources__summary-icon {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            font-size: var(--font-size-xl);
+        }
+
+        .bibliographic-resources__title {
+            display: block;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .bibliographic-resources__subtitle {
+            display: block;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        .bibliographic-resources__action {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .bibliographic-resources__arrow {
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bibliographic-resources__panel[open] .bibliographic-resources__arrow {
+            transform: rotate(180deg);
+        }
+
+        .bibliographic-resources__body {
+            padding: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .bibliographic-resource {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: var(--spacing-lg);
+            align-items: start;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+        }
+
+        .bibliographic-resource:last-child {
+            margin-bottom: 0;
+        }
+
+        .bibliographic-resource__tag {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: var(--spacing-xs);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .bibliographic-resource__title {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .bibliographic-resource__citation {
+            font-size: var(--font-size-sm);
+        }
+
+        .bibliographic-resource__details {
+            margin-top: var(--spacing-sm);
+        }
+
+        .bibliographic-resource__details summary {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+        }
+
+        .maletin-card {
+            min-height: 100%;
+        }
+
+        .maletin-card__tag {
+            display: inline-flex;
+            width: fit-content;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-secondary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+        }
+
+        .maletin-card ol {
+            margin: 0 0 var(--spacing-sm);
+            padding-left: var(--spacing-6);
+            color: var(--color-text-secondary);
+        }
+
+        .resource-commitment-card {
+            margin: var(--spacing-16) 0 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .commitment-item {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .final-reflection {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-xl);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+            background: var(--color-background-surface);
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-semibold);
+        }
 
         .footer-nav {
             display: flex;
@@ -574,7 +991,6 @@
             transform: translateY(-3px);
         }
 
-        /* MODAL DE ZOOM */
         .modal-zoom {
             position: fixed;
             inset: 0;
@@ -619,9 +1035,21 @@
             box-shadow: var(--shadow-sm);
         }
 
+        @media (max-width: 1100px) {
+            .resource-index {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width: 960px) {
-            .biblio-header {
-                flex-direction: column;
+            .infographics-grid,
+            .maletin-grid,
+            .commitment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bibliographic-resource {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -649,8 +1077,22 @@
                 font-size: var(--font-size-sm);
             }
 
+            .resource-index,
+            .prompt-bank-shell__summary {
+                grid-template-columns: 1fr;
+            }
+
             .resource-header {
                 align-items: flex-start;
+            }
+
+            .bibliographic-resources__summary {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            .bibliographic-resources__action,
+            .bibliographic-resources__arrow {
+                grid-column: 2;
             }
 
             .footer-nav {
@@ -671,7 +1113,15 @@
 
             .lesson-card,
             .resource-card,
-            .biblio-item {
+            .resource-section-card,
+            .resource-summary-card,
+            .resource-guidance-card,
+            .bibliographic-resource,
+            .maletin-card,
+            .commitment-item,
+            .info-card,
+            .prompt-bank,
+            .resource-commitment-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
@@ -682,18 +1132,15 @@
 <body data-page-id="recursos_m2" data-module-id="modulo2" data-page-type="recursos" data-title="Recursos Módulo 2">
     <nav class="top-nav" aria-label="Navegación superior de recursos">
         <div class="nav-left">
-            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
-                aria-expanded="false" aria-controls="sidebar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
             <div class="logo-container">
-                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
-                    alt="Logo Docencia 4.0">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
             </div>
             <span class="module-title-nav">Recursos Didácticos Módulo 2</span>
         </div>
@@ -705,37 +1152,60 @@
         <h2 class="side-menu-title">Navegación</h2>
         <ul class="menu-links">
             <li><a href="dashboard.html">🏠 Dashboard</a></li>
-            <li><span class="menu-section-label">Módulo 1</span></li>
-            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
-            <li><a href="recursos_m1.html">📚 Recursos Módulo 1</a></li>
             <li><span class="menu-section-label">Módulo 2</span></li>
             <li><a href="modulo2_intro.html">📍 Inicio Módulo 2</a></li>
             <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
             <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
             <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
             <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
+            <li><a href="foro_modulo2.html">💬 Foro Módulo 2</a></li>
             <li><a href="recursos_m2.html" class="active" aria-current="page">📚 Recursos Módulo 2</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo1_intro.html">⬅️ Volver al Módulo 1</a></li>
         </ul>
     </aside>
 
     <main class="content-wrapper">
         <article class="lesson-card" aria-labelledby="page-title">
-            <h1 id="page-title" class="page-title">Recursos Didácticos Módulo 2: Prompt Engineering</h1>
-            <p class="page-intro">Este banco de materiales está diseñado para fortalecer tus competencias en la
-                ingeniería de prompts, facilitando la creación de interacciones efectivas con la IA en entornos
-                educativos.</p>
+            <span class="page-kicker">Módulo 2 · Biblioteca de apoyo</span>
+            <h1 id="page-title" class="page-title">Recursos Didácticos Complementarios — Módulo 2</h1>
+
+            <section class="resource-summary-card" aria-labelledby="intro-title">
+                <h2 id="intro-title" class="section-title">🧭 Introducción a la sección</h2>
+                <p>En esta sección encontrarás una <strong>biblioteca curada de recursos complementarios</strong> diseñados para fortalecer tus competencias en <strong>ingeniería de prompts</strong> —<strong>prompt engineering</strong>— y consolidar todo lo aprendido en el Módulo 2: desde la fórmula <strong>R-C-T-F-R</strong>, la <strong>planificación didáctica con apoyo de IA</strong>, hasta la <strong>inclusión</strong>, <strong>evaluación</strong> y <strong>validación curricular</strong>.</p>
+                <p>Los materiales están organizados por tipo de recurso —<strong>banco de prompts interactivos</strong>, <strong>infografías y guías de implementación</strong>, <strong>herramienta digital de validación</strong> y <strong>video tutorial</strong>— para que puedas elegir el formato que mejor se ajuste a tu necesidad inmediata como <strong>facilitador docente</strong>.</p>
+                <p>Cada recurso incluye una breve descripción de cómo te ayuda a profundizar el tema.</p>
+            </section>
+
+            <aside class="resource-guidance-card" aria-label="Recomendación de uso de recursos">
+                <h2>💡 Recomendación</h2>
+                <p>Antes de usar cualquier prompt o herramienta, <strong>adapta el contexto</strong>, <strong>revisa la pertinencia pedagógica</strong> y <strong>valida el resultado generado por IA</strong> aplicando la <strong>Lista de Cotejo de Validación</strong> trabajada en la Lección 2.3.</p>
+            </aside>
+
+            <nav class="resource-index" aria-label="Clasificación de recursos del Módulo 2">
+                <a href="#banco-prompts-title">💡 Banco</a>
+                <a href="#infografias-title">📊 Guías</a>
+                <a href="#validador-title">🔍 Validador</a>
+                <a href="#video-title">🎥 Video</a>
+                <a href="#bibliographic-resources-title-m2">📚 Bibliografía</a>
+                <a href="#maletin-title">🎓 Maletín</a>
+            </nav>
 
             <section class="resource-section prompt-bank-section" aria-labelledby="banco-prompts-title">
                 <div class="resource-header">
                     <div class="resource-icon" aria-hidden="true">💡</div>
-                    <h2 id="banco-prompts-title" class="section-title">Banco de Prompts Interactivo</h2>
+                    <div>
+                        <h2 id="banco-prompts-title" class="section-title">1. Banco de Prompts Interactivo</h2>
+                        <p class="section-helper">Te ofrece <strong>plantillas conceptuales reutilizables</strong> —<strong>patrones de prompt</strong>— que puedes copiar, adaptar a tu contexto y aplicar inmediatamente en tu práctica. Cada prompt está categorizado por <strong>función pedagógica</strong>, facilitando la búsqueda según tu necesidad real del día.</p>
+                    </div>
                 </div>
+
                 <details class="prompt-bank-shell" data-prompt-bank-shell>
                     <summary class="prompt-bank-shell__summary">
-                        <span class="prompt-bank-shell__eyebrow">Recurso interactivo</span>
-                        <span class="prompt-bank-shell__title">Banco de Prompts Interactivo</span>
-                        <span class="prompt-bank-shell__description">
-                            Explora, adapta y copia prompts modelo para planificar, crear recursos, evaluar, diferenciar y refinar materiales con apoyo de IA.
+                        <span>
+                            <span class="prompt-bank-shell__eyebrow">Recurso interactivo</span>
+                            <span class="prompt-bank-shell__title">Banco de Prompts Interactivo</span>
+                            <span class="prompt-bank-shell__description">Explora, adapta y copia prompts modelo para planificar, crear recursos, evaluar, diferenciar y refinar materiales con apoyo de IA.</span>
                         </span>
                         <span class="prompt-bank-shell__meta">11 prompts disponibles</span>
                         <span class="prompt-bank-shell__action">Explorar banco de prompts</span>
@@ -748,9 +1218,7 @@
                                 <input id="promptBankSearch" class="input searchbar prompt-bank__search" type="search" placeholder="Buscar por tema, categoría o uso..." data-prompt-search>
                             </div>
                             <div class="prompt-bank__filters" aria-label="Filtrar prompts por categoría" data-prompt-filters></div>
-                            <p class="prompt-bank__ethics-note">
-                                Recuerda: antes de usar un prompt, adapta el contexto, revisa la pertinencia pedagógica y valida el resultado generado por IA.
-                            </p>
+                            <p class="prompt-bank__ethics-note">🔒 <strong>Recuerda:</strong> antes de usar un prompt, <strong>adapta el contexto</strong>, <strong>revisa la pertinencia pedagógica</strong> y <strong>valida el resultado generado por IA</strong>.</p>
                         </div>
                         <div class="prompt-bank__status" aria-live="polite" data-prompt-status></div>
                         <div class="prompt-bank__grid" data-prompt-grid></div>
@@ -761,79 +1229,78 @@
             <section class="resource-section" aria-labelledby="infografias-title">
                 <div class="resource-header">
                     <div class="resource-icon" aria-hidden="true">📊</div>
-                    <h2 id="infografias-title" class="section-title">Infografías y Guías de Implementación</h2>
+                    <div>
+                        <h2 id="infografias-title" class="section-title">2. Infografías y Guías de Implementación</h2>
+                        <p class="section-helper">Son <strong>manuales de bolsillo</strong> para consultar mientras trabajas. Son especialmente útiles para <strong>imprimir</strong>, <strong>compartir en MECPA</strong> o usar como apoyo en talleres con docentes que acompañas.</p>
+                    </div>
                 </div>
 
                 <div class="infographics-grid">
                     <article class="info-card">
                         <h3>200+1 Prompts para Educación</h3>
-                        <button class="image-zoom-trigger" type="button"
-                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                            aria-label="Ampliar imagen 200+1 Prompts para Educación">
-                            <img data-asset="LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_imagen.png"
-                                src="assets/LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_imagen.png"
-                                alt="200+1 Prompts para Educación">
+                        <p>Biblioteca extensa de prompts categorizados para múltiples escenarios docentes. Amplía tu banco personal con ejemplos probados.</p>
+                        <button class="image-zoom-trigger" type="button" onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)" aria-label="Ampliar imagen 200+1 Prompts para Educación">
+                            <img data-asset="LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_imagen.png" src="assets/LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_imagen.png" alt="200+1 Prompts para Educación" loading="lazy">
                         </button>
-                        <a href="LLM-DEPR/LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_pdf.pdf"
-                            download target="_blank" class="btn-download">📥 Descargar PDF</a>
+                        <a href="LLM-DEPR/LLM_M2_Resurso_200+1 prompts-para-educacion-guia-para-docentes-innovadores_pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn-download">📥 Acceder al recurso</a>
                     </article>
 
                     <article class="info-card">
                         <h3>Easy Guide to Prompt Engineering</h3>
-                        <button class="image-zoom-trigger" type="button"
-                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                            aria-label="Ampliar imagen Easy Guide to Prompt Engineering">
-                            <img data-asset="LLM_M2_Resurso_an easy guide to Prompt Engineering for EDU_imagen.png"
-                                src="assets/LLM_M2_Resurso_an easy guide to Prompt Engineering for EDU_imagen.png"
-                                alt="An easy guide to Prompt Engineering">
+                        <p>Guía visual e intuitiva sobre los principios de ingeniería de prompts en educación. Refuerza la fórmula <strong>R-C-T-F-R</strong> con ejemplos prácticos.</p>
+                        <button class="image-zoom-trigger" type="button" onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)" aria-label="Ampliar imagen Easy Guide to Prompt Engineering">
+                            <img data-asset="LLM_M2_Resurso_an easy guide to Prompt Engineering for EDU_imagen.png" src="assets/LLM_M2_Resurso_an easy guide to Prompt Engineering for EDU_imagen.png" alt="An easy guide to Prompt Engineering" loading="lazy">
                         </button>
-                        <a href="LLM-DEPR/LLM_M2_Recurso_an_easy_guide_to_prompt_engineering_for_edu_pdf.pdf"
-                            download target="_blank" class="btn-download">📥 Descargar PDF</a>
+                        <a href="LLM-DEPR/LLM_M2_Recurso_an_easy_guide_to_prompt_engineering_for_edu_pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn-download">📥 Acceder a la guía</a>
                     </article>
 
                     <article class="info-card">
                         <h3>30 Comandos para ChatGPT</h3>
-                        <button class="image-zoom-trigger" type="button"
-                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                            aria-label="Ampliar imagen 30 Comandos para ChatGPT">
-                            <img data-asset="LLM_M2_Resurso_30 comandos para ChatGPT_imagen.png"
-                                src="assets/LLM_M2_Resurso_30 comandos para ChatGPT_imagen.png"
-                                alt="30 comandos para ChatGPT">
+                        <p>Lista práctica de comandos esenciales para sacar el máximo provecho de un bot conversacional. Ideal para iniciar tu rutina diaria.</p>
+                        <button class="image-zoom-trigger" type="button" onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)" aria-label="Ampliar imagen 30 Comandos para ChatGPT">
+                            <img data-asset="LLM_M2_Resurso_30 comandos para ChatGPT_imagen.png" src="assets/LLM_M2_Resurso_30 comandos para ChatGPT_imagen.png" alt="30 comandos para ChatGPT" loading="lazy">
                         </button>
-                        <a href="LLM-DEPR/LLM_M2_Recurso_30 COMANDOS PARA CHATGPT_pdf.pdf" download target="_blank"
-                            class="btn-download">📥 Descargar PDF</a>
-                    </article>
-
-                    <article class="info-card">
-                        <h3>La Lupa del Maestro: Validación</h3>
-                        <button class="image-zoom-trigger" type="button"
-                            onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                            aria-label="Ampliar imagen La Lupa del Maestro: Validación">
-                            <img data-asset="LLM_M2_Recurso_La Lupa del Maestro - Lista de cotejo de validación_imagen.png"
-                                src="assets/LLM_M2_Recurso_La Lupa del Maestro - Lista de cotejo de validación_imagen.png"
-                                alt="La Lupa del Maestro: Lista de cotejo de validación">
-                        </button>
-                        <a href="plantilla_LupaMaestro_Validador.html"
-                            target="_blank" class="btn-download">🔍 Abrir Validador Digital</a>
+                        <a href="LLM-DEPR/LLM_M2_Recurso_30 COMANDOS PARA CHATGPT_pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn-download">📥 Acceder al recurso</a>
                     </article>
                 </div>
+            </section>
+
+            <section class="resource-section" aria-labelledby="validador-title">
+                <div class="resource-header">
+                    <div class="resource-icon" aria-hidden="true">🔍</div>
+                    <div>
+                        <h2 id="validador-title" class="section-title">3. Herramienta Digital de Validación</h2>
+                        <p class="section-helper">Operacionaliza la <strong>Lista de Cotejo de Validación</strong> de la Lección 2.3 en una herramienta digital interactiva que puedes usar en tiempo real cada vez que generes un material con IA. Tu <strong>filtro profesional</strong>, automatizado.</p>
+                    </div>
+                </div>
+
+                <article class="validator-card">
+                    <h3>La Lupa del Maestro: Validador Digital</h3>
+                    <p>Aplicación web para verificar sistemáticamente <strong>exactitud factual</strong>, <strong>nivel de complejidad</strong>, <strong>pertinencia cultural</strong> y <strong>sesgos</strong> en cualquier material generado por IA antes de llevarlo al aula.</p>
+                    <button class="image-zoom-trigger" type="button" onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)" aria-label="Ampliar imagen La Lupa del Maestro">
+                        <img data-asset="LLM_M2_Recurso_La Lupa del Maestro - Lista de cotejo de validación_imagen.png" src="assets/LLM_M2_Recurso_La Lupa del Maestro - Lista de cotejo de validación_imagen.png" alt="La Lupa del Maestro: Lista de cotejo de validación" loading="lazy">
+                    </button>
+                    <a href="plantilla_LupaMaestro_Validador.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary">🔍 Abrir validador digital</a>
+                </article>
             </section>
 
             <section class="resource-section" aria-labelledby="video-title">
                 <div class="resource-header">
                     <div class="resource-icon" aria-hidden="true">🎥</div>
-                    <h2 id="video-title" class="section-title">Video Tutorial: Estrategias de Prompting</h2>
-                </div>
-                <div class="resource-card">
-                    <h3>¿Qué es... PROMPT?</h3>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/C73JIUeOoLw" title="Estrategias de Prompting"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen loading="lazy"></iframe>
+                    <div>
+                        <h2 id="video-title" class="section-title">4. Video Tutorial</h2>
+                        <p class="section-helper">Refuerza visualmente el <strong>concepto fundacional</strong> del módulo. Si eres aprendiz auditivo o visual, este video consolida en pocos minutos lo que el texto desarrolla en mayor profundidad.</p>
                     </div>
-                    <a href="https://youtu.be/C73JIUeOoLw" target="_blank" rel="noreferrer noopener"
-                        class="resource-link">📺 Ver en YouTube</a>
                 </div>
+
+                <article class="resource-card">
+                    <h3>¿Qué es... PROMPT?</h3>
+                    <p>Explicación clara y concisa del concepto de <strong>prompt</strong>, su función como puente entre la intención docente y la respuesta de la IA. Refuerza la Lección 2.1.</p>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/C73JIUeOoLw" title="¿Qué es PROMPT?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <a href="https://youtu.be/C73JIUeOoLw" target="_blank" rel="noreferrer noopener" class="resource-link">📺 Ver video</a>
+                </article>
             </section>
 
             <section class="bibliographic-resources" aria-labelledby="bibliographic-resources-title-m2">
@@ -842,7 +1309,7 @@
                         <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
                         <span class="bibliographic-resources__summary-text">
                             <span class="bibliographic-resources__title" id="bibliographic-resources-title-m2">Bibliografía Recomendada Módulo 2</span>
-                            <span class="bibliographic-resources__count">4 recursos disponibles</span>
+                            <span class="bibliographic-resources__subtitle">Base académica para sustentar la integración de prompt engineering en educación.</span>
                         </span>
                         <span class="bibliographic-resources__action">Ver recursos</span>
                         <span class="bibliographic-resources__arrow" aria-hidden="true">
@@ -850,73 +1317,159 @@
                         </span>
                     </summary>
 
-                    <div class="bibliographic-resources__list">
+                    <div class="bibliographic-resources__body">
+                        <div class="resource-section-card">
+                            <h3>Cómo te ayudan estos recursos</h3>
+                            <p>Te ofrecen la <strong>base académica</strong> que sustenta este módulo. Son útiles para argumentar decisiones con evidencia, preparar talleres, justificar el uso de bancos de prompts y orientar la integración de LLM desde criterios pedagógicos verificables.</p>
+                        </div>
 
-                        <article class="bibliographic-resource">
-                            <div class="bibliographic-resource__main">
-                                <span class="bibliographic-resource__tag">REVISIÓN SISTEMÁTICA (2024)</span>
-                                <h3 class="bibliographic-resource__title">A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education</h3>
-                                <p class="bibliographic-resource__citation">Chen, E., Wang, D., Xu, L., Cao, C., Fang, X., &amp; Lin, J. (2024, October 14). A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education. arXiv.org. https://arxiv.org/abs/2410.11123</p>
-                                <details class="bibliographic-resource__details">
-                                    <summary>Ver resumen</summary>
-                                    <p>Este estudio analiza exhaustivamente cómo la ingeniería de prompts influye en la enseñanza de áreas STEM en los niveles primario y secundario. Ofrece un marco de referencia sobre las estrategias más efectivas para personalizar el aprendizaje en ciencias y matemáticas.</p>
-                                </details>
-                            </div>
-                            <div class="bibliographic-resource__actions">
-                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
-                            </div>
-                        </article>
+                        <div class="bibliographic-grid">
+                            <article class="bibliographic-resource">
+                                <div class="bibliographic-resource__main">
+                                    <span class="bibliographic-resource__tag">Revisión sistemática — 2024</span>
+                                    <h3 class="bibliographic-resource__title">A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education</h3>
+                                    <p class="bibliographic-resource__citation">Chen, E., Wang, D., Xu, L., Cao, C., Fang, X., &amp; Lin, J. (2024, October 14). <em>A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education</em>. arXiv.org. https://arxiv.org/abs/2410.11123</p>
+                                    <details class="bibliographic-resource__details">
+                                        <summary>Ver resumen</summary>
+                                        <p>Analiza cómo la ingeniería de prompts influye en la enseñanza de áreas STEM en niveles primario y secundario. Ofrece un marco de referencia sobre estrategias efectivas para personalizar el aprendizaje en ciencias y matemáticas.</p>
+                                    </details>
+                                </div>
+                                <div class="bibliographic-resource__actions">
+                                    <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_A Systematic Review on Prompt Engineering in Large Language Models for K-12 STEM Education.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                                </div>
+                            </article>
 
-                        <article class="bibliographic-resource">
-                            <div class="bibliographic-resource__main">
-                                <span class="bibliographic-resource__tag">ESTUDIO DOCENTE (2025)</span>
-                                <h3 class="bibliographic-resource__title">El diseño de prompts como competencia emergente en la formación docente (Modelo CRETA+R)</h3>
-                                <p class="bibliographic-resource__citation">García-Beltrán, E. (2025). No es magia, es prompting: el diseño de prompts como competencia emergente en la formación docente. Un estudio desde el modelo CRETA+R. Pixel-Bit Revista De Medios Y Educación, 75, 1–18. https://doi.org/10.12795/pixelbit.115487</p>
-                                <details class="bibliographic-resource__details">
-                                    <summary>Ver resumen</summary>
-                                    <p>Propone el modelo CRETA+R como una estructura pedagógica para que los educadores desarrollen habilidades críticas en la creación de prompts, transformando la IA en un asistente de enseñanza eficiente y alineado con los objetivos curriculares.</p>
-                                </details>
-                            </div>
-                            <div class="bibliographic-resource__actions">
-                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_El diseño de prompts como competencia emergente (CRETA+R).pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
-                            </div>
-                        </article>
+                            <article class="bibliographic-resource">
+                                <div class="bibliographic-resource__main">
+                                    <span class="bibliographic-resource__tag">Estudio docente — 2025</span>
+                                    <h3 class="bibliographic-resource__title">El diseño de prompts como competencia emergente en la formación docente (Modelo CRETA+R)</h3>
+                                    <p class="bibliographic-resource__citation">García-Beltrán, E. (2025). No es magia, es prompting: el diseño de prompts como competencia emergente en la formación docente. Un estudio desde el modelo CRETA+R. <em>Pixel-Bit Revista De Medios Y Educación</em>, 75, 1–18. https://doi.org/10.12795/pixelbit.115487</p>
+                                    <details class="bibliographic-resource__details">
+                                        <summary>Ver resumen</summary>
+                                        <p>Propone el modelo CRETA+R como estructura pedagógica para desarrollar habilidades críticas en la creación de prompts, transformando la IA en un asistente de enseñanza eficiente y alineado con los objetivos curriculares.</p>
+                                    </details>
+                                </div>
+                                <div class="bibliographic-resource__actions">
+                                    <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_El diseño de prompts como competencia emergente (CRETA+R).pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                                </div>
+                            </article>
 
-                        <article class="bibliographic-resource">
-                            <div class="bibliographic-resource__main">
-                                <span class="bibliographic-resource__tag">ALFABETIZACIÓN DIGITAL (2024)</span>
-                                <h3 class="bibliographic-resource__title">Prompt engineering as a new 21st century skill</h3>
-                                <p class="bibliographic-resource__citation">Federiakin, D., Molerov, D., Zlatkin-Troitschanskaia, O., &amp; Maur, A. (2024). Prompt engineering as a new 21st century skill. Frontiers in Education, 9. https://doi.org/10.3389/feduc.2024.1366434</p>
-                                <details class="bibliographic-resource__details">
-                                    <summary>Ver resumen</summary>
-                                    <p>Sitúa la ingeniería de prompts como una competencia transversal e indispensable para la era actual. El artículo debate la importancia de integrar esta habilidad en la educación superior y profesional para asegurar la adaptabilidad tecnológica.</p>
-                                </details>
-                            </div>
-                            <div class="bibliographic-resource__actions">
-                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt engineering as a new 21st century skill.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
-                            </div>
-                        </article>
+                            <article class="bibliographic-resource">
+                                <div class="bibliographic-resource__main">
+                                    <span class="bibliographic-resource__tag">Alfabetización digital — 2024</span>
+                                    <h3 class="bibliographic-resource__title">Prompt engineering as a new 21st century skill</h3>
+                                    <p class="bibliographic-resource__citation">Federiakin, D., Molerov, D., Zlatkin-Troitschanskaia, O., &amp; Maur, A. (2024). Prompt engineering as a new 21st century skill. <em>Frontiers in Education</em>, 9. https://doi.org/10.3389/feduc.2024.1366434</p>
+                                    <details class="bibliographic-resource__details">
+                                        <summary>Ver resumen</summary>
+                                        <p>Sitúa la ingeniería de prompts como una competencia transversal indispensable para la era actual. Debate su integración en la educación superior y profesional para asegurar adaptabilidad tecnológica.</p>
+                                    </details>
+                                </div>
+                                <div class="bibliographic-resource__actions">
+                                    <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt engineering as a new 21st century skill.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                                </div>
+                            </article>
 
-                        <article class="bibliographic-resource">
-                            <div class="bibliographic-resource__main">
-                                <span class="bibliographic-resource__tag">ALINEACIÓN PEDAGÓGICA (2025)</span>
-                                <h3 class="bibliographic-resource__title">Prompt engineering for LLMs educational alignment</h3>
-                                <p class="bibliographic-resource__citation">Barbero, G., Preuss, M., &amp; Leiden University. (2025). Prompt engineering for LLMs educational alignment. In CEUR Workshop Proceedings (pp. 1–18). CEUR. https://ceur-ws.org/Vol-4138/paper1.pdf</p>
-                                <details class="bibliographic-resource__details">
-                                    <summary>Ver resumen</summary>
-                                    <p>Explora metodologías técnicas para "domar" y alinear las salidas de los modelos de lenguaje con estándares educativos y éticos, garantizando que el contenido generado sea académicamente válido y seguro.</p>
-                                </details>
-                            </div>
-                            <div class="bibliographic-resource__actions">
-                                <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt Engineering for LLMs Educational Alignment.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
-                            </div>
-                        </article>
-
+                            <article class="bibliographic-resource">
+                                <div class="bibliographic-resource__main">
+                                    <span class="bibliographic-resource__tag">Alineación pedagógica — 2025</span>
+                                    <h3 class="bibliographic-resource__title">Prompt engineering for LLMs educational alignment</h3>
+                                    <p class="bibliographic-resource__citation">Barbero, G., Preuss, M., &amp; Leiden University. (2025). Prompt engineering for LLMs educational alignment. In <em>CEUR Workshop Proceedings</em> (pp. 1–18). CEUR. https://ceur-ws.org/Vol-4138/paper1.pdf</p>
+                                    <details class="bibliographic-resource__details">
+                                        <summary>Ver resumen</summary>
+                                        <p>Explora metodologías técnicas para alinear las salidas de modelos de lenguaje con estándares educativos y éticos, garantizando que el contenido generado sea académicamente válido y seguro.</p>
+                                    </details>
+                                </div>
+                                <div class="bibliographic-resource__actions">
+                                    <a href="LLM-DEPR/LLM_M2_Recurso_Articulo_Prompt Engineering for LLMs Educational Alignment.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">📥 Descargar Recurso (PDF)</a>
+                                </div>
+                            </article>
+                        </div>
                     </div>
                 </details>
             </section>
 
+            <section class="resource-section" aria-labelledby="maletin-title">
+                <div class="resource-header">
+                    <div class="resource-icon" aria-hidden="true">🎓</div>
+                    <div>
+                        <h2 id="maletin-title" class="section-title">Cierre: "Tu Maletín Profesional de Prompt Engineering"</h2>
+                        <p class="section-helper">En el Módulo 1 propusimos una ruta de profundización por perfil. En el Módulo 2, donde el énfasis es <strong>práctico-aplicado</strong>, te proponemos una innovación distinta: construir tu propio <strong>maletín profesional de recursos curados</strong>, listos para usar en el momento exacto en que los necesites.</p>
+                    </div>
+                </div>
+
+                <div class="resource-section-card">
+                    <h3>🧳 ¿Qué llevarías en tu maletín?</h3>
+                    <p>Tu <strong>maletín profesional</strong> es un kit personalizado que extraes de esta biblioteca según tres escenarios reales de tu rol como facilitador docente. Selecciona los recursos que mejor respondan a cada momento:</p>
+                </div>
+
+                <div class="maletin-grid">
+                    <article class="maletin-card">
+                        <span class="maletin-card__tag">Planificación dominical</span>
+                        <h3>Preparo mi semana de acompañamiento</h3>
+                        <ol>
+                            <li>Banco — <strong>Creación de Plan de Lección</strong> + <strong>Diseño de Tareas</strong>.</li>
+                            <li>Guía <strong>200+1 Prompts para Educación</strong>.</li>
+                            <li><strong>Lupa del Maestro</strong> — Validador.</li>
+                        </ol>
+                        <p>Genera, alinea al <strong>DEPR</strong> y valida tu trabajo semanal en un flujo continuo.</p>
+                    </article>
+
+                    <article class="maletin-card">
+                        <span class="maletin-card__tag">Capacitación MECPA</span>
+                        <h3>Voy a modelar uso de IA con maestros</h3>
+                        <ol>
+                            <li>Video <strong>¿Qué es… PROMPT?</strong> — apertura.</li>
+                            <li>Guía <strong>Easy Guide to Prompt Engineering</strong>.</li>
+                            <li>Banco — <strong>Explicación de Conceptos</strong> + <strong>Múltiples Modalidades</strong>.</li>
+                        </ol>
+                        <p>Tendrás un guion visual, conceptual y práctico para una sesión potente de desarrollo profesional.</p>
+                    </article>
+
+                    <article class="maletin-card">
+                        <span class="maletin-card__tag">Educación Especial / ELL</span>
+                        <h3>Acompaño a un docente con grupo heterogéneo</h3>
+                        <ol>
+                            <li>Banco — <strong>Accesibilidad en Educación</strong> + <strong>Problemas de Práctica</strong>.</li>
+                            <li><strong>Lupa del Maestro</strong> — criterio de pertinencia y equidad.</li>
+                            <li>Guía <strong>30 Comandos para ChatGPT</strong>.</li>
+                        </ol>
+                        <p>Generación rápida de materiales accesibles con un filtro robusto de calidad y equidad.</p>
+                    </article>
+
+                    <article class="maletin-card">
+                        <span class="maletin-card__tag">Diseño de evaluaciones</span>
+                        <h3>Apoyo construcción de pruebas y rúbricas</h3>
+                        <ol>
+                            <li>Banco — <strong>Generación de Exámenes</strong> + <strong>Proporcionar Retroalimentación</strong>.</li>
+                            <li><strong>Lupa del Maestro</strong>.</li>
+                            <li>Guía <strong>200+1 Prompts para Educación</strong> — sección evaluación.</li>
+                        </ol>
+                        <p>Banco inicial de reactivos y rúbricas, todo validado antes de aplicar.</p>
+                    </article>
+                </div>
+
+                <div class="resource-commitment-card">
+                    <h2>💎 Tu compromiso profesional</h2>
+                    <div class="commitment-grid">
+                        <div class="commitment-item">
+                            <p>Selecciona <strong>AL MENOS 3 prompts</strong> del Banco que se ajusten a tus tareas más frecuentes y guárdalos en un documento personal.</p>
+                        </div>
+                        <div class="commitment-item">
+                            <p>Descarga <strong>AL MENOS UNA guía PDF</strong> y márcala como referencia rápida.</p>
+                        </div>
+                        <div class="commitment-item">
+                            <p>Marca como favorito el Validador <strong>"La Lupa del Maestro"</strong> y conviértelo en tu paso obligatorio antes de llevar un material al aula.</p>
+                        </div>
+                        <div class="commitment-item">
+                            <p>Comparte <strong>UN recurso</strong> en el <strong>Foro del Módulo 2</strong> explicando para qué función específica de tu rol lo utilizarás.</p>
+                        </div>
+                    </div>
+                    <p class="final-reflection"><strong>"Un prompt bien diseñado, validado por un experto humano, no es un atajo: es una decisión profesional. Esta biblioteca solo cobra valor cuando se traduce en prácticas habituales que protegen el currículo del DEPR, la cultura puertorriqueña y la confidencialidad de tus estudiantes."</strong></p>
+                </div>
+            </section>
+
             <div id="completion-section"></div>
+
             <nav class="footer-nav" aria-label="Navegación del módulo">
                 <a href="leccion2_3.html" class="btn-footer btn-back">← Volver a la Lección 2.3</a>
                 <a href="foro_modulo2.html" class="btn-footer btn-next">Ir al Foro del Módulo 2 →</a>
@@ -926,12 +1479,10 @@
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
-    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
-        aria-hidden="true">
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title" aria-hidden="true">
         <div class="modal-content">
-            <h2 id="zoom-title" class="sr-only">Imagen ampliada del recurso</h2>
-            <button class="modal-close-btn" type="button" onclick="closeZoom()"
-                aria-label="Cerrar imagen ampliada">×</button>
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()" aria-label="Cerrar imagen ampliada">×</button>
             <img id="zoomedImg" alt="Imagen ampliada del recurso">
         </div>
     </div>
@@ -944,7 +1495,6 @@
             const candidates = [
                 `assets/${fileName}`,
                 `./assets/${fileName}`,
-                `assets/${fileName}`,
                 `/assets/${fileName}`
             ];
 
@@ -1043,9 +1593,160 @@
             event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        const promptBankItems = [
+            {
+                category: 'Diseño Instruccional',
+                title: 'Explicación de Conceptos',
+                description: 'Desglosa conceptos complejos para que sean accesibles, adaptando la profundidad técnica al perfil del usuario.',
+                template: 'Actúa como facilitador docente experto. Explica el concepto [CONCEPTO] a maestros de [NIVEL/MATERIA] en Puerto Rico. Usa lenguaje claro, un ejemplo contextualizado al DEPR, una analogía sencilla y una pregunta de verificación al final.'
+            },
+            {
+                category: 'Tutoría y Evaluación',
+                title: 'Tutoría Adaptativa',
+                description: 'Guía al estudiante mediante el descubrimiento guiado, sin entregar soluciones sin esfuerzo cognitivo previo.',
+                template: 'Actúa como tutor socrático. Ayuda a un estudiante de [GRADO] a comprender [TEMA]. No des la respuesta de inmediato. Formula preguntas progresivas, ofrece pistas y valida cada intento antes de avanzar.'
+            },
+            {
+                category: 'Planeación',
+                title: 'El Arquitecto de Rutas de Aprendizaje',
+                description: 'Diseña rutas de aprendizaje optimizadas para retención a largo plazo y empleabilidad.',
+                template: 'Actúa como diseñador instruccional. Diseña una ruta de aprendizaje de [DURACIÓN] para desarrollar [COMPETENCIA]. Incluye objetivos, secuencia, evidencias, recursos y momentos de práctica espaciada.'
+            },
+            {
+                category: 'Creación de Contenido',
+                title: 'Generación de Resúmenes',
+                description: 'Transforma conocimiento técnico denso en materiales de aprendizaje accesibles y estructurados.',
+                template: 'Resume el siguiente texto para docentes de [NIVEL]. Conserva las ideas esenciales, elimina redundancias, usa encabezados claros y añade una sección "Cómo aplicarlo en clase". Texto: [PEGAR TEXTO].'
+            },
+            {
+                category: 'Tutoría y Evaluación',
+                title: 'Problemas de Práctica',
+                description: 'Genera laboratorios de práctica con andamiaje cognitivo para dominio progresivo de un tema.',
+                template: 'Crea 5 problemas de práctica sobre [TEMA] para estudiantes de [GRADO]. Organízalos de menor a mayor dificultad, incluye una pista por problema y una breve explicación de la respuesta correcta.'
+            },
+            {
+                category: 'Evaluación',
+                title: 'Generación de Exámenes',
+                description: 'Diseña instrumentos de evaluación equilibrados, rigurosos y libres de sesgos.',
+                template: 'Actúa como especialista en evaluación. Genera un banco de 10 preguntas sobre [TEMA] alineadas al estándar [ESTÁNDAR DEPR]. Distribuye los ítems en niveles Bloom/Webb e incluye clave de respuestas y criterio de validación.'
+            },
+            {
+                category: 'Diseño Instruccional',
+                title: 'Diseño de Tareas',
+                description: 'Crea fichas de tarea claras, motivadoras y rigurosas, con criterios de evaluación explícitos.',
+                template: 'Diseña una tarea auténtica sobre [TEMA] para [GRADO/MATERIA]. Incluye propósito, instrucciones paso a paso, producto esperado, criterios de evaluación, tiempo estimado y adaptación para estudiantes con necesidades diversas.'
+            },
+            {
+                category: 'Planeación',
+                title: 'Creación de Plan de Lección',
+                description: 'Diseña planes de lección detallados alineados a objetivos SMART y aprendizaje activo.',
+                template: 'Actúa como maestro/a de [GRADO] de [MATERIA] en Puerto Rico. Según el estándar [ESTÁNDAR DEPR], diseña una clase de [MINUTOS] con inicio, desarrollo, cierre, recursos, evaluación formativa y restricciones de contexto.'
+            },
+            {
+                category: 'Inclusión',
+                title: 'Accesibilidad en Educación',
+                description: 'Transforma contenido educativo en versiones accesibles preservando conceptos clave.',
+                template: 'Adapta el siguiente contenido para tres niveles de lectura: básico, intermedio y avanzado. Conserva los conceptos clave, añade glosario breve, ejemplo puertorriqueño y una actividad compatible con DUA. Contenido: [PEGAR TEXTO].'
+            },
+            {
+                category: 'Tutoría y Evaluación',
+                title: 'Proporcionar Retroalimentación',
+                description: 'Ofrece retroalimentación constructiva y específica alineada a rúbricas.',
+                template: 'Actúa como evaluador formativo. Revisa la respuesta del estudiante usando estos criterios: [CRITERIOS]. Ofrece retroalimentación específica, una fortaleza, un área de mejora y una sugerencia accionable sin emitir juicio punitivo.'
+            },
+            {
+                category: 'Creación de Contenido',
+                title: 'Múltiples Modalidades',
+                description: 'Desglosa conceptos complejos en 5 representaciones mentales distintas pero consistentes.',
+                template: 'Explica [CONCEPTO] en cinco modalidades: definición breve, analogía, ejemplo del contexto de Puerto Rico, mini actividad y pregunta de reflexión. Mantén coherencia conceptual y lenguaje accesible.'
+            }
+        ];
+
+        const promptGrid = document.querySelector('[data-prompt-grid]');
+        const promptFilters = document.querySelector('[data-prompt-filters]');
+        const promptSearch = document.querySelector('[data-prompt-search]');
+        const promptStatus = document.querySelector('[data-prompt-status]');
+        let currentPromptFilter = 'Todos';
+
+        function getPromptCategories() {
+            return ['Todos', ...Array.from(new Set(promptBankItems.map((item) => item.category)))];
+        }
+
+        function renderPromptFilters() {
+            if (!promptFilters) return;
+            promptFilters.innerHTML = getPromptCategories().map((category) => `
+                <button type="button" class="prompt-bank__filter${category === currentPromptFilter ? ' is-active' : ''}" data-filter="${category}">
+                    ${category}
+                </button>
+            `).join('');
+
+            promptFilters.querySelectorAll('[data-filter]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    currentPromptFilter = button.dataset.filter;
+                    renderPromptFilters();
+                    renderPrompts();
+                });
+            });
+        }
+
+        function promptMatches(item, query) {
+            const haystack = `${item.category} ${item.title} ${item.description} ${item.template}`.toLowerCase();
+            return haystack.includes(query.toLowerCase());
+        }
+
+        function renderPrompts() {
+            if (!promptGrid || !promptStatus) return;
+            const query = promptSearch ? promptSearch.value.trim() : '';
+            const filtered = promptBankItems.filter((item) => {
+                const filterOk = currentPromptFilter === 'Todos' || item.category === currentPromptFilter;
+                const searchOk = !query || promptMatches(item, query);
+                return filterOk && searchOk;
+            });
+
+            promptStatus.textContent = `${filtered.length} prompt${filtered.length === 1 ? '' : 's'} mostrado${filtered.length === 1 ? '' : 's'}.`;
+
+            promptGrid.innerHTML = filtered.map((item, index) => `
+                <article class="prompt-card">
+                    <span class="prompt-card__category">${item.category}</span>
+                    <h3 class="prompt-card__title">${item.title}</h3>
+                    <p class="prompt-card__description">${item.description}</p>
+                    <div class="prompt-card__template" id="prompt-template-${index}">${item.template}</div>
+                    <button type="button" class="prompt-bank__copy" data-copy-index="${promptBankItems.indexOf(item)}">Copiar prompt</button>
+                </article>
+            `).join('');
+
+            promptGrid.querySelectorAll('[data-copy-index]').forEach((button) => {
+                button.addEventListener('click', async () => {
+                    const item = promptBankItems[Number(button.dataset.copyIndex)];
+                    if (!item) return;
+                    const text = item.template;
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        button.textContent = 'Prompt copiado';
+                        window.setTimeout(() => button.textContent = 'Copiar prompt', 1800);
+                    } catch {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = text;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        button.textContent = 'Prompt copiado';
+                        window.setTimeout(() => button.textContent = 'Copiar prompt', 1800);
+                    }
+                });
+            });
+        }
+
+        promptSearch?.addEventListener('input', renderPrompts);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPromptFilters();
+            renderPrompts();
+        });
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
-    <script src="scripts/prompt-bank.js" defer></script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
 </body>
