@@ -4,26 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Foro del Módulo 2 de Docencia 4.0: Diseño de prompts y planificación didáctica. Espacio para discutir cómo los prompts apoyan la planificación, creación de materiales, adaptación de contenidos y diseño de experiencias de aprendizaje.">
-    <meta name="keywords"
-        content="Docencia 4.0, Foro Módulo 2, prompts, CRIF, planificación didáctica, LLM, IA educativa, docentes, ChatGPT, Copilot">
+    <meta name="description" content="Foro del Módulo 2 de Docencia 4.0: Diseño de prompts y planificación didáctica. Espacio de diálogo profesional sobre ingeniería de prompts, planificación, adaptación de materiales y validación docente.">
+    <meta name="keywords" content="Docencia 4.0, Foro Módulo 2, prompts, R-C-T-F-R, planificación didáctica, LLM, IA educativa, DEPR, facilitadores docentes">
     <title>Foro Módulo 2 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/module-access-guard.js"></script>
     <script type="module" src="scripts/forum-handler.js"></script>
 
     <style>
+
+        :root {
+            --nav-height: var(--height-module-topnav, 80px);
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            padding-top: var(--height-module-topnav, 80px);
+            padding-top: var(--nav-height);
             min-height: 100vh;
             overflow-x: hidden;
             background: var(--color-background-page);
@@ -42,27 +52,222 @@
             font-weight: var(--font-weight-bold);
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-forum:focus-visible,
+        .forum-input:focus-visible,
+        .forum-textarea:focus-visible,
+        .btn-scroll-top:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .forum-container {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
         .forum-shell {
             position: relative;
             overflow: hidden;
+            padding: var(--spacing-16);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
         }
 
         .forum-header {
             display: grid;
             gap: var(--spacing-md);
-            margin-bottom: var(--spacing-12);
-            text-align: center;
+            margin-bottom: var(--spacing-10);
         }
 
         .forum-kicker {
-            justify-self: center;
+            width: fit-content;
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-2);
             padding: var(--spacing-1) var(--spacing-3);
             border-radius: var(--radius-pill);
             background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
+            color: var(--color-brand-secondary);
             font-size: var(--font-size-2xs);
             font-weight: var(--font-weight-extrabold);
             letter-spacing: var(--letter-spacing-wide);
@@ -70,6 +275,7 @@
         }
 
         .forum-header h1 {
+            max-width: 900px;
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -83,83 +289,170 @@
             color: var(--color-brand-primary);
         }
 
-        .forum-header p {
-            max-width: 780px;
-            margin: 0 auto;
+        .forum-lead {
+            max-width: 940px;
             color: var(--color-text-secondary);
             font-size: var(--font-size-lg);
             line-height: var(--line-height-relaxed);
         }
 
-        .forum-purpose-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .forum-purpose-card {
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface-low);
+        .forum-summary-card,
+        .forum-purpose-card,
+        .forum-participation-card,
+        .forum-question-card,
+        .forum-publication-card,
+        .forum-note-card {
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
 
+        .forum-summary-card {
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-xl);
+            background: var(--color-background-surface-low);
+        }
+
+        .forum-summary-card h2,
         .forum-purpose-card h2,
-        .forum-purpose-card h3 {
-            margin: 0 0 var(--spacing-sm);
+        .forum-participation-card h2,
+        .forum-question-card h2,
+        .forum-publication-card h2 {
+            margin: 0 0 var(--spacing-md);
             color: var(--color-brand-primary);
             font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
+            font-size: var(--font-size-2xl);
             font-weight: var(--font-weight-extrabold);
             line-height: var(--line-height-snug);
         }
 
-        .forum-purpose-card ul {
-            margin: var(--spacing-sm) 0 0;
-            padding-left: var(--spacing-6);
+        .forum-purpose-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            background: var(--color-background-surface-low);
         }
 
-        .forum-purpose-card li {
-            margin-bottom: var(--spacing-2);
-            color: var(--color-text-secondary);
-            line-height: var(--line-height-relaxed);
+        .forum-purpose-card p:last-child,
+        .forum-summary-card p:last-child,
+        .forum-question-card p:last-child,
+        .forum-note-card p:last-child,
+        .forum-publication-card p:last-child {
+            margin-bottom: 0;
         }
 
-        .forum-purpose-card li::marker {
-            color: var(--color-brand-primary);
+        .forum-participation-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface);
+        }
+
+        .forum-participation-intro {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .forum-component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .forum-component-card {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .forum-component-card__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-md);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
             font-weight: var(--font-weight-extrabold);
         }
 
-        .forum-status,
-        .forum-guide {
+        .forum-component-card h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .forum-component-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .forum-note-card {
             display: flex;
             align-items: flex-start;
             gap: var(--spacing-md);
             padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            margin-top: var(--spacing-lg);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
             border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
             background: var(--color-background-surface-low);
-            color: var(--color-text-secondary);
         }
 
-        .forum-guide {
-            border-left-color: var(--color-brand-primary);
-        }
-
-        .forum-status-icon,
-        .forum-guide-icon {
-            font-size: var(--font-size-xl);
+        .forum-note-card__icon {
+            flex: 0 0 auto;
+            font-size: var(--font-size-2xl);
             line-height: 1;
         }
 
-        .forum-status p,
-        .forum-guide p {
+        .forum-question-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+        }
+
+        .forum-question-card blockquote {
             margin: 0;
-            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-lg);
             line-height: var(--line-height-relaxed);
+        }
+
+        .forum-publication-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--color-background-surface);
+        }
+
+        .forum-publication-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .forum-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        #forum-dynamic-container {
+            margin-top: var(--spacing-xl);
         }
 
         .post-box {
@@ -205,8 +498,7 @@
             font-family: var(--font-family-body);
             font-size: var(--font-size-base);
             line-height: var(--line-height-relaxed);
-            transition:
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
@@ -258,8 +550,7 @@
             font-weight: var(--font-weight-extrabold);
             cursor: pointer;
             box-shadow: var(--shadow-focus-secondary);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard),
                 opacity var(--motion-duration-default) var(--motion-easing-standard);
         }
@@ -316,8 +607,7 @@
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
@@ -418,8 +708,7 @@
             font-size: var(--font-size-sm);
             font-weight: var(--font-weight-bold);
             cursor: pointer;
-            transition:
-                background-color var(--motion-duration-default) var(--motion-easing-standard),
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
                 color var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard),
                 transform var(--motion-duration-default) var(--motion-easing-standard);
@@ -493,6 +782,82 @@
             text-align: center;
         }
 
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -510,6 +875,9 @@
         }
 
         @media (max-width: 900px) {
+            .forum-container {
+                padding: 0 var(--spacing-4);
+            }
 
             .forum-shell,
             .post-box,
@@ -517,6 +885,7 @@
                 padding: var(--spacing-xl);
             }
 
+            .forum-component-grid,
             .forum-form-grid {
                 grid-template-columns: 1fr;
             }
@@ -526,40 +895,89 @@
             .forum-header h1 {
                 font-size: var(--font-size-3xl);
             }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .forum-lead,
+            .forum-question-card blockquote {
+                font-size: var(--font-size-base);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
         }
 
         @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
 
             .forum-shell,
             .post-box,
             .comment-card,
-            .forum-purpose-card {
+            .forum-summary-card,
+            .forum-purpose-card,
+            .forum-participation-card,
+            .forum-question-card,
+            .forum-publication-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
+            }
+
+            .forum-note-card {
+                padding: var(--spacing-md);
             }
 
             .comment-header {
                 align-items: flex-start;
             }
         }
+
+        .forum-question-list {
+            margin: var(--spacing-md) 0 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .forum-question-list li {
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .forum-question-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
     </style>
 </head>
 
 <body data-page-id="foro_modulo2" data-module-id="modulo2" data-page-type="foro" data-title="Foro Módulo 2">
     <nav class="top-nav" aria-label="Navegación superior del foro del Módulo 2">
         <div class="nav-left">
-            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
-                aria-expanded="false" aria-controls="sidebar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
             <div class="logo-container">
-                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png"
-                    alt="Logo Docencia 4.0">
+                <img data-assets="LLM_Docencia_4.0_logo.png" src="./assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
             </div>
             <span class="module-title-nav">Foro Módulo 2: Diseño de prompts y planificación didáctica</span>
         </div>
@@ -590,44 +1008,91 @@
         <article class="forum-shell" aria-labelledby="forum-title">
             <header class="forum-header">
                 <span class="forum-kicker">Módulo 2 · Comunidad Docencia 4.0</span>
-                <h1 id="forum-title">Foro Módulo 2: <span>Diseño de prompts y planificación didáctica</span></h1>
-                <p>Espacio para discutir cómo el diseño de prompts puede apoyar la planificación, creación de
-                    materiales, adaptación de contenidos y diseño de experiencias de aprendizaje.</p>
+                <h1 id="forum-title">💬 Foro Módulo 2: <span>"Diseño de prompts y planificación didáctica"</span></h1>
+                <p class="forum-lead">Un espacio de <strong>diálogo profesional</strong> para conectar la teoría con la práctica real: compartir prompts aplicados, analizar el modelo <strong>R-C-T-F-R</strong> y discutir cómo validas pedagógicamente las respuestas generadas por IA.</p>
             </header>
 
-            <section class="forum-purpose-grid" aria-label="Propósito y participación esperada del foro del Módulo 2">
-                <div class="forum-purpose-card">
-                    <h2>Propósito</h2>
-                    <p>Discutir cómo la construcción intencional de prompts puede mejorar la calidad de las respuestas
-                        generadas por un LLM y apoyar tareas docentes como planificación de clases, adaptación de
-                        materiales, creación de actividades y diseño de experiencias de aprendizaje.</p>
+            <section class="forum-summary-card" aria-labelledby="introduccion-title">
+                <h2 id="introduccion-title">📖 Introducción al foro</h2>
+                <p>Bienvenido y bienvenida al <strong>Foro del Módulo 2</strong>.</p>
+                <p>Tras haber completado las tres lecciones sobre <strong>ingeniería de prompts</strong> —Lección 2.1—, <strong>planificación con apoyo de IA</strong> —Lección 2.2— e <strong>inclusión y evaluación asistidas</strong> —Lección 2.3—, además del Taller práctico <strong>"Del prompt al recurso validado"</strong> —Actividad 2.1—, llegamos a un espacio de <strong>diálogo profesional</strong> entre facilitadores docentes.</p>
+                <p>Este foro es el lugar donde la <strong>teoría se encuentra con la práctica real</strong>: aquí podrás compartir ejemplos concretos de <strong>prompts aplicados</strong> a tus necesidades educativas, reflexionar sobre la importancia de la <strong>claridad</strong>, el <strong>contexto</strong>, el <strong>rol</strong> y la <strong>instrucción</strong>, aplicar el modelo <strong>R-C-T-F-R</strong>, y discutir cómo adaptas pedagógicamente las respuestas que genera la IA.</p>
+            </section>
+
+            <section class="forum-purpose-card" aria-labelledby="proposito-title">
+                <h2 id="proposito-title">🎯 Propósito del foro</h2>
+                <p>Discutir cómo la <strong>construcción intencional de prompts</strong> puede mejorar la calidad de las respuestas generadas por un LLM y apoyar tareas docentes como la <strong>planificación de clases</strong>, la <strong>adaptación de materiales</strong>, la <strong>creación de actividades</strong> y el <strong>diseño de experiencias de aprendizaje</strong>.</p>
+                <p>Las aportaciones de este foro constituyen <strong>evidencia cualitativa directa</strong> del plan de acción de la investigación, particularmente sobre qué <strong>recursos específicos dentro de los LLM</strong> son considerados más eficientes por los facilitadores docentes en comparación con sus contrapartes tradicionales, y cómo perciben que estos contribuyen a la optimización de sus labores de <strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> y <strong>gestión administrativa</strong>.</p>
+            </section>
+
+            <section class="forum-participation-card" aria-labelledby="participacion-title">
+                <h2 id="participacion-title">✍️ Participación esperada</h2>
+                <p class="forum-participation-intro">Estructura tu <strong>aportación inicial</strong> integrando estos cuatro elementos:</p>
+
+                <div class="forum-component-grid" aria-label="Componentes de la aportación inicial">
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">1</span>
+                        <h3>Ejemplo de prompt aplicado</h3>
+                        <p>Comparte un prompt que construiste para una necesidad educativa concreta —planificación, adaptación, evaluación o creación de recursos—.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">2</span>
+                        <h3>Reflexión sobre los pilares</h3>
+                        <p>Explica brevemente cómo trabajaste la <strong>claridad</strong>, el <strong>contexto</strong>, el <strong>rol</strong> y la <strong>instrucción</strong> en tu prompt.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">3</span>
+                        <h3>Aplicación del modelo R-C-T-F-R</h3>
+                        <p>Identifica los cinco componentes —<strong>Rol + Contexto + Tarea + Formato + Restricciones</strong>— en tu prompt y explica qué te aportó cada uno.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">4</span>
+                        <h3>Adaptación pedagógica</h3>
+                        <p>Comparte cómo revisaste, ajustaste o validaste la respuesta del LLM antes de considerarla útil para tu práctica.</p>
+                    </article>
                 </div>
 
-                <div class="forum-purpose-card">
-                    <h2>Participación esperada</h2>
-                    <ul>
-                        <li>Ejemplos de prompts aplicados a una necesidad educativa.</li>
-                        <li>Reflexión sobre claridad, contexto, rol e instrucción.</li>
-                        <li>Aplicación del modelo CRIF.</li>
-                        <li>Discusión sobre adaptación pedagógica de respuestas generadas por IA.</li>
-                    </ul>
+                <div class="forum-note-card" role="note">
+                    <span class="forum-note-card__icon" aria-hidden="true">💡</span>
+                    <p><strong>Recuerda:</strong> Responde al menos a <strong>dos compañeros</strong> con comentarios que aporten valor <strong>pedagógico</strong>, sugerencias de mejora a sus prompts o ejemplos complementarios desde tu propia disciplina o programa.</p>
                 </div>
             </section>
 
-            <section class="forum-guide" aria-label="Pregunta guía del foro del Módulo 2">
-                <span class="forum-guide-icon" aria-hidden="true">💬</span>
-                <p><strong>Pregunta guía:</strong> ¿Qué elemento de un buen prompt consideras más importante para
-                    obtener una respuesta útil de un LLM y cómo lo aplicarías en la planificación de una clase o
-                    actividad educativa?</p>
+            <section class="forum-question-card" aria-labelledby="pregunta-guia-title">
+                <h2 id="pregunta-guia-title">🧭 Pregunta guía</h2>
+                <blockquote>
+                    Desde tu rol como <strong>facilitador docente del DEPR</strong>, ¿cómo está transformando la <strong>ingeniería de prompts</strong> tu manera de planificar, adaptar materiales o capacitar a otros docentes?
+                </blockquote>
+                <p>Para estructurar tu reflexión, comparte:</p>
+                <ul class="forum-question-list">
+                    <li>Qué <strong>necesidad</strong> resolvió el prompt concreto que construiste.</li>
+                    <li>Cómo trabajaste <strong>claridad</strong>, <strong>contexto</strong>, <strong>rol</strong> e <strong>instrucción</strong> en tu redacción.</li>
+                    <li>Cómo identificas los cinco componentes <strong>R-C-T-F-R</strong> en tu prompt.</li>
+                    <li>Qué <strong>ajustaste</strong> o <strong>validaste</strong> antes de usar la respuesta del LLM en tu práctica.</li>
+                </ul>
+            </section>
+
+            <section class="forum-publication-card" aria-labelledby="publicacion-title">
+                <h2 id="publicacion-title">📝 Espacio de publicación</h2>
+                <p>Utiliza el formulario del foro para publicar tu aportación inicial y revisar las aportaciones recientes de tus compañeros.</p>
+                <div class="forum-publication-card__actions" aria-label="Indicadores de participación del foro">
+                    <span class="forum-chip">✅ Prompt aplicado</span>
+                    <span class="forum-chip">🧩 Modelo R-C-T-F-R</span>
+                    <span class="forum-chip">💬 Dos respuestas a compañeros</span>
+                    <span class="forum-chip">🔒 Sin datos identificables</span>
+                </div>
             </section>
 
             <section id="forum-dynamic-container" data-forum-id="modulo2" aria-label="Foro dinámico interactivo">
-                <!-- El contenido del foro será inyectado aquí por forum-handler.js -->
             </section>
 
             <div id="completion-section"></div>
+
             <nav class="footer-nav" aria-label="Navegación del foro del Módulo 2">
-                <a href="foro_modulo1.html" class="btn-footer btn-back">← Volver al Foro Módulo 1</a>
+                <a href="foro_general.html" class="btn-footer btn-back">← Volver al Foro General</a>
                 <a href="modulo3_intro.html" class="btn-footer btn-next">Ir al Módulo 3 →</a>
             </nav>
         </article>
@@ -733,8 +1198,6 @@
             event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        // Lógica antigua de localStorage eliminada. El foro ahora es dinámico y está gestionado por forum-handler.js
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
