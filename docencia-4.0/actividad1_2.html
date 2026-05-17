@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Actividad 1.2 de Docencia 4.0: Análisis de escenarios. Ejercicio Descubriendo la IA en mi materia.">
+        content="Actividad 1.2 de Docencia 4.0: Descubriendo la IA en mi materia. Exploración colaborativa por áreas de contenido para identificar oportunidades viables de integración de LLM.">
     <meta name="keywords"
-        content="Actividad 1.2, análisis de escenarios, Docencia 4.0, LLM, práctica docente, Foro Módulo 1, docentes">
+        content="Actividad 1.2, análisis de escenarios, Docencia 4.0, LLM, práctica docente, Copilot, ChatGPT, Padlet, Foro Módulo 1, DEPR">
     <title>Actividad 1.2 | Docencia 4.0</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/auth-guard.js"></script>
     <script type="module" src="scripts/module-access-guard.js"></script>
-
     <style>
         :root {
             --nav-height: 80px;
@@ -65,7 +60,6 @@
             border: 0;
         }
 
-        /* NAVBAR SUPERIOR */
         .top-nav {
             position: fixed;
             top: 0;
@@ -93,6 +87,9 @@
         .logo-container img {
             height: 56px;
             width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .module-title-nav {
@@ -105,6 +102,7 @@
             font-family: var(--font-family-heading);
             font-size: var(--font-size-base);
             font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
             white-space: nowrap;
             text-overflow: ellipsis;
         }
@@ -133,12 +131,12 @@
         .menu-btn:focus-visible,
         .menu-links a:focus-visible,
         .btn-footer:focus-visible,
+        .btn:focus-visible,
         .btn-scroll-top:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
 
-        /* MENÚ LATERAL */
         .module-sidebar {
             position: fixed;
             top: 0;
@@ -164,7 +162,7 @@
             inset: 0;
             z-index: 1999;
             display: none;
-            background: rgba(0, 0, 0, 0.4);
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
             backdrop-filter: blur(var(--blur-sm));
             -webkit-backdrop-filter: blur(var(--blur-sm));
         }
@@ -232,7 +230,6 @@
             font-weight: var(--font-weight-bold);
         }
 
-        /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
             margin: var(--spacing-xl) auto var(--spacing-16);
@@ -263,7 +260,7 @@
 
         .activity-title {
             display: block;
-            margin: 0 0 var(--spacing-xl);
+            margin: 0 0 var(--spacing-md);
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-4xl);
@@ -276,6 +273,13 @@
             color: var(--color-brand-primary);
         }
 
+        .activity-intro {
+            max-width: 920px;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+        }
+
         .section-title {
             margin: 0 0 var(--spacing-md);
             color: var(--color-brand-primary);
@@ -285,33 +289,323 @@
             line-height: var(--line-height-snug);
         }
 
+        .section-title-sm {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
         .text-section {
             clear: both;
             margin-bottom: var(--spacing-12);
         }
 
-        .technical-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: var(--spacing-lg);
+        .activity-meta-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .activity-meta-chip {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+        }
+
+        .activity-meta-chip__icon {
+            font-size: var(--font-size-lg);
+        }
+
+        .activity-meta-chip__label {
+            display: block;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .activity-meta-chip__value {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .activity-purpose-card {
             padding: var(--spacing-xl);
-            margin: var(--spacing-xl) 0 var(--spacing-12);
+            margin: var(--spacing-xl) 0;
             background: var(--color-background-surface-low);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
         }
 
-        .tech-item {
-            padding: var(--spacing-md);
+        .activity-purpose-card__title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .activity-purpose-card__grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .activity-purpose-card__item {
+            padding: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-flat);
         }
 
-        .tech-item h2,
-        .tech-item h3 {
+        .activity-purpose-card__item h3 {
             margin: 0 0 var(--spacing-xs);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .activity-purpose-card__item p {
+            margin: 0;
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-medium, 500);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .activity-sequence {
+            margin: var(--spacing-xl) 0;
+        }
+
+        .activity-sequence__intro {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-secondary);
+        }
+
+        .activity-step-card {
+            margin-bottom: var(--spacing-md);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .activity-step-card[open] {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .activity-step-card__summary {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            cursor: pointer;
+            list-style: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .activity-step-card__summary:hover {
+            background: var(--color-alpha-black-03);
+        }
+
+        .activity-step-card__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .activity-step-card__summary::after {
+            content: '';
+            margin-left: auto;
+            width: 20px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2300C2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .activity-step-card[open] .activity-step-card__summary::after {
+            transform: rotate(180deg);
+        }
+
+        .activity-step-card__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+        }
+
+        .activity-step-card__label {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-text-display);
+        }
+
+        .activity-step-card__focus {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .activity-step-card__content {
+            padding: 0 var(--spacing-xl) var(--spacing-xl);
+        }
+
+        .activity-step-card__content > p {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-secondary);
+        }
+
+        .activity-golden-rule,
+        .activity-reflection-card,
+        .forum-important-card {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0 0;
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .activity-golden-rule {
+            background: var(--color-yellow-100);
+            border-left: var(--border-width-6) solid var(--color-yellow-500);
+            color: var(--color-yellow-800);
+        }
+
+        .activity-reflection-card {
+            background: var(--color-cyan-50);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            color: var(--color-cyan-900);
+        }
+
+        .forum-important-card {
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            color: var(--color-text-secondary);
+        }
+
+        .activity-reflection-card h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-reflection-question {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .activity-reflection-question h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .activity-flow-card {
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .activity-flow-card__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xl);
+        }
+
+        .activity-flow-card h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-flow-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list {
+            margin: var(--spacing-md) 0 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .padlet-cta {
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .padlet-cta__header {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .padlet-cta__label {
+            display: inline-block;
+            margin-bottom: var(--spacing-xs);
             color: var(--color-brand-secondary);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-xs);
@@ -320,70 +614,93 @@
             text-transform: uppercase;
         }
 
-        .tech-item p {
+        .padlet-cta__title {
             margin: 0;
-            color: var(--color-text-primary);
-            font-weight: var(--font-weight-semibold);
-            line-height: var(--line-height-relaxed);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
-        .instruction-list {
-            display: grid;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-lg);
+        .padlet-cta__description {
+            margin: 0 0 var(--spacing-lg);
         }
 
-        .instruction-step {
+        .padlet-cta__footer {
             display: flex;
-            align-items: flex-start;
+            flex-wrap: wrap;
+            align-items: center;
             gap: var(--spacing-md);
+        }
+
+        .padlet-cta__button-icon,
+        .forum-cta__button-icon {
+            flex-shrink: 0;
+        }
+
+        .padlet-cta__note {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .forum-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .forum-benefit-card {
             padding: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .instruction-step:hover {
-            transform: translateX(8px);
-            border-color: var(--color-brand-secondary);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .step-icon {
-            width: 54px;
-            height: 54px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 54px;
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface-low);
+        .forum-benefit-card h3 {
+            margin: 0 0 var(--spacing-sm);
             color: var(--color-brand-primary);
-            font-size: var(--font-size-2xl);
-        }
-
-        .step-text h3 {
-            margin: 0 0 var(--spacing-1);
-            color: var(--color-brand-secondary);
             font-family: var(--font-family-heading);
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-base);
             font-weight: var(--font-weight-extrabold);
         }
 
-        .privacy-note {
-            padding: var(--spacing-lg);
-            margin: var(--spacing-xl) 0;
-            background: var(--color-background-surface-low);
-            border-left: var(--border-width-6) solid var(--color-brand-primary);
-            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-            color: var(--color-text-secondary);
+        .forum-benefit-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
         }
 
+        .forum-cta {
+            display: flex;
+            justify-content: center;
+            margin-top: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+        }
 
+        .forum-cta__button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-4) var(--spacing-12);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            box-shadow: var(--shadow-focus-secondary);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .forum-cta__button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-floating);
+        }
 
         .footer-nav {
             display: flex;
@@ -413,6 +730,10 @@
         .btn-back {
             background: var(--color-background-surface-low);
             color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
         }
 
         .btn-next {
@@ -457,6 +778,22 @@
             transform: translateY(-3px);
         }
 
+        @media (max-width: 980px) {
+            .activity-purpose-card__grid,
+            .activity-flow-grid,
+            .forum-benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-step-card__summary {
+                padding: var(--spacing-md) var(--spacing-lg);
+            }
+
+            .activity-step-card__content {
+                padding: 0 var(--spacing-lg) var(--spacing-lg);
+            }
+        }
+
         @media (max-width: 900px) {
             .content-wrapper {
                 padding: 0 var(--spacing-4);
@@ -464,10 +801,6 @@
 
             .lesson-card {
                 padding: var(--spacing-xl);
-            }
-
-            .technical-grid {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -485,14 +818,36 @@
                 font-size: var(--font-size-sm);
             }
 
+            .activity-meta-grid {
+                flex-direction: column;
+            }
+
+            .activity-meta-chip {
+                width: 100%;
+            }
+
+            .activity-step-card__focus {
+                display: none;
+            }
+
+            .activity-step-card__label {
+                font-size: var(--font-size-base);
+            }
+
+            .padlet-cta__footer,
+            .forum-cta {
+                align-items: stretch;
+            }
+
+            .padlet-cta__footer .btn,
+            .forum-cta__button {
+                width: 100%;
+            }
+
             .footer-nav {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
-            }
-
-            .instruction-step {
-                flex-direction: column;
             }
         }
 
@@ -506,14 +861,25 @@
             }
 
             .lesson-card,
-            .technical-grid {
+            .activity-purpose-card,
+            .activity-step-card__summary,
+            .activity-step-card__content,
+            .activity-flow-card,
+            .padlet-cta,
+            .forum-benefit-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
+
+            .activity-step-card__number {
+                width: 30px;
+                height: 30px;
+                font-size: var(--font-size-base);
+            }
         }
     </style>
-</head>
 
+</head>
 <body data-page-id="actividad1_2" data-module-id="modulo1" data-page-type="actividad" data-title="Actividad 1.2">
     <nav class="top-nav" aria-label="Navegación superior de la actividad">
         <div class="nav-left">
@@ -530,12 +896,10 @@
                 <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
                     alt="Logo Docencia 4.0">
             </div>
-            <span class="module-title-nav">Actividad 1.2: Análisis de escenarios</span>
+            <span class="module-title-nav">Actividad 1.2: Descubriendo la IA en mi materia</span>
         </div>
     </nav>
-
     <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
-
     <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 1" aria-hidden="true">
         <h2 class="side-menu-title">Navegación</h2>
         <ul class="menu-links">
@@ -551,86 +915,163 @@
         </ul>
     </aside>
 
-    <main class="content-wrapper">
+    <main class="content-wrapper actividad1-2-dx" id="main-content">
         <article class="lesson-card" aria-labelledby="activity-title">
-            <h1 id="activity-title" class="activity-title">Ejercicio: <span>“Descubriendo la IA en mi materia”</span>
-            </h1>
+            <span class="activity-kicker">Actividad 1.2 · Exploración colaborativa por disciplina</span>
+            <h1 id="activity-title" class="activity-title"><span>"Descubriendo la IA en mi materia"</span></h1>
 
-            <section class="technical-grid" aria-label="Ficha técnica de la actividad">
-                <div class="tech-item">
-                    <h2>Objetivo de la actividad</h2>
-                    <p>Que los y las docentes identifiquen al menos una oportunidad concreta y viable de integrar
-                        un LLM en su práctica docente actual, según su disciplina o área de especialidad.</p>
+            <p class="activity-intro">
+                En esta actividad trabajarás en <strong>subgrupos por áreas de contenido</strong> para identificar al menos una <strong>oportunidad concreta y viable</strong> de integrar un <strong>Modelo de Lenguaje de Gran Tamaño (LLM)</strong> en tu práctica docente actual.
+            </p>
+            <p class="activity-intro">
+                A través de un ejercicio colaborativo de <strong>discusión socializada</strong>, formularás un planteamiento real a una herramienta basada en LLM —<strong>Copilot</strong> o <strong>ChatGPT</strong>—, aplicando los principios de <strong>seguridad</strong> y <strong>privacidad estudiantil</strong> estudiados en lecciones anteriores.
+            </p>
+
+            <div class="activity-meta-grid" aria-label="Información técnica de la actividad">
+                <div class="activity-meta-chip">
+                    <span class="activity-meta-chip__icon" aria-hidden="true">⏱️</span>
+                    <div>
+                        <span class="activity-meta-chip__label">Duración estimada</span>
+                        <span class="activity-meta-chip__value">40 – 50 minutos</span>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <h2>Duración y dinámica</h2>
-                    <p>Duración estimada: 40 - 50 minutos | Dinámica: Trabajo en subgrupos por áreas de contenido.</p>
+                <div class="activity-meta-chip">
+                    <span class="activity-meta-chip__icon" aria-hidden="true">👥</span>
+                    <div>
+                        <span class="activity-meta-chip__label">Dinámica</span>
+                        <span class="activity-meta-chip__value">Trabajo en subgrupos por áreas de contenido</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="activity-purpose-card" aria-labelledby="purpose-title">
+                <h2 id="purpose-title" class="activity-purpose-card__title">🎯 Propósito y objetivo de la actividad</h2>
+
+                <div class="activity-purpose-card__grid">
+                    <div class="activity-purpose-card__item">
+                        <h3>Propósito de la actividad</h3>
+                        <p>Promover una exploración colaborativa y especializada del potencial de los LLM aplicados a las disciplinas específicas de los participantes, construyendo conocimiento práctico desde la realidad de cada área pedagógica y los retos comunes del rol docente en el DEPR.</p>
+                    </div>
+                    <div class="activity-purpose-card__item">
+                        <h3>Objetivo de la actividad</h3>
+                        <p>Que los y las docentes identifiquen al menos una oportunidad concreta y viable de integrar un LLM en su práctica docente actual, según su disciplina o área de especialidad.</p>
+                    </div>
                 </div>
             </section>
 
-            <section class="text-section" aria-labelledby="instrucciones-title">
-                <h2 id="instrucciones-title" class="section-title">Instrucciones de la Actividad</h2>
-                <p>En grupos especializados, exploren el potencial de los LLM aplicados a sus materias específicas:</p>
+            <section class="activity-sequence" aria-labelledby="sequence-title">
+                <h2 id="sequence-title" class="section-title">🛠️ Secuencia de trabajo</h2>
+                <p class="activity-sequence__intro">
+                    En grupos especializados, exploren el potencial de los LLM aplicados a sus materias específicas siguiendo estos tres momentos:
+                </p>
 
-                <div class="instruction-list">
-                    <section class="instruction-step" aria-labelledby="paso-grupos-title">
-                        <div class="step-icon" aria-hidden="true">👥</div>
-                        <div class="step-text">
-                            <h3 id="paso-grupos-title">Formación de Grupos</h3>
-                            <p>Los y las participantes se agruparán por área o especialidad pedagógica para compartir
-                                retos comunes.</p>
-                        </div>
-                    </section>
-
-                    <section class="instruction-step" aria-labelledby="paso-ideas-title">
-                        <div class="step-icon" aria-hidden="true">💡</div>
-                        <div class="step-text">
-                            <h3 id="paso-ideas-title">Lluvia de Ideas</h3>
-                            <p>Como equipo, llevarán a cabo una discusión socializada donde identificarán UN tema
-                                difícil de
-                                enseñar o una tarea administrativa que les tome mucho tiempo en su practica docente.
-                                Luego, discutirán cómo un bot o app con LLM (Copilot o ChatGPT) podría ayudarles a
-                                resolverlo.
-                            </p>
-                        </div>
-                    </section>
-
-                    <section class="instruction-step" aria-labelledby="paso-escenario-title">
-                        <div class="step-icon" aria-hidden="true">📌</div>
-                        <div class="step-text">
-                            <h3 id="paso-escenario-title">Definición de la Solución</h3>
-                            <p>Le presentarán a la IA un planteamiento, en formato de pregunta, que les ayude a obtener
-                                una posible solución.</p>
-                        </div>
-                    </section>
+                <div class="activity-flow-grid" aria-label="Resumen de los tres momentos de trabajo">
+                    <article class="activity-flow-card">
+                        <span class="activity-flow-card__icon" aria-hidden="true">👥</span>
+                        <h3>1. Formación de grupos</h3>
+                        <p>Agrúpense por área o especialidad pedagógica para compartir retos comunes.</p>
+                    </article>
+                    <article class="activity-flow-card">
+                        <span class="activity-flow-card__icon" aria-hidden="true">💡</span>
+                        <h3>2. Lluvia de ideas</h3>
+                        <p>Identifiquen un tema difícil o una tarea administrativa que consuma mucho tiempo.</p>
+                    </article>
+                    <article class="activity-flow-card">
+                        <span class="activity-flow-card__icon" aria-hidden="true">📌</span>
+                        <h3>3. Definición de solución</h3>
+                        <p>Presenten a la IA un planteamiento en formato de pregunta para obtener una posible solución.</p>
+                    </article>
                 </div>
 
-                <div class="privacy-note">
-                    <strong>Recordatorio de seguridad:</strong> al diseñar el escenario, no incluyan nombres de
-                    estudiantes, números de identificación, expedientes, diagnósticos ni información personal
-                    identificable. Trabajen con ejemplos generales, ficticios o anonimizados.
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">1</span>
+                        <span class="activity-step-card__label">Formación de grupos</span>
+                        <span class="activity-step-card__focus">Compartir retos comunes por disciplina</span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <p>Los y las participantes se agruparán por <strong>área o especialidad pedagógica</strong> para compartir retos comunes.</p>
+
+                        <div class="activity-reflection-card">
+                            <strong>Idea clave:</strong> trabajar con colegas de la misma disciplina permite aterrizar ejemplos al <strong>contexto real de cada materia o programa</strong>.
+                        </div>
+                    </div>
+                </details>
+
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">2</span>
+                        <span class="activity-step-card__label">Lluvia de ideas</span>
+                        <span class="activity-step-card__focus">Discusión socializada</span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <p>Como equipo, llevarán a cabo una <strong>discusión socializada</strong> donde:</p>
+                        <ul class="content-list">
+                            <li>Identificarán <strong>UN tema difícil de enseñar</strong> o una <strong>tarea administrativa</strong> que les tome mucho tiempo en su práctica docente.</li>
+                            <li>Discutirán cómo un bot o app con LLM —<strong>Copilot</strong> o <strong>ChatGPT</strong>— podría ayudarles a resolverlo.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="activity-step-card">
+                    <summary class="activity-step-card__summary">
+                        <span class="activity-step-card__number">3</span>
+                        <span class="activity-step-card__label">Definición de la solución</span>
+                        <span class="activity-step-card__focus">Pregunta para la IA</span>
+                    </summary>
+
+                    <div class="activity-step-card__content">
+                        <p>Le presentarán a la IA un <strong>planteamiento en formato de pregunta</strong> que les ayude a obtener una posible solución.</p>
+
+                        <div class="activity-golden-rule">
+                            <strong>Recordatorio de seguridad:</strong> al diseñar el escenario, <strong>no incluyan nombres de estudiantes</strong>, <strong>números de identificación</strong>, <strong>expedientes</strong>, <strong>diagnósticos</strong> ni <strong>información personal identificable</strong>. Trabajen con ejemplos <strong>generales</strong>, <strong>ficticios</strong> o <strong>anonimizados</strong>.
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <section class="text-section" aria-labelledby="reflexiona-title">
+                <h2 id="reflexiona-title" class="section-title">💭 Reflexiona</h2>
+                <p>
+                    Tras completar la exploración en subgrupos, dedica un momento a pensar en lo que esta actividad reveló sobre tu práctica y sobre el potencial de los LLM.
+                </p>
+
+                <div class="activity-reflection-question">
+                    <h3>Pregunta de reflexión</h3>
+                    <p>
+                        ¿Qué <strong>tarea concreta</strong> de mi rol —<strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> o <strong>gestión administrativa</strong>— podría transformarse si integro estratégicamente un LLM?
+                    </p>
+                    <p>
+                        ¿Qué desafíos anticipo y qué precauciones debo mantener para que esta integración <strong>fortalezca</strong>, y no debilite, mi <strong>juicio profesional</strong>?
+                    </p>
+                </div>
+
+                <div class="activity-reflection-card">
+                    Esta reflexión te ayudará a identificar cómo los LLM contribuyen a la <strong>optimización de tus labores</strong> y qué desafíos identificas en su integración.
                 </div>
             </section>
 
             <section class="text-section" aria-labelledby="padlet-title">
-                <h2 id="padlet-title" class="section-title">Muro colaborativo</h2>
-                <p>A continuación, acceda al espacio de construcción colectiva para compartir sus hallazgos.</p>
+                <h2 id="padlet-title" class="section-title">🧱 Muro colaborativo — Padlet</h2>
+                <p>A continuación, accede al espacio de construcción colectiva para compartir tus hallazgos.</p>
 
                 <div class="padlet-cta" id="padlet-escenarios">
                     <div class="padlet-cta__header">
-                        <span class="padlet-cta__label">Actividad: 1.2</span>
+                        <span class="padlet-cta__label">Actividad 1.2</span>
                         <h3 class="padlet-cta__title">Muro colaborativo: Análisis de escenarios</h3>
                     </div>
                     <p class="padlet-cta__description">
-                        Publique el enlace a su documento de análisis y reflexione sobre las posibilidades de los LLM en su disciplina.
+                        Publica el enlace a tu <strong>documento de análisis</strong> y reflexiona sobre las posibilidades de los LLM en tu disciplina.
                     </p>
                     <div class="padlet-cta__footer">
-                        <a href="https://padlet.com/carmeloallende/llm-actividad-1-2-analisis-de-escenarios-descubriendo-la-ia--o6hvutesyg1t5yhs" 
-                           class="btn btn-primary" 
-                           target="_blank" 
-                           rel="noopener noreferrer">
+                        <a href="https://padlet.com/carmeloallende/llm-actividad-1-2-analisis-de-escenarios-descubriendo-la-ia--o6hvutesyg1t5yhs"
+                            class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                             Abrir muro colaborativo en Padlet
-                            <svg class="padlet-cta__button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <svg class="padlet-cta__button-icon" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
                                 <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -642,22 +1083,39 @@
             </section>
 
             <section class="text-section" aria-labelledby="foro-modulo1-title">
-                <h2 id="foro-modulo1-title" class="section-title">Participación en el Foro del Módulo 1</h2>
-                <p>Como cierre de las actividades iniciales del Módulo 1, participa en el Foro del Módulo 1 compartiendo
-                    tu experiencia con el uso de un LLM en la creación de un producto pedagógico. Esta participación
-                    permitirá socializar aprendizajes, reconocer posibilidades de uso y reflexionar sobre las
-                    precauciones éticas que debe mantener el docente.</p>
+                <h2 id="foro-modulo1-title" class="section-title">💬 Invitación al Foro del Módulo 1</h2>
+                <p>
+                    Como cierre de las actividades iniciales del Módulo 1, te invitamos a participar en el <strong>Foro del Módulo 1</strong>, un espacio diseñado para que la comunidad de facilitadores docentes socialice aprendizajes, reconozca posibilidades de uso y reflexione colectivamente sobre las <strong>precauciones éticas</strong> que debe mantener el docente al integrar LLM en su práctica.
+                </p>
 
-                <div class="reflection-card">
-                    <strong>Importante:</strong> La participación en el foro forma parte del proceso de reflexión del
-                    módulo. Publica una aportación inicial y responde al menos a dos compañeros con comentarios que
-                    aporten valor.
+                <h3 class="section-title-sm">🌟 ¿Por qué participar en el foro?</h3>
+                <div class="forum-benefits-grid" aria-label="Razones para participar en el foro">
+                    <article class="forum-benefit-card">
+                        <h3>Para tu desarrollo profesional</h3>
+                        <p>Compartir tu experiencia con un LLM en la creación de un producto pedagógico te permitirá profundizar tu aprendizaje, contrastar perspectivas con colegas de distintas áreas y descubrir aplicaciones que quizá no habías considerado.</p>
+                    </article>
+
+                    <article class="forum-benefit-card">
+                        <h3>Para fortalecer la comunidad de práctica</h3>
+                        <p>El diálogo entre facilitadores docentes del DEPR construye un <strong>capital profesional colectivo</strong>, alineado con los principios de Hargreaves y Fullan que sustentan este programa.</p>
+                    </article>
+
+                    <article class="forum-benefit-card">
+                        <h3>Para la investigación</h3>
+                        <p>Tus reflexiones, dudas y hallazgos son <strong>evidencia directa</strong> del plan de acción de esta investigación. Cada aportación contribuye a documentar cómo los LLM pueden optimizar las funciones de <strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> y <strong>gestión administrativa</strong> en Puerto Rico.</p>
+                    </article>
                 </div>
 
-                <div style="display: flex; justify-content: center; margin-top: var(--spacing-xl); padding-bottom: var(--spacing-lg);">
-                    <a href="foro_modulo1.html" class="btn-lms-primary" style="background-color: var(--color-brand-secondary); color: var(--color-white); padding: 18px 48px; border-radius: 50px; font-size: var(--font-size-lg); text-decoration: none; display: inline-flex; align-items: center; gap: 12px; box-shadow: var(--shadow-focus-secondary); transition: all 0.3s ease; font-weight: 700;">
+                <div class="forum-important-card">
+                    <strong>Importante:</strong> la participación en el foro forma parte del <strong>proceso de reflexión del módulo</strong>. Publica una <strong>aportación inicial</strong> y responde al menos a <strong>dos compañeros</strong> con comentarios que aporten valor <strong>pedagógico</strong>, <strong>técnico</strong> o <strong>ético</strong> al diálogo.
+                </div>
+
+                <div class="forum-cta">
+                    <a href="foro_modulo1.html" class="btn btn-primary forum-cta__button">
                         Ir al Foro del Módulo 1
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="forum-cta__button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
@@ -669,8 +1127,9 @@
 
             <nav class="footer-nav" aria-label="Navegación de actividades del módulo">
                 <a href="actividad1_1.html" class="btn-footer btn-back">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                        focusable="false">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
@@ -678,8 +1137,9 @@
                 </a>
                 <a href="recursos_m1.html" class="btn-footer btn-next">
                     Recursos Módulo 1
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                        focusable="false">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -767,6 +1227,6 @@
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
-</body>
 
+</body>
 </html>
