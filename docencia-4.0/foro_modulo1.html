@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Foro del Módulo 1 de Docencia 4.0: Primer acercamiento a los LLM. Espacio para reflexionar sobre la primera experiencia de uso, oportunidades, preocupaciones y aplicaciones docentes iniciales.">
+        content="Foro del Módulo 1 de Docencia 4.0: Mi hallazgo en mi materia. Espacio de diálogo profesional para facilitadores docentes sobre integración responsable de LLM en la práctica educativa.">
     <meta name="keywords"
-        content="Docencia 4.0, Foro Módulo 1, LLM, modelos de lenguaje, ChatGPT, Copilot, IA educativa, docentes, reflexión inicial">
+        content="Docencia 4.0, Foro Módulo 1, LLM, modelos de lenguaje, ChatGPT, Copilot, IA educativa, facilitadores docentes, DEPR, reflexión profesional">
     <title>Foro Módulo 1 | Docencia 4.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,9 +21,22 @@
     <script type="module" src="scripts/forum-handler.js"></script>
 
     <style>
+        :root {
+            --nav-height: var(--height-module-topnav, 80px);
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            padding-top: var(--height-module-topnav, 80px);
+            padding-top: var(--nav-height);
             min-height: 100vh;
             overflow-x: hidden;
             background: var(--color-background-page);
@@ -42,27 +55,222 @@
             font-weight: var(--font-weight-bold);
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .btn-forum:focus-visible,
+        .forum-input:focus-visible,
+        .forum-textarea:focus-visible,
+        .btn-scroll-top:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .forum-container {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
         .forum-shell {
             position: relative;
             overflow: hidden;
+            padding: var(--spacing-16);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
         }
 
         .forum-header {
             display: grid;
             gap: var(--spacing-md);
-            margin-bottom: var(--spacing-12);
-            text-align: center;
+            margin-bottom: var(--spacing-10);
         }
 
         .forum-kicker {
-            justify-self: center;
+            width: fit-content;
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-2);
             padding: var(--spacing-1) var(--spacing-3);
             border-radius: var(--radius-pill);
             background: var(--color-background-surface-low);
-            color: var(--color-brand-primary);
+            color: var(--color-brand-secondary);
             font-size: var(--font-size-2xs);
             font-weight: var(--font-weight-extrabold);
             letter-spacing: var(--letter-spacing-wide);
@@ -70,6 +278,7 @@
         }
 
         .forum-header h1 {
+            max-width: 900px;
             margin: 0;
             color: var(--color-text-display);
             font-family: var(--font-family-heading);
@@ -83,83 +292,170 @@
             color: var(--color-brand-primary);
         }
 
-        .forum-header p {
-            max-width: 780px;
-            margin: 0 auto;
+        .forum-lead {
+            max-width: 940px;
             color: var(--color-text-secondary);
             font-size: var(--font-size-lg);
             line-height: var(--line-height-relaxed);
         }
 
-        .forum-purpose-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .forum-purpose-card {
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface-low);
+        .forum-summary-card,
+        .forum-purpose-card,
+        .forum-participation-card,
+        .forum-question-card,
+        .forum-publication-card,
+        .forum-note-card {
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
 
+        .forum-summary-card {
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-xl);
+            background: var(--color-background-surface-low);
+        }
+
+        .forum-summary-card h2,
         .forum-purpose-card h2,
-        .forum-purpose-card h3 {
-            margin: 0 0 var(--spacing-sm);
+        .forum-participation-card h2,
+        .forum-question-card h2,
+        .forum-publication-card h2 {
+            margin: 0 0 var(--spacing-md);
             color: var(--color-brand-primary);
             font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
+            font-size: var(--font-size-2xl);
             font-weight: var(--font-weight-extrabold);
             line-height: var(--line-height-snug);
         }
 
-        .forum-purpose-card ul {
-            margin: var(--spacing-sm) 0 0;
-            padding-left: var(--spacing-6);
+        .forum-purpose-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            background: var(--color-background-surface-low);
         }
 
-        .forum-purpose-card li {
-            margin-bottom: var(--spacing-2);
-            color: var(--color-text-secondary);
-            line-height: var(--line-height-relaxed);
+        .forum-purpose-card p:last-child,
+        .forum-summary-card p:last-child,
+        .forum-question-card p:last-child,
+        .forum-note-card p:last-child,
+        .forum-publication-card p:last-child {
+            margin-bottom: 0;
         }
 
-        .forum-purpose-card li::marker {
-            color: var(--color-brand-primary);
+        .forum-participation-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface);
+        }
+
+        .forum-participation-intro {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .forum-component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .forum-component-card {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .forum-component-card__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-md);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
             font-weight: var(--font-weight-extrabold);
         }
 
-        .forum-status,
-        .forum-guide {
+        .forum-component-card h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .forum-component-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .forum-note-card {
             display: flex;
             align-items: flex-start;
             gap: var(--spacing-md);
             padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            margin-top: var(--spacing-lg);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
             border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
             background: var(--color-background-surface-low);
-            color: var(--color-text-secondary);
         }
 
-        .forum-guide {
-            border-left-color: var(--color-brand-primary);
-        }
-
-        .forum-status-icon,
-        .forum-guide-icon {
-            font-size: var(--font-size-xl);
+        .forum-note-card__icon {
+            flex: 0 0 auto;
+            font-size: var(--font-size-2xl);
             line-height: 1;
         }
 
-        .forum-status p,
-        .forum-guide p {
+        .forum-question-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+        }
+
+        .forum-question-card blockquote {
             margin: 0;
-            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-lg);
             line-height: var(--line-height-relaxed);
+        }
+
+        .forum-publication-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--color-background-surface);
+        }
+
+        .forum-publication-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .forum-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        #forum-dynamic-container {
+            margin-top: var(--spacing-xl);
         }
 
         .post-box {
@@ -205,8 +501,7 @@
             font-family: var(--font-family-body);
             font-size: var(--font-size-base);
             line-height: var(--line-height-relaxed);
-            transition:
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
@@ -258,8 +553,7 @@
             font-weight: var(--font-weight-extrabold);
             cursor: pointer;
             box-shadow: var(--shadow-focus-secondary);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard),
                 opacity var(--motion-duration-default) var(--motion-easing-standard);
         }
@@ -316,8 +610,7 @@
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
-            transition:
-                transform var(--motion-duration-default) var(--motion-easing-standard),
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard),
                 box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
@@ -418,8 +711,7 @@
             font-size: var(--font-size-sm);
             font-weight: var(--font-weight-bold);
             cursor: pointer;
-            transition:
-                background-color var(--motion-duration-default) var(--motion-easing-standard),
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
                 color var(--motion-duration-default) var(--motion-easing-standard),
                 border-color var(--motion-duration-default) var(--motion-easing-standard),
                 transform var(--motion-duration-default) var(--motion-easing-standard);
@@ -493,6 +785,82 @@
             text-align: center;
         }
 
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -510,6 +878,9 @@
         }
 
         @media (max-width: 900px) {
+            .forum-container {
+                padding: 0 var(--spacing-4);
+            }
 
             .forum-shell,
             .post-box,
@@ -517,6 +888,7 @@
                 padding: var(--spacing-xl);
             }
 
+            .forum-component-grid,
             .forum-form-grid {
                 grid-template-columns: 1fr;
             }
@@ -526,16 +898,51 @@
             .forum-header h1 {
                 font-size: var(--font-size-3xl);
             }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .forum-lead,
+            .forum-question-card blockquote {
+                font-size: var(--font-size-base);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
         }
 
         @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
 
             .forum-shell,
             .post-box,
             .comment-card,
-            .forum-purpose-card {
+            .forum-summary-card,
+            .forum-purpose-card,
+            .forum-participation-card,
+            .forum-question-card,
+            .forum-publication-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
+            }
+
+            .forum-note-card {
+                padding: var(--spacing-md);
             }
 
             .comment-header {
@@ -591,39 +998,78 @@
         <article class="forum-shell" aria-labelledby="forum-title">
             <header class="forum-header">
                 <span class="forum-kicker">Módulo 1 · Comunidad Docencia 4.0</span>
-                <h1 id="forum-title">Foro Módulo 1: <span>Mi hallazgo en mi materia</span></h1>
-                <p>Comenta sobre tu experiencia tras el ejercicio de exploración. Un espacio para discutir soluciones
-                    viables con LLM, retos pedagógicos y las transformaciones en tu visión sobre la gestión docente.</p>
+                <h1 id="forum-title">💬 Foro Módulo 1: <span>"Mi hallazgo en mi materia"</span></h1>
+                <p class="forum-lead">Un espacio de diálogo profesional entre facilitadores docentes para socializar experiencias, contrastar perspectivas y construir colectivamente una visión crítica sobre la integración de los <strong>Modelos de Lenguaje de Gran Tamaño (LLM)</strong> en la práctica educativa.</p>
             </header>
 
-            <section class="forum-purpose-grid" aria-label="Propósito y participación esperada del foro del Módulo 1">
-                <div class="forum-purpose-card">
-                    <h2>Propósito</h2>
-                    <p>Discutir sobre los hallazgos identificados en el ejercicio "Descubriendo la IA en mi materia",
-                        analizando la viabilidad de implementar soluciones basadas en LLM y reflexionando sobre las
-                        precauciones éticas necesarias para una integración responsable en la práctica docente.</p>
+            <section class="forum-summary-card" aria-labelledby="introduccion-title">
+                <h2 id="introduccion-title">📖 Introducción al foro</h2>
+                <p>Bienvenido y bienvenida al <strong>Foro del Módulo 1</strong>.</p>
+                <p>Tras completar las lecciones y la actividad <strong>"Descubriendo la IA en mi materia"</strong>, este foro abre un espacio de <strong>diálogo profesional</strong> entre facilitadores docentes para socializar experiencias, contrastar perspectivas y construir colectivamente una visión crítica sobre la integración de los <strong>Modelos de Lenguaje de Gran Tamaño (LLM)</strong> en la práctica educativa.</p>
+                <p>Aquí podrás comentar sobre tu experiencia tras el ejercicio de exploración, discutir <strong>soluciones viables con LLM</strong>, identificar <strong>retos pedagógicos</strong> y compartir las transformaciones en tu visión sobre la <strong>gestión docente</strong>.</p>
+            </section>
+
+            <section class="forum-purpose-card" aria-labelledby="proposito-title">
+                <h2 id="proposito-title">🎯 Propósito del foro</h2>
+                <p>Discutir sobre los hallazgos identificados en el ejercicio <strong>"Descubriendo la IA en mi materia"</strong>, analizando la <strong>viabilidad</strong> de implementar soluciones basadas en LLM y reflexionando sobre las <strong>precauciones éticas</strong> necesarias para una integración responsable en la práctica docente.</p>
+                <p>Las aportaciones de este foro forman parte del <strong>plan de acción de la investigación</strong> y contribuyen a documentar cómo los facilitadores docentes del <strong>DEPR</strong> perciben que los LLM pueden optimizar sus funciones de <strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> y <strong>gestión administrativa</strong>, así como los desafíos que identifican en su integración.</p>
+            </section>
+
+            <section class="forum-participation-card" aria-labelledby="participacion-title">
+                <h2 id="participacion-title">✍️ Participación esperada</h2>
+                <p class="forum-participation-intro">Estructura tu <strong>aportación inicial</strong> en cuatro partes breves:</p>
+
+                <div class="forum-component-grid" aria-label="Componentes de la aportación inicial">
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">1</span>
+                        <h3>El reto y la solución</h3>
+                        <p>En 3–5 oraciones, describe el reto identificado —contenido, planificación o administración— y cómo un LLM podría apoyarlo. Menciona capacidades como <strong>generación</strong>, <strong>resumen</strong>, <strong>tablas</strong>, etc.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">2</span>
+                        <h3>Viabilidad</h3>
+                        <p>Explica por qué esta idea es viable en tu contexto —recursos, tiempo, estudiantes, cultura escolar—.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">3</span>
+                        <h3>Precaución</h3>
+                        <p>Menciona qué precaución ética o pedagógica tomarías —verificación, datos sensibles, adaptación cultural—.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">4</span>
+                        <h3>Reflexión de cierre</h3>
+                        <p>Termina tu aportación con la frase: <strong>"Después de este módulo, ahora veo que los LLM pueden…"</strong></p>
+                    </article>
                 </div>
 
-                <div class="forum-purpose-card">
-                    <h2>Participación esperada</h2>
-                    <ul class="content-list">
-                        <li><strong>El Reto y la solución:</strong> En 3–5 oraciones, describe el reto identificado
-                            (contenido, planificación o administración) y cómo un LLM podría apoyarlo (menciona
-                            capacidades como generación, resumen, tablas, etc.).</li>
-                        <li><strong>Viabilidad:</strong> Explica por qué esta idea es viable en tu contexto (recursos,
-                            tiempo, estudiantes, cultura escolar).</li>
-                        <li><strong>Precaución:</strong> Menciona qué precaución ética o pedagógica tomarías
-                            (verificación, datos sensibles, adaptación).</li>
-                        <li><strong>Reflexión de cierre:</strong> Termina con: <em>“Después de este módulo, ahora veo
-                                que los LLM pueden…”</em>.</li>
-                    </ul>
+                <div class="forum-note-card" role="note">
+                    <span class="forum-note-card__icon" aria-hidden="true">📌</span>
+                    <p><strong>Recuerda:</strong> Responde al menos a <strong>dos compañeros</strong> con comentarios que aporten valor <strong>pedagógico</strong>, <strong>técnico</strong> o <strong>ético</strong> al diálogo.</p>
+                </div>
+            </section>
+
+            <section class="forum-question-card" aria-labelledby="pregunta-guia-title">
+                <h2 id="pregunta-guia-title">🧭 Pregunta guía</h2>
+                <blockquote>
+                    ¿Qué <strong>reto concreto</strong> de tu rol como facilitador docente —en el <strong>acompañamiento curricular</strong>, la <strong>capacitación de maestros</strong> o la <strong>gestión administrativa</strong>— podría transformarse con la integración de un LLM, qué hace viable esa solución en tu <strong>contexto puertorriqueño</strong>, y qué <strong>precauciones éticas</strong> mantendrías para preservar la <strong>confidencialidad estudiantil</strong> y tu <strong>juicio profesional</strong>?
+                </blockquote>
+            </section>
+
+            <section class="forum-publication-card" aria-labelledby="publicacion-title">
+                <h2 id="publicacion-title">📝 Espacio de publicación</h2>
+                <p>Utiliza el formulario del foro para publicar tu aportación inicial y revisar las aportaciones recientes de tus compañeros.</p>
+                <div class="forum-publication-card__actions" aria-label="Indicadores de participación del foro">
+                    <span class="forum-chip">✅ Aportación inicial</span>
+                    <span class="forum-chip">💬 Dos respuestas a compañeros</span>
+                    <span class="forum-chip">🔒 Sin datos identificables</span>
                 </div>
             </section>
 
             <section id="forum-dynamic-container" data-forum-id="modulo1" aria-label="Foro dinámico interactivo">
-                <!-- El contenido del foro será inyectado aquí por forum-handler.js -->
             </section>
-
 
             <div id="completion-section"></div>
 
@@ -734,8 +1180,6 @@
             event.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        // Lógica antigua de localStorage eliminada. El foro ahora es dinámico y está gestionado por forum-handler.js
     </script>
     <script type="module" src="scripts/progress-tracker.js"></script>
     <div id="institutional-footer"></div>
