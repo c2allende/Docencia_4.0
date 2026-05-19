@@ -65,7 +65,6 @@
             border: 0;
         }
 
-        /* NAVBAR SUPERIOR */
         .top-nav {
             position: fixed;
             top: 0;
@@ -144,12 +143,12 @@
         .image-zoom-trigger:focus-visible,
         .modal-close-btn:focus-visible,
         .btn-scroll-top:focus-visible,
-        .genially-frame-inner iframe:focus-visible {
+        .genially-frame-inner iframe:focus-visible,
+        .role-compact-card summary:focus-visible {
             outline: var(--border-width-2) solid var(--color-border-focus);
             outline-offset: var(--spacing-1);
         }
 
-        /* MENÚ LATERAL */
         .module-sidebar {
             position: fixed;
             top: 0;
@@ -243,7 +242,6 @@
             font-weight: var(--font-weight-bold);
         }
 
-        /* CONTENIDO PRINCIPAL */
         .content-wrapper {
             max-width: 1100px;
             margin: var(--spacing-xl) auto var(--spacing-16);
@@ -299,15 +297,29 @@
             clear: both;
         }
 
+        .audio-player-container,
+        .lesson-summary-card,
+        .lesson-core-callout,
+        .lesson-evidence-card,
+        .lesson-note-card {
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            box-shadow: var(--shadow-flat);
+        }
+
         .audio-player-container {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-2);
             padding: var(--spacing-lg);
             margin-bottom: var(--spacing-10);
-            background: var(--color-background-surface-low);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-lg);
+        }
+
+        .lesson-audio-intro__text {
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
         }
 
         .audio-label {
@@ -321,6 +333,51 @@
 
         .audio-player {
             width: 100%;
+        }
+
+        .lesson-summary-card {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .lesson-core-callout {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-12);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            background: var(--color-background-surface);
+        }
+
+        .lesson-core-callout__label {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .lesson-evidence-card,
+        .lesson-note-card {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .lesson-evidence-card {
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .lesson-note-card {
+            border-left: var(--border-width-6) solid var(--color-text-display);
+        }
+
+        .lesson-evidence-card h3,
+        .lesson-note-card h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
         }
 
         .content-list,
@@ -342,6 +399,36 @@
             font-weight: var(--font-weight-extrabold);
         }
 
+        .table-container {
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--font-size-sm);
+        }
+
+        th,
+        td {
+            padding: var(--spacing-3);
+            border: var(--border-width-1) solid var(--color-border-default);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
         .highlight-box {
             padding: var(--spacing-xl);
             margin: var(--spacing-xl) 0;
@@ -357,9 +444,9 @@
 
         .pii-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: var(--spacing-md);
-            margin: var(--spacing-lg) 0;
+            margin: var(--spacing-lg) 0 var(--spacing-xl);
         }
 
         .pii-card {
@@ -382,6 +469,7 @@
 
         .protocol-steps {
             display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: var(--spacing-md);
             margin-top: var(--spacing-lg);
         }
@@ -505,7 +593,16 @@
             line-height: var(--line-height-relaxed);
         }
 
-        /* COMPONENTE ESCUDO ÉTICO */
+        .pii-figure-after {
+            margin: var(--spacing-xl) 0 0;
+            text-align: center;
+        }
+
+        .pii-figure-after .image-zoom-trigger {
+            display: inline-block;
+            max-width: min(760px, 100%);
+        }
+
         .ethics-shield-component {
             margin: var(--spacing-16) 0;
             padding: var(--spacing-xl);
@@ -784,102 +881,124 @@
             line-height: 1;
         }
 
-        /* SLIDER */
-        .slider-section {
-            margin: var(--spacing-16) 0;
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface-low);
+        .role-compact-card {
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
-        }
-
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .slider-header h2 {
-            margin: 0;
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-extrabold);
-        }
-
-        .slider-controls {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-
-        .control-btn {
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: var(--border-width-2) solid var(--color-border-default);
-            border-radius: var(--radius-pill);
             background: var(--color-background-surface);
-            color: var(--color-brand-primary);
-            font-size: var(--font-size-lg);
-            cursor: pointer;
-            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
-                color var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                transform var(--motion-duration-default) var(--motion-easing-standard),
-                opacity var(--motion-duration-default) var(--motion-easing-standard);
-        }
-
-        .control-btn:hover:not(:disabled) {
-            background: var(--color-brand-primary);
-            color: var(--color-brand-primary-on);
-            border-color: var(--color-brand-primary);
-            transform: scale(1.05);
-        }
-
-        .control-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .slider-container {
-            overflow: hidden;
-            position: relative;
-            padding: var(--spacing-2);
-        }
-
-        .slider-track {
-            display: flex;
-            gap: var(--spacing-lg);
-            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
-        }
-
-        .slider-item {
-            min-width: 100%;
-            padding: var(--spacing-xl);
-            background: var(--color-background-surface);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
 
-        .slider-item h3 {
-            margin: 0 0 var(--spacing-sm);
+        .role-compact-card summary {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: var(--spacing-md);
+            align-items: center;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .role-compact-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .lesson-progressive-card__title {
+            display: block;
             color: var(--color-brand-primary);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
-        .concept-ref {
+        .lesson-progressive-card__hint {
             display: block;
-            margin-top: var(--spacing-md);
-            color: var(--color-text-muted);
-            font-size: var(--font-size-xs);
+            margin-top: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
             line-height: var(--line-height-relaxed);
-            font-style: italic;
+        }
+
+        .summary-more,
+        .summary-less {
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-decoration: underline;
+            text-underline-offset: 0.18em;
+            white-space: nowrap;
+        }
+
+        .summary-less {
+            display: none;
+        }
+
+        details[open] > summary .summary-more {
+            display: none;
+        }
+
+        details[open] > summary .summary-less {
+            display: inline;
+        }
+
+        .role-compact-panel {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .role-mini-card {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .role-mini-card h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .remember-panel {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .remember-list {
+            display: grid;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .remember-list li {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: flex-start;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+        }
+
+        .remember-list li::before {
+            content: "✅";
+            flex: 0 0 auto;
+        }
+
+        .remember-text {
+            display: inline;
         }
 
         .completion-card {
@@ -906,45 +1025,6 @@
             text-transform: uppercase;
         }
 
-        .checkpoint-container {
-            margin-top: var(--spacing-16);
-            padding: var(--spacing-xl);
-            border-radius: var(--radius-xl);
-            background: var(--gradient-orange);
-            color: var(--color-white);
-            box-shadow: var(--shadow-focus-secondary);
-        }
-
-        .checkpoint-container h2,
-        .checkpoint-container h3,
-        .checkpoint-container p {
-            color: var(--color-white);
-        }
-
-        .genially-frame-wrap {
-            width: 100%;
-            margin-top: var(--spacing-lg);
-            overflow: hidden;
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface);
-            box-shadow: var(--shadow-ambient);
-        }
-
-        .genially-frame-inner {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-        }
-
-        .genially-frame-inner iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
         .references-section {
             margin-top: var(--spacing-16);
             padding: var(--spacing-xl);
@@ -958,12 +1038,14 @@
             margin-top: 0;
         }
 
-        .ref-list {
+        .ref-list,
+        .reference-list {
             margin: 0;
             padding-left: var(--spacing-6);
         }
 
-        .ref-list li {
+        .ref-list li,
+        .reference-list li {
             margin-bottom: var(--spacing-3);
             color: var(--color-text-secondary);
             font-size: var(--font-size-sm);
@@ -1046,7 +1128,6 @@
             transform: translateY(-3px);
         }
 
-        /* MODAL */
         .modal-zoom {
             position: fixed;
             inset: 0;
@@ -1098,10 +1179,9 @@
 
             .lesson-card,
             .ethics-shield-component,
-            .slider-section,
-            .checkpoint-container,
             .completion-card,
-            .references-section {
+            .references-section,
+            .remember-panel {
                 padding: var(--spacing-xl);
             }
 
@@ -1110,6 +1190,12 @@
                 float: none;
                 width: 100%;
                 margin: var(--spacing-xl) 0;
+            }
+
+            .pii-grid,
+            .protocol-steps,
+            .role-compact-panel {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1127,14 +1213,12 @@
                 font-size: var(--font-size-sm);
             }
 
-            .slider-header,
             .footer-nav {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
             }
 
-            .slider-controls,
             .ethics-tabs {
                 justify-content: center;
             }
@@ -1151,22 +1235,27 @@
 
             .lesson-card,
             .ethics-shield-component,
-            .slider-section,
-            .checkpoint-container,
             .completion-card,
             .references-section,
             .ethics-panel,
             .comp-card,
             .protocol-step,
-            .pii-card {
+            .pii-card,
+            .remember-panel {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
+            }
+
+            .role-compact-card summary {
+                grid-template-columns: 1fr;
+                align-items: start;
             }
         }
     </style>
 </head>
 
-<body data-page-id="leccion3_4" data-module-id="modulo3" data-page-type="leccion" data-title="Seguridad de datos">
+<body data-page-id="leccion3_4" data-module-id="modulo3" data-page-type="leccion"
+    data-title="Seguridad de datos en tareas administrativas">
     <nav class="top-nav" aria-label="Navegación superior de la lección">
         <div class="nav-left">
             <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
@@ -1199,6 +1288,7 @@
             <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
             <li><a href="leccion3_4.html" class="active" aria-current="page">📖 Lección 3.4</a></li>
             <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
+            <li><a href="foro_modulo3.html">💬 Foro Módulo 3</a></li>
             <li><a href="recursos_m3.html">📚 Recursos y Materiales</a></li>
             <li><span class="menu-section-label">Navegación</span></li>
             <li><a href="modulo2_intro.html">⬅️ Volver al Módulo 2</a></li>
@@ -1209,72 +1299,78 @@
         <article class="lesson-card" aria-labelledby="lesson-title">
             <h1 id="lesson-title" class="lesson-title">Lección 3.4: Seguridad de datos en tareas administrativas</h1>
 
-            <div class="audio-player-container">
-                <label class="audio-label" for="lessonAudio">Escuchar Lección 3.4</label>
+            <div class="audio-player-container lesson-audio-intro">
+                <label class="audio-label" for="lessonAudio">🎧 Escuchar Lección 3.4</label>
+                <p class="lesson-audio-intro__text">Acompaña la lectura con la narración guiada. Esta lección te entrega un protocolo concreto de <strong>anonimización</strong> y prácticas seguras mínimas para proteger a tus estudiantes, familias y colegas al usar IA.</p>
                 <audio id="lessonAudio" controls preload="metadata" class="audio-player">
-                    <source src="LLM-DEPR/LLM_M3_Leccion_3.4_Seguridad de datos en tareas administrativas_audio.mp3"
-                        type="audio/mpeg">
-                    <source
-                        src="LLM-DEPR/LLM_M3_Leccion_3.4_Seguridad%20de%20datos%20en%20tareas%20administrativas_audio.mp3"
-                        type="audio/mpeg">
+                    <source src="LLM-DEPR/LLM_M3_Leccion_3.4_Seguridad de datos en tareas administrativas_audio.mp3" type="audio/mpeg">
+                    <source src="LLM-DEPR/LLM_M3_Leccion_3.4_Seguridad%20de%20datos%20en%20tareas%20administrativas_audio.mp3" type="audio/mpeg">
                     Tu navegador no soporta el elemento de audio.
                 </audio>
             </div>
 
-            <section class="text-section" aria-labelledby="anonimizacion-title">
-                <h2 id="anonimizacion-title" class="section-title">Lista de verificación ética: Protocolo de
-                    anonimización</h2>
-                <p>El uso de IA en la generación de documentos administrativos y evaluativos exige una atención rigurosa
-                    a la <strong>protección de datos personales</strong> de estudiantes, familias y colegas. Aunque
-                    muchas investigaciones se centran en la precisión y utilidad de las herramientas de IA para
-                    aprendizaje y evaluación, autores como Kolade et al. (2024) subrayan que cualquier integración
-                    significativa de IA en procesos evaluativos debe acompañarse de marcos claros sobre ética,
-                    transparencia y manejo responsable de información (Kolade et al., 2024). La <strong>Ley de Derechos
-                        Educativos y Privacidad de la Familia (FERPA)</strong> en Estados Unidos, aplicable a Puerto
-                    Rico, protege los registros educativos de los estudiantes y prohíbe la divulgación de información
-                    personal identificable sin consentimiento. En este contexto, es clave distinguir entre el
-                    <strong>modelo de lenguaje (LLM)</strong> como tecnología base y las <strong>aplicaciones o bots que
-                        lo integran</strong>, pues la responsabilidad de proteger datos recae tanto en la configuración
-                    del servicio como en las prácticas del usuario.</p>
+            <section class="lesson-summary-card" aria-labelledby="resumen-title">
+                <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
+                <p>En esta lección consolidarás un protocolo riguroso de <strong>protección de datos</strong> al usar IA en tareas administrativas y evaluativas.</p>
+                <p>Identificarás claramente qué constituye <strong>Información Personal Identificable (PII)</strong>, aprenderás un <strong>protocolo de anonimización de cuatro pasos</strong>, conocerás los riesgos habituales y adoptarás las <strong>prácticas seguras mínimas</strong> alineadas con la Ley <strong>FERPA</strong> y las normativas del <strong>DEPR</strong>.</p>
+                <p>Al cerrar, contarás con un marco conceptual de seguridad que te permitirá aprovechar las ventajas de la automatización sin comprometer la <strong>confidencialidad estudiantil</strong>.</p>
+            </section>
+
+            <section class="lesson-core-callout" aria-label="Concepto central">
+                <p class="lesson-core-callout__label">🎯 Concepto central</p>
+                <p>Cualquier integración significativa de IA en procesos administrativos y evaluativos debe acompañarse de marcos claros sobre <strong>ética</strong>, <strong>transparencia</strong> y <strong>manejo responsable de información</strong>.</p>
+                <p>La responsabilidad de proteger datos recae tanto en la configuración del servicio como en las prácticas del usuario.</p>
+                <p>Tu <strong>juicio profesional</strong> incluye decidir qué nunca debe ingresar en un LLM y qué requiere <strong>anonimización previa</strong>.</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="regulatorio-title">
+                <h2 id="regulatorio-title" class="section-title">1️⃣ Lista de verificación ética: el marco regulatorio</h2>
+                <p>El uso de IA en la generación de documentos administrativos y evaluativos exige una atención rigurosa a la protección de datos personales de estudiantes, familias y colegas.</p>
+
+                <div class="lesson-evidence-card">
+                    <h3>🔬 Evidencia investigativa</h3>
+                    <p>Aunque muchas investigaciones se centran en la precisión y utilidad de las herramientas de IA, autores como Kolade et al. (2024) subrayan que cualquier integración significativa de IA en procesos evaluativos debe acompañarse de marcos claros sobre <strong>ética</strong>, <strong>transparencia</strong> y <strong>manejo responsable de información</strong>.</p>
+                </div>
+
+                <h3 class="subsection-title">⚖️ Marco legal aplicable</h3>
+                <ul class="content-list">
+                    <li>La <strong>Ley de Derechos Educativos y Privacidad de la Familia (FERPA)</strong> en Estados Unidos, aplicable a Puerto Rico, protege los registros educativos de los estudiantes y prohíbe la divulgación de <strong>información personal identificable</strong> sin consentimiento.</li>
+                </ul>
+
+                <div class="lesson-note-card">
+                    <h3>🧩 Distinción clave</h3>
+                    <p>Es importante diferenciar entre el <strong>LLM como tecnología base</strong> y las <strong>aplicaciones o bots</strong> que lo integran, pues la responsabilidad de proteger datos recae tanto en la configuración del servicio como en las prácticas del usuario.</p>
+                </div>
             </section>
 
             <section class="text-section" aria-labelledby="pii-title">
-                <h2 id="pii-title" class="section-title">Información Personal Identificable (PII) que NUNCA debe
-                    ingresarse en LLMs</h2>
-                <button class="image-zoom-trigger img-editorial-right" type="button"
-                    onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
-                    aria-label="Ampliar imagen sobre información personal identificable que nunca debe ingresarse en LLM">
-                    <img data-assets="LLM_M3_Leccion_3.4_PII_no ingresas LLM_imagen_Rev.png"
-                        src="./assets/LLM_M3_Leccion_3.4_PII_no ingresas LLM_imagen_Rev.png"
-                        alt="Información personal identificable que nunca debe ingresarse en LLM">
-                </button>
+                <h2 id="pii-title" class="section-title">2️⃣ Información Personal Identificable (PII): qué NUNCA debe ingresarse</h2>
 
-                <div class="pii-grid">
-                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">👤</span><span><strong>Nombres
-                                completos</strong> de estudiantes, familias o colegas.</span></div>
-                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🆔</span><span><strong>Números de
-                                identificación:</strong> SIE, seguro social o números de caso.</span></div>
-                    <div class="pii-card"><span class="pii-icon"
-                            aria-hidden="true">📍</span><span><strong>Direcciones:</strong> residenciales, postales o
-                            correos electrónicos personales.</span></div>
-                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🏥</span><span><strong>Información
-                                médica:</strong> diagnósticos, medicamentos o condiciones de salud.</span></div>
-                    <div class="pii-card"><span class="pii-icon"
-                            aria-hidden="true">📸</span><span><strong>Fotografías</strong> o grabaciones de audio/video
-                            identificables.</span></div>
-                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🧬</span><span><strong>Datos
-                                biométricos:</strong> huellas o reconocimiento facial.</span></div>
-                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">💰</span><span><strong>Información
-                                financiera:</strong> ingresos familiares o situaciones económicas específicas.</span>
-                    </div>
-                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">⚖️</span><span><strong>Información
-                                legal:</strong> casos de custodia, órdenes de protección o situaciones
-                            judiciales.</span></div>
+                <div class="pii-grid" aria-label="Categorías de información personal identificable que nunca deben ingresarse en LLM">
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">👤</span><span><strong>Nombres completos</strong><br>De estudiantes, familias o colegas.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🆔</span><span><strong>Números de identificación</strong><br>SIE, seguro social, números de caso.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🏠</span><span><strong>Direcciones</strong><br>Residenciales, postales o correos personales.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🩺</span><span><strong>Información médica</strong><br>Diagnósticos, medicamentos, condiciones de salud.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🖼️</span><span><strong>Imágenes/audio identificables</strong><br>Fotografías o grabaciones.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">🧬</span><span><strong>Datos biométricos</strong><br>Huellas o reconocimiento facial.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">💵</span><span><strong>Información financiera</strong><br>Ingresos familiares, situaciones económicas específicas.</span></div>
+                    <div class="pii-card"><span class="pii-icon" aria-hidden="true">⚖️</span><span><strong>Información legal</strong><br>Casos de custodia, órdenes de protección, situaciones judiciales.</span></div>
+                </div>
+
+                <div class="pii-figure-after">
+                    <button class="image-zoom-trigger" type="button"
+                        onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                        aria-label="Ampliar imagen sobre información personal identificable que nunca debe ingresarse en LLM">
+                        <img data-assets="LLM_M3_Leccion_3.4_PII_no ingresas LLM_imagen_Rev.png"
+                            src="./assets/LLM_M3_Leccion_3.4_PII_no ingresas LLM_imagen_Rev.png"
+                            alt="Información personal identificable que nunca debe ingresarse en LLM">
+                    </button>
+                    <p class="img-caption">Figura: categorías de información personal identificable que deben anonimizarse antes de interactuar con un LLM.</p>
                 </div>
             </section>
 
             <section class="text-section" aria-labelledby="protocolo-title">
-                <h2 id="protocolo-title" class="section-title">Protocolo de anonimización antes de usar IA</h2>
+                <h2 id="protocolo-title" class="section-title">3️⃣ Protocolo de anonimización antes de usar IA</h2>
                 <div class="protocol-steps">
                     <article class="protocol-step">
                         <span class="step-num">1</span>
@@ -1288,14 +1384,7 @@
                         <span class="step-num">2</span>
                         <div>
                             <h3 class="subsection-title">Reemplazar sistemáticamente</h3>
-                            <ul class="content-list">
-                                <li>Nombres → “Estudiante A”, “Familia 1”, “Colega X”.</li>
-                                <li>SIE/ID → eliminar completamente o usar “ID-###”.</li>
-                                <li>Escuela específica → “Escuela primaria pública”.</li>
-                                <li>Direcciones → “Comunidad urbana”, “área rural”.</li>
-                                <li>Diagnósticos → descripción general como “dificultades de aprendizaje” o “necesidades
-                                    especiales”.</li>
-                            </ul>
+                            <p>Aplicar sustituciones estándar.</p>
                         </div>
                     </article>
 
@@ -1311,51 +1400,108 @@
                         <span class="step-num">4</span>
                         <div>
                             <h3 class="subsection-title">Verificar antes de pegar</h3>
-                            <p>Hacer una última revisión completa antes de ingresar el texto en el LLM.</p>
+                            <p>Última revisión completa antes de ingresar el texto en el LLM.</p>
                         </div>
                     </article>
+                </div>
+
+                <h3 class="subsection-title">🔄 Tabla de sustituciones estándar</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dato original</th>
+                                <th>Reemplazo seguro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Nombres</strong></td>
+                                <td>"Estudiante A", "Familia 1", "Colega X"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SIE / ID</strong></td>
+                                <td>Eliminar completamente o usar "ID-###"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Escuela específica</strong></td>
+                                <td>"Escuela primaria pública"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Direcciones</strong></td>
+                                <td>"Comunidad urbana", "área rural"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diagnósticos</strong></td>
+                                <td>Descripción general como "dificultades de aprendizaje" o "necesidades especiales"</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
             <section class="text-section" aria-labelledby="ejemplo-title">
-                <h2 id="ejemplo-title" class="section-title">Ejemplo de anonimización</h2>
+                <h2 id="ejemplo-title" class="section-title">💡 Ejemplo aplicado: antes y después de la anonimización</h2>
                 <div class="comparison-grid">
                     <article class="comp-card before">
-                        <span class="comp-title">Antes · Con PII, no usar</span>
-                        <p>María González Ortiz (SIE: 123456789), estudiante de 4to grado en la Escuela Juan Ponce de
-                            León de Bayamón, vive en Calle Los Pinos #45 con su abuela. Tiene diagnóstico de TDAH y toma
-                            Ritalin 10mg. Su madre está en prisión federal.</p>
+                        <span class="comp-title">❌ Antes — Con PII — no usar</span>
+                        <p>"María González Ortiz (SIE: 123456789), estudiante de 4to grado en la Escuela Juan Ponce de León de Bayamón, vive en Calle Los Pinos #45 con su abuela. Tiene diagnóstico de TDAH y toma Ritalin 10mg. Su madre está en prisión federal."</p>
                     </article>
                     <article class="comp-card after">
-                        <span class="comp-title">Después · Anonimizado, seguro para IA</span>
-                        <p>Estudiante A, 4to grado en escuela pública urbana, vive con familiar extendido. Presenta
-                            necesidades de atención y concentración que requieren acomodaciones educativas. Situación
-                            familiar compleja que afecta estabilidad emocional.</p>
+                        <span class="comp-title">✅ Después — Anonimizado — seguro para IA</span>
+                        <p>"Estudiante A, 4to grado en escuela pública urbana, vive con familiar extendido. Presenta necesidades de atención y concentración que requieren acomodaciones educativas. Situación familiar compleja que afecta estabilidad emocional."</p>
                     </article>
+                </div>
+                <div class="lesson-note-card">
+                    <h3>🧠 Observación pedagógica</h3>
+                    <p>La versión anonimizada conserva la información pedagógica relevante para que la IA genere un borrador útil, eliminando todo elemento identificable.</p>
                 </div>
             </section>
 
             <section class="text-section" aria-labelledby="riesgos-title">
-                <h2 id="riesgos-title" class="section-title">Riesgos habituales y prácticas seguras mínimas</h2>
-                <p>La literatura sobre sistemas de evaluación automatizada y análisis de datos educativos advierte que
-                    la acumulación de información sensible en plataformas digitales sin protocolos claros aumenta el
-                    riesgo de filtraciones, usos secundarios no autorizados o interpretaciones erróneas (Yan et al.,
-                    2020). En el caso de herramientas generativas, algunos riesgos concretos son:</p>
-                <ol class="content-list-ordered">
-                    <li><strong>Copiar/pegar descuidado:</strong> transferir documentos completos sin revisar datos
-                        sensibles.</li>
-                    <li><strong>Capturas de pantalla:</strong> compartir imágenes que contienen información en los
-                        bordes o fondos.</li>
-                    <li><strong>Historial de conversaciones:</strong> los LLMs almacenan conversaciones; datos sensibles
-                        quedan en servidores.</li>
-                    <li><strong>Uso de cuentas compartidas:</strong> otros usuarios podrían acceder al historial.</li>
-                    <li><strong>Exportación de resultados:</strong> documentos generados por IA podrían contener
-                        metadata con PII original.</li>
-                </ol>
+                <h2 id="riesgos-title" class="section-title">4️⃣ Riesgos habituales en el uso de IA</h2>
+                <div class="lesson-evidence-card">
+                    <h3>🔬 Evidencia investigativa</h3>
+                    <p>La literatura sobre sistemas de evaluación automatizada y análisis de datos educativos advierte que la acumulación de información sensible en plataformas digitales sin protocolos claros aumenta el riesgo de <strong>filtraciones</strong>, <strong>usos secundarios no autorizados</strong> o <strong>interpretaciones erróneas</strong> (Yan et al., 2020).</p>
+                </div>
+
+                <h3 class="subsection-title">⚠️ Riesgos concretos al usar herramientas generativas</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Riesgo</th>
+                                <th>Cómo ocurre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Copiar/pegar descuidado</strong></td>
+                                <td>Transferir documentos completos sin revisar datos sensibles.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Capturas de pantalla</strong></td>
+                                <td>Compartir imágenes con información en bordes o fondos.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Historial de conversaciones</strong></td>
+                                <td>Los LLM almacenan conversaciones; datos sensibles quedan en servidores.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cuentas compartidas</strong></td>
+                                <td>Otros usuarios podrían acceder al historial.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Exportación de resultados</strong></td>
+                                <td>Documentos generados con metadata que conserva PII original.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <section class="text-section" aria-labelledby="practicas-title">
-                <h2 id="practicas-title" class="section-title">Prácticas seguras mínimas</h2>
+                <h2 id="practicas-title" class="section-title">5️⃣ Prácticas seguras mínimas</h2>
                 <button class="image-zoom-trigger img-editorial-left" type="button"
                     onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
                     aria-label="Ampliar imagen sobre prácticas seguras mínimas para usar IA">
@@ -1363,45 +1509,51 @@
                         src="./assets/LLM_M3_Leccion_3.4_practicas minimas_imagen_Rev.png"
                         alt="Prácticas seguras mínimas para el uso de IA">
                 </button>
-                <ol class="content-list-ordered">
-                    <li><strong>Usar cuentas institucionales cuando sea posible:</strong> algunas instituciones tienen
-                        acuerdos con proveedores de IA que incluyen protecciones adicionales de datos.</li>
-                    <li><strong>Desactivar historial de conversaciones:</strong> en ChatGPT, Settings → Data Controls →
-                        Chat History &amp; Training (desactivar). Esto evita que las conversaciones se almacenen o se
-                        usen para entrenar modelos.</li>
-                    <li><strong>Trabajar en sesiones temporales:</strong> usar modo incógnito o eliminar conversaciones
-                        inmediatamente después de usarlas.</li>
-                    <li><strong>No usar IA para decisiones finales sobre estudiantes:</strong> la IA puede sugerir
-                        lenguaje o estructura, pero el maestro toma las decisiones sobre contenido, especialmente en
-                        documentos legales como PIE.</li>
-                    <li><strong>Verificar políticas institucionales:</strong> consultar con el distrito escolar o
-                        departamento de tecnología sobre políticas específicas de uso de IA.</li>
-                    <li><strong>Documentar el proceso:</strong> mantener registro de qué herramientas de IA se usaron,
-                        para qué propósito y cómo se anonimizó la información.</li>
-                    <li><strong>Educar a colegas:</strong> compartir estas prácticas con otros maestros para crear
-                        cultura de uso seguro.</li>
-                </ol>
-            </section>
 
-            <section class="text-section" aria-labelledby="marco-title">
-                <div class="highlight-box warning-box">
-                    <h2 id="marco-title" class="section-title">Marco conceptual de seguridad, adaptado de principios
-                        FERPA</h2>
-                    <p><strong>Antes de usar IA, pregúntate:</strong></p>
-                    <ul class="content-list">
-                        <li>¿Este texto contiene información que permita identificar a un estudiante específico?</li>
-                        <li>¿Usaría este mismo texto en una conversación pública sin preocuparme?</li>
-                        <li>¿He eliminado TODOS los identificadores directos e indirectos?</li>
-                        <li>¿La herramienta que voy a usar tiene protecciones de privacidad activadas?</li>
-                        <li>¿Existe algún riesgo de que esta información se vincule con otros datos?</li>
-                    </ul>
-                    <p>Si respondes “NO” a cualquiera de las primeras 4 preguntas, o “SÍ” a la última: <strong>NO uses
-                            IA hasta anonimizar completamente.</strong></p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Práctica</th>
+                                <th>Cómo aplicarla</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Usar cuentas institucionales</strong></td>
+                                <td>Algunas instituciones tienen acuerdos con proveedores de IA que incluyen protecciones adicionales de datos.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Desactivar historial de conversaciones</strong></td>
+                                <td>En ChatGPT: Settings → Data Controls → Chat History &amp; Training —desactivar—. Evita que las conversaciones se almacenen o se usen para entrenar modelos.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sesiones temporales</strong></td>
+                                <td>Usar modo incógnito o eliminar conversaciones inmediatamente después de usarlas.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>No usar IA para decisiones finales sobre estudiantes</strong></td>
+                                <td>La IA puede sugerir lenguaje o estructura, pero el maestro toma las decisiones de contenido, especialmente en documentos legales como PEI.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verificar políticas institucionales</strong></td>
+                                <td>Consultar con el distrito escolar o departamento de tecnología sobre políticas específicas.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Documentar el proceso</strong></td>
+                                <td>Mantener registro de qué herramientas se usaron, para qué propósito y cómo se anonimizó.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Educar a colegas</strong></td>
+                                <td>Compartir estas prácticas para crear cultura de uso seguro.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
-            <section class="text-section" aria-labelledby="figura-title">
-                <h2 id="figura-title" class="sr-only">Figura de seguridad de datos en tareas administrativas</h2>
+            <section class="text-section" aria-labelledby="marco-title">
+                <h2 id="marco-title" class="section-title">6️⃣ Marco conceptual de seguridad — adaptado de principios FERPA</h2>
                 <div class="img-container-premium">
                     <button class="image-zoom-trigger" type="button"
                         onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
@@ -1410,8 +1562,44 @@
                             src="./assets/LLM_M3_ContenidoA_3.4_Seguridad de datos en tareas administrativas_Rev.png"
                             alt="Esquema de seguridad de datos en tareas administrativas">
                     </button>
-                    <p class="img-caption">Figura: Protocolo integral de seguridad para el manejo de PII en entornos de
-                        Inteligencia Artificial.</p>
+                    <p class="img-caption">Figura: Esquema de seguridad de datos en tareas administrativas — protocolo integral de manejo de PII en entornos de IA.</p>
+                </div>
+
+                <div class="highlight-box warning-box">
+                    <h3 class="subsection-title">🤔 Antes de usar IA, pregúntate</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Pregunta de verificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1</strong></td>
+                                    <td>¿Este texto contiene información que permita identificar a un estudiante específico?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2</strong></td>
+                                    <td>¿Usaría este mismo texto en una conversación pública sin preocuparme?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3</strong></td>
+                                    <td>¿He eliminado TODOS los identificadores directos e indirectos?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4</strong></td>
+                                    <td>¿La herramienta que voy a usar tiene protecciones de privacidad activadas?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5</strong></td>
+                                    <td>¿Existe algún riesgo de que esta información se vincule con otros datos?</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><strong>🚦 Regla de decisión:</strong> Si respondes <strong>"NO"</strong> a cualquiera de las primeras 4 preguntas, o <strong>"SÍ"</strong> a la quinta: <strong>NO uses IA hasta anonimizar completamente</strong>.</p>
                 </div>
             </section>
 
@@ -1424,16 +1612,13 @@
 
                     <nav class="ethics-tabs" role="tablist" aria-label="Secciones del escudo ético">
                         <button class="ethics-tab-btn active" type="button" role="tab" aria-selected="true"
-                            aria-controls="tab1-et" onclick="showEthicsTab(event, 'tab1-et')">🚫 Datos
-                            prohibidos</button>
+                            aria-controls="tab1-et" onclick="showEthicsTab(event, 'tab1-et')">🚫 Datos prohibidos</button>
                         <button class="ethics-tab-btn" type="button" role="tab" aria-selected="false"
                             aria-controls="tab2-et" onclick="showEthicsTab(event, 'tab2-et')">📋 Protocolo</button>
                         <button class="ethics-tab-btn" type="button" role="tab" aria-selected="false"
-                            aria-controls="tab3-et" onclick="showEthicsTab(event, 'tab3-et')">⚖️ Antes /
-                            después</button>
+                            aria-controls="tab3-et" onclick="showEthicsTab(event, 'tab3-et')">⚖️ Antes / después</button>
                         <button class="ethics-tab-btn" type="button" role="tab" aria-selected="false"
-                            aria-controls="tab4-et" onclick="showEthicsTab(event, 'tab4-et')">🛡️ Prácticas
-                            seguras</button>
+                            aria-controls="tab4-et" onclick="showEthicsTab(event, 'tab4-et')">🛡️ Prácticas seguras</button>
                     </nav>
 
                     <section id="tab1-et" class="ethics-panel active" role="tabpanel" aria-labelledby="ethics-title">
@@ -1455,20 +1640,16 @@
                         <h3>🔄 El protocolo de 4 pasos</h3>
                         <div class="ethics-steps">
                             <div class="ethics-step-card"><span class="ethics-num">1</span>
-                                <p><strong>Identificar:</strong> revisa el texto y marca nombres, lugares y números
-                                    específicos.</p>
+                                <p><strong>Identificar:</strong> revisa el texto y marca nombres, lugares y números específicos.</p>
                             </div>
                             <div class="ethics-step-card"><span class="ethics-num">2</span>
-                                <p><strong>Reemplazar:</strong> sustituye nombres por “Estudiante A”, SIE por “ID-###”,
-                                    etc.</p>
+                                <p><strong>Reemplazar:</strong> sustituye nombres por "Estudiante A", SIE por "ID-###", etc.</p>
                             </div>
                             <div class="ethics-step-card"><span class="ethics-num">3</span>
-                                <p><strong>Revisar contexto:</strong> asegura que el relato no identifique a la persona
-                                    por sus detalles únicos.</p>
+                                <p><strong>Revisar contexto:</strong> asegura que el relato no identifique a la persona por sus detalles únicos.</p>
                             </div>
                             <div class="ethics-step-card"><span class="ethics-num">4</span>
-                                <p><strong>Verificar:</strong> haz una última lectura antes de pegar el texto en el LLM.
-                                </p>
+                                <p><strong>Verificar:</strong> haz una última lectura antes de pegar el texto en el LLM.</p>
                             </div>
                         </div>
                     </section>
@@ -1512,33 +1693,75 @@
                             </div>
                             <div class="ethics-checklist-item"><button class="ethics-checkbox" type="button"
                                     onclick="toggleEthicsCheck(this)" aria-label="Marcar verificación"></button>
-                                <p>¿Estoy usando la IA solo para redactar y no para tomar decisiones legales, como un
-                                    PEI?</p>
+                                <p>¿Estoy usando la IA solo para redactar y no para tomar decisiones legales, como un PEI?</p>
                             </div>
                         </div>
                         <div class="safety-banner">
                             <span class="safety-banner-icon" aria-hidden="true">⚠️</span>
-                            <p><strong>Regla de oro:</strong> si respondes “NO” a cualquiera de estas preguntas, no uses
-                                la IA hasta anonimizar completamente.</p>
+                            <p><strong>Regla de oro:</strong> si respondes "NO" a cualquiera de estas preguntas, no uses la IA hasta anonimizar completamente.</p>
                         </div>
                     </section>
                 </div>
             </section>
 
-            <!-- ===== CONCEPTOS A REPASAR — ALT E3 ===== -->
+            <details class="role-compact-card" aria-labelledby="role-title">
+                <summary>
+                    <span>
+                        <span class="lesson-progressive-card__title" id="role-title">👩‍🏫 Conexión con tu rol como facilitador docente</span>
+                        <span class="lesson-progressive-card__hint">Como facilitador o facilitadora docente del <strong>DEPR</strong>, esta lección es especialmente crítica dada la naturaleza confidencial de la información que manejas y modelas para otros profesionales.</span>
+                    </span>
+                    <span><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                </summary>
+                <div class="role-compact-panel">
+                    <article class="role-mini-card">
+                        <h3>Custodio institucional de la confidencialidad</h3>
+                        <p>Especialmente si tu rol es Facilitador Docente de Educación Especial —<strong>FDEE</strong>—, gestionas información altamente sensible —PEI, diagnósticos, observaciones clínicas—. Esta lección consolida tu protocolo profesional para usar IA sin nunca comprometer datos estudiantiles.</p>
+                    </article>
+                    <article class="role-mini-card">
+                        <h3>Multiplicador de la cultura de uso seguro</h3>
+                        <p>Desde tu rol referente, eres responsable de educar a colegas sobre estas prácticas —uno de los siete puntos del marco—, fortaleciendo la cultura institucional de cumplimiento con <strong>FERPA</strong> y normativas del <strong>DEPR</strong>.</p>
+                    </article>
+                    <article class="role-mini-card">
+                        <h3>Modelaje del protocolo de anonimización</h3>
+                        <p>Podrás demostrar el protocolo de cuatro pasos en talleres y sesiones MECPA, convirtiéndolo en un estándar institucional para todo recurso generado con IA por el cuerpo docente.</p>
+                    </article>
+                    <article class="role-mini-card">
+                        <h3>Acompañamiento a maestros en redacción de PEI</h3>
+                        <p>Podrás guiar a docentes para que apliquen las tablas de sustitución estándar antes de usar IA en la redacción asistida del <strong>PLEP</strong>, metas <strong>SMART</strong> y narrativas —alineado con la Lección 3.3—.</p>
+                    </article>
+                    <article class="role-mini-card">
+                        <h3>Auditor de prácticas digitales del personal</h3>
+                        <p>Desde tu rol de mentoría, podrás verificar la configuración —historial desactivado, cuentas institucionales, eliminación de conversaciones— y promover el registro documentado del uso de IA en tareas administrativas.</p>
+                    </article>
+                    <article class="role-mini-card">
+                        <h3>Aporte directo a la investigación</h3>
+                        <p>Esta lección desarrolla competencias clave para el plan de acción del estudio, especialmente en la dimensión ética. Las prácticas de anonimización y los protocolos generados se convierten en evidencia cualitativa sobre los desafíos que los facilitadores docentes identifican en la integración de los LLM y refuerzan la dimensión de responsabilidad profesional documentada en la posprueba.</p>
+                    </article>
+                </div>
+            </details>
+
+            <section class="remember-panel" aria-labelledby="recordar-title">
+                <h2 id="recordar-title" class="section-title">🏁 Qué debes recordar</h2>
+                <ul class="remember-list">
+                    <li><span class="remember-text"><strong>FERPA aplica a Puerto Rico</strong> y protege los registros educativos: nunca ingreses PII en un LLM.</span></li>
+                    <li><span class="remember-text"><strong>8 categorías de PII están prohibidas:</strong> nombres, IDs, direcciones, datos médicos, imágenes/audio, biométricos, financieros y legales.</span></li>
+                    <li><span class="remember-text">Aplica el protocolo de 4 pasos: <strong>Identificar → Reemplazar → Revisar contexto → Verificar</strong> antes de pegar cualquier texto.</span></li>
+                    <li><span class="remember-text">Cuidado con riesgos invisibles: historial de chat, capturas de pantalla, cuentas compartidas y metadata en archivos exportados.</span></li>
+                    <li><span class="remember-text">Las <strong>7 prácticas seguras mínimas</strong> son innegociables: cuenta institucional, historial desactivado, sesiones temporales, no usar IA para decisiones finales, verificar políticas, documentar y educar.</span></li>
+                    <li><span class="remember-text">La regla de decisión: si respondes <strong>"NO"</strong> a alguna de las 4 primeras preguntas del marco, o <strong>"SÍ"</strong> a la quinta, no uses IA hasta anonimizar completamente.</span></li>
+                </ul>
+            </section>
+
             <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
                 <summary class="concept-review__summary-main">
                     <span class="concept-review__icon" aria-hidden="true">📖</span>
                     <span class="concept-review__meta">
                         <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
-                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
                     </span>
-                    <span class="concept-review__count">2 conceptos disponibles</span>
                 </summary>
 
                 <div class="concept-review__panel">
                     <div class="concept-review__list">
-
                         <details class="concept-review__item">
                             <summary class="concept-review__summary">Lista de verificación ética: Protocolo de anonimización</summary>
                             <div class="concept-review__body">
@@ -1554,63 +1777,45 @@
                                 <cite class="concept-review__citation">U.S. Department of Education. (2011). FERPA general guidance for students and parents. Student Privacy Policy Office.</cite>
                             </div>
                         </details>
-
                     </div>
                 </div>
             </details>
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
-                <h2 id="cierre-title" class="section-title">Felicidades</h2>
-                <p>Has culminado la lección 3.4 del programa de formación profesional.</p>
-                <p>Al completar el contenido 3.4, diste un paso fundamental para un uso responsable de la IA en la
-                    escuela: ahora distingues claramente qué es PII, cómo anonimizar textos antes de trabajarlos con un
-                    modelo de lenguaje y qué prácticas mínimas debes aplicar para proteger a estudiantes, familias y
-                    colegas. Esta conciencia fortalece tu rol profesional, porque te permite aprovechar las ventajas de
-                    la automatización sin comprometer la confidencialidad ni el cumplimiento de FERPA y de las normas
-                    del DEPR.</p>
+                <h2 id="cierre-title" class="section-title">🎉 Meta alcanzada — ¡Felicidades!</h2>
+                <p>Has culminado la <strong>Lección 3.4</strong> del programa de formación profesional.</p>
+                <p>Al completar este contenido, diste un paso fundamental para un uso responsable de la IA en la escuela: ahora distingues claramente qué es <strong>PII</strong>, cómo anonimizar textos antes de trabajarlos con un modelo de lenguaje y qué prácticas mínimas debes aplicar para proteger a estudiantes, familias y colegas.</p>
+                <p>Esta conciencia fortalece tu rol profesional, porque te permite aprovechar las ventajas de la automatización sin comprometer la <strong>confidencialidad</strong> ni el cumplimiento de <strong>FERPA</strong> y de las normas del <strong>DEPR</strong>.</p>
             </section>
 
             <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
                 <div class="genially-checkpoint__content">
                     <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
                     <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 3.4</h2>
-                    
-                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre el uso de asistentes para diseño de materiales educativos accesibles y DUA.</p>
-                    
+
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre <strong>información personal identificable</strong>, <strong>anonimización</strong>, <strong>FERPA</strong>, <strong>riesgos de privacidad</strong> y <strong>prácticas seguras mínimas</strong> al usar IA en tareas administrativas y evaluativas.</p>
+
                     <div class="genially-checkpoint__actions">
                         <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-3-4">
                             Realizar checkpoint aquí
                         </button>
-                        
+
                         <a href="https://view.genially.com/69ade5ab9abf43c2f0514822" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
                             Abrir en Genially en nueva pestaña
                         </a>
                     </div>
-                    
+
                     <p class="genially-checkpoint__note">
                         Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
                     </p>
                 </div>
-
-
-
-
-
-
-
 
                 <div id="checkpoint-panel-3-4" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
                     <div class="genially-checkpoint__frame-wrap">
                         <iframe data-src="https://view.genially.com/69ade5ab9abf43c2f0514822" src="about:blank" title="Checkpoint de saberes: Lección 3.4" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
-
-
-
-
-
-
             </section>
 
             <section class="text-section" aria-labelledby="referencias-title">
@@ -1618,28 +1823,17 @@
                 <details class="references-compact">
                     <summary class="references-compact__summary">
                         <span id="referencias-title" class="references-compact__title">Referencias</span>
-                        <span class="references-compact__count">6 fuentes consultadas</span>
                         <span class="references-compact__action">Ver referencias</span>
                     </summary>
                     <div class="references-compact__body">
                         <ul class="reference-list">
-
-                    <li>Agencia Española de Protección de Datos. (2014). <em>Guía básica de anonimización</em>. AEPD.
-                        https://www.aepd.es/documento/guia-basica-anonimizacion.pdf</li>
-                    <li>Introducción a la anonimización de datos: técnicas y casos prácticos | datos.gob.es. (2024).
-                        <em>Introducción a la anonimización de datos: técnicas y casos prácticos</em>.
-                        https://datos.gob.es/es/conocimiento/introduccion-la-anonimizacion-de-datos-tecnicas-y-casos-practicos
-                    </li>
-                    <li>Kolade, O., Owoseni, A., &amp; Egbetokun, A. (2024). Is AI changing learning and assessment as
-                        we know it? Evidence from a ChatGPT experiment and a conceptual framework. <em>Heliyon,
-                            10</em>(4).</li>
-                    <li>U.S. Department of Education. (2011). <em>FERPA general guidance for students and parents</em>.
-                        Student Privacy Policy Office. https://studentprivacy.ed.gov/ferpa</li>
-                    <li>U.S. Department of Education. (n.d.). <em>Family Educational Rights and Privacy Act
-                            (FERPA)</em>. https://www2.ed.gov/policy/gen/guid/fpco/ferpa</li>
-                    <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring:
-                            Theory into practice</em>. CRC Press.</li>
-                                        </ul>
+                            <li>Agencia Española de Protección de Datos. (2014). <em>Guía básica de anonimización</em>. AEPD. https://www.aepd.es/documento/guia-basica-anonimizacion.pdf</li>
+                            <li>Introducción a la anonimización de datos: técnicas y casos prácticos | datos.gob.es. (2024). <em>Introducción a la anonimización de datos: técnicas y casos prácticos</em>. https://datos.gob.es/es/conocimiento/introduccion-la-anonimizacion-de-datos-tecnicas-y-casos-practicos</li>
+                            <li>Kolade, O., Owoseni, A., &amp; Egbetokun, A. (2024). Is AI changing learning and assessment as we know it? Evidence from a ChatGPT experiment and a conceptual framework. <em>Heliyon, 10</em>(4).</li>
+                            <li>U.S. Department of Education. (2011). <em>FERPA general guidance for students and parents</em>. Student Privacy Policy Office. https://studentprivacy.ed.gov/ferpa</li>
+                            <li>U.S. Department of Education. (n.d.). <em>Family Educational Rights and Privacy Act (FERPA)</em>. https://www2.ed.gov/policy/gen/guid/fpco/ferpa</li>
+                            <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring: Theory into practice</em>. CRC Press.</li>
+                        </ul>
                     </div>
                 </details>
             </section>
@@ -1655,12 +1849,10 @@
 
     <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
 
-    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
-        aria-hidden="true">
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title" aria-hidden="true">
         <div class="modal-content">
             <h2 id="zoom-title" class="sr-only">Imagen ampliada del recurso</h2>
-            <button class="modal-close-btn" type="button" onclick="closeZoom()"
-                aria-label="Cerrar imagen ampliada">×</button>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()" aria-label="Cerrar imagen ampliada">×</button>
             <img id="zoomedImg" alt="Imagen ampliada del recurso">
         </div>
     </div>
