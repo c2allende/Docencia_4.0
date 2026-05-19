@@ -632,6 +632,27 @@
             box-shadow: var(--shadow-sm);
         }
 
+        /* INFOGRAPHIC SIZE REDUCTION */
+        .infographics-grid {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .info-card {
+            max-width: 100%;
+        }
+
+        .info-img-container {
+            max-height: 400px;
+        }
+
+        .info-img-container img {
+            max-height: 400px;
+            object-fit: contain;
+            object-position: top;
+        }
+
         @media (max-width: 900px) {
             .content-wrapper {
                 padding: 0 var(--spacing-4);
@@ -846,7 +867,6 @@
                         <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
                         <span class="bibliographic-resources__summary-text">
                             <span class="bibliographic-resources__title" id="bibliographic-resources-title-m3">Bibliografía de Referencia</span>
-                            <span class="bibliographic-resources__count">4 recursos disponibles</span>
                         </span>
                         <span class="bibliographic-resources__action">Ver recursos</span>
                         <span class="bibliographic-resources__arrow" aria-hidden="true">
