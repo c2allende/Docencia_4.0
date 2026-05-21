@@ -5033,11 +5033,7 @@ details:not([open]) > summary .summary-less {
     color: var(--color-text-secondary);
 }
 
-.concept-review__meta {
-    display: flex;
-    align-items: center;
-    min-width: 0;
-}
+
 
 .references-compact__summary {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -5538,4 +5534,226 @@ details:not([open]) > summary .summary-less {
 .remember-panel {}
 .remember-card {}
 .lesson-remember-card {}
+
+/* =========================================================
+   DOCENCIA 4.0 — COMPONENTE: Conceptos a repasar
+   Patrón calibrado B1-B. Fuente: leccion3_1.html (aprobado).
+   Estructura BEM: .concept-review, __summary-main, __icon,
+   __meta, __title, __subtitle, __count, __panel, __list,
+   __item, __summary, __body, __citation, __overflow, __more.
+   Variante: .concept-review--blue (fondo brand-primary).
+   ========================================================= */
+
+/* --- Contenedor principal (ya definido parcialmente en
+   bloque "Componentes Reutilizables LMS" L5254) ---
+   .concept-review hereda: background, border, border-radius,
+   padding, margin-bottom, box-shadow del bloque L5248-5263. */
+
+/* --- Summary principal (clickable header) --- */
+.concept-review__summary-main {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border: var(--border-width-1) solid var(--color-border-default);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface-low);
+    box-shadow: var(--shadow-flat);
+    cursor: pointer;
+    list-style: none;
+}
+
+.concept-review__summary-main::-webkit-details-marker {
+    display: none;
+}
+
+/* --- Icono decorativo --- */
+.concept-review__icon {
+    font-size: var(--font-size-2xl);
+    line-height: 1;
+}
+
+/* --- Metadatos (título + subtítulo) --- */
+.concept-review__meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* --- Título --- */
+.concept-review__title {
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--line-height-snug);
+}
+
+/* --- Subtítulo (opcional) --- */
+.concept-review__subtitle {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-relaxed);
+}
+
+/* --- Badge contador (opcional) --- */
+.concept-review__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-pill);
+    background: var(--color-background-surface);
+    color: var(--color-brand-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-extrabold);
+    white-space: nowrap;
+}
+
+/* --- Panel de contenido (aparece al abrir) --- */
+.concept-review__panel {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+/* --- Lista de conceptos --- */
+.concept-review__list {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+/* --- Ítem individual (acordeón) --- */
+.concept-review__item {
+    padding: var(--spacing-md);
+    border: var(--border-width-1) solid var(--color-border-default);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-surface-low);
+    box-shadow: var(--shadow-flat);
+}
+
+/* --- Summary de ítem --- */
+.concept-review__summary {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-text-display);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-snug);
+}
+
+.concept-review__summary::-webkit-details-marker {
+    display: none;
+}
+
+/* --- Cuerpo del ítem --- */
+.concept-review__body {
+    margin-top: var(--spacing-md);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    text-align: left;
+}
+
+.concept-review__body p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Cita --- */
+.concept-review__citation {
+    display: block;
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    border-top: var(--border-width-1) solid var(--color-border-subtle);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    line-height: var(--line-height-relaxed);
+}
+
+/* --- Overflow / Ver más (opcional) --- */
+.concept-review__overflow {
+    display: none;
+}
+
+.concept-review__overflow[style*="display: block"] {
+    display: block;
+}
+
+.concept-review__more {
+    width: 100%;
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-3) var(--spacing-lg);
+    border: var(--border-width-1) dashed var(--color-brand-primary);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-surface);
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+        color var(--motion-duration-default) var(--motion-easing-standard);
+}
+
+.concept-review__more:hover {
+    background: var(--color-brand-primary);
+    color: var(--color-brand-primary-on);
+}
+
+/* --- Variante: --blue (fondo brand-primary) --- */
+.concept-review--blue {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.concept-review--blue .concept-review__summary-main {
+    background: var(--color-background-surface);
+    border-color: var(--color-border-default);
+    box-shadow: var(--shadow-flat);
+}
+
+.concept-review--blue .concept-review__panel {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+.concept-review--blue .concept-review__item {
+    background: var(--color-background-surface-low);
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+    .concept-review__summary-main {
+        grid-template-columns: auto 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .concept-review__count {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .concept-review__panel {
+        padding: var(--spacing-md);
+    }
+
+    .concept-review__item {
+        padding: var(--spacing-sm);
+    }
+}
+
 
