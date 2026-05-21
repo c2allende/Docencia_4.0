@@ -4717,6 +4717,188 @@ body.has-top-nav {
 }
 
 /* =========================================================
+   DOCENCIA 4.0 — MODULE INTRO QA CALIBRATION
+   Calibración visual para introducciones sin estilos locales
+   ========================================================= */
+
+.module-intro-shell {
+  max-width: var(--size-max-container, 1000px);
+  margin-inline: auto;
+}
+
+.module-intro-card {
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.module-intro-title {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: var(--line-height-tight);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.lesson-summary-card {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: var(--font-size-lg);
+}
+
+.module-section-title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.module-intro-card .module-key-message {
+  font-family: var(--font-family-body);
+}
+
+.module-intro-card .module-key-message p:not(.module-section-kicker),
+.module-intro-card .module-key-message .module-key-message__text {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+  letter-spacing: normal;
+}
+
+.module-intro-card .lesson-summary-card > .module-section-kicker,
+.module-intro-card .module-key-message > .module-section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-brand-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.module-intro-card .module-reflection-callout .reflection-accordion__label {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+}
+
+.module-intro-card .module-reflection-callout .reflection-accordion__question {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-semibold);
+}
+
+.module-progressive-card {
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  margin-bottom: var(--spacing-md);
+}
+
+.module-route-card__title {
+  font-size: var(--font-size-lg);
+}
+
+.module-progressive-card__body {
+  font-size: var(--font-size-base);
+}
+
+.module-outcomes-list li {
+  font-size: var(--font-size-base);
+  padding-block: var(--spacing-md);
+}
+
+.module-intro-card .nav-footer,
+.module-intro-card .footer-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: var(--border-width-1) solid var(--color-border-default);
+}
+
+.module-intro-card .nav-footer .btn-back,
+.module-intro-card .footer-nav .btn-back {
+  justify-self: flex-start;
+}
+
+.module-intro-card .nav-footer .btn-primary,
+.module-intro-card .footer-nav .btn-primary {
+  justify-self: flex-end;
+}
+
+@media (max-width: 640px) {
+  .module-intro-card .nav-footer,
+  .module-intro-card .footer-nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .module-intro-card .nav-footer .btn,
+  .module-intro-card .nav-footer .btn-back,
+  .module-intro-card .footer-nav .btn,
+  .module-intro-card .footer-nav .btn-back {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* DOCENCIA 4.0 — QA INTRO FINAL TYPOGRAPHIC CALIBRATION */
+
+.module-intro-card .lesson-summary-card > .module-section-kicker,
+.module-intro-card .module-key-message > .module-section-kicker {
+  display: block;
+  margin: 0 0 var(--spacing-md);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-brand-primary);
+}
+
+.module-intro-card .module-key-message,
+.module-intro-card .module-key-message p,
+.module-intro-card .module-key-message .module-key-message__text {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  font-weight: 400;
+  letter-spacing: normal;
+  color: var(--color-text-secondary);
+}
+
+.module-intro-card .module-reflection-callout .reflection-accordion__label {
+  display: block;
+  margin: 0 0 var(--spacing-sm);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+}
+
+.module-intro-card .module-reflection-callout .reflection-accordion__question {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+/* =========================================================
    DOCENCIA 4.0 — LESSON 1.1 EDITORIAL ORGANIZATION SYSTEM
    Organización instruccional, UX/UI y carga cognitiva
    ========================================================= */
