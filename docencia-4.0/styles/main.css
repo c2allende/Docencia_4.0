@@ -2976,19 +2976,7 @@ body.has-top-nav {
    border-radius: var(--radius-xl);
 }
 
-.concept-review > .concept-review__summary-main {
-   display: flex;
-   align-items: center;
-   gap: var(--spacing-4);
-   flex-wrap: wrap;
-   padding: var(--spacing-2);
-   cursor: pointer;
-   list-style: none;
-}
 
-.concept-review > .concept-review__summary-main::-webkit-details-marker {
-   display: none;
-}
 
 .concept-review__icon {
    font-size: var(--font-size-2xl);
@@ -3062,8 +3050,24 @@ body.has-top-nav {
    transition: background-color var(--motion-duration-instant);
 }
 
+.concept-review__item[open] {
+    border-color: var(--color-brand-primary);
+}
+
 .concept-review__summary::-webkit-details-marker {
-   display: none;
+    display: none;
+}
+
+.concept-review__summary::before {
+    content: "▸";
+    flex-shrink: 0;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-disabled);
+    transition: transform var(--motion-duration-instant);
+}
+
+.concept-review__item[open] > .concept-review__summary::before {
+    transform: rotate(90deg);
 }
 
 .concept-review__summary::before {
@@ -3131,11 +3135,7 @@ body.has-top-nav {
    .concept-review {
       padding: var(--spacing-4);
    }
-   .concept-review > .concept-review__summary-main {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--spacing-2);
-   }
+
    .concept-review__count {
       align-self: flex-start;
    }
@@ -3180,10 +3180,13 @@ body.has-top-nav {
 }
 
 .references-compact__title {
-   color: var(--color-text-display);
-   font-family: var(--font-family-heading);
-   font-size: var(--font-size-lg);
-   font-weight: var(--font-weight-extrabold);
+  display: block;
+  color: var(--color-brand-primary);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-snug);
+  overflow-wrap: anywhere;
 }
 
 .references-compact__count {
@@ -3198,12 +3201,14 @@ body.has-top-nav {
 }
 
 .references-compact__action {
-   color: var(--color-brand-primary);
-   font-size: var(--font-size-sm);
-   font-weight: var(--font-weight-bold);
-   text-decoration: underline;
-   text-decoration-color: transparent;
-   transition: text-decoration-color var(--motion-duration-default);
+  color: var(--color-brand-primary);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
 }
 
 .references-compact__summary:hover .references-compact__action {
@@ -4387,7 +4392,7 @@ body.has-top-nav {
   margin: 0 0 clamp(1.5rem, 2.5vw, 2rem);
   font-size: clamp(1rem, 1.15vw, 1.12rem);
   line-height: 1.7;
-  color: var(--color-text-body, #2f3b4a);
+  color: var(--color-text-secondary, #2f3b4a);
 }
 
 .lesson-role-transfer__grid {
@@ -4408,7 +4413,7 @@ body.has-top-nav {
   min-height: clamp(17rem, 24vw, 19rem);
   padding: clamp(1.5rem, 2.4vw, 2rem);
   border-radius: var(--radius-2xl, 1.5rem);
-  background: var(--color-surface-soft, #eef3f7);
+  background: var(--color-background-surface-low, #eef3f7);
   border: 1px solid var(--color-border-subtle, rgba(15, 23, 42, 0.08));
   box-shadow: var(--shadow-sm, 0 8px 24px rgba(15, 23, 42, 0.06));
   display: flex;
@@ -4428,7 +4433,7 @@ body.has-top-nav {
 
 .lesson-role-transfer__hook {
   margin: 0;
-  color: var(--color-text-body, #2f3b4a);
+  color: var(--color-text-secondary, #2f3b4a);
   font-size: clamp(1rem, 1.15vw, 1.12rem);
   line-height: 1.6;
 }
@@ -4469,7 +4474,7 @@ body.has-top-nav {
 
 .lesson-role-transfer__body {
   margin-top: 1rem;
-  color: var(--color-text-body, #2f3b4a);
+  color: var(--color-text-secondary, #2f3b4a);
   font-size: clamp(0.96rem, 1.05vw, 1.05rem);
   line-height: 1.65;
 }
@@ -5245,9 +5250,7 @@ details:not([open]) > summary .summary-less {
 .lesson-role-connection,
 .lesson-toolbox,
 .lesson-media-card,
-.concept-review,
-.checkpoint-card,
-.references-section {
+.checkpoint-card {
   background: var(--color-background-surface);
   border: var(--border-width-1) solid var(--color-border-default);
   border-radius: var(--radius-xl);
@@ -5281,12 +5284,12 @@ details:not([open]) > summary .summary-less {
 }
 
 .lesson-toolbox {
-  background: var(--color-background-subtle);
+  background: var(--color-background-surface-low);
   border-left: var(--border-width-4) solid var(--color-brand-secondary);
 }
 
 .lesson-toolbox-summary {
-  font-family: var(--font-family-code);
+  font-family: var(--font-family-body);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-display);
 }
@@ -5385,9 +5388,9 @@ details:not([open]) > summary .summary-less {
 .padlet-cta {
   display: inline-block;
   background: var(--color-brand-secondary);
-  color: var(--color-background-base);
+  color: var(--color-white);
   padding: var(--spacing-sm) var(--spacing-lg);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
   text-decoration: none;
   font-weight: var(--font-weight-bold);
   transition: opacity 0.2s ease;
@@ -5399,7 +5402,7 @@ details:not([open]) > summary .summary-less {
 
 /* 4. Foros */
 .forum-shell {
-  max-width: var(--container-max-width);
+  max-width: var(--size-max-container);
   margin: 0 auto;
 }
 
@@ -5437,7 +5440,7 @@ details:not([open]) > summary .summary-less {
 
 /* 5. Recursos */
 .resource-bank-shell {
-  max-width: var(--container-max-width);
+  max-width: var(--size-max-container);
   margin: 0 auto;
 }
 
@@ -5456,7 +5459,7 @@ details:not([open]) > summary .summary-less {
 }
 
 .resource-index {
-  background: var(--color-background-subtle);
+  background: var(--color-background-surface-low);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
@@ -5547,23 +5550,35 @@ details:not([open]) > summary .summary-less {
    .concept-review hereda: background, border, border-radius,
    padding, margin-bottom, box-shadow del bloque L5248-5263. */
 
-/* --- Summary principal (clickable header) --- */
-.concept-review__summary-main {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
-    border: var(--border-width-1) solid var(--color-border-default);
-    border-radius: var(--radius-xl);
-    background: var(--color-background-surface-low);
-    box-shadow: var(--shadow-flat);
-    cursor: pointer;
-    list-style: none;
+.concept-review {
+  background: var(--color-background-surface);
+  border: var(--border-width-1) solid var(--color-border-default);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-flat);
 }
 
-.concept-review__summary-main::-webkit-details-marker {
-    display: none;
+/* --- Summary principal (clickable header) --- */
+.concept-review > .concept-review__summary-main {
+  width: 100%;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--spacing-md);
+  align-items: center;
+  padding: var(--spacing-xl);
+  border: var(--border-width-1) solid var(--color-border-default);
+  border-radius: var(--radius-xl);
+  background: var(--color-background-surface-low);
+  box-shadow: var(--shadow-flat);
+  cursor: pointer;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+.concept-review > .concept-review__summary-main::-webkit-details-marker {
+  display: none;
 }
 
 /* --- Icono decorativo --- */
@@ -5581,11 +5596,13 @@ details:not([open]) > summary .summary-less {
 
 /* --- Título --- */
 .concept-review__title {
-    color: var(--color-brand-primary);
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-extrabold);
-    line-height: var(--line-height-snug);
+  display: block;
+  color: var(--color-brand-primary);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-snug);
+  overflow-wrap: anywhere;
 }
 
 /* --- Subtítulo (opcional) --- */
@@ -5609,6 +5626,38 @@ details:not([open]) > summary .summary-less {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-extrabold);
     white-space: nowrap;
+}
+
+/* --- Acción de Toggle (Ver/Ocultar) --- */
+.concept-review__action-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.concept-review__toggle-text {
+  color: var(--color-brand-primary);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+}
+
+.concept-review__toggle-text--open {
+  display: none;
+}
+
+.concept-review[open] .concept-review__toggle-text--closed {
+  display: none;
+}
+
+.concept-review[open] .concept-review__toggle-text--open {
+  display: inline;
 }
 
 /* --- Panel de contenido (aparece al abrir) --- */
@@ -5650,8 +5699,24 @@ details:not([open]) > summary .summary-less {
     line-height: var(--line-height-snug);
 }
 
+.concept-review__item[open] {
+    border-color: var(--color-brand-primary);
+}
+
 .concept-review__summary::-webkit-details-marker {
     display: none;
+}
+
+.concept-review__summary::before {
+    content: "▸";
+    flex-shrink: 0;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-disabled);
+    transition: transform var(--motion-duration-instant);
+}
+
+.concept-review__item[open] > .concept-review__summary::before {
+    transform: rotate(90deg);
 }
 
 /* --- Cuerpo del ítem --- */

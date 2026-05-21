@@ -59,3 +59,19 @@ Se confirma lo siguiente:
 
 ## 7. Estado
 B1-C PENDIENTE — requiere ajuste visual. (A la espera de revisión visual humana para confirmar aprobación).
+
+## QA Fix ESTRICTO — Normalización visual de Referencias
+
+**Correcciones realizadas en `main.css`:**
+- Se actualizó el título `.references-compact__title` asignando color cyan institucional (`brand-primary`), peso extrabold y `overflow-wrap: anywhere` para alinear su jerarquía visual exacta con la de "Conceptos a repasar".
+- Se ajustó la acción derecha `.references-compact__action` para coincidir 1:1 con el estilo de la nueva acción de conceptos (subrayado persistente, tamaño consistente `sm`, font-weight `bold` y text-underline-offset `0.18em`).
+- Ambos componentes ("Referencias" y "Conceptos a repasar") ahora lucen idénticos visualmente en sus barras principales (color de título, peso, ubicación de acción, estilo de toggle).
+
+**Garantías de seguridad:**
+- El texto APA no se modificó.
+- No se intervino en lecciones reales.
+- No se hizo deploy.
+- No se usó `git add .` ni se alteró B1-C previamente aprobado.
+
+## Incidencia QA Visual durante B1-0
+Durante el saneamiento de `main.css` (Fase B1-0), se comprobó que el componente Referencias mantiene visualmente la paridad absoluta con Conceptos a repasar. El prototipo de saneamiento fue ajustado para poder observar el toggle de ambos componentes bajo el nuevo CSS, validando así el éxito estructural de la normalización. No se requirieron cambios en producción ni deploys.

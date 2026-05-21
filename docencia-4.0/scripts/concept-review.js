@@ -12,12 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const overflow = section.querySelector('.concept-review__overflow');
         const summaryMain = section.querySelector('.concept-review__summary-main');
         const titleSpan = section.querySelector('.concept-review__title');
+        const closedAction = section.querySelector('.concept-review__toggle-text--closed');
+        const openAction = section.querySelector('.concept-review__toggle-text--open');
         
         // Almacenar el título original (ej. "Conceptos a repasar")
         const originalTitle = titleSpan ? titleSpan.textContent : 'Conceptos a repasar';
 
         // Toggle de etiquetas al abrir/cerrar
         section.addEventListener('toggle', () => {
+            if (closedAction && openAction) {
+                if (titleSpan) titleSpan.textContent = originalTitle;
+                return;
+            }
+
             if (section.open) {
                 if (titleSpan) titleSpan.textContent = 'Ocultar conceptos';
             } else {
