@@ -5035,9 +5035,7 @@ details:not([open]) > summary .summary-less {
 
 
 
-.references-compact__summary {
-    grid-template-columns: minmax(0, 1fr) auto;
-}
+
 
 @media (max-width: 980px) {
     .lesson-area-split,
