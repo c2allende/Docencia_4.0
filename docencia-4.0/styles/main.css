@@ -5248,7 +5248,6 @@ details:not([open]) > summary .summary-less {
 .lesson-summary-card,
 .lesson-objective-card,
 .lesson-progressive-card,
-.lesson-remember,
 .lesson-role-connection,
 .lesson-toolbox,
 .lesson-media-card,
@@ -5485,4 +5484,58 @@ details:not([open]) > summary .summary-less {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: var(--spacing-lg);
 }
+
+
+/* Patr�n Espec�fico: Qu� debes recordar */
+.lesson-remember {
+  margin: var(--spacing-16) 0;
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-background-surface-low);
+  border: var(--border-width-1) solid var(--color-border-default);
+  box-shadow: var(--shadow-flat);
+}
+
+.lesson-remember .section-title,
+.lesson-remember__title {
+  color: var(--color-brand-primary);
+}
+
+.lesson-remember__list {
+  display: grid;
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lesson-remember__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-background-surface);
+  border: var(--border-width-1) solid var(--color-border-default);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.lesson-remember__check {
+  display: none;
+}
+
+.lesson-remember__item::before {
+  content: "✅";
+  flex: 0 0 auto;
+}
+
+.lesson-remember__text {
+  display: inline;
+}
+
+/* Compatibilidad temporal (Pendiente de migraci�n) */
+.remember-panel {}
+.remember-card {}
+.lesson-remember-card {}
 
