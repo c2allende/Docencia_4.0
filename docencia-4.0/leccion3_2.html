@@ -243,17 +243,13 @@
             font-weight: var(--font-weight-bold);
         }
 
-        .content-wrapper {
-            max-width: 1100px;
-            margin: var(--spacing-xl) auto var(--spacing-16);
-            padding: 0 var(--spacing-md);
-        }
+/* removed local .content-wrapper */
 
         .lesson-card {
             position: relative;
             overflow: hidden;
-            padding: var(--spacing-16);
-            margin-bottom: var(--spacing-lg);
+            /* removed padding */
+margin-bottom: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
@@ -1167,9 +1163,7 @@
         }
 
         @media (max-width: 900px) {
-            .content-wrapper {
-                padding: 0 var(--spacing-4);
-            }
+/* removed local .content-wrapper */
 
             .lesson-card,
             .feedback-sim-component,
@@ -1288,7 +1282,7 @@
         </ul>
     </aside>
 
-    <main class="content-wrapper">
+    <main class="content-wrapper lesson-page-wrapper">
         <article class="lesson-card" aria-labelledby="lesson-title">
             <h1 id="lesson-title" class="lesson-title">Lección 3.2: Retroalimentación formativa y computación afectiva</h1>
 

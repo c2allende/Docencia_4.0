@@ -246,17 +246,13 @@
         }
 
         /* CONTENIDO PRINCIPAL */
-        .content-wrapper {
-            max-width: 1100px;
-            margin: var(--spacing-xl) auto var(--spacing-16);
-            padding: 0 var(--spacing-md);
-        }
+/* removed local .content-wrapper */
 
         .lesson-card {
             position: relative;
             overflow: hidden;
-            padding: var(--spacing-16);
-            margin-bottom: var(--spacing-lg);
+            /* removed padding */
+margin-bottom: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
@@ -998,9 +994,7 @@
         }
 
         @media (max-width: 900px) {
-            .content-wrapper {
-                padding: 0 var(--spacing-4);
-            }
+/* removed local .content-wrapper */
 
             .lesson-card,
             .interactive-app-wrapper {
@@ -1237,7 +1231,7 @@
         </ul>
     </aside>
 
-    <main class="content-wrapper">
+    <main class="content-wrapper lesson-page-wrapper">
         <article class="lesson-card" aria-labelledby="lesson-title">
             <span class="lesson-kicker">Módulo 2 · Lección 2.2</span>
             <h1 id="lesson-title" class="lesson-title">Lección 2.2: Del estándar a la planificación con IA</h1>
