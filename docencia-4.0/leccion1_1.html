@@ -1320,23 +1320,23 @@ details[open] > summary .summary-less {
         <article class="lesson-card" aria-labelledby="lesson-title">
             <h1 id="lesson-title" class="lesson-title">Lección 1.1: Conceptualización y panorama tecnológico</h1>
 
-<div class="audio-player-container lesson-audio-intro">
-    <label class="audio-label" for="lessonAudio">🎧 Escuchar Lección 1.1</label>
-    <p class="lesson-audio-intro__text">Acompaña la lectura con la narración guiada. Te ayudará a fijar los conceptos clave mientras avanzas por las secciones interactivas.</p>
+<section class="audio-player-container lesson-audio-intro" aria-label="Audio inicial de la Lección 1.1">
+    <label class="lesson-section-kicker audio-label" for="lessonAudio">🎧 ESCUCHAR LECCIÓN 1.1</label>
     <audio id="lessonAudio" controls class="audio-player">
         <source src="LLM-DEPR/LLM_M1_Leccion1_1_audioedit.mp3" type="audio/mpeg">
 Su navegador no soporta la reproducción de audio.
     </audio>
-</div>
+    <p>Acompaña la lectura con la narración guiada. Te ayudará a fijar los conceptos clave mientras avanzas por las secciones interactivas.</p>
+</section>
 
 <section class="lesson-summary-card" aria-labelledby="resumen-title">
-    <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
-    <p><strong>En esta lección…</strong> comprenderás qué es un Modelo de Lenguaje de Gran Tamaño (LLM), cómo se sitúa dentro del universo de la inteligencia artificial, cómo funciona internamente mediante tokenización, y qué lo diferencia de un bot, una aplicación o un buscador tradicional. Al finalizar, sabrás cuándo conviene usar cada recurso en tu práctica docente y reconocerás el panorama actual del ecosistema (ChatGPT y Microsoft Copilot).</p>
+    <h2 id="resumen-title" class="lesson-section-kicker">📌 RESUMEN INICIAL</h2>
+    <p>En esta lección… comprenderás qué es un Modelo de Lenguaje de Gran Tamaño (LLM), cómo se sitúa dentro del universo de la inteligencia artificial, cómo funciona internamente mediante tokenización, y qué lo diferencia de un bot, una aplicación o un buscador tradicional. Al finalizar, sabrás cuándo conviene usar cada recurso en tu práctica docente y reconocerás el panorama actual del ecosistema (ChatGPT y Microsoft Copilot).</p>
 </section>
 
 <section class="lesson-core-callout" aria-label="Concepto central">
-    <p class="lesson-core-callout__label">🎯 Concepto central</p>
-    <p><strong>Un LLM es el "motor de lenguaje". El bot es el "vehículo" que usas. El buscador es el "localizador de fuentes".</strong> Distinguir entre estos tres roles es la primera competencia que necesitas como docente para tomar decisiones tecnológicas informadas.</p>
+    <p class="lesson-core-callout__label">🎯 CONCEPTO CENTRAL</p>
+    <p>Un LLM es el "motor de lenguaje". El bot es el "vehículo" que usas. El buscador es el "localizador de fuentes". Distinguir entre estos tres roles es la primera competencia que necesitas como docente para tomar decisiones tecnológicas informadas.</p>
 </section>
 
 <section class="text-section lesson-editorial-section" aria-labelledby="que-es-llm">
@@ -1812,16 +1812,14 @@ Su navegador no soporta la reproducción de audio.
 
             <details class="concept-review" data-concept-review>
                 <summary class="concept-review__summary-main">
-                    <div class="concept-review__icon" aria-hidden="true">📖</div>
-                    <div class="concept-review__meta">
-                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
-                    </div>
-                    <div class="concept-review__toggle-icon" aria-hidden="true">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </summary>
+  <div class="concept-review-header">
+    <div class="concept-review-title">
+      <span class="concept-review-icon">📖</span>
+      <span class="concept-review-text">Conceptos a repasar</span>
+    </div>
+    <button class="concept-review-toggle btn btn-outline-primary btn-sm" aria-expanded="false" type="button">Ver conceptos</button>
+  </div>
+</summary>
                 <div class="concept-review__panel">
                     <details class="concept-review__item">
                         <summary class="concept-review__summary">Modelo de Lenguaje de Gran Tamaño (LLM)</summary>

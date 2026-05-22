@@ -4932,9 +4932,12 @@ body.has-top-nav {
   box-shadow: var(--shadow-sm);
 }
 
-.lesson-summary-card,
-.lesson-core-callout {
+.lesson-summary-card {
   border-left: var(--border-width-6) solid var(--color-brand-primary);
+}
+
+.lesson-core-callout {
+  border-left: var(--border-width-6) solid var(--color-brand-secondary);
 }
 
 .lesson-alert-callout,
@@ -5036,9 +5039,12 @@ body.has-top-nav {
 }
 
 .lesson-summary-card,
-.lesson-core-callout,
 .lesson-remember-card {
     border-left: var(--border-width-6) solid var(--color-brand-primary);
+}
+
+.lesson-core-callout {
+    border-left: var(--border-width-6) solid var(--color-brand-secondary);
 }
 
 .lesson-example-callout,
@@ -5046,10 +5052,21 @@ body.has-top-nav {
     border-left: var(--border-width-6) solid var(--color-brand-secondary);
 }
 
-.lesson-core-callout__label,
 .lesson-section-kicker {
+
     margin: 0 0 var(--spacing-sm);
     color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    font-size: var(--font-size-sm);
+}
+
+.lesson-core-callout__label {
+
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-brand-secondary);
     font-family: var(--font-family-heading);
     font-weight: var(--font-weight-extrabold);
     text-transform: uppercase;
@@ -5426,7 +5443,6 @@ details:not([open]) > summary .summary-less {
    ========================================================= */
 
 /* 1. Lecciones */
-.lesson-summary-card,
 .lesson-objective-card,
 .lesson-progressive-card,
 .lesson-role-connection,
@@ -6002,3 +6018,37 @@ details:not([open]) > summary .summary-less {
 }
 
 
+
+
+
+
+
+/* FIX CONCEPTOS A REPASAR */
+.concept-review-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+.concept-review-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+.concept-review-title span:not(.concept-review-icon) {
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xl);
+    text-align: left;
+}
+.concept-review-icon {
+    font-size: var(--font-size-2xl);
+    line-height: 1;
+}
+.concept-review-toggle {
+    white-space: nowrap;
+    margin-left: var(--spacing-sm);
+}
