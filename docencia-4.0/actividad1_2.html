@@ -496,6 +496,48 @@
             color: var(--color-yellow-800);
         }
 
+        /* Standard Activity Cards */
+        .activity-summary-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .activity-core-card {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-12);
+            background: var(--color-background-surface);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+        }
+
+        .workshop-card {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-12);
+            background: var(--color-background-surface-low);
+        }
+
+        .workshop-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .workshop-meta-card {
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .workshop-meta-card strong {
+            display: block;
+            margin-bottom: var(--spacing-1);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+        }
+
         .activity-reflection-card {
             background: var(--color-cyan-50);
             border-left: var(--border-width-6) solid var(--color-brand-primary);
@@ -591,10 +633,12 @@
         }
 
         .padlet-cta {
+            max-width: 980px;
+            margin: var(--spacing-xl) auto 0;
             padding: var(--spacing-xl);
-            margin-top: var(--spacing-lg);
-            background: var(--color-background-surface-low);
+            background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
+            border-top: var(--border-width-4) solid var(--color-brand-primary);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
@@ -605,7 +649,7 @@
 
         .padlet-cta__label {
             display: inline-block;
-            margin-bottom: var(--spacing-xs);
+            margin-bottom: var(--spacing-2);
             color: var(--color-brand-secondary);
             font-family: var(--font-family-heading);
             font-size: var(--font-size-xs);
@@ -624,13 +668,72 @@
         }
 
         .padlet-cta__description {
-            margin: 0 0 var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-secondary);
+        }
+
+        .padlet-cta__steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-2);
+            width: 100%;
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            overflow: visible;
+        }
+
+        .padlet-cta__step {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            align-items: center;
+            gap: var(--spacing-md);
+            width: 100%;
+            min-height: auto;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: transparent;
+            border: 0;
+            border-radius: var(--radius-md);
+            text-align: left;
+        }
+
+        .padlet-cta__step + .padlet-cta__step {
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .padlet-cta__step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            margin: 0;
+            flex-shrink: 0;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .padlet-cta__step-text {
+            display: block;
+            color: var(--color-text-primary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            overflow-wrap: anywhere;
         }
 
         .padlet-cta__footer {
             display: flex;
-            flex-wrap: wrap;
-            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding-top: var(--spacing-lg);
+            border-top: var(--border-width-1) dashed var(--color-border-default);
             gap: var(--spacing-md);
         }
 
@@ -781,7 +884,8 @@
         @media (max-width: 980px) {
             .activity-purpose-card__grid,
             .activity-flow-grid,
-            .forum-benefits-grid {
+            .forum-benefits-grid,
+            .workshop-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -799,7 +903,10 @@
                 padding: 0 var(--spacing-4);
             }
 
-            .lesson-card {
+            .lesson-card,
+            .activity-summary-card,
+            .activity-core-card,
+            .workshop-card {
                 padding: var(--spacing-xl);
             }
         }
@@ -862,6 +969,9 @@
 
             .lesson-card,
             .activity-purpose-card,
+            .activity-summary-card,
+            .activity-core-card,
+            .workshop-card,
             .activity-step-card__summary,
             .activity-step-card__content,
             .activity-flow-card,
@@ -875,6 +985,92 @@
                 width: 30px;
                 height: 30px;
                 font-size: var(--font-size-base);
+            }
+        }
+
+        /* QA FIX — eliminar sombras de cajas en actividades */
+        .activity-summary-card,
+        .activity-core-card,
+        .activity-purpose-card,
+        .activity-purpose-card__item,
+        .objective-card,
+        .workshop-card,
+        .workshop-meta-card,
+        .safety-card,
+        .reflection-card,
+        .padlet-cta,
+        .padlet-cta__steps,
+        .padlet-cta__step,
+        .activity-phase-card,
+        .activity-tab-card,
+        .tab-step-card,
+        .tab-content-block,
+        .tech-item,
+        .instruction-step,
+        .completion-card {
+            box-shadow: none !important;
+        }
+
+        /* Template access card */
+        .template-access-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+        }
+
+        .template-access-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .template-access-label {
+            display: inline-block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .template-access-content strong {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .template-access-content p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .template-access-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .template-access-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .template-access-btn {
+                width: 100%;
             }
         }
     </style>
@@ -917,32 +1113,31 @@
 
     <main class="content-wrapper actividad1-2-dx" id="main-content">
         <article class="lesson-card" aria-labelledby="activity-title">
-            <span class="activity-kicker">Actividad 1.2 · Exploración colaborativa por disciplina</span>
             <h1 id="activity-title" class="activity-title"><span>"Descubriendo la IA en mi materia"</span></h1>
 
-            <p class="activity-intro">
-                En esta actividad trabajarás en <strong>subgrupos por áreas de contenido</strong> para identificar al menos una <strong>oportunidad concreta y viable</strong> de integrar un <strong>Modelo de Lenguaje de Gran Tamaño (LLM)</strong> en tu práctica docente actual.
-            </p>
-            <p class="activity-intro">
-                A través de un ejercicio colaborativo de <strong>discusión socializada</strong>, formularás un planteamiento real a una herramienta basada en LLM —<strong>Copilot</strong> o <strong>ChatGPT</strong>—, aplicando los principios de <strong>seguridad</strong> y <strong>privacidad estudiantil</strong> estudiados en lecciones anteriores.
-            </p>
+            <section class="activity-summary-card" aria-labelledby="resumen-title">
+                <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
+                <p>En esta actividad trabajarás en subgrupos por áreas de contenido para identificar al menos una oportunidad concreta y viable de integrar un Modelo de Lenguaje de Gran Tamaño (LLM) en tu práctica docente actual. A través de un ejercicio colaborativo de discusión socializada, formularás un planteamiento real a una herramienta basada en LLM —Copilot o ChatGPT—, aplicando los principios de seguridad y privacidad estudiantil estudiados en lecciones anteriores.</p>
+            </section>
 
-            <div class="activity-meta-grid" aria-label="Información técnica de la actividad">
-                <div class="activity-meta-chip">
-                    <span class="activity-meta-chip__icon" aria-hidden="true">⏱️</span>
-                    <div>
-                        <span class="activity-meta-chip__label">Duración estimada</span>
-                        <span class="activity-meta-chip__value">40 – 50 minutos</span>
+
+            <section class="workshop-card" aria-labelledby="ficha-title">
+                <h2 id="ficha-title" class="section-title">🧾 Ficha de la actividad</h2>
+                <div class="workshop-grid">
+                    <div class="workshop-meta-card">
+                        <strong>⏱️ Duración estimada</strong>
+                        <p>40 – 50 minutos</p>
+                    </div>
+                    <div class="workshop-meta-card">
+                        <strong>💻 Requisitos</strong>
+                        <p>Trabajo en subgrupos por áreas de contenido</p>
+                    </div>
+                    <div class="workshop-meta-card">
+                        <strong>📦 Materiales necesarios</strong>
+                        <p>Dispositivo con internet (laptop).</p>
                     </div>
                 </div>
-                <div class="activity-meta-chip">
-                    <span class="activity-meta-chip__icon" aria-hidden="true">👥</span>
-                    <div>
-                        <span class="activity-meta-chip__label">Dinámica</span>
-                        <span class="activity-meta-chip__value">Trabajo en subgrupos por áreas de contenido</span>
-                    </div>
-                </div>
-            </div>
+            </section>
 
             <section class="activity-purpose-card" aria-labelledby="purpose-title">
                 <h2 id="purpose-title" class="activity-purpose-card__title">🎯 Propósito y objetivo de la actividad</h2>
@@ -956,6 +1151,19 @@
                         <h3>Objetivo de la actividad</h3>
                         <p>Que los y las docentes identifiquen al menos una oportunidad concreta y viable de integrar un LLM en su práctica docente actual, según su disciplina o área de especialidad.</p>
                     </div>
+                </div>
+            </section>
+
+            <section class="activity-section" aria-labelledby="plantilla-title">
+                <div class="template-access-card">
+                    <div class="template-access-content">
+                        <span class="template-access-label">PLANTILLA DE TRABAJO</span>
+                        <strong id="plantilla-title">Plantilla guía — Actividad 1.2: Descubriendo la IA en mi materia</strong>
+                        <p>Utiliza esta plantilla grupal para organizar la exploración por disciplina, identificar un reto común, formular una pregunta sencilla para la IA y registrar la reflexión del grupo.</p>
+                    </div>
+                    <a class="btn btn-primary template-access-btn" href="plantilla_actividad1_2_exploracion_llm.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir plantilla de trabajo de la Actividad 1.2 en una nueva pestaña">
+                        Abrir plantilla de trabajo
+                    </a>
                 </div>
             </section>
 
@@ -1040,16 +1248,10 @@
 
                 <div class="activity-reflection-question">
                     <h3>Pregunta de reflexión</h3>
-                    <p>
-                        ¿Qué <strong>tarea concreta</strong> de mi rol —<strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> o <strong>gestión administrativa</strong>— podría transformarse si integro estratégicamente un LLM?
-                    </p>
-                    <p>
-                        ¿Qué desafíos anticipo y qué precauciones debo mantener para que esta integración <strong>fortalezca</strong>, y no debilite, mi <strong>juicio profesional</strong>?
-                    </p>
-                </div>
-
-                <div class="activity-reflection-card">
-                    Esta reflexión te ayudará a identificar cómo los LLM contribuyen a la <strong>optimización de tus labores</strong> y qué desafíos identificas en su integración.
+                    <ul class="content-list">
+                        <li>¿Qué tarea concreta de mi rol —acompañamiento curricular, capacitación docente o gestión administrativa— podría transformarse si integro estratégicamente un LLM?</li>
+                        <li>¿Qué desafíos anticipo y qué precauciones debo mantener para que esta integración fortalezca, y no debilite, mi juicio profesional?</li>
+                    </ul>
                 </div>
             </section>
 
@@ -1059,12 +1261,36 @@
 
                 <div class="padlet-cta" id="padlet-escenarios">
                     <div class="padlet-cta__header">
-                        <span class="padlet-cta__label">Actividad 1.2</span>
+                        <span class="padlet-cta__label">ACTIVIDAD 1.2</span>
                         <h3 class="padlet-cta__title">Muro colaborativo: Análisis de escenarios</h3>
                     </div>
                     <p class="padlet-cta__description">
-                        Publica el enlace a tu <strong>documento de análisis</strong> y reflexiona sobre las posibilidades de los LLM en tu disciplina.
+                        Publica el enlace a tu documento de análisis y reflexiona sobre las posibilidades de los LLM en tu disciplina siguiendo este proceso:
                     </p>
+
+                    <div class="padlet-cta__steps" aria-label="Proceso para usar el muro colaborativo">
+                        <div class="padlet-cta__step">
+                            <span class="padlet-cta__step-number">1</span>
+                            <span class="padlet-cta__step-text">Revisa tu producto y reflexión.</span>
+                        </div>
+                        <div class="padlet-cta__step">
+                            <span class="padlet-cta__step-number">2</span>
+                            <span class="padlet-cta__step-text">Abre el muro colaborativo en Padlet.</span>
+                        </div>
+                        <div class="padlet-cta__step">
+                            <span class="padlet-cta__step-number">3</span>
+                            <span class="padlet-cta__step-text">Publica tu evidencia en la columna correspondiente a la fase trabajada.</span>
+                        </div>
+                        <div class="padlet-cta__step">
+                            <span class="padlet-cta__step-number">4</span>
+                            <span class="padlet-cta__step-text">Regresa a Docencia 4.0.</span>
+                        </div>
+                        <div class="padlet-cta__step">
+                            <span class="padlet-cta__step-number">5</span>
+                            <span class="padlet-cta__step-text">Marca la actividad como completada.</span>
+                        </div>
+                    </div>
+
                     <div class="padlet-cta__footer">
                         <a href="https://padlet.com/carmeloallende/llm-actividad-1-2-analisis-de-escenarios-descubriendo-la-ia--o6hvutesyg1t5yhs"
                             class="btn btn-primary" target="_blank" rel="noopener noreferrer">
@@ -1085,7 +1311,7 @@
             <section class="text-section" aria-labelledby="foro-modulo1-title">
                 <h2 id="foro-modulo1-title" class="section-title">💬 Invitación al Foro del Módulo 1</h2>
                 <p>
-                    Como cierre de las actividades iniciales del Módulo 1, te invitamos a participar en el <strong>Foro del Módulo 1</strong>, un espacio diseñado para que la comunidad de facilitadores docentes socialice aprendizajes, reconozca posibilidades de uso y reflexione colectivamente sobre las <strong>precauciones éticas</strong> que debe mantener el docente al integrar LLM en su práctica.
+                    Como cierre de las actividades iniciales del Módulo 1, te invitamos a participar en el Foro del Módulo 1, un espacio diseñado para que la comunidad de facilitadores docentes socialice aprendizajes, reconozca posibilidades de uso y reflexione colectivamente sobre las precauciones éticas que debe mantener el docente al integrar LLM en su práctica.
                 </p>
 
                 <h3 class="section-title-sm">🌟 ¿Por qué participar en el foro?</h3>
@@ -1097,17 +1323,17 @@
 
                     <article class="forum-benefit-card">
                         <h3>Para fortalecer la comunidad de práctica</h3>
-                        <p>El diálogo entre facilitadores docentes del DEPR construye un <strong>capital profesional colectivo</strong>, alineado con los principios de Hargreaves y Fullan que sustentan este programa.</p>
+                        <p>El diálogo entre facilitadores docentes del DEPR construye un capital profesional colectivo, alineado con los principios de Hargreaves y Fullan que sustentan este programa.</p>
                     </article>
 
                     <article class="forum-benefit-card">
                         <h3>Para la investigación</h3>
-                        <p>Tus reflexiones, dudas y hallazgos son <strong>evidencia directa</strong> del plan de acción de esta investigación. Cada aportación contribuye a documentar cómo los LLM pueden optimizar las funciones de <strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> y <strong>gestión administrativa</strong> en Puerto Rico.</p>
+                        <p>Tus reflexiones, dudas y hallazgos son evidencia directa del plan de acción de esta investigación. Cada aportación contribuye a documentar cómo los LLM pueden optimizar las funciones de acompañamiento curricular, capacitación docente y gestión administrativa en Puerto Rico.</p>
                     </article>
                 </div>
 
                 <div class="forum-important-card">
-                    <strong>Importante:</strong> la participación en el foro forma parte del <strong>proceso de reflexión del módulo</strong>. Publica una <strong>aportación inicial</strong> y responde al menos a <strong>dos compañeros</strong> con comentarios que aporten valor <strong>pedagógico</strong>, <strong>técnico</strong> o <strong>ético</strong> al diálogo.
+                    Importante: la participación en el foro forma parte del proceso de reflexión del módulo. Publica una aportación inicial y responde al menos a dos compañeros con comentarios que aporten valor pedagógico, técnico o ético al diálogo.
                 </div>
 
                 <div class="forum-cta">

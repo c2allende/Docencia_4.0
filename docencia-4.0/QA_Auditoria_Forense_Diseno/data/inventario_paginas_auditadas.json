@@ -1,0 +1,52 @@
+{
+  "paginas_auditadas": [
+    "index.html",
+    "dashboard.html",
+    "perfil.html",
+    "anuncios.html",
+    "foro_general.html",
+    "foro_modulo1.html",
+    "foro_modulo2.html",
+    "foro_modulo3.html",
+    "modulo1_intro.html",
+    "modulo2_intro.html",
+    "modulo3_intro.html",
+    "leccion1_1.html",
+    "leccion1_2.html",
+    "leccion1_3.html",
+    "leccion2_1.html",
+    "leccion2_2.html",
+    "leccion2_3.html",
+    "leccion3_1.html",
+    "leccion3_2.html",
+    "leccion3_3.html",
+    "leccion3_4.html",
+    "actividad1_1.html",
+    "actividad1_2.html",
+    "actividad2_1.html",
+    "actividad3_1.html",
+    "plantilla_actividad1_2_exploracion_llm.html",
+    "plantilla_actividad3_1_taller_integrado.html",
+    "plantilla_fase2_prompt.html",
+    "plantilla_fase3_recurso_didactico.html",
+    "plantilla_fase4_validacion.html",
+    "plantilla_fase5_refinamiento.html",
+    "plantilla_LupaMaestro_Validador.html",
+    "recursos_m1.html",
+    "recursos_m2.html",
+    "recursos_m3.html",
+    "prompt_lab_prototype.html"
+  ],
+  "paginas_no_encontradas": [
+    "admin_dashboard.html",
+    "admin_usuarios.html",
+    "admin_anuncios.html",
+    "admin_accesos.html",
+    "admin_configuracion.html",
+    "admin_foros.html",
+    "admin_progreso.html"
+  ],
+  "prototipos_identificados_en_produccion": [
+    "copilot_tutorial_prototype.html (Enlazado en recursos_m1.html como iframe)"
+  ]
+}

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo: Introducción Docencia 4.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #06b6d4;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: var(--shadow-premium);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Lado Izquierdo: Visual */
+        .visual-side {
+            position: relative;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .visual-side img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: transform 0.5s ease;
+        }
+
+        .visual-side:hover img {
+            transform: scale(1.05);
+        }
+
+        .visual-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 3rem 2rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            z-index: 2;
+        }
+
+        /* Lado Derecho: Contenido */
+        .content-side {
+            padding: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 99px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .objectives {
+            margin-bottom: 2.5rem;
+        }
+
+        .objective-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .objective-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        /* Reproductor de Audio Estilizado */
+        .audio-player {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .play-button {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            background: var(--primary-dark);
+        }
+
+        .audio-info {
+            flex-grow: 1;
+        }
+
+        .audio-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .waveform {
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .waveform-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 35%;
+            background: var(--primary);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .visual-side {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="visual-side">
+            <!-- La imagen generada se referenciará aquí -->
+            <img src="docencia_4_0_llm_intro_hero_1778283409796.png" alt="Docencia 4.0 Hero">
+            <div class="visual-overlay">
+                <p style="color: white; font-weight: 300; margin-bottom: 0;">Módulo 1: Introducción</p>
+                <h2 style="font-weight: 700;">Bienvenida al Programa</h2>
+            </div>
+        </div>
+
+        <div class="content-side">
+            <span class="badge">Capacitación Docente</span>
+            <h1>Integración Estratégica de LLM</h1>
+            
+            <p>Optimiza tus procesos de planificación, evaluación y gestión administrativa mediante el uso ético de la Inteligencia Artificial.</p>
+
+            <div class="objectives">
+                <div class="objective-item">
+                    <div class="objective-icon">✓</div>
+                    <span>Uso instrumental y pedagógico de modelos de lenguaje.</span>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">✓</div>
+                    <span>Diseño de prompts efectivos para el aula.</span>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-icon">✓</div>
+                    <span>Reducción de carga operativa y administrativa.</span>
+                </div>
+            </div>
+
+            <div class="audio-player">
+                <button class="play-button" id="playBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+                <div class="audio-info">
+                    <div class="audio-title">Audio de Bienvenida (Intro_Inicio_audio.mp3)</div>
+                    <div class="waveform">
+                        <div class="waveform-progress"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.8rem; margin-top: 1rem; text-align: center;">
+                <em>Este es un prototipo visual de alta resolución.</em>
+            </p>
+        </div>
+    </div>
+
+    <audio id="welcomeAudio" src="LLM-DEPR/LLM_Intro_Inicio_audio.mp4"></audio>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const audio = document.getElementById('welcomeAudio');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            document.querySelector('.waveform-progress').style.width = `${progress}%`;
+        });
+    </script>
+</body>
+</html>

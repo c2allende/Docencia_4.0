@@ -901,7 +901,7 @@
             background: var(--color-background-surface-low);
             color: var(--color-brand-secondary);
             font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-extrabold);
+            font-weight: var(--font-weight-extrabold) !important;
             text-transform: uppercase;
         }
 
@@ -1151,6 +1151,33 @@
                 border-radius: var(--radius-lg);
             }
         }
+
+        .resources-page-title {
+            color: var(--color-text-display);
+        }
+
+        .resources-page-title .module-title-highlight,
+        .module-title-highlight {
+            color: var(--color-brand-primary);
+        }
+
+        /* QA FIX: Normalizacion de etiquetas superiores (Kit) */
+        .kit-card__tag {
+            display: inline-block;
+            margin-bottom: var(--spacing-3);
+            padding: 0 !important;
+            background: transparent !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            color: var(--color-text-display) !important;
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold) !important;
+            letter-spacing: var(--letter-spacing-wide);
+            line-height: var(--line-height-tight);
+            text-transform: uppercase;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 
@@ -1193,26 +1220,24 @@
 
     <main class="content-wrapper">
         <article class="lesson-card" aria-labelledby="page-title">
-            <span class="page-kicker">Módulo 3 · Biblioteca de apoyo</span>
-            <h1 id="page-title" class="page-title">Recursos Didácticos Complementarios — <span>Módulo 3</span></h1>
-            <p class="page-intro">Materiales complementarios para profundizar en la gestión administrativa y evaluativa impulsada por IA, sin perder el control pedagógico, ético y profesional.</p>
+            <h1 id="page-title" class="page-title resources-page-title">Recursos Didácticos Complementarios — <span class="module-title-highlight">Módulo 3</span></h1>
 
             <section class="resource-summary-card" aria-labelledby="intro-title">
                 <h2 id="intro-title" class="section-title">🧭 Introducción a la sección</h2>
-                <p>En esta sección encontrarás una <strong>biblioteca curada de recursos complementarios</strong> diseñados para profundizar en la <strong>gestión administrativa y evaluativa impulsada por IA</strong>, consolidando todo lo aprendido en el <strong>Módulo 3</strong>:</p>
+                <p>En esta sección encontrarás una biblioteca curada de recursos complementarios diseñados para profundizar en la gestión administrativa y evaluativa impulsada por IA, consolidando todo lo aprendido en el Módulo 3:</p>
                 <ul class="resource-summary-list">
-                    <li><strong>Diseño automatizado de instrumentos</strong> —Lección 3.1—.</li>
-                    <li><strong>Retroalimentación formativa y computación afectiva</strong> —Lección 3.2—.</li>
-                    <li><strong>Automatización de la burocracia educativa</strong> —Lección 3.3—.</li>
-                    <li><strong>Seguridad de datos</strong> —Lección 3.4—.</li>
+                    <li>Diseño automatizado de instrumentos —Lección 3.1—.</li>
+                    <li>Retroalimentación formativa y computación afectiva —Lección 3.2—.</li>
+                    <li>Automatización de la burocracia educativa —Lección 3.3—.</li>
+                    <li>Seguridad de datos —Lección 3.4—.</li>
                 </ul>
-                <p>Los materiales están organizados por tipo de recurso —<strong>banco de plantillas administrativas</strong>, <strong>videos de apoyo</strong> e <strong>infografías de protección de datos</strong>— para que puedas elegir el formato que mejor se ajuste a tu necesidad inmediata como <strong>facilitador docente</strong>.</p>
+                <p>Los materiales están organizados por tipo de recurso —banco de plantillas administrativas, videos de apoyo e infografías de protección de datos— para que puedas elegir el formato que mejor se ajuste a tu necesidad inmediata como facilitador docente.</p>
                 <p>Cada recurso incluye una breve descripción de cómo te ayuda a profundizar el tema.</p>
             </section>
 
             <aside class="resource-guidance-card" aria-label="Recordatorio ético de uso de IA">
-                <h2>🔒 Recordatorio ético</h2>
-                <p>Evita incluir <strong>nombres completos</strong>, <strong>información médica</strong>, <strong>datos estudiantiles sensibles</strong> o <strong>información confidencial</strong> en herramientas de IA.</p>
+                <h2>💡 Recomendación</h2>
+                <p>Evita incluir nombres completos, información médica, datos estudiantiles sensibles o información confidencial en herramientas de IA.</p>
                 <p>Revisa y valida todo documento antes de compartirlo.</p>
             </aside>
 
@@ -1400,14 +1425,13 @@
                     <div class="resource-icon" aria-hidden="true">🎓</div>
                     <div>
                         <h2 id="kit-title" class="section-title">Cierre: "Tu Kit Profesional de Gestión Inteligente"</h2>
-                        <p class="section-helper">En el <strong>Módulo 1</strong> propusimos una ruta de profundización por perfil; en el <strong>Módulo 2</strong>, un maletín profesional de prompts.</p>
-                        <p class="section-helper">En el <strong>Módulo 3</strong>, donde el énfasis es la transformación operativa real de la <strong>evaluación</strong>, la <strong>retroalimentación</strong>, la <strong>gestión administrativa</strong> y la <strong>seguridad de datos</strong>, te proponemos construir tu <strong>Kit Profesional de Gestión Inteligente</strong>: un conjunto curado de herramientas listo para activar según el momento real de tu semana laboral.</p>
+                        <p class="section-helper">En el <strong>Módulo 1</strong> propusimos una ruta de profundización por perfil; en el <strong>Módulo 2</strong>, un maletín profesional de prompts. En el <strong>Módulo 3</strong>, donde el énfasis es la transformación operativa real de la <strong>evaluación</strong>, la <strong>retroalimentación</strong>, la <strong>gestión administrativa</strong> y la <strong>seguridad de datos</strong>, te proponemos construir tu <strong>Kit Profesional de Gestión Inteligente</strong>: un conjunto curado de herramientas listo para activar según el momento real de tu semana laboral.</p>
                     </div>
                 </div>
 
                 <div class="resource-section-card">
-                    <h3>🧰 ¿Qué llevarías en tu matetín?</h3>
-                    <p>Tu <strong>maletín profesional</strong> se organiza alrededor de cuatro momentos críticos que ya conoces de las lecciones.</p>
+                    <h3>🧰 ¿Qué llevarías en tu kit?</h3>
+                    <p>Tu <strong>kit profesional</strong> se organiza alrededor de cuatro momentos críticos que ya conoces de las lecciones.</p>
                     <p>Selecciona los recursos que mejor respondan a cada uno:</p>
                 </div>
 
@@ -1417,11 +1441,11 @@
                         <h3>Diseño de evaluaciones para una unidad</h3>
                         <p>Apoyo a maestros que están preparando pruebas o rúbricas.</p>
                         <ol>
-                            <li>Video <strong>Estrategias de Evaluación con IA</strong>.</li>
-                            <li><strong>La Lupa del Maestro</strong> —Módulo 2—.</li>
+                            <li>Video Estrategias de Evaluación con IA.</li>
+                            <li>La Lupa del Maestro —Módulo 2—.</li>
                             <li>Plantillas de Minutas —para registrar acuerdos de evaluación—.</li>
                         </ol>
-                        <p><strong>Para qué te servirán:</strong> Banco inicial de instrumentos + validación + documentación profesional.</p>
+                        <p>Para qué te servirán: Banco inicial de instrumentos + validación + documentación profesional.</p>
                     </article>
 
                     <article class="kit-card">
@@ -1431,9 +1455,9 @@
                         <ol>
                             <li>Prompts de feedback empático —Lección 3.2—.</li>
                             <li>Lista de cotejo de sanitización de datos.</li>
-                            <li>Video <strong>Privacidad y Ética Docente</strong>.</li>
+                            <li>Video Privacidad y Ética Docente.</li>
                         </ol>
-                        <p><strong>Para qué te servirán:</strong> Comentarios cálidos y profesionales sin comprometer confidencialidad.</p>
+                        <p>Para qué te servirán: Comentarios cálidos y profesionales sin comprometer confidencialidad.</p>
                     </article>
 
                     <article class="kit-card">
@@ -1441,11 +1465,11 @@
                         <h3>Semana de gestión administrativa</h3>
                         <p>Cartas, permisos, minutas, narrativas PEI.</p>
                         <ol>
-                            <li>Banco completo de <strong>Plantillas Administrativas</strong>.</li>
-                            <li><strong>Generador de Minutas Escolares</strong>.</li>
-                            <li>Plantilla <strong>Comunicación con Padres</strong>.</li>
+                            <li>Banco completo de Plantillas Administrativas.</li>
+                            <li>Generador de Minutas Escolares.</li>
+                            <li>Plantilla Comunicación con Padres.</li>
                         </ol>
-                        <p><strong>Para qué te servirán:</strong> Producción rápida de documentos institucionales validados.</p>
+                        <p>Para qué te servirán: Producción rápida de documentos institucionales validados.</p>
                     </article>
 
                     <article class="kit-card">
@@ -1454,16 +1478,16 @@
                         <p>Cualquier momento en que vayas a ingresar datos.</p>
                         <ol>
                             <li>Lista de cotejo de sanitización de datos —descargada—.</li>
-                            <li>Video <strong>Privacidad y Ética Docente</strong>.</li>
+                            <li>Video Privacidad y Ética Docente.</li>
                             <li>Marco de las cinco preguntas FERPA —Lección 3.4—.</li>
                         </ol>
-                        <p><strong>Para qué te servirán:</strong> Cumplimiento absoluto con FERPA y normativas del DEPR.</p>
+                        <p>Para qué te servirán: Cumplimiento absoluto con FERPA y normativas del DEPR.</p>
                     </article>
                 </div>
 
                 <div class="resource-commitment-card">
                     <h2>💎 Tu compromiso profesional</h2>
-                    <p>Antes de cerrar esta sección, te invitamos a:</p>
+                    <p>Antes de cerrar esta sección, te invito a:</p>
                     <div class="commitment-grid">
                         <div class="commitment-item">
                             <p>Selecciona <strong>AL MENOS 2 plantillas</strong> del Banco de Plantillas Administrativas que se ajusten a tus tareas más frecuentes y guárdalas en un documento personal.</p>

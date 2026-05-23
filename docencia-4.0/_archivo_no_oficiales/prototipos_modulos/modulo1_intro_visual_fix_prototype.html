@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Introducción al Módulo 1 de la Academia Docencia 4.0: Fundamentos, potencial pedagógico y ética de los LLM en la gestión docente.">
+    <title>Introducción Módulo 1 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+
+</head>
+
+<body data-page-id="modulo1_intro" data-module-id="modulo1" data-page-type="intro" data-title="Inicio Módulo 1">
+    <nav class="top-nav" aria-label="Navegación superior del módulo">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Módulo 1: Fundamentos y Ética</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 1" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 1</span></li>
+            <li><a href="modulo1_intro.html" class="active" aria-current="page">📍 Introducción Módulo 1</a></li>
+            <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
+            <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
+            <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
+            <li><a href="foro_modulo1.html">💬 Foro Módulo 1</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">➡️ Ir al Módulo 2</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper module-intro-shell">
+        <article class="module-intro-card" aria-labelledby="module-title">
+            <h1 id="module-title" class="module-intro-title">Módulo 1: Fundamentos, potencial pedagógico y ética de los
+                LLM en la gestión docente</h1>
+
+            <!-- 1. Resumen inicial -->
+            <section class="lesson-summary-card" aria-label="Resumen inicial del módulo">
+                <span class="module-section-kicker">📌 Resumen inicial</span>
+                <p>Este módulo te ofrece una base clara y pedagógica para comprender qué es un Modelo de
+                        Lenguaje de Gran Tamaño (LLM), cómo se diferencia de buscadores, bots y aplicaciones, y
+                    cómo puede apoyar tu gestión docente. Explorarás usos estratégicos por área de contenido, el marco
+                    ético-legal (FERPA y normativas del DEPR), los riesgos asociados, y el rol del docente como
+                    human in the loop: quien valida, corrige y decide.
+                </p>
+            </section>
+
+            <!-- 2. Mensaje clave del módulo -->
+            <section class="module-key-message" aria-label="Mensaje clave del módulo">
+                <p class="module-section-kicker">💡 Mensaje clave del módulo</p>
+                <p class="module-key-message__text">El LLM no reemplaza tu juicio profesional; lo amplifica. Tu rol no
+                    es convertirte en experto en inteligencia artificial, sino en un docente informado y crítico que
+                    utiliza la IA como andamiaje pedagógico, manteniendo siempre el control, la revisión crítica y la
+                    responsabilidad sobre toda decisión pedagógica.</p>
+            </section>
+
+            <!-- 3. Pregunta reflexiva inicial -->
+            <section class="reflection-accordion module-reflection-callout" aria-labelledby="reflection-title-m1"
+                data-reflection-accordion>
+                <button type="button" class="reflection-accordion__header" id="reflection-header-m1"
+                    aria-expanded="false" aria-controls="reflection-content-m1" data-reflection-toggle>
+                    <div class="reflection-accordion__header-content">
+                        <span id="reflection-title-m1" class="reflection-accordion__label">🤔 Antes de comenzar:
+                            Pregunta reflexiva</span>
+                        <span class="reflection-accordion__question">"¿Qué tarea de mi gestión docente me toma más
+                            tiempo cada semana? ¿Podría un recurso como un LLM o una aplicación basada en LLM ayudarme a
+                            hacerla mejor o más rápido, sin sacrificar calidad o creatividad pedagógica?"</span>
+                        <span class="reflection-accordion__action-text" data-reflection-action>Ver orientación
+                            completa</span>
+                    </div>
+                    <div class="reflection-accordion__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </button>
+                <div id="reflection-content-m1" class="reflection-accordion__content" role="region"
+                    aria-labelledby="reflection-header-m1" data-reflection-panel>
+                    <div class="reflection-accordion__inner">
+                        <div class="reflection-accordion__body">
+                            <p class="reflection-accordion__context">Tómate un momento para anotar tu respuesta antes de
+                                avanzar. Volveremos a esta pregunta al final del módulo.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Ruta de aprendizaje del módulo -->
+            <section class="module-learning-route" aria-labelledby="learning-route-title">
+                <h2 id="learning-route-title" class="module-section-title">🗺️ Ruta de aprendizaje del módulo</h2>
+
+                <div class="module-route-grid">
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">🚪 Apertura del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>Bienvenida y andamiaje pedagógico</strong> — Transitarás de la incertidumbre
+                                inicial a una comprensión fundamentada del rol de los LLM en tu práctica como
+                                facilitador docente.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📘 Lección 1.1 — Conceptualización y panorama
+                                tecnológico</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>¿Qué es un LLM y dónde se sitúa?</strong></p>
+                            <ul>
+                                <li>Definición pedagógica del Modelo de Lenguaje de Gran Tamaño.</li>
+                                <li>Funcionamiento interno: tokenización, predicción probabilística y alucinaciones.
+                                </li>
+                                <li>Diferenciación entre LLM, bot/aplicación y buscador tradicional.</li>
+                                <li>Panorama actual del ecosistema: ChatGPT y Microsoft Copilot.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📗 Lección 1.2 — Aplicaciones estratégicas por área
+                                de contenido</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>¿Dónde aporta valor real un LLM según tu disciplina?</strong></p>
+                            <ul>
+                                <li>Ciencias y Matemáticas (STEM): razonamiento paso a paso y Chain-of-Thought.</li>
+                                <li>Español e Historia: análisis textual y síntesis crítica.</li>
+                                <li>Educación Especial: adaptación de niveles de lectura y redacción asistida de PEI.
+                                </li>
+                                <li>Inglés y otros idiomas: interacción comunicativa y escritura guiada.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📕 Lección 1.3 — Ética, seguridad y
+                                responsabilidad</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>¿Cómo integrar la IA de manera responsable?</strong></p>
+                            <ul>
+                                <li>Marco ético-legal: FERPA, normativas del DEPR y protección de la PII estudiantil.
+                                </li>
+                                <li>Riesgos a considerar: sesgos algorítmicos y dependencia tecnológica.</li>
+                                <li>El docente como experto validador: Generar → Revisar → Decidir.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">🛠️ Actividades aplicadas del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p><strong>De la teoría a la práctica profesional.</strong></p>
+                            <ul>
+                                <li>Actividad 1.1 — "Hola Mundo Pedagógico": primer acceso guiado a un LLM y generación
+                                    de un producto pedagógico en menos de 5 minutos.</li>
+                                <li>Actividad 1.2 — "Descubriendo la IA en mi materia": exploración colaborativa por
+                                    áreas de contenido y publicación en muro Padlet.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">💬 Diálogo profesional</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Foro del Módulo 1 — "Mi hallazgo en mi materia": espacio de socialización de
+                                aprendizajes, retos pedagógicos y precauciones éticas.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">📚 Profundización</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Recursos didácticos complementarios: guía interactiva, videos, infografías, artículos
+                                científicos y guías docentes organizados por ruta personalizada según tu perfil
+                                profesional.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-route-card">
+                        <summary>
+                            <span class="module-route-card__title">🏁 Cierre del módulo</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Reflexión integradora — Consolidación de los tres pilares: comprensión técnica (1.1),
+                                aplicación estratégica (1.2) y responsabilidad ética (1.3).</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 5. Objetivo general -->
+            <section class="module-objective-card" aria-label="Objetivo general">
+                <h2 class="module-section-title">🎯 Objetivo general</h2>
+                <p>Capacitar a los y las docentes para que <strong>comprendan de forma pedagógica</strong> qué es un
+                    LLM, lo distingan de los bots, aplicaciones o recursos tecnológicos que lo utilizan (como ChatGPT,
+                    Copilot u otras herramientas educativas), reconozcan sus <strong>riesgos éticos y legales</strong>,
+                    y asuman el rol de <strong>experto validador</strong> que utiliza la IA como apoyo manteniendo
+                    siempre el <strong>control, la revisión crítica y la responsabilidad profesional</strong>.</p>
+            </section>
+
+            <!-- 6. Resultados de aprendizaje -->
+            <section class="module-section" aria-labelledby="outcomes-title">
+                <h2 id="outcomes-title" class="module-section-title">✅ Resultados de aprendizaje</h2>
+                <p>Al finalizar este módulo, podrás:</p>
+                <ul class="module-outcomes-list">
+                    <li><strong>Comprender</strong> qué es un LLM en términos pedagógicos, sin tecnicismos innecesarios.
+                    </li>
+                    <li><strong>Diferenciar</strong> entre un LLM como tecnología base y las aplicaciones que lo
+                        utilizan (bots conversacionales, asistentes integrados, generadores de rúbricas).</li>
+                    <li><strong>Distinguir</strong> un LLM de otros recursos tecnológicos que ya usas (buscadores web,
+                        plataformas LMS, aplicaciones de productividad).</li>
+                    <li><strong>Identificar</strong> aplicaciones educativas concretas basadas en LLM según tu área de
+                        enseñanza.</li>
+                    <li><strong>Reconocer</strong> los riesgos éticos y legales asociados al uso de LLM (privacidad de
+                        datos, sesgos, dependencia tecnológica).</li>
+                    <li><strong>Adoptar</strong> el rol de experto validador: usar la IA como apoyo manteniendo el
+                        control y la responsabilidad profesional sobre toda decisión pedagógica.</li>
+                </ul>
+            </section>
+
+            <!-- 7. Conexión con la investigación -->
+
+
+            <!-- 8. Conexión con el rol del facilitador docente -->
+            <section class="module-role-transfer" aria-labelledby="role-title">
+                <h2 id="role-title" class="module-section-title">👩‍🏫 Conexión con el rol del facilitador docente en el
+                    DEPR</h2>
+                <p>Como facilitador o facilitadora docente del Departamento de Educación de Puerto Rico, tu rol va más
+                    allá del salón de clases: ofreces apoyo técnico, orientación pedagógica y acompañamiento al personal
+                    docente en sus respectivas materias o programas (educación especial, asistencia técnica, programas
+                    académicos, entre otros). Este módulo se conecta directamente con tus funciones de la siguiente
+                    manera:</p>
+
+                <div class="module-role-grid">
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Asistencia técnica al docente</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Comprender los LLM te permite orientar a maestros y maestras sobre cómo integrarlos
+                                responsablemente en sus prácticas, alineados con la política pública del DEPR y los
+                                Estándares de Contenido y Expectativas del Grado.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Desarrollo profesional</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Podrás diseñar y facilitar comunidades de aprendizaje profesional (MECPA) donde se
+                                discuta críticamente el uso de IA en la enseñanza, modelando estrategias basadas en
+                                evidencia.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Apoyo en procesos administrativos</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Tareas como redacción de PEI, informes de progreso, análisis de datos estudiantiles y
+                                comunicación con padres pueden optimizarse usando LLM, siempre validando la información
+                                generada.</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Mentoría y modelaje ético</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>Como referente para directores escolares, maestros y practicantes, modelarás el uso
+                                crítico, ético y validado de estas herramientas, cumpliendo con las normativas del DEPR
+                                y la confidencialidad estudiantil (FERPA).</p>
+                        </div>
+                    </details>
+
+                    <details class="module-progressive-card module-role-item">
+                        <summary>
+                            <span class="module-route-card__title">Equidad y diversidad</span>
+                            <span class="module-route-card__cue">
+                                <span class="summary-more">Leer más</span>
+                                <span class="summary-less">Ocultar</span>
+                            </span>
+                        </summary>
+                        <div class="module-progressive-card__body">
+                            <p>El uso responsable de LLM puede apoyarte en la atención a la diversidad estudiantil,
+                                especialmente en el Programa de Educación Especial, generando adaptaciones, materiales
+                                accesibles y comunicación diferenciada.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="module-role-reminder">
+                    <p><strong>Recuerda:</strong> Tu juicio profesional, conocimiento del contexto puertorriqueño y
+                        experiencia con la comunidad escolar son insustituibles. La IA es un recurso de apoyo, no un
+                        sustituto de tu peritaje.</p>
+                </div>
+            </section>
+
+            <!-- 9. Escucha opcional: bienvenida al módulo -->
+            <section class="module-audio-block" aria-label="Escucha opcional: bienvenida al módulo">
+                <h2 class="module-section-title">🎧 Escucha opcional: bienvenida al módulo</h2>
+                <p>Utilice el audio como una introducción narrativa al módulo. Mientras escucha, identifique una tarea
+                    de su gestión que podría beneficiarse del apoyo de un LLM.</p>
+                <div class="audio-container">
+                    <label class="audio-label" for="moduleAudio">Escuchar Introducción al Módulo 1</label>
+                    <audio id="moduleAudio" controls class="audio-player">
+                        <source src="LLM-DEPR/LLM_M1_intro_audioedit.mp3" type="audio/mpeg">
+                        Su navegador no soporta la reproducción de audio.
+                    </audio>
+                </div>
+            </section>
+
+            <!-- 10. Cierre de la introducción -->
+            <section class="module-closing-card" aria-label="Cierre de la introducción">
+                <h2 class="module-section-title">🏁 Cierre de la introducción — Módulo 1</h2>
+                <p>Al iniciar este módulo, usted comienza un proceso de <strong>comprensión crítica</strong>: pasará de
+                    conocer qué es un LLM a decidir cómo puede utilizarlo responsablemente en su gestión profesional. La
+                    meta <strong>no es automatizar la docencia</strong>, sino <strong>fortalecer el criterio, la
+                        eficiencia y la calidad del acompañamiento educativo</strong>.</p>
+            </section>
+
+            <div id="completion-section"></div>
+
+            <footer class="nav-footer footer-nav" aria-label="Navegación del módulo">
+                <a href="dashboard.html" class="btn-footer btn-back">← Volver al Dashboard</a>
+                <a href="leccion1_1.html" class="btn btn-primary action-button">Iniciar Módulo 1 →</a>
+            </footer>
+        </article>
+    </main>
+
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
+        aria-hidden="true">
+        <div class="modal-content">
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada del módulo</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()"
+                aria-label="Cerrar imagen ampliada">×</button>
+            <img id="zoomedImg" alt="Imagen ampliada del módulo 1">
+        </div>
+    </div>
+
+    <script src="scripts/reflection-accordion.js"></script>
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+        let lastFocusedElement = null;
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            if (sidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
+        function openZoom(src) {
+            if (!zoomModal || !zoomedImg) return;
+            lastFocusedElement = document.activeElement;
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            zoomModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            const closeButton = zoomModal.querySelector('.modal-close-btn');
+            if (closeButton) closeButton.focus();
+        }
+
+        function closeZoom() {
+            if (!zoomModal || !zoomedImg) return;
+            zoomModal.classList.remove('is-open');
+            zoomModal.setAttribute('aria-hidden', 'true');
+            zoomedImg.removeAttribute('src');
+            document.body.style.overflow = '';
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) {
+                    closeZoom();
+                }
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) {
+                closeZoom();
+            }
+        });
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

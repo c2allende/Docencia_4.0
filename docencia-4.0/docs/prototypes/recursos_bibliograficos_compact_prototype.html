@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo: Bibliografía Compacta Colapsable - Docencia 4.0</title>
+    <!-- Importar main.css para usar los tokens institucionales -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <style>
+        :root {
+            --prototype-bg: #f8fafc;
+            --comparison-gap: 4rem;
+        }
+
+        body {
+            background-color: var(--prototype-bg);
+            padding: 2rem;
+            font-family: var(--font-family-base);
+        }
+
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .prototype-header {
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-border-default);
+            text-align: center;
+        }
+
+        .prototype-header h1 {
+            color: var(--color-brand-primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--comparison-gap);
+        }
+
+        @media (min-width: 1200px) {
+            .comparison-grid {
+                grid-template-columns: 1fr 1fr;
+                align-items: start;
+            }
+        }
+
+        .comparison-column h2 {
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--color-brand-primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ESTILOS ORIGINALES (Copiados de recursos_m1.html para referencia) */
+        .original-version .biblio-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .original-version .biblio-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .original-version .biblio-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+        }
+
+        .original-version .biblio-info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .original-version .biblio-tag {
+            width: fit-content;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+        }
+
+        .original-version .biblio-name {
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            margin: 0;
+        }
+
+        .original-version .biblio-apa {
+            padding-left: var(--spacing-md);
+            border-left: var(--border-width-4) solid var(--color-border-default);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-style: italic;
+            margin-top: var(--spacing-1);
+        }
+
+        .original-version .biblio-summary {
+            padding: var(--spacing-md);
+            margin: 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        /* NUEVA VERSIÓN COMPACTA */
+        .compact-biblio-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .compact-biblio-item {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .compact-biblio-item:hover {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .compact-biblio-item[open] {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .compact-biblio-summary-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-4) var(--spacing-6);
+            cursor: pointer;
+            list-style: none; /* Ocultar flecha nativa */
+        }
+
+        .compact-biblio-summary-trigger::-webkit-details-marker {
+            display: none; /* Ocultar flecha nativa en Safari */
+        }
+
+        .compact-biblio-title-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-1);
+            flex: 1;
+        }
+
+        .compact-biblio-tag {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .compact-biblio-name {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-display);
+            line-height: 1.3;
+        }
+
+        .compact-biblio-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            margin-left: var(--spacing-4);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .compact-biblio-item[open] .compact-biblio-icon {
+            transform: rotate(180deg);
+            background: var(--color-brand-primary);
+            color: white;
+        }
+
+        .compact-biblio-content {
+            padding: 0 var(--spacing-6) var(--spacing-6) var(--spacing-6);
+            border-top: 1px dashed var(--color-border-default);
+            margin-top: -2px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .compact-biblio-apa {
+            margin: var(--spacing-4) 0;
+            padding: var(--spacing-3) var(--spacing-4);
+            background: var(--color-background-surface-low);
+            border-left: 4px solid var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-style: italic;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        .compact-biblio-description {
+            margin: 0 0 var(--spacing-4) 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        .compact-biblio-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: var(--spacing-4);
+            border-top: 1px solid var(--color-border-default);
+        }
+
+        /* Botón institucional */
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-6);
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: white;
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-download:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="prototype-container">
+        <header class="prototype-header">
+            <h1>Optimización de Recursos Bibliográficos</h1>
+            <p>Comparativa entre el diseño actual y la propuesta de biblioteca compacta colapsable.</p>
+        </header>
+
+        <div class="comparison-grid">
+            <!-- COLUMNA ACTUAL -->
+            <section class="comparison-column original-version">
+                <h2>Diseño Actual (Expansivo)</h2>
+                <ul class="biblio-list">
+                    <li class="biblio-item">
+                        <div class="biblio-header">
+                            <div class="biblio-info">
+                                <span class="biblio-tag">ARTÍCULO CIENTÍFICO (2024)</span>
+                                <span class="biblio-name">IA Generativa en la Educación Superior: Una revisión de impacto</span>
+                                <div class="biblio-apa">López, A., & Martínez, R. (2024). IA Generativa en la Educación Superior: Una revisión de impacto. Revista de Tecnología Educativa, 12(2), 45-67.</div>
+                            </div>
+                            <a href="#" class="btn-download is-primary">📥 PDF</a>
+                        </div>
+                        <p class="biblio-summary">Este recurso analiza las implicaciones éticas y pedagógicas de la adopción masiva de modelos de lenguaje en universidades de América Latina durante el último año.</p>
+                    </li>
+                    <li class="biblio-item">
+                        <div class="biblio-header">
+                            <div class="biblio-info">
+                                <span class="biblio-tag">GUÍA DOCENTE</span>
+                                <span class="biblio-name">Manual de Prompt Engineering para Educadores 4.0</span>
+                                <div class="biblio-apa">García, S. (2023). Manual de Prompt Engineering para Educadores 4.0. Universidad de Puerto Rico.</div>
+                            </div>
+                            <a href="#" class="btn-download is-primary">📥 PDF</a>
+                        </div>
+                        <p class="biblio-summary">Guía práctica paso a paso para estructurar interacciones con Gemini y ChatGPT optimizadas para la creación de planes de lección y rúbricas de evaluación.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- COLUMNA PROPUESTA -->
+            <section class="comparison-column">
+                <h2>Diseño Propuesto (Compacto)</h2>
+                <div class="compact-biblio-list">
+                    
+                    <details class="compact-biblio-item">
+                        <summary class="compact-biblio-summary-trigger">
+                            <div class="compact-biblio-title-wrapper">
+                                <span class="compact-biblio-tag">ARTÍCULO CIENTÍFICO (2024)</span>
+                                <span class="compact-biblio-name">IA Generativa en la Educación Superior: Una revisión de impacto</span>
+                            </div>
+                            <div class="compact-biblio-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </summary>
+                        <div class="compact-biblio-content">
+                            <div class="compact-biblio-apa">
+                                López, A., & Martínez, R. (2024). IA Generativa en la Educación Superior: Una revisión de impacto. Revista de Tecnología Educativa, 12(2), 45-67.
+                            </div>
+                            <p class="compact-biblio-description">
+                                Este recurso analiza las implicaciones éticas y pedagógicas de la adopción masiva de modelos de lenguaje en universidades de América Latina durante el último año.
+                            </p>
+                            <div class="compact-biblio-footer">
+                                <a href="#" class="btn-download">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="compact-biblio-item">
+                        <summary class="compact-biblio-summary-trigger">
+                            <div class="compact-biblio-title-wrapper">
+                                <span class="compact-biblio-tag">GUÍA DOCENTE</span>
+                                <span class="compact-biblio-name">Manual de Prompt Engineering para Educadores 4.0</span>
+                            </div>
+                            <div class="compact-biblio-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </summary>
+                        <div class="compact-biblio-content">
+                            <div class="compact-biblio-apa">
+                                García, S. (2023). Manual de Prompt Engineering para Educadores 4.0. Universidad de Puerto Rico.
+                            </div>
+                            <p class="compact-biblio-description">
+                                Guía práctica paso a paso para estructurar interacciones con Gemini y ChatGPT optimizadas para la creación de planes de lección y rúbricas de evaluación.
+                            </p>
+                            <div class="compact-biblio-footer">
+                                <a href="#" class="btn-download">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="compact-biblio-item">
+                        <summary class="compact-biblio-summary-trigger">
+                            <div class="compact-biblio-title-wrapper">
+                                <span class="compact-biblio-tag">CASO DE ESTUDIO</span>
+                                <span class="compact-biblio-name">Implementación de LLM en el Recinto de Mayagüez</span>
+                            </div>
+                            <div class="compact-biblio-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </summary>
+                        <div class="compact-biblio-content">
+                            <div class="compact-biblio-apa">
+                                Rivera, J. (2024). Casos de éxito en la implementación de asistentes de IA en ingeniería. UPRM Press.
+                            </div>
+                            <p class="compact-biblio-description">
+                                Análisis de resultados empíricos sobre el uso de asistentes virtuales en laboratorios de computación.
+                            </p>
+                            <div class="compact-biblio-footer">
+                                <a href="#" class="btn-download">📥 Descargar Recurso (PDF)</a>
+                            </div>
+                        </div>
+                    </details>
+
+                </div>
+            </section>
+        </div>
+
+        <section style="margin-top: 4rem; padding: 2rem; background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-ambient);">
+            <h3 style="color: var(--color-brand-primary); margin-bottom: 1rem;">Ventajas del Diseño Compacto</h3>
+            <ul style="line-height: 1.8; color: var(--color-text-secondary);">
+                <li><strong>Eficiencia Espacial:</strong> Reduce el scroll vertical en un ~60% cuando los elementos están colapsados.</li>
+                <li><strong>Enfoque en el Título:</strong> Permite al usuario escanear títulos rápidamente sin distraerse con los resúmenes.</li>
+                <li><strong>Accesibilidad Nativa:</strong> Utiliza el elemento HTML <code>&lt;details&gt;</code>, garantizando soporte para lectores de pantalla sin JavaScript adicional.</li>
+                <li><strong>Interacción Intuitiva:</strong> El indicador visual (flecha) y el cambio de estado en hover/open mejoran la experiencia de usuario (UX).</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>

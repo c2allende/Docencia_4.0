@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo: Rediseño Cajas Reflexivas - Docencia 4.0</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Estilos generales del prototipo */
+        body { 
+            background: var(--color-background-page); 
+            padding: var(--spacing-md); 
+            font-family: var(--font-family-body);
+            color: var(--color-text-primary);
+        }
+
+        .proto-header { 
+            position: sticky; 
+            top: 0; 
+            background: var(--color-background-surface);
+            padding: var(--spacing-md); 
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+            z-index: 100; 
+            margin-bottom: var(--spacing-lg); 
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .proto-controls { 
+            display: flex; 
+            gap: var(--spacing-md); 
+            align-items: center; 
+            flex-wrap: wrap; 
+        }
+
+        .proto-title { 
+            margin: 0; 
+            font-size: var(--font-size-base); 
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .global-height-report { 
+            margin-left: auto; 
+            color: var(--color-brand-primary); 
+            font-size: var(--font-size-sm); 
+            font-weight: var(--font-weight-bold);
+            background: var(--color-brand-primary-container);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--border-radius-full);
+        }
+
+        .proto-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
+            gap: var(--spacing-lg); 
+        }
+
+        .proto-card { 
+            background: var(--color-background-surface); 
+            padding: var(--spacing-md); 
+            border-radius: var(--radius-lg); 
+            border: 1px solid var(--color-border-default); 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.2s ease;
+        }
+
+        .proto-label { 
+            font-weight: bold; 
+            font-size: var(--font-size-2xs); 
+            color: var(--color-text-muted); 
+            text-transform: uppercase; 
+            margin-bottom: var(--spacing-sm); 
+            display: block; 
+            letter-spacing: var(--letter-spacing-wider);
+        }
+
+        .render-area {
+            flex-grow: 1;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .height-report { 
+            font-size: var(--font-size-xs); 
+            color: var(--color-text-secondary); 
+            padding-top: var(--spacing-sm); 
+            border-top: 1px dashed var(--color-border-default); 
+            font-family: monospace;
+        }
+
+        /* === ALT 0: DISEÑO ACTUAL === */
+        .alt0-box {
+            background: var(--gradient-orange);
+            color: var(--color-white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            box-shadow: var(--shadow-glow-orange);
+        }
+        .alt0-title {
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            font-size: var(--font-size-sm);
+            letter-spacing: var(--letter-spacing-wide);
+            margin-bottom: var(--spacing-sm);
+            display: block;
+        }
+        .alt0-question {
+            font-style: italic;
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            line-height: 1.4;
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* === ALT A: TARJETA COMPACTA === */
+        .altA-box {
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+        }
+        .altA-title {
+            color: var(--color-brand-secondary);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+            display: block;
+        }
+        .altA-question {
+            color: var(--color-text-primary);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            line-height: 1.4;
+            margin-bottom: var(--spacing-sm);
+        }
+        .altA-footer {
+            border-top: 1px solid var(--color-alpha-black-10);
+            padding-top: var(--spacing-sm);
+        }
+
+        /* === ALT B: DOBLE COLUMNA === */
+        .altB-box {
+            display: flex;
+            gap: var(--spacing-md);
+            background: var(--color-background-surface);
+            border: 1px solid var(--color-border-default);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+        }
+        .altB-icon-container {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: var(--color-brand-secondary-container);
+            color: var(--color-brand-secondary);
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .altB-content { flex: 1; }
+        .altB-title { font-weight: bold; font-size: var(--font-size-xs); color: var(--color-text-muted); text-transform: uppercase; }
+        .altB-question { font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin: var(--spacing-xs) 0; }
+
+        /* === ALT C: ACORDEÓN PARCIAL === */
+        .altC-box {
+            background: var(--color-background-surface);
+            border: 1px solid var(--color-brand-secondary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        .altC-header { padding: var(--spacing-md); background: var(--color-background-surface); }
+        .altC-title-label { color: var(--color-brand-secondary); font-weight: bold; font-size: var(--font-size-xs); text-transform: uppercase; }
+        .altC-question-text { font-size: var(--font-size-lg); font-weight: bold; margin-top: 4px; }
+
+        .altC-trigger {
+            width: 100%; text-align: left; background: var(--color-brand-secondary-container);
+            border: none; padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--color-brand-secondary-on-container);
+            font-weight: bold; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            transition: background var(--motion-duration-fast);
+            font-family: var(--font-family-label);
+        }
+        .altC-trigger:hover { background: var(--color-orange-200); }
+        .altC-trigger:focus-visible { outline: 2px solid var(--color-brand-primary); outline-offset: -2px; }
+
+        .altC-content-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--motion-duration-normal) var(--motion-easing-standard);
+            background: var(--color-background-surface-low);
+        }
+        .altC-inner-padding { padding: var(--spacing-md); }
+
+        /* Clases utilitarias */
+        .u-text-white { color: var(--color-white); }
+        .u-text-muted { color: var(--color-text-muted); }
+        .u-opacity-90 { opacity: 0.9; }
+        .u-mb-xs { margin-bottom: var(--spacing-1); }
+        .u-mb-sm { margin-bottom: var(--spacing-4); }
+        .u-mt-md { margin-top: var(--spacing-6); }
+        .u-italic { font-style: italic; }
+        .u-bold { font-weight: var(--font-weight-bold); }
+        .u-small { font-size: var(--font-size-sm); }
+    </style>
+</head>
+<body>
+    <header class="proto-header">
+        <div class="proto-controls">
+            <h1 class="proto-title">PROTOTIPO: REDISEÑO DE CAJAS REFLEXIVAS</h1>
+            <label for="moduleSelect" class="u-small u-bold">Seleccionar Módulo:</label>
+            <select id="moduleSelect" class="u-small">
+                <option value="m1">Módulo 1: Fundamentos y Ética</option>
+                <option value="m2">Módulo 2: Diseño y Prompts</option>
+                <option value="m3">Módulo 3: Evaluación y Admin</option>
+            </select>
+            <div id="globalHeightReport" class="global-height-report"></div>
+        </div>
+    </header>
+
+    <main class="proto-grid" id="mainGrid"></main>
+
+    <script>
+        const contentData = {
+            m1: {
+                title: "Pregunta reflexiva para iniciar",
+                intro: "Antes de profundizar en los contenidos, reflexionen por un momento:",
+                question: "“¿Qué tarea de mi gestión docente me toma más tiempo cada semana? ¿Podría un recurso como un LLM o una aplicación basada en LLM ayudarme a hacerla mejor o más rápido, sin sacrificar calidad o creatividad pedagógica?”",
+                note: "No hay respuesta \"correcta\"; la intención es que vean de inmediato la pertinencia práctica de lo que van a aprender."
+            },
+            m2: {
+                title: "Pregunta reflexiva para iniciar",
+                intro: "Antes de entrar en los contenidos técnicos, tómese un momento para pensar y, si lo desea, anotar en su cuaderno de trabajo:",
+                question: "“Si pudiera automatizar solo UNA parte de mi proceso de planificación (por ejemplo: escribir objetivos, diseñar actividades de inicio, nivelar lecturas, crear rúbricas), ¿cuál elegiría y por qué? ¿Qué esperaría de un bot o aplicación basada en LLM para que ese apoyo realmente respete mi criterio profesional y el contexto de mi escuela?”",
+                note: "No hay respuestas “correctas”; esta reflexión busca que conecte de inmediato la ingeniería de prompts y el diseño con IA con las tareas concretas que más tiempo y energía le consumen en su práctica docente diaria."
+            },
+            m3: {
+                title: "Reflexión Inicial",
+                intro: "Antes de entrar en las actividades del módulo, tómese un momento para pensar y, si lo desea, anotar en su cuaderno de trabajo:",
+                question: "“Si pudiera automatizar solo UNA parte de mi carga evaluativa o administrativa (por ejemplo: redactar comentarios en las notas, crear rúbricas, escribir cartas a familias, preparar informes de progreso), ¿cuál elegiría y por qué? ¿Qué necesitaría que hiciera un bot o aplicación basada en LLM para que ese apoyo respete mi criterio profesional, la confidencialidad de mis estudiantes y las normas de mi escuela?”",
+                note: "No hay respuestas correctas o incorrectas; esta reflexión busca que conecte de inmediato los contenidos del módulo con las tareas administrativas y evaluativas que más tiempo y energía le consumen, y que visualice cómo la IA puede convertirse en un apoyo estratégico bajo su propio liderazgo profesional."
+            }
+        };
+
+        const moduleSelect = document.getElementById('moduleSelect');
+        const mainGrid = document.getElementById('mainGrid');
+
+        moduleSelect.addEventListener('change', () => {
+            renderAlternatives(contentData[moduleSelect.value]);
+        });
+
+        function renderAlt0(container, data) {
+            container.innerHTML = `
+                <div class="alt0-box">
+                    <span class="alt0-title">${data.title}</span>
+                    <p class="u-text-white u-opacity-90 u-mb-sm">${data.intro}</p>
+                    <p class="alt0-question">${data.question}</p>
+                    <p class="u-small u-opacity-90 u-mt-md">${data.note}</p>
+                </div>
+            `;
+        }
+
+        function renderAltA(container, data) {
+            container.innerHTML = `
+                <div class="altA-box">
+                    <span class="altA-title">${data.title}</span>
+                    <p class="altA-question">${data.question}</p>
+                    <div class="altA-footer">
+                        <p class="u-small u-mb-xs"><span class="u-bold">Orientación:</span> ${data.intro}</p>
+                        <p class="u-small u-italic">${data.note}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAltB(container, data) {
+            container.innerHTML = `
+                <div class="altB-box">
+                    <div class="altB-icon-container" aria-hidden="true">💡</div>
+                    <div class="altB-content">
+                        <span class="altB-title">${data.title}</span>
+                        <p class="altB-question">${data.question}</p>
+                        <p class="u-small u-text-muted">${data.note}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAltC(container, data) {
+            const instanceId = `acc-content-${Math.random().toString(36).substr(2, 9)}`;
+            container.innerHTML = `
+                <div class="altC-box">
+                    <div class="altC-header">
+                        <span class="altC-title-label">${data.title}</span>
+                        <p class="altC-question-text">${data.question}</p>
+                    </div>
+                    <button class="altC-trigger js-accordion-trigger" 
+                            aria-expanded="false" 
+                            aria-controls="${instanceId}"
+                            aria-label="Ver orientación completa de la reflexión inicial">
+                        <span>Ver orientación completa</span>
+                        <span class="trigger-icon" aria-hidden="true">↓</span>
+                    </button>
+                    <div id="${instanceId}" class="altC-content-wrapper" role="region">
+                        <div class="altC-inner-padding">
+                            <p class="u-mb-sm"><span class="u-bold">Guía:</span> ${data.intro}</p>
+                            <p class="u-small u-italic">${data.note}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const trigger = container.querySelector('.js-accordion-trigger');
+            const content = container.querySelector('.altC-content-wrapper');
+            const icon = container.querySelector('.trigger-icon');
+
+            trigger.addEventListener('click', () => {
+                const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                const nextState = !isExpanded;
+                
+                trigger.setAttribute('aria-expanded', nextState);
+                content.style.maxHeight = nextState ? `${content.scrollHeight}px` : '0';
+                icon.innerText = nextState ? '↑' : '↓';
+                trigger.querySelector('span').innerText = nextState ? 'Ocultar orientación' : 'Ver orientación completa';
+                
+                setTimeout(measureHeights, 350);
+            });
+        }
+
+        function measureHeights() {
+            const globalDisplay = document.getElementById('globalHeightReport');
+            
+            const card0 = document.querySelector('#card-alt0');
+            const cardA = document.querySelector('#card-altA');
+            const cardB = document.querySelector('#card-altB');
+            const cardC = document.querySelector('#card-altC');
+
+            // Medir los contenedores internos reales para evitar el estiramiento del grid
+            const h0 = card0.querySelector('.alt0-box').offsetHeight;
+            const hA = cardA.querySelector('.altA-box').offsetHeight;
+            const hB = cardB.querySelector('.altB-box').offsetHeight;
+            
+            // Medición de C
+            const boxC = cardC.querySelector('.altC-box');
+            const headerC = boxC.querySelector('.altC-header').offsetHeight;
+            const triggerC = boxC.querySelector('.altC-trigger').offsetHeight;
+            const contentC = boxC.querySelector('.altC-content-wrapper');
+            
+            const hC_closed = headerC + triggerC;
+            const hC_expanded = hC_closed + contentC.scrollHeight;
+
+            card0.querySelector('.height-report').innerText = `Altura Real: ${h0}px`;
+            cardA.querySelector('.height-report').innerText = `Altura Real: ${hA}px`;
+            cardB.querySelector('.height-report').innerText = `Altura Real: ${hB}px`;
+            cardC.querySelector('.height-report').innerText = `C Cerrada: ${hC_closed}px | C Expandida: ${hC_expanded}px`;
+
+            globalDisplay.innerText = `Resumen Módulo: 0:${h0}px | A:${hA}px | B:${hB}px | C(C):${hC_closed}px | C(E):${hC_expanded}px`;
+        }
+
+        function renderAlternatives(data) {
+            mainGrid.innerHTML = '';
+            
+            const alts = [
+                { id: '0', label: 'Alt 0: Diseño Actual (Referencia)', render: renderAlt0 },
+                { id: 'A', label: 'Alt A: Tarjeta Institucional Compacta', render: renderAltA },
+                { id: 'B', label: 'Alt B: Diseño Dinámico de Doble Columna', render: renderAltB },
+                { id: 'C', label: 'Alt C: Acordeón de Andamiaje Progresivo', render: renderAltC }
+            ];
+
+            alts.forEach(alt => {
+                const section = document.createElement('section');
+                section.className = 'proto-card';
+                section.id = `card-alt${alt.id}`;
+                section.innerHTML = `
+                    <span class="proto-label">${alt.label}</span>
+                    <div class="render-area"></div>
+                    <div class="height-report"></div>
+                `;
+                mainGrid.appendChild(section);
+                alt.render(section.querySelector('.render-area'), data);
+            });
+
+            setTimeout(measureHeights, 200);
+        }
+
+        // Inicialización
+        renderAlternatives(contentData.m1);
+    </script>
+</body>
+</html>

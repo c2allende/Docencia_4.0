@@ -1,0 +1,69 @@
+{
+  "leccion1_1": {
+    "body": [
+      "margin: 0",
+      "padding-top: var(--nav-height)",
+      "overflow-x: hidden",
+      "background: var(--color-background-page)",
+      "color: var(--color-text-primary)",
+      "font-family: var(--font-family-body)",
+      "line-height: var(--line-height-loose)"
+    ],
+    "contentWrapper": [
+      "max-width: 1100px",
+      "margin: var(--spacing-xl) auto var(--spacing-16)",
+      "padding: 0 var(--spacing-md)"
+    ],
+    "lessonCard": [
+      "padding: var(--spacing-xl)"
+    ],
+    "lessonCardGroup": []
+  },
+  "leccion2_1": {
+    "body": [
+      "margin: 0",
+      "padding-top: var(--nav-height)",
+      "overflow-x: hidden",
+      "background: var(--color-background-page)",
+      "color: var(--color-text-primary)",
+      "font-family: var(--font-family-body)",
+      "line-height: var(--line-height-loose)"
+    ],
+    "contentWrapper": [
+      "max-width: 1100px",
+      "margin: var(--spacing-xl) auto var(--spacing-16)",
+      "padding: 0 var(--spacing-md)"
+    ],
+    "lessonCard": [
+      "padding: var(--spacing-xl)"
+    ],
+    "lessonCardGroup": []
+  },
+  "leccion3_4": {
+    "body": [
+      "margin: 0",
+      "padding-top: var(--nav-height)",
+      "overflow-x: hidden",
+      "background: var(--color-background-page)",
+      "color: var(--color-text-primary)",
+      "font-family: var(--font-family-body)",
+      "line-height: var(--line-height-loose)"
+    ],
+    "contentWrapper": [
+      "max-width: 1100px",
+      "margin: var(--spacing-xl) auto var(--spacing-16)",
+      "padding: 0 var(--spacing-md)"
+    ],
+    "lessonCard": [
+      "position: relative",
+      "overflow: hidden",
+      "padding: var(--spacing-16)",
+      "margin-bottom: var(--spacing-lg)",
+      "background: var(--color-background-surface)",
+      "border: var(--border-width-1) solid var(--color-border-default)",
+      "border-radius: var(--radius-xl)",
+      "box-shadow: var(--shadow-ambient)"
+    ],
+    "lessonCardGroup": []
+  }
+}

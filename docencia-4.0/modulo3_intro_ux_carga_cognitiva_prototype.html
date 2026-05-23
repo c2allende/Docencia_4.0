@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Introducción al Módulo 3 de la Academia Docencia 4.0: Gestión administrativa y evaluativa con modelos de lenguaje de gran tamaño.">
+    <title>Introducción Módulo 3 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        /* Modelo Aprobado: Estética Flotante e Interacción Estabilizada */
+        .m1-intro-prototype {
+            background: var(--color-background-page);
+            padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem);
+            min-height: calc(100vh - var(--nav-height));
+        }
+
+        .m1-intro-prototype .m1-floating-shell {
+            width: min(100%, 1180px);
+            margin: 0 auto;
+            background: var(--color-background-surface);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            padding: clamp(2rem, 5vw, 4.5rem);
+            overflow: visible;
+        }
+
+        .m1-intro-prototype .lesson-card {
+            padding: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            max-width: none;
+            margin: 0;
+            overflow: visible;
+        }
+
+        .m1-intro-prototype .hero-header {
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-6);
+            border-bottom: 1px solid var(--color-border-subtle);
+            overflow: visible;
+        }
+
+        .m1-intro-prototype .lesson-title {
+            font-size: var(--font-size-4xl);
+            line-height: 1.2;
+            color: var(--color-text-display);
+            margin: 0 0 var(--spacing-6);
+            padding-bottom: 0.15em;
+            overflow: visible;
+        }
+
+        .m1-intro-prototype .section-title {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-6);
+            color: var(--color-brand-primary);
+        }
+
+        .m1-intro-prototype .m1-section {
+            margin-bottom: var(--spacing-16);
+        }
+
+        .m1-intro-prototype .m1-message-box {
+            background: var(--color-background-surface-medium);
+            border-left: var(--border-width-4) solid var(--color-brand-primary);
+            padding: var(--spacing-10);
+            border-radius: var(--radius-xl);
+            margin: var(--spacing-6) 0 var(--spacing-12);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Ruta de aprendizaje */
+        .m1-intro-prototype .m1-path-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-8);
+            margin: var(--spacing-10) 0;
+            align-items: start;
+        }
+
+        @media (min-width: 1100px) {
+            .m1-intro-prototype .m1-path-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .m1-intro-prototype .m1-path-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .m1-intro-prototype .m1-path-card {
+            padding: var(--spacing-8);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-2xl);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            box-shadow: var(--shadow-ambient);
+            align-self: start;
+            height: auto;
+        }
+
+        .m1-intro-prototype .m1-lesson-label {
+            display: inline-block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-1);
+        }
+
+        /* Control Leer más / Ocultar */
+        .m1-intro-prototype .m1-card-details {
+            margin-top: auto;
+            padding-top: var(--spacing-4);
+        }
+
+        .m1-intro-prototype .m1-details-summary {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .m1-intro-prototype .m1-details-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .m1-intro-prototype .m1-details-toggle {
+            text-decoration: underline;
+        }
+
+        .m1-intro-prototype .summary-open {
+            display: none;
+        }
+
+        .m1-intro-prototype details[open] .summary-closed {
+            display: none;
+        }
+
+        .m1-intro-prototype details[open] .summary-open {
+            display: inline;
+        }
+
+        .m1-intro-prototype .m1-card-details[open] .m1-details-summary {
+            margin-bottom: var(--spacing-2);
+        }
+
+        .m1-intro-prototype .m1-card-details p {
+            font-size: var(--font-size-xs);
+            line-height: 1.6;
+            color: var(--color-text-secondary);
+        }
+
+        /* Pilares Teóricos / Ejes */
+        .m1-intro-prototype .m1-pillars-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-6);
+            margin: var(--spacing-10) 0;
+        }
+
+        .m1-intro-prototype .m1-pillar-card {
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .m1-intro-prototype .m1-pillar-card summary {
+            padding: var(--spacing-6) var(--spacing-8);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-6);
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .m1-intro-prototype .m1-pillar-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .m1-intro-prototype .m1-pillar-num {
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .m1-intro-prototype .m1-pillar-title {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-display);
+            font-size: var(--font-size-lg);
+            text-decoration: none;
+        }
+
+        .m1-intro-prototype .m1-pillar-affordance {
+            margin-left: auto;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            text-decoration: underline;
+        }
+
+        .m1-intro-prototype .m1-pillar-content {
+            padding: 0 var(--spacing-8) var(--spacing-8) calc(28px + var(--spacing-8) + var(--spacing-6));
+            border-top: 1px solid var(--color-border-subtle);
+            padding-top: var(--spacing-6);
+        }
+
+        /* Navegación Final */
+        .m1-intro-prototype .m1-footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-10);
+            border-top: var(--border-width-1) solid var(--color-border-subtle);
+            gap: var(--spacing-8);
+        }
+
+        @media (max-width: 760px) {
+            .m1-intro-prototype {
+                padding: var(--spacing-4);
+            }
+
+            .m1-intro-prototype .m1-floating-shell {
+                padding: var(--spacing-6);
+                border-radius: var(--radius-xl);
+            }
+
+            .m1-intro-prototype .m1-footer-nav {
+                flex-direction: column-reverse;
+                gap: var(--spacing-4);
+            }
+
+            .m1-intro-prototype .m1-footer-nav .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body data-page-id="modulo3_intro" data-module-id="modulo3" data-page-type="intro" data-title="Inicio Módulo 3">
+    <nav class="top-nav" aria-label="Navegación superior del módulo">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Módulo 3: Gestión y Evaluación</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 3" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 3</span></li>
+            <li><a href="modulo3_intro.html" class="active" aria-current="page">📍 Introducción Módulo 3</a></li>
+            <li><a href="leccion3_1.html">📖 Lección 3.1</a></li>
+            <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
+            <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
+            <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
+            <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
+            <li><a href="foro_modulo3.html">💬 Foro Módulo 3</a></li>
+            <li><a href="recursos_m3.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">⬅️ Volver al Módulo 2</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper m1-intro-prototype">
+        <div class="m1-floating-shell">
+            <article class="lesson-card" aria-labelledby="module-title">
+                
+                <!-- 1. Título -->
+                <header class="hero-header">
+                    <h1 id="module-title" class="lesson-title">Módulo 3: Gestión administrativa y evaluativa: Eficiencia operativa en el rol docente</h1>
+                    <div class="text-lead">
+                        <p>Bienvenidos y bienvenidas al tercer módulo de este programa de formación profesional.</p>
+                        <p style="margin-top: var(--spacing-6);">En los módulos anteriores han explorado qué es un LLM, sus implicaciones éticas y su potencial para apoyar la planificación y el diseño de recursos didácticos. En este módulo vamos a mirar otro ámbito igual de demandante, pero menos visible: la gestión evaluativa y administrativa que sostiene el trabajo docente día a día. Boletas, informes, reactivos, comunicaciones institucionales, cartas a familias y documentación oficial compiten constantemente con el tiempo que desearían dedicar al acompañamiento pedagógico directo.</p>
+                    </div>
+                </header>
+
+                <!-- 2. Mensaje clave / Resumen Contextual -->
+                <section class="m1-message-box" aria-label="Mensaje clave">
+                    <strong class="text-brand" style="display: block; margin-bottom: var(--spacing-2);">Contexto del Módulo:</strong>
+                    <p>El módulo 3 aborda cómo usar la IA para diseñar y gestionar evaluación y documentos administrativos sin perder el control pedagógico ni ético. Inicia con el diseño automatizado de instrumentos (rúbricas, listas de cotejo, bancos de reactivos y exámenes) usando LLM como generadores de borradores alineados con Bloom y DOK, siempre validados por el docente. Luego explora la retroalimentación formativa y afectiva, mostrando cómo los LLM pueden producir comentarios más ricos y análisis de errores a partir de datos anonimizados. Finalmente, trabaja la automatización de la burocracia (cartas, informes, PEI) y un bloque fuerte de seguridad de datos.</p>
+                </section>
+
+                <p class="m1-section">Este módulo propone que utilicen la IA como un aliado estratégico para ganar eficiencia en esas tareas, sin ceder el criterio profesional ni la custodia ética sobre los datos y las decisiones.</p>
+
+                <div class="quote-block m1-section" style="text-align: center; font-style: italic; font-size: var(--font-size-xl); padding: var(--spacing-8); background: var(--color-background-surface-low); border-radius: var(--radius-lg); border: 1px dashed var(--color-border-strong);">
+                    "En este punto del programa, ustedes ya cuentan con una base conceptual sobre IA y un primer acercamiento a su uso en planificación; por eso, es el momento oportuno para abordar la “otra mitad” del trabajo docente: cómo la IA puede ayudar a diseñar instrumentos de evaluación, redactar retroalimentación afectiva y producir documentación estándar, mientras se mantiene un control estricto sobre la ética, la privacidad y la coherencia institucional."
+                </div>
+
+                <!-- 3. Pregunta reflexiva de inicio -->
+                <section class="reflection-accordion m1-section" aria-labelledby="reflection-title-m3" data-reflection-accordion>
+                    <button type="button" class="reflection-accordion__header" id="reflection-header-m3"
+                        aria-expanded="false" aria-controls="reflection-content-m3" data-reflection-toggle>
+                        <div class="reflection-accordion__header-content">
+                            <span id="reflection-title-m3" class="reflection-accordion__label">Antes de comenzar: pregunta reflexiva</span>
+                            <span class="reflection-accordion__question">“Pensando en su propia carga administrativa y evaluativa actual: ¿qué tan dispuesto/a estaría a delegar la generación de materiales de apoyo, guías o borradores de evaluación a un recurso como un LLM? ¿Cuál sería su límite infranqueable para asegurar que la ética y la calidad no se vean comprometidas?”</span>
+                            <span class="reflection-accordion__action-text" data-reflection-action>Ver orientación</span>
+                        </div>
+                        <div class="reflection-accordion__icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </button>
+                    <div id="reflection-content-m3" class="reflection-accordion__content" role="region" aria-labelledby="reflection-header-m3" data-reflection-panel>
+                        <div class="reflection-accordion__inner">
+                            <div class="reflection-accordion__body">
+                                <p class="reflection-accordion__context">Antes de entrar en las actividades del módulo, tómese un momento para pensar y, si lo desea, anotar en su cuaderno de trabajo:</p>
+                                <p class="reflection-accordion__note">No hay respuestas correctas o incorrectas; esta reflexión busca que conecte de inmediato los contenidos del módulo con las tareas administrativas y evaluativas que más tiempo y energía le consumen, y que visualice cómo la IA puede convertirse en un apoyo estratégico bajo su propio liderazgo profesional.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Ruta de aprendizaje -->
+                <section class="m1-section">
+                    <h2 class="section-title">Ruta de aprendizaje del módulo</h2>
+                    <div class="m1-path-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <article class="m1-path-card">
+                            <span class="m1-lesson-label">Lección 3.1</span>
+                            <strong>Diseño automatizado de instrumentos evaluativos</strong>
+                            <p class="text-body-sm">Generar rúbricas, listas de cotejo y bancos de reactivos con niveles Bloom/Webb.</p>
+                            <details class="m1-card-details">
+                                <summary class="m1-details-summary">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </summary>
+                                <p>La Lección 3.1 enseña a usar la IA para construir herramientas de evaluación técnica precisas que sirvan de borrador sólido para la validación experta del docente.</p>
+                            </details>
+                        </article>
+                        <article class="m1-path-card">
+                            <span class="m1-lesson-label">Lección 3.2</span>
+                            <strong>Retroalimentación formativa y afectiva</strong>
+                            <p class="text-body-sm">Transformar datos en comentarios empáticos y análisis de patrones de error.</p>
+                            <details class="m1-card-details">
+                                <summary class="m1-details-summary">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </summary>
+                                <p>La Lección 3.2 explora cómo los LLM pueden procesar resultados generales para sugerir retroalimentaciones cualitativas que apoyen el crecimiento del estudiante.</p>
+                            </details>
+                        </article>
+                        <article class="m1-path-card">
+                            <span class="m1-lesson-label">Lección 3.3</span>
+                            <strong>Automatización de la burocracia escolar</strong>
+                            <p class="text-body-sm">Redactar informes, cartas, minutas y modelos de PEI con agilidad profesional.</p>
+                            <details class="m1-card-details">
+                                <summary class="m1-details-summary">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </summary>
+                                <p>La Lección 3.3 optimiza el flujo administrativo mediante plantillas inteligentes para la documentación oficial, liberando tiempo para la docencia.</p>
+                            </details>
+                        </article>
+                        <article class="m1-path-card">
+                            <span class="m1-lesson-label">Lección 3.4</span>
+                            <strong>Seguridad de datos y ética evaluativa</strong>
+                            <p class="text-body-sm">Protocolos de anonimización, PII y cumplimiento de normativas de privacidad.</p>
+                            <details class="m1-card-details">
+                                <summary class="m1-details-summary">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </summary>
+                                <p>La Lección 3.4 establece las salvaguardas necesarias para proteger la información confidencial de estudiantes y la integridad ética de la institución.</p>
+                            </details>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 5. Objetivo general -->
+                <section class="m1-section">
+                    <h2 class="section-title">Objetivo general</h2>
+                    <div class="card-module is-cyan">
+                        <p>Fortalecer la capacidad del maestro para utilizar modelos de lenguaje y las aplicaciones que los incorporan en la gestión evaluativa y administrativa, optimizando tiempo y calidad en la elaboración de instrumentos, retroalimentación y documentación, sin perder el control ético, pedagógico y de protección de datos.</p>
+                    </div>
+                </section>
+
+                <!-- 6. Resultados de aprendizaje clave -->
+                <section class="m1-section">
+                    <h2 class="section-title">Objetivos específicos</h2>
+                    <p>Al finalizar este módulo, usted:</p>
+                    <ul class="content-list">
+                        <li>Formulará, con apoyo de bots y asistentes basados en LLM, instrumentos de evaluación (rúbricas, listas de cotejo, hojas de evaluación y bancos de reactivos por niveles Bloom/Webb) y los organizará en flujos de trabajo que permitan su integración eficiente.</li>
+                        <li>Transformará calificaciones cuantitativas en retroalimentación cualitativa empática y específica, identificando patrones de error en las respuestas de los estudiantes (sin datos personales) que le permitan planificar acciones de re‑enseñanza con apoyo de IA.</li>
+                        <li>Generará, con apoyo de aplicaciones basadas en LLM, modelos de documentos administrativos (cartas, permisos, minutas, referencias, informes de progreso y PEI/PIE) y comunicaciones institucionales formales que puedan personalizarse con rapidez, utilizando terminología técnica pertinente y un tono profesional, claro y asertivo.</li>
+                        <li>Aplicará una lista de verificación ética para anonimizar y depurar datos sensibles antes de usar IA en tareas administrativas, identificando riesgos habituales y describiendo prácticas seguras mínimas en el manejo de información confidencial.</li>
+                    </ul>
+                </section>
+
+                <!-- 7. Andamiaje pedagógico / Compromiso -->
+                <section class="m1-section">
+                    <h2 class="section-title">Human in the loop y responsabilidad profesional</h2>
+                    <div class="card-feature" style="border-left: var(--border-width-4) solid var(--color-brand-primary);">
+                        <p>Este módulo no busca que la IA se convierta en la “voz oficial” de su escuela ni en el autor real de sus evaluaciones o comunicaciones, sino en un asistente que acelera borradores y organiza información mientras ustedes conservan el control sobre el contenido, el tono y la información que se comparte. El compromiso central es mantener la lógica de <strong>human in the loop</strong>: ningún instrumento de evaluación, comentario de retroalimentación, carta o informe generado con un bot o app con LLM debe ser utilizado sin pasar por su revisión ética, pedagógica y contextual.</p>
+                        <p style="margin-top: var(--spacing-6);">Ese compromiso implica verificar la exactitud de lo que se afirma, ajustar el lenguaje al perfil de sus estudiantes y familias, cuidar la pertinencia cultural al contexto puertorriqueño y velar por que ningún dato sensible se exponga en el proceso. Ustedes siguen siendo los responsables de la trazabilidad y la calidad de la comunicación institucional que sale bajo su nombre.</p>
+                    </div>
+                </section>
+
+                <!-- 8. Pilares teóricos / Ejes -->
+                <section class="m1-section">
+                    <h2 class="section-title">Ejes Temáticos del Módulo 3</h2>
+                    <div class="m1-pillars-container">
+                        <details class="m1-pillar-card">
+                            <summary class="m1-details-summary" style="padding: var(--spacing-6) var(--spacing-8);">
+                                <span class="m1-pillar-num">📊</span>
+                                <span class="m1-pillar-title">Diseño de Evaluación Técnica</span>
+                                <span class="m1-pillar-affordance">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </span>
+                            </summary>
+                            <div class="m1-pillar-content">
+                                <p>Creación de instrumentos que miden el aprendizaje de forma objetiva, alineados con taxonomías educativas reconocidas.</p>
+                            </div>
+                        </details>
+                        <details class="m1-pillar-card">
+                            <summary class="m1-details-summary" style="padding: var(--spacing-6) var(--spacing-8);">
+                                <span class="m1-pillar-num">💬</span>
+                                <span class="m1-pillar-title">Retroalimentación con IA</span>
+                                <span class="m1-pillar-affordance">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </span>
+                            </summary>
+                            <div class="m1-pillar-content">
+                                <p>Uso de modelos de lenguaje para humanizar y detallar el feedback pedagógico, facilitando la comunicación asertiva docente-estudiante.</p>
+                            </div>
+                        </details>
+                        <details class="m1-pillar-card">
+                            <summary class="m1-details-summary" style="padding: var(--spacing-6) var(--spacing-8);">
+                                <span class="m1-pillar-num">📄</span>
+                                <span class="m1-pillar-title">Automatización de la Gestión</span>
+                                <span class="m1-pillar-affordance">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </span>
+                            </summary>
+                            <div class="m1-pillar-content">
+                                <p>Agilización de trámites burocráticos y documentación institucional mediante el uso estratégico de plantillas e IA.</p>
+                            </div>
+                        </details>
+                        <details class="m1-pillar-card">
+                            <summary class="m1-details-summary" style="padding: var(--spacing-6) var(--spacing-8);">
+                                <span class="m1-pillar-num">🔒</span>
+                                <span class="m1-pillar-title">Seguridad y Ética de Datos</span>
+                                <span class="m1-pillar-affordance">
+                                    <span class="m1-details-toggle">
+                                        <span class="summary-closed">Leer más</span>
+                                        <span class="summary-open">Ocultar</span>
+                                    </span>
+                                </span>
+                            </summary>
+                            <div class="m1-pillar-content">
+                                <p>Implementación de protocolos rigurosos para garantizar que la privacidad del estudiante sea la prioridad número uno al usar IA.</p>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- 10. Escucha opcional -->
+                <section class="m1-section">
+                    <h2 class="section-title">Escucha opcional: bienvenida al módulo</h2>
+                    <p>Escuche la introducción narrativa del módulo y reflexione sobre cómo la IA puede aliviar su carga administrativa sin comprometer la ética.</p>
+                    
+                    <div class="audio-player-container" style="margin-top: var(--spacing-8);">
+                        <audio id="moduleAudio" controls class="audio-player" style="width: 100%;">
+                            <source src="LLM-DEPR/LLM_M3_Bienvenida Módulo 3_ Gestión Administrativa y Evaluativa LLM_audio.mp3" type="audio/mpeg">
+                            Su navegador no soporta la reproducción de audio.
+                        </audio>
+                    </div>
+                </section>
+
+                <!-- 12. Cierre -->
+                <section class="card-feature" style="border-left-color: var(--color-brand-secondary); background: var(--color-background-surface-medium);">
+                    <strong class="text-brand" style="display: block; margin-bottom: var(--spacing-4); color: var(--color-brand-secondary);">Cierre de la introducción</strong>
+                    <p>Al finalizar este módulo, el propósito es que la burocracia educativa deje de ser un lastre inevitable y se convierta en un proceso más ágil, sistemático y profesionalizado, apoyado en herramientas modernas pero guiado por su juicio experto.</p>
+                </section>
+
+                <!-- Estado de progreso y navegación final -->
+                <div id="completion-section"></div>
+
+                <nav class="m1-footer-nav" aria-label="Navegación del módulo">
+                    <a href="dashboard.html" class="btn btn-secondary">← Volver al Dashboard</a>
+                    <a href="leccion3_1.html" class="btn btn-primary action-button">Iniciar Módulo 3 →</a>
+                </nav>
+            </article>
+        </div>
+    </main>
+
+    <script src="scripts/reflection-accordion.js"></script>
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            if (sidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

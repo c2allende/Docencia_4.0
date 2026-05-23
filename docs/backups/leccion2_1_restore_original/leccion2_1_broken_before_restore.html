@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 2.1 de Docencia 4.0: El arte de pedir. Ingeniería de prompts aplicada a educación, fórmula R-C-T-F-R, iteración, few-shot prompting y plantillas para el contexto DEPR.">
+    <meta name="keywords"
+        content="Docencia 4.0, Lección 2.1, ingeniería de prompts, prompt engineering, LLM, DEPR, few-shot prompting, chain-of-thought, planificación docente">
+    <title>Lección 2.1 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+            text-align: left;
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            min-height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .control-btn:focus-visible,
+        .chat-step-card:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .genially-frame-inner iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .text-section {
+            margin-bottom: var(--spacing-12);
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .audio-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .toolbox-card,
+            .slider-section,
+            .checkpoint-container,
+            .completion-card,
+            .references-section {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+        }
+
+        /* Formula Band Layout */
+        .formula-compact {
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border-radius: var(--radius-xl);
+            border: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .formula-compact__header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .formula-compact__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-1);
+        }
+
+        .formula-compact__letter {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .formula-compact__name {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .formula-compact__details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .formula-component {
+            padding: var(--spacing-md);
+            background: var(--color-background-surface);
+            border-radius: var(--radius-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .formula-component__title {
+            display: block;
+            margin-bottom: var(--spacing-1);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-brand-primary);
+        }
+
+        .formula-component__text {
+            font-size: var(--font-size-sm);
+            margin: 0;
+        }
+
+        .formula-component__example {
+            margin-top: var(--spacing-sm);
+        }
+
+        .formula-component__example-toggle {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-brand-secondary);
+            cursor: pointer;
+        }
+
+        .formula-component__example-content {
+            margin-top: var(--spacing-2);
+            font-size: var(--font-size-xs);
+            font-style: italic;
+            color: var(--color-text-muted);
+        }
+
+        /* Toolbox Buttons & Interactive Styles */
+        .toolbox-card--collapsible .toolbox-card__details {
+            border: none;
+        }
+
+        .toolbox-card__trigger {
+            cursor: pointer;
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-5);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+            color: var(--color-cyan-100);
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+            user-select: none;
+        }
+
+        .toolbox-card__trigger:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .toolbox-card__trigger::-webkit-details-marker {
+            display: none;
+        }
+
+        .toolbox-card__details[open] .text-closed,
+        .toolbox-card__details:not([open]) .text-open {
+            display: none;
+        }
+
+        .toolbox-card__details[open] .toolbox-card__trigger svg {
+            transform: rotate(180deg);
+        }
+
+        .toolbox-card__trigger svg {
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .toolbox-card__footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: var(--border-width-1) solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-toolbox {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-6);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--motion-duration-default) var(--motion-easing-standard);
+            border: none;
+            outline: none;
+        }
+
+        .btn-toolbox--copy {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .btn-toolbox--copy:hover {
+            background: var(--color-brand-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .btn-toolbox--copy.btn-toolbox--success {
+            background: var(--color-feedback-success);
+            color: var(--color-white);
+        }
+
+        .btn-toolbox--close {
+            background: transparent;
+            color: var(--color-alpha-white-70);
+            border: var(--border-width-1) solid var(--color-alpha-white-30);
+        }
+
+        .btn-toolbox--close:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-white);
+        }
+
+        /* Prompt Template Tokens */
+        .prompt-token {
+            display: block;
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-1);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-cyan-300);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+        }
+
+        .prompt-token:first-child {
+            margin-top: 0;
+        }
+
+        .prompt-token--highlight {
+            display: inline;
+            color: var(--color-white);
+            background: rgba(0, 194, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-style: normal;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .toolbox-description {
+            color: var(--color-white) !important;
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+            opacity: 1;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .compact-biblio .biblio-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .compact-biblio .biblio-list li {
+            padding: var(--spacing-sm) 0;
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+            font-size: var(--font-size-sm);
+        }
+        
+        .compact-biblio .biblio-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Simulator UI */
+        .chat-simulator {
+            margin: var(--spacing-lg) 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .chat-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+        .chat-step-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .chat-step-card.active {
+            border-color: var(--color-brand-primary);
+            background: var(--color-background-surface-low);
+            box-shadow: 0 0 0 1px var(--color-brand-primary);
+        }
+        .chat-step-card span {
+            display: block;
+            font-size: var(--font-size-xs);
+            color: var(--color-brand-primary);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+        .chat-window {
+            background: var(--color-background-surface-dark);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .chat-bubble {
+            max-width: 85%;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
+        }
+        .chat-bubble--user {
+            align-self: flex-end;
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            border-bottom-right-radius: 4px;
+        }
+        .chat-bubble--ai {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.1);
+            color: var(--color-white);
+            border-bottom-left-radius: 4px;
+        }
+
+        /* Botón Scroll Top */
+        .btn-scroll-top {
+            position: fixed;
+            bottom: var(--spacing-lg);
+            right: var(--spacing-lg);
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-full);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            z-index: 1000;
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+            background: var(--color-brand-primary-hover);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+
+<body data-page-id="leccion2_1" data-module-id="modulo2" data-page-type="leccion" data-title="Lección 2.1">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Lección 2.1: El arte de pedir: Ingeniería de prompts aplicada a educación</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 2" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 2</span></li>
+            <li><a href="modulo2_intro.html">📍 Introducción Módulo 2</a></li>
+            <li><a href="leccion2_1.html" class="active" aria-current="page">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
+            <li><a href="recursos_m2.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo1_intro.html">⬅️ Volver al Módulo 1</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card" aria-labelledby="lesson-title">
+            <h1 id="lesson-title" class="lesson-title">Lección 2.1: El arte de pedir: Ingeniería de prompts aplicada a educación</h1>
+
+            <div class="audio-player-container">
+                <label class="audio-label" for="lessonAudio">Escuchar Lección 2.1</label>
+                <audio id="lessonAudio" controls preload="metadata" class="audio-player">
+                    <source
+                        src="LLM-DEPR/LLM_M2_Leccion_2.1_El arte de pedir_ Ingeniería de prompts aplicada a educación_audio.mp3"
+                        type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+
+            <section class="text-section" aria-labelledby="prompt-title">
+                <h2 id="prompt-title" class="section-title">¿Qué es un prompt en el contexto de LLM?</h2>
+                <p>En el contexto de los modelos de lenguaje de gran tamaño (LLM), un prompt es la instrucción en
+                    lenguaje natural que el usuario introduce para activar y guiar la respuesta del modelo. Los LLM
+                    responden a “instrucciones en lenguaje natural” y su desempeño depende fuertemente de cómo se
+                    formula esa instrucción.</p>
+                <p>Desde la perspectiva educativa, un prompt es el “puente” entre la intención pedagógica del docente,
+                    por ejemplo, planificar una clase, generar preguntas o adaptar un texto, y el resultado que produce
+                    la IA. Con bots o aplicaciones basadas en LLM, como ChatGPT, el contenido generado puede variar
+                    significativamente en calidad y relevancia dependiendo de la claridad y especificidad del prompt
+                    proporcionado por el usuario.</p>
+                <p>Los prompts bien estructurados son esenciales para obtener respuestas útiles, precisas y apropiadas
+                    al contexto de los modelos de lenguaje generativo, por lo que aprender a escribir buenos prompts se
+                    convierte en una competencia profesional clave para docentes que integran LLM y las aplicaciones que
+                    los usan en su práctica.</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="formula-title">
+                <h2 id="formula-title" class="section-title">Fórmula del prompt efectivo: Rol + Contexto + Tarea + Formato + Restricciones</h2>
+                <p>En educación, se ha observado que los prompts “estándar” producen respuestas aceptables, pero la
+                    calidad mejora cuando el docente explicita el rol del modelo, ofrece contexto suficiente, define con
+                    claridad la tarea, pide un formato específico y establece límites o criterios de calidad.</p>
+                <p>Los patrones de prompt representan soluciones reutilizables a problemas recurrentes de redacción de
+                    prompts y pueden ayudar a los usuarios a diseñar mejores prompts de manera sistemática. Adaptando
+                    estas ideas al contexto docente, podemos organizar la fórmula del prompt efectivo en cinco
+                    componentes clave:</p>
+
+                <div class="formula-compact" aria-label="Cinco componentes del prompt efectivo">
+                    <div class="formula-compact__header">
+                        <div class="formula-compact__item">
+                            <span class="formula-compact__letter">R</span>
+                            <span class="formula-compact__name">Rol</span>
+                        </div>
+                        <span aria-hidden="true">+</span>
+                        <div class="formula-compact__item">
+                            <span class="formula-compact__letter">C</span>
+                            <span class="formula-compact__name">Contexto</span>
+                        </div>
+                        <span aria-hidden="true">+</span>
+                        <div class="formula-compact__item">
+                            <span class="formula-compact__letter">T</span>
+                            <span class="formula-compact__name">Tarea</span>
+                        </div>
+                        <span aria-hidden="true">+</span>
+                        <div class="formula-compact__item">
+                            <span class="formula-compact__letter">F</span>
+                            <span class="formula-compact__name">Formato</span>
+                        </div>
+                        <span aria-hidden="true">+</span>
+                        <div class="formula-compact__item">
+                            <span class="formula-compact__letter">R</span>
+                            <span class="formula-compact__name">Restricciones</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-compact__details-grid">
+                        <div class="formula-component">
+                            <span class="formula-component__title">Rol</span>
+                            <p class="formula-component__text">Indica el papel que debe asumir el modelo.</p>
+                            <details class="formula-component__example">
+                                <summary class="formula-component__example-toggle">Ver ejemplo</summary>
+                                <div class="formula-component__example-content">“Actúa como maestro de matemáticas de 7mo grado en Puerto Rico…”</div>
+                            </details>
+                        </div>
+
+                        <div class="formula-component">
+                            <span class="formula-component__title">Contexto</span>
+                            <p class="formula-component__text">Información sobre grupo, nivel o situación escolar.</p>
+                            <details class="formula-component__example">
+                                <summary class="formula-component__example-toggle">Ver ejemplo</summary>
+                                <div class="formula-component__example-content">“Trabajo con un grupo de 30 estudiantes, muchos con dificultad en la lectura comprensiva…”</div>
+                            </details>
+                        </div>
+
+                        <div class="formula-component">
+                            <span class="formula-component__title">Tarea</span>
+                            <p class="formula-component__text">Acción específica que se le pide al modelo.</p>
+                            <details class="formula-component__example">
+                                <summary class="formula-component__example-toggle">Ver ejemplo</summary>
+                                <div class="formula-component__example-content">“Diseña una clase de 45 minutos sobre ecuaciones lineales…”</div>
+                            </details>
+                        </div>
+
+                        <div class="formula-component">
+                            <span class="formula-component__title">Formato</span>
+                            <p class="formula-component__text">Indica cómo debe presentarse la respuesta.</p>
+                            <details class="formula-component__example">
+                                <summary class="formula-component__example-toggle">Ver ejemplo</summary>
+                                <div class="formula-component__example-content">“…organizada en una tabla con columnas de inicio, desarrollo y cierre…”</div>
+                            </details>
+                        </div>
+
+                        <div class="formula-component">
+                            <span class="formula-component__title">Restricciones</span>
+                            <p class="formula-component__text">Criterios o condiciones que debe respetar la respuesta.</p>
+                            <details class="formula-component__example">
+                                <summary class="formula-component__example-toggle">Ver ejemplo</summary>
+                                <div class="formula-component__example-content">“…usa ejemplos contextualizados a Puerto Rico y evita lenguaje técnico complejo.”</div>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+
+                <p>El uso de técnicas estándar de ingeniería de prompts, como la asignación de roles y los seed-word
+                    prompts, ha demostrado mejorar la pertinencia y la estructura de los planes de lección generados, lo
+                    que respalda el uso explícito de Rol, Contexto y Tarea en el trabajo docente.</p>
+            </section>
+
+            <section class="toolbox-card toolbox-card--collapsible" aria-labelledby="ejemplo-prompt-title">
+                <details class="toolbox-card__details" id="promptToolboxDetails" data-effective-prompt-details>
+                    <summary class="toolbox-card__trigger">
+                        <span class="text-closed">Ver ejemplo completo</span>
+                        <span class="text-open">Cerrar ejemplo</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                        </svg>
+                    </summary>
+
+                    <h2 id="ejemplo-prompt-title" class="toolbox-title toolbox-title--spaced">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Ejemplo de Prompt Efectivo
+                    </h2>
+                    <p class="toolbox-description">Modelo anotado de un prompt educativo completo.</p>
+
+                    <div class="toolbox-card__content">
+                        <div class="prompt-template" id="effectivePromptText" data-effective-prompt-text><span class="prompt-token prompt-token--role">[Rol]</span>
+                        Actúa como un <span class="prompt-token prompt-token--highlight">Maestro de Ciencias de Nivel Elemental en Puerto Rico</span>, experto en currículo basado en los <span class="prompt-token prompt-token--highlight">Estándares y Expectativas del Departamento de Educación de Puerto Rico (DEPR)</span>.
+                        
+                        <span class="prompt-token prompt-token--context">[Contexto de la Clase]</span>
+                        <span class="prompt-token prompt-token--highlight">Grado: 5to grado</span> (Estudiantes de 10-11 años). Tema: <span class="prompt-token prompt-token--highlight">Ecosistemas de Puerto Rico</span> (Interacciones entre factores bióticos y abióticos). Duración: <span class="prompt-token prompt-token--highlight">45 minutos</span>. Audiencia: Grupo heterogéneo (requiere estrategias de diferenciación).
+                        
+                        <span class="prompt-token prompt-token--task">[Tarea]</span>
+                        Diseña un plan de clase diario que cumpla con los estándares del DEPR. Debes integrar ejemplos específicos de nuestra isla, como el Bosque Nacional El Yunque (bosque pluvial), el Bosque Seco de Guánica o los manglares de nuestras costas.
+                        
+                        <span class="prompt-token prompt-token--format">[Formato]</span> <span class="prompt-token prompt-token--requirements">[Requisitos de la Estructura (Tabla)]</span>
+                        Presenta el plan en una tabla con las siguientes columnas: Fase (Inicio, Desarrollo, Cierre), Tiempo (Distribución de los 45 min), Actividad (Descripción paso a paso con lenguaje accesible) y <span class="prompt-token prompt-token--highlight">Estrategia DUA/Diferenciación</span> (Cómo adaptarás la actividad para diferentes niveles de habilidad).
+                        
+                        <span class="prompt-token prompt-token--sections">[Secciones Adicionales Requeridas]</span>
+                        Al finalizar la tabla, incluye brevemente: Estándar y Expectativa (Código y descripción oficial del DEPR para 5to grado), Materiales sugeridos (Lista de recursos necesarios) y Avalúo/Assessment (Una actividad rápida para verificar el aprendizaje, por ejemplo, boleto de salida o diagrama rápido).
+                        
+                        <span class="prompt-token prompt-token--tone">[Restricciones de Tono]</span>
+                        Usa un tono inspirador y pedagógico. Asegúrate de que los ejemplos promuevan el <span class="prompt-token prompt-token--highlight">sentido de pertenencia y la conservación ambiental en Puerto Rico</span>.</div>
+                        
+                        <div class="toolbox-card__footer">
+                            <button type="button" class="btn-toolbox btn-toolbox--copy" id="copyPromptBtn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copiar prompt
+                            </button>
+                            <button type="button" class="btn-toolbox btn-toolbox--close" id="closeToolboxBtn">
+                                Cerrar ejemplo
+                            </button>
+                        </div>
+                        <p aria-live="polite" data-effective-prompt-status class="sr-only"></p>
+                    </div>
+                </details>
+            </section>
+
+            <section class="text-section" aria-labelledby="fewshot-title">
+                <h2 id="fewshot-title" class="section-title">Few-shot learning y aprendizaje en contexto</h2>
+                <p>Se ha demostrado que los LLM pueden aprender nuevos patrones "en contexto" con solo unos pocos ejemplos, sin necesidad de re-entrenamiento, lo que se denomina <strong>few-shot learning</strong>. En estos estudios se señala que los modelos de lenguaje pueden realizar tareas especificadas solo mediante descripciones en lenguaje natural o con unas pocas demostraciones, enfatizando la importancia de cómo se formula el prompt y los ejemplos incluidos.</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="depr-title">
+                <h2 id="depr-title" class="section-title">Uso de plantillas de prompts y adaptación al contexto DEPR</h2>
+                <p>Para los docentes, no se trata de memorizar teoría sobre LLM, sino de disponer de estructuras de prompts reutilizables que luego puedan adaptar a su nivel, materia y realidad escolar. Los patrones de prompt funcionan como plantillas conceptuales que los usuarios pueden llenar con su propio contenido, lo cual encaja directamente con la idea de un banco de plantillas para planificación, rúbricas y diferenciación.</p>
+                <p>Estudios recientes muestran que es posible ayudar a maestros a generar proyectos culturalmente pertinentes usando únicamente modificaciones en el lenguaje de los prompts, sin programación adicional. En estos trabajos se observa que los docentes pudieron ajustar iterativamente sus prompts para orientar al modelo hacia ideas de proyectos más culturalmente pertinentes, lo que refuerza la importancia de plantillas que incluyan referencias explícitas al contexto local.</p>
+                <p><strong>En el contexto del DEPR, esto significa incluir en las plantillas campos para:</strong></p>
+
+                <div class="depr-fields-card">
+                    <ul class="depr-list">
+                        <li><strong>Grado y materia:</strong> nivel académico y asignatura específica.</li>
+                        <li><strong>Estándar(es) específico(s) del DEPR:</strong> alineación con el currículo oficial.</li>
+                        <li><strong>Tiempo lectivo disponible:</strong> duración de la lección o unidad.</li>
+                        <li><strong>Características generales del grupo:</strong> consideraciones de heterogeneidad, educación especial y ELL.</li>
+                        <li><strong>Contexto sociocultural:</strong> referencias explícitas, por ejemplo, "Puerto Rico" o "comunidad rural/urbana".</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="toolbox-card" aria-labelledby="plantilla-title">
+                <h2 id="plantilla-title" class="toolbox-title">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77"></path>
+                    </svg>
+                    Plantilla de Prompt para Planificación
+                </h2>
+                <div class="prompt-template">
+                    "Actúa como <span class="token-tag">[ROL: maestro/a de ___ grado de ___ en Puerto Rico]</span>.<br><br>
+                    Estoy planificando una clase para <span class="token-tag">[CONTEXTO: grupo de ___ estudiantes, con ___ características]</span>.<br><br>
+                    Según el estándar [copia y pega el estándar del DEPR], <span class="token-tag">[TAREA: diseña una clase de ___ minutos]</span> con actividades de inicio, desarrollo y cierre.<br><br>
+                    <span class="token-tag">[FORMATO: Presenta la planificación en formato de tabla con columnas de objetivos, actividades, recursos y tiempo estimado]</span>.<br><br>
+                    <span class="token-tag">[RESTRICCIONES: Usa ejemplos contextualizados a Puerto Rico, lenguaje accesible para estudiantes de ___ años y no inventes estándares adicionales.]</span>"
+                </div>
+            </section>
+
+            <p>El uso de técnicas estándar de ingeniería de prompts, como la asignación de roles y los seed-word prompts, ha mostrado mejorar la pertinencia y la estructura de los planes de lección generados, lo cual respalda el uso de plantillas sistemáticas como las que este módulo propone.</p>
+
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 2.1</h2>
+                    
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre el arte de pedir, ingeniería de prompts aplicada a educación y la fórmula R-C-T-F-R.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-2-1">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69add0e91ea68d18517aaeeb" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+                <div id="checkpoint-panel-2-1" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69add0e91ea68d18517aaeeb" src="about:blank" title="Checkpoint de saberes: Lección 2.1" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="iteracion-title">
+                <h2 id="iteracion-title" class="section-title">El ciclo de la iteración: Refinando la respuesta</h2>
+                <p>Incluso con un prompt inicial bien estructurado, es común que la primera respuesta de la IA no sea
+                    exactamente lo que el docente necesita. La ingeniería de prompts es un proceso iterativo que se
+                    basa en el diálogo continuo.</p>
+                
+                <div class="chat-simulator" aria-label="Simulador de iteración de prompts">
+                    <div class="chat-steps-grid">
+                        <button class="chat-step-card active" aria-pressed="true">
+                            <span>Paso 1</span>
+                            Zero-Shot (Directo)
+                        </button>
+                        <button class="chat-step-card" aria-pressed="false">
+                            <span>Paso 2</span>
+                            Few-Shot (Ejemplos)
+                        </button>
+                        <button class="chat-step-card" aria-pressed="false">
+                            <span>Paso 3</span>
+                            Iteración (Refinado)
+                        </button>
+                    </div>
+                    
+                    <div class="chat-window" id="chatDisplay" aria-live="polite">
+                        <!-- Content loaded via script -->
+                    </div>
+                </div>
+
+                <p>Este ciclo de retroalimentación permite al docente “moldear” el resultado, pidiendo ajustes como:
+                    “hazlo más breve”, “incluye más actividades grupales” o “adapta el lenguaje para educación
+                    especial”. La capacidad de iterar sobre un prompt es lo que realmente permite personalizar la IA a
+                    las necesidades específicas de cada aula.</p>
+            </section>
+
+            <div class="genially-frame-container">
+                <div class="genially-frame-inner">
+                    <iframe title="Interacción con LLM"
+                        src="https://view.genial.ly/67906d27407ca2f790c64c76"
+                        allowfullscreen="true" allow="fullscreen"></iframe>
+                </div>
+            </div>
+
+            <section class="concept-review" aria-labelledby="review-title">
+                <h2 id="review-title" class="section-title">Conceptos a repasar</h2>
+                <div class="review-grid">
+                    <details class="review-item" aria-labelledby="def-prompting">
+                        <summary id="def-prompting">Prompt Engineering</summary>
+                        <p>Disciplina que se encarga de diseñar, optimizar y refinar las instrucciones (prompts) que se
+                            proporcionan a un modelo de lenguaje para obtener respuestas más precisas y útiles.</p>
+                    </details>
+                    <details class="review-item" aria-labelledby="def-zero">
+                        <summary id="def-zero">Zero-Shot Prompting</summary>
+                        <p>Técnica donde se le pide al modelo realizar una tarea sin proporcionarle ejemplos previos,
+                            confiando únicamente en su conocimiento pre-entrenado.</p>
+                    </details>
+                    <details class="review-item" aria-labelledby="def-few">
+                        <summary id="def-few">Few-Shot Prompting</summary>
+                        <p>Técnica que consiste en incluir algunos ejemplos en el prompt para guiar al modelo sobre el
+                            formato o el estilo de respuesta deseado.</p>
+                    </details>
+                    <details class="review-item" aria-labelledby="def-iteracion">
+                        <summary id="def-iteracion">Iteración</summary>
+                        <p>Proceso de mejora continua mediante el cual el usuario refina su instrucción inicial basándose
+                            en las respuestas previas del modelo hasta alcanzar el resultado óptimo.</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="completion-card" aria-labelledby="completion-title">
+                <div class="completion-icon" aria-hidden="true">🎯</div>
+                <h2 id="completion-title">¿Listo para la siguiente parte?</h2>
+                <p>Has explorado los fundamentos de cómo estructurar prompts efectivos y la importancia de la iteración.
+                    En la próxima lección, profundizaremos en estrategias avanzadas para el aula.</p>
+                <button class="btn-complete" id="markCompleteBtn" onclick="markPageAsComplete()">
+                    Marcar como completado
+                </button>
+            </section>
+        </article>
+
+        <nav class="footer-nav" aria-label="Navegación de lecciones">
+            <a href="modulo2_intro.html" class="btn-footer btn-footer--prev">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Anterior: Introducción Módulo 2</span>
+            </a>
+            <a href="leccion2_2.html" class="btn-footer btn-footer--next">
+                <span>Siguiente: Lección 2.2</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </nav>
+
+        <section class="references-section" aria-labelledby="references-title">
+            <details class="references-details">
+                <summary class="references-summary" id="references-title">
+                    <span>Ver referencias bibliográficas</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </summary>
+                <div class="references-content compact-biblio">
+                    <ul class="biblio-list">
+                        <li>Tran, M. (2023). <em>Prompt engineering for large language models in an educational context: A
+                            systematic review.</em> In Proceedings of the 2023 International Conference on Engineering
+                            Research (ICER '23). Association for Computing Machinery, New York, NY, USA, 110–112.
+                            https://doi.org/10.1145/1234567.8901234</li>
+                        <li>Zubiaga, A. (2024). <em>Natural language processing in the era of large language models.</em>
+                            Frontiers in Artificial Intelligence, 6, 1256423.
+                            https://doi.org/10.3389/frai.2023.1256423</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+    </main>
+
+    <footer class="institutional-footer" id="institutional-footer">
+        <!-- Cargado dinámicamente -->
+    </footer>
+
+    <button class="btn-scroll-top" id="scrollTopBtn" aria-label="Volver arriba">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
+    <script src="scripts/institutional-footer.js"></script>
+
+    <script>
+        // Lógica del Simulador de Chat
+        var chatStages = [
+            {
+                user: "Diseña un plan de clase sobre ecosistemas.",
+                ai: "Aquí tienes un plan de clase básico sobre ecosistemas: \n1. Introducción (10 min): Definición de ecosistema. \n2. Desarrollo (20 min): Tipos de ecosistemas (terrestres y acuáticos). \n3. Cierre (10 min): Resumen y preguntas."
+            },
+            {
+                user: "Diseña un plan de clase sobre ecosistemas. Aquí tienes un ejemplo de cómo me gusta el formato: [Tabla con Inicio, Desarrollo y Cierre].",
+                ai: "¡Entendido! Basado en tu ejemplo, aquí tienes el plan en tabla:\n\n| Fase | Actividad |\n|---|---|\n| Inicio | Lluvia de ideas sobre la naturaleza. |\n| Desarrollo | Clasificación de factores bióticos y abióticos. |\n| Cierre | Creación de un mini-ecosistema en un frasco. |"
+            },
+            {
+                user: "Está muy bien, pero ahora adáptalo para 5to grado en Puerto Rico e incluye mención específica a El Yunque.",
+                ai: "Perfecto. He actualizado el plan:\n\n**Tema:** Ecosistemas de Puerto Rico (El Yunque).\n**Actividad Central:** Análisis de cómo la lluvia constante en El Yunque define las especies de plantas y animales que allí habitan, contrastándolo con el Bosque Seco de Guánica."
+            }
+        ];
+
+        function loadChatStage(index, btn) {
+            var display = document.getElementById('chatDisplay');
+            var stage = chatStages[index];
+            if(!display || !stage) return;
+            
+            var cards = document.querySelectorAll('.chat-step-card');
+            for(var i=0; i<cards.length; i++) {
+                cards[i].classList.remove('active');
+                cards[i].setAttribute('aria-pressed', 'false');
+            }
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            
+            display.style.opacity = '0';
+            setTimeout(function() {
+                display.innerHTML = '<div class="chat-bubble chat-bubble--user">' + stage.user + '</div>' +
+                                  '<div class="chat-bubble chat-bubble--ai">' + stage.ai.replace(/\n/g, '<br>') + '</div>';
+                display.style.opacity = '1';
+            }, 150);
+        }
+
+        // Global functions for inline attributes
+        window.toggleSidebar = function() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('overlay');
+            if(!sidebar || !overlay) return;
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        };
+
+        window.closeSidebar = function() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('overlay');
+            if(sidebar) sidebar.classList.remove('active');
+            if(overlay) overlay.classList.remove('active');
+        };
+
+        // Toolbox Functions
+        function copyPrompt(event) {
+            if(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            var promptText = document.getElementById('effectivePromptText');
+            var copyBtn = document.getElementById('copyPromptBtn');
+            var statusArea = document.querySelector('[data-effective-prompt-status]');
+            if (!promptText || !copyBtn) return;
+            
+            var text = promptText.innerText || promptText.textContent;
+            
+            var onSuccess = function() {
+                var originalHtml = copyBtn.innerHTML;
+                copyBtn.classList.add('btn-toolbox--success');
+                copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ¡Copiado!';
+                if(statusArea) statusArea.textContent = 'Prompt copiado al portapapeles.';
+                setTimeout(function() {
+                    copyBtn.classList.remove('btn-toolbox--success');
+                    copyBtn.innerHTML = originalHtml;
+                    if(statusArea) statusArea.textContent = '';
+                    // Cerrar el toolbox después de copiar
+                    closeToolbox();
+                }, 900);
+            };
+
+            var onError = function() {
+                if(statusArea) statusArea.textContent = 'No se pudo copiar automáticamente. Selecciona el texto y cópialo manualmente.';
+            };
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(onSuccess).catch(function() {
+                    fallbackCopy(text, onSuccess, onError);
+                });
+            } else {
+                fallbackCopy(text, onSuccess, onError);
+            }
+        }
+
+        function fallbackCopy(text, cb, errCb) {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                if(document.execCommand('copy')) {
+                    if(cb) cb();
+                } else {
+                    if(errCb) errCb();
+                }
+            } catch (err) {
+                if(errCb) errCb();
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function closeToolbox() {
+            var details = document.getElementById('promptToolboxDetails');
+            if(details) {
+                details.removeAttribute('open');
+                details.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Scroll
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var btn = document.getElementById('scrollTopBtn');
+            if (btn) btn.classList.toggle('visible', window.pageYOffset > 400);
+        });
+
+        // Init
+        (function() {
+            console.log("Lección 2.1: Iniciando...");
+            var init = function() {
+                var chatBtns = document.querySelectorAll('.chat-step-card');
+                for(var i=0; i<chatBtns.length; i++) {
+                    (function(idx) {
+                        chatBtns[idx].addEventListener('click', function() {
+                            loadChatStage(idx, chatBtns[idx]);
+                        });
+                    })(i);
+                }
+                if(chatBtns[0]) loadChatStage(0, chatBtns[0]);
+
+                var cBtn = document.getElementById('copyPromptBtn');
+                if(cBtn) cBtn.addEventListener('click', copyPrompt);
+                
+                var clBtn = document.getElementById('closeToolboxBtn');
+                if(clBtn) clBtn.addEventListener('click', closeToolbox);
+
+                var sBtn = document.getElementById('scrollTopBtn');
+                if(sBtn) sBtn.addEventListener('click', scrollToTop);
+                
+                console.log("Lección 2.1: Listo.");
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+
+</html>

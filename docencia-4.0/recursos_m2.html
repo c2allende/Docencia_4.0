@@ -880,7 +880,7 @@
             background: var(--color-background-surface-low);
             color: var(--color-brand-secondary);
             font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-extrabold);
+            font-weight: var(--font-weight-extrabold) !important;
             text-transform: uppercase;
         }
 
@@ -1126,6 +1126,33 @@
                 border-radius: var(--radius-lg);
             }
         }
+
+        .resources-page-title {
+            color: var(--color-text-display);
+        }
+
+        .resources-page-title .module-title-highlight,
+        .module-title-highlight {
+            color: var(--color-brand-primary);
+        }
+
+        /* QA FIX: Normalizacion de etiquetas superiores (Maletin) */
+        .maletin-card__tag {
+            display: inline-block;
+            margin-bottom: var(--spacing-3);
+            padding: 0 !important;
+            background: transparent !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            color: var(--color-text-display) !important;
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold) !important;
+            letter-spacing: var(--letter-spacing-wide);
+            line-height: var(--line-height-tight);
+            text-transform: uppercase;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 
@@ -1167,19 +1194,18 @@
 
     <main class="content-wrapper">
         <article class="lesson-card" aria-labelledby="page-title">
-            <span class="page-kicker">Módulo 2 · Biblioteca de apoyo</span>
-            <h1 id="page-title" class="page-title">Recursos Didácticos Complementarios — Módulo 2</h1>
+            <h1 id="page-title" class="page-title resources-page-title">Recursos Didácticos Complementarios — <span class="module-title-highlight">Módulo 2</span></h1>
 
             <section class="resource-summary-card" aria-labelledby="intro-title">
                 <h2 id="intro-title" class="section-title">🧭 Introducción a la sección</h2>
-                <p>En esta sección encontrarás una <strong>biblioteca curada de recursos complementarios</strong> diseñados para fortalecer tus competencias en <strong>ingeniería de prompts</strong> —<strong>prompt engineering</strong>— y consolidar todo lo aprendido en el Módulo 2: desde la fórmula <strong>R-C-T-F-R</strong>, la <strong>planificación didáctica con apoyo de IA</strong>, hasta la <strong>inclusión</strong>, <strong>evaluación</strong> y <strong>validación curricular</strong>.</p>
-                <p>Los materiales están organizados por tipo de recurso —<strong>banco de prompts interactivos</strong>, <strong>infografías y guías de implementación</strong>, <strong>herramienta digital de validación</strong> y <strong>video tutorial</strong>— para que puedas elegir el formato que mejor se ajuste a tu necesidad inmediata como <strong>facilitador docente</strong>.</p>
+                <p>En esta sección encontrarás una biblioteca curada de recursos complementarios diseñados para fortalecer tus competencias en ingeniería de prompts —prompt engineering— y consolidar todo lo aprendido en el Módulo 2: desde la fórmula R-C-T-F-R, la planificación didáctica con apoyo de IA, hasta la inclusión, evaluación y validación curricular.</p>
+                <p>Los materiales están organizados por tipo de recurso —banco de prompts interactivos, infografías y guías de implementación, herramienta digital de validación y video tutorial— para que puedas elegir el formato que mejor se ajuste a tu necesidad inmediata como facilitador docente.</p>
                 <p>Cada recurso incluye una breve descripción de cómo te ayuda a profundizar el tema.</p>
             </section>
 
             <aside class="resource-guidance-card" aria-label="Recomendación de uso de recursos">
                 <h2>💡 Recomendación</h2>
-                <p>Antes de usar cualquier prompt o herramienta, <strong>adapta el contexto</strong>, <strong>revisa la pertinencia pedagógica</strong> y <strong>valida el resultado generado por IA</strong> aplicando la <strong>Lista de Cotejo de Validación</strong> trabajada en la Lección 2.3.</p>
+                <p>Antes de usar cualquier prompt o herramienta, adapta el contexto, revisa la pertinencia pedagógica y valida el resultado generado por IA aplicando la Lista de Cotejo de Validación trabajada en la Lección 2.3.</p>
             </aside>
 
             <nav class="resource-index" aria-label="Clasificación de recursos del Módulo 2">
@@ -1308,7 +1334,7 @@
                     <summary class="bibliographic-resources__summary">
                         <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
                         <span class="bibliographic-resources__summary-text">
-                            <span class="bibliographic-resources__title" id="bibliographic-resources-title-m2">Bibliografía Recomendada Módulo 2</span>
+                            <span class="bibliographic-resources__title" id="bibliographic-resources-title-m2">Bibliografia de Referencia</span>
                             <span class="bibliographic-resources__subtitle">Base académica para sustentar la integración de prompt engineering en educación.</span>
                         </span>
                         <span class="bibliographic-resources__action">Ver recursos</span>
@@ -1407,20 +1433,20 @@
                         <span class="maletin-card__tag">Planificación dominical</span>
                         <h3>Preparo mi semana de acompañamiento</h3>
                         <ol>
-                            <li>Banco — <strong>Creación de Plan de Lección</strong> + <strong>Diseño de Tareas</strong>.</li>
-                            <li>Guía <strong>200+1 Prompts para Educación</strong>.</li>
-                            <li><strong>Lupa del Maestro</strong> — Validador.</li>
+                            <li>Banco — Creación de Plan de Lección + Diseño de Tareas.</li>
+                            <li>Guía 200+1 Prompts para Educación.</li>
+                            <li>Lupa del Maestro — Validador.</li>
                         </ol>
-                        <p>Genera, alinea al <strong>DEPR</strong> y valida tu trabajo semanal en un flujo continuo.</p>
+                        <p>Genera, alinea al DEPR y valida tu trabajo semanal en un flujo continuo.</p>
                     </article>
 
                     <article class="maletin-card">
                         <span class="maletin-card__tag">Capacitación MECPA</span>
                         <h3>Voy a modelar uso de IA con maestros</h3>
                         <ol>
-                            <li>Video <strong>¿Qué es… PROMPT?</strong> — apertura.</li>
-                            <li>Guía <strong>Easy Guide to Prompt Engineering</strong>.</li>
-                            <li>Banco — <strong>Explicación de Conceptos</strong> + <strong>Múltiples Modalidades</strong>.</li>
+                            <li>Video ¿Qué es… PROMPT? — apertura.</li>
+                            <li>Guía Easy Guide to Prompt Engineering.</li>
+                            <li>Banco — Explicación de Conceptos + Múltiples Modalidades.</li>
                         </ol>
                         <p>Tendrás un guion visual, conceptual y práctico para una sesión potente de desarrollo profesional.</p>
                     </article>
@@ -1429,9 +1455,9 @@
                         <span class="maletin-card__tag">Educación Especial / ELL</span>
                         <h3>Acompaño a un docente con grupo heterogéneo</h3>
                         <ol>
-                            <li>Banco — <strong>Accesibilidad en Educación</strong> + <strong>Problemas de Práctica</strong>.</li>
-                            <li><strong>Lupa del Maestro</strong> — criterio de pertinencia y equidad.</li>
-                            <li>Guía <strong>30 Comandos para ChatGPT</strong>.</li>
+                            <li>Banco — Accesibilidad en Educación + Problemas de Práctica.</li>
+                            <li>Lupa del Maestro — criterio de pertinencia y equidad.</li>
+                            <li>Guía 30 Comandos para ChatGPT.</li>
                         </ol>
                         <p>Generación rápida de materiales accesibles con un filtro robusto de calidad y equidad.</p>
                     </article>
@@ -1440,9 +1466,9 @@
                         <span class="maletin-card__tag">Diseño de evaluaciones</span>
                         <h3>Apoyo construcción de pruebas y rúbricas</h3>
                         <ol>
-                            <li>Banco — <strong>Generación de Exámenes</strong> + <strong>Proporcionar Retroalimentación</strong>.</li>
-                            <li><strong>Lupa del Maestro</strong>.</li>
-                            <li>Guía <strong>200+1 Prompts para Educación</strong> — sección evaluación.</li>
+                            <li>Banco — Generación de Exámenes + Proporcionar Retroalimentación.</li>
+                            <li>Lupa del Maestro.</li>
+                            <li>Guía 200+1 Prompts para Educación — sección evaluación.</li>
                         </ol>
                         <p>Banco inicial de reactivos y rúbricas, todo validado antes de aplicar.</p>
                     </article>
@@ -1450,6 +1476,7 @@
 
                 <div class="resource-commitment-card">
                     <h2>💎 Tu compromiso profesional</h2>
+                    <p>Antes de cerrar esta sección, te invito a:</p>
                     <div class="commitment-grid">
                         <div class="commitment-item">
                             <p>Selecciona <strong>AL MENOS 3 prompts</strong> del Banco que se ajusten a tus tareas más frecuentes y guárdalos en un documento personal.</p>

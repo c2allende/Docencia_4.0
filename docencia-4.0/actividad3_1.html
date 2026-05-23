@@ -319,10 +319,51 @@
             border-left: var(--border-width-6) solid var(--color-brand-secondary);
         }
 
-        .objective-card {
+        .activity-purpose-card {
             padding: var(--spacing-xl);
-            margin-bottom: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .activity-purpose-card__title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .activity-purpose-card__grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .activity-purpose-card__item {
+            padding: var(--spacing-lg);
             background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .activity-purpose-card__item strong {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .activity-purpose-card__item p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-normal, 400);
+            line-height: var(--line-height-relaxed);
         }
 
         .workshop-card {
@@ -371,28 +412,7 @@
             font-weight: var(--font-weight-extrabold);
         }
 
-        .technical-grid {
-            display: grid;
-            grid-template-columns: 1.35fr 1fr;
-            gap: var(--spacing-lg);
-            margin: var(--spacing-xl) 0;
-        }
 
-        .tech-item {
-            padding: var(--spacing-lg);
-            background: var(--color-background-surface);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-flat);
-        }
-
-        .tech-item h2 {
-            margin: 0 0 var(--spacing-sm);
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-extrabold);
-        }
 
         .instruction-list {
             display: grid;
@@ -662,10 +682,12 @@
         }
 
         .padlet-cta {
+            max-width: 980px;
+            margin: var(--spacing-xl) auto 0;
             padding: var(--spacing-xl);
-            margin: var(--spacing-xl) 0;
-            background: var(--color-background-surface-low);
+            background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
+            border-top: var(--border-width-4) solid var(--color-brand-primary);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-flat);
         }
@@ -691,103 +713,87 @@
             font-family: var(--font-family-heading);
             font-size: var(--font-size-xl);
             font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
         }
 
         .padlet-cta__description {
             margin-bottom: var(--spacing-lg);
+            color: var(--color-text-secondary);
         }
 
         .padlet-cta__steps {
             display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-xl);
+            grid-template-columns: 1fr;
+            gap: var(--spacing-2);
+            width: 100%;
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            overflow: visible;
         }
 
         .padlet-cta__step {
-            padding: var(--spacing-md);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-lg);
-            background: var(--color-background-surface);
-            text-align: center;
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            align-items: center;
+            gap: var(--spacing-md);
+            width: 100%;
+            min-height: auto;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: transparent;
+            border: 0;
+            border-radius: var(--radius-md);
+            text-align: left;
+        }
+
+        .padlet-cta__step + .padlet-cta__step {
+            border-top: var(--border-width-1) solid var(--color-border-default);
         }
 
         .padlet-cta__step-number {
-            width: 34px;
-            height: 34px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: var(--spacing-2);
-            border-radius: var(--radius-pill);
+            width: 34px;
+            height: 34px;
+            margin: 0;
+            flex-shrink: 0;
             background: var(--color-brand-primary);
             color: var(--color-brand-primary-on);
-            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
             font-weight: var(--font-weight-extrabold);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-sm);
         }
 
         .padlet-cta__step-text {
             display: block;
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .padlet-cta__steps--list {
-            grid-template-columns: 1fr;
-            max-width: 880px;
-            margin: var(--spacing-xl) auto var(--spacing-xl);
-            padding: var(--spacing-xl);
-            gap: 0;
-            background: var(--color-background-surface-low);
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-        }
-
-        .padlet-cta__steps--list .padlet-cta__step {
-            display: grid;
-            grid-template-columns: 44px minmax(0, 1fr);
-            align-items: center;
-            gap: var(--spacing-md);
-            padding: var(--spacing-3) var(--spacing-md);
-            border: 0;
-            border-radius: var(--radius-md);
-            background: transparent;
-            text-align: left;
-        }
-
-        .padlet-cta__steps--list .padlet-cta__step+.padlet-cta__step {
-            border-top: var(--border-width-1) solid var(--color-border-default);
-        }
-
-        .padlet-cta__steps--list .padlet-cta__step-number {
-            width: 36px;
-            height: 36px;
-            margin-bottom: 0;
-            font-size: var(--font-size-sm);
-        }
-
-        .padlet-cta__steps--list .padlet-cta__step-text {
             color: var(--color-text-primary);
             font-size: var(--font-size-base);
             line-height: var(--line-height-relaxed);
+            overflow-wrap: anywhere;
         }
 
         .padlet-cta__footer {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding-top: var(--spacing-lg);
+            border-top: var(--border-width-1) dashed var(--color-border-default);
             gap: var(--spacing-md);
         }
 
         .padlet-cta__button-icon {
-            margin-left: var(--spacing-2);
+            flex-shrink: 0;
         }
 
         .padlet-cta__note {
             color: var(--color-text-muted);
             font-size: var(--font-size-sm);
-            font-style: italic;
+            font-weight: var(--font-weight-semibold);
         }
 
         .reflection-card {
@@ -888,8 +894,8 @@
                 padding: var(--spacing-xl);
             }
 
-            .technical-grid,
-            .workshop-grid {
+            .workshop-grid,
+            .activity-purpose-card__grid {
                 grid-template-columns: 1fr;
             }
 
@@ -941,7 +947,7 @@
             .lesson-card,
             .activity-summary-card,
             .activity-core-card,
-            .objective-card,
+            .activity-purpose-card,
             .workshop-card,
             .safety-card,
             .reflection-card,
@@ -957,6 +963,95 @@
 
             .padlet-cta__steps {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        .objective-neutral-list strong {
+            color: var(--color-text-primary) !important;
+        }
+
+        /* QA FIX — eliminar sombras de cajas en actividades */
+        .activity-summary-card,
+        .activity-core-card,
+        .activity-purpose-card,
+        .activity-purpose-card__item,
+        .objective-card,
+        .workshop-card,
+        .workshop-meta-card,
+        .safety-card,
+        .reflection-card,
+        .padlet-cta,
+        .padlet-cta__steps,
+        .padlet-cta__step,
+        .activity-phase-card,
+        .activity-tab-card,
+        .tab-step-card,
+        .tab-content-block,
+        .tech-item,
+        .instruction-step,
+        .completion-card {
+            box-shadow: none !important;
+        }
+        /* Template access card */
+        .template-access-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+        }
+
+        .template-access-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .template-access-label {
+            display: inline-block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .template-access-content strong {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .template-access-content p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .template-access-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .template-access-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .template-access-btn {
+                width: 100%;
             }
         }
     </style>
@@ -1010,62 +1105,66 @@
 
             <section class="activity-summary-card" aria-labelledby="resumen-title">
                 <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
-                <p>En esta actividad vivirás un <strong>taller práctico integrado</strong> donde aplicarás todo lo
-                    aprendido en el <strong>Módulo 3</strong>: diseñarás <strong>instrumentos de evaluación validados
-                        con
-                        apoyo de IA</strong>, generarás <strong>retroalimentación formativa empática</strong>,
-                    automatizarás <strong>documentos administrativos clave</strong> y practicarás la
-                    <strong>anonimización de datos</strong> con una lista de verificación ética.
-                </p>
-                <p>El taller combina <strong>trabajo sincrónico</strong>, <strong>práctica asincrónica en
-                        Padlet</strong>
-                    y una ruta de cinco momentos que documentan tu evidencia para alimentar el proceso de investigación.
-                </p>
+                <p>En esta actividad vivirás un taller práctico integrado donde aplicarás todo lo aprendido en el Módulo 3: diseñarás instrumentos de evaluación validados con apoyo de IA, generarás retroalimentación formativa empática, automatizarás documentos administrativos clave y practicarás la anonimización de datos con una lista de verificación ética. El taller combina trabajo sincrónico, práctica asincrónica en Padlet y una ruta de cinco momentos que documentan tu evidencia para alimentar el proceso de investigación.</p>
             </section>
 
-            <section class="technical-grid" aria-label="Ficha técnica de la actividad">
-                <div class="tech-item">
-                    <h2>🎯 Propósito de la actividad</h2>
-                    <p>Consolidar en una experiencia práctica integrada las competencias de las cuatro lecciones del
-                        <strong>Módulo 3</strong>:
-                    </p>
-                    <ul class="content-list">
-                        <li><strong>Diseño automatizado de instrumentos</strong></li>
-                        <li><strong>Retroalimentación formativa y computación afectiva</strong></li>
-                        <li><strong>Automatización de la burocracia educativa</strong></li>
-                        <li><strong>Seguridad de datos</strong></li>
-                    </ul>
-                </div>
 
-                <div class="tech-item">
-                    <h2>🧾 Ficha de la actividad</h2>
-                    <p><strong>Duración estimada:</strong></p>
-                    <ul class="plain-list">
-                        <li>Sincrónico: <strong>2.5–3 horas</strong>.</li>
-                        <li>Asincrónico: <strong>1–2 horas adicionales en Padlet</strong>.</li>
-                    </ul>
-                    <p><strong>Requisitos:</strong><br>Dispositivos con internet —laptops, tabletas o celulares—.</p>
-                    <p><strong>Materiales necesarios:</strong><br>Acceso a un LLM —<strong>ChatGPT</strong> o
-                        <strong>Copilot</strong>— + <strong>Estándares y Expectativas del DEPR</strong> —impresos o
-                        digitales—.
-                    </p>
+
+            <section class="activity-purpose-card" aria-labelledby="purpose-title">
+                <h2 id="purpose-title" class="activity-purpose-card__title">🎯 Propósito y objetivo de la actividad</h2>
+                <div class="activity-purpose-card__grid">
+                    <div class="activity-purpose-card__item">
+                        <h3>Propósito</h3>
+                        <p>Consolidar en una experiencia práctica integrada las competencias de las cuatro lecciones del Módulo 3:</p>
+                        <ul class="content-list purpose-neutral-list">
+                            <li>Diseño automatizado de instrumentos</li>
+                            <li>Retroalimentación formativa y computación afectiva</li>
+                            <li>Automatización de la burocracia educativa</li>
+                            <li>Seguridad de datos</li>
+                        </ul>
+                    </div>
+                    <div class="activity-purpose-card__item">
+                        <strong>Objetivos específicos</strong>
+                        <p>Que los y las docentes aprendan a:</p>
+                        <ul class="content-list objective-neutral-list">
+                            <li>Diseñar <strong>instrumentos de evaluación con IA</strong> e integrarlos a flujos de trabajo digitales.</li>
+                            <li>Generar <strong>retroalimentación formativa empática</strong> a partir de notas numéricas y análisis de errores.</li>
+                            <li>Automatizar <strong>documentos administrativos clave</strong> —cartas, permisos, minutas, narrativas PEI—.</li>
+                            <li>Practicar la <strong>anonimización de datos</strong> con una lista de verificación ética antes de usar IA.</li>
+                        </ul>
+                    </div>
                 </div>
             </section>
 
-            <section class="objective-card" aria-labelledby="objetivo-title">
-                <h2 id="objetivo-title" class="section-title">✅ Objetivo de la actividad</h2>
-                <p>Que los y las docentes aprendan a:</p>
-                <ul class="content-list">
-                    <li>Diseñar <strong>instrumentos de evaluación con IA</strong> e integrarlos a flujos de trabajo
-                        digitales.</li>
-                    <li>Generar <strong>retroalimentación formativa empática</strong> a partir de notas numéricas y
-                        análisis de errores.</li>
-                    <li>Automatizar <strong>documentos administrativos clave</strong> —cartas, permisos, minutas,
-                        narrativas PEI—.</li>
-                    <li>Practicar la <strong>anonimización de datos</strong> con una lista de verificación ética antes
-                        de
-                        usar IA.</li>
-                </ul>
+            <section class="workshop-card" aria-labelledby="ficha-title">
+                <h2 id="ficha-title" class="section-title">🧾 Ficha de la actividad</h2>
+                <div class="workshop-grid">
+                    <div class="workshop-meta-card">
+                        <strong>⏱️ Duración estimada</strong>
+                        <p>Sincrónico: 2.5–3 horas.<br>Asincrónico: 1–2 horas adicionales en Padlet.</p>
+                    </div>
+                    <div class="workshop-meta-card">
+                        <strong>💻 Requisitos</strong>
+                        <p>Dispositivos con internet —laptops, tabletas o celulares—.</p>
+                    </div>
+                    <div class="workshop-meta-card">
+                        <strong>📚 Materiales necesarios</strong>
+                        <p>Acceso a un LLM (ChatGPT o Copilot) y Estándares y Expectativas del DEPR.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="activity-section" aria-labelledby="plantilla-title">
+                <div class="template-access-card">
+                    <div class="template-access-content">
+                        <span class="template-access-label">PLANTILLA DE TRABAJO</span>
+                        <strong id="plantilla-title">Plantilla guía — Actividad 3.1: IA al servicio de la evaluación y la gestión docente</strong>
+                        <p>Utiliza esta plantilla individual para documentar tu proceso durante el taller integrado: diseño de instrumentos, retroalimentación formativa, automatización administrativa, anonimización de datos y cierre profesional reflexivo.</p>
+                    </div>
+                    <a class="btn btn-primary template-access-btn" href="plantilla_actividad3_1_taller_integrado.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir plantilla de trabajo de la Actividad 3.1 en una nueva pestaña">
+                        Abrir plantilla de trabajo
+                    </a>
+                </div>
             </section>
 
             <section class="activity-tabs-container" aria-labelledby="secuencia-title">
@@ -1093,10 +1192,7 @@
                     <div class="activity-tab-card">
                         <div class="activity-tab-header">
                             <h3>Etapa 1 — Diseño de instrumentos de evaluación con IA</h3>
-                            <div class="badge-group">
-                                <span class="badge">Aplicación práctica</span>
-                                <span class="badge badge-evidence">Evidencia</span>
-                            </div>
+
                         </div>
                         <div class="tab-content-block">
                             <h4>Objetivo que atiende</h4>
@@ -1135,10 +1231,7 @@
                     <div class="activity-tab-card">
                         <div class="activity-tab-header">
                             <h3>Etapa 2 — Retroalimentación formativa empática</h3>
-                            <div class="badge-group">
-                                <span class="badge">Aplicación práctica</span>
-                                <span class="badge badge-evidence">Evidencia</span>
-                            </div>
+
                         </div>
                         <div class="tab-content-block">
                             <h4>Objetivo que atiende</h4>
@@ -1180,10 +1273,7 @@
                     <div class="activity-tab-card">
                         <div class="activity-tab-header">
                             <h3>Etapa 3 — Automatización de documentos administrativos</h3>
-                            <div class="badge-group">
-                                <span class="badge">Aplicación práctica</span>
-                                <span class="badge badge-evidence">Evidencia</span>
-                            </div>
+
                         </div>
                         <div class="tab-content-block">
                             <h4>Objetivo que atiende</h4>
@@ -1225,10 +1315,7 @@
                     <div class="activity-tab-card">
                         <div class="activity-tab-header">
                             <h3>Etapa 4 — Anonimización y lista de verificación ética</h3>
-                            <div class="badge-group">
-                                <span class="badge">Aplicación práctica</span>
-                                <span class="badge badge-evidence">Evidencia</span>
-                            </div>
+
                         </div>
                         <div class="tab-content-block">
                             <h4>Objetivo que atiende</h4>
@@ -1269,10 +1356,7 @@
                     <div class="activity-tab-card">
                         <div class="activity-tab-header">
                             <h3>Etapa 5 — Cierre integrador</h3>
-                            <div class="badge-group">
-                                <span class="badge">Síntesis profesional</span>
-                                <span class="badge badge-evidence">Evidencia</span>
-                            </div>
+
                         </div>
                         <div class="tab-content-block">
                             <h4>Objetivo que atiende</h4>
@@ -1321,7 +1405,7 @@
             </section>
 
             <section class="text-section" aria-labelledby="padlet-title">
-                <h2 id="padlet-title" class="section-title">✏️ Muro colaborativo</h2>
+                <h2 id="padlet-title" class="section-title">🧱 Muro colaborativo — Padlet</h2>
                 <p><strong>Actividad:</strong> Registro de evidencias en Padlet.</p>
                 <p>Publica tus avances en cada fase para recibir retroalimentación y construir conocimiento colectivo.
                 </p>
@@ -1335,7 +1419,7 @@
                         Publica tus avances en cada etapa del taller siguiendo este proceso:
                     </p>
 
-                    <div class="padlet-cta__steps padlet-cta__steps--list" aria-label="Proceso para publicar en Padlet">
+                    <div class="padlet-cta__steps" aria-label="Proceso para publicar en Padlet">
                         <div class="padlet-cta__step">
                             <span class="padlet-cta__step-number">1</span>
                             <span class="padlet-cta__step-text">Revisa tu producto.</span>

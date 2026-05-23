@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug: Limpiar Foros | Docencia 4.0</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: 0 auto; background: #f4f7f9; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #d32f2f; }
+        .warning { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin-bottom: 20px; }
+        button { background: #d32f2f; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #log { margin-top: 20px; background: #263238; color: #afffdf; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 13px; height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Herramienta de Limpieza de Foros</h1>
+        <div class="warning">
+            <strong>⚠️ ATENCIÓN:</strong> Esta acción eliminará <strong>TODAS</strong> las publicaciones y respuestas de todos los foros de la base de datos de Firestore. No se puede deshacer.
+        </div>
+        <p>Usa esta herramienta para limpiar el entorno de pruebas y validar las restricciones de participación.</p>
+        
+        <button id="btnClean">🚨 LIMPIAR TODOS LOS FOROS</button>
+        <button id="btnResetProgress" style="background: #1a237e; margin-left: 10px;">🔄 RESETEAR MI PROGRESO (Foro M1)</button>
+        
+        <div id="log">Esperando acción...</div>
+    </div>
+
+    <script type="module">
+        import { db, auth } from './scripts/firebase-config.js';
+        import { collection, getDocs, deleteDoc, doc, query, where } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+        const logEl = document.getElementById('log');
+        const btn = document.getElementById('btnClean');
+        const btnReset = document.getElementById('btnResetProgress');
+
+        function log(msg, isError = false) {
+            const entry = document.createElement('div');
+            entry.style.color = isError ? '#ff8a80' : '#afffdf';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                log(`Usuario autenticado: ${user.email}`);
+                btn.disabled = false;
+                btnReset.disabled = false;
+            } else {
+                log("⚠️ No detecto sesión activa. Por favor, inicia sesión en la plataforma primero.", true);
+                btn.disabled = true;
+                btnReset.disabled = true;
+            }
+        });
+
+        btnReset.onclick = async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            btnReset.disabled = true;
+            log("Buscando progreso de 'foro_modulo1' para el usuario actual...");
+            
+            try {
+                const progRef = collection(db, "usuarios", user.uid, "progreso_paginas");
+                const q = query(progRef, where("pageId", "==", "foro_modulo1"));
+                const snap = await getDocs(q);
+                
+                if (snap.empty) {
+                    log("No se encontró registro de progreso para esta página.");
+                } else {
+                    for (const d of snap.docs) {
+                        await deleteDoc(doc(db, "usuarios", user.uid, "progreso_paginas", d.id));
+                        log(`[OK] Registro de progreso ${d.id} eliminado.`);
+                    }
+                }
+                log("✅ PROGRESO RESETEADO. Ahora el foro debería aparecer como NO COMPLETADO.");
+            } catch (err) {
+                log(`❌ Error al resetear progreso: ${err.message}`, true);
+            } finally {
+                btnReset.disabled = false;
+            }
+        };
+
+        btn.onclick = async () => {
+            if (!confirm("¿Estás seguro de que deseas borrar ABSOLUTAMENTE TODO en los foros?")) return;
+            
+            btn.disabled = true;
+            log("Iniciando limpieza profunda...");
+            
+            const foros = ["general", "modulo1", "modulo2", "modulo3"];
+            
+            try {
+                for (const foroId of foros) {
+                    log(`--- Limpiando foro: ${foroId} ---`);
+                    const postsRef = collection(db, "foros", foroId, "publicaciones");
+                    const postsSnap = await getDocs(postsRef);
+                    
+                    log(`Encontradas ${postsSnap.size} publicaciones.`);
+                    
+                    for (const postDoc of postsSnap.docs) {
+                        // 1. Limpiar respuestas de este post
+                        const repliesRef = collection(db, "foros", foroId, "publicaciones", postDoc.id, "respuestas");
+                        const repliesSnap = await getDocs(repliesRef);
+                        if (repliesSnap.size > 0) {
+                            log(`  -> Borrando ${repliesSnap.size} respuestas del post ${postDoc.id}...`);
+                            for (const replyDoc of repliesSnap.docs) {
+                                await deleteDoc(doc(db, "foros", foroId, "publicaciones", postDoc.id, "respuestas", replyDoc.id));
+                            }
+                        }
+                        
+                        // 2. Borrar el post
+                        await deleteDoc(doc(db, "foros", foroId, "publicaciones", postDoc.id));
+                        log(`  [OK] Borrado post: ${postDoc.id}`);
+                    }
+                }
+                
+                log("==========================================");
+                log("✅ LIMPIEZA COMPLETADA CON ÉXITO.");
+                log("Ya puedes recargar la plataforma para validar las restricciones.");
+            } catch (error) {
+                log(`❌ ERROR CRÍTICO: ${error.message}`, true);
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>

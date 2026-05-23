@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOTIPO: Integración Book Creator | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Enlace a estilos reales -->
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    <style>
+        /* Replicación de estructura de recursos_m1.html para realismo */
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+        }
+
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .prototype-banner {
+            background: var(--color-background-card-hero-gradient);
+            color: white;
+            padding: var(--spacing-4);
+            text-align: center;
+            font-weight: bold;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-xl);
+            border: 2px dashed rgba(255,255,255,0.5);
+        }
+
+        .comparison-label {
+            display: inline-block;
+            padding: var(--spacing-2) var(--spacing-4);
+            background: var(--color-brand-secondary);
+            color: white;
+            border-radius: var(--radius-pill);
+            font-size: var(--font-size-xs);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* --- NUEVAS CLASES PROPUESTAS PARA BOOK CREATOR --- */
+        .bookcreator-resource {
+            margin-bottom: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .bookcreator-resource__header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .bookcreator-resource__title {
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            margin: 0 0 var(--spacing-2);
+        }
+
+        .bookcreator-resource__description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+            max-width: 800px;
+        }
+
+        /* Opción A: Frame */
+        .bookcreator-resource__frame-container {
+            position: relative;
+            width: 100%;
+            height: 650px;
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-flat);
+        }
+
+        .bookcreator-resource__fallback {
+            padding: var(--spacing-4);
+            background: var(--color-background-card-inverse);
+            color: var(--color-text-card-inverse-body);
+            font-size: var(--font-size-xs);
+            text-align: center;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+
+        /* Opción B: Ligera */
+        .bookcreator-resource__light-layout {
+            display: flex;
+            gap: var(--spacing-xl);
+            align-items: center;
+        }
+
+        .bookcreator-resource__cover {
+            flex: 0 0 240px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-elevated);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bookcreator-resource__cover:hover {
+            transform: scale(1.03);
+        }
+
+        .bookcreator-resource__content {
+            flex: 1;
+        }
+
+        /* Tabla Comparativa */
+        .comparison-table-container {
+            margin-top: var(--spacing-20);
+            padding: var(--spacing-xl);
+            background: var(--color-background-card-feature);
+            border-radius: var(--radius-xl);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-lg);
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: var(--spacing-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-default);
+        }
+
+        .comparison-table th {
+            background: var(--color-brand-primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .bookcreator-resource__frame-container {
+                height: 450px;
+            }
+            .bookcreator-resource__light-layout {
+                flex-direction: column;
+                text-align: center;
+            }
+            .bookcreator-resource__cover {
+                flex: 0 0 auto;
+                width: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body class="has-top-nav">
+    <!-- Navbar Replicado -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" aria-label="Abrir menú lateral">
+                <span aria-hidden="true">☰</span>
+            </button>
+            <div class="logo-container">
+                <img src="../../assets/LLM_Docencia_4.0_logo.png" alt="Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Módulo 1: Fundamentos de IA</span>
+        </div>
+    </nav>
+
+    <main class="content-wrapper">
+        <div class="prototype-banner">
+            ⚠️ ENTORNO DE PROTOTIPADO — EVALUACIÓN DE INTEGRACIÓN BOOK CREATOR
+        </div>
+
+        <section class="resource-section">
+            <div class="resource-header">
+                <div class="resource-icon" aria-hidden="true">📖</div>
+                <h2 class="section-title">Prototipos de Guía Digital Interactiva</h2>
+            </div>
+
+            <!-- ==========================================================================
+                 OPCIÓN A: INTEGRACIÓN INMERSIVA (IFRAME)
+                 ========================================================================== -->
+            <div class="comparison-label">Opción A: Inmersiva (Iframe)</div>
+            <article class="bookcreator-resource animate-fade-in">
+                <div class="bookcreator-resource__header">
+                    <h3 class="bookcreator-resource__title">Guía Digital: Grandes Modelos de Lenguaje (LLM)</h3>
+                    <p class="bookcreator-resource__description">
+                        Explore los fundamentos de la inteligencia artificial generativa a través de este recurso interactivo. 
+                        Puede hojear el libro directamente en esta sección.
+                    </p>
+                </div>
+
+                <div class="bookcreator-resource__frame-container">
+                    <iframe 
+                        src="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ?as_embed=1" 
+                        title="Guía Digital: Grandes Modelos de Lenguaje"
+                        width="100%" 
+                        height="100%" 
+                        style="border:none;" 
+                        allowfullscreen 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                
+                <div class="bookcreator-resource__fallback">
+                    ℹ️ Si el recurso no carga correctamente, <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ" target="_blank" style="color: var(--color-cyan-300);">ábralo en una nueva pestaña</a>.
+                </div>
+
+                <div class="bookcreator-resource__actions">
+                    <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ" 
+                       target="_blank" 
+                       class="btn btn-secondary">
+                       <span>↗️ Abrir en pantalla completa</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- ==========================================================================
+                 OPCIÓN B: ACCESO DIRECTO (LIGERA)
+                 ========================================================================== -->
+            <div class="comparison-label">Opción B: Ligera (Acceso Directo)</div>
+            <article class="bookcreator-resource animate-fade-in">
+                <div class="bookcreator-resource__light-layout">
+                    <div class="bookcreator-resource__cover-wrapper">
+                        <img src="https://assets.api.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/books/JhvIDoawQDKJGBbkS4xDzQ/cover/share" 
+                             alt="Portada de la Guía LLM" 
+                             class="bookcreator-resource__cover">
+                    </div>
+                    <div class="bookcreator-resource__content">
+                        <h3 class="bookcreator-resource__title">Guía Digital: Grandes Modelos de Lenguaje (LLM)</h3>
+                        <p class="bookcreator-resource__description">
+                            Un recurso visual y dinámico para comprender cómo funcionan los LLM, sus aplicaciones en el aula y los desafíos éticos que plantean.
+                        </p>
+                        <div class="bookcreator-resource__actions">
+                            <a href="https://read.bookcreator.com/gdwX_mIor2R47s4cNzke4Fzsyy8MhwaefzhQ07m7-rY/JhvIDoawQDKJGBbkS4xDzQ" 
+                               target="_blank" 
+                               class="btn btn-primary">
+                               <span>📖 Leer Guía Interactiva</span>
+                            </a>
+                        </div>
+                        <p style="margin-top: var(--spacing-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">
+                            * Abre en una nueva pestaña para optimizar el rendimiento.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ANÁLISIS COMPARATIVO -->
+        <section class="comparison-table-container">
+            <h2 class="section-title" style="color: var(--color-text-display);">Matriz de Evaluación Técnica y Pedagógica</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>Opción A (Inmersiva)</th>
+                        <th>Opción B (Ligera)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Carga inicial</strong></td>
+                        <td>Mayor (descarga assets del visor)</td>
+                        <td>Mínima (solo imagen de portada)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experiencia de Usuario</strong></td>
+                        <td>Alta: Integración fluida en el flujo</td>
+                        <td>Media: Requiere cambio de pestaña</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Compatibilidad Móvil</strong></td>
+                        <td>Buena (visor responsive)</td>
+                        <td>Excelente (carga optimizada)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Retención</strong></td>
+                        <td>Alta: El usuario no sale del LMS</td>
+                        <td>Media: Riesgo de distracción externa</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mantenimiento</strong></td>
+                        <td>Medio (dependencia de API Book Creator)</td>
+                        <td>Bajo (enlace estándar)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="footer-nav">
+            <button class="btn btn-secondary" onclick="window.close()">Cerrar Prototipo</button>
+        </div>
+    </main>
+</body>
+
+</html>

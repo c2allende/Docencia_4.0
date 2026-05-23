@@ -1,0 +1,41 @@
+[
+  {
+    "id": "FUNC-001",
+    "pagina": "recursos_m1.html",
+    "seccion": "Iframe embed",
+    "tipo": "Funcionalidad",
+    "severidad": "Crítico",
+    "descripcion": "Existe un iframe apuntando a 'copilot_tutorial_prototype.html' en una página oficial.",
+    "evidencia": "<iframe src=\"copilot_tutorial_prototype.html\" title=\"Tutorial Interactivo: Uso de Copilot\" loading=\"lazy\"></iframe>",
+    "impacto": "Los usuarios finales verían un archivo prototipo no oficial, o peor aún, un 404 si el archivo prototype se mueve a la carpeta de archivos no oficiales.",
+    "recomendacion": "Corregir el src del iframe para que apunte al recurso oficial o migrar el prototipo a producción.",
+    "requiere_correccion_commit": true,
+    "requiere_correccion_deploy": true
+  },
+  {
+    "id": "UX-001",
+    "pagina": "Múltiples (leccion3_1.html, leccion1_2.html, etc.)",
+    "seccion": "CSS Inline",
+    "tipo": "UX-UI",
+    "severidad": "Medio",
+    "descripcion": "Se detectaron colores hardcoded (ej. #ef4444, #10b981) en estilos inline y scripts locales.",
+    "evidencia": "Resultados de Select-String mostrando 67 coincidencias en leccion3_1.html y 47 en leccion1_2.html.",
+    "impacto": "Deuda técnica. Puede romper el patrón de dark mode o afectar la accesibilidad si los colores institucionales cambian.",
+    "recomendacion": "Centralizar estos colores en tokens de main.css (ej. var(--color-success), var(--color-danger)).",
+    "requiere_correccion_commit": false,
+    "requiere_correccion_deploy": false
+  },
+  {
+    "id": "DIM-001",
+    "pagina": "plantilla_fase2_prompt.html y otras plantillas",
+    "seccion": "Formularios",
+    "tipo": "Dimensionalidad",
+    "severidad": "Bajo",
+    "descripcion": "Las plantillas en formato documento presentan múltiples hardcoded styles de bordes y colores específicos.",
+    "evidencia": "27 coincidencias de color en plantilla_fase2_prompt.html.",
+    "impacto": "El diseño puede no ser totalmente responsivo en móviles, aunque aceptable por ser plantillas pensadas para PDF o Desktop.",
+    "recomendacion": "Refactorizar gradualmente los CSS locales hacia clases semánticas.",
+    "requiere_correccion_commit": false,
+    "requiere_correccion_deploy": false
+  }
+]

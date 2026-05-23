@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<!-- Test Edit 2 -->
+<!-- Test 3 -->
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 1.1 de Docencia 4.0: Conceptualización y panorama tecnológico de los modelos de lenguaje de gran tamaño.">
+    <title>Lección 1.1 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+            --hierarchy-ia: #1a237e;
+            --hierarchy-ml: #283593;
+            --hierarchy-dl: #3949ab;
+            --hierarchy-gen: #5c6bc0;
+            --hierarchy-llm: #00e676;
+            --hierarchy-llm-text: #1a237e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .control-btn:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible,
+        .box:focus-visible,
+        .token-textarea:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-weight: var(--font-weight-semibold);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-md);
+        }
+
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            display: inline-block;
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .section-title-sm {
+            margin-top: var(--spacing-lg);
+            font-size: var(--font-size-xl);
+        }
+
+        .text-section {
+            clear: both;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .text-section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .section-separator {
+            border: 0;
+            border-top: var(--border-width-1) solid var(--color-border-default);
+            margin: var(--spacing-12) 0;
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .audio-label,
+        .token-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        .content-list,
+        .timeline-list,
+        .rule-list,
+        .reference-list {
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li,
+        .timeline-list li,
+        .rule-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+        }
+
+        .content-list li::marker,
+        .timeline-list li::marker,
+        .rule-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .reference-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .highlight-box {
+            clear: both;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-text-secondary);
+            font-style: italic;
+        }
+
+        .image-zoom-trigger,
+        .img-editorial-right,
+        .img-editorial-left {
+            display: block;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: zoom-in;
+        }
+
+        .img-editorial-right,
+        .img-editorial-left {
+            width: 380px;
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-ambient);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .img-editorial-right {
+            float: right;
+            margin: var(--spacing-2) 0 var(--spacing-lg) var(--spacing-xl);
+        }
+
+        .img-editorial-left {
+            float: left;
+            margin: var(--spacing-2) var(--spacing-xl) var(--spacing-lg) 0;
+        }
+
+        .img-editorial-right:hover,
+        .img-editorial-left:hover,
+        .image-zoom-trigger:hover img {
+            transform: scale(1.02);
+        }
+
+        .img-editorial-right img,
+        .img-editorial-left img,
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
+        }
+
+        .comparison-grid {
+            clear: both;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .comp-card,
+        .slider-item,
+        .token-card,
+        .llm-interactive-card {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .comp-card {
+            padding: var(--spacing-xl);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .comp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .comp-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .comp-card h3,
+        .concept-card-title {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
+        }
+
+        .concept-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-2) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            color: var(--color-white);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .concept-tag.is-chatgpt {
+            background: #10a37f;
+        }
+
+        .concept-tag.is-copilot {
+            background: var(--color-brand-primary);
+        }
+
+        .llm-interactive-card {
+            float: right;
+            width: 440px;
+            margin: var(--spacing-2) 0 var(--spacing-xl) var(--spacing-xl);
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .llm-interactive-card h3 {
+            margin: 0 0 var(--spacing-1);
+            color: var(--hierarchy-ia);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .llm-interactive-card .subtitle {
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .hierarchy-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: var(--spacing-4);
+            border: var(--border-width-2) solid var(--color-alpha-white-15);
+            border-radius: var(--radius-md);
+            color: var(--color-white);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                filter var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .box:hover,
+        .box--active {
+            transform: translateX(-50%) scale(1.03) translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .box--dimmed {
+            opacity: 0.55;
+        }
+
+        #ia {
+            width: 100%;
+            height: 100%;
+            background: var(--hierarchy-ia);
+            z-index: 1;
+        }
+
+        #ml {
+            width: 85%;
+            height: 80%;
+            background: var(--hierarchy-ml);
+            z-index: 2;
+            top: 15%;
+        }
+
+        #dl {
+            width: 70%;
+            height: 60%;
+            background: var(--hierarchy-dl);
+            z-index: 3;
+            top: 30%;
+        }
+
+        #gen {
+            width: 55%;
+            height: 40%;
+            background: var(--hierarchy-gen);
+            z-index: 4;
+            top: 45%;
+        }
+
+        #llm {
+            width: 40%;
+            height: 20%;
+            background: var(--hierarchy-llm);
+            color: var(--hierarchy-llm-text);
+            z-index: 5;
+            top: 60%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 230, 118, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
+            }
+        }
+
+        .info-panel {
+            min-height: 120px;
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            border-left: var(--border-width-6) solid var(--hierarchy-ia);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-low);
+            text-align: left;
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .info-title {
+            margin-bottom: var(--spacing-2);
+            color: var(--hierarchy-ia);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .info-desc {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .tokenization-simulator {
+            clear: both;
+            width: 100%;
+            margin: var(--spacing-12) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .token-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .token-header h3 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .token-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .token-card {
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .token-textarea {
+            width: 100%;
+            height: 220px;
+            resize: vertical;
+            padding: var(--spacing-md);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .token-textarea:focus-visible {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .token-tip {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            background: var(--color-background-surface);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .token-count-pill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+        }
+
+        #tokenCount {
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .token-visualizer {
+            min-height: 120px;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            line-height: 2.2;
+            word-wrap: break-word;
+        }
+
+        .token-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            margin: 0 2px;
+            border: var(--border-width-1) solid var(--color-border-subtle);
+            border-radius: var(--radius-sm);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .token-ids-box {
+            max-height: 150px;
+            overflow-y: auto;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-card-inverse);
+            color: var(--color-brand-primary);
+            font-family: 'Courier New', monospace;
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+            word-break: break-all;
+        }
+
+        .slider-section {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .slider-header h2 {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .control-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: var(--spacing-2);
+        }
+
+        .slider-track {
+            display: flex;
+            gap: var(--spacing-lg);
+            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
+        }
+
+        .slider-item {
+            min-width: calc(100% - var(--spacing-md));
+            padding: var(--spacing-xl);
+        }
+
+        .slider-item small {
+            display: block;
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .checkpoint-container {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--gradient-orange);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .checkpoint-container h2,
+        .checkpoint-container h3,
+        .checkpoint-container p {
+            color: var(--color-white);
+        }
+
+        .genially-frame-wrap {
+            width: 100%;
+            margin-top: var(--spacing-lg);
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .genially-frame-inner {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+        }
+
+        .genially-frame-inner iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .modal-zoom {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-6);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-overlay);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-3);
+            right: var(--spacing-3);
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-90);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card {
+                padding: var(--spacing-xl);
+            }
+
+            .img-editorial-right,
+            .img-editorial-left,
+            .llm-interactive-card {
+                float: none;
+                width: 100%;
+                margin: var(--spacing-xl) 0;
+            }
+
+            .token-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hierarchy-container {
+                height: 300px;
+            }
+
+            .box {
+                font-size: var(--font-size-2xs);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .slider-header,
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .slider-controls {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .slider-section,
+            .tokenization-simulator,
+            .checkpoint-container {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+        }
+/* =========================================================
+   DOCENCIA 4.0 — LECCIÓN 1.1 AJUSTES UX/UI + DI
+   Ajustes de lectura progresiva, compactación y carga cognitiva
+   ========================================================= */
+
+.lesson-inline-details,
+.lesson-decision-card--details,
+.lesson-tool-card--progressive {
+    border: var(--border-width-1) solid var(--color-border-default);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+.lesson-inline-details {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+}
+
+.lesson-inline-details summary,
+.lesson-decision-card--details summary,
+.lesson-tool-card--progressive summary {
+    display: grid;
+    gap: var(--spacing-xs);
+    cursor: pointer;
+    list-style: none;
+}
+
+.lesson-inline-details summary {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    color: var(--color-text-display);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+}
+
+.lesson-inline-details summary::-webkit-details-marker,
+.lesson-decision-card--details summary::-webkit-details-marker,
+.lesson-tool-card--progressive summary::-webkit-details-marker {
+    display: none;
+}
+
+.summary-more,
+.summary-less {
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    white-space: nowrap;
+}
+
+.summary-less {
+    display: none;
+}
+
+details[open] > summary .summary-more {
+    display: none;
+}
+
+details[open] > summary .summary-less {
+    display: inline;
+}
+
+.lesson-inline-details__body,
+.lesson-decision-card__body,
+.lesson-tool-card__body {
+    margin-top: var(--spacing-md);
+    color: var(--color-text-secondary);
+}
+
+.lesson-inline-details__body h3,
+.lesson-inline-details__body h4,
+.lesson-decision-card__body h4 {
+    margin: var(--spacing-md) 0 var(--spacing-xs);
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+}
+
+.lesson-tokenization-compact .token-textarea:placeholder-shown {
+    color: var(--color-text-muted);
+}
+
+.lesson-tokenization-compact .token-textarea::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.75;
+}
+
+.lesson-concept-grid--horizontal {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+}
+
+.lesson-concept-card--compact {
+    min-height: 0;
+    padding: var(--spacing-lg);
+}
+
+.lesson-concept-card--compact .comp-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+}
+
+.lesson-concept-card--compact p {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.lesson-media-card--compact {
+    max-width: 430px;
+    margin-inline: auto;
+}
+
+.lesson-decision-grid--details {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+}
+
+.lesson-decision-card--details {
+    padding: var(--spacing-lg);
+    min-height: 0;
+}
+
+.lesson-decision-card--details summary {
+    min-height: 9rem;
+}
+
+.lesson-decision-card__title,
+.lesson-tool-card__title {
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--line-height-snug);
+}
+
+.lesson-decision-card__brief,
+.lesson-tool-card__lead {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.lesson-tools-grid--progressive {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+}
+
+.lesson-tool-card--progressive {
+    padding: var(--spacing-lg);
+}
+
+.lesson-tool-card--progressive summary {
+    min-height: 8rem;
+}
+
+.lesson-compact-callout {
+    margin-block: var(--spacing-lg);
+}
+
+.lesson-role-column-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+    align-items: start;
+    margin-top: var(--spacing-xl);
+}
+
+.lesson-role-column {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.lesson-role-column > h3 {
+    margin: 0;
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--line-height-snug);
+}
+
+.lesson-role-topic-card {
+    min-height: 0;
+    padding: var(--spacing-lg);
+    border: var(--border-width-1) solid var(--color-border-default);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+.lesson-role-topic-card h4 {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-text-display);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--line-height-snug);
+}
+
+.lesson-role-topic-card p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.concept-review__meta {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.concept-review__title {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-snug);
+}
+
+.references-compact__summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+@media (max-width: 980px) {
+    .lesson-concept-grid--horizontal,
+    .lesson-decision-grid--details,
+    .lesson-role-column-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-decision-card--details summary,
+    .lesson-tool-card--progressive summary {
+        min-height: 0;
+    }
+
+    .lesson-tools-grid--progressive {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .lesson-inline-details summary {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-more,
+    .summary-less {
+        margin-top: var(--spacing-xs);
+    }
+}
+
+    
+/* --- NORMALIZACIÓN DIMENSIONAL DE LECCIONES — PROTOTIPO QA --- */
+
+.content-wrapper.lesson-page-wrapper {
+  max-width: 1040px;
+  margin: var(--spacing-xl) auto var(--spacing-16);
+  padding: 0 var(--spacing-md);
+}
+
+.content-wrapper.lesson-page-wrapper .lesson-card {
+  padding: var(--spacing-16);
+}
+
+.content-wrapper.lesson-page-wrapper .lesson-title {
+  margin-bottom: var(--spacing-xl);
+}
+
+.content-wrapper.lesson-page-wrapper .audio-player-container,
+.content-wrapper.lesson-page-wrapper .lesson-summary-card,
+.content-wrapper.lesson-page-wrapper .lesson-core-callout {
+  margin-bottom: var(--spacing-xl);
+}
+
+@media (max-width: 900px) {
+  .content-wrapper.lesson-page-wrapper {
+    margin-top: var(--spacing-xl);
+    padding: 0 var(--spacing-4);
+  }
+
+  .content-wrapper.lesson-page-wrapper .lesson-card {
+    padding: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 520px) {
+  .content-wrapper.lesson-page-wrapper .lesson-card {
+    padding: var(--spacing-md);
+  }
+}
+    </style>
+</head>
+
+<body data-page-id="leccion1_1" data-module-id="modulo1" data-page-type="leccion" data-title="Lección 1.1">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Lección 1.1: Conceptualización y panorama tecnológico</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 1" aria-hidden="true">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 1</span></li>
+            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
+            <li><a href="leccion1_1.html" class="active" aria-current="page">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
+            <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
+            <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos Módulo 1</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper lesson-page-wrapper">
+        <article class="lesson-card" aria-labelledby="lesson-title">
+            <h1 id="lesson-title" class="lesson-title">Lección 1.1: Conceptualización y panorama tecnológico</h1>
+
+<section class="audio-player-container lesson-audio-intro" aria-label="Audio inicial de la Lección 1.1">
+    <label class="lesson-section-kicker audio-label" for="lessonAudio">🎧 ESCUCHAR LECCIÓN 1.1</label>
+    <audio id="lessonAudio" controls class="audio-player">
+        <source src="LLM-DEPR/LLM_M1_Leccion1_1_audioedit.mp3" type="audio/mpeg">
+Su navegador no soporta la reproducción de audio.
+    </audio>
+    <p>Acompaña la lectura con la narración guiada. Te ayudará a fijar los conceptos clave mientras avanzas por las secciones interactivas.</p>
+</section>
+
+<section class="lesson-summary-card" aria-labelledby="resumen-title">
+    <h2 id="resumen-title" class="lesson-section-kicker">📌 RESUMEN INICIAL</h2>
+    <p>En esta lección… comprenderás qué es un Modelo de Lenguaje de Gran Tamaño (LLM), cómo se sitúa dentro del universo de la inteligencia artificial, cómo funciona internamente mediante tokenización, y qué lo diferencia de un bot, una aplicación o un buscador tradicional. Al finalizar, sabrás cuándo conviene usar cada recurso en tu práctica docente y reconocerás el panorama actual del ecosistema (ChatGPT y Microsoft Copilot).</p>
+</section>
+
+<section class="lesson-core-callout" aria-label="Concepto central">
+    <p class="lesson-core-callout__label">🎯 CONCEPTO CENTRAL</p>
+    <p>Un LLM es el "motor de lenguaje". El bot es el "vehículo" que usas. El buscador es el "localizador de fuentes". Distinguir entre estos tres roles es la primera competencia que necesitas como docente para tomar decisiones tecnológicas informadas.</p>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="que-es-llm">
+    <div class="lesson-split lesson-split--interactive">
+        <div class="lesson-split__content">
+            <h2 id="que-es-llm" class="section-title">1️⃣ ¿Qué es un Modelo de Lenguaje de Gran Tamaño (LLM)?</h2>
+
+            <div class="lesson-content-block">
+                <h3>Definición básica y propósito</h3>
+                <p>Un Modelo de Lenguaje de Gran Tamaño es un sistema de inteligencia artificial entrenado con enormes cantidades de texto para predecir la siguiente palabra más probable en una secuencia (Zhao et al., 2023). Para lograrlo, estos modelos utilizan la arquitectura <strong>Transformer</strong>, que permite analizar relaciones entre palabras en distintos puntos de una oración o un texto extenso, capturando tanto significado como contexto.</p>
+            </div>
+
+            <details class="lesson-inline-details">
+                <summary>
+                    <span>Arquitectura, lugar en la IA y cómo aprende</span>
+                    <span class="summary-more">Leer más</span>
+                    <span class="summary-less">Ocultar</span>
+                </summary>
+                <div class="lesson-inline-details__body">
+                    <h3>Arquitectura y lugar en la IA</h3>
+                    <p>Desde la perspectiva de la inteligencia artificial, los LLM se sitúan dentro de la <strong>IA generativa</strong> y del <strong>aprendizaje profundo</strong>: utilizan técnicas de Deep Learning para realizar tareas de procesamiento del lenguaje natural, como clasificación, resumen y generación de textos, ampliando de forma notable la capacidad de los sistemas para trabajar con lenguaje humano en múltiples idiomas y temas (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+
+                    <h3>¿Cómo aprende un LLM?</h3>
+                    <p>Durante el entrenamiento, el modelo ve millones de ejemplos de lenguaje y ajusta sus parámetros internos para minimizar el error en la predicción de las próximas palabras; al finalizar, puede generar respuestas coherentes, redactar textos, resumir, traducir y responder preguntas a partir de instrucciones en lenguaje natural (Zhao et al., 2023).</p>
+                </div>
+            </details>
+
+            <div class="lesson-alert-callout">
+                <h3>⚠️ Importante: predicción probabilística y alucinaciones</h3>
+                <p>Esta lógica de "predicción probabilística" explica por qué los LLM a veces <strong>"alucinan"</strong>: cuando no tienen suficiente base factual o el prompt es ambiguo, el modelo sigue produciendo la palabra "más probable" según sus estadísticas, aunque el contenido no sea verdadero (Russell &amp; Norvig, 2020).</p>
+            </div>
+        </div>
+
+        <aside class="llm-interactive-card lesson-split__media" aria-label="Diagrama interactivo sobre la jerarquía de IA y LLM">
+            <h3>¿Dónde se sitúan los LLM?</h3>
+            <p class="subtitle">Haz clic en las capas para ver la jerarquía de la IA.</p>
+
+            <div class="hierarchy-container">
+                <button id="ia" class="box" type="button" aria-label="Ver información sobre Inteligencia Artificial">Inteligencia Artificial</button>
+                <button id="ml" class="box" type="button" aria-label="Ver información sobre Machine Learning">Machine Learning</button>
+                <button id="dl" class="box" type="button" aria-label="Ver información sobre Deep Learning">Deep Learning</button>
+                <button id="gen" class="box" type="button" aria-label="Ver información sobre IA Generativa">IA Generativa</button>
+                <button id="llm" class="box" type="button" aria-label="Ver información sobre LLM">LLM</button>
+            </div>
+
+            <div class="info-panel" id="infoPanel" aria-live="polite" aria-atomic="true">
+                <div class="info-title" id="infoTitle">Instrucción</div>
+                <div class="info-desc" id="infoDesc">Selecciona una categoría en el diagrama superior para entender su relación con los Modelos de Lenguaje de Gran Tamaño.</div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="tokenizacion">
+    <h2 id="tokenizacion" class="section-title">2️⃣ La tokenización: cómo "lee" un LLM</h2>
+
+    <div class="highlight-box lesson-quote-callout">"La tokenización permite manejar textos extensos, adaptarse a distintos idiomas y generar respuestas continuas."</div>
+
+    <section class="tokenization-simulator lesson-tokenization-compact" aria-labelledby="token-title">
+        <div class="token-header">
+            <h3 id="token-title">🧪 Simulador de Tokenización</h3>
+            <p>Escribe cualquier idea para ver cómo la IA descompone el lenguaje en piezas procesables, llamadas tokens.</p>
+        </div>
+
+        <div class="token-grid">
+            <div class="token-card">
+                <label for="tokenInput" class="token-label">Bloque de Entrada</label>
+                <textarea id="tokenInput" class="token-textarea" placeholder="Escribe algo aquí"></textarea>
+
+                <div class="token-tip">
+                    <strong>💡 ¿Cómo funciona?</strong> Los LLM agrupan fragmentos de caracteres para "mapear" el significado. Nota cómo los espacios y signos también cuentan.
+                </div>
+            </div>
+
+            <div class="token-card">
+                <div class="token-count-pill" aria-live="polite">
+                    <span class="token-label">Total Tokens:</span>
+                    <div id="tokenCount">0</div>
+                </div>
+
+                <span class="token-label">Visualización Gráfica</span>
+                <div id="tokenVisualizer" class="token-visualizer"></div>
+
+                <span class="token-label">Representación Numérica aproximada</span>
+                <div id="tokenIdList" class="token-ids-box"></div>
+            </div>
+        </div>
+    </section>
+
+    <details class="lesson-inline-details">
+        <summary>
+            <span>¿Qué representa la tokenización?</span>
+            <span class="summary-more">Leer más</span>
+            <span class="summary-less">Ocultar</span>
+        </summary>
+        <div class="lesson-inline-details__body">
+            <p>En términos de funcionamiento interno, los LLM descomponen la entrada en unidades más pequeñas llamadas <strong>tokens</strong> (fragmentos de palabras, palabras completas o grupos de palabras), que son procesados por la red neuronal para calcular la probabilidad de cada token siguiente. Este proceso permite manejar textos extensos, adaptarse a distintos idiomas y generar respuestas continuas, lo que explica su capacidad para sostener "conversaciones" o redactar textos largos en el ámbito académico (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+        </div>
+    </details>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="aplicaciones-educativas">
+    <h2 id="aplicaciones-educativas" class="section-title">3️⃣ Aplicaciones educativas de los LLM</h2>
+
+    <p>En educación, esta capacidad de generar texto permite que el LLM funcione como <strong>"motor de lenguaje"</strong> que impulsa distintas aplicaciones.</p>
+
+    <div class="lesson-mini-card-grid">
+        <article class="lesson-mini-card">
+            <span aria-hidden="true">✏️</span>
+            <h3>Proponer</h3>
+            <p>Actividades y materiales.</p>
+        </article>
+        <article class="lesson-mini-card">
+            <span aria-hidden="true">🧩</span>
+            <h3>Explicar</h3>
+            <p>Explicaciones alternativas.</p>
+        </article>
+        <article class="lesson-mini-card">
+            <span aria-hidden="true">📝</span>
+            <h3>Redactar</h3>
+            <p>Borradores de retroalimentación.</p>
+        </article>
+    </div>
+
+    <div class="lesson-practical-rule lesson-compact-callout">
+        <p>Siempre bajo la <strong>revisión crítica del docente</strong> (Damiano et al., 2024).</p>
+    </div>
+
+    <details class="lesson-inline-details">
+        <summary>
+            <span>Ver aplicaciones adicionales en educación</span>
+            <span class="summary-more">Leer más</span>
+            <span class="summary-less">Ocultar</span>
+        </summary>
+        <div class="lesson-inline-details__body">
+            <p>Además, los LLM se usan para automatizar tareas repetitivas (corrección preliminar, elaboración de planes de aprendizaje, generación de preguntas evaluativas) y ofrecer apoyo en investigación mediante resúmenes y sugerencias de fuentes, lo que puede optimizar el tiempo del profesorado (Oyarzo Espinosa &amp; Usero Aragonés, 2024).</p>
+        </div>
+    </details>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="evolucion-modelos">
+    <hr class="section-separator">
+    <div class="lesson-split lesson-split--media">
+        <div class="lesson-split__content">
+            <h2 id="evolucion-modelos" class="section-title">4️⃣ La evolución de los modelos de lenguaje</h2>
+            <p>📅 <strong>Línea de tiempo:</strong> evolución de la inteligencia artificial aplicada al lenguaje.</p>
+            <p>La evolución de la IA aplicada al lenguaje ha transformado radicalmente la forma en que las máquinas procesan la información, pasando de sistemas rígidos a modelos con capacidades de razonamiento casi humano.</p>
+
+            <details class="lesson-inline-details">
+                <summary>
+                    <span>Ver las cuatro etapas principales</span>
+                    <span class="summary-more">Leer más</span>
+                    <span class="summary-less">Ocultar</span>
+                </summary>
+                <div class="lesson-inline-details__body">
+                    <p>Este recorrido se sintetiza en cuatro grandes etapas:</p>
+                    <ul class="timeline-list">
+                        <li><strong>🧱 Modelos basados en reglas (Pre-1990):</strong> IA simbólica con reglas manuales y estructuras frágiles (ELIZA, SHRDLU).</li>
+                        <li><strong>📊 Modelos estadísticos (1990–2000s):</strong> aprendizaje basado en datos mediante n-gramas y probabilidades.</li>
+                        <li><strong>🧠 Modelos neuronales (2000s–2017):</strong> Deep Learning y vectores capturan relaciones semánticas profundas (LSTM, GRU).</li>
+                        <li><strong>🚀 Era de los Transformers y LLMs (2017–presente):</strong> mecanismo de "Atención", democratización de ChatGPT en 2022, razonamiento "Sistema 2" en 2024 y modelos de pesos abiertos de alta calidad en 2025.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <div class="lesson-split__media">
+            <button class="image-zoom-trigger lesson-media-card" type="button"
+                onclick="openZoom('assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png')"
+                aria-label="Ampliar línea de tiempo sobre la evolución de la inteligencia artificial aplicada al lenguaje">
+                <img src="assets/LLM_M1_Contenido_1.1_Evolucion_LLM_imagen_Rev.png"
+                    alt="Línea de tiempo sobre la evolución de la inteligencia artificial aplicada al lenguaje" loading="lazy">
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="llm-bot-buscador">
+    <hr class="section-separator">
+    <h2 id="llm-bot-buscador" class="section-title">5️⃣ LLM vs. bot vs. buscador: ¿cuándo usar cuál?</h2>
+
+    <div class="lesson-split lesson-split--media lesson-split--intro-media">
+        <div class="lesson-split__content">
+            <p>Es importante que el docente distinga entre LLM, bot y buscador, ya que cumplen roles distintos y se complementan. Un LLM es el "cerebro de lenguaje", el bot es la aplicación que usa ese cerebro para interactuar con el usuario, y el buscador es el "localizador de fuentes" en la web.</p>
+        </div>
+
+        <div class="lesson-split__media">
+            <button class="image-zoom-trigger lesson-media-card lesson-media-card--compact" type="button"
+                onclick="openZoom('assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen_Rev.png')"
+                aria-label="Ampliar comparativa entre LLM, bot y buscador tradicional">
+                <img src="assets/LLM_M1_Contenido_1.1_LLM&amp;Bot&amp;Buscador_imagen_Rev.png"
+                    alt="Comparativa entre LLM, bot o aplicación con LLM y buscador tradicional" loading="lazy">
+            </button>
+        </div>
+    </div>
+
+    <h3 class="section-title section-title-sm">¿Qué es cada uno?</h3>
+
+    <div class="comparison-grid lesson-concept-grid lesson-concept-grid--horizontal">
+        <article class="comp-card lesson-concept-card--compact">
+            <div class="comp-icon" aria-hidden="true">🧠</div>
+            <h3>LLM</h3>
+            <p>Modelo de IA que genera texto a partir de instrucciones, pero no es por sí mismo una app de uso docente; es la tecnología base.</p>
+        </article>
+        <article class="comp-card lesson-concept-card--compact">
+            <div class="comp-icon" aria-hidden="true">📱</div>
+            <h3>Bot o app con LLM</h3>
+            <p>Recurso tecnológico concreto (ChatGPT, Copilot, asistente en un LMS) que usa un LLM y añade interfaz, configuraciones, accesos a datos y reglas de uso.</p>
+        </article>
+        <article class="comp-card lesson-concept-card--compact">
+            <div class="comp-icon" aria-hidden="true">🔍</div>
+            <h3>Buscador tradicional</h3>
+            <p>Servicio que indexa la web y responde con enlaces (Google, Bing, Perplexity, motores académicos), mostrando fuentes, fechas y procedencia.</p>
+        </article>
+    </div>
+
+    <section class="lesson-decision-section" aria-labelledby="decision-title">
+        <h3 id="decision-title" class="section-title section-title-sm">¿Cuándo usar cada uno en la práctica docente?</h3>
+
+        <div class="lesson-decision-grid lesson-decision-grid--details">
+            <details class="lesson-decision-card lesson-decision-card--details">
+                <summary>
+                    <span class="lesson-decision-card__title">LLM como capacidad</span>
+                    <span class="lesson-decision-card__brief">Úsalo cuando necesites trabajar principalmente texto.</span>
+                    <span class="summary-more">Leer más</span>
+                    <span class="summary-less">Ocultar</span>
+                </summary>
+                <div class="lesson-decision-card__body">
+                    <ul>
+                        <li><strong>Generar borradores de textos:</strong> cartas a familias, rúbricas, instrucciones, descripciones de actividades.</li>
+                        <li><strong>Reformular o adaptar:</strong> simplificar un texto, ajustar a distintos niveles de lectura, traducir con matiz pedagógico.</li>
+                        <li><strong>Crear ideas y variaciones:</strong> ejemplos, preguntas, casos, explicaciones alternativas.</li>
+                    </ul>
+                    <p>Aquí lo clave es ver el LLM como <strong>motor generador de lenguaje</strong> que se usa para producir y transformar texto, siempre con revisión crítica.</p>
+                </div>
+            </details>
+
+            <details class="lesson-decision-card lesson-decision-card--details">
+                <summary>
+                    <span class="lesson-decision-card__title">Bot o app con LLM</span>
+                    <span class="lesson-decision-card__brief">Úsalo cuando necesites interfaz, contexto y funciones concretas.</span>
+                    <span class="summary-more">Leer más</span>
+                    <span class="summary-less">Ocultar</span>
+                </summary>
+                <div class="lesson-decision-card__body">
+                    <ul>
+                        <li><strong>Bot conversacional (ChatGPT):</strong> explorar ideas en diálogo, pedir aclaraciones, iterar una planificación, probar prompts y cocrear materiales fuera del entorno institucional.</li>
+                        <li><strong>Asistente integrado (Copilot en Word, PowerPoint, LMS):</strong> trabajar directamente sobre tus documentos, resumir actas, crear borradores de informes, generar presentaciones o tablas usando archivos y datos que ya tienes.</li>
+                    </ul>
+                    <p>Usas el bot cuando necesitas <strong>una herramienta concreta</strong>, con interfaz y funciones específicas, que aplica la capacidad del LLM a tu contexto real de trabajo.</p>
+                </div>
+            </details>
+
+            <details class="lesson-decision-card lesson-decision-card--details">
+                <summary>
+                    <span class="lesson-decision-card__title">Buscador tradicional</span>
+                    <span class="lesson-decision-card__brief">Úsalo cuando lo importante sea encontrar y verificar fuentes.</span>
+                    <span class="summary-more">Leer más</span>
+                    <span class="summary-less">Ocultar</span>
+                </summary>
+                <div class="lesson-decision-card__body">
+                    <ul>
+                        <li>Buscar información actualizada (fechas, estadísticas, normativa vigente, cambios curriculares).</li>
+                        <li>Localizar y citar fuentes primarias (artículos científicos, documentos oficiales).</li>
+                        <li>Verificar datos que el bot/LLM ha generado o sospechas que pueden estar desactualizados.</li>
+                    </ul>
+                    <p>Aquí el foco no es que alguien "escriba por ti", sino <strong>encontrar quién lo dijo, cuándo y dónde</strong>.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <div class="lesson-practical-rule">
+        <h3>🧭 Regla práctica para docentes</h3>
+        <ul>
+            <li>Si necesitas <strong>información comprobable y citada</strong> → empieza por el buscador.</li>
+            <li>Si necesitas <strong>texto, ideas o adaptaciones</strong> → usa un <strong>bot/app con LLM</strong>.</li>
+            <li>Si quieres <strong>entender la tecnología y sus límites</strong> → piensa en el <strong>LLM</strong> como el "motor" detrás de las aplicaciones.</li>
+        </ul>
+    </div>
+
+    <details class="lesson-inline-details">
+        <summary>
+            <span>Ver cierre conceptual de la comparación</span>
+            <span class="summary-more">Leer más</span>
+            <span class="summary-less">Ocultar</span>
+        </summary>
+        <div class="lesson-inline-details__body">
+            <p>La literatura reciente subraya que, en contextos educativos, la combinación de estos enfoques (primero localizar fuentes confiables y luego usar aplicaciones con LLM para sintetizar, adaptar o explicar) ofrece más precisión y control pedagógico.</p>
+        </div>
+    </details>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="ecosistema-actual">
+    <hr class="section-separator">
+    <h2 id="ecosistema-actual" class="section-title">6️⃣ Ecosistema actual: ChatGPT y Microsoft Copilot</h2>
+    <p>El ecosistema de LLM es dinámico; sin embargo, dos herramientas son especialmente relevantes para docentes por su presencia en entornos educativos y administrativos.</p>
+
+    <div class="lesson-tools-grid lesson-tools-grid--progressive">
+        <details class="lesson-tool-card lesson-tool-card--progressive">
+            <summary>
+                <span class="lesson-tool-card__title">💬 ChatGPT (OpenAI)</span>
+                <span class="lesson-tool-card__lead">Funciona como <strong>asistente conversacional general</strong> (bot) construido sobre LLM de la familia GPT.</span>
+                <span class="summary-more">Leer más</span>
+                <span class="summary-less">Ocultar</span>
+            </summary>
+            <div class="lesson-tool-card__body">
+                <p>Funciona como <strong>asistente conversacional general</strong> (bot) construido sobre LLM de la familia GPT, capaz de generar textos, actividades, ejemplos y explicaciones sobre una amplia variedad de temas (Zhao et al., 2023). En sus versiones más recientes, el plan gratuito ofrece acceso a modelos de la familia GPT-4o como modelo por defecto, es decir, un LLM <strong>multimodal</strong> capaz de trabajar con texto, imágenes y archivos, diseñado para equilibrar velocidad y calidad (OpenAI, 2024). Estudios en educación superior muestran que docentes y estudiantes lo usan para apoyo en redacción, generación de ideas y revisión de comprensión, aunque se señalan riesgos de dependencia y de errores factuales (Damiano et al., 2024).</p>
+            </div>
+        </details>
+
+        <details class="lesson-tool-card lesson-tool-card--progressive">
+            <summary>
+                <span class="lesson-tool-card__title">🏢 Microsoft Copilot</span>
+                <span class="lesson-tool-card__lead">Es un asistente basado en LLM que se conecta con <strong>documentos, correos y archivos del entorno institucional</strong>.</span>
+                <span class="summary-more">Leer más</span>
+                <span class="summary-less">Ocultar</span>
+            </summary>
+            <div class="lesson-tool-card__body">
+                <p>Es un asistente basado en LLM que se conecta con <strong>documentos, correos y archivos del entorno institucional</strong> (Word, PowerPoint, Excel, Outlook), lo que lo hace especialmente útil para automatizar informes, minutas, borradores de planes y presentaciones. Microsoft 365 Copilot orquesta varios modelos de lenguaje grande, incluyendo versiones avanzadas de la familia GPT, a través de una capa de orquestación que decide qué modelo usar según la tarea y el contexto. Desde la gestión educativa, permite transformar datos y borradores existentes en resúmenes, listas de acciones, tablas y comunicados, lo que puede reducir carga administrativa si el docente mantiene el control y revisa los resultados (Valli &amp; Zafiropoulos, 2024).</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="lesson-difference-callout">
+        <h3>Diferencia práctica para maestros y maestras</h3>
+        <p>ChatGPT se utiliza principalmente como <strong>"espacio neutro" de experimentación y diseño textual</strong>, mientras que Copilot se integra en el <strong>flujo real de trabajo institucional</strong>, sobre todo en escuelas que ya usan Microsoft 365.</p>
+    </div>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="modelos-lenguaje-gpt">
+    <hr class="section-separator">
+    <h2 id="modelos-lenguaje-gpt" class="section-title">7️⃣ ¿Qué modelos de lenguaje usan ChatGPT y Copilot?</h2>
+
+    <p>Ambos son "bots" construidos sobre modelos GPT desarrollados por OpenAI. El LLM es el <strong>"motor de lenguaje"</strong>; el bot es <strong>"el carro con volante, pedales y tablero"</strong> que el docente realmente maneja.</p>
+
+    <div class="lesson-tools-grid lesson-tools-grid--progressive">
+        <details class="lesson-tool-card lesson-tool-card--progressive">
+            <summary>
+                <span class="lesson-tool-card__title">💬 ChatGPT</span>
+                <span class="lesson-tool-card__lead"><strong>Modelos GPT de propósito general</strong> (ej. GPT-4o, multimodal).</span>
+                <span class="summary-more">Leer más</span>
+                <span class="summary-less">Ocultar</span>
+            </summary>
+            <div class="lesson-tool-card__body">
+                <p>Asistente conversacional "neutro", sin conexión directa a documentos institucionales. Ideal como <strong>laboratorio de experimentación</strong>.</p>
+            </div>
+        </details>
+
+        <details class="lesson-tool-card lesson-tool-card--progressive">
+            <summary>
+                <span class="lesson-tool-card__title">🏢 Microsoft Copilot</span>
+                <span class="lesson-tool-card__lead"><strong>Modelos GPT avanzados</strong> (GPT-4 y variantes) integrados con Microsoft 365.</span>
+                <span class="summary-more">Leer más</span>
+                <span class="summary-less">Ocultar</span>
+            </summary>
+            <div class="lesson-tool-card__body">
+                <p>"Orquesta" varios modelos, consulta contexto vía <strong>Microsoft Graph</strong> (correos, documentos, calendario). Genera borradores adaptados al trabajo del docente.</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="lesson-practical-rule lesson-compact-callout">
+        <p><strong>En resumen:</strong> ambos comparten la misma familia de modelos (GPT), pero se presentan al docente de formas diferentes — ChatGPT como espacio generalista de conversación, Copilot como asistente incrustado en herramientas diarias bajo políticas de seguridad de Microsoft.</p>
+    </div>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="importancia-llm">
+    <hr class="section-separator">
+    <div class="lesson-split lesson-split--media">
+        <div class="lesson-split__content">
+            <h2 id="importancia-llm" class="section-title">8️⃣ ¿Por qué son tan importantes los modelos LLM?</h2>
+
+            <p>Los LLM son la <strong>base de muchas herramientas que hoy usamos en educación</strong> (ChatGPT, Copilot u otros asistentes). Se entrenan con enormes cantidades de texto para aprender patrones de lenguaje y poder comprender preguntas y generar respuestas en un español natural.</p>
+
+            <details class="lesson-inline-details">
+                <summary>
+                    <span>Ver aplicación práctica en el contexto escolar</span>
+                    <span class="summary-more">Leer más</span>
+                    <span class="summary-less">Ocultar</span>
+                </summary>
+                <div class="lesson-inline-details__body">
+                    <p>Gracias a esta capacidad, un LLM puede resumir textos, proponer ideas, traducir, explicar conceptos o redactar borradores: tareas que antes requerían mucho tiempo del docente. En el contexto escolar, esto se traduce en apoyo para preparación de clases, elaboración de materiales y acompañamiento al estudiante, <strong>siempre que el profesorado revise y ajuste lo que produce el modelo</strong>.</p>
+                </div>
+            </details>
+
+            <div class="lesson-inline-details">
+                <h3 class="section-title section-title-sm">¿Cómo funciona, en sencillo, un bot con LLM?</h3>
+
+                <p>Un bot con LLM es una aplicación (por ejemplo, una página de chat o un asistente dentro de Word o un LMS) que se conecta a un LLM para responder a las personas. El docente escribe una pregunta o instrucción, el bot la envía al modelo de lenguaje, y el modelo devuelve un texto generado <strong>palabra por palabra</strong> según lo que considera más probable y coherente.</p>
+
+                <details class="lesson-inline-details">
+                    <summary>
+                        <span>Ver explicación complementaria</span>
+                        <span class="summary-more">Leer más</span>
+                        <span class="summary-less">Ocultar</span>
+                    </summary>
+                    <div class="lesson-inline-details__body">
+                        <p>Además del LLM, el bot añade cosas que el modelo solo no tiene: una interfaz amigable, reglas de uso, opciones de idioma y, en algunos casos, acceso a documentos o datos institucionales.</p>
+
+                        <p><strong>Metáfora clave:</strong> el LLM es el <strong>"cerebro"</strong> y el bot es el <strong>"cuerpo"</strong> que permite al docente interactuar con ese cerebro de forma segura y práctica en el día a día escolar.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div class="lesson-split__media">
+            <p class="lesson-media-caption">🖼️ Diagrama comparativo entre un modelo de lenguaje grande (LLM) y un bot con interfaz de uso docente.</p>
+            <button class="image-zoom-trigger lesson-media-card" type="button"
+                onclick="openZoom('assets/LLM_M1_LLM_&_BOT_imagen_Rev.png')"
+                aria-label="Ampliar diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente">
+                <img src="assets/LLM_M1_LLM_&_BOT_imagen_Rev.png"
+                    alt="Diagrama comparativo entre un modelo de lenguaje grande LLM y un bot con interfaz de uso docente" loading="lazy">
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="text-section lesson-editorial-section" aria-labelledby="rol-facilitador">
+    <hr class="section-separator">
+    <h2 id="rol-facilitador" class="section-title">👩‍🏫 Conexión con tu rol como facilitador docente</h2>
+    <p>Como facilitador o facilitadora docente del DEPR, esta lección te equipa para transferir lo aprendido sobre LLM, bots, apps y buscadores a situaciones concretas de acompañamiento curricular, capacitación docente y gestión administrativa.</p>
+
+    <div class="lesson-role-column-grid">
+        <section class="lesson-role-column" aria-labelledby="rol-acompanamiento">
+            <h3 id="rol-acompanamiento">📋 Acompañamiento curricular</h3>
+            <article class="lesson-role-topic-card">
+                <h4>Orientar con criterio técnico</h4>
+                <p>Podrás explicar a maestros y maestras la diferencia entre el "motor" (LLM) y la "herramienta" (bot/app) que están usando o piensan adoptar, evitando confusiones comunes.</p>
+            </article>
+            <article class="lesson-role-topic-card">
+                <h4>Tomar decisiones de adopción tecnológica</h4>
+                <p>Al recomendar recursos para tu programa o región, podrás distinguir si conviene un asistente generalista (ChatGPT) o uno integrado al ecosistema institucional (Copilot en Microsoft 365).</p>
+            </article>
+        </section>
+
+        <section class="lesson-role-column" aria-labelledby="rol-capacitacion">
+            <h3 id="rol-capacitacion">🎓 Capacitación docente</h3>
+            <article class="lesson-role-topic-card">
+                <h4>Modelar el uso combinado de herramientas</h4>
+                <p>Podrás enseñar a docentes y practicantes la regla práctica (buscador para fuentes, LLM para producir, modelar para decidir), una destreza clave para el desarrollo profesional alineado con las normativas del DEPR.</p>
+            </article>
+            <article class="lesson-role-topic-card">
+                <h4>Diseñar capacitaciones contextualizadas</h4>
+                <p>Podrás integrar estos conceptos en talleres, foros y comunidades de aprendizaje profesional (MECPA), conectando la teoría con la práctica real del personal docente que acompañas.</p>
+            </article>
+        </section>
+
+        <section class="lesson-role-column" aria-labelledby="rol-gestion">
+            <h3 id="rol-gestion">📄 Gestión administrativa</h3>
+            <article class="lesson-role-topic-card">
+                <h4>Anticipar riesgos</h4>
+                <p>Comprender el fenómeno de la "alucinación" te permite advertir a colegas sobre la necesidad de validar siempre la información generada antes de incorporarla a planes, informes o materiales oficiales.</p>
+            </article>
+            <article class="lesson-role-topic-card">
+                <h4>Optimizar procesos sin perder control profesional</h4>
+                <p>El uso combinado de buscadores, bots con LLM y criterio docente puede apoyar la redacción de informes, comunicaciones, rúbricas y materiales, siempre bajo revisión humana.</p>
+            </article>
+        </section>
+    </div>
+</section>
+
+<section class="lesson-remember-card" aria-labelledby="recordar-title">
+    <h2 id="recordar-title" class="section-title">🏁 Qué debes recordar</h2>
+    <ul>
+        <li>✅ Un <strong>LLM</strong> es el "motor de lenguaje"; un <strong>bot/app</strong> es la herramienta concreta que lo usa; un <strong>buscador</strong> es el localizador de fuentes.</li>
+        <li>✅ Los LLM funcionan por <strong>predicción probabilística</strong> mediante <strong>tokens</strong> — por eso pueden "alucinar".</li>
+        <li>✅ <strong>ChatGPT y Microsoft Copilot</strong> comparten la familia GPT, pero se usan en contextos distintos: experimentación vs. flujo institucional.</li>
+        <li>✅ La <strong>revisión crítica del docente</strong> es insustituible: el modelo propone, el docente decide.</li>
+        <li>✅ Combinar <strong>buscador + LLM + criterio profesional</strong> ofrece más precisión y control pedagógico.</li>
+    </ul>
+</section>
+
+            <details class="concept-review" data-concept-review>
+                <summary class="concept-review__summary-main">
+  <div class="concept-review-header">
+    <div class="concept-review-title">
+      <span class="concept-review-icon">📖</span>
+      <span class="concept-review-text">Conceptos a repasar</span>
+    </div>
+    <button class="concept-review-toggle btn btn-outline-primary btn-sm" aria-expanded="false" type="button">Ver conceptos</button>
+  </div>
+</summary>
+                <div class="concept-review__panel">
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Modelo de Lenguaje de Gran Tamaño (LLM)</summary>
+                        <div class="concept-review__body">
+                            <p>Un Modelo de Lenguaje de Gran Tamaño (LLM) es un modelo de inteligencia artificial basado en aprendizaje profundo que se preentrena con enormes volúmenes de texto para comprender y generar lenguaje natural, utilizando arquitecturas tipo Transformer con miles de millones de parámetros. Estos modelos aprenden patrones estadísticos de sintaxis y semántica para realizar tareas como generación de texto, resumen, traducción, respuesta a preguntas y diálogo conversacional, constituyendo la base técnica de muchos chatbots y asistentes educativos actuales.</p>
+                            <cite class="concept-review__citation">
+                                Amazon Web Services. (2026). ¿Qué es un LLM (modelo de lenguaje de gran tamaño)? AWS. https://aws.amazon.com/es/what-is/large-language-model/
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Bot o aplicación basada en LLM</summary>
+                        <div class="concept-review__body">
+                            <p>Bot o aplicación basada en LLM es un programa o servicio que integra un modelo de lenguaje de gran tamaño como componente central para procesar entradas en lenguaje natural y generar respuestas, contenidos o asistencia contextual a usuarios finales. A diferencia del LLM "en bruto", estas aplicaciones añaden capa de interfaz (chat, panel, integración en LMS u ofimática), reglas de uso, controles de seguridad y conexión a datos específicos (por ejemplo, documentos institucionales), lo que las hace utilizables pedagógicamente como asistentes de escritura, tutores virtuales o generadores de materiales en contextos educativos.</p>
+                            <cite class="concept-review__citation">
+                                Product Talk. (2025). LLM app: Definition and overview. https://www.producttalk.org/glossary-ai-llm-app/
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Buscador tradicional</summary>
+                        <div class="concept-review__body">
+                            <p>Buscador tradicional (motor de búsqueda web) es un sistema de software que explora, indexa y clasifica contenido en la web y, ante una consulta del usuario, devuelve una lista ordenada de páginas o documentos relevantes, generalmente en forma de enlaces acompañados de fragmentos de texto descriptivo. Técnicamente, combina procesos de rastreo (crawling), indexación y ranking basados en algoritmos de recuperación de información para localizar fuentes primarias; en educación se utiliza para encontrar información actualizada, documentos oficiales y literatura académica que luego pueden ser analizados, resumidos o adaptados con ayuda de LLM y bots.</p>
+                            <cite class="concept-review__citation">
+                                TechTarget. (2022). What is a search engine? TechTarget. https://www.techtarget.com/whatis/definition/search-engine
+                            </cite>
+                        </div>
+                    </details>
+
+                    <div class="concept-review__overflow">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Chain of Thought (CoT)</summary>
+                            <div class="concept-review__body">
+                                <p>Chain of Thought (CoT) es una técnica de ingeniería de prompts que guía a los modelos de lenguaje a producir una secuencia explícita de pasos de razonamiento intermedios antes de dar la respuesta final, en lugar de responder directamente en una sola frase. Al pedir al modelo que "explique su respuesta paso a paso", CoT ayuda a descomponer problemas multietapa (cálculo, lógica, decisiones) en subpasos lógicos, lo que mejora la exactitud en tareas complejas y hace el proceso más transparente y evaluable para docentes y estudiantes.</p>
+                                <cite class="concept-review__citation">
+                                    TechTarget. (2025). What is chain-of-thought prompting (CoT)? TechTarget. https://www.techtarget.com/searchenterpriseai/definition/chain-of-thought-prompting
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Andamiaje (scaffolding) con LLM</summary>
+                            <div class="concept-review__body">
+                                <p>Andamiaje (scaffolding) con LLM es el uso de un modelo de lenguaje grande y de los bots que lo incorporan para proporcionar apoyos temporales y graduados (explicaciones, ejemplos, descomposición de tareas, preguntas guiadas) que ayudan al estudiante a realizar actividades que aún no podría completar de manera independiente, dentro de su Zona de Desarrollo Próximo, retirando esos apoyos a medida que aumenta su dominio. En la práctica educativa, el LLM funciona como un "andamio digital" que el docente configura mediante prompts (por ejemplo, pedir pasos intermedios o pistas en lugar de respuestas finales) para reforzar la comprensión y promover la autonomía, sin sustituir la mediación pedagógica human.</p>
+                                <cite class="concept-review__citation">
+                                    The Glossary of Education Reform. (2015). Scaffolding. Great Schools Partnership. https://www.edglossary.org/scaffolding/
+                                </cite>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button class="concept-review__more" type="button">Ver más conceptos</button>
+                </div>
+            </details>
+
+            <section class="completion-card" aria-labelledby="cierre-title">
+                <span class="completion-badge">Meta alcanzada</span>
+                <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
+                <p>Has culminado la lección 1.1 del programa de formación profesional.</p>
+                <p>Al completar el contenido 1.1, has dado un paso clave al comprender qué es un LLM, cómo funciona como motor de lenguaje y cuándo conviene usarlo frente a un buscador tradicional. Este conocimiento te coloca en una posición estratégica para tomar decisiones pedagógicas más informadas y éticas sobre el uso de IA en tu práctica docente, manteniendo siempre tu criterio profesional en el centro.</p>
+            </section>
+
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 1.1</h2>
+                    <p class="genially-checkpoint__description">Esta actividad formativa breve te ayudará a clarificar tus ideas sobre LLM, bots y buscadores, orientando tus siguientes pasos de aprendizaje.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-1-1">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69adb05030c4d6416b2c3cb5" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+                <div id="checkpoint-panel-1-1" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69adb05030c4d6416b2c3cb5" src="about:blank" title="Checkpoint de saberes: Lección 1.1" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+                            <li>Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in
+                                higher education. <em>Computers &amp; Education: Artificial Intelligence</em>, 100157.</li>
+                            <li>Hargreaves, A., &amp; Fullan, M. (2012). <em>Professional capital: Transforming teaching in
+                                    every school</em>. Teachers College Press.</li>
+                            <li>Im, E., &amp; Chee, W. (2012). Methodological issues in the recruitment of ethnic minority
+                                subjects to research via the Internet: A discussion paper. <em>International Journal of Nursing
+                                    Studies</em>, 49(1), 99–106.</li>
+                            <li>Oyarzo Espinosa, J., &amp; Usero Aragonés, L. (2024). Grandes modelos lingüísticos. In J. Oyarzo
+                                Espinosa, L. Usero Aragonés, &amp; Francisco Javier Bueno Guillén (Eds.), <em>Guía Práctica</em>
+                                (2a edición). https://proyectodescartes.org/escenas-aux/IABoletin8/interactivos/libro/libro.pdf
+                            </li>
+                            <li>Russell, S. J., &amp; Norvig, P. (2020). <em>Artificial intelligence: A modern approach</em>
+                                (4th ed.). Pearson.</li>
+                            <li>Valli, P., &amp; Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI
+                                tools by teachers. <em>Education and Information Technologies</em>, 29, 123–145.</li>
+                            <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023). A
+                                survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223.</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <div id="completion-section"></div>
+
+            <nav class="footer-nav" aria-label="Navegación de lecciones">
+                <a href="modulo1_intro.html" class="btn-footer btn-back">← Volver al módulo</a>
+                <a href="leccion1_2.html" class="btn-footer btn-next">Continuar a Lección 1.2 →</a>
+            </nav>
+        </article>
+    </main>
+
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title"
+        aria-hidden="true">
+        <div class="modal-content">
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada de la lección</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()"
+                aria-label="Cerrar imagen ampliada">×</button>
+            <img id="zoomedImg" alt="Imagen ampliada de la lección 1.1">
+        </div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+        let lastFocusedElement = null;
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        function openZoom(src) {
+            if (!zoomModal || !zoomedImg) return;
+            lastFocusedElement = document.activeElement;
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            zoomModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            const closeButton = zoomModal.querySelector('.modal-close-btn');
+            if (closeButton) closeButton.focus();
+        }
+
+        function closeZoom() {
+            if (!zoomModal || !zoomedImg) return;
+            zoomModal.classList.remove('is-open');
+            zoomModal.setAttribute('aria-hidden', 'true');
+            zoomedImg.removeAttribute('src');
+            document.body.style.overflow = '';
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) {
+                    closeZoom();
+                }
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) {
+                closeZoom();
+            }
+        });
+
+        const hierarchyData = {
+            ia: {
+                title: 'Inteligencia Artificial',
+                desc: 'Campo amplio de la informática que busca crear sistemas capaces de realizar tareas que normalmente requieren inteligencia humana.',
+                color: '#1a237e'
+            },
+            ml: {
+                title: 'Machine Learning',
+                desc: 'Subcampo de la IA en el que los sistemas aprenden patrones a partir de datos para mejorar su desempeño en una tarea.',
+                color: '#283593'
+            },
+            dl: {
+                title: 'Deep Learning',
+                desc: 'Rama del aprendizaje automático que utiliza redes neuronales profundas para identificar patrones complejos.',
+                color: '#3949ab'
+            },
+            gen: {
+                title: 'IA Generativa',
+                desc: 'Tipo de IA capaz de generar contenido nuevo, como texto, imágenes, audio o código, a partir de patrones aprendidos.',
+                color: '#5c6bc0'
+            },
+            llm: {
+                title: 'Modelos de Lenguaje de Gran Tamaño',
+                desc: 'Modelos de IA generativa especializados en comprender y producir lenguaje natural a gran escala.',
+                color: '#00e676'
+            }
+        };
+
+        document.querySelectorAll('.box').forEach((button) => {
+            button.addEventListener('click', () => {
+                const item = hierarchyData[button.id];
+                if (!item) return;
+
+                document.querySelectorAll('.box').forEach((box) => {
+                    box.classList.add('box--dimmed');
+                    box.classList.remove('box--active');
+                });
+
+                button.classList.remove('box--dimmed');
+                button.classList.add('box--active');
+
+                const title = document.getElementById('infoTitle');
+                const desc = document.getElementById('infoDesc');
+                const panel = document.getElementById('infoPanel');
+
+                title.textContent = item.title;
+                desc.textContent = item.desc;
+                title.style.color = item.color;
+                panel.style.borderColor = item.color;
+            });
+        });
+
+        const tokenInput = document.getElementById('tokenInput');
+        const tokenVisualizer = document.getElementById('tokenVisualizer');
+        const tokenIdList = document.getElementById('tokenIdList');
+        const tokenCount = document.getElementById('tokenCount');
+        const tokenColors = ['#E0F2FE', '#FCE7F3', '#DCFCE7', '#FEF3C7', '#EDE9FE', '#FFE4E6'];
+
+        function simpleTokenize(text) {
+            return text.trim().length ? text.match(/\S+|\s+|[.,;:!?¿¡()]/g) || [] : [];
+        }
+
+        function renderTokens() {
+            if (!tokenInput || !tokenVisualizer || !tokenIdList || !tokenCount) return;
+
+            const tokens = simpleTokenize(tokenInput.value).filter((token) => token.trim().length > 0);
+            tokenCount.textContent = tokens.length;
+
+            tokenVisualizer.innerHTML = tokens.map((token, index) => {
+                const color = tokenColors[index % tokenColors.length];
+                return `<span class="token-badge" style="background:${color}">${token}</span>`;
+            }).join(' ');
+
+            tokenIdList.textContent = tokens.map((token, index) => {
+                const pseudoId = Array.from(token).reduce((sum, char) => sum + char.charCodeAt(0), 0) + index;
+                return `[${pseudoId}]`;
+            }).join(' ');
+        }
+
+        tokenInput?.addEventListener('input', renderTokens);
+        renderTokens();
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script src="scripts/concept-review.js"></script>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

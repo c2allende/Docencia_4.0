@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Plantilla digital rellenable para el diseño de prompts efectivos - Fase 2 del proyecto Docencia 4.0.">
+    <title>PROTOTIPO - Plantilla Fase 2: Del estándar al prompt efectivo | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- Librería para generación de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --form-max-width: 900px;
+        }
+
+        body {
+            background-color: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-normal);
+            margin: 0;
+            padding: var(--spacing-8) 0;
+        }
+
+        .container {
+            max-width: var(--form-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+        }
+
+        /* Header Institucional */
+        .header-print {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-4);
+            border-bottom: var(--border-width-2) solid var(--color-brand-primary);
+        }
+
+        .logo-container img {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-titles {
+            text-align: right;
+        }
+
+        .header-titles h1 {
+            margin: 0;
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .header-titles p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Card del Formulario */
+        .form-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-8) var(--spacing-10);
+            box-shadow: var(--shadow-xl);
+            border-top: var(--border-width-6) solid var(--color-brand-primary);
+            position: relative;
+        }
+
+        .section-block {
+            margin-bottom: var(--spacing-10);
+            animation: fade-in 0.5s ease-out forwards;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-6);
+            padding-bottom: var(--spacing-2);
+            border-bottom: var(--border-width-1) solid var(--color-border-subtle);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wider);
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        h2, h3 {
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        p {
+            orphans: 3;
+            widows: 3;
+        }
+
+        /* Estilos para tablas que puedan generarse o pegarse */
+        table {
+            table-layout: fixed;
+            width: 100%;
+            word-wrap: break-word;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-4);
+        }
+
+        table td, table th {
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .section-number {
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            flex-shrink: 0;
+        }
+
+        /* Elementos de Formulario */
+        .form-group {
+            margin-bottom: var(--spacing-5);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: var(--color-slate-50);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px var(--color-alpha-cyan-15);
+            background-color: var(--color-white);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+            border: var(--border-width-1) solid var(--color-border-default);
+            background-color: var(--color-white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea.form-control:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px var(--color-alpha-cyan-15);
+        }
+
+        /* Área técnica (Prompts e IA) */
+        .technical-container {
+            position: relative;
+        }
+
+        textarea.technical-textarea {
+            min-height: 150px;
+            border: var(--border-width-2) solid var(--color-brand-primary);
+            background-color: var(--color-white);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: var(--font-weight-medium);
+            padding-right: 50px; /* Espacio para el botón de copiado */
+        }
+
+        textarea.technical-textarea:focus {
+            border-color: var(--color-brand-secondary-hover);
+            box-shadow: 0 0 0 3px var(--color-alpha-orange-15);
+            background-color: var(--color-white);
+        }
+
+        /* Divs para impresión (espejo de textareas) */
+        .print-mirror {
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px; /* Tamaño fijo */
+            line-height: 1.6;
+            padding: 15px;
+            border: 2px solid var(--color-brand-primary);
+            border-radius: 8px;
+            background: var(--color-white);
+            min-height: 100px;
+            color: var(--color-text-primary);
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-sm);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--color-text-secondary);
+            z-index: 5;
+        }
+
+        .btn-copy:hover {
+            background: var(--color-slate-100);
+            color: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .btn-copy.copied {
+            background: var(--color-feedback-success-container);
+            color: var(--color-feedback-success-on);
+            border-color: var(--color-feedback-success);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-4);
+        }
+
+        /* Checkboxes y Radios */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-2);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-3);
+            background: var(--color-slate-50);
+            border-radius: var(--radius-sm);
+            border: var(--border-width-1) solid var(--color-border-subtle);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-item:hover {
+            background: var(--color-slate-100);
+        }
+
+        .option-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Fórmula Visual */
+        .formula-box {
+            background: var(--color-brand-primary-container);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-brand-primary-on-container);
+            margin: var(--spacing-4) 0;
+            border: var(--border-width-2) dashed var(--color-brand-primary);
+        }
+
+
+
+        .btn-scroll-top {
+            position: fixed;
+            bottom: 100px;
+            right: var(--spacing-6);
+            width: 44px;
+            height: 44px;
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: 50%;
+            display: none; /* Se activa con JS */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 50;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-5px);
+            filter: brightness(1.1);
+        }
+
+        .btn-scroll-top.visible {
+            display: flex;
+            animation: bounce-in 0.5s;
+        }
+
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.1); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        /* Acciones */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-12);
+            padding: var(--spacing-6);
+            background: var(--color-background-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            bottom: var(--spacing-4);
+            z-index: 10;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-6);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+            border: none;
+            font-size: var(--font-size-sm);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: var(--color-brand-primary);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .btn-secondary {
+            background: var(--color-brand-secondary);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--color-slate-100);
+            border-color: var(--color-slate-300);
+        }
+
+        .btn-danger {
+            background: var(--color-feedback-error);
+            color: var(--color-white);
+        }
+
+        /* Micro-reflexión */
+        .reflection-block {
+            background: var(--color-slate-50);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .reflection-q {
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-primary);
+        }
+
+        /* Padlet Instructions */
+        .padlet-instructions {
+            background: var(--color-indigo-100);
+            padding: var(--spacing-6);
+            border-radius: var(--radius-lg);
+            margin-top: var(--spacing-8);
+            border-left: var(--border-width-6) solid var(--color-brand-tertiary);
+        }
+
+        .padlet-instructions h3 {
+            margin-top: 0;
+            color: var(--color-brand-tertiary);
+            font-size: var(--font-size-md);
+        }
+
+        .padlet-instructions ol {
+            margin-bottom: 0;
+            padding-left: var(--spacing-5);
+        }
+
+        .padlet-instructions li {
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Modal de confirmación simple */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: var(--color-white);
+            padding: var(--spacing-8);
+            border-radius: var(--radius-lg);
+            max-width: 400px;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Estilos para Impresión / PDF */
+        @media print {
+            * {
+                box-sizing: border-box !important;
+            }
+            .actions-bar, .btn-scroll-top, .modal-overlay, .btn-copy, .technical-textarea {
+                display: none !important;
+            }
+            .print-mirror {
+                display: block !important;
+            }
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            .container {
+                max-width: 800px !important; /* Ancho fijo para coincidir con el cálculo de PDF */
+                padding: 0 !important;
+                margin: 0 auto !important;
+            }
+            .form-card {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                border-left: none !important;
+            }
+            .html2pdf__page-break {
+                /* No añadir estilos de salto aquí si se usa la clase nativa de la librería */
+                display: block;
+                height: 0;
+                margin: 0;
+                padding: 0;
+            }
+            .section-block {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                margin-bottom: var(--spacing-8) !important;
+            }
+            .section-title {
+                break-after: avoid;
+                page-break-after: avoid;
+            }
+            .form-control {
+                background: white !important;
+                border: var(--border-width-1) solid var(--color-border-default) !important;
+                height: auto !important;
+                min-height: 0 !important;
+            }
+            textarea.form-control {
+                white-space: pre-wrap !important;
+                overflow: visible !important;
+                height: auto !important;
+                min-height: 40px !important;
+                text-align: justify !important;
+                word-wrap: break-word !important;
+            }
+            .option-item {
+                background: white !important;
+                border: none !important;
+                padding: 2px 0 !important;
+                page-break-inside: avoid;
+            }
+            .technical-container {
+                border: none !important;
+            }
+            .technical-textarea {
+                background: white !important;
+                border: 1px solid var(--color-brand-secondary) !important;
+                padding-right: var(--spacing-4) !important;
+                font-size: var(--font-size-sm) !important; /* Ajuste para mejor legibilidad */
+                text-align: justify !important;
+                line-height: 1.6 !important;
+                width: 100% !important;
+            }
+            .formula-box {
+                border: 1px solid var(--color-brand-primary) !important;
+                background: white !important;
+            }
+            .reflection-block {
+                background: white !important;
+                border: 1px solid var(--color-border-subtle) !important;
+                page-break-inside: avoid;
+            }
+            .padlet-instructions {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                gap: var(--spacing-3);
+                position: static;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animación */
+        .html2pdf__page-break {
+            display: none;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="capture-area">
+        <!-- Header Visual para el PDF -->
+        <header class="header-print">
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <div class="header-titles">
+                <h1>PROTOTIPO - Fase 2: Del Estándar al Prompt Efectivo</h1>
+                <p>Módulo 2: Planificación y Diseño Curricular con IA</p>
+            </div>
+        </header>
+
+        <section class="section-block" style="margin-bottom: var(--spacing-6); border-bottom: none;">
+            <div
+                style="background: var(--color-background-surface-low); padding: var(--spacing-4); border-radius: var(--radius-md); border-left: var(--border-width-4) solid var(--color-brand-primary);">
+                <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-primary);">
+                    <strong>Objetivo:</strong> Aplicar la fórmula de prompts a una unidad real del currículo para
+                    generar una planificación semanal con apoyo de IA.
+                </p>
+            </div>
+        </section>
+
+        <main class="form-card">
+            <!-- Paso 1: Selección e Información -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">1</span> Paso 1. Selección de la unidad y
+                    redacción del prompt efectivo</h2>
+
+                <div class="form-group" style="margin-top: var(--spacing-6);">
+                    <label class="form-label" for="nombre_participante">Nombre de la participante:</label>
+                    <input type="text" id="nombre_participante" class="form-control"
+                        placeholder="Escribe tu nombre completo">
+                </div>
+
+                <div style="margin-top: var(--spacing-8); margin-bottom: var(--spacing-4);">
+                    <h3
+                        style="font-size: var(--font-size-sm); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;">
+                        Información de mi unidad curricular</h3>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="grado_unidad">Grado:</label>
+                        <input type="text" id="grado_unidad" class="form-control" placeholder="Ej. 4to grado">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="materia_unidad">Materia:</label>
+                        <input type="text" id="materia_unidad" class="form-control" placeholder="Ej. Ciencias">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="duracion_unidad">Duración de la unidad:</label>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: 4px;">
+                        (Ejemplo: 1 semana / 5 clases de 45 minutos)</p>
+                    <input type="text" id="duracion_unidad" class="form-control" placeholder="Escribe la duración">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="estandar_depr">Estándar o Expectativa del DEPR (copiar
+                        literalmente):</label>
+                    <textarea id="estandar_depr" class="form-control"
+                        placeholder="Pega aquí el estándar correspondiente"></textarea>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Sección: Construcción del Prompt -->
+            <section class="section-block">
+                <div style="margin-bottom: var(--spacing-6);">
+                    <h3
+                        style="font-size: var(--font-size-sm); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;">
+                        Construcción del prompt efectivo</h3>
+                </div>
+                <p style="font-size: var(--font-size-sm);">Usa la fórmula:</p>
+                <div class="formula-box">
+                    Rol + Contexto + Tarea + Formato + Restricciones
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">1. ROL (¿Qué papel debe asumir la IA?)</label>
+                    <div style="background: var(--color-background-surface-low); padding: var(--spacing-4); border-radius: var(--radius-md); border: 1px solid var(--color-border-subtle); margin-top: var(--spacing-2);">
+                        <p id="rol_preview" style="margin: 0; font-size: var(--font-size-sm); font-style: italic; line-height: 1.5; color: var(--color-text-secondary);">
+                            "Actúa como maestro/a de [grado] grado de [materia] en Puerto Rico."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">2. CONTEXTO (Describe tu grupo y situación escolar)</label>
+                    <div class="form-group">
+                        <label class="form-label" style="font-weight: normal;" for="num_estudiantes">Número de
+                            estudiantes:</label>
+                        <input type="text" id="num_estudiantes" class="form-control" placeholder="Ej. 25 estudiantes">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-weight: normal;" for="caract_grupo">Características
+                            generales del grupo (niveles, necesidades, etc.):</label>
+                        <textarea id="caract_grupo" class="form-control"
+                            placeholder="Ej. Niveles mixtos de lectura, estudiantes de educación especial..."></textarea>
+                    </div>
+
+                    <label class="form-label" style="font-weight: normal;">Recursos disponibles en el salón (marca los
+                        que apliquen):</label>
+                    <div class="options-grid">
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Pizarra tradicional">
+                            Pizarra tradicional</label>
+                        <label class="option-item"><input type="checkbox" name="recurso"
+                                value="Materiales manipulativos"> Materiales manipulativos</label>
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Libros de texto"> Libros
+                            de texto</label>
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Computadoras/tabletas">
+                            Computadoras/tabletas</label>
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Internet">
+                            Internet</label>
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Proyector">
+                            Proyector</label>
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Materiales reciclables">
+                            Materiales reciclables/de bajo costo</label>
+                        <label class="option-item"><input type="checkbox" name="recurso" value="Otros"> Otros</label>
+                    </div>
+                    <label class="form-label" style="font-weight: normal; margin-top: var(--spacing-4);">Modalidad de clases:</label>
+                    <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
+                        <label class="option-item"><input type="radio" name="modalidad" value="Presencial"> Presencial</label>
+                        <label class="option-item"><input type="radio" name="modalidad" value="Híbrida"> Híbrida</label>
+                        <label class="option-item"><input type="radio" name="modalidad" value="Virtual"> Virtual</label>
+                    </div>
+                </div>
+
+                <div class="html2pdf__page-break"></div>
+                <div class="form-group" style="margin-top: var(--spacing-6);">
+                    <label class="form-label">3. TAREA (¿Qué quieres que genere la IA?)</label>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--spacing-4);">
+                        Completa los campos para indicar qué producto deseas que genere la IA.
+                    </p>
+                    
+                    <div class="form-row" style="margin-bottom: var(--spacing-4);">
+                        <div class="form-group">
+                            <label class="form-label" for="tarea_clases">Cantidad de clases:</label>
+                            <input type="text" id="tarea_clases" class="form-control" placeholder="Ej. 5">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="tarea_minutos">Duración por clase (minutos):</label>
+                            <input type="text" id="tarea_minutos" class="form-control" placeholder="Ej. 50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="tarea_tema">Tema de la unidad o lección:</label>
+                        <input type="text" id="tarea_tema" class="form-control" placeholder="Ej. El ciclo del agua">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="tarea_estandar">Estándar o expectativa:</label>
+                        <input type="text" id="tarea_estandar" class="form-control" placeholder="Ej. B.CB.1.1">
+                    </div>
+
+                    <!-- Vista previa de la tarea -->
+                    <div style="background: var(--color-background-surface-low); padding: var(--spacing-4); border-radius: var(--radius-md); border: 1px solid var(--color-border-subtle); margin-top: var(--spacing-4);">
+                        <p style="margin: 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--color-brand-primary); margin-bottom: 5px;">Vista previa de la tarea:</p>
+                        <p id="tarea_preview" style="margin: 0; font-size: var(--font-size-sm); font-style: italic; line-height: 1.5; color: var(--color-text-secondary);">
+                            Diseña una planificación semanal de [cantidad] clases de [minutos] minutos sobre el tema [tema], basada en el estándar [estándar].
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">4. FORMATO (¿Cómo quieres que se presente la información?)</label>
+                    <div
+                        style="background: var(--color-slate-100); padding: var(--spacing-3); border-radius: var(--radius-sm); font-size: var(--font-size-sm); margin-bottom: var(--spacing-3);">
+                        "Presenta el plan en formato de tabla con las siguientes columnas: objetivos, actividades
+                        (inicio, desarrollo, cierre), recursos y tiempo estimado."
+                    </div>
+                    <label class="form-label" style="font-weight: normal;" for="otro_formato">Otro formato que prefiero
+                        (opcional):</label>
+                    <input type="text" id="otro_formato" class="form-control"
+                        placeholder="Ej. Listado numerado, mapa conceptual, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">5. RESTRICCIONES (¿Qué límites o condiciones debe respetar?)</label>
+                    <div class="options-grid" style="grid-template-columns: 1fr;">
+                        <label class="option-item"><input type="checkbox" name="restriccion"
+                                value="Contexto Puerto Rico"> Usa ejemplos contextualizados a Puerto Rico</label>
+                        <label class="option-item">
+                            <input type="checkbox" name="restriccion" value="Lenguaje accesible">
+                            Usa lenguaje accesible para estudiantes del grado indicado anteriormente
+                        </label>
+                        <label class="option-item"><input type="checkbox" name="restriccion" value="Sin tecnología">
+                            Evita el uso de tecnología digital (no hay acceso en el salón)</label>
+                        <label class="option-item"><input type="checkbox" name="restriccion" value="Diferenciación">
+                            Incluye estrategias de diferenciación para estudiantes con necesidades especiales</label>
+                        <label class="option-item"><input type="checkbox" name="restriccion" value="Sin laboratorio">
+                            Propón actividades que se puedan realizar sin laboratorio o materiales
+                            especializados</label>
+                        <label class="option-item"><input type="checkbox" name="restriccion" value="No inventar"> No
+                            inventes estándares; usa solo el que proporcioné</label>
+                    </div>
+                    <label class="form-label" style="font-weight: normal; margin-top: var(--spacing-3);"
+                        for="otras_restr">Otras restricciones importantes para mi contexto:</label>
+                    <textarea id="otras_restr" class="form-control"
+                        placeholder="Escribe aquí cualquier otra condición..."></textarea>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Paso 2: MI PROMPT COMPLETO -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">2</span> Paso 2. Generación de la planificación
+                    con IA</h2>
+                <div style="margin-bottom: var(--spacing-4);">
+                    <h3
+                        style="font-size: var(--font-size-sm); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800;">
+                        Mi prompt completo (listo para copiar y pegar)</h3>
+                </div>
+                <p style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-3);">Escribe aquí tu prompt
+                    completo, integrando todos los componentes anteriores:</p>
+                <div
+                    style="background: var(--color-feedback-info-container); padding: var(--spacing-3); border-radius: var(--radius-sm); font-size: var(--font-size-xs); color: var(--color-feedback-info-on); margin-bottom: var(--spacing-3); border-left: var(--border-width-3) solid var(--color-feedback-info);">
+                    Revisa que tu prompt incluya claramente los 5 componentes: Rol, Contexto, Tarea, Formato y
+                    Restricciones.
+                </div>
+
+                <!-- Bloque de Ejemplo Guía -->
+                <div
+                    style="margin-bottom: var(--spacing-4); border: var(--border-width-2) solid var(--color-brand-primary); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+                    <div
+                        style="background: var(--color-brand-primary); padding: var(--spacing-2) var(--spacing-4); font-size: var(--font-size-xs); font-weight: 800; color: var(--color-white); text-transform: uppercase; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2rem;">💡</span> Ejemplo guía para el docente
+                    </div>
+                    <div
+                        style="padding: var(--spacing-5); background: var(--color-slate-50); font-size: var(--font-size-sm); line-height: var(--line-height-relaxed); color: var(--color-text-primary); border-bottom: 4px solid var(--color-brand-primary-container);">
+                        <p style="margin: 0; font-style: italic;">
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Rol]</span> Actúa como
+                            maestro de 4to grado de Matemáticas en Puerto Rico.
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Contexto]</span> Mi
+                            grupo tiene 25 estudiantes y cuento con proyector y pizarra, pero sin internet para ellos.
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Tarea]</span> Diseña
+                            una planificación de 3 clases de 50 minutos sobre suma de fracciones, basada en el estándar
+                            [M.N.4.1].
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Formato]</span>
+                            Presenta el plan en una tabla con objetivos, actividades y recursos.
+                            <span style="color: var(--color-brand-primary); font-weight: 700; border-bottom: 1px solid var(--color-brand-primary-container);">[Restricciones]</span>
+                            Usa ejemplos de cocina puertorriqueña, no uses tecnología digital para los alumnos e incluye
+                            estrategias de diferenciación.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="technical-container">
+                    <button class="btn-copy" title="Copiar prompt" onclick="copyToClipboard('prompt_completo', this)" data-html2canvas-ignore>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                    <textarea id="prompt_completo" class="form-control technical-textarea"
+                        placeholder="Escribe tu prompt final aquí..."></textarea>
+                    <div id="mirror_prompt_completo" class="print-mirror"></div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Paso 3: Instrucciones de Generación -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">3</span> Paso 3. Generación de la planificación
+                    con IA</h2>
+                <div class="reflection-block"
+                    style="background: var(--color-slate-50); border: var(--border-width-1) solid var(--color-border-subtle);">
+                    <ol
+                        style="margin: 0; padding-left: var(--spacing-5); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                        <li style="margin-bottom: var(--spacing-2);">Copia el prompt completo desde esta plantilla y
+                            pégalo en la herramienta de IA que utilices (ChatGPT, Copilot u otra).</li>
+                        <li>Copia el resultado generado por la IA y pégalo en el recuadro de abajo para que aparezca en tu documento final.</li>
+                    </ol>
+                </div>
+
+                <div style="margin-top: var(--spacing-4);">
+                    <label class="form-label" for="resultado_ia">Resultado generado por la IA:</label>
+                    
+                    <div class="reflection-block" style="background: var(--color-alpha-cyan-5); border: 1px solid var(--color-alpha-cyan-15); margin-bottom: var(--spacing-4);">
+                        <p class="text-body-sm" style="margin-bottom: var(--spacing-2); color: var(--color-text-primary);">
+                            <strong>Instrucciones:</strong> Primero copia el resultado generado por ChatGPT, Copilot u otra herramienta de IA. Luego regresa a esta plantilla y presiona <strong>"Pegar resultado de la IA"</strong> para colocarlo automáticamente en este campo.
+                        </p>
+                        <p class="text-muted" style="font-size: var(--font-size-xs); margin: 0;">
+                            Nota: Si el navegador bloquea el acceso al portapapeles, puedes pegar manualmente con Ctrl+V o manteniendo presionado en tablet/móvil.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: var(--spacing-2); margin-bottom: var(--spacing-3); align-items: center;">
+                        <button type="button" id="pasteAiResultBtn" class="btn btn-secondary" style="gap: var(--spacing-2);" aria-label="Pegar resultado copiado desde la herramienta de IA">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                            Pegar resultado de la IA
+                        </button>
+                        <span id="paste-feedback" style="font-size: var(--font-size-xs); color: var(--color-feedback-success); font-weight: bold; opacity: 0; transition: opacity 0.3s;">
+                            ✓ Resultado pegado correctamente
+                        </span>
+                    </div>
+
+                    <div class="technical-container">
+                        <button class="btn-copy" title="Copiar resultado" onclick="copyToClipboard('resultado_ia', this)" data-html2canvas-ignore>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                        <textarea id="resultado_ia" class="form-control technical-textarea" 
+                            style="min-height: 300px;" 
+                            placeholder="Pega aquí la planificación, actividades o recursos generados por la IA..."></textarea>
+                        <div id="mirror_resultado_ia" class="print-mirror"></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Paso 4: Micro-reflexión -->
+            <section class="section-block">
+                <h2 class="section-title"><span class="section-number">4</span> Paso 4. Micro-reflexión</h2>
+                <h3
+                    style="font-size: var(--font-size-sm); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; margin-bottom: var(--spacing-4);">
+                    Micro-reflexión</h3>
+                <p style="font-size: var(--font-size-sm); margin-bottom: var(--spacing-4);">Responde brevemente después
+                    de generar la planificación con la IA:</p>
+
+                <div class="reflection-block">
+                    <p class="reflection-q">1. ¿Qué elementos de la planificación generada SÍ se ajustan a mi realidad?</p>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-2);">
+                        Ejemplo: tiempos realistas, actividades viables, ejemplos pertinentes, nivel apropiado.
+                    </p>
+                    <textarea id="refl_si" class="form-control"></textarea>
+                </div>
+
+                <div class="reflection-block">
+                    <p class="reflection-q">2. ¿Qué elementos NO se ajustan?</p>
+                    <p style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-2);">
+                        Ejemplo: tiempos muy largos, actividades poco viables con mis recursos, ejemplos descontextualizados.
+                    </p>
+                    <textarea id="refl_no" class="form-control"></textarea>
+                </div>
+
+                <div class="reflection-block">
+                    <p class="reflection-q">3. ¿Qué ajustes necesito hacer a mi prompt para mejorar el resultado?</p>
+                    <textarea id="refl_ajustes" class="form-control"></textarea>
+                </div>
+            </section>
+
+            <div class="html2pdf__page-break"></div>
+
+            <!-- Instrucciones Padlet -->
+            <section class="padlet-instructions">
+                <h3>📌 Instrucciones para subir al Padlet</h3>
+                <ol>
+                    <li>Completa esta plantilla con toda la información solicitada.</li>
+                    <li>Pulsa el botón <strong>"Descargar PDF"</strong> para guardar tu trabajo con tu nombre.</li>
+                    <li>En el Padlet del módulo, busca la columna <strong>"Fase 2: El Prompt-Instrucciones"</strong>.
+                    </li>
+                    <li>Crea una nueva entrada, adjunta tu PDF y añade un título breve (Ej. "Planificación Ciencias 5to
+                        grado - Ecosistemas").</li>
+                </ol>
+            </section>
+
+            <!-- Recordatorio Final -->
+            <section
+                style="margin-top: var(--spacing-8); padding: var(--spacing-6); background: var(--color-slate-50); border-radius: var(--radius-lg); border: 1px dashed var(--color-border-default); text-align: center;">
+                <p
+                    style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-muted); font-style: italic;">
+                    <strong>Recuerda:</strong> Este es un proceso iterativo. Tu primer prompt puede no ser perfecto, y
+                    eso está bien. La práctica te ayudará a mejorarlo en las siguientes fases del taller.
+                </p>
+            </section>
+        </main>
+
+        <div class="actions-bar" data-html2canvas-ignore>
+            <a href="actividad2_1.html" id="btn-back" class="btn btn-outline" style="text-decoration: none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Volver a la actividad
+            </a>
+            <div style="display: flex; gap: var(--spacing-3);">
+                <button id="btn-clear" class="btn btn-outline">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Limpiar
+                </button>
+                <button id="btn-pdf" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button id="btn-scroll-top" class="btn-scroll-top" title="Volver arriba" data-html2canvas-ignore>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-content">
+            <h3 style="margin-top: 0; color: var(--color-feedback-error);">¿Limpiar formulario?</h3>
+            <p>Se borrarán todos los datos ingresados. Esta acción no se puede deshacer.</p>
+            <div style="display: flex; gap: var(--spacing-3); justify-content: center; margin-top: var(--spacing-6);">
+                <button id="modal-cancel" class="btn btn-outline">Cancelar</button>
+                <button id="modal-confirm" class="btn btn-danger">Sí, limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lógica de descarga PDF
+        document.getElementById('btn-pdf').addEventListener('click', function () {
+            const nombreRaw = document.getElementById('nombre_participante').value.trim();
+            
+            const sanitize = (str) => {
+                return str.normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-zA-Z0-9 ]/g, "")
+                    .replace(/\s+/g, "_");
+            };
+
+            const nombreSanitizado = nombreRaw ? sanitize(nombreRaw) : 'Participante';
+            const fileName = `Plantilla_Fase2_${nombreSanitizado}.pdf`;
+
+            // Asegurar que estamos al inicio de la página para la captura
+            window.scrollTo(0, 0);
+
+            const element = document.getElementById('capture-area');
+            
+            // Configuración de html2pdf mejorada
+            const opt = {
+                margin:       12.7, // 0.5 pulgadas en todos los lados
+                filename:     fileName,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: document.documentElement.offsetWidth,
+                    onclone: (clonedDoc) => {
+                        // Forzar visibilidad de espejos y ocultar textareas en el clon
+                        clonedDoc.querySelectorAll('.technical-textarea').forEach(el => el.style.display = 'none');
+                        clonedDoc.querySelectorAll('.print-mirror').forEach(el => el.style.display = 'block');
+                    }
+                },
+                jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak:    { mode: 'css' }
+            };
+
+            // Ejecutar generación
+            html2pdf().set(opt).from(element).save();
+        });
+
+        // Lógica de pegado inteligente
+        document.getElementById('pasteAiResultBtn').addEventListener('click', async function() {
+            const textarea = document.getElementById('resultado_ia');
+            
+            // Confirmación si ya hay texto
+            if (textarea.value.trim() !== "") {
+                const confirmar = confirm("Este campo ya contiene texto. ¿Deseas reemplazarlo con el contenido copiado?");
+                if (!confirmar) return;
+            }
+
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text && text.trim() !== "") {
+                    textarea.value = text;
+                    // Disparar evento input para actualizar el espejo
+                    textarea.dispatchEvent(new Event('input'));
+                    
+                    // Feedback visual temporal
+                    const feedback = document.getElementById('paste-feedback');
+                    feedback.style.opacity = '1';
+                    setTimeout(() => feedback.style.opacity = '0', 3000);
+                } else {
+                    alert('No se encontró texto copiado. Copia primero el resultado generado por la IA y vuelve a intentarlo.');
+                }
+            } catch (err) {
+                console.error('Error al acceder al portapapeles:', err);
+                alert('Tu navegador bloqueó el acceso automático al portapapeles. Pega manualmente el resultado con Ctrl+V o manteniendo presionado en tablet/móvil.');
+            }
+        });
+
+        // Funcionalidad de copiado
+        function copyToClipboard(elementId, btn) {
+            const textarea = document.getElementById(elementId);
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Efecto visual en el botón
+            const originalIcon = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.innerHTML = originalIcon;
+            }, 2000);
+        }
+
+        // Botón volver arriba
+        const scrollTopBtn = document.getElementById('btn-scroll-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Lógica de limpieza y variables del modal
+        const clearBtn = document.getElementById('btn-clear');
+        const modal = document.getElementById('confirm-modal');
+        const cancelBtn = document.getElementById('modal-cancel');
+        const confirmBtn = document.getElementById('modal-confirm');
+
+        clearBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Lógica de generación automática del prompt
+        const promptInputs = [
+            'grado_unidad', 'materia_unidad', 'num_estudiantes', 'caract_grupo', 
+            'tarea_clases', 'tarea_minutos', 'tarea_tema', 'tarea_estandar', 
+            'otro_formato', 'otras_restr'
+        ];
+        
+        const promptCheckboxes = document.querySelectorAll('input[name="recurso"], input[name="modalidad"], input[name="restriccion"]');
+        const finalPromptArea = document.getElementById('prompt_completo');
+        const tareaPreviewArea = document.getElementById('tarea_preview');
+        const rolPreviewArea = document.getElementById('rol_preview');
+        let isManualEdit = false;
+
+        function updateFinalPrompt() {
+            const grado = document.getElementById('grado_unidad').value || '[grado]';
+            const materia = document.getElementById('materia_unidad').value || '[materia]';
+            
+            // Actualizar vista previa del rol
+            rolPreviewArea.innerText = `"Actúa como maestro/a de ${grado} grado de ${materia} en Puerto Rico."`;
+
+            // Actualizar vista previa de la tarea siempre
+            const clases = document.getElementById('tarea_clases').value || '[cantidad]';
+            const mins = document.getElementById('tarea_minutos').value || '[minutos]';
+            const tema = document.getElementById('tarea_tema').value || '[tema]';
+            const estandarTarea = document.getElementById('tarea_estandar').value || '[estándar]';
+            
+            tareaPreviewArea.innerText = `Diseña una planificación semanal de ${clases} clases de ${mins} minutos sobre el tema ${tema}, basada en el estándar ${estandarTarea}.`;
+
+            if (isManualEdit) return;
+
+            const numEst = document.getElementById('num_estudiantes').value;
+            const caract = document.getElementById('caract_grupo').value;
+            
+            const otroFormato = document.getElementById('otro_formato').value;
+            const otrasRestr = document.getElementById('otras_restr').value;
+
+            // Recursos
+            const recursos = Array.from(document.querySelectorAll('input[name="recurso"]:checked')).map(cb => cb.value);
+            // Modalidad
+            const modalidad = document.querySelector('input[name="modalidad"]:checked')?.value;
+            // Restricciones
+            const restricciones = Array.from(document.querySelectorAll('input[name="restriccion"]:checked')).map(cb => {
+                if (cb.value === 'Lenguaje accesible') {
+                    return grado !== '[grado]' ? `Usa lenguaje accesible para estudiantes de ${grado} grado` : `Usa lenguaje accesible para estudiantes del grado indicado`;
+                }
+                return cb.value;
+            });
+
+            let prompt = `Actúa como maestro/a de ${grado} grado de ${materia} en Puerto Rico. `;
+            
+            let contexto = "";
+            if (numEst) contexto += `Mi grupo tiene ${numEst} estudiantes. `;
+            if (caract) contexto += `Características del grupo: ${caract}. `;
+            if (recursos.length > 0) contexto += `Recursos disponibles: ${recursos.join(', ')}. `;
+            if (modalidad) contexto += `Modalidad: ${modalidad}. `;
+            if (contexto) prompt += `\n\nCONTEXTO: ${contexto}`;
+
+            prompt += `\n\nTAREA: Diseña una planificación semanal de ${clases === '[cantidad]' ? '[X]' : clases} clases de ${mins === '[minutos]' ? '[Y]' : mins} minutos sobre el tema ${tema}, basada en el estándar ${estandarTarea}.`;
+
+            let formato = "Presenta el plan en formato de tabla con las siguientes columnas: objetivos, actividades (inicio, desarrollo, cierre), recursos y tiempo estimado.";
+            if (otroFormato) formato += ` Además, usa este formato: ${otroFormato}.`;
+            prompt += `\n\nFORMATO: ${formato}`;
+
+            let restrFinal = [...restricciones];
+            if (otrasRestr) restrFinal.push(otrasRestr);
+            if (restrFinal.length > 0) prompt += `\n\nRESTRICCIONES: ${restrFinal.join('. ')}.`;
+
+            finalPromptArea.value = prompt;
+            document.getElementById('mirror_prompt_completo').innerText = prompt;
+        }
+
+        // Sincronizar el espejo del resultado IA
+        document.getElementById('resultado_ia').addEventListener('input', function() {
+            document.getElementById('mirror_resultado_ia').innerText = this.value;
+        });
+
+        // Agregar listeners a inputs de texto y textareas
+        promptInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateFinalPrompt);
+        });
+
+        // Agregar listeners a checkboxes y radios
+        promptCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateFinalPrompt);
+        });
+
+        // Detectar si el usuario edita el prompt final manualmente
+        finalPromptArea.addEventListener('input', function() {
+            isManualEdit = true;
+            document.getElementById('mirror_prompt_completo').innerText = this.value;
+        });
+
+        // Modificar el botón limpiar para resetear el flag de edición manual
+        confirmBtn.addEventListener('click', () => {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') {
+                    el.checked = false;
+                } else {
+                    el.value = '';
+                }
+            });
+            isManualEdit = false;
+            updateFinalPrompt(); // Resetear el prompt a su estado inicial
+            document.getElementById('mirror_resultado_ia').innerText = '';
+            modal.style.display = 'none';
+        });
+
+        // Inicializar el prompt al cargar
+        updateFinalPrompt();
+
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

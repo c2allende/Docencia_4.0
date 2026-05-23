@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 2.3 de Docencia 4.0: Inclusión y evaluación asistidas por IA. Diferenciación con LLM, evaluación, rúbricas y listas de cotejo de validación.">
+    <meta name="keywords"
+        content="Docencia 4.0, Lección 2.3, inclusión, evaluación asistida por IA, LLM, DUA, rúbricas, bancos de preguntas, listas de cotejo, validación docente">
+    <title>Lección 2.3 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            min-height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .diff-btn:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .genially-checkpoint__toggle:focus-visible,
+        .genially-checkpoint__fallback:focus-visible,
+        .genially-checkpoint iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-kicker {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .lesson-section,
+        .text-section {
+            margin-bottom: var(--spacing-12);
+            scroll-margin-top: calc(var(--nav-height) + var(--spacing-xl));
+        }
+
+        .lesson-summary-card,
+        .lesson-core-card,
+        .lesson-callout,
+        .lesson-evidence-card,
+        .role-transfer-card,
+        .remember-card,
+        .lesson-section-card,
+        .image-feature-card {
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .lesson-summary-card {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .lesson-core-card {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-12);
+            background: var(--color-background-surface);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+        }
+
+        .lesson-callout {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+        }
+
+        .lesson-evidence-card {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .content-list {
+            margin: var(--spacing-md) 0 var(--spacing-xl);
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+        }
+
+        .content-list li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .audio-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        .lesson-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin: var(--spacing-xl) 0;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .lesson-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        .lesson-table th,
+        .lesson-table td {
+            padding: var(--spacing-md);
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .lesson-table th {
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            background: var(--color-background-surface-low);
+        }
+
+        .lesson-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .image-feature-card {
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .image-feature-card__media {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .image-feature-card__caption {
+            margin-top: var(--spacing-sm);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .visual-flow {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .visual-flow__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 112px;
+            padding: var(--spacing-lg);
+            text-align: center;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .visual-flow__item span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            margin-bottom: var(--spacing-2);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-sm);
+        }
+
+        /* WIDGET DIFERENCIACIÓN */
+        .diff-widget-box {
+            margin: var(--spacing-12) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .diff-widget-header {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .diff-widget-header h3 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .diff-widget-header p {
+            margin: 0;
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            opacity: 0.92;
+        }
+
+        .diff-section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .diff-original-text {
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            color: var(--color-text-secondary);
+            font-style: italic;
+        }
+
+        .diff-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .diff-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-1);
+            min-height: 112px;
+            padding: var(--spacing-lg);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-align: center;
+            cursor: pointer;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .diff-btn span {
+            color: var(--color-text-muted);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .diff-btn:hover,
+        .diff-btn.active {
+            transform: translateY(-3px);
+            border-color: var(--color-brand-primary);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .diff-btn.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .diff-btn.active span {
+            color: var(--color-brand-primary-on);
+            opacity: 0.86;
+        }
+
+        .diff-output-area {
+            min-height: 260px;
+            padding: var(--spacing-xl);
+            border: var(--border-width-2) dashed var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .diff-output-area.loading {
+            opacity: 0.64;
+            border-color: var(--color-brand-primary);
+        }
+
+        .diff-output-content h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+        }
+
+        .diff-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--spacing-1) var(--spacing-3);
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .diff-validation-card {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+        }
+
+        .diff-validation-card .icon {
+            font-size: var(--font-size-2xl);
+        }
+
+        .diff-validation-card h4 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+        }
+
+        .diff-validation-card p {
+            margin: 0;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Lectura progresiva */
+        .lesson-progressive-list {
+            display: grid;
+            gap: var(--spacing-md);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .lesson-progressive-card {
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .lesson-progressive-card summary {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .lesson-progressive-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .lesson-progressive-card__icon {
+            width: 46px;
+            height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .lesson-progressive-card__title {
+            display: block;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .lesson-progressive-card__hint {
+            display: block;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .lesson-progressive-card__cue {
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            white-space: nowrap;
+        }
+
+        .lesson-progressive-card__cue .summary-less,
+        .lesson-progressive-card[open] .lesson-progressive-card__cue .summary-more {
+            display: none;
+        }
+
+        .lesson-progressive-card[open] .lesson-progressive-card__cue .summary-less {
+            display: inline;
+        }
+
+        .lesson-progressive-card__body {
+            padding: 0 var(--spacing-lg) var(--spacing-lg) calc(var(--spacing-lg) + 62px);
+            color: var(--color-text-secondary);
+        }
+
+        .role-compact-card {
+            margin: var(--spacing-12) 0;
+        }
+
+        .role-compact-card > summary {
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .role-compact-card[open] > summary {
+            border-bottom-left-radius: var(--radius-xl);
+            border-bottom-right-radius: var(--radius-xl);
+        }
+
+        .role-compact-panel {
+            margin-top: var(--spacing-lg);
+        }
+
+        .remember-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-12) 0;
+            background: var(--color-background-surface);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+        }
+
+        .remember-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-lg) 0 0;
+        }
+
+        .remember-list li {
+            position: relative;
+            padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) var(--spacing-12);
+            margin-bottom: var(--spacing-sm);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-text-secondary);
+        }
+
+        .remember-list li::before {
+            content: "✅";
+            position: absolute;
+            top: var(--spacing-md);
+            left: var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .completion-card {
+            position: relative;
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: calc(-1 * var(--spacing-5));
+            right: var(--spacing-xl);
+            padding: var(--spacing-2) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .section-separator {
+            border: 0;
+            border-top: var(--border-width-1) solid var(--color-border-default);
+            margin: var(--spacing-16) 0 var(--spacing-xl);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card,
+            .diff-widget-box {
+                padding: var(--spacing-xl);
+            }
+
+            .visual-flow {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .diff-validation-card {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .diff-widget-box,
+            .completion-card,
+            .remember-card,
+            .lesson-summary-card,
+            .lesson-core-card,
+            .image-feature-card {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+
+            .visual-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-progressive-card summary {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .lesson-progressive-card__body {
+                padding: 0 var(--spacing-lg) var(--spacing-lg);
+            }
+        }
+    </style>
+</head>
+
+<body data-page-id="leccion2_3" data-module-id="modulo2" data-page-type="leccion" data-title="Lección 2.3">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Lección 2.3: Inclusión y evaluación asistidas por IA</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 2" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 2</span></li>
+            <li><a href="modulo2_intro.html">📍 Introducción Módulo 2</a></li>
+            <li><a href="leccion2_1.html">📖 Lección 2.1</a></li>
+            <li><a href="leccion2_2.html">📖 Lección 2.2</a></li>
+            <li><a href="leccion2_3.html" class="active" aria-current="page">📖 Lección 2.3</a></li>
+            <li><a href="actividad2_1.html">🛠️ Actividad 2.1</a></li>
+            <li><a href="foro_modulo2.html">💬 Foro Módulo 2</a></li>
+            <li><a href="recursos_m2.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">⬅️ Volver a Introducción Módulo 2</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card" aria-labelledby="lesson-title">
+            <span class="lesson-kicker">Módulo 2 · Lección 2.3</span>
+            <h1 id="lesson-title" class="lesson-title">Lección 2.3: Inclusión y evaluación asistidas por IA</h1>
+
+            <section class="audio-player-container" aria-label="Audio inicial de la Lección 2.3">
+                <label class="audio-label" for="lessonAudio">Escuchar Lección 2.3</label>
+                <audio id="lessonAudio" controls preload="metadata" class="audio-player">
+                    <source src="LLM-DEPR/LLM_M2_Leccion_2.3_Inclusión y evaluación asistidas por IA_audio.mp3"
+                        type="audio/mpeg">
+                    Tu navegador no soporta el audio.
+                </audio>
+                <p>Acompaña la lectura con la narración guiada. Esta lección te enseñará a usar los <strong>LLM</strong> como aliados para la <strong>diferenciación</strong>, la <strong>creación de evaluaciones</strong> y el <strong>diseño de rúbricas</strong> con calidad y equidad.</p>
+            </section>
+
+            <section class="lesson-summary-card" aria-labelledby="resumen-title">
+                <h2 id="resumen-title" class="section-title">📌 Resumen inicial</h2>
+                <p>En esta lección descubrirás cómo los <strong>Modelos de Lenguaje de Gran Tamaño (LLM)</strong> pueden apoyar dos tareas centrales de tu práctica: la <strong>diferenciación didáctica</strong> —en el marco del <strong>Diseño Universal para el Aprendizaje (DUA)</strong>— y la <strong>evaluación de los aprendizajes</strong> —reactivos, bancos de preguntas y rúbricas—.</p>
+                <p>Aprenderás a generar <strong>variantes de un mismo contenido</strong> para distintos niveles, construir <strong>borradores de preguntas alineadas a Bloom/Webb</strong> y diseñar <strong>rúbricas con apoyo de IA</strong>.</p>
+                <p>Al cerrar, contarás con una <strong>Lista de Cotejo de Validación</strong> que te permitirá filtrar todo producto generado antes de llevarlo al aula.</p>
+            </section>
+
+            <section class="lesson-core-card" aria-labelledby="concepto-central-title">
+                <h2 id="concepto-central-title" class="section-title">🎯 Concepto central</h2>
+                <p>Los <strong>LLM son aliados para la inclusión y la evaluación</strong>, no sustitutos del <strong>criterio profesional</strong>.</p>
+                <p>Pueden generar <strong>versiones diferenciadas</strong>, <strong>bancos iniciales de preguntas</strong> y <strong>borradores de rúbricas</strong>, pero el filtro del docente —<strong>exactitud</strong>, <strong>complejidad</strong>, <strong>pertinencia cultural</strong> y <strong>equidad</strong>— es lo que asegura calidad y justicia en lo que llega a los estudiantes.</p>
+            </section>
+
+            <section class="lesson-section" aria-labelledby="diferenciacion-title">
+                <h2 id="diferenciacion-title" class="section-title">1️⃣ Diferenciación con apoyo de LLM</h2>
+                <p>La <strong>diferenciación didáctica</strong> busca ajustar los materiales y actividades a la diversidad de niveles, ritmos y necesidades de los estudiantes, sin perder de vista los mismos <strong>objetivos curriculares</strong>.</p>
+                <p>El enfoque del <strong>Diseño Universal para el Aprendizaje (DUA)</strong> propone ofrecer múltiples formas de <strong>representación</strong>, <strong>acción/expresión</strong> y <strong>compromiso</strong> para garantizar el acceso de todos los alumnos al currículo (Rao et al., 2023).</p>
+                <p>En este marco, los <strong>LLM</strong> pueden funcionar como herramientas de apoyo para generar rápidamente <strong>variantes de un mismo contenido</strong>, que luego el docente revisa y adapta.</p>
+
+                <div class="lesson-progressive-list" aria-label="Aspectos clave de diferenciación con apoyo de LLM">
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">📝</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">Simplificación de textos curriculares</span>
+                                <span class="lesson-progressive-card__hint">Versiones accesibles sin perder significado.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>Investigaciones en simplificación de textos muestran que los LLM son capaces de reescribir textos complejos en versiones más accesibles manteniendo el <strong>significado principal</strong>, aunque con variabilidad en la calidad según el modelo y el dominio (Kew et al., 2023).</p>
+                            <p>Estos estudios señalan que modelos recientes, incluso sin entrenamiento específico en simplificación, pueden alcanzar resultados comparables a sistemas especializados, siempre que se diseñen bien las instrucciones y se supervise el resultado.</p>
+                        </div>
+                    </details>
+
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">🧩</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">Aplicación práctica</span>
+                                <span class="lesson-progressive-card__hint">Tres versiones del mismo texto curricular.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>Pedir a un bot o aplicación basada en LLM <strong>tres versiones del mismo texto curricular</strong> —básica, intermedia y avanzada—, que luego el docente valida para su uso con distintos niveles de lectura.</p>
+                        </div>
+                    </details>
+
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">📚</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">Generación de materiales adaptados por edad</span>
+                                <span class="lesson-progressive-card__hint">Adecuación lingüística, conceptual y cultural.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>En el ámbito educativo, también se ha explorado el uso de LLM para generar historias o materiales adaptados a diferentes <strong>edades</strong> y <strong>niveles de vocabulario</strong>, con resultados prometedores, pero aún desiguales (Valentini et al., 2023).</p>
+                            <p>Estos trabajos recomiendan que la IA se use como <strong>generador inicial</strong> y que el docente evalúe:</p>
+                            <ul class="content-list">
+                                <li><strong>La adecuación lingüística</strong>.</li>
+                                <li><strong>La precisión conceptual</strong>.</li>
+                                <li><strong>La pertinencia cultural</strong>.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">🇵🇷</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">Especialmente relevante en Puerto Rico</span>
+                                <span class="lesson-progressive-card__hint">Ejemplos culturalmente significativos.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>El maestro debe asegurar que los ejemplos y referencias sean <strong>culturalmente significativos</strong> para sus estudiantes.</p>
+                        </div>
+                    </details>
+
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">♿</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">Educación Especial y aprendices de un segundo idioma (ELL)</span>
+                                <span class="lesson-progressive-card__hint">Adaptaciones lingüísticas y apoyos contextuales.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>Para educación especial y aprendices de un segundo idioma, la literatura enfatiza la importancia de adaptar (Huang et al., 2023):</p>
+                            <ul class="content-list">
+                                <li><strong>Longitud de oraciones</strong>.</li>
+                                <li><strong>Vocabulario técnico</strong>.</li>
+                                <li><strong>Estructuras sintácticas</strong>.</li>
+                                <li><strong>Uso de apoyos visuales o contextuales</strong>.</li>
+                            </ul>
+                            <p>Los LLM pueden ayudar a producir versiones con <strong>frases más cortas</strong>, <strong>glosarios básicos</strong>, <strong>explicaciones adicionales</strong> o <strong>ejemplos concretos</strong>.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <aside class="lesson-callout" aria-label="Recordatorio ético del Módulo 1">
+                    <h3>Recordatorio ético del Módulo 1</h3>
+                    <p>El docente debe asegurarse de <strong>no utilizar datos personales identificables</strong> al describir las necesidades del estudiante, en cumplimiento con la normativa de privacidad —<strong>FERPA</strong> y orientaciones del <strong>DEPR</strong>—.</p>
+                </aside>
+            </section>
+
+            <section class="lesson-section" aria-labelledby="diff-widget-title">
+                <h2 class="section-title">2️⃣ Diferenciación en acción: ajuste de niveles sin perder el objetivo</h2>
+
+                <section class="diff-widget-box" aria-labelledby="diff-widget-title">
+                    <div class="diff-widget-header">
+                        <h3 id="diff-widget-title">Diferenciación con LLM</h3>
+                        <p>Ajuste de niveles sin perder el objetivo curricular</p>
+                    </div>
+
+                    <div class="diff-section-title">
+                        <span aria-hidden="true">📄</span> Contenido Curricular Original (Ciencias/Geografía)
+                    </div>
+                    <div class="diff-original-text" id="originalText">
+                        "Los ecosistemas de manglares en las costas de Puerto Rico actúan como barreras biosalinas
+                        cruciales. Estos humedales costeros exhiben una biodiversidad hidrológica compleja que mitiga la
+                        erosión costera y el impacto de marejadas ciclónicas, además de servir como sumideros de carbono
+                        altamente eficientes."
+                    </div>
+
+                    <div class="diff-section-title">
+                        <span aria-hidden="true">⚡</span> Selecciona una estrategia de diferenciación
+                    </div>
+                    <div class="diff-controls">
+                        <button type="button" class="diff-btn active" onclick="transformContent('basic', this)"
+                            aria-pressed="true">
+                            Nivel Básico
+                            <span>Vocabulario sencillo</span>
+                        </button>
+                        <button type="button" class="diff-btn" onclick="transformContent('intermediate', this)"
+                            aria-pressed="false">
+                            Intermedio
+                            <span>Frases moderadas</span>
+                        </button>
+                        <button type="button" class="diff-btn" onclick="transformContent('advanced', this)"
+                            aria-pressed="false">
+                            Avanzado
+                            <span>Análisis crítico</span>
+                        </button>
+                        <button type="button" class="diff-btn" onclick="transformContent('dua', this)" aria-pressed="false">
+                            Apoyo DUA/ESL
+                            <span>Glosario y visual</span>
+                        </button>
+                    </div>
+
+                    <div class="diff-output-area" id="outputArea" aria-live="polite">
+                        <div id="outputContent" class="diff-output-content"></div>
+                    </div>
+
+                    <div class="diff-validation-card">
+                        <div class="icon" aria-hidden="true">💡</div>
+                        <div>
+                            <h4>Rol del Docente (Validación)</h4>
+                            <p>La IA generó estas versiones en segundos. Ahora te toca a ti: verifica que los ejemplos sean
+                                culturalmente pertinentes para <strong>Puerto Rico</strong> y que no se pierda la precisión
+                                científica.</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="lesson-section" aria-labelledby="evaluacion-title">
+                <h2 id="evaluacion-title" class="section-title">3️⃣ Evaluación apoyada por IA: reactivos y bancos de preguntas</h2>
+
+                <div class="visual-flow" aria-label="Niveles de complejidad cognitiva para reactivos generados por IA">
+                    <div class="visual-flow__item"><span>1</span>Recordar</div>
+                    <div class="visual-flow__item"><span>2</span>Comprender</div>
+                    <div class="visual-flow__item"><span>3</span>Aplicar</div>
+                    <div class="visual-flow__item"><span>4</span>Analizar</div>
+                </div>
+
+                <p>El diseño de instrumentos de evaluación es otra tarea que consume tiempo y requiere <strong>alineación cuidadosa</strong> con los objetivos de aprendizaje.</p>
+                <p>La <strong>taxonomía de Bloom</strong> y marcos posteriores como la <strong>profundidad de conocimiento de Webb</strong> se utilizan con frecuencia para estructurar preguntas en distintos niveles de <strong>complejidad cognitiva</strong>.</p>
+
+                <aside class="lesson-evidence-card" aria-label="Investigación sobre LLM y evaluación">
+                    <h3>🔬 ¿Qué dice la investigación?</h3>
+                    <p>Estudios recientes han analizado la capacidad de los LLM para responder exámenes de opción múltiple de alta exigencia —por ejemplo, en medicina o fisiología—, encontrando que modelos como GPT-4 pueden alcanzar tasas altas de acierto, mientras que versiones anteriores muestran un rendimiento más variable (Madrid-García et al., 2023; Waisberg et al., 2023).</p>
+                </aside>
+
+                <aside class="lesson-callout" aria-label="Implicación pedagógica de los LLM en evaluación">
+                    <h3>Implicación pedagógica</h3>
+                    <p>Si los LLM son capaces de manejar preguntas estructuradas y razonar sobre opciones de respuesta, también pueden apoyar la <strong>generación de reactivos</strong> cuando se orientan adecuadamente mediante prompts.</p>
+                    <p>Investigaciones sobre generación automática de materiales con LLM señalan que, al pedir explícitamente preguntas de diferentes niveles —<strong>recordar</strong>, <strong>comprender</strong>, <strong>aplicar</strong>, <strong>analizar</strong>—, se puede obtener un <strong>banco inicial</strong> que luego el docente depura y valida (MacNeil et al., 2022).</p>
+                </aside>
+
+                <h3>🎯 Tres condiciones imprescindibles de la revisión humana</h3>
+                <div class="lesson-table-wrap">
+                    <table class="lesson-table">
+                        <thead>
+                            <tr>
+                                <th>Criterio</th>
+                                <th>Qué verificar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Validez</strong></td>
+                                <td>Que cada ítem mida realmente el objetivo propuesto.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Precisión</strong></td>
+                                <td>Evitar errores conceptuales o ambigüedades.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pertinencia</strong></td>
+                                <td>Ajustar el lenguaje y el contexto a la realidad de los estudiantes.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="lesson-callout" aria-label="Síntesis aplicada">
+                    <h3>Síntesis aplicada</h3>
+                    <p>Usar un LLM para generar <strong>borradores de preguntas distribuidas por niveles Bloom/Webb</strong>, y luego utilizar una <strong>lista de cotejo docente</strong> para verificar calidad, alineación curricular y ausencia de sesgos.</p>
+                </aside>
+            </section>
+
+            <section class="lesson-section" aria-labelledby="rubricas-title">
+                <h2 id="rubricas-title" class="section-title">4️⃣ Diseño de rúbricas y listas de cotejo con apoyo de IA</h2>
+                <p>Además de preguntas, los docentes necesitan <strong>rúbricas</strong> y <strong>listas de cotejo</strong> para evaluar tareas, proyectos y productos auténticos.</p>
+                <p>La construcción de <strong>rúbricas analíticas</strong> requiere identificar criterios, niveles de desempeño y descriptores claros, lo que demanda tiempo y precisión.</p>
+
+                <div class="lesson-progressive-list" aria-label="Aspectos clave para diseñar rúbricas con apoyo de IA">
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">🛠️</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">¿Cómo aporta el LLM?</span>
+                                <span class="lesson-progressive-card__hint">Borradores desde tarea, objetivos y ejemplos.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>Algunos estudios sobre el uso de ChatGPT en evaluación señalan que este bot basado en LLM puede ayudar a generar <strong>borradores de rúbricas</strong> a partir de:</p>
+                            <ul class="content-list">
+                                <li><strong>Una descripción de la tarea</strong>.</li>
+                                <li><strong>Los objetivos de aprendizaje</strong>.</li>
+                                <li><strong>Ejemplos de productos esperados</strong> (Lund &amp; Wang, 2023).</li>
+                            </ul>
+                            <p>Revisiones recientes destacan que estos sistemas son particularmente útiles para transformar <strong>criterios generales</strong> en <strong>descriptores de desempeño</strong> más detallados y comprensibles para los estudiantes (Zawacki-Richter &amp; Kerres, 2023).</p>
+                        </div>
+                    </details>
+
+                    <details class="lesson-progressive-card">
+                        <summary>
+                            <span class="lesson-progressive-card__icon" aria-hidden="true">⚠️</span>
+                            <span>
+                                <span class="lesson-progressive-card__title">Riesgos a vigilar</span>
+                                <span class="lesson-progressive-card__hint">Evitar criterios genéricos o sesgos de desempeño.</span>
+                            </span>
+                            <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                        </summary>
+                        <div class="lesson-progressive-card__body">
+                            <p>Sin embargo, también advierten sobre el riesgo de que la IA:</p>
+                            <ul class="content-list">
+                                <li>Proponga <strong>criterios demasiado genéricos</strong>, no alineados al contexto concreto.</li>
+                                <li>Refuerce ciertas visiones de <strong>"buen desempeño"</strong> que no necesariamente reflejan la <strong>diversidad cultural o lingüística</strong> del alumnado.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+
+                <h3>🎓 Tres responsabilidades del docente como "experto validador"</h3>
+                <div class="lesson-table-wrap">
+                    <table class="lesson-table">
+                        <thead>
+                            <tr>
+                                <th>Responsabilidad</th>
+                                <th>Qué hacer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Alineación curricular</strong></td>
+                                <td>Verificar que los criterios correspondan directamente a los objetivos del DEPR trabajados en la lección.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Accesibilidad del lenguaje</strong></td>
+                                <td>Ajustar los descriptores al nivel de comprensión de los estudiantes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Equidad evaluativa</strong></td>
+                                <td>Comprobar que la rúbrica no favorezca un solo estilo de expresión o forma de participar.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="lesson-callout" aria-label="Aplicación útil">
+                    <h3>Aplicación útil</h3>
+                    <p>Los LLM pueden ofrecer diferentes versiones de una misma rúbrica —por ejemplo, una <strong>versión simplificada para estudiantes</strong> y otra <strong>más técnica para uso docente</strong>—, lo que facilita la comunicación de expectativas y la transparencia en la evaluación, siempre que se mantenga la <strong>revisión humana</strong>.</p>
+                </aside>
+            </section>
+
+            <section class="lesson-section" aria-labelledby="validacion-title">
+                <h2 id="validacion-title" class="section-title">5️⃣ La "Lista de Cotejo de Validación": tu control de calidad</h2>
+                <p>Dado que los LLM pueden cometer <strong>errores factuales</strong>, proponer ejemplos poco pertinentes o reproducir <strong>sesgos</strong> presentes en sus datos de entrenamiento, varios autores insisten en la necesidad de establecer procesos de <strong>control de calidad</strong> cuando se usan en contextos educativos (Zhao et al., 2023; Zubiaga, 2024).</p>
+                <p>En este módulo, esa necesidad se operacionaliza mediante una <strong>Lista de Cotejo de Validación</strong> que el docente utiliza antes de autorizar cualquier recurso generado por IA para su uso con estudiantes.</p>
+
+                <figure class="image-feature-card">
+                    <img class="image-feature-card__media" data-asset="LLM_M2-Grafico_revision_docente_Rev.png"
+                        src="assets/LLM_M2-Grafico_revision_docente_Rev.png"
+                        alt="Gráfico de revisión docente con criterios de exactitud, complejidad, pertinencia cultural y equidad para validar materiales generados por IA.">
+                    <figcaption class="image-feature-card__caption">Checklist visual de control de calidad docente antes de autorizar materiales generados con IA para uso estudiantil.</figcaption>
+                </figure>
+
+                <h3>✅ Criterios recurrentes según la literatura</h3>
+                <div class="lesson-table-wrap">
+                    <table class="lesson-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Criterio</th>
+                                <th>Qué verificar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>Exactitud factual</strong></td>
+                                <td>Comprobar fechas, datos, definiciones y procedimientos con fuentes confiables para evitar alucinaciones de la IA.</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>Nivel de complejidad adecuado</strong></td>
+                                <td>Revisar que el texto, pregunta o rúbrica estén en un rango de dificultad apropiada al grado. Los modelos a veces producen materiales demasiado complejos o excesivamente simplificados si no se les guía adecuadamente.</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>Pertinencia cultural y contextual</strong></td>
+                                <td>Asegurar que los ejemplos, nombres y situaciones sean respetuosos y relevantes para el contexto puertorriqueño y la comunidad escolar específica.</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>Sesgos y equidad</strong></td>
+                                <td>Identificar posibles estereotipos o representaciones desequilibradas en los ejemplos, consignas o criterios de evaluación. Este punto se vincula con las discusiones sobre sesgo algorítmico trabajadas en el Módulo 1.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="lesson-evidence-card" aria-label="Conclusión investigativa">
+                    <h3>Conclusión investigativa</h3>
+                    <p>Autores que analizan el uso de IA generativa en educación coinciden en que la combinación de herramientas como LLM con <strong>marcos de revisión sistemáticos</strong> guiados por el docente es la vía más prometedora para aprovechar el potencial de la IA sin comprometer la <strong>calidad</strong> ni la <strong>equidad educativa</strong>.</p>
+                </aside>
+            </section>
+
+            <details class="lesson-progressive-card role-compact-card" aria-labelledby="role-title">
+                <summary>
+                    <span class="lesson-progressive-card__icon" aria-hidden="true">👩‍🏫</span>
+                    <span>
+                        <span class="lesson-progressive-card__title" id="role-title">Conexión con tu rol como facilitador docente</span>
+                        <span class="lesson-progressive-card__hint">Como facilitador o facilitadora docente del DEPR, esta lección impacta directamente tus funciones de <strong>acompañamiento curricular</strong>, <strong>capacitación docente</strong> y <strong>apoyo a la evaluación</strong>.</span>
+                    </span>
+                    <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                </summary>
+                <div class="lesson-progressive-card__body role-compact-panel">
+                    <div class="lesson-progressive-list" aria-label="Conexión progresiva con el rol del facilitador docente">
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span class="lesson-progressive-card__icon" aria-hidden="true">→</span>
+                                <span>
+                                    <span class="lesson-progressive-card__title">Apoyo a la diferenciación y al DUA</span>
+                                    <span class="lesson-progressive-card__hint">Tres versiones de un mismo texto curricular.</span>
+                                </span>
+                                <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <p>Podrás modelar a los maestros cómo generar tres versiones —básica, intermedia, avanzada— de un mismo texto curricular, una práctica especialmente valiosa para acompañar al <strong>Programa de Educación Especial</strong>, a docentes con <strong>grupos heterogéneos</strong> y a <strong>aprendices de un segundo idioma</strong>.</p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span class="lesson-progressive-card__icon" aria-hidden="true">→</span>
+                                <span>
+                                    <span class="lesson-progressive-card__title">Optimización de la evaluación</span>
+                                    <span class="lesson-progressive-card__hint">Bancos Bloom/Webb alineados al DEPR.</span>
+                                </span>
+                                <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <p>Podrás guiar al personal docente en la construcción de <strong>bancos de preguntas distribuidos por niveles Bloom/Webb</strong>, garantizando alineación con los <strong>Estándares y Expectativas del DEPR</strong> —un aporte directo al propósito de la investigación sobre <strong>evaluación de los aprendizajes</strong>.</p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span class="lesson-progressive-card__icon" aria-hidden="true">→</span>
+                                <span>
+                                    <span class="lesson-progressive-card__title">Co-construcción de rúbricas institucionales</span>
+                                    <span class="lesson-progressive-card__hint">Bancos compartidos de rúbricas validadas.</span>
+                                </span>
+                                <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <p>Desde tu rol de mentoría, podrás liderar la creación de <strong>bancos compartidos de rúbricas validadas</strong> para distintas materias, fortaleciendo el <strong>capital profesional colectivo</strong>.</p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span class="lesson-progressive-card__icon" aria-hidden="true">→</span>
+                                <span>
+                                    <span class="lesson-progressive-card__title">Promoción de la pertinencia cultural puertorriqueña</span>
+                                    <span class="lesson-progressive-card__hint">Materiales anclados en la realidad local.</span>
+                                </span>
+                                <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <p>Al modelar la validación de ejemplos —manglares, costas, referentes locales— reforzarás la importancia de anclar los materiales generados por IA en la <strong>realidad cultural y lingüística</strong> del estudiantado de Puerto Rico.</p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span class="lesson-progressive-card__icon" aria-hidden="true">→</span>
+                                <span>
+                                    <span class="lesson-progressive-card__title">Filtro institucional de equidad</span>
+                                    <span class="lesson-progressive-card__hint">Estándar de calidad para recursos con IA.</span>
+                                </span>
+                                <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <p>La <strong>Lista de Cotejo de Validación</strong> que enseñes funcionará como estándar institucional de calidad para todo recurso generado con IA, protegiendo a estudiantes y maestros de <strong>errores factuales</strong>, <strong>sesgos</strong> o <strong>materiales inadecuados</strong>.</p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-progressive-card">
+                            <summary>
+                                <span class="lesson-progressive-card__icon" aria-hidden="true">→</span>
+                                <span>
+                                    <span class="lesson-progressive-card__title">Aporte directo a la investigación</span>
+                                    <span class="lesson-progressive-card__hint">Evidencia cualitativa para foros, grupos focales y posprueba.</span>
+                                </span>
+                                <span class="lesson-progressive-card__cue"><span class="summary-more">Leer más</span><span class="summary-less">Ocultar</span></span>
+                            </summary>
+                            <div class="lesson-progressive-card__body">
+                                <p>Esta lección desarrolla competencias clave para los propósitos del estudio relacionados con la <strong>creación de recursos educativos</strong> y la <strong>evaluación de los aprendizajes</strong>. La Lista de Cotejo y las prácticas modeladas se convierten en <strong>evidencia cualitativa</strong> para los foros de discusión, grupos focales y la posprueba.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </details>
+
+            <section class="remember-card" aria-labelledby="remember-title">
+                <h2 id="remember-title" class="section-title">🏁 Qué debes recordar</h2>
+                <ul class="remember-list">
+                    <li>Los <strong>LLM son aliados de la inclusión</strong> cuando los usas dentro del marco <strong>DUA</strong>: generan versiones diferenciadas en segundos, pero tú validas <strong>pertinencia</strong> y <strong>precisión</strong>.</li>
+                    <li>Para textos accesibles —lectura básica, ELL, educación especial—, siempre revisa <strong>adecuación lingüística</strong>, <strong>conceptual</strong> y <strong>cultural</strong>.</li>
+                    <li>La IA puede generar <strong>bancos de preguntas alineados a Bloom/Webb</strong>, pero la revisión humana asegura <strong>validez</strong>, <strong>precisión</strong> y <strong>pertinencia</strong>.</li>
+                    <li>Para rúbricas, el LLM acelera la redacción de <strong>criterios</strong> y <strong>descriptores</strong>, pero el docente garantiza <strong>alineación curricular</strong>, <strong>accesibilidad del lenguaje</strong> y <strong>equidad evaluativa</strong>.</li>
+                    <li>Aplica siempre la <strong>Lista de Cotejo de Validación</strong> —<strong>exactitud factual</strong>, <strong>nivel de complejidad</strong>, <strong>pertinencia cultural</strong> y <strong>sesgos</strong>— antes de autorizar cualquier recurso generado por IA.</li>
+                    <li>Nunca incluyas <strong>datos personales identificables del estudiantado</strong> al describir necesidades de adaptación a un LLM externo.</li>
+                </ul>
+            </section>
+
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                    </span>
+                </summary>
+                <div class="concept-review__panel">
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Simplificación automática de textos con LLM</summary>
+                        <div class="concept-review__body">
+                            <p>La simplificación automática de textos con LLM es un proceso de transformación en el que
+                                un modelo de lenguaje grande reescribe un texto complejo para hacerlo más fácil de leer
+                                y comprender, manteniendo su significado esencial y la información clave. Este proceso
+                                suele implicar reducir la complejidad léxica, simplificar la sintaxis y ajustar el nivel
+                                de lectura a un grado escolar o perfil de lector específico, lo que resulta
+                                especialmente útil para educación diferenciada, aprendices de segunda lengua y públicos
+                                con baja alfabetización.</p>
+                            <cite class="concept-review__citation">
+                                Xiaojun Wan; Automatic Text Simplification. Computational Linguistics 2018; 44(4),
+                                659–661. Al-Thanyyan, S. S., &amp; Azmi, A. M. (2021). Automated text simplification.
+                                ACM Computing Surveys, 54(2), 1–36.
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Taxonomía de Bloom</summary>
+                        <div class="concept-review__body">
+                            <p>Taxonomía de Bloom es un marco jerárquico que clasifica los objetivos educativos según la
+                                complejidad de los procesos de aprendizaje en tres dominios: cognitivo, afectivo y
+                                psicomotor. En su revisión más utilizada en el ámbito cognitivo, organiza las metas
+                                desde habilidades de menor a mayor complejidad: recordar, comprender, aplicar, analizar,
+                                evaluar y crear, ofreciendo a los docentes una estructura para diseñar resultados de
+                                aprendizaje, actividades y evaluaciones alineadas.</p>
+                            <cite class="concept-review__citation">
+                                Krathwohl, D. R. (2002). A revision of Bloom's taxonomy: An overview. Theory Into
+                                Practice, 41(4), 212–218.
+                            </cite>
+                        </div>
+                    </details>
+
+                    <details class="concept-review__item">
+                        <summary class="concept-review__summary">Profundidad de conocimiento de Webb (DOK)</summary>
+                        <div class="concept-review__body">
+                            <p>La Profundidad de conocimiento de Webb es un marco que clasifica las tareas educativas
+                                según su complejidad cognitiva, es decir, el tipo y la profundidad de pensamiento que
+                                requieren más que su dificultad superficial. Distingue cuatro niveles: recuerdo y
+                                reproducción, habilidades y conceptos, pensamiento estratégico y pensamiento extendido.
+                                Se utiliza para alinear estándares, instrucción y evaluación, y para diseñar ítems y
+                                actividades con el rigor cognitivo adecuado.</p>
+                            <cite class="concept-review__citation">
+                                Advisors, L. E. (2025). Webb's Depth of Knowledge: A Framework for Deeper Learning.
+                                LearnButWhy.
+                            </cite>
+                        </div>
+                    </details>
+
+                    <div class="concept-review__overflow">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Bancos de reactivos generados con IA</summary>
+                            <div class="concept-review__body">
+                                <p>Los bancos de reactivos generados con IA son conjuntos estructurados y organizados de
+                                    ítems de evaluación que se producen de manera automatizada o semiautomatizada mediante
+                                    modelos de inteligencia artificial a partir de currículos, temarios, textos fuente o
+                                    estándares de aprendizaje. Estos bancos suelen incluir metadatos técnicos por ítem y
+                                    pueden actualizarse dinámicamente en función del desempeño de los estudiantes y del
+                                    análisis estadístico de los resultados.</p>
+                                <cite class="concept-review__citation">
+                                    Pearson. (2025, 30 de enero). Evaluaciones generadas por IA: Más allá de las pruebas
+                                    tradicionales. Blog Educación del Futuro, Pearson Higher Education.
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Rúbrica analítica asistida por IA</summary>
+                            <div class="concept-review__body">
+                                <p>Rúbrica analítica asistida por IA es una matriz de evaluación en la que los criterios,
+                                    niveles de desempeño y descriptores se generan inicialmente con ayuda de un modelo de
+                                    IA, por ejemplo, un bot basado en LLM como ChatGPT, a partir de la descripción de la
+                                    tarea, los objetivos de aprendizaje y el tipo de producto a evaluar. La IA propone
+                                    borradores de criterios y descriptores para cada nivel, que luego el docente revisa,
+                                    ajusta y valida.</p>
+                                <cite class="concept-review__citation">
+                                    Hashemi, H., Eisner, J., Rosset, C., Van Durme, B., &amp; Kedzie, C. (2024).
+                                    Llm-rubric: A multidimensional, calibrated approach to automated evaluation of natural
+                                    language texts.
+                                </cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Lista de Cotejo de Validación para IA</summary>
+                            <div class="concept-review__body">
+                                <p>Lista de Cotejo de Validación para IA es un instrumento estructurado que el docente
+                                    utiliza para evaluar sistemáticamente la calidad, pertinencia y seguridad de productos
+                                    generados por IA antes de usarlos en el aula. Suele incluir criterios como exactitud
+                                    factual, alineación con el currículo, nivel de complejidad adecuado, pertinencia
+                                    cultural, ausencia de sesgos y cumplimiento de normas de privacidad, funcionando como
+                                    filtro de control de calidad dentro del enfoque de human in the loop.</p>
+                                <cite class="concept-review__citation">
+                                    Guides: WRIT 1150 Library Toolkit: Evaluating AI Generated Content. Georgetown
+                                    University Library.
+                                </cite>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button class="concept-review__more" type="button">Ver más conceptos</button>
+                </div>
+            </details>
+
+            <section class="completion-card" aria-labelledby="cierre-title">
+                <span class="completion-badge">Meta alcanzada</span>
+                <h2 id="cierre-title" class="section-title">🎉 Meta alcanzada — ¡Felicidades!</h2>
+                <p>Has culminado la <strong>Lección 2.3</strong> del programa de formación profesional.</p>
+                <p>Al completar este contenido, has ampliado tu mirada sobre los LLM: ahora los ves no solo como <strong>generadores de texto</strong>, sino como <strong>aliados para la inclusión y la evaluación</strong>, capaces de ofrecer <strong>versiones diferenciadas de materiales</strong>, <strong>bancos iniciales de preguntas</strong> y <strong>borradores de rúbricas</strong>.</p>
+                <p>Este conocimiento fortalece tu capacidad de diseñar experiencias más <strong>accesibles</strong> y <strong>justas</strong>, manteniendo siempre tu <strong>criterio profesional</strong> como filtro para garantizar <strong>calidad</strong>, <strong>equidad</strong> y <strong>pertinencia cultural</strong>.</p>
+            </section>
+
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 2.3</h2>
+
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre cómo utilizar los LLM para apoyar la diferenciación, la evaluación, el diseño de rúbricas y la validación de recursos generados con IA de forma inclusiva y responsable.</p>
+
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-2-3">
+                            Realizar checkpoint aquí
+                        </button>
+
+                        <a href="https://view.genially.com/69add8841ea68d18517e0c0d" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+                <div id="checkpoint-panel-2-3" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69add8841ea68d18517e0c0d" src="about:blank" title="Checkpoint de saberes: Lección 2.3" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+                            <li>Damiano, A. D., Lauría, E. J., Sarmiento, C., &amp; Zhao, N. (2024). Early perceptions of
+                                teaching and learning using generative AI in higher education. <em>Journal of Educational
+                                    Technology Systems</em>, 52(3), 346–375.</li>
+                            <li>Huang, C. Y., Wei, J., &amp; Huang, T. H. K. (2024, May). Generating educational materials with
+                                different levels of readability using LLMs. In <em>Proceedings of the Third Workshop on
+                                    Intelligent and Interactive Writing Assistants</em> (pp. 16–22).</li>
+                            <li>Kew, T., Chi, A., Vásquez-Rodríguez, L., Agrawal, S., Aumiller, D., Alva-Manchego, F., &amp;
+                                Shardlow, M. (2023). BLESS: Benchmarking large language models on sentence simplification.
+                                <em>arXiv preprint</em> arXiv:2310.15773.
+                            </li>
+                            <li>Lund, B. D., &amp; Wang, T. (2023). Chatting about ChatGPT: How may AI and GPT impact academia
+                                and libraries. <em>Minds and Machines</em>, 30, 681–694.
+                                https://doi.org/10.1108/LHTN-01-2023-0009</li>
+                            <li>MacNeil, S., Tran, A., Leinonen, J., Denny, P., Kim, J., Hellas, A., ... &amp; Sarsa, S. (2022).
+                                Automatically generating CS learning materials with large language models. <em>arXiv
+                                    preprint</em> arXiv:2212.05113.</li>
+                            <li>Madrid-García, A., Rosales-Rosado, Z., Freites-Nuñez, D., Pérez-Sancristóbal, I., Pato-Cour, E.,
+                                Plasencia-Rodríguez, C., ... &amp; Rodríguez-Rodríguez, L. (2023). Harnessing ChatGPT and GPT-4
+                                for evaluating the rheumatology questions of the Spanish access exam to specialized medical
+                                training. <em>Scientific Reports</em>, 13(1), 22129.</li>
+                            <li>Rao, K., Gravel, J. W., Rose, D. H., &amp; Tucker-Smith, T. N. (2023). Universal Design for
+                                Learning in its 3rd decade: A focus on equity, inclusion, and design. <em>International
+                                    Encyclopedia of Education</em>, 6, 712–720.</li>
+                            <li>Valentini, M., Weber, J., Salcido, J., Wright, T., Colunga, E., &amp; Kann, K. (2023). On the
+                                automatic generation and simplification of children's stories. <em>arXiv preprint</em>
+                                arXiv:2310.18502.</li>
+                            <li>Waisberg, E., Ong, J., Masalkhi, M., Zaman, N., Kamran, S. A., Sarker, P., ... &amp; Tavakkoli,
+                                A. (2023). ChatGPT and medical education: A new frontier for emerging physicians. <em>Canadian
+                                    Medical Education Journal</em>, 14(6), 128.</li>
+                            <li>Zawacki-Richter, O., &amp; Kerres, M. (2023). Generative AI in education: Opportunities,
+                                challenges and policy implications. <em>Educational Technology Research and Development</em>.
+                            </li>
+                            <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023). A
+                                survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223, 1(2).</li>
+                            <li>Zubiaga, A. (2024). Natural language processing in the era of large language models.
+                                <em>Frontiers in Artificial Intelligence</em>, 6, 1350306.
+                            </li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <div id="completion-section"></div>
+            <nav class="footer-nav" aria-label="Navegación de lecciones">
+                <a href="leccion2_2.html" class="btn-footer btn-back">← Volver a la Lección 2.2</a>
+                <a href="actividad2_1.html" class="btn-footer btn-next">Ir a Actividad 2.1 →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <script>
+        function resolveAssetPath(img) {
+            const fileName = img.dataset.asset;
+            if (!fileName) return;
+
+            const candidates = [
+                `assets/${fileName}`,
+                `./assets/${fileName}`,
+                `/assets/${fileName}`
+            ];
+
+            let index = 0;
+            img.onerror = () => {
+                if (index < candidates.length) {
+                    img.src = candidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen: ${fileName}`);
+                }
+            };
+
+            img.src = candidates[index];
+            index += 1;
+        }
+
+        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+                closeSidebar();
+                menuButton?.focus();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const diffOutputs = {
+            basic: {
+                tag: 'Nivel básico',
+                title: 'Versión simplificada',
+                html: '<p>Los manglares son árboles que crecen cerca del mar. En Puerto Rico, ayudan a proteger las costas cuando hay oleaje fuerte o tormentas. También sirven de hogar para muchos animales y ayudan a cuidar el ambiente.</p><ul class="content-list"><li>Protegen la costa.</li><li>Dan hogar a animales.</li><li>Ayudan a limpiar y cuidar el ambiente.</li></ul>'
+            },
+            intermediate: {
+                tag: 'Nivel intermedio',
+                title: 'Versión con vocabulario moderado',
+                html: '<p>Los manglares de las costas de Puerto Rico son ecosistemas muy importantes. Actúan como barreras naturales que reducen la erosión y protegen las comunidades costeras del impacto de marejadas. Además, son hábitat para muchas especies y almacenan carbono, lo que contribuye al equilibrio ambiental.</p>'
+            },
+            advanced: {
+                tag: 'Nivel avanzado',
+                title: 'Versión para análisis crítico',
+                html: '<p>Los manglares costeros de Puerto Rico cumplen funciones ecológicas estratégicas: mitigan la erosión, amortiguan el impacto de marejadas ciclónicas, sostienen biodiversidad y almacenan carbono. Analiza cómo la pérdida de manglares podría afectar la seguridad de las comunidades costeras, la biodiversidad local y la resiliencia climática de la isla.</p>'
+            },
+            dua: {
+                tag: 'Apoyo DUA / ESL',
+                title: 'Versión con glosario y apoyo visual',
+                html: '<p><strong>Idea principal:</strong> Los manglares protegen las costas de Puerto Rico y sirven de hogar para plantas y animales.</p><ul class="content-list"><li><strong>Manglar:</strong> árbol o bosque que crece cerca del mar.</li><li><strong>Erosión:</strong> cuando el agua o el viento desgastan la tierra.</li><li><strong>Biodiversidad:</strong> variedad de seres vivos en un lugar.</li><li><strong>Sumidero de carbono:</strong> espacio natural que guarda carbono y ayuda al ambiente.</li></ul><p><strong>Apoyo visual sugerido:</strong> mapa de Puerto Rico con zonas de manglares y una imagen de una costa protegida.</p>'
+            }
+        };
+
+        function transformContent(type, button) {
+            const outputArea = document.getElementById('outputArea');
+            const outputContent = document.getElementById('outputContent');
+            const data = diffOutputs[type];
+            if (!outputArea || !outputContent || !data) return;
+
+            document.querySelectorAll('.diff-btn').forEach((btn) => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+
+            button.classList.add('active');
+            button.setAttribute('aria-pressed', 'true');
+            outputArea.classList.add('loading');
+            outputContent.style.opacity = '0';
+
+            window.setTimeout(() => {
+                outputContent.innerHTML = `
+                    <span class="diff-tag">${data.tag}</span>
+                    <h3>${data.title}</h3>
+                    ${data.html}
+                `;
+                outputContent.style.opacity = '1';
+                outputArea.classList.remove('loading');
+            }, 260);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstDiffButton = document.querySelector('.diff-btn.active');
+            if (firstDiffButton) transformContent('basic', firstDiffButton);
+        });
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script src="scripts/concept-review.js"></script>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

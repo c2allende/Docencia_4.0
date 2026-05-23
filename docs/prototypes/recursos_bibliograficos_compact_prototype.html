@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo — Biblioteca Compacta | Docencia 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../docencia-4.0/styles/main.css">
+
+    <style>
+        :root {
+            --nav-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: var(--spacing-16) var(--spacing-md);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .prototype-header {
+            max-width: 1100px;
+            margin: 0 auto var(--spacing-16);
+        }
+
+        .prototype-header h1 {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-text-display);
+            margin: 0 0 var(--spacing-sm);
+        }
+
+        .prototype-header .subtitle {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        .prototype-header .meta-info {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .prototype-header .meta-info strong {
+            color: var(--color-text-display);
+        }
+
+        .comparison-grid {
+            max-width: 1100px;
+            margin: 0 auto var(--spacing-16);
+        }
+
+        .comparison-section {
+            margin-bottom: var(--spacing-16);
+        }
+
+        .comparison-section h2 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin: 0 0 var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: var(--border-width-2) solid var(--color-border-default);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            color: var(--color-text-display);
+        }
+
+        .badge-current {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-yellow-100);
+            color: var(--color-yellow-800);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .badge-proposed {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-green-100);
+            color: var(--color-green-700);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .badge-intermediate {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-cyan-50);
+            color: var(--color-cyan-800);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .scenario-desc {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .ux-note {
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .ux-note h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .ux-note ul {
+            margin: 0;
+            padding-left: var(--spacing-5);
+        }
+
+        .ux-note li {
+            margin-bottom: var(--spacing-1);
+            color: var(--color-text-secondary);
+        }
+
+        .ux-note strong {
+            color: var(--color-text-primary);
+        }
+
+        .ux-note .alert {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-3) var(--spacing-4);
+            background: var(--color-yellow-100);
+            border-radius: var(--radius-md);
+            color: var(--color-yellow-800);
+            font-size: var(--font-size-sm);
+        }
+
+        .ux-note-subsection {
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .ux-note-p {
+            margin: 0;
+        }
+
+        .ux-note-ul {
+            margin-top: var(--spacing-2);
+        }
+
+        .ux-note .alert-success {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-3) var(--spacing-4);
+            background: var(--color-green-100);
+            border-radius: var(--radius-md);
+            color: var(--color-green-700);
+            font-size: var(--font-size-sm);
+        }
+
+        .confirmation-box {
+            border-left: var(--border-width-4) solid var(--color-green-500);
+        }
+
+        .biblio-list-current {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .biblio-item-current {
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .biblio-tag-current {
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .biblio-item-current h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
+        }
+
+        .biblio-citation-current {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .biblio-summary-current {
+            margin: 0 0 var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .biblio-actions-current {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .compact-biblio-list-current {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .compact-biblio-item-current {
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .compact-biblio-item-current summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-4) var(--spacing-6);
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .compact-biblio-item-current summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .compact-biblio-title-wrapper-current {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-1);
+            flex: 1;
+        }
+
+        .compact-biblio-tag-current {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .compact-biblio-name-current {
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-display);
+            line-height: 1.3;
+        }
+
+        .compact-biblio-icon-current {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: var(--spacing-4);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            flex-shrink: 0;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .compact-biblio-item-current[open] .compact-biblio-icon-current {
+            transform: rotate(180deg);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .compact-biblio-content-current {
+            padding: 0 var(--spacing-6) var(--spacing-6);
+            border-top: 1px dashed var(--color-border-default);
+        }
+
+        .compact-biblio-apa-current {
+            margin: var(--spacing-4) 0;
+            padding: var(--spacing-3) var(--spacing-4);
+            background: var(--color-background-surface-low);
+            border-left: 4px solid var(--color-brand-primary);
+            font-size: var(--font-size-sm);
+            font-style: italic;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        .compact-biblio-desc-current {
+            margin: 0 0 var(--spacing-4);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        .compact-biblio-footer-current {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: var(--spacing-4);
+            border-top: 1px solid var(--color-border-default);
+        }
+
+        .bibliographic-resources {
+            margin: var(--spacing-xl) 0;
+        }
+
+        .bibliographic-resources__panel {
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .bibliographic-resources__panel[open] {
+            box-shadow: var(--shadow-elevated);
+            border-color: var(--color-brand-primary);
+        }
+
+        .bibliographic-resources__summary {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            cursor: pointer;
+            list-style: none;
+            background: var(--color-background-surface-low);
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard);
+            user-select: none;
+        }
+
+        .bibliographic-resources__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .bibliographic-resources__summary:hover {
+            background: var(--color-background-surface-medium);
+        }
+
+        .bibliographic-resources__summary:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: -2px;
+        }
+
+        .bibliographic-resources__summary-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xl);
+        }
+
+        .bibliographic-resources__summary-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .bibliographic-resources__summary-title {
+            display: block;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .bibliographic-resources__summary-count {
+            display: block;
+            margin-top: var(--spacing-1);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .bibliographic-resources__summary-action {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            padding: var(--spacing-2) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bibliographic-resources__panel[open] .bibliographic-resources__summary-action {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+        }
+
+        .bibliographic-resources__summary-arrow {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bibliographic-resources__panel[open] .bibliographic-resources__summary-arrow {
+            transform: rotate(180deg);
+        }
+
+        .bibliographic-resources__list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .bibliographic-resource {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-4);
+            padding: var(--spacing-4) var(--spacing-5);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            transition: border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bibliographic-resource:hover {
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .bibliographic-resource__main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .bibliographic-resource__tag {
+            display: inline-block;
+            margin-bottom: var(--spacing-1);
+            padding: var(--spacing-1) var(--spacing-2);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .bibliographic-resource__title {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            line-height: var(--line-height-snug);
+        }
+
+        .bibliographic-resource__citation {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .bibliographic-resource__details {
+            font-size: var(--font-size-xs);
+        }
+
+        .bibliographic-resource__details summary {
+            cursor: pointer;
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-2xs);
+            padding: var(--spacing-1) 0;
+        }
+
+        .bibliographic-resource__details summary:hover {
+            text-decoration: underline;
+        }
+
+        .bibliographic-resource__details p {
+            margin-top: var(--spacing-2);
+            padding: var(--spacing-2);
+            background: var(--color-background-surface);
+            border-radius: var(--radius-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .bibliographic-resource__actions {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .bibliographic-resource__actions .btn {
+            min-height: 36px;
+            padding: var(--spacing-2) var(--spacing-4);
+            font-size: var(--font-size-xs);
+            white-space: nowrap;
+        }
+
+        .comparison-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .split-column-title {
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-display);
+        }
+
+        .split-caption {
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-split {
+                grid-template-columns: 1fr;
+            }
+
+            .bibliographic-resources__summary {
+                flex-wrap: wrap;
+            }
+
+            .bibliographic-resources__summary-action {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .bibliographic-resource {
+                flex-direction: column;
+                gap: var(--spacing-3);
+            }
+
+            .bibliographic-resource__actions {
+                width: 100%;
+            }
+
+            .bibliographic-resource__actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .compact-biblio-item-current summary {
+                padding: var(--spacing-4);
+            }
+
+            .compact-biblio-content-current {
+                padding: 0 var(--spacing-4) var(--spacing-4);
+            }
+        }
+
+        @media (max-width: 520px) {
+            .bibliographic-resources__list {
+                padding: var(--spacing-4);
+            }
+
+            .bibliographic-resource {
+                padding: var(--spacing-3);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="prototype-header">
+        <h1>Prototipo: Biblioteca Compacta Bibliográfica</h1>
+        <p class="subtitle">
+            Rediseño de la sección "Recursos Bibliográficos de Referencia" — comparación de los 3 formatos actuales
+            (M1, M2, M3) vs. propuesta unificada. Contenido textual 100% preservado (citas, resúmenes, títulos, enlaces).
+        </p>
+        <div class="meta-info">
+            <strong>Diagnóstico:</strong> 3 implementaciones distintas. M3 usa tarjetas grandes (~550px c/u) con resumen
+            siempre visible: 4 recursos = ~2400px de scroll obligatorio. M1/M2 ya tienen accordéon individual
+            (<code>compact-biblio-*</code>) pero la lista completa se muestra desde el inicio: 4 filas cerradas = ~280px.<br>
+            <strong>Propuesta:</strong> Panel exterior colapsable (<code>&lt;details&gt;</code>) + tarjetas compactas
+            por recurso con cita visible y resumen bajo <code>&lt;details&gt;</code> interno. Botón
+            <code>.btn .btn-primary</code> fuera del details interno.<br>
+            <strong>Prototipo corregido:</strong> Esta versión restaura contenido textual completo (citas, resúmenes,
+            enlaces reales) y elimina estilos inline.
+        </div>
+    </header>
+
+    <div class="comparison-grid">
+
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- A. ESTADO ACTUAL — M3 (tarjetas grandes)                       -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="comparison-section">
+            <h2>
+                <span>Estado Actual — M3 (tarjetas grandes)</span>
+                <span class="badge-current">Actual</span>
+            </h2>
+            <p class="scenario-desc">
+                Formato usado en <code>recursos_m3.html</code>. Cada recurso es una tarjeta grande (~550px)
+                con etiqueta, título, cita APA, resumen visible y botón. 4 recursos = ~2400px de altura.
+                El resumen siempre visible aumenta carga cognitiva y fuerza scroll excesivo.
+                Contenido textual exacto del archivo original.
+            </p>
+
+            <div class="biblio-list-current">
+
+                <article class="biblio-item-current">
+                    <span class="biblio-tag-current">Evaluación Formativa e IA</span>
+                    <h3>Generative AI in the K–12 Formative Assessment Process: Enhancing feedback in the classroom.</h3>
+                    <p class="biblio-citation-current">Maksimchuk, M., Roeber, E., Store, D., &amp; National Council on Measurement in Education (NCME). (2025). <em>Generative AI in the K–12 Formative Assessment Process: Enhancing feedback in the classroom</em>. In Proceedings of the Artificial Intelligence in Measurement and Education Conference (AIME-Con) – Volume 1: Full Papers (pp. 107–110). https://aclanthology.org/2025.aimecon-main.12.pdf</p>
+                    <p class="biblio-summary-current">El documento explora el potencial de la IA generativa para extender la capacidad docente al proporcionar retroalimentación inmediata y personalizada en entornos escolares de educación básica. Subraya que la IA debe estar mediada por el juicio pedagógico humano.</p>
+                    <div class="biblio-actions-current">
+                        <a href="LLM-DEPR/LLM_M3_Recurso_Articulo_Generative AI in the K–12 Formative Assessment Process-Enhancing Feedback in the Classroom.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                    </div>
+                </article>
+
+                <article class="biblio-item-current">
+                    <span class="biblio-tag-current">Estrategias de Evaluación</span>
+                    <h3>Formative Assessment and Artificial Intelligence: Strategies for Human and Effective Learning</h3>
+                    <p class="biblio-citation-current">López-García, M., &amp; Martínez-Fernández, R. (2025). <em>Evaluación formativa e inteligencia artificial: Estrategias para un aprendizaje significativo</em>. MLS Pedagogy, Culture and Innovation Journal, 5(1), 45-62. https://www.mlsjournals.com/Pedagogy-Culture-Innovation/article/view/4153</p>
+                    <p class="biblio-summary-current">Esta investigación analiza cómo la retroalimentación personalizada impulsada por la IA mejora el aprendizaje significativo y la motivación. Destaca la importancia de una visión integradora donde la IA funcione como herramienta complementaria.</p>
+                    <div class="biblio-actions-current">
+                        <a href="LLM-DEPR/LLM_M3_Recurso_Articulo_Evaluación Formativa e Inteligencia Artificial Estrategias para un Aprendizaje Humano y Eficaz.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                    </div>
+                </article>
+
+                <article class="biblio-item-current">
+                    <span class="biblio-tag-current">Privacidad y Seguridad</span>
+                    <h3>ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY</h3>
+                    <p class="biblio-citation-current">Dutta, A. (2025). <em>ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY</em>. International Journal of Advanced Research in Computer Science, 16(03), 146–151. https://doi.org/10.26483/ijarcs.v16i3.7261</p>
+                    <p class="biblio-summary-current">Este estudio examina la dualidad de la IA como riesgo y solución para la privacidad. Concluye que es necesario implementar marcos híbridos que combinen tecnología con supervisión humana y gobernanza ética.</p>
+                    <div class="biblio-actions-current">
+                        <a href="LLM-DEPR/LLM_M3_Recurso_Articulo_ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                    </div>
+                </article>
+
+                <article class="biblio-item-current">
+                    <span class="biblio-tag-current">Educación Especial e IEP</span>
+                    <h3>AI for IEPs: New Tools Could Mean Less Paperwork, Better Plans</h3>
+                    <p class="biblio-citation-current">Vesco, B. (2025, January 7). <em>AI for IEPs: New Tools Could Mean Less Paperwork, Better Plans</em>. GovTech. https://www.govtech.com/education/k-12/ai-for-ieps-new-tools-could-mean-less-paperwork-better-plans</p>
+                    <p class="biblio-summary-current">Explora cómo las herramientas de IA están transformando la creación de los Programas de Educación Individualizada (IEP) al automatizar tareas administrativas y reducir la carga de papeleo de los docentes.</p>
+                    <div class="biblio-actions-current">
+                        <a href="https://www.govtech.com/education/k-12/ai-for-ieps-new-tools-could-mean-less-paperwork-better-plans" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Ver Artículo Completo</a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- B. PROPUESTA — BIBLIOTECA COMPACTA COLAPSABLE                    -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="comparison-section">
+            <h2>
+                <span>Propuesta — Biblioteca Compacta Colapsable</span>
+                <span class="badge-proposed">Propuesto</span>
+            </h2>
+            <p class="scenario-desc">
+                Doble divulgación progresiva: (1) panel exterior decide si ves la lista, (2) details interno
+                decide si ves el resumen. Mismo contenido textual exacto que M3 original. Sin JavaScript.
+                Botón <code>.btn .btn-primary</code> siempre visible, fuera del <code>&lt;details&gt;</code> interno.
+            </p>
+
+            <section class="bibliographic-resources" aria-labelledby="biblio-proposed-title">
+                <details class="bibliographic-resources__panel">
+                    <summary class="bibliographic-resources__summary">
+                        <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
+                        <span class="bibliographic-resources__summary-text">
+                            <span class="bibliographic-resources__summary-title" id="biblio-proposed-title">
+                                Recursos Bibliográficos de Referencia
+                            </span>
+                            <span class="bibliographic-resources__summary-count">4 recursos disponibles</span>
+                        </span>
+                        <span class="bibliographic-resources__summary-action">Ver recursos</span>
+                        <span class="bibliographic-resources__summary-arrow" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </summary>
+
+                    <div class="bibliographic-resources__list">
+
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Evaluación Formativa e IA</span>
+                                <h3 class="bibliographic-resource__title">Generative AI in the K–12 Formative Assessment Process: Enhancing feedback in the classroom.</h3>
+                                <p class="bibliographic-resource__citation">Maksimchuk, M., Roeber, E., Store, D., &amp; National Council on Measurement in Education (NCME). (2025). <em>Generative AI in the K–12 Formative Assessment Process: Enhancing feedback in the classroom</em>. In Proceedings of the Artificial Intelligence in Measurement and Education Conference (AIME-Con) – Volume 1: Full Papers (pp. 107–110). https://aclanthology.org/2025.aimecon-main.12.pdf</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>El documento explora el potencial de la IA generativa para extender la capacidad docente al proporcionar retroalimentación inmediata y personalizada en entornos escolares de educación básica. Subraya que la IA debe estar mediada por el juicio pedagógico humano.</p>
+                                </details>
+                            </div>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M3_Recurso_Articulo_Generative AI in the K–12 Formative Assessment Process-Enhancing Feedback in the Classroom.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                            </div>
+                        </article>
+
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Estrategias de Evaluación</span>
+                                <h3 class="bibliographic-resource__title">Formative Assessment and Artificial Intelligence: Strategies for Human and Effective Learning</h3>
+                                <p class="bibliographic-resource__citation">López-García, M., &amp; Martínez-Fernández, R. (2025). <em>Evaluación formativa e inteligencia artificial: Estrategias para un aprendizaje significativo</em>. MLS Pedagogy, Culture and Innovation Journal, 5(1), 45-62. https://www.mlsjournals.com/Pedagogy-Culture-Innovation/article/view/4153</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Esta investigación analiza cómo la retroalimentación personalizada impulsada por la IA mejora el aprendizaje significativo y la motivación. Destaca la importancia de una visión integradora donde la IA funcione como herramienta complementaria.</p>
+                                </details>
+                            </div>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M3_Recurso_Articulo_Evaluación Formativa e Inteligencia Artificial Estrategias para un Aprendizaje Humano y Eficaz.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                            </div>
+                        </article>
+
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Privacidad y Seguridad</span>
+                                <h3 class="bibliographic-resource__title">ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY</h3>
+                                <p class="bibliographic-resource__citation">Dutta, A. (2025). <em>ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY</em>. International Journal of Advanced Research in Computer Science, 16(03), 146–151. https://doi.org/10.26483/ijarcs.v16i3.7261</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Este estudio examina la dualidad de la IA como riesgo y solución para la privacidad. Concluye que es necesario implementar marcos híbridos que combinen tecnología con supervisión humana y gobernanza ética.</p>
+                                </details>
+                            </div>
+                            <div class="bibliographic-resource__actions">
+                                <a href="LLM-DEPR/LLM_M3_Recurso_Articulo_ARTIFICIAL INTELLIGENCE IN STUDENT PRIVACY AND DATA SECURITY.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                            </div>
+                        </article>
+
+                        <article class="bibliographic-resource">
+                            <div class="bibliographic-resource__main">
+                                <span class="bibliographic-resource__tag">Educación Especial e IEP</span>
+                                <h3 class="bibliographic-resource__title">AI for IEPs: New Tools Could Mean Less Paperwork, Better Plans</h3>
+                                <p class="bibliographic-resource__citation">Vesco, B. (2025, January 7). <em>AI for IEPs: New Tools Could Mean Less Paperwork, Better Plans</em>. GovTech. https://www.govtech.com/education/k-12/ai-for-ieps-new-tools-could-mean-less-paperwork-better-plans</p>
+                                <details class="bibliographic-resource__details">
+                                    <summary>Ver resumen</summary>
+                                    <p>Explora cómo las herramientas de IA están transformando la creación de los Programas de Educación Individualizada (IEP) al automatizar tareas administrativas y reducir la carga de papeleo de los docentes.</p>
+                                </details>
+                            </div>
+                            <div class="bibliographic-resource__actions">
+                                <a href="https://www.govtech.com/education/k-12/ai-for-ieps-new-tools-could-mean-less-paperwork-better-plans" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Ver Artículo Completo</a>
+                            </div>
+                        </article>
+
+                    </div>
+                </details>
+            </section>
+        </section>
+
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- NOTAS UX DE COMPARACIÓN                                         -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="comparison-section">
+            <div class="ux-note">
+                <h3>Comparación UX/UI: M3 actual vs. Propuesta</h3>
+                <ul>
+                    <li><strong>Altura estado cerrado (propuesta):</strong> ~72px (solo barra colapsable). Sin impacto visual en la página: 0% de scroll al entrar.</li>
+                    <li><strong>Altura estado abierto (propuesta):</strong> ~720px para 4 recursos (~180px c/u). Cada tarjeta compacta reemplaza ~550px de la versión actual.</li>
+                    <li><strong>Ahorro de espacio vertical:</strong> ~70% en estado abierto, ~97% en estado cerrado vs. M3 actual (~2400px → ~72px cerrado).</li>
+                    <li><strong>Divulgación progresiva doble:</strong> Panel exterior (ver/ocultar lista) + details interno (ver/ocultar resumen). El usuario controla qué ve y cuándo.</li>
+                    <li><strong>Botón siempre visible:</strong> <code>.btn .btn-primary</code> oficial en <code>.bibliographic-resource__actions</code>, fuera del <code>&lt;details&gt;</code> interno. Sin dependencia de JavaScript ni <code>stopPropagation</code>.</li>
+                    <li><strong>Cita visible por defecto:</strong> Lo que el usuario necesita escanear para decidir si el recurso es relevante. Resumen bajo demanda.</li>
+                    <li><strong>Sin JavaScript:</strong> 100% HTML nativo con <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>.</li>
+                    <li><strong>Consistencia entre módulos:</strong> Mismo patrón para M1, M2, M3. Actualmente hay 3 implementaciones visuales distintas que confunden al usuario.</li>
+                    <li><strong>Mobile:</strong> Recursos apilados verticalmente, botones a ancho completo (área táctil cómoda), cita legible en <code>font-size-xs</code>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- COMPARATIVA ADICIONAL: M1/M2 actual vs. propuesta                -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="comparison-section">
+            <h2>
+                <span>Comparativa adicional: M1/M2 actual vs. propuesta</span>
+                <span class="badge-intermediate">Intermedio</span>
+            </h2>
+            <p class="scenario-desc">
+                M1 y M2 ya usan accordéon individual (<code>compact-biblio-*</code>) con resumen oculto. Sin embargo, la lista
+                completa se muestra desde el inicio: 4 ítems colapsados ocupan ~280px visibles. La propuesta añade un panel
+                exterior colapsable que reduce eso a ~72px cerrado. Contenido textual exacto de <code>recursos_m1.html</code>.
+            </p>
+
+            <div class="comparison-split">
+
+                <div>
+                    <p class="split-column-title">M1/M2 actual: lista visible, ítems colapsados individualmente</p>
+                    <div class="compact-biblio-list-current">
+                        <details class="compact-biblio-item-current" open>
+                            <summary>
+                                <div class="compact-biblio-title-wrapper-current">
+                                    <span class="compact-biblio-tag-current">Artículo de investigación (2026)</span>
+                                    <span class="compact-biblio-name-current">Classroom AI: Large Language Models as Grade-Specific Teachers</span>
+                                </div>
+                                <span class="compact-biblio-icon-current">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </summary>
+                            <div class="compact-biblio-content-current">
+                                <div class="compact-biblio-apa-current">Oh, J., Whang, S. E., Evans, J., &amp; Wang, J. (2026). Classroom AI: large language models as grade-specific teachers. <em>Npj Artificial Intelligence</em>, 2(1). https://doi.org/10.1038/s44387-026-00081-7</div>
+                                <p class="compact-biblio-desc-current">Este artículo analiza cómo los modelos de lenguaje de gran tamaño pueden ser refinados para actuar como tutores especializados por nivel escolar. Explora la efectividad pedagógica de la IA cuando se alinea con las capacidades cognitivas y curriculares específicas de cada grado académico.</p>
+                                <div class="compact-biblio-footer-current">
+                                    <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                </div>
+                            </div>
+                        </details>
+                        <details class="compact-biblio-item-current" open>
+                            <summary>
+                                <div class="compact-biblio-title-wrapper-current">
+                                    <span class="compact-biblio-tag-current">Estudio crítico (2025)</span>
+                                    <span class="compact-biblio-name-current">"Don't Forget the Teachers": Educator-Centered Understanding of LLM Harms</span>
+                                </div>
+                                <span class="compact-biblio-icon-current">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </summary>
+                            <div class="compact-biblio-content-current">
+                                <div class="compact-biblio-apa-current">Harvey, E., Koenecke, A., &amp; Kizilcec, R. F. (2025). "Don't Forget the Teachers": Towards an Educator-Centered Understanding of Harms from large language Models in education. arXiv:2502.14592v1 [cs.CY]. https://doi.org/10.1145/3706598.3713210</div>
+                                <p class="compact-biblio-desc-current">Una investigación fundamental que aboga por incluir la perspectiva del docente en la implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso desmedido de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la autonomía del educador.</p>
+                                <div class="compact-biblio-footer-current">
+                                    <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                </div>
+                            </div>
+                        </details>
+                        <details class="compact-biblio-item-current" open>
+                            <summary>
+                                <div class="compact-biblio-title-wrapper-current">
+                                    <span class="compact-biblio-tag-current">Ética y marco legal (2023)</span>
+                                    <span class="compact-biblio-name-current">Ética y Responsabilidad en la Implementación de la IA en la Educación</span>
+                                </div>
+                                <span class="compact-biblio-icon-current">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </summary>
+                            <div class="compact-biblio-content-current">
+                                <div class="compact-biblio-apa-current">Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T., Morrillo, C. F. S., &amp; Salazar, A. J. (2023). Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación. <em>Ciencia Latina Revista Científica Multidisciplinar</em>, 7(6), 2054–2076. https://doi.org/10.37811/cl_rcm.v7i6.8833</div>
+                                <p class="compact-biblio-desc-current">Estudio multidisciplinar sobre los pilares éticos necesarios para una integración segura de la IA en el aula. Se enfoca en la privacidad de los datos estudiantiles, la equidad en el acceso y la responsabilidad institucional de los centros educativos.</p>
+                                <div class="compact-biblio-footer-current">
+                                    <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                </div>
+                            </div>
+                        </details>
+                        <details class="compact-biblio-item-current" open>
+                            <summary>
+                                <div class="compact-biblio-title-wrapper-current">
+                                    <span class="compact-biblio-tag-current">Guía docente</span>
+                                    <span class="compact-biblio-name-current">Inteligencia Artificial Generativa: Aplicaciones para la Docencia e Investigación</span>
+                                </div>
+                                <span class="compact-biblio-icon-current">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </summary>
+                            <div class="compact-biblio-content-current">
+                                <div class="compact-biblio-apa-current">Edunet UAH (n.d.). Inteligencia Artificial generativa – Aplicaciones para la docencia y la investigación de Modelos Lingüísticos (LLM). https://edunet.uah.es/wp/ia/</div>
+                                <p class="compact-biblio-desc-current">Un recurso práctico y completo que recorre las herramientas de IA generativa disponibles para el profesorado. Ofrece estrategias concretas para mejorar la preparación de clases, la personalización del aprendizaje y la optimización de procesos de investigación académica.</p>
+                                <div class="compact-biblio-footer-current">
+                                    <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                    <p class="split-caption">↑ Altura inicial: ~280px (4 ítems colapsados pero lista completa visible).</p>
+                </div>
+
+                <div>
+                    <p class="split-column-title">Propuesta: panel exterior colapsable + ítems compactos</p>
+                    <section class="bibliographic-resources" aria-labelledby="biblio-compare-title">
+                        <details class="bibliographic-resources__panel">
+                            <summary class="bibliographic-resources__summary">
+                                <span class="bibliographic-resources__summary-icon" aria-hidden="true">📚</span>
+                                <span class="bibliographic-resources__summary-text">
+                                    <span class="bibliographic-resources__summary-title" id="biblio-compare-title">
+                                        Recursos Bibliográficos de Referencia
+                                    </span>
+                                    <span class="bibliographic-resources__summary-count">4 recursos disponibles</span>
+                                </span>
+                                <span class="bibliographic-resources__summary-action">Ver recursos</span>
+                                <span class="bibliographic-resources__summary-arrow" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </summary>
+                            <div class="bibliographic-resources__list">
+
+                                <article class="bibliographic-resource">
+                                    <div class="bibliographic-resource__main">
+                                        <span class="bibliographic-resource__tag">Artículo de investigación (2026)</span>
+                                        <h3 class="bibliographic-resource__title">Classroom AI: Large Language Models as Grade-Specific Teachers</h3>
+                                        <p class="bibliographic-resource__citation">Oh, J., Whang, S. E., Evans, J., &amp; Wang, J. (2026). Classroom AI: large language models as grade-specific teachers. <em>Npj Artificial Intelligence</em>, 2(1). https://doi.org/10.1038/s44387-026-00081-7</p>
+                                        <details class="bibliographic-resource__details">
+                                            <summary>Ver resumen</summary>
+                                            <p>Este artículo analiza cómo los modelos de lenguaje de gran tamaño pueden ser refinados para actuar como tutores especializados por nivel escolar. Explora la efectividad pedagógica de la IA cuando se alinea con las capacidades cognitivas y curriculares específicas de cada grado académico.</p>
+                                        </details>
+                                    </div>
+                                    <div class="bibliographic-resource__actions">
+                                        <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                    </div>
+                                </article>
+
+                                <article class="bibliographic-resource">
+                                    <div class="bibliographic-resource__main">
+                                        <span class="bibliographic-resource__tag">Estudio crítico (2025)</span>
+                                        <h3 class="bibliographic-resource__title">"Don't Forget the Teachers": Educator-Centered Understanding of LLM Harms</h3>
+                                        <p class="bibliographic-resource__citation">Harvey, E., Koenecke, A., &amp; Kizilcec, R. F. (2025). "Don't Forget the Teachers": Towards an Educator-Centered Understanding of Harms from large language Models in education. arXiv:2502.14592v1 [cs.CY]. https://doi.org/10.1145/3706598.3713210</p>
+                                        <details class="bibliographic-resource__details">
+                                            <summary>Ver resumen</summary>
+                                            <p>Una investigación fundamental que aboga por incluir la perspectiva del docente en la implementación de la IA. Analiza los posibles riesgos y perjuicios que el uso desmedido de LLMs puede causar en la labor pedagógica si no se centra en el bienestar y la autonomía del educador.</p>
+                                        </details>
+                                    </div>
+                                    <div class="bibliographic-resource__actions">
+                                        <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Dont_forget_the_Teachers_LLM_educ.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                    </div>
+                                </article>
+
+                                <article class="bibliographic-resource">
+                                    <div class="bibliographic-resource__main">
+                                        <span class="bibliographic-resource__tag">Ética y marco legal (2023)</span>
+                                        <h3 class="bibliographic-resource__title">Ética y Responsabilidad en la Implementación de la IA en la Educación</h3>
+                                        <p class="bibliographic-resource__citation">Naranjo, B. M. M., Izurieta, C. E. A., Leica, L. R. T., Morrillo, C. F. S., &amp; Salazar, A. J. (2023). Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación. <em>Ciencia Latina Revista Científica Multidisciplinar</em>, 7(6), 2054–2076. https://doi.org/10.37811/cl_rcm.v7i6.8833</p>
+                                        <details class="bibliographic-resource__details">
+                                            <summary>Ver resumen</summary>
+                                            <p>Estudio multidisciplinar sobre los pilares éticos necesarios para una integración segura de la IA en el aula. Se enfoca en la privacidad de los datos estudiantiles, la equidad en el acceso y la responsabilidad institucional de los centros educativos.</p>
+                                        </details>
+                                    </div>
+                                    <div class="bibliographic-resource__actions">
+                                        <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                    </div>
+                                </article>
+
+                                <article class="bibliographic-resource">
+                                    <div class="bibliographic-resource__main">
+                                        <span class="bibliographic-resource__tag">Guía docente</span>
+                                        <h3 class="bibliographic-resource__title">Inteligencia Artificial Generativa: Aplicaciones para la Docencia e Investigación</h3>
+                                        <p class="bibliographic-resource__citation">Edunet UAH (n.d.). Inteligencia Artificial generativa – Aplicaciones para la docencia y la investigación de Modelos Lingüísticos (LLM). https://edunet.uah.es/wp/ia/</p>
+                                        <details class="bibliographic-resource__details">
+                                            <summary>Ver resumen</summary>
+                                            <p>Un recurso práctico y completo que recorre las herramientas de IA generativa disponibles para el profesorado. Ofrece estrategias concretas para mejorar la preparación de clases, la personalización del aprendizaje y la optimización de procesos de investigación académica.</p>
+                                        </details>
+                                    </div>
+                                    <div class="bibliographic-resource__actions">
+                                        <a href="LLM-DEPR/LLM_M1_Recurso_Articulo_libro_Grandes Modelos Linguisticos_IA generativa_aplicacion para la docencia y la investigacion.pdf.pdf" download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Descargar PDF</a>
+                                    </div>
+                                </article>
+
+                            </div>
+                        </details>
+                    </section>
+                    <p class="split-caption">↑ Altura inicial: ~72px (solo barra colapsable). Cero distracción visual hasta que el usuario explora.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- RECOMENDACIONES FINALES                                        -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="comparison-section">
+            <div class="ux-note">
+                <h3>Recomendación UX/UI</h3>
+                <ul>
+                    <li><strong>Unificar los 3 módulos (M1, M2, M3)</strong> bajo el mismo patrón <code>.bibliographic-resources</code> con panel exterior colapsable + tarjetas compactas.</li>
+                    <li><strong>Preservar contenido textual exacto</strong> de cada recurso. No resumir citas, no abreviar títulos, no modificar resúmenes. La comparación de esta entrega ya lo demuestra: todo el contenido es idéntico al original.</li>
+                    <li><strong>Usar <code>.btn .btn-primary</code> oficial</strong> para todos los botones de descarga. Ubicar el botón fuera del <code>&lt;details&gt;</code> interno para evitar problemas de <code>stopPropagation</code>.</li>
+                    <li><strong>Mantener cita visible en la tarjeta compacta</strong> (es lo que el usuario necesita escanear para decidir relevancia). Resumen oculto bajo <code>&lt;details&gt;</code> interno.</li>
+                    <li><strong>Eliminar progresivamente <code>compact-biblio-*</code> y <code>biblio-item</code></strong> de M1/M2/M3 después de migrar. Los estilos actuales pueden coexistir durante la transición.</li>
+                    <li><strong>Mover CSS definitivo a <code>main.css</code></strong> bajo <code>/* Bibliographic Resources Compact — Recursos */</code>, después de aprobar el prototipo.</li>
+                </ul>
+
+                <h3 class="ux-note-subsection">Riesgos</h3>
+                <ul>
+                    <li><strong>Regresión visual en M1/M2:</strong> Tienen estilos <code>compact-biblio-*</code> en main.css y también en línea en cada HTML. Asegurar limpieza al migrar. Crear backups antes de producción.</li>
+                    <li><strong>Accesibilidad:</strong> Verificar que <code>&lt;details&gt;</code> anidados tengan contraste suficiente y foco visible. El prototipo incluye <code>:focus-visible</code> en el summary del panel.</li>
+                    <li><strong>Enlaces a PDFs con espacios y caracteres especiales:</strong> Los enlaces originales (especialmente en M1) contienen espacios, tildes y dobles extensiones <code>.pdf.pdf</code>. Verificar que el servidor los sirva correctamente.</li>
+                    <li><strong>Sin JavaScript:</strong> El patrón funciona 100% con HTML nativo. No introducir dependencia de JS.</li>
+                </ul>
+
+                <h3 class="ux-note-subsection">CSS para main.css</h3>
+                <p class="scenario-desc ux-note-p">
+                    Las clases <code>.bibliographic-resources</code>, <code>.bibliographic-resources__panel</code>,
+                    <code>.bibliographic-resources__summary</code>, <code>.bibliographic-resources__summary-title</code>,
+                    <code>.bibliographic-resources__summary-count</code>, <code>.bibliographic-resources__summary-action</code>,
+                    <code>.bibliographic-resources__summary-arrow</code>, <code>.bibliographic-resources__list</code>,
+                    <code>.bibliographic-resource</code>, <code>.bibliographic-resource__main</code>,
+                    <code>.bibliographic-resource__tag</code>, <code>.bibliographic-resource__title</code>,
+                    <code>.bibliographic-resource__citation</code>, <code>.bibliographic-resource__details</code>,
+                    y <code>.bibliographic-resource__actions</code> se agregarían a <code>main.css</code> bajo
+                    <code>/* Bibliographic Resources Compact — Recursos */</code>, después de los estilos
+                    <code>compact-biblio-*</code> existentes. Los estilos actuales pueden coexistir para
+                    migración progresiva.
+                </p>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- CONFIRMACIONES                                                  -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="comparison-section">
+            <div class="ux-note confirmation-box">
+                <h3>Confirmaciones de entrega</h3>
+                <ul>
+                    <li><strong>Ruta del prototipo:</strong> <code>docs/prototypes/recursos_bibliograficos_compact_prototype.html</code></li>
+                    <li><strong>Descripción visual:</strong> Prototipo comparativo con 3 secciones principales: (A) estado actual M3 con tarjetas grandes, (B) propuesta compacta colapsable con doble divulgación progresiva, (C) notas UX/UI, recomendaciones y riesgos.</li>
+                    <li><strong>No se modificó producción:</strong> No se tocaron <code>docencia-4.0/recursos_m1.html</code>, <code>recursos_m2.html</code>, <code>recursos_m3.html</code> ni <code>docencia-4.0/styles/main.css</code>.</li>
+                    <li><strong>No commit:</strong> No se ejecutó <code>git add</code>, <code>git commit</code> ni <code>git push</code>.</li>
+                    <li><strong>No deploy:</strong> No se prepararon artefactos de build ni se ejecutaron comandos de Firebase Hosting.</li>
+                    <li><strong>Contenido textual 100% preservado:</strong> Todos los títulos, citas APA, resúmenes, autores, fechas, DOIs y enlaces de descarga se mantienen exactamente como en los archivos originales. Sin abreviaciones, sin resúmenes, sin cambios.</li>
+                    <li><strong>Sin JavaScript:</strong> El patrón funciona 100% con HTML nativo (<code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>).</li>
+                    <li><strong>Botones oficiales:</strong> Se usa <code>.btn .btn-primary</code> del sistema de diseño oficial con <code>target="_blank"</code> y <code>rel="noopener noreferrer"</code>.</li>
+                    <li><strong>Sin estilos inline:</strong> Todos los estilos están en el <code>&lt;style&gt;</code> del prototipo usando tokens oficiales de <code>main.css</code>.</li>
+                    <li><strong>Sin sistema visual paralelo:</strong> Se usan exclusivamente tokens de <code>main.css</code> (variables <code>--color-*</code>, <code>--spacing-*</code>, <code>--font-*</code>, <code>--radius-*</code>, <code>--shadow-*</code>).</li>
+                    <li><strong>Responsive:</strong> Desktop (2 columnas en split), tablet y móvil (apilado, botones a ancho completo). Breakpoints en 768px y 520px.</li>
+                </ul>
+
+                <div class="alert-success">
+                    <strong>Posible errata detectada:</strong> En <code>recursos_m1.html</code>, los enlaces de descarga de los recursos 1 y 3 terminan en doble extensión <code>.pdf.pdf</code>:
+                    <ul class="ux-note-ul">
+                        <li><code>LLM_M1_Recurso_Articulo_Classroom AI Large Language Models as Grade-Specific Teachers(Artículo)(2026).pdf.pdf</code></li>
+                        <li><code>LLM_M1_Recurso_Articulo_Ética y Responsabilidad en la Implementación de la Inteligencia Artificial en la Educación(Articulo-2023).pdf.pdf</code></li>
+                    </ul>
+                    Verificar si el archivo real tiene doble extensión o es un error de nombrado. No se ha corregido en el prototipo — se preserva el enlace original.
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

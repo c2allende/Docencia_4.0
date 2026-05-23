@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo: Ruta Práctica Módulo 3.1 | Docencia 4.0</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        :root {
+            /* Fallback tokens if main.css is not present or loaded */
+            --color-brand-primary: #0046ad;
+            --color-brand-secondary: #00d2ff;
+            --color-background-surface: #ffffff;
+            --color-background-surface-medium: #f8fafd;
+            --color-text-primary: #1a1a1a;
+            --color-text-secondary: #4a4a4a;
+            --color-border-subtle: #e1e8f0;
+            --radius-lg: 12px;
+            --radius-xl: 20px;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+        }
+
+        .prototype-container {
+            max-width: 1000px;
+            margin: var(--spacing-xl) auto;
+            padding: 0 var(--spacing-md);
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        .prototype-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .prototype-header h1 {
+            color: var(--color-brand-primary);
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .prototype-header p {
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Tabs System */
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--color-border-subtle);
+            padding-bottom: 2px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+        }
+
+        .tabs-nav::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            color: var(--color-text-secondary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            white-space: nowrap;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-brand-primary);
+            background: var(--color-background-surface-medium);
+        }
+
+        .tab-btn.active {
+            color: var(--color-brand-primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-brand-primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Tab Panels */
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Activity Content Layout */
+        .activity-card {
+            background: var(--color-background-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .activity-header h2 {
+            margin: 0;
+            color: var(--color-text-primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-sync {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-async {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-evidence {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Grid for Cards */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .content-block {
+            background: var(--color-background-surface-medium);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            border-left: 4px solid var(--color-brand-primary);
+        }
+
+        .content-block h3 {
+            margin: 0 0 12px 0;
+            font-size: 1.1rem;
+            color: var(--color-brand-primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .content-block p,
+        .content-block li {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .content-block ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        /* Evidence Card Specific */
+        .evidence-card {
+            grid-column: 1 / -1;
+            background: #fff9f0;
+            border-left: 4px solid #ff9800;
+        }
+
+        .evidence-card h3 {
+            color: #e65100;
+        }
+
+        /* Steps Layout */
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .step-card {
+            background: white;
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: var(--spacing-md);
+            background: var(--color-brand-primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        /* Closing Card */
+        .closing-card {
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-brand-primary), #002d70);
+            color: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+        }
+
+        .closing-card h2 {
+            color: white;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .closing-card p {
+            color: #e1e8f0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .closing-card .quote {
+            font-style: italic;
+            margin-top: var(--spacing-lg);
+            font-weight: 500;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: var(--spacing-md);
+        }
+
+        @media (max-width: 768px) {
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="prototype-container">
+        <header class="prototype-header">
+            <h1>Ruta práctica: integración de IA en evaluación, retroalimentación y gestión docente</h1>
+            <p>Explore las actividades del módulo antes de participar en el espacio colaborativo. Cada pestaña presenta
+                una experiencia de aplicación práctica y la evidencia que compartirá en el tablero.</p>
+        </header>
+
+        <nav class="tabs-nav" role="tablist">
+            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="act1-panel"
+                id="act1-tab">Actividad 1</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act2-panel" id="act2-tab">Actividad
+                2</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act3-panel" id="act3-tab">Actividad
+                3</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="act4-panel" id="act4-tab">Actividad
+                4</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="cierre-panel"
+                id="cierre-tab">Cierre</button>
+        </nav>
+
+        <!-- Panel Actividad 1 -->
+        <div class="tab-panel active" id="act1-panel" role="tabpanel" aria-labelledby="act1-tab">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <h2>Diseño de instrumentos de evaluación con IA</h2>
+                    <div class="badge-group">
+                        <span class="badge badge-sync">Sincrónico</span>
+                        <span class="badge badge-evidence">Evidencia</span>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-bottom: var(--spacing-lg);">
+                    <h3>Objetivo que atiende</h3>
+                    <p>Formular instrumentos de evaluación con IA y organizarlos en flujos de trabajo para su
+                        integración eficiente.</p>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step-card">
+                        <span class="step-number">1</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Selección de estándar</h4>
+                        <p>Seleccione un estándar del DEPR y defina el tipo de instrumento (rúbrica, lista de cotejo,
+                            etc.).</p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">2</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Prompt y Generación</h4>
+                        <p>Redacte el prompt con rol, grado y formato. Revise el resultado con "La Lupa del Maestro".
+                        </p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">3</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Publicación</h4>
+                        <p>Comparta el estándar usado y un fragmento del instrumento final con su reflexión.</p>
+                    </div>
+                </div>
+
+                <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
+                    <h3>Evidencia para compartir</h3>
+                    <p>Publicación en Padlet: estándar usado, captura del instrumento y reflexión sobre la utilidad de
+                        la IA y los ajustes necesarios.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Actividad 2 -->
+        <div class="tab-panel" id="act2-panel" role="tabpanel" aria-labelledby="act2-tab">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <h2>Retroalimentación formativa y análisis de errores</h2>
+                    <div class="badge-group">
+                        <span class="badge badge-sync">Sincrónico</span>
+                        <span class="badge badge-evidence">Evidencia</span>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-bottom: var(--spacing-lg);">
+                    <h3>Objetivos que atiende</h3>
+                    <ul>
+                        <li>Transformar notas numéricas en retroalimentación empática.</li>
+                        <li>Analizar respuestas anonimizadas para detectar patrones de error.</li>
+                    </ul>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step-card">
+                        <span class="step-number">1</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Caso y Feedback</h4>
+                        <p>Redacte un prompt para generar retroalimentación personalizada de 3–5 oraciones con tono
+                            empático.</p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">2</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Patrones de Error</h4>
+                        <p>Use la IA para identificar 2–3 errores frecuentes y estrategias de re-enseñanza para el
+                            grupo.</p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">3</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Evidencia</h4>
+                        <p>Publique el feedback editado, el plan de re-enseñanza y su reflexión sobre la "voz docente".
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
+                    <h3>Evidencia para compartir</h3>
+                    <p>En Padlet: ejemplo de feedback editado, breve plan de re-enseñanza y ajuste realizado para
+                        humanizar la respuesta.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Actividad 3 -->
+        <div class="tab-panel" id="act3-panel" role="tabpanel" aria-labelledby="act3-tab">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <h2>Automatización de documentos administrativos</h2>
+                    <div class="badge-group">
+                        <span class="badge badge-sync">Sincrónico</span>
+                        <span class="badge badge-evidence">Evidencia</span>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-bottom: var(--spacing-lg);">
+                    <h3>Objetivo que atiende</h3>
+                    <p>Generar y adaptar modelos de documentos administrativos y comunicaciones institucionales con IA.
+                    </p>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step-card">
+                        <span class="step-number">1</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Selección</h4>
+                        <p>Elija un documento: carta a familias, minuta, informe de progreso o modelo para IEP/PIE.</p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">2</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Contexto DEPR</h4>
+                        <p>Redacte el prompt especificando destinatario, tono y contexto de escuela pública en PR.</p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">3</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Plantilla</h4>
+                        <p>Edite el borrador, ajuste la terminología y comparta cuánto tiempo le ahorraría reutilizarlo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
+                    <h3>Evidencia para compartir</h3>
+                    <p>Fragmento del documento editado (sin datos reales), situación de uso y estimación de tiempo
+                        ahorrado.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Actividad 4 -->
+        <div class="tab-panel" id="act4-panel" role="tabpanel" aria-labelledby="act4-tab">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <h2>Lista de verificación ética y anonimización</h2>
+                    <div class="badge-group">
+                        <span class="badge badge-sync">Sincrónico</span>
+                        <span class="badge badge-evidence">Evidencia</span>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-bottom: var(--spacing-lg);">
+                    <h3>Objetivos que atiende</h3>
+                    <ul>
+                        <li>Aplicar checklist ética para anonimizar datos.</li>
+                        <li>Identificar riesgos y prácticas seguras mínimas.</li>
+                    </ul>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step-card">
+                        <span class="step-number">1</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Caso de Riesgo</h4>
+                        <p>Identificación de datos PII y aplicación de "La Lupa del Maestro" en sección de privacidad.
+                        </p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">2</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Taller</h4>
+                        <p>Reescritura de mini-casos de forma anonimizada manteniendo el contenido pedagógico.</p>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">3</span>
+                        <h4 style="margin-top: 10px; font-weight: 700;">Compromiso</h4>
+                        <p>Publicación de ejemplo antes/después y redacción de compromiso ético personal.</p>
+                    </div>
+                </div>
+
+                <div class="content-block evidence-card" style="margin-top: var(--spacing-lg);">
+                    <h3>Evidencia para compartir</h3>
+                    <p>Ejemplo de anonimización (antes simulado / después) y compromiso personal sobre el manejo de
+                        datos.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Cierre -->
+        <div class="tab-panel" id="cierre-panel" role="tabpanel" aria-labelledby="cierre-tab">
+            <div class="closing-card">
+                <h2>Cierre de la Actividad</h2>
+                <p>La integración de la IA en nuestra labor docente no busca reemplazar nuestro criterio, sino potenciar
+                    nuestra capacidad de respuesta y reducir la carga operativa.</p>
+                <div class="quote">
+                    "La IA reduce la carga operativa, pero la evaluación, la comunicación y la ética siguen siendo
+                    responsabilidad profesional del docente."
+                </div>
+                <div style="margin-top: var(--spacing-lg); font-size: 0.9rem; opacity: 0.8;">
+                    Reflexión final: Identifique qué herramienta o plantilla se llevará directamente a su práctica
+                    mañana mismo.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const panels = document.querySelectorAll('.tab-panel');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('aria-controls');
+
+                    // Update buttons
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+
+                    // Update panels
+                    panels.forEach(p => {
+                        p.classList.remove('active');
+                    });
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

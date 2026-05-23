@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -259,7 +259,7 @@
             display: grid;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-10);
-            text-align: center;
+            text-align: left;
         }
 
         .forum-kicker {
@@ -293,17 +293,34 @@
 
         .forum-header p {
             max-width: 860px;
-            margin: 0 auto;
+            margin: 0;
             color: var(--color-text-secondary);
             font-size: var(--font-size-lg);
             line-height: var(--line-height-relaxed);
         }
 
-        .forum-section {
-            margin-bottom: var(--spacing-12);
+        .forum-summary-card,
+        .forum-purpose-card,
+        .forum-participation-card,
+        .forum-question-card,
+        .forum-publication-card,
+        .forum-note-card {
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
         }
 
-        .forum-section-title {
+        .forum-summary-card {
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-xl);
+            background: var(--color-background-surface-low);
+        }
+
+        .forum-summary-card h2,
+        .forum-purpose-card h2,
+        .forum-participation-card h2,
+        .forum-question-card h2,
+        .forum-publication-card h2 {
             margin: 0 0 var(--spacing-md);
             color: var(--color-brand-primary);
             font-family: var(--font-family-heading);
@@ -312,133 +329,135 @@
             line-height: var(--line-height-snug);
         }
 
-        .forum-intro-card,
-        .forum-purpose-card,
-        .forum-participation-card,
-        .forum-reminder,
-        .forum-guide-card {
-            border: var(--border-width-1) solid var(--color-border-default);
-            border-radius: var(--radius-xl);
-            background: var(--color-background-surface-low);
-            box-shadow: var(--shadow-flat);
-        }
-
-        .forum-intro-card {
-            padding: var(--spacing-xl);
-            border-left: var(--border-width-6) solid var(--color-brand-primary);
-        }
-
         .forum-purpose-card {
             padding: var(--spacing-xl);
-            background: var(--color-background-surface);
+            margin: var(--spacing-xl) 0;
             border-left: var(--border-width-6) solid var(--color-brand-secondary);
-        }
-
-        .forum-purpose-card h2,
-        .forum-participation-card h3,
-        .forum-guide-card h2 {
-            margin: 0 0 var(--spacing-sm);
-            color: var(--color-text-display);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-extrabold);
-            line-height: var(--line-height-snug);
-        }
-
-        .forum-participation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-lg);
+            background: var(--color-background-surface-low);
         }
 
         .forum-participation-card {
-            display: grid;
-            grid-template-columns: auto minmax(0, 1fr);
-            gap: var(--spacing-md);
-            align-items: start;
-            padding: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
             background: var(--color-background-surface);
-            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
-                border-color var(--motion-duration-default) var(--motion-easing-standard),
-                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
         }
 
-        .forum-participation-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--color-brand-primary);
-            box-shadow: var(--shadow-ambient);
+        .forum-participation-intro {
+            margin-bottom: var(--spacing-lg);
         }
 
-        .forum-participation-number {
-            width: 42px;
-            height: 42px;
+        .forum-component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .forum-component-card {
+            padding: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .forum-component-card__number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: var(--radius-pill);
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-md);
             background: var(--color-brand-primary);
             color: var(--color-brand-primary-on);
             font-family: var(--font-family-heading);
             font-weight: var(--font-weight-extrabold);
         }
 
-        .forum-participation-card p {
+        .forum-component-card h3 {
+            margin: 0 0 var(--spacing-xs);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .forum-component-card p {
+            margin: 0;
             font-size: var(--font-size-sm);
             line-height: var(--line-height-relaxed);
         }
 
-        .forum-reminder {
+        .forum-note-card {
             display: flex;
-            gap: var(--spacing-md);
             align-items: flex-start;
+            gap: var(--spacing-md);
             padding: var(--spacing-lg);
-            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            margin-top: var(--spacing-lg);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            background: var(--color-background-surface-low);
         }
 
-        .forum-reminder-icon,
-        .forum-guide-icon {
+        .forum-note-card__icon {
+            flex: 0 0 auto;
             font-size: var(--font-size-2xl);
             line-height: 1;
         }
 
-        .forum-guide-card {
-            display: flex;
-            gap: var(--spacing-lg);
-            align-items: flex-start;
+        .forum-question-card {
             padding: var(--spacing-xl);
-            background: var(--color-background-surface);
-            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
         }
 
-        .forum-guide-card ul {
+        .forum-question-card blockquote {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-display);
+            font-size: var(--font-size-lg);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .forum-question-list {
             margin: var(--spacing-sm) 0 0;
             padding-left: var(--spacing-6);
         }
 
-        .forum-guide-card li {
+        .forum-question-list li {
             margin-bottom: var(--spacing-2);
             color: var(--color-text-secondary);
             line-height: var(--line-height-relaxed);
         }
 
-        .forum-guide-card li::marker {
-            color: var(--color-brand-primary);
-            font-weight: var(--font-weight-extrabold);
+        .forum-publication-card {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
         }
 
-        .forum-dynamic-shell {
-            margin-top: var(--spacing-xl);
-            padding-top: var(--spacing-xl);
-            border-top: var(--border-width-1) solid var(--color-border-default);
+        .forum-publication-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
         }
 
-        .forum-dynamic-heading {
-            margin: 0 0 var(--spacing-md);
-            color: var(--color-brand-primary);
-            font-family: var(--font-family-heading);
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-extrabold);
+        .forum-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
         }
 
         .post-box {
@@ -868,13 +887,16 @@
             .forum-shell,
             .post-box,
             .comment-card,
-            .forum-intro-card,
+            .forum-summary-card,
             .forum-purpose-card,
-            .forum-guide-card {
+            .forum-participation-card,
+            .forum-question-card,
+            .forum-publication-card {
                 padding: var(--spacing-xl);
             }
 
-            .forum-form-grid {
+            .forum-form-grid,
+            .forum-component-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -884,8 +906,7 @@
                 font-size: var(--font-size-3xl);
             }
 
-            .forum-guide-card,
-            .forum-reminder {
+            .forum-note-card {
                 flex-direction: column;
             }
 
@@ -908,10 +929,11 @@
             .forum-shell,
             .post-box,
             .comment-card,
+            .forum-summary-card,
             .forum-purpose-card,
             .forum-participation-card,
-            .forum-intro-card,
-            .forum-guide-card {
+            .forum-question-card,
+            .forum-publication-card {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
@@ -966,103 +988,84 @@
     <main class="forum-container">
         <article class="forum-shell" aria-labelledby="forum-title">
             <header class="forum-header">
-                <span class="forum-kicker">Módulo 3 · Comunidad Docencia 4.0</span>
-                <h1 id="forum-title">Foro Módulo 3: <span>Evaluación, retroalimentación y gestión docente con IA</span></h1>
+                <h1 id="forum-title">💬 Foro Módulo 3: <span>Evaluación, retroalimentación y gestión docente con IA</span></h1>
                 <p>Espacio de diálogo profesional para analizar cómo los LLM pueden apoyar la evaluación, la retroalimentación, la documentación administrativa, la comunicación institucional y la seguridad de datos.</p>
             </header>
 
-            <section class="forum-section" aria-labelledby="intro-foro-title">
-                <div class="forum-intro-card">
-                    <h2 id="intro-foro-title" class="forum-section-title">📖 Introducción al foro</h2>
-                    <p>Bienvenido y bienvenida al <strong>Foro del Módulo 3</strong>.</p>
-                    <p>Tras haber completado las cuatro lecciones sobre <strong>diseño automatizado de instrumentos de evaluación</strong> —Lección 3.1—, <strong>retroalimentación formativa y computación afectiva</strong> —Lección 3.2—, <strong>automatización de la burocracia educativa</strong> —Lección 3.3— y <strong>seguridad de datos en tareas administrativas</strong> —Lección 3.4—, además del Taller práctico <strong>"IA al servicio de la evaluación y la gestión docente"</strong> —Actividad 3.1—, llegamos a un espacio de <strong>diálogo profesional</strong> entre facilitadores docentes.</p>
-                    <p>Este foro es el lugar donde la <strong>teoría se convierte en práctica compartida</strong>: aquí podrás analizar el uso de <strong>LLM</strong> en <strong>rúbricas</strong>, <strong>retroalimentación formativa</strong>, <strong>documentación administrativa</strong>, <strong>comunicación institucional</strong> y <strong>seguridad de datos</strong>, manteniendo siempre el <strong>criterio profesional docente</strong> y la <strong>responsabilidad ética</strong> en el manejo de información estudiantil.</p>
+            <section class="forum-summary-card" aria-labelledby="introduccion-title">
+                <h2 id="introduccion-title">📖 Introducción al foro</h2>
+                <p>Bienvenido y bienvenida al <strong>Foro del Módulo 3</strong>.</p>
+                <p>Tras haber completado las cuatro lecciones sobre diseño automatizado de instrumentos de evaluación —Lección 3.1—, retroalimentación formativa y computación afectiva —Lección 3.2—, automatización de la burocracia educativa —Lección 3.3— y seguridad de datos en tareas administrativas —Lección 3.4—, además del Taller práctico "IA al servicio de la evaluación y la gestión docente" —Actividad 3.1—, llegamos a un espacio de diálogo profesional entre facilitadores docentes.</p>
+                <p>Este foro es el lugar donde la teoría se convierte en práctica compartida: aquí podrás analizar el uso de LLM en rúbricas, retroalimentación formativa, documentación administrativa, comunicación institucional y seguridad de datos, manteniendo siempre el criterio profesional docente y la responsabilidad ética en el manejo de información estudiantil.</p>
+            </section>
+
+            <section class="forum-purpose-card" aria-labelledby="proposito-title">
+                <h2 id="proposito-title">🎯 Propósito del foro</h2>
+                <p>Analizar el uso de LLM para apoyar rúbricas, retroalimentación formativa, documentación administrativa, comunicación institucional y seguridad de datos, manteniendo siempre el criterio profesional docente y la responsabilidad ética en el manejo de información.</p>
+            </section>
+
+            <section class="forum-participation-card" aria-labelledby="participacion-title">
+                <h2 id="participacion-title">✍️ Participación esperada</h2>
+                <p class="forum-participation-intro">Estructura tu aportación inicial integrando estos cuatro elementos:</p>
+
+                <div class="forum-component-grid" aria-label="Componentes de la aportación inicial">
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">1</span>
+                        <h3>Discusión sobre evaluación</h3>
+                        <p>Comparte tu reflexión sobre el uso de LLM en el diseño de rúbricas, listas de cotejo o bancos de reactivos alineados a los estándares del DEPR.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">2</span>
+                        <h3>Retroalimentación empática y formativa</h3>
+                        <p>Discute cómo la IA puede transformar comentarios correctivos en mensajes que integren validación, empatía, especificidad y acción.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">3</span>
+                        <h3>Seguridad de datos y anonimización</h3>
+                        <p>Explica cómo aplicaste el protocolo de anonimización y el marco FERPA antes de procesar información con un LLM.</p>
+                    </article>
+
+                    <article class="forum-component-card">
+                        <span class="forum-component-card__number">4</span>
+                        <h3>Uso responsable de IA en documentos escolares</h3>
+                        <p>Reflexiona sobre tu rol como responsable último del contenido emitido en tu nombre y las precauciones éticas que mantienes.</p>
+                    </article>
+                </div>
+
+                <div class="forum-note-card" role="note">
+                    <span class="forum-note-card__icon" aria-hidden="true">💡</span>
+                    <p><strong>Recuerda:</strong> responde al menos a dos compañeros con comentarios que aporten valor pedagógico, sugerencias técnicas o reflexiones éticas que enriquezcan el diálogo.</p>
                 </div>
             </section>
 
-            <section class="forum-section" aria-labelledby="proposito-title">
-                <div class="forum-purpose-card">
-                    <h2 id="proposito-title">🎯 Propósito del foro</h2>
-                    <p>Analizar el uso de <strong>LLM</strong> para apoyar <strong>rúbricas</strong>, <strong>retroalimentación formativa</strong>, <strong>documentación administrativa</strong>, <strong>comunicación institucional</strong> y <strong>seguridad de datos</strong>, manteniendo siempre el <strong>criterio profesional docente</strong> y la <strong>responsabilidad ética</strong> en el manejo de información.</p>
-                    <p>Las aportaciones de este foro constituyen <strong>evidencia cualitativa directa</strong> del plan de acción de la investigación, particularmente sobre cómo los <strong>facilitadores docentes</strong> perciben que los LLM optimizan la <strong>evaluación de los aprendizajes</strong> y la <strong>gestión administrativa</strong>, qué recursos específicos consideran más eficientes frente a las contrapartes tradicionales, qué desafíos identifican —especialmente en materia de <strong>privacidad</strong> y <strong>FERPA</strong>— y qué valor añadido observan como evidencia de aprendizaje.</p>
+            <section class="forum-question-card" aria-labelledby="pregunta-guia-title">
+                <h2 id="pregunta-guia-title">🧭 Pregunta guía</h2>
+                <blockquote>
+                    Desde tu rol como facilitador docente del DEPR, después de haber experimentado las actividades del Módulo 3 —diseño de instrumentos, retroalimentación empática, automatización administrativa y manejo seguro de datos—, ¿en cuál de estas tareas consideras que un LLM aporta mayor valor en comparación con tu práctica tradicional?
+                </blockquote>
+                <p>Para estructurar tu reflexión, incluye:</p>
+                <ul class="forum-question-list">
+                    <li>Una explicación de tu elección.</li>
+                    <li>Un ejemplo concreto generado durante el taller.</li>
+                    <li>Al menos una precaución ética o de privacidad vinculada a FERPA y a las normativas del DEPR.</li>
+                    <li>Cómo esta experiencia ha transformado tu manera de acompañar a los maestros y maestras que das mentoría.</li>
+                </ul>
+            </section>
+
+            <section class="forum-publication-card" aria-labelledby="publicacion-title">
+                <h2 id="publicacion-title">📝 Espacio de publicación</h2>
+                <p>Utiliza el formulario del foro para publicar tu aportación inicial y revisar las aportaciones recientes de tus compañeros.</p>
+                <div class="forum-publication-card__actions" aria-label="Indicadores de participación del foro">
+                    <span class="forum-chip">✅ Aportación inicial</span>
+                    <span class="forum-chip">💬 Dos respuestas a compañeros</span>
+                    <span class="forum-chip">🔒 Sin datos identificables</span>
                 </div>
             </section>
 
-            <section class="forum-section" aria-labelledby="participacion-title">
-                <h2 id="participacion-title" class="forum-section-title">✍️ Participación esperada</h2>
-                <p>Estructura tu <strong>aportación inicial</strong> integrando estos cinco elementos:</p>
-
-                <div class="forum-participation-grid" aria-label="Cinco elementos de participación esperada">
-                    <article class="forum-participation-card">
-                        <span class="forum-participation-number">1</span>
-                        <div>
-                            <h3>Discusión sobre evaluación</h3>
-                            <p>Comparte tu reflexión sobre el uso de <strong>LLM</strong> en el diseño de <strong>rúbricas</strong>, <strong>listas de cotejo</strong> o <strong>bancos de reactivos</strong> alineados a los estándares del <strong>DEPR</strong>.</p>
-                        </div>
-                    </article>
-
-                    <article class="forum-participation-card">
-                        <span class="forum-participation-number">2</span>
-                        <div>
-                            <h3>Retroalimentación empática y formativa</h3>
-                            <p>Discute cómo la IA puede transformar comentarios correctivos en mensajes que integren <strong>validación</strong>, <strong>empatía</strong>, <strong>especificidad</strong> y <strong>acción</strong>.</p>
-                        </div>
-                    </article>
-
-                    <article class="forum-participation-card">
-                        <span class="forum-participation-number">3</span>
-                        <div>
-                            <h3>Automatización administrativa</h3>
-                            <p>Comparte una experiencia con <strong>cartas</strong>, <strong>permisos</strong>, <strong>minutas</strong>, <strong>narrativas PEI</strong> o <strong>comunicaciones institucionales</strong> generadas con apoyo de IA.</p>
-                        </div>
-                    </article>
-
-                    <article class="forum-participation-card">
-                        <span class="forum-participation-number">4</span>
-                        <div>
-                            <h3>Seguridad de datos y anonimización</h3>
-                            <p>Explica cómo aplicaste el <strong>protocolo de anonimización</strong> y el marco <strong>FERPA</strong> antes de procesar información con un LLM.</p>
-                        </div>
-                    </article>
-
-                    <article class="forum-participation-card">
-                        <span class="forum-participation-number">5</span>
-                        <div>
-                            <h3>Uso responsable de IA en documentos escolares</h3>
-                            <p>Reflexiona sobre tu rol como <strong>responsable último</strong> del contenido emitido en tu nombre y las precauciones éticas que mantienes.</p>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <aside class="forum-reminder" aria-label="Recordatorio de participación">
-                <span class="forum-reminder-icon" aria-hidden="true">💡</span>
-                <p><strong>Recuerda:</strong> responde al menos a <strong>dos compañeros</strong> con comentarios que aporten valor <strong>pedagógico</strong>, sugerencias <strong>técnicas</strong> o reflexiones <strong>éticas</strong> que enriquezcan el diálogo.</p>
-            </aside>
-
-            <section class="forum-section" aria-labelledby="pregunta-title">
-                <div class="forum-guide-card">
-                    <span class="forum-guide-icon" aria-hidden="true">🧭</span>
-                    <div>
-                        <h2 id="pregunta-title">Pregunta guía</h2>
-                        <p>Desde tu rol como <strong>facilitador docente del DEPR</strong>, después de haber experimentado las actividades del <strong>Módulo 3</strong> —diseño de instrumentos, retroalimentación empática, automatización administrativa y manejo seguro de datos—:</p>
-                        <p><strong>¿En cuál de estas tareas consideras que un LLM aporta mayor valor en comparación con tu práctica tradicional?</strong></p>
-                        <p>Para estructurar tu reflexión, incluye:</p>
-                        <ul>
-                            <li>Una explicación de tu elección.</li>
-                            <li>Un ejemplo concreto generado durante el taller.</li>
-                            <li>Al menos una <strong>precaución ética</strong> o de <strong>privacidad</strong> vinculada a <strong>FERPA</strong> y a las normativas del <strong>DEPR</strong>.</li>
-                            <li>Cómo esta experiencia ha transformado tu manera de acompañar a los maestros y maestras que das mentoría.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section class="forum-dynamic-shell" aria-labelledby="forum-dynamic-title">
-                <h2 id="forum-dynamic-title" class="forum-dynamic-heading">📝 Espacio de publicación</h2>
-                <section id="forum-dynamic-container" data-forum-id="modulo3" aria-label="Foro dinámico interactivo del Módulo 3">
-                    <!-- El contenido del foro será inyectado aquí por forum-handler.js -->
-                </section>
+            <section id="forum-dynamic-container" data-forum-id="modulo3" aria-label="Foro dinámico interactivo">
+                <!-- El contenido del foro será inyectado aquí por forum-handler.js -->
             </section>
 
             <div id="completion-section"></div>

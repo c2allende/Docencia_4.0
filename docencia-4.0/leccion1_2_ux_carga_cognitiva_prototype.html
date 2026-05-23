@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 1.2 de Docencia 4.0: Aplicaciones estratégicas por áreas de contenido. Optimización UX/UI y reducción de carga cognitiva.">
+    <title>Lección 1.2 | Docencia 4.0 Prototipo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        /* Namespace: .leccion1-2-prototype */
+        .leccion1-2-prototype {
+            background: var(--color-background-page);
+            padding: clamp(3rem, 5vw, 5rem) clamp(1rem, 3vw, 2rem);
+            min-height: calc(100vh - var(--nav-height));
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .leccion1-2-prototype .m1-floating-shell {
+            width: min(100%, 1180px);
+            margin: var(--spacing-12) auto var(--spacing-8);
+            background: var(--color-background-surface);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: var(--radius-2xl);
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.05),
+                0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            padding: clamp(2rem, 6vw, 5rem);
+            overflow: visible;
+            position: relative;
+        }
+
+        .leccion1-2-prototype .m1-floating-shell > :first-child {
+            margin-top: 0;
+        }
+
+        .leccion1-2-prototype h1.lesson-title {
+            font-size: clamp(2.4rem, 6vw, 3.2rem);
+            line-height: 1.1;
+            color: var(--color-text-display);
+            margin: 0 0 var(--spacing-10);
+            padding-top: 0;
+            font-weight: 800;
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .leccion1-2-prototype .section-title {
+            font-size: var(--font-size-2xl);
+            margin: var(--spacing-10) 0 var(--spacing-6);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .leccion1-2-prototype .audio-player-container {
+            background: var(--color-background-surface-low);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-8);
+            border: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .leccion1-2-prototype .audio-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .leccion1-2-prototype .audio-player {
+            width: 100%;
+        }
+
+        .leccion1-2-prototype .organizer-card {
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-4) solid var(--color-brand-secondary);
+            padding: var(--spacing-8);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--spacing-10);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .leccion1-2-prototype .organizer-card p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+        }
+
+        .leccion1-2-prototype p {
+            line-height: 1.7;
+            margin-bottom: var(--spacing-6);
+            color: var(--color-text-primary);
+        }
+
+        .leccion1-2-prototype .section-title-sm {
+            font-size: var(--font-size-lg);
+            color: var(--color-brand-primary);
+            margin: var(--spacing-8) 0 var(--spacing-4);
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        .leccion1-2-prototype .content-list {
+            margin-bottom: var(--spacing-8);
+            padding-left: var(--spacing-6);
+        }
+
+        .leccion1-2-prototype .content-list li {
+            margin-bottom: var(--spacing-3);
+            line-height: 1.6;
+        }
+
+        /* Vertical Rhythm & Section Spacing */
+        .leccion1-2-prototype .lesson-section {
+            margin-block: clamp(2.75rem, 4vw, 4.5rem);
+        }
+
+        .leccion1-2-prototype .lesson-section + .lesson-section {
+            margin-top: clamp(3rem, 4.5vw, 5rem);
+        }
+
+        .leccion1-2-prototype .lesson-section h2 {
+            margin-bottom: var(--spacing-5);
+        }
+
+        .leccion1-2-prototype .lesson-section h3 {
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .leccion1-2-prototype .lesson-section p {
+            margin-bottom: var(--spacing-4);
+        }
+
+        .leccion1-2-prototype .lesson-content-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-6);
+            margin-bottom: var(--spacing-8);
+        }
+
+        .leccion1-2-prototype .lesson-media-card {
+            width: min(100%, 720px);
+            margin: var(--spacing-6) auto var(--spacing-8);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-2xl);
+            background: #f8fafc; /* light-surface */
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .leccion1-2-prototype .lesson-media-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .leccion1-2-prototype .lesson-media-card img {
+            width: 100%;
+            max-height: 420px;
+            object-fit: contain;
+            border-radius: var(--radius-xl);
+            display: block;
+        }
+
+        .leccion1-2-prototype .lesson-media-card figcaption {
+            margin-top: var(--spacing-4);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+            text-align: center;
+            font-style: italic;
+        }
+
+        .leccion1-2-prototype .lesson-text-stack {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
+        }
+
+        @media (max-width: 768px) {
+            .leccion1-2-prototype .lesson-section {
+                margin-block: 2.5rem;
+            }
+
+            .leccion1-2-prototype .lesson-media-card {
+                width: 100%;
+                padding: var(--spacing-3);
+                margin-block: var(--spacing-6);
+            }
+
+            .leccion1-2-prototype .lesson-media-card img {
+                max-height: none;
+            }
+        }
+
+        /* Image Zoom System */
+        .leccion1-2-prototype .image-zoom-trigger {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: zoom-in;
+            width: 100%;
+            transition: transform 0.3s ease;
+            position: relative;
+            display: block;
+        }
+
+        .leccion1-2-prototype .image-zoom-trigger:hover {
+            transform: scale(1.02);
+        }
+
+        .leccion1-2-prototype .image-zoom-trigger::after {
+            content: "🔍 Ampliar";
+            position: absolute;
+            bottom: var(--spacing-4);
+            right: var(--spacing-4);
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 0.7rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .leccion1-2-prototype .image-zoom-trigger:hover::after {
+            opacity: 1;
+        }
+
+        /* Language Section Specific Layout */
+        .leccion1-2-prototype .language-section-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-10);
+        }
+
+        .leccion1-2-prototype .language-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--spacing-5);
+            margin-top: var(--spacing-10);
+        }
+
+        .leccion1-2-prototype .language-point,
+        .leccion1-2-prototype .language-card {
+            background: var(--color-background-surface-low);
+            border-radius: var(--radius-xl);
+            padding: clamp(1.25rem, 2vw, 1.75rem);
+            border: 1px solid var(--color-border-soft, rgba(15, 23, 42, 0.08));
+            box-shadow: var(--shadow-soft);
+            transition: none;
+            transform: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .leccion1-2-prototype .language-point:hover,
+        .leccion1-2-prototype .language-card:hover {
+            border-color: var(--color-border-soft, rgba(15, 23, 42, 0.08));
+            box-shadow: var(--shadow-soft);
+            transform: none;
+        }
+
+        .leccion1-2-prototype .language-point h4 {
+            margin: 0 0 var(--spacing-2);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-base);
+            font-weight: 800;
+        }
+
+        .leccion1-2-prototype .language-summary,
+        .leccion1-2-prototype .summary-card {
+            margin-top: var(--spacing-4);
+            padding: clamp(1.25rem, 2vw, 1.75rem);
+            border-top: 4px solid var(--color-brand-primary);
+            background: #f0f7ff; /* light-blue-tint */
+            border-radius: var(--radius-xl);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--color-border-soft, rgba(15, 23, 42, 0.08));
+            transition: none;
+        }
+
+        .leccion1-2-prototype .language-summary:hover,
+        .leccion1-2-prototype .summary-card:hover {
+            box-shadow: var(--shadow-soft);
+            transform: none;
+        }
+
+        /* Modal Zoom */
+        .modal-zoom {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-zoom .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-zoom img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+        /* Role Cards Grid */
+        .leccion1-2-prototype .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-8);
+            margin: var(--spacing-8) 0;
+            align-items: start;
+        }
+
+        .leccion1-2-prototype .comp-card,
+        .leccion1-2-prototype .role-card {
+            padding: clamp(1.25rem, 2vw, 1.75rem);
+            background: var(--color-background-surface-low);
+            border: 1px solid var(--color-border-soft, rgba(15, 23, 42, 0.08));
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+            transition: none;
+            transform: none;
+            height: 100%;
+        }
+
+        .leccion1-2-prototype .comp-card:hover,
+        .leccion1-2-prototype .role-card:hover {
+            border-color: var(--color-border-soft, rgba(15, 23, 42, 0.08));
+            box-shadow: var(--shadow-soft);
+            transform: none;
+        }
+
+        .leccion1-2-prototype .comp-card h3 {
+            margin-top: 0;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg);
+            font-weight: 800;
+            margin-bottom: var(--spacing-4);
+        }
+
+        /* Highlight Box (Special Ed) */
+        .leccion1-2-prototype .highlight-box,
+        .leccion1-2-prototype .content-card {
+            background: var(--color-background-surface-low);
+            border-radius: var(--radius-2xl);
+            padding: clamp(1.25rem, 2vw, 1.75rem);
+            margin: var(--spacing-6) 0;
+            border: 1px solid var(--color-border-soft, rgba(15, 23, 42, 0.08));
+            box-shadow: var(--shadow-soft);
+            transition: none;
+        }
+
+        .leccion1-2-prototype .highlight-box:hover,
+        .leccion1-2-prototype .content-card:hover {
+            box-shadow: var(--shadow-soft);
+            transform: none;
+        }
+
+        /* Interactive Activity Styling - POINT 6.1 AUDIT */
+        .leccion1-2-prototype .interactive-shell {
+            width: min(100%, 920px);
+            margin: var(--spacing-12) auto;
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            background: #0D0D2B; /* activity-navy */
+            box-shadow: var(--shadow-xl);
+        }
+
+        .leccion1-2-prototype .llm-strat-activity {
+            --activity-coral: #FF6B6B;
+            --activity-teal: #00CFD5;
+            --activity-yellow: #FFD93D;
+            --activity-purple: #7C6FFF;
+            --activity-green: #06D6A0;
+            --activity-navy: #0D0D2B;
+            --activity-card-bg: #1C1C45;
+            --activity-text: #F0F0FF;
+            --activity-muted: #A7A7CC;
+            --activity-radius: 18px;
+
+            position: relative;
+            min-height: 520px;
+            padding: var(--spacing-xl) var(--spacing-md) var(--spacing-xl);
+            color: var(--activity-text);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .leccion1-2-prototype .llm-strat-activity * {
+            box-sizing: border-box;
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .activity-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.18;
+            animation: driftActivity 14s ease-in-out infinite alternate;
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .orb-1 { width: 500px; height: 500px; left: -150px; top: -150px; background: var(--activity-purple); }
+        .leccion1-2-prototype .llm-strat-activity .orb-2 { width: 380px; height: 380px; right: -100px; bottom: -100px; background: var(--activity-teal); animation-delay: -5s; }
+        .leccion1-2-prototype .llm-strat-activity .orb-3 { width: 260px; height: 260px; top: 45%; left: 58%; background: var(--activity-coral); animation-delay: -9s; }
+
+        @keyframes driftActivity {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(25px, 35px) scale(1.12); }
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .conf-wrap { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+        .leccion1-2-prototype .llm-strat-activity .conf { position: absolute; top: -20px; border-radius: 2px; animation: fallActivity 2s ease-in forwards; }
+
+        @keyframes fallActivity {
+            to { transform: translateY(110vh) rotate(700deg); opacity: 0; }
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .activity-app {
+            position: relative;
+            z-index: 2;
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .activity-topbar { display: none; flex-direction: column; gap: var(--spacing-2); }
+        .leccion1-2-prototype .llm-strat-activity .activity-topbar.is-visible { display: flex; }
+        .leccion1-2-prototype .llm-strat-activity .tb-row { display: flex; justify-content: space-between; align-items: center; gap: var(--spacing-sm); }
+        .leccion1-2-prototype .llm-strat-activity .brand { color: var(--activity-teal); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+        .leccion1-2-prototype .llm-strat-activity .step-label { color: var(--activity-muted); font-size: 0.82rem; }
+        .leccion1-2-prototype .llm-strat-activity .prog-track { height: 7px; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, 0.08); }
+        .leccion1-2-prototype .llm-strat-activity .progbar { width: 0%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--activity-purple), var(--activity-teal)); transition: width 0.55s ease; }
+        .leccion1-2-prototype .llm-strat-activity .dots { display: flex; gap: 8px; }
+        .leccion1-2-prototype .llm-strat-activity .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); transition: background 0.3s, transform 0.3s; }
+        .leccion1-2-prototype .llm-strat-activity .dot.active { background: var(--activity-teal); transform: scale(1.35); }
+        .leccion1-2-prototype .llm-strat-activity .dot.done { background: var(--activity-green); }
+
+        .leccion1-2-prototype .llm-strat-activity .screen { display: none; flex-direction: column; gap: var(--spacing-md); }
+        .leccion1-2-prototype .llm-strat-activity .screen.on { display: flex; animation: fadeUpActivity 0.4s ease both; }
+
+        @keyframes fadeUpActivity {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .leccion1-2-prototype .llm-strat-activity .activity-card { overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--activity-radius); background: var(--activity-card-bg); }
+        .leccion1-2-prototype .llm-strat-activity .intro-inner { position: relative; overflow: hidden; padding: clamp(24px, 5vw, 40px); text-align: center; background: linear-gradient(135deg, #1C1C45, #12123a); }
+        .leccion1-2-prototype .llm-strat-activity .big-emoji { display: block; margin-bottom: var(--spacing-sm); font-size: clamp(2.5rem, 7vw, 4rem); }
+        .leccion1-2-prototype .llm-strat-activity h2 { color: var(--activity-text); font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 800; line-height: 1.2; margin: 0 0 var(--spacing-sm); }
+        .leccion1-2-prototype .llm-strat-activity .intro-inner p { color: var(--activity-muted); max-width: 560px; margin: 0 auto var(--spacing-md); line-height: 1.7; }
+        .leccion1-2-prototype .llm-strat-activity .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: var(--spacing-lg); }
+        .leccion1-2-prototype .llm-strat-activity .chip { padding: 5px 14px; border-radius: 99px; font-size: 0.77rem; font-weight: 700; }
+        .leccion1-2-prototype .llm-strat-activity .chip-stem { color: var(--activity-coral); background: rgba(255, 107, 107, 0.15); border: 1px solid rgba(255, 107, 107, 0.3); }
+        .leccion1-2-prototype .llm-strat-activity .chip-humanities { color: var(--activity-purple); background: rgba(124, 111, 255, 0.15); border: 1px solid rgba(124, 111, 255, 0.3); }
+        .leccion1-2-prototype .llm-strat-activity .chip-special { color: var(--activity-green); background: rgba(6, 214, 160, 0.15); border: 1px solid rgba(6, 214, 160, 0.3); }
+        
+        .leccion1-2-prototype .llm-strat-activity .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--spacing-sm); }
+        .leccion1-2-prototype .llm-strat-activity .info-card { padding: var(--spacing-md); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: var(--activity-radius); background: var(--activity-card-bg); }
+        .leccion1-2-prototype .llm-strat-activity .ic-icon { font-size: 1.5rem; margin-bottom: var(--spacing-2); }
+        .leccion1-2-prototype .llm-strat-activity .ic-title { font-size: 0.85rem; font-weight: 800; margin-bottom: 4px; }
+        .leccion1-2-prototype .llm-strat-activity .ic-body { font-size: 0.78rem; color: var(--activity-muted); line-height: 1.5; }
+
+        .leccion1-2-prototype .llm-strat-activity .btn-activity { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 12px 26px; border: none; border-radius: 99px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+        .leccion1-2-prototype .llm-strat-activity .btn-primary-activity { color: #fff; background: linear-gradient(135deg, var(--activity-purple), var(--activity-teal)); }
+        .leccion1-2-prototype .llm-strat-activity .btn-secondary-activity { color: var(--activity-text); background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.13); }
+        .leccion1-2-prototype .llm-strat-activity .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+
+        .leccion1-2-prototype .llm-strat-activity .scenario-head { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-lg); }
+        .leccion1-2-prototype .llm-strat-activity .area-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 1.4rem; }
+        .leccion1-2-prototype .llm-strat-activity .icon-stem { background: rgba(255, 107, 107, 0.18); }
+        .leccion1-2-prototype .llm-strat-activity .icon-humanities { background: rgba(124, 111, 255, 0.18); }
+        .leccion1-2-prototype .llm-strat-activity .icon-special { background: rgba(6, 214, 160, 0.18); }
+        .leccion1-2-prototype .llm-strat-activity .scenario-head h3 { font-size: 1.2rem; font-weight: 800; margin: 0; }
+        .leccion1-2-prototype .llm-strat-activity .scenario-head .sub { font-size: 0.75rem; color: var(--activity-muted); margin-top: 2px; }
+
+        .leccion1-2-prototype .llm-strat-activity .anim-box { min-height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 var(--spacing-md) var(--spacing-md); padding: var(--spacing-md); border-radius: 12px; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.05); }
+        .leccion1-2-prototype .llm-strat-activity .anim-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .leccion1-2-prototype .llm-strat-activity .anim-chip { padding: 8px 12px; border-radius: 8px; color: #c4c0ff; background: rgba(124, 111, 255, 0.13); border: 1px solid rgba(124, 111, 255, 0.2); font-size: 0.75rem; opacity: 0; animation: popActivity 0.4s ease forwards; }
+
+        .leccion1-2-prototype .llm-strat-activity .scenario-text { margin: 0 var(--spacing-md) var(--spacing-sm); padding: var(--spacing-md); border-left: 4px solid var(--activity-yellow); border-radius: 10px; background: rgba(255, 255, 255, 0.04); font-size: 0.9rem; line-height: 1.6; text-align: left; }
+        .leccion1-2-prototype .llm-strat-activity .opts { display: flex; flex-direction: column; gap: 8px; padding: 0 var(--spacing-md) var(--spacing-md); }
+        .leccion1-2-prototype .llm-strat-activity .opt { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid rgba(255, 255, 255, 0.08); border-radius: 12px; background: rgba(255, 255, 255, 0.04); color: inherit; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; text-align: left; }
+        .leccion1-2-prototype .llm-strat-activity .opt:hover:not([disabled]) { border-color: rgba(255, 255, 255, 0.2); transform: translateX(2px); }
+        .leccion1-2-prototype .llm-strat-activity .opt.correct { border-color: var(--activity-green) !important; background: rgba(6, 214, 160, 0.1) !important; }
+        .leccion1-2-prototype .llm-strat-activity .opt.wrong { border-color: var(--activity-coral) !important; background: rgba(255, 107, 107, 0.08) !important; }
+        .leccion1-2-prototype .llm-strat-activity .oletter { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(255, 255, 255, 0.1); font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
+
+        .leccion1-2-prototype .llm-strat-activity .fb { display: none; margin: 0 var(--spacing-md) var(--spacing-md); padding: var(--spacing-md); border-radius: 10px; font-size: 0.85rem; }
+        .leccion1-2-prototype .llm-strat-activity .fb.show { display: block; }
+        .leccion1-2-prototype .llm-strat-activity .results-hero { padding: 40px 20px; text-align: center; background: linear-gradient(135deg, #1C1C45, #12123a); border-radius: var(--activity-radius); }
+        .leccion1-2-prototype .llm-strat-activity .score-ring { width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--spacing-md); border-radius: 50%; }
+
+        @media (max-width: 760px) {
+            .leccion1-2-prototype .interactive-shell { width: 100%; border-radius: var(--radius-xl); }
+            .leccion1-2-prototype .llm-strat-activity { padding-top: var(--spacing-lg); }
+            .leccion1-2-prototype .llm-strat-activity .info-row { grid-template-columns: 1fr; }
+            .leccion1-2-prototype .llm-strat-activity .nav-row { flex-direction: column; align-items: stretch; }
+        }
+
+        /* Footer Nav Custom */
+        .leccion1-2-prototype .m1-footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-10);
+            border-top: 1px solid var(--color-border-subtle);
+            gap: var(--spacing-8);
+        }
+
+        .leccion1-2-prototype .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: var(--radius-lg);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .leccion1-2-prototype .btn-primary {
+            background: var(--color-brand-primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+        }
+
+        .leccion1-2-prototype .btn-primary:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.2);
+        }
+
+        .leccion1-2-prototype .btn-secondary {
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            border: 1px solid var(--color-border-default);
+        }
+
+        .leccion1-2-prototype .btn-secondary:hover {
+            background: var(--color-slate-50);
+            border-color: var(--color-brand-primary);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .leccion1-2-prototype .m1-footer-nav { 
+                flex-direction: column-reverse; 
+                gap: var(--spacing-6); 
+                padding-top: var(--spacing-8);
+            }
+            .leccion1-2-prototype .btn { width: 100%; padding: 16px; }
+        }
+
+        /* Mobile specific H1 visibility fix from L1.1 */
+        @media (max-width: 760px) {
+            .leccion1-2-prototype {
+                padding-top: calc(var(--nav-height) + var(--spacing-8));
+                padding-inline: var(--spacing-4);
+            }
+            .leccion1-2-prototype .m1-floating-shell {
+                margin-top: 0;
+                padding-top: clamp(2rem, 8vw, 3rem);
+                padding-inline: var(--spacing-6);
+                border-radius: var(--radius-xl);
+                box-shadow: var(--shadow-md);
+            }
+            .leccion1-2-prototype h1.lesson-title {
+                font-size: clamp(1.8rem, 8vw, 2.3rem);
+                line-height: 1.1;
+                margin-bottom: var(--spacing-6);
+            }
+            .leccion1-2-prototype .lesson-content-grid,
+            .leccion1-2-prototype .language-section-container {
+                gap: var(--spacing-4);
+            }
+
+            .leccion1-2-prototype .content-card,
+            .leccion1-2-prototype .language-card,
+            .leccion1-2-prototype .role-card,
+            .leccion1-2-prototype .language-point,
+            .leccion1-2-prototype .comp-card,
+            .leccion1-2-prototype .highlight-box {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Top Nav styles missing from main.css but present in production */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .logo-container img {
+            height: 52px;
+            width: auto;
+        }
+
+        .module-title-nav {
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--color-text-display);
+            margin-left: var(--spacing-4);
+            border-left: 2px solid var(--color-border-default);
+            padding-left: var(--spacing-4);
+        }
+
+        @media (max-width: 900px) {
+            .module-title-nav { display: none; }
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            padding: var(--spacing-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+        }
+
+        .menu-btn:hover { background: var(--color-slate-100); }
+
+        /* =========================================================
+           LECCIÓN 1.2 — AJUSTE FINAL REAL DE RITMO VERTICAL
+           ========================================================= */
+        
+        .leccion1-2-prototype .m1-floating-shell article > * + * {
+          margin-top: clamp(1.75rem, 3vw, 2.75rem);
+        }
+
+        .leccion1-2-prototype section,
+        .leccion1-2-prototype .lesson-section,
+        .leccion1-2-prototype .content-section,
+        .leccion1-2-prototype .editorial-section,
+        .leccion1-2-prototype .text-section {
+          margin-top: clamp(2rem, 3vw, 3rem) !important;
+          margin-bottom: 0 !important;
+        }
+
+        .leccion1-2-prototype .lesson-section + .lesson-section,
+        .leccion1-2-prototype .content-section + .content-section,
+        .leccion1-2-prototype .editorial-section + .editorial-section {
+          margin-top: clamp(2.25rem, 3.5vw, 3.25rem) !important;
+        }
+
+        .leccion1-2-prototype .lesson-media-card,
+        .leccion1-2-prototype figure,
+        .leccion1-2-prototype .image-card,
+        .leccion1-2-prototype .visual-card {
+          margin-top: clamp(1rem, 2vw, 1.5rem) !important;
+          margin-bottom: clamp(1.25rem, 2vw, 1.75rem) !important;
+        }
+
+        .leccion1-2-prototype h1.lesson-title {
+          margin-bottom: clamp(1.5rem, 3vw, 2.5rem) !important;
+        }
+
+        .leccion1-2-prototype h2 {
+          margin-top: 0 !important;
+          margin-bottom: clamp(1rem, 2vw, 1.5rem) !important;
+        }
+
+        .leccion1-2-prototype h3 {
+          margin-top: clamp(1.25rem, 2vw, 1.75rem) !important;
+          margin-bottom: 0.75rem !important;
+        }
+
+        .leccion1-2-prototype p,
+        .leccion1-2-prototype ul,
+        .leccion1-2-prototype ol {
+          margin-bottom: 1rem;
+        }
+
+        .leccion1-2-prototype .language-card-grid,
+        .leccion1-2-prototype .role-grid,
+        .leccion1-2-prototype .cards-grid,
+        .leccion1-2-prototype .language-points {
+          gap: clamp(1rem, 2vw, 1.5rem) !important;
+          margin-top: clamp(1.25rem, 2vw, 1.75rem) !important;
+          margin-bottom: clamp(1.5rem, 2.5vw, 2rem) !important;
+        }
+
+        .leccion1-2-prototype .language-summary,
+        .leccion1-2-prototype .summary-card {
+          margin-top: 1.25rem !important;
+          margin-bottom: 0 !important;
+        }
+
+        .leccion1-2-prototype .genially-frame-wrap,
+        .leccion1-2-prototype .interactive-frame,
+        .leccion1-2-prototype .activity-frame,
+        .leccion1-2-prototype .interactive-shell {
+          margin-top: clamp(1.5rem, 3vw, 2.25rem) !important;
+          margin-bottom: clamp(2rem, 3vw, 3rem) !important;
+        }
+
+        .leccion1-2-prototype .references-area {
+          margin-top: clamp(1.5rem, 3vw, 2.5rem) !important;
+          margin-bottom: 0 !important;
+          padding: 0 !important;
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          min-height: 0 !important;
+        }
+
+        .leccion1-2-prototype .references-compact {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          margin: 0 !important;
+        }
+
+        .leccion1-2-prototype .references-compact__summary {
+          background: var(--color-background-surface-low) !important;
+          border: 1px solid var(--color-border-default) !important;
+          border-radius: var(--radius-lg) !important;
+        }
+
+        .leccion1-2-prototype .completion-card {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin-top: clamp(2rem, 4vw, 4rem) !important;
+          margin-bottom: 0 !important;
+        }
+
+        .leccion1-2-prototype .completion-section,
+        .leccion1-2-prototype .footer-nav,
+        .leccion1-2-prototype .concept-review {
+          margin-top: clamp(1.5rem, 2.5vw, 2.25rem) !important;
+          margin-bottom: 0 !important;
+        }
+
+        /* Ajuste para móvil */
+        @media (max-width: 768px) {
+          .leccion1-2-prototype .m1-floating-shell {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+          }
+
+          .leccion1-2-prototype section,
+          .leccion1-2-prototype .lesson-section,
+          .leccion1-2-prototype .content-section,
+          .leccion1-2-prototype .editorial-section,
+          .leccion1-2-prototype .text-section {
+            margin-top: 2rem !important;
+          }
+
+          .leccion1-2-prototype .lesson-section + .lesson-section,
+          .leccion1-2-prototype .content-section + .content-section,
+          .leccion1-2-prototype .editorial-section + .editorial-section {
+            margin-top: 2.25rem !important;
+          }
+
+          .leccion1-2-prototype .lesson-media-card,
+          .leccion1-2-prototype figure,
+          .leccion1-2-prototype .image-card,
+          .leccion1-2-prototype .visual-card {
+            margin-top: 1rem !important;
+            margin-bottom: 1.25rem !important;
+          }
+
+          .leccion1-2-prototype .language-card-grid,
+          .leccion1-2-prototype .role-grid,
+          .leccion1-2-prototype .cards-grid,
+          .leccion1-2-prototype .language-points {
+            gap: 1rem !important;
+            margin-top: 1rem !important;
+            margin-bottom: 1.25rem !important;
+          }
+        }
+    </style>
+</head>
+
+<body data-page-id="leccion1_2" data-module-id="modulo1" data-page-type="leccion" data-title="Lección 1.2">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img src="assets/LLM_Docencia_4.0_logo.png" alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Lección 1.2: Aplicaciones estratégicas por áreas de contenido</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 1" aria-hidden="true">
+        <h2 class="side-menu-title">Navegación</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 1</span></li>
+            <li><a href="modulo1_intro.html">📍 Inicio Módulo 1</a></li>
+            <li><a href="leccion1_1.html">📖 Lección 1.1</a></li>
+            <li><a href="leccion1_2.html" class="active" aria-current="page">📖 Lección 1.2</a></li>
+            <li><a href="leccion1_3.html">📖 Lección 1.3</a></li>
+            <li><a href="actividad1_1.html">🛠️ Actividad 1.1</a></li>
+            <li><a href="actividad1_2.html">🛠️ Actividad 1.2</a></li>
+            <li><a href="recursos_m1.html">📚 Recursos Módulo 1</a></li>
+        </ul>
+    </aside>
+
+    <main class="leccion1-2-prototype">
+        <div class="m1-floating-shell">
+            <article aria-labelledby="lesson-title">
+                
+                <!-- 1. Encabezado -->
+                <header class="hero-header">
+                    <h1 id="lesson-title" class="lesson-title">Lección 1.2: Aplicaciones estratégicas por áreas de contenido</h1>
+                </header>
+
+                <!-- 2. Audio Inicial -->
+                <section class="audio-player-container">
+                    <label class="audio-label" for="lessonAudio">Escuchar Lección 1.2</label>
+                    <audio id="lessonAudio" controls class="audio-player">
+                        <source src="LLM-DEPR/LLM_M1_Leccion_1.2_Aplicaciones por Áreas de Contenido_audio.mp3"
+                            type="audio/mpeg">
+                        Su navegador no soporta la reproducción de audio.
+                    </audio>
+                </section>
+
+                <!-- 3. Organizador -->
+                <section class="organizer-card content-card" aria-label="Resumen de la lección">
+                    <p>La integración de los modelos de lenguaje de gran tamaño (LLM) no ocurre de la misma manera en todas las disciplinas. Cada área académica presenta desafíos cognitivos particulares que los LLM pueden abordar mediante estrategias de reasoning (razonamiento), generación de texto y adaptación de contenidos. A continuación, se presentan oportunidades de uso específicas validadas por la investigación reciente en STEM, humanidades y educación especial.</p>
+                    <p style="margin-top: var(--spacing-4); font-weight: 600; color: var(--color-brand-primary);">En esta lección exploraremos tres grandes escenarios: Ciencias y Matemáticas, Humanidades e Inglés y otros idiomas, y Educación Especial/PEI.</p>
+                </section>
+
+                <!-- 4. Sección A — Ciencias y Matemáticas -->
+                <section class="text-section lesson-section">
+                    <h2 class="section-title">Ciencias y Matemáticas: razonamiento paso a paso y resolución de problemas</h2>
+                    
+                    <div class="lesson-content-grid">
+                        <p class="intro-p">En disciplinas STEM (Ciencia, Tecnología, Ingeniería y Matemáticas), el principal valor de los LLM reside en su capacidad para desglosar problemas complejos en pasos lógicos manejables.</p>
+
+                        <figure class="lesson-media-card image-zoom-trigger" onclick="openZoom('assets/LLM_M1_Ilustracion_1.2_stem_Rev.png')">
+                            <img src="assets/LLM_M1_Ilustracion_1.2_stem_Rev.png" alt="Infografía sobre aplicaciones de LLM en Ciencias y Matemáticas" loading="lazy">
+                            <figcaption>Figura 1: Aplicación de LLM en procesos STEM y resolución de problemas.</figcaption>
+                        </figure>
+
+                        <div class="lesson-text-stack">
+                            <h3 class="section-title-sm">Generación de problemas verbales contextualizados</h3>
+                            <p>Los docentes pueden solicitar a un bot o aplicación basada en LLM que diseñe problemas matemáticos situados en contextos de interés para sus estudiantes (ej. deportes locales, música popular), lo que aumenta la relevancia y el compromiso. La literatura sobre Chain-of-Thought (CoT) o “cadena de pensamiento” demuestra que cuando se pide al modelo que genere explicaciones paso a paso, no solo mejora la precisión de la respuesta, sino que promueve un andamiaje didáctico al hacer explícito el razonamiento del modelo en pasos lógicos (Zhang et al., 2024; Yao et al., 2023).</p>
+
+                            <h3 class="section-title-sm">Explicación de procesos</h3>
+                            <p>En lugar de simplemente ofrecer una respuesta numérica, herramientas como ChatGPT pueden generar explicaciones guiadas que muestran cada fase del procedimiento, usando lenguaje sencillo y conectándolo con el libro de texto o con la situación matemática concreta. Estudios recientes subrayan que el uso de LLM para generar múltiples vías de razonamiento permite a los estudiantes ver diferentes enfoques para un mismo problema, fomentando la flexibilidad cognitiva (Yao et al., 2023; Wei et al., 2022).</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Sección B — Español e Historia -->
+                <section class="text-section lesson-section">
+                    <h2 class="section-title">Español e Historia: análisis textual y síntesis crítica</h2>
+                    
+                    <div class="lesson-content-grid">
+                        <p class="intro-p">En las humanidades, los LLM funcionan como motores de lenguaje que impulsan bots y asistentes de lectura y escritura avanzada, permitiendo trabajar competencias de análisis y síntesis con mayor profundidad.</p>
+
+                        <figure class="lesson-media-card image-zoom-trigger" onclick="openZoom('assets/LLM_M1_Ilustracion_1.2_humanidades_Rev.png')">
+                            <img src="assets/LLM_M1_Ilustracion_1.2_humanidades_Rev.png" alt="Infografía sobre aplicaciones de LLM en Español e Historia" loading="lazy">
+                            <figcaption>Figura 2: LLM aplicados al análisis textual y pensamiento crítico en Humanidades.</figcaption>
+                        </figure>
+
+                        <div class="lesson-text-stack">
+                            <h3 class="section-title-sm">Análisis de textos y comprensión lectora</h3>
+                            <p>Los docentes pueden ingresar textos complejos (ej. documentos históricos primarios o fragmentos literarios) y pedir a una aplicación basada en LLM que genere preguntas de inferencia, identifique temas centrales o contraste el tono con otro documento. Esto apoya la creación rápida de material de práctica para comprensión crítica (Damiano et al., 2024).</p>
+
+                            <h3 class="section-title-sm">Generación de ensayos modelo y contra-argumentos</h3>
+                            <p>Para enseñar escritura argumentativa, el docente puede pedir a un bot conversacional que redacte un ensayo con una postura específica y luego trabajar con los estudiantes para criticar ese texto: identificar falacias, mejorar el vocabulario o fortalecer la evidencia. Este uso de la IA como "borrador imperfecto" promueve el pensamiento crítico y reduce el miedo a la página en blanco (Valli & Zafiropoulos, 2024).</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. Sección C — Inglés y otros idiomas -->
+                <section class="text-section lesson-section">
+                    <h2 class="section-title">Inglés y otros idiomas: interacción comunicativa y escritura guiada</h2>
+                    
+                    <div class="language-section-container">
+                        <figure class="lesson-media-card image-zoom-trigger" onclick="openZoom('assets/LLM_M1_Ilustracion_1.2_ingles_Rev.png')">
+                            <img src="assets/LLM_M1_Ilustracion_1.2_ingles_Rev.png" alt="Infografía sobre aplicaciones de LLM en Inglés y otros idiomas" loading="lazy">
+                            <figcaption>Figura 3: Potencial de los LLM para la práctica de idiomas y retroalimentación lingüística.</figcaption>
+                        </figure>
+
+                        <p>En la enseñanza de Inglés y otros idiomas, los LLM pueden apoyar la práctica comunicativa, la escritura y el desarrollo de vocabulario mediante diálogos, simulaciones, modelos de texto y retroalimentación lingüística. Su valor principal está en ampliar las oportunidades de exposición y producción del idioma, siempre bajo la mediación del docente, quien valida la precisión, el nivel de complejidad y la pertinencia cultural de las respuestas generadas (Kohnke et al., 2023; Hockly, 2023).</p>
+                        
+                        <div class="language-points">
+                            <article class="language-point language-card">
+                                <h4>Práctica conversacional</h4>
+                                <p class="text-body-sm" style="margin: 0;">Diálogos, entrevistas o juegos de roles en contextos auténticos para ensayar funciones comunicativas (Huang et al., 2022).</p>
+                            </article>
+                            <article class="language-point">
+                                <h4>Escritura y retroalimentación</h4>
+                                <p class="text-body-sm" style="margin: 0;">Modelos de texto y retroalimentación inicial sobre gramática, coherencia y tono (Warschauer et al., 2023).</p>
+                            </article>
+                            <article class="language-point">
+                                <h4>Vocabulario y cultura</h4>
+                                <p class="text-body-sm" style="margin: 0;">Glosarios bilingües y actividades de comparación cultural bajo supervisión docente (Godwin-Jones, 2023).</p>
+                            </article>
+                        </div>
+
+                        <div class="language-summary summary-card">
+                            <p style="margin: 0;"><strong>Síntesis pedagógica:</strong> Los LLM deben utilizarse como apoyo para practicar, revisar y reflexionar sobre el lenguaje, no solo como traductores automáticos. El docente mantiene el control sobre la tarea y la precisión.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. Sección D — Educación Especial -->
+                <section class="text-section lesson-section">
+                    <h2 class="section-title">Educación Especial: adaptación y accesibilidad (PEI)</h2>
+                    <div class="highlight-box content-card">
+                        <div class="lesson-content-grid" style="margin-bottom: 0;">
+                            <h3 class="section-title-sm" style="margin-top: 0;">El potencial de la diferenciación masiva</h3>
+                            <p>El potencial de los LLM para la educación inclusiva es una de sus aplicaciones más prometedoras, actuando como una herramienta de diferenciación masiva y accesible.</p>
+
+                            <figure class="lesson-media-card image-zoom-trigger" onclick="openZoom('assets/LLM_M1_Ilustracion_1.2_inclusion_Rev.png')">
+                                <img src="assets/LLM_M1_Ilustracion_1.2_inclusion_Rev.png" alt="Infografía sobre aplicaciones de LLM en Educación Especial" loading="lazy">
+                                <figcaption>Figura 4: Adaptaciones y accesibilidad asistida por LLM.</figcaption>
+                            </figure>
+                            
+                            <ul class="content-list">
+                                <li><strong>Adaptación de niveles de lectura:</strong> Re-nivelación de textos en segundos para apoyar el Diseño Universal para el Aprendizaje (DUA) (Sarkar et al., 2024).</li>
+                                <li><strong>Creación de PEI asistidos:</strong> Apoyo en la redacción de objetivos SMART y estrategias de acomodo, ahorrando tiempo administrativo valioso (Dahri et al., 2025; Sarkar et al., 2024).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. Actividad Interactiva -->
+                <section class="interactive-shell" aria-labelledby="interactive-title">
+                    <div class="llm-strat-activity">
+                        <h2 id="interactive-title" class="sr-only">Actividad interactiva: mapa de aplicaciones estratégicas</h2>
+                        
+                        <div class="activity-bg" aria-hidden="true">
+                            <div class="orb orb-1"></div>
+                            <div class="orb orb-2"></div>
+                            <div class="orb orb-3"></div>
+                        </div>
+                        <div class="conf-wrap" id="confWrap" aria-hidden="true"></div>
+
+                        <div class="activity-app">
+                            <div class="activity-topbar" id="activityTopbar">
+                                <div class="tb-row">
+                                    <span class="brand">LLM en el Aula · Lección 1.2</span>
+                                    <span class="step-label" id="stepLabel">Escenario 1 de 3</span>
+                                </div>
+                                <div class="prog-track" aria-hidden="true">
+                                    <div class="progbar" id="progbar"></div>
+                                </div>
+                                <div class="dots" aria-hidden="true">
+                                    <span class="dot" id="dot0"></span>
+                                    <span class="dot" id="dot1"></span>
+                                    <span class="dot" id="dot2"></span>
+                                </div>
+                            </div>
+
+                            <section class="screen on" id="screenIntro">
+                                <div class="activity-card intro-inner">
+                                    <span class="big-emoji" aria-hidden="true">🧭</span>
+                                    <h2>LLM en el Aula: Aplicaciones Estratégicas (Test)</h2>
+                                    <p>Explora tres escenarios breves para decidir cómo aplicar modelos de lenguaje de gran tamaño con criterio pedagógico, ético y contextual.</p>
+                                    <div class="chips" aria-hidden="true">
+                                        <span class="chip chip-stem">STEM</span>
+                                        <span class="chip chip-humanities">Humanidades</span>
+                                        <span class="chip chip-special">Educación Especial</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <div class="info-card">
+                                            <div class="ic-icon">🧠</div>
+                                            <div class="ic-title">Razonamiento</div>
+                                            <div class="ic-body">Explicar pasos, no solo respuestas.</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="ic-icon">📝</div>
+                                            <div class="ic-title">Lenguaje</div>
+                                            <div class="ic-body">Análisis, escritura y síntesis crítica.</div>
+                                        </div>
+                                        <div class="info-card">
+                                            <div class="ic-icon">♿</div>
+                                            <div class="ic-title">Accesibilidad</div>
+                                            <div class="ic-body">Diferenciar materiales y apoyar PEI.</div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn-activity btn-primary-activity" id="startActivityBtn" style="margin-top: var(--spacing-8);">Comenzar recorrido →</button>
+                                </div>
+                            </section>
+
+                            <section class="screen" id="screen0">
+                                <div class="activity-card">
+                                    <div class="scenario-head">
+                                        <div class="area-icon icon-stem" aria-hidden="true">🔬</div>
+                                        <div>
+                                            <h3>Ciencias y Matemáticas</h3>
+                                            <div class="sub">Razonamiento paso a paso</div>
+                                        </div>
+                                    </div>
+                                    <div class="anim-box" aria-hidden="true">
+                                        <div class="anim-list">
+                                            <span class="anim-chip">1. Contexto</span>
+                                            <span class="anim-chip">2. Datos</span>
+                                            <span class="anim-chip">3. Pasos</span>
+                                            <span class="anim-chip">4. Verificación</span>
+                                        </div>
+                                    </div>
+                                    <p class="scenario-text"><strong>Escenario:</strong> Deseas crear problemas matemáticos contextualizados y explicaciones paso a paso para que el estudiantado comprenda el proceso.</p>
+                                    <div class="opts-label">Selecciona la mejor estrategia</div>
+                                    <div class="opts" id="opts0">
+                                        <button type="button" class="opt" data-i="0"><span class="oletter">A</span>Pedir al LLM que resuelva ejercicios y compartir solo respuestas.</button>
+                                        <button type="button" class="opt" data-i="1"><span class="oletter">B</span>Usar prompts de Chain-of-Thought para generar explicaciones paso a paso.</button>
+                                        <button type="button" class="opt" data-i="2"><span class="oletter">C</span>Solicitar al LLM un examen tradicional sin contextualizar.</button>
+                                    </div>
+                                    <div class="fb" id="fb0"></div>
+                                    <div class="nav-row">
+                                        <span class="nav-hint">Valida la exactitud antes de usarlo.</span>
+                                        <button type="button" class="btn-activity btn-primary-activity btn-sm" id="next0" hidden>Continuar →</button>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="screen" id="screen1">
+                                <div class="activity-card">
+                                    <div class="scenario-head">
+                                        <div class="area-icon icon-humanities" aria-hidden="true">📚</div>
+                                        <div>
+                                            <h3>Español e Historia</h3>
+                                            <div class="sub">Análisis textual y síntesis crítica</div>
+                                        </div>
+                                    </div>
+                                    <div class="anim-box" aria-hidden="true">
+                                        <div class="anim-list">
+                                            <span class="anim-chip">Texto primario</span>
+                                            <span class="anim-chip">Inferencias</span>
+                                            <span class="anim-chip">Crítica docente</span>
+                                        </div>
+                                    </div>
+                                    <p class="scenario-text"><strong>Escenario:</strong> Quieres usar un bot para apoyar comprensión lectora sin sustituir el pensamiento crítico.</p>
+                                    <div class="opts-label">Selecciona la mejor estrategia</div>
+                                    <div class="opts" id="opts1">
+                                        <button type="button" class="opt" data-i="0"><span class="oletter">A</span>Usar el LLM como borrador imperfecto para que el grupo critique argumentos.</button>
+                                        <button type="button" class="opt" data-i="1"><span class="oletter">B</span>Pedirle al LLM el ensayo final y permitir que se entregue sin revisión.</button>
+                                        <button type="button" class="opt" data-i="2"><span class="oletter">C</span>Usarlo solo para traducir palabras aisladas sin contexto.</button>
+                                    </div>
+                                    <div class="fb" id="fb1"></div>
+                                    <div class="nav-row">
+                                        <button type="button" class="btn-activity btn-secondary-activity btn-sm" id="back1">← Regresar</button>
+                                        <button type="button" class="btn-activity btn-primary-activity btn-sm" id="next1" hidden>Continuar →</button>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="screen" id="screen2">
+                                <div class="activity-card">
+                                    <div class="scenario-head">
+                                        <div class="area-icon icon-special" aria-hidden="true">♿</div>
+                                        <div>
+                                            <h3>Educación Especial</h3>
+                                            <div class="sub">Adaptación y accesibilidad</div>
+                                        </div>
+                                    </div>
+                                    <div class="anim-box" aria-hidden="true">
+                                        <div class="anim-list">
+                                            <span class="anim-chip">Niveles</span>
+                                            <span class="anim-chip">PEI</span>
+                                            <span class="anim-chip">Privacidad</span>
+                                        </div>
+                                    </div>
+                                    <p class="scenario-text"><strong>Escenario:</strong> Necesitas adaptar una lectura y redactar borradores de objetivos SMART para un PEI.</p>
+                                    <div class="opts-label">Selecciona la mejor estrategia</div>
+                                    <div class="opts" id="opts2">
+                                        <button type="button" class="opt" data-i="0"><span class="oletter">A</span>Subir el expediente completo del estudiante al bot para el PEI final.</button>
+                                        <button type="button" class="opt" data-i="1"><span class="oletter">B</span>Usar datos anonimizados, pedir alternativas y revisar con el equipo profesional.</button>
+                                        <button type="button" class="opt" data-i="2"><span class="oletter">C</span>Pedirle al LLM que decida los acomodos sin intervención docente.</button>
+                                    </div>
+                                    <div class="fb" id="fb2"></div>
+                                    <div class="nav-row">
+                                        <button type="button" class="btn-activity btn-secondary-activity btn-sm" id="back2">← Regresar</button>
+                                        <button type="button" class="btn-activity btn-primary-activity btn-sm" id="next2" hidden>Ver resultados →</button>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="screen" id="screenResults">
+                                <div class="results-hero">
+                                    <div class="score-ring" id="scoreRing">
+                                        <div class="score-inner" id="scoreNum">0/3</div>
+                                    </div>
+                                    <h3>Resultado del recorrido</h3>
+                                    <p id="resultMessage">Has completado los escenarios.</p>
+                                    <button type="button" class="btn-activity btn-primary-activity" id="restartActivityBtn" style="margin-top: var(--spacing-6);">Reiniciar actividad</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. Conexión con tu rol -->
+                <section class="text-section lesson-section">
+                    <h2 class="section-title">Conexión con tu rol como facilitador docente</h2>
+                    <div class="role-grid">
+                        <article class="comp-card role-card">
+                            <h3>Acompañamiento curricular</h3>
+                            <p class="text-body-sm">Los escenarios por áreas te ofrecen ejemplos concretos que puedes usar para co-diseñar con los docentes secuencias de clase, problemas contextualizados, actividades de lectura crítica y adaptaciones de PEI apoyadas en LLM.</p>
+                        </article>
+                        <article class="comp-card">
+                            <h3>Diseño y capacitación docente</h3>
+                            <p class="text-body-sm">Las aplicaciones estratégicas te dan un repertorio de casos auténticos para planificar talleres diferenciados por disciplina, donde los participantes experimenten con LLM en tareas específicas de su área.</p>
+                        </article>
+                        <article class="comp-card">
+                            <h3>Gestión de procesos</h3>
+                            <p class="text-body-sm">Ver cómo los LLM generan modelos de textos y adaptaciones te permite utilizarlos para producir plantillas institucionales (rúbricas, formatos de PEI, guías) que luego puedas compartir con los equipos docentes.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 10. Glosario -->
+                <details class="concept-review" data-concept-review>
+                    <summary class="concept-review__summary-main">
+                        <div class="concept-review__icon" aria-hidden="true">📖</div>
+                        <div class="concept-review__meta">
+                            <span class="concept-review__subtitle">Glosario dinámico</span>
+                            <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                            <span class="concept-review__count">5 términos clave</span>
+                        </div>
+                        <div class="concept-review__toggle-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </summary>
+                    <div class="concept-review__panel">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Generación de problemas contextualizados</summary>
+                            <div class="concept-review__body">
+                                <p>Generación de problemas contextualizados es el diseño (manual o asistido por IA) de problemas, especialmente matemáticos, que sitúan las tareas numéricas dentro de escenarios o narrativas de la vida real relevantes para el estudiante (por ejemplo, deportes, compras, eventos locales), de modo que mantengan la misma estructura y dificultad matemática, pero aumenten significado y motivación. Cuando se realiza con LLM, el modelo toma instrucciones sobre el contenido matemático y el contexto deseado y produce enunciados tipo “problema verbal” que preservan la intención didáctica original, permitiendo personalizar los problemas a intereses y niveles de los alumnos sin rediseñar cada ítem desde cero.</p>
+                                <cite class="concept-review__citation">
+                                    Hwang, W. Y., & Utami, I. Q. (2024, March). Contextualized and Personalized Math Word Problem Generation Using GPT and Authentic Contextual Recognition. In 2024 12th International Conference on Information and Education Technology (ICIET) (pp. 177-181). IEEE.
+                                </cite>
+                            </div>
+                        </details>
+    
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Explicación paso a paso en STEM</summary>
+                            <div class="concept-review__body">
+                                <p>Explicación paso a paso en STEM es una estrategia en la que un modelo de lenguaje (o el docente) descompone la resolución de un problema de Ciencia, Tecnología, Ingeniería o Matemáticas en una secuencia ordenada de pasos intermedios, mostrando operaciones, justificaciones y decisiones antes de presentar la respuesta final. Implementada con LLM mediante técnicas como Chain of Thought, esta explicación detallada funciona como ejemplo trabajado (worked example) que reduce la carga cognitiva, hace visibles los procesos de razonamiento y facilita la retroalimentación formativa sobre dónde se producen errores o malentendidos en el aprendizaje de STEM.</p>
+                                <cite class="concept-review__citation">
+                                    DataCamp. (2024). Chain-of-thought prompting: Step-by-step reasoning with large language models. https://www.datacamp.com/tutorial/chain-of-thought-prompting
+                                </cite>
+                            </div>
+                        </details>
+    
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Asistente de lectura y escritura</summary>
+                            <div class="concept-review__body">
+                                <p>Asistente de lectura y escritura es una herramienta de software, generalmente impulsada por modelos de lenguaje (LLM), que analiza y genera texto para apoyar procesos de comprensión lectora y producción escrita, ofreciendo sugerencias, explicaciones y retroalimentación en tiempo real. En educación, estos asistentes ayudan a estudiantes a mejorar gramática, vocabulario, coherencia y claridad, así como a comprender textos complejos mediante resúmenes, definiciones y preguntas guiadas, mientras proporcionan a los docentes información diagnóstica sobre el desarrollo de habilidades de lectura y escritura.</p>
+                                <cite class="concept-review__citation">
+                                    AIContentfy. (2023). AI writing assistants in education: Revolutionizing learning and writing processes. AIContentfy. https://aicontentfy.com/en/blog/ai-writing-assistants-in-education-revolutionizing-learning-and-writing-processes
+                                </cite>
+                            </div>
+                        </details>
+    
+                        <div class="concept-review__overflow">
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Diseño Universal para el Aprendizaje (DUA) con LLM</summary>
+                                <div class="concept-review__body">
+                                    <p>Diseño Universal para el Aprendizaje (DUA) con LLM es la aplicación del marco de Diseño Universal para el Aprendizaje, que propone ofrecer múltiples medios de representación, acción/expresión y compromiso para atender la variabilidad del alumnado, utilizando modelos de lenguaje grandes para generar versiones alternativas y personalizadas de los materiales. En la práctica, esto implica usar LLM para re nivelar textos (distintos niveles de lectura), cambiar formatos (resúmenes, esquemas, ejemplos adicionales), ofrecer explicaciones alternativas y proponer diversas formas de demostrar el aprendizaje, de manera que se reduzcan barreras y se optimice el acceso al currículo para todos los estudiantes.</p>
+                                    <cite class="concept-review__citation">
+                                        CAST. (2024). Universal Design for Learning (UDL) guidelines. CAST. https://udlguidelines.cast.org
+                                    </cite>
+                                </div>
+                            </details>
+    
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Apoyo a Programas Educativos Individualizados (PEI)</summary>
+                                <div class="concept-review__body">
+                                    <p>Apoyo a Programas Educativos Individualizados (PEI) con LLM es el uso de modelos de lenguaje grandes y de las aplicaciones que los incorporan para asistir en la redacción y revisión de borradores de Programas Educativos Individualizados (en el contexto de EE. UU., Individualized Education Programs, IEP), generando propuestas de metas, apoyos y adaptaciones a partir de la información que provee el docente, sin reemplazar el juicio del equipo interdisciplinario. Un PEI/IEP es un documento legal que detalla la instrucción especial, servicios relacionados, metas medibles y acomodos que un estudiante con discapacidad necesita para acceder a una educación pública, gratuita y apropiada; la IA se usa como herramienta de apoyo para formular objetivos SMART y descripciones técnicas más eficientes, que luego deben ser revisadas, ajustadas y aprobadas por el equipo profesional y la familia.</p>
+                                    <cite class="concept-review__citation">
+                                        Understood. (2023). What is an IEP? Understood.org. https://www.understood.org/en/articles/what-is-an-iep
+                                    </cite>
+                                </div>
+                            </details>
+                        </div>
+                        <button class="concept-review__more" type="button">Ver más conceptos</button>
+                    </div>
+                </details>
+
+                <!-- 11. Cierre -->
+                <section class="completion-card" aria-labelledby="cierre-title">
+                    <span class="completion-badge" style="display: inline-block; padding: 4px 12px; background: var(--color-brand-secondary); color: #fff; border-radius: var(--radius-pill); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: var(--spacing-4);">Meta alcanzada</span>
+                    <h2 id="cierre-title" class="section-title" style="margin-top: 0;">¡Felicidades!</h2>
+                    <p>Has culminado la lección 1.2 del programa de formación profesional.</p>
+                    <p style="margin-top: var(--spacing-4);">Al completar este contenido, has dado un paso importante hacia una integración más estratégica de los LLM en tu práctica: ahora reconoces que cada área –STEM, humanidades y educación especial– plantea oportunidades y cuidados distintos. Este mapa de aplicaciones te permitirá decidir con mayor intención dónde la IA aporta valor real al aprendizaje y dónde es necesario reforzar más tu intervención pedagógica y tu juicio profesional.</p>
+                </section>
+
+                <!-- 12. Checkpoint -->
+                <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                    <div class="genially-checkpoint__content" style="background: var(--color-background-surface-low); padding: var(--spacing-8); border-radius: var(--radius-xl); border: 1px solid var(--color-border-default);">
+                        <span class="genially-checkpoint__eyebrow" style="display: block; font-size: var(--font-size-xs); font-weight: 800; color: var(--color-brand-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--spacing-2);">Cierre de la lección</span>
+                        <h2 id="checkpoint-title" class="section-title" style="margin: 0 0 var(--spacing-4); color: var(--color-brand-primary);">Checkpoint de saberes: Lección 1.2</h2>
+                        <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre las aplicaciones estratégicas de los LLM en STEM, humanidades y educación especial.</p>
+                        <p class="genially-checkpoint__note" style="margin-top: var(--spacing-4); font-size: var(--font-size-sm); color: var(--color-text-muted);">Te recomendamos completar este checkpoint antes de pasar a la Lección 1.3, para consolidar las diferencias entre áreas de contenido y tipos de aplicación.</p>
+                        
+                        <div class="genially-checkpoint__actions" style="display: flex; flex-wrap: wrap; gap: var(--spacing-4); margin-top: var(--spacing-6);">
+                            <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-1-2">
+                                Realizar checkpoint aquí
+                            </button>
+                            <a href="https://view.genially.com/69adc3837b9712bda8dc3d6f" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">
+                                Abrir en Genially en nueva pestaña
+                            </a>
+                        </div>
+                    </div>
+    
+                    <div id="checkpoint-panel-1-2" class="genially-checkpoint__panel" data-genially-panel role="region" hidden style="margin-top: var(--spacing-6);">
+                        <div class="genially-checkpoint__frame-wrap" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);">
+                            <iframe data-src="https://view.genially.com/69adc3837b9712bda8dc3d6f" src="about:blank" title="Checkpoint de saberes: Lección 1.2" allowfullscreen loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+
+        <!-- Meta-contenido y Navegación final fuera del shell blanco -->
+        <div class="leccion-footer-prototype" style="width: min(100%, 1180px); margin: 0 auto 5rem; padding: 0 clamp(1rem, 5vw, 3rem);">
+            
+            <!-- 13. Referencias -->
+                <section class="references-area" aria-labelledby="referencias-title">
+                    <details class="references-compact">
+                        <summary class="references-compact__summary" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-4); background: var(--color-background-surface-low); border-radius: var(--radius-lg);">
+                            <div>
+                                <span id="referencias-title" class="references-compact__title" style="font-weight: 800; color: var(--color-brand-primary);">Referencias</span>
+                                <span class="references-compact__count" style="margin-left: var(--spacing-4); font-size: var(--font-size-xs); color: var(--color-text-muted);">17 fuentes consultadas</span>
+                            </div>
+                            <span class="references-compact__action" style="font-size: var(--font-size-xs); font-weight: 800; color: var(--color-brand-primary); text-transform: uppercase;">Ver referencias</span>
+                        </summary>
+                        <div class="references-compact__body" style="padding: var(--spacing-6); font-size: var(--font-size-sm); line-height: 1.6;">
+                            <ul class="reference-list" style="list-style: none; padding: 0; display: grid; gap: var(--spacing-4);">
+                                <li>AIContentfy. (2023). <em>AI writing assistants in education: Revolutionizing learning and writing processes</em>. AIContentfy. https://aicontentfy.com/en/blog/ai-writing-assistants-in-education-revolutionizing-learning-and-writing-processes</li>
+                                <li>CAST. (2024). <em>Universal Design for Learning (UDL) guidelines</em>. CAST. https://udlguidelines.cast.org</li>
+                                <li>Dahri, N. A., et al. (2025). Artificial intelligence and individualized education planning: Opportunities and cautions for inclusive education.</li>
+                                <li>Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in higher education.</li>
+                                <li>DataCamp. (2024). <em>Chain-of-thought prompting: Step-by-step reasoning with large language models</em>. https://www.datacamp.com/tutorial/chain-of-thought-prompting</li>
+                                <li>Godwin-Jones, R. (2023). Emerging spaces for language learning: AI bots, ambient intelligence, and the metaverse. <em>Language Learning & Technology</em>, 27(2), 6–27.</li>
+                                <li>Hockly, N. (2023). Artificial intelligence in English language teaching: The good, the bad and the ugly. <em>RELC Journal</em>, 54(2), 445–451.</li>
+                                <li>Huang, W., Hew, K. F., & Fryer, L. K. (2022). Chatbots for language learning—Are they really useful? A systematic review of chatbot-supported language learning. <em>Journal of Computer Assisted Learning</em>, 38(1), 237–257.</li>
+                                <li>Hwang, W. Y., & Utami, I. Q. (2024, March). Contextualized and Personalized Math Word Problem Generation Using GPT and Authentic Contextual Recognition. In <em>2024 12th International Conference on Information and Education Technology (ICIET)</em> (pp. 177-181). IEEE.</li>
+                                <li>Kohnke, L., Moorhouse, B. L., & Zou, D. (2023). ChatGPT for language teaching and learning. <em>RELC Journal</em>, 54(2), 537–550.</li>
+                                <li>Sarkar, T., et al. (2024). Universal design and artificial intelligence: Supporting differentiated access to curriculum.</li>
+                                <li>Understood. (2023). <em>What is an IEP?</em> Understood.org. https://www.understood.org/en/articles/what-is-an-iep</li>
+                                <li>Valli, P., & Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI tools by teachers.</li>
+                                <li>Warschauer, M., Tseng, W., Yim, S., Webster, T., Jacob, S., Du, Q., & Tate, T. (2023). The affordances and contradictions of AI-generated text for writers of English as a second or foreign language. <em>Journal of Second Language Writing</em>, 62, 101071.</li>
+                                <li>Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models.</li>
+                                <li>Yao, S., et al. (2023). Tree of thoughts: Deliberate problem solving with large language models.</li>
+                                <li>Zhang, X., et al. (2024). Chain-of-thought prompting and reasoning support in STEM learning.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </section>
+
+                <!-- 14. Progreso -->
+                <div id="completion-section" class="completion-section"></div>
+
+                <!-- 15. Navegación -->
+                <nav class="m1-footer-nav footer-nav" aria-label="Navegación de lecciones">
+                    <a href="leccion1_1.html" class="btn btn-secondary btn-back">← Volver a la Lección 1.1</a>
+                    <a href="leccion1_3.html" class="btn btn-primary btn-next">Ir a la Lección 1.3 →</a>
+                </nav>
+            </div>
+        </main>
+
+    <!-- Modal para Zoom de Imagen -->
+    <div id="zoomModal" class="modal-zoom" onclick="closeZoom()" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeZoom()" aria-label="Cerrar zoom">&times;</button>
+            <img id="zoomedImg" src="" alt="Imagen ampliada">
+        </div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+
+        function openSidebar() {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+        }
+
+        function toggleSidebar() {
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        // Image Zoom Logic
+        function openZoom(imgSrc) {
+            const modal = document.getElementById('zoomModal');
+            const zoomedImg = document.getElementById('zoomedImg');
+            if (modal && zoomedImg) {
+                zoomedImg.src = imgSrc;
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeZoom() {
+            const modal = document.getElementById('zoomModal');
+            if (modal) {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Interactive Activity: Estrategias LLM
+        (() => {
+            const questions = [
+                {
+                    correct: 1,
+                    ok: '✅ Correcto. Chain-of-Thought permite generar explicaciones paso a paso que funcionan como andamiaje para modelar pensamiento lógico.',
+                    bad: 'Revisa la intención pedagógica: en STEM, el valor no está en entregar respuestas, sino en hacer visible el proceso de razonamiento.'
+                },
+                {
+                    correct: 0,
+                    ok: '✅ Correcto. El uso de LLM para re-nivelar textos y crear materiales multimodales es una aplicación directa de las pautas DUA para eliminar barreras.',
+                    bad: 'Considera el marco DUA: el objetivo es ofrecer múltiples medios de representación y expresión para la variabilidad de los estudiantes.'
+                },
+                {
+                    correct: 1,
+                    ok: '✅ Correcto. Los LLM son excelentes para transformar el tono y nivel de lenguaje, facilitando la creación de borradores iniciales de PEI que luego el docente ajusta.',
+                    bad: 'Pista: El valor aquí es la personalización administrativa y pedagógica basada en la información del docente, no delegar el juicio profesional.'
+                }
+            ];
+
+            const answers = [null, null, null];
+            const screens = ['screenIntro', 'screen0', 'screen1', 'screen2', 'screenResults'];
+            const topbar = document.getElementById('activityTopbar');
+            const progbar = document.getElementById('progbar');
+            const stepLabel = document.getElementById('stepLabel');
+            const confWrap = document.getElementById('confWrap');
+
+            function showScreen(id) {
+                document.querySelectorAll('.llm-strat-activity .screen').forEach(s => s.classList.remove('on'));
+                const target = document.getElementById(id);
+                if (target) {
+                    target.classList.add('on');
+                    if (id !== 'screenIntro' && id !== 'screenResults') {
+                        topbar?.classList.add('is-visible');
+                    }
+                }
+            }
+
+            function setProgress(step) {
+                if (!progbar || !stepLabel) return;
+                progbar.style.width = `${Math.round(((step + 1) / 3) * 100)}%`;
+                stepLabel.textContent = `Escenario ${step + 1} de 3`;
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.getElementById(`dot${i}`);
+                    if (dot) dot.className = 'dot' + (i < step ? ' done' : i === step ? ' active' : '');
+                }
+            }
+
+            function confetti() {
+                if (!confWrap) return;
+                confWrap.innerHTML = '';
+                for (let i = 0; i < 40; i++) {
+                    const piece = document.createElement('span');
+                    piece.className = 'conf';
+                    piece.style.left = `${Math.random() * 100}%`;
+                    piece.style.width = `${6 + Math.random() * 8}px`;
+                    piece.style.height = `${8 + Math.random() * 14}px`;
+                    piece.style.background = ['#FF6B6B', '#00CFD5', '#FFD93D', '#7C6FFF', '#06D6A0'][i % 5];
+                    piece.style.animationDelay = `${Math.random() * 0.5}s`;
+                    confWrap.appendChild(piece);
+                }
+            }
+
+            function evaluate(qIdx, sIdx, group) {
+                if (answers[qIdx] !== null) return;
+                answers[qIdx] = sIdx;
+                const q = questions[qIdx];
+                const isCorrect = sIdx === q.correct;
+                
+                group.querySelectorAll('.opt').forEach((btn, idx) => {
+                    btn.setAttribute('disabled', 'true');
+                    if (idx === q.correct) btn.classList.add('correct');
+                    else if (idx === sIdx) btn.classList.add('wrong');
+                });
+
+                const fb = document.getElementById(`fb${qIdx}`);
+                const next = document.getElementById(`next${qIdx}`);
+                if (fb) {
+                    fb.innerHTML = isCorrect ? q.ok : q.bad;
+                    fb.className = `fb show ${isCorrect ? 'ok' : 'bad'}`;
+                }
+                if (next) next.hidden = false;
+            }
+
+            function resetActivity() {
+                answers.fill(null);
+                document.querySelectorAll('.llm-strat-activity .opt').forEach(btn => {
+                    btn.removeAttribute('disabled');
+                    btn.classList.remove('correct', 'wrong');
+                });
+                document.querySelectorAll('.llm-strat-activity .fb').forEach(fb => {
+                    fb.className = 'fb';
+                    fb.innerHTML = '';
+                });
+                document.querySelectorAll('[id^="next"]').forEach(btn => btn.hidden = true);
+                topbar?.classList.remove('is-visible');
+                showScreen('screenIntro');
+            }
+
+            // Event Listeners
+            document.getElementById('startActivityBtn')?.addEventListener('click', () => {
+                showScreen('screen0');
+                setProgress(0);
+            });
+
+            [0, 1, 2].forEach(idx => {
+                const group = document.getElementById(`opts${idx}`);
+                group?.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.opt');
+                    if (btn) evaluate(idx, parseInt(btn.dataset.i), group);
+                });
+            });
+
+            document.getElementById('next0')?.addEventListener('click', () => { showScreen('screen1'); setProgress(1); });
+            document.getElementById('next1')?.addEventListener('click', () => { showScreen('screen2'); setProgress(2); });
+            document.getElementById('back1')?.addEventListener('click', () => { showScreen('screen0'); setProgress(0); });
+            document.getElementById('back2')?.addEventListener('click', () => { showScreen('screen1'); setProgress(1); });
+            document.getElementById('next2')?.addEventListener('click', () => {
+                const score = answers.filter((a, i) => a === questions[i].correct).length;
+                const pct = Math.round((score / 3) * 100);
+                const ring = document.getElementById('scoreRing');
+                const scoreNum = document.getElementById('scoreNum');
+                const msg = document.getElementById('resultMessage');
+
+                topbar?.classList.remove('is-visible');
+                showScreen('screenResults');
+                if (ring) ring.style.background = `conic-gradient(var(--activity-teal) 0% ${pct}%, rgba(255,255,255,0.07) ${pct}% 100%)`;
+                if (scoreNum) scoreNum.textContent = `${score}/3`;
+                if (msg) {
+                    msg.textContent = score === 3 
+                        ? '¡Excelente! Tienes un dominio claro de las aplicaciones estratégicas por área.'
+                        : score === 2 
+                            ? 'Buen trabajo. Revisa los conceptos para perfeccionar tu criterio pedagógico.'
+                            : 'Sigue explorando la lección para fortalecer tu comprensión de los usos de los LLM.';
+                }
+                confetti();
+            });
+
+            document.getElementById('restartActivityBtn')?.addEventListener('click', resetActivity);
+        })();
+
+        // Keyboard support for modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeZoom();
+        });
+    </script>
+    
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script src="scripts/concept-review.js"></script>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

@@ -1032,18 +1032,23 @@
             .resource-guidance-card,
             .bibliographic-resource,
             .route-card,
-            .commitment-item {
+            .commitment-item,
+            .bookcreator-resource,
+            .embed-resource {
                 padding: var(--spacing-md);
                 border-radius: var(--radius-lg);
             }
-
-            .bookcreator-resource {
-                padding: var(--spacing-md);
-            }
-
             .embed-frame {
                 min-height: 420px;
             }
+        }
+
+        .resources-page-title {
+            color: var(--color-text-display);
+        }
+
+        h1.resources-page-title .module-title-highlight {
+            color: var(--color-brand-primary);
         }
     </style>
 </head>
@@ -1085,19 +1090,18 @@
 
     <main class="content-wrapper">
         <article class="lesson-card" aria-labelledby="page-title">
-            <span class="page-kicker">Módulo 1 · Biblioteca de apoyo</span>
-            <h1 id="page-title" class="page-title">Recursos Didácticos Complementarios — Módulo 1</h1>
+            <h1 id="page-title" class="page-title resources-page-title">Recursos Didácticos Complementarios — <span class="module-title-highlight">Módulo 1</span></h1>
 
             <section class="resource-summary-card" aria-labelledby="intro-title">
                 <h2 id="intro-title" class="section-title">🧭 Introducción a la sección</h2>
-                <p>En esta sección encontrarás una <strong>biblioteca curada de recursos complementarios</strong> diseñados para profundizar en los conceptos centrales del Módulo 1: los <strong>Modelos de Lenguaje de Gran Tamaño (LLM)</strong>, sus <strong>aplicaciones pedagógicas</strong>, los <strong>marcos éticos</strong> y los desafíos de su integración en la práctica docente.</p>
-                <p>Los materiales están organizados por tipo de recurso —<strong>guías interactivas</strong>, <strong>videos</strong>, <strong>infografías</strong>, <strong>artículos científicos</strong> y <strong>guías docentes</strong>— para que puedas elegir el formato que mejor se ajuste a tu estilo de aprendizaje, tu disponibilidad de tiempo y tu necesidad profesional específica.</p>
-                <p>Cada recurso incluye una breve descripción de cómo te ayuda a comprender el tema, facilitando una exploración <strong>intencional</strong> y <strong>eficiente</strong>.</p>
+                <p>En esta sección encontrarás una biblioteca curada de recursos complementarios diseñados para profundizar en los conceptos centrales del Módulo 1: los Modelos de Lenguaje de Gran Tamaño (LLM), sus aplicaciones pedagógicas, los marcos éticos y los desafíos de su integración en la práctica docente.</p>
+                <p>Los materiales están organizados por tipo de recurso —guías interactivas, videos, infografías, artículos científicos y guías docentes— para que puedas elegir el formato que mejor se ajuste a tu estilo de aprendizaje, tu disponibilidad de tiempo y tu necesidad profesional específica.</p>
+                <p>Cada recurso incluye una breve descripción de cómo te ayuda a comprender el tema, facilitando una exploración intencional y eficiente.</p>
             </section>
 
             <aside class="resource-guidance-card" aria-label="Recomendación de uso de recursos">
-                <h2>Recomendación</h2>
-                <p>No necesitas consultar todos los recursos. Elige los que respondan mejor a tus <strong>preguntas pendientes</strong> o a las áreas donde quieras <strong>profundizar</strong>.</p>
+                <h2>💡 Recomendación</h2>
+                <p>No necesitas consultar todos los recursos. Elige los que respondan mejor a tus preguntas pendientes o a las áreas donde quieras profundizar.</p>
             </aside>
 
             <nav class="resource-index" aria-label="Clasificación de recursos del Módulo 1">
@@ -1149,7 +1153,7 @@
                         <p>Explora visualmente cómo ejecuta el bot de Copilot con su modelo de lenguaje al procesar un prompt, analiza la solicitud y genera una respuesta. Refuerza la metáfora <strong>"cerebro–cuerpo"</strong> trabajada en la Lección 1.1.</p>
                     </div>
                     <div class="embed-frame">
-                        <iframe src="copilot_tutorial_prototype.html" title="Tutorial Interactivo: Uso de Copilot" loading="lazy"></iframe>
+                        <iframe src="copilot_tutorial.html" title="Tutorial Interactivo: Uso de Copilot" loading="lazy"></iframe>
                     </div>
                 </article>
 
@@ -1364,7 +1368,8 @@
                 </div>
 
                 <div class="resource-commitment-card">
-                    <h2>💎 Tu compromiso de profundización</h2>
+                    <h2>💎 Tu compromiso profesional</h2>
+                    <p>Antes de cerrar esta sección, te invito a:</p>
                     <div class="commitment-grid">
                         <div class="commitment-item">
                             <p>Elegir al menos <strong>UN recurso</strong> de tu ruta para revisar en los próximos <strong>7 días</strong>.</p>

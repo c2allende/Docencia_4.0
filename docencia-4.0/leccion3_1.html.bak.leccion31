@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lección 3.1 de Docencia 4.0: Diseño automatizado de instrumentos de evaluación con LLM, rúbricas, listas de cotejo, bancos de reactivos e integración LMS.">
+    <meta name="keywords"
+        content="Docencia 4.0, Lección 3.1, evaluación educativa, rúbricas, listas de cotejo, bancos de reactivos, LMS, LLM, IA educativa, Bloom, Webb DOK">
+    <title>Lección 3.1 | Docencia 4.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/auth-guard.js"></script>
+    <script type="module" src="scripts/module-access-guard.js"></script>
+
+    <style>
+        :root {
+            --nav-height: 80px;
+            --module-sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: var(--line-height-loose);
+        }
+
+        p {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-text-secondary);
+        }
+
+        strong {
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* NAVBAR SUPERIOR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            min-height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            background: var(--color-alpha-white-90);
+            backdrop-filter: blur(var(--blur-lg));
+            -webkit-backdrop-filter: blur(var(--blur-lg));
+            border-bottom: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 0;
+        }
+
+        .logo-container img {
+            height: 56px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .module-title-nav {
+            max-width: 65vw;
+            overflow: hidden;
+            padding-left: var(--spacing-sm);
+            margin-left: var(--spacing-xs);
+            border-left: var(--border-width-2) solid var(--color-border-default);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            background: var(--color-background-surface-medium);
+            color: var(--color-brand-primary);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-btn:hover {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            transform: translateY(-1px);
+        }
+
+        .menu-btn:focus-visible,
+        .menu-links a:focus-visible,
+        .btn-footer:focus-visible,
+        .control-btn:focus-visible,
+        .eval-nav-btn:focus-visible,
+        .bloom-item:focus-visible,
+        .image-zoom-trigger:focus-visible,
+        .modal-close-btn:focus-visible,
+        .btn-scroll-top:focus-visible,
+        .genially-frame-inner iframe:focus-visible {
+            outline: var(--border-width-2) solid var(--color-border-focus);
+            outline-offset: var(--spacing-1);
+        }
+
+        /* MENÚ LATERAL */
+        .module-sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--module-sidebar-width) - 20px);
+            z-index: 2000;
+            width: var(--module-sidebar-width);
+            height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            overflow-y: auto;
+            background: var(--color-background-surface-dark);
+            color: var(--color-text-inverse);
+            transition: left var(--motion-duration-emphasis) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .module-sidebar.active {
+            left: 0;
+            box-shadow: 20px 0 50px var(--color-alpha-black-15);
+        }
+
+        .module-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            display: none;
+            background: var(--color-alpha-black-40, rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(var(--blur-sm));
+            -webkit-backdrop-filter: blur(var(--blur-sm));
+        }
+
+        .module-sidebar-overlay.active {
+            display: block;
+        }
+
+        .side-menu-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-text-inverse);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-section-label {
+            display: block;
+            padding: var(--spacing-5) var(--spacing-4) var(--spacing-2);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-wider);
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-md);
+            color: var(--color-alpha-white-70);
+            font-family: var(--font-family-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-normal);
+            text-decoration: none;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .menu-links a:hover {
+            background: var(--color-alpha-white-15);
+            color: var(--color-cyan-100);
+        }
+
+        .menu-links a.active {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: var(--spacing-xl) auto var(--spacing-16);
+            padding: 0 var(--spacing-md);
+        }
+
+        .lesson-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-16);
+            margin-bottom: var(--spacing-lg);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .lesson-title {
+            margin: 0 0 var(--spacing-lg);
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .section-title {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .subsection-title {
+            margin: var(--spacing-md) 0 var(--spacing-sm);
+            color: var(--color-brand-secondary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .text-section {
+            clear: both;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-10);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+        }
+
+        .audio-label {
+            display: block;
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .audio-player {
+            width: 100%;
+        }
+
+        .content-list,
+        .content-list-ordered {
+            margin: var(--spacing-md) 0 var(--spacing-xl);
+            padding-left: var(--spacing-6);
+        }
+
+        .content-list li,
+        .content-list-ordered li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content-list li::marker,
+        .content-list-ordered li::marker {
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .highlight-box {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            background: var(--color-background-surface-low);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+            box-shadow: var(--shadow-flat);
+        }
+
+        .warning-box {
+            border-left-color: var(--color-brand-secondary);
+        }
+
+        .prompt-example {
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-card-inverse);
+            color: var(--color-cyan-100);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-example p,
+        .prompt-example li {
+            color: var(--color-alpha-white-90);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .comp-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .comp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-brand-primary);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .comp-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-2xl);
+        }
+
+        .comp-card h3 {
+            margin: 0;
+            color: var(--color-text-display);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-snug);
+        }
+
+        .img-container-premium {
+            margin: var(--spacing-16) 0;
+            text-align: center;
+        }
+
+        .image-zoom-trigger {
+            display: inline-block;
+            max-width: min(100%, 900px);
+            padding: 0;
+            overflow: hidden;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+            box-shadow: var(--shadow-ambient);
+            cursor: zoom-in;
+        }
+
+        .image-zoom-trigger img {
+            width: 100%;
+            display: block;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .image-zoom-trigger:hover img {
+            transform: scale(1.01);
+        }
+
+        .img-caption {
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* COMPONENTE INTERACTIVO */
+        .interactive-eval-component {
+            padding: var(--spacing-xl);
+            margin: var(--spacing-16) 0;
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .eval-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .eval-header {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-align: center;
+            box-shadow: var(--shadow-focus-primary);
+        }
+
+        .eval-header h2 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary-on);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+            line-height: var(--line-height-tight);
+        }
+
+        .eval-header p {
+            margin: 0;
+            color: var(--color-brand-primary-on);
+            opacity: 0.92;
+        }
+
+        .eval-badge {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-20, var(--color-alpha-white-15));
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-2xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .eval-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            overflow-x: auto;
+            padding: var(--spacing-2);
+        }
+
+        .eval-nav-btn {
+            padding: var(--spacing-3) var(--spacing-5);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-text-muted);
+            font-family: var(--font-family-body);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .eval-nav-btn:hover,
+        .eval-nav-btn.active {
+            transform: translateY(-2px);
+            background: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .eval-panel {
+            display: none;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .eval-panel.active {
+            display: block;
+            animation: fadeInEval var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        @keyframes fadeInEval {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eval-panel h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .interactive-box {
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface-low);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--font-size-sm);
+        }
+
+        th,
+        td {
+            padding: var(--spacing-3);
+            border: var(--border-width-1) solid var(--color-border-default);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: var(--color-background-surface-low);
+            color: var(--color-brand-primary);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .bloom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .bloom-item {
+            min-height: 86px;
+            padding: var(--spacing-lg);
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-extrabold);
+            text-align: center;
+            cursor: pointer;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .bloom-item:hover {
+            transform: translateY(-4px);
+            background: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+        }
+
+        .alert-box {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-secondary);
+            border-radius: var(--radius-xl);
+            background: var(--color-background-surface-low);
+        }
+
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-left: var(--border-width-6) solid var(--color-brand-primary);
+            border-radius: var(--radius-lg);
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .workflow-step:hover {
+            transform: translateX(8px);
+        }
+
+        .step-num {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 36px;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        /* SLIDER */
+        .slider-section {
+            margin: var(--spacing-16) 0;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface-low);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .slider-header h2 {
+            margin: 0;
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .control-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--border-width-2) solid var(--color-border-default);
+            border-radius: var(--radius-pill);
+            background: var(--color-background-surface);
+            color: var(--color-brand-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+                color var(--motion-duration-default) var(--motion-easing-standard),
+                border-color var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard),
+                opacity var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            border-color: var(--color-brand-primary);
+            transform: scale(1.05);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slider-container {
+            overflow: hidden;
+            position: relative;
+            padding: var(--spacing-2);
+        }
+
+        .slider-track {
+            display: flex;
+            gap: var(--spacing-lg);
+            transition: transform var(--motion-duration-emphasis) var(--motion-easing-standard);
+        }
+
+        .slider-item {
+            min-width: 100%;
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .slider-item h3 {
+            margin: 0 0 var(--spacing-sm);
+            color: var(--color-brand-primary);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-xl);
+        }
+
+        .concept-ref {
+            display: block;
+            margin-top: var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-relaxed);
+            font-style: italic;
+        }
+
+        .completion-card {
+            position: relative;
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: calc(-1 * var(--spacing-5));
+            right: var(--spacing-xl);
+            padding: var(--spacing-2) var(--spacing-5);
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-extrabold);
+            letter-spacing: var(--letter-spacing-wide);
+            text-transform: uppercase;
+        }
+
+        .checkpoint-container {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            background: var(--gradient-orange);
+            color: var(--color-white);
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .checkpoint-container h2,
+        .checkpoint-container p {
+            color: var(--color-white);
+        }
+
+        .genially-frame-wrap {
+            width: 100%;
+            margin-top: var(--spacing-lg);
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            background: var(--color-background-surface);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .genially-frame-inner {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+        }
+
+        .genially-frame-inner iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .references-section {
+            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl);
+            background: var(--color-background-surface);
+            border: var(--border-width-1) solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-flat);
+        }
+
+        .references-section h2 {
+            margin-top: 0;
+        }
+
+        .ref-list {
+            margin: 0;
+            padding-left: var(--spacing-6);
+        }
+
+        .ref-list li {
+            margin-bottom: var(--spacing-3);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-xl);
+            border-top: var(--border-width-1) solid var(--color-border-default);
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-xl);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-family-heading);
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            transition: transform var(--motion-duration-default) var(--motion-easing-standard),
+                box-shadow var(--motion-duration-default) var(--motion-easing-standard),
+                background-color var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-back {
+            background: var(--color-background-surface-low);
+            color: var(--color-text-primary);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--color-background-button-primary-default, var(--color-brand-secondary));
+            color: var(--color-text-button-primary-default, var(--color-white));
+            box-shadow: var(--shadow-focus-secondary);
+        }
+
+        .btn-next:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-floating);
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            right: var(--spacing-lg);
+            bottom: var(--spacing-lg);
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-brand-primary);
+            color: var(--color-brand-primary-on);
+            text-decoration: none;
+            box-shadow: var(--shadow-floating);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--motion-duration-default) var(--motion-easing-standard),
+                visibility var(--motion-duration-default) var(--motion-easing-standard),
+                transform var(--motion-duration-default) var(--motion-easing-standard);
+        }
+
+        .btn-scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* MODAL */
+        .modal-zoom {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-6);
+            background: var(--color-alpha-black-90, var(--color-background-card-inverse));
+        }
+
+        .modal-zoom.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-overlay);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-3);
+            right: var(--spacing-3);
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: var(--radius-pill);
+            background: var(--color-alpha-white-90);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* TOOLBOX & PROMPT CARDS (Local) */
+        .toolbox-card {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-xl);
+            margin: var(--spacing-16) 0;
+            background: var(--color-background-card-inverse);
+            border-radius: var(--radius-xl);
+            color: var(--color-text-inverse);
+            box-shadow: var(--shadow-ambient);
+        }
+
+        .toolbox-card::before {
+            content: "TOOLBOX";
+            position: absolute;
+            top: -24px;
+            right: -18px;
+            color: var(--color-alpha-white-15);
+            font-family: var(--font-family-heading);
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: var(--font-weight-extrabold);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .toolbox-title {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-cyan-100);
+            font-family: var(--font-family-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        .prompt-template {
+            position: relative;
+            z-index: 1;
+            padding: var(--spacing-xl);
+            border: var(--border-width-1) dashed rgba(125, 230, 255, 0.45);
+            border-radius: var(--radius-lg);
+            background: var(--color-alpha-white-10);
+            color: var(--color-white);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-loose);
+        }
+
+        .prompt-template strong {
+            color: var(--color-white);
+        }
+
+        .token-tag {
+            display: inline;
+            padding: 0.1em 0.35em;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 194, 255, 0.16);
+            color: var(--color-cyan-100);
+            font-weight: var(--font-weight-bold);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @media (max-width: 900px) {
+            .content-wrapper {
+                padding: 0 var(--spacing-4);
+            }
+
+            .lesson-card,
+            .interactive-eval-component,
+            .slider-section,
+            .checkpoint-container,
+            .completion-card,
+            .references-section {
+                padding: var(--spacing-xl);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .top-nav {
+                padding: 0 var(--spacing-4);
+            }
+
+            .module-title-nav {
+                max-width: 58vw;
+                font-size: var(--font-size-sm);
+            }
+
+            .slider-header,
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .slider-controls,
+            .eval-tabs {
+                justify-content: center;
+            }
+
+            .workflow-step,
+            .alert-box {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --module-sidebar-width: 86vw;
+            }
+
+            .module-title-nav {
+                display: none;
+            }
+
+            .lesson-card,
+            .interactive-eval-component,
+            .slider-section,
+            .checkpoint-container,
+            .completion-card,
+            .references-section,
+            .comp-card,
+            .eval-panel {
+                padding: var(--spacing-md);
+                border-radius: var(--radius-lg);
+            }
+        }
+    </style>
+</head>
+
+<body data-page-id="leccion3_1" data-module-id="modulo3" data-page-type="leccion" data-title="Diseño de evaluación automatizada">
+    <nav class="top-nav" aria-label="Navegación superior de la lección">
+        <div class="nav-left">
+            <button class="menu-btn" type="button" onclick="toggleSidebar()" aria-label="Abrir menú de navegación"
+                aria-expanded="false" aria-controls="sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <img data-asset="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
+                    alt="Logo Docencia 4.0">
+            </div>
+            <span class="module-title-nav">Lección 3.1: Diseño automatizado de instrumentos de evaluación</span>
+        </div>
+    </nav>
+
+    <div class="module-sidebar-overlay" id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <aside class="module-sidebar" id="sidebar" aria-label="Menú de contenido del Módulo 3" aria-hidden="true">
+        <h2 class="side-menu-title">Contenido</h2>
+        <ul class="menu-links">
+            <li><a href="dashboard.html">🏠 Inicio / Dashboard</a></li>
+            <li><span class="menu-section-label">Módulo 3</span></li>
+            <li><a href="modulo3_intro.html">📍 Introducción Módulo 3</a></li>
+            <li><a href="leccion3_1.html" class="active" aria-current="page">📖 Lección 3.1</a></li>
+            <li><a href="leccion3_2.html">📖 Lección 3.2</a></li>
+            <li><a href="leccion3_3.html">📖 Lección 3.3</a></li>
+            <li><a href="leccion3_4.html">📖 Lección 3.4</a></li>
+            <li><a href="actividad3_1.html">🛠️ Actividad 3.1</a></li>
+            <li><a href="recursos_m3.html">📚 Recursos y Materiales</a></li>
+            <li><span class="menu-section-label">Navegación</span></li>
+            <li><a href="modulo2_intro.html">⬅️ Volver al Módulo 2</a></li>
+        </ul>
+    </aside>
+
+    <main class="content-wrapper">
+        <article class="lesson-card" aria-labelledby="lesson-title">
+            <h1 id="lesson-title" class="lesson-title">Lección 3.1: Diseño automatizado de instrumentos de evaluación
+            </h1>
+
+            <div class="audio-player-container">
+                <label class="audio-label" for="lessonAudio">Escuchar Lección 3.1</label>
+                <audio id="lessonAudio" controls preload="metadata" class="audio-player">
+                    <source
+                        src="LLM-DEPR/LLM_M3_Leccion_3.1_Diseño automatizado de instrumentos de evaluación_audio.mp3"
+                        type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+
+            <section class="text-section" aria-labelledby="intro-title">
+                <h2 id="intro-title" class="section-title">Introducción conceptual</h2>
+                <p>La evaluación educativa se encuentra en un momento de transformación significativa impulsada por las
+                    capacidades de los modelos de lenguaje y otras herramientas de IA, que permiten automatizar partes
+                    del diseño de instrumentos sin sustituir el juicio profesional docente. Estudios recientes muestran
+                    que, cuando se diseñan cuidadosamente e integran de forma pedagógicamente informada, las
+                    herramientas impulsadas por IA pueden mejorar resultados de aprendizaje y apoyar prácticas
+                    evaluativas más consistentes y eficientes en comparación con métodos tradicionales puramente
+                    manuales (Kwak, 2025; Luo et al., 2025). En este contexto, el objetivo no es que la IA “decida”
+                    sobre los estudiantes, sino que apoye la generación de borradores y estructuras de instrumentos que
+                    el maestro revisa, adapta y valida según el currículo y el contexto local.</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="instrumentos-title">
+                <h2 id="instrumentos-title" class="section-title">Generación de instrumentos: Rúbricas, listas de cotejo
+                    y hojas de evaluación</h2>
+                <p>Las rúbricas son herramientas centrales para la evaluación auténtica y basada en competencias, pero
+                    su construcción exige tiempo y dominio técnico. Experiencias con generadores de rúbricas impulsados
+                    por IA evidencian que la IA puede ayudar a mapear resultados de aprendizaje, criterios y niveles de
+                    desempeño en rúbricas de competencia, facilitando que el docente tenga plantillas de partida
+                    alineadas al perfil de egreso y a estándares específicos (Hochstetter-Diez et al., 2025; Estrada
+                    &amp; Fabián, 2024). En estos entornos, la IA se utiliza para generar borradores de rúbricas que
+                    luego son afinados por equipos docentes, logrando mayor coherencia y transparencia en la evaluación.
+                </p>
+
+                <div class="comparison-grid" aria-label="Tipos de instrumentos de evaluación generados con LLM">
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">📊</div>
+                        <h3>Rúbricas analíticas</h3>
+                        <p>Desglosan el desempeño en múltiples criterios independientes, permitiendo retroalimentación
+                            detallada. Los LLMs pueden generar matrices de criterios con descriptores de niveles
+                            (Exceeds, Meets, Approaching, Below) cuando el prompt especifica el estándar, la tarea y el
+                            número de criterios deseados.</p>
+                    </article>
+
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">🎯</div>
+                        <h3>Rúbricas holísticas</h3>
+                        <p>Evalúan el desempeño global de forma integrada. Los LLMs pueden producir descripciones de
+                            niveles generales cuando el prompt enfatiza la visión de conjunto y evita la fragmentación
+                            excesiva.</p>
+                    </article>
+
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">✅</div>
+                        <h3>Listas de cotejo</h3>
+                        <p>Son herramientas binarias (presente/ausente) útiles para verificar completitud de procesos o
+                            productos. Los LLMs pueden generar listas de cotejo exhaustivas cuando se les indica el
+                            proceso a evaluar, pero el docente debe validar que los ítems sean observables, relevantes y
+                            secuenciados apropiadamente antes de integrarlos en un instrumento formal.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="toolbox-card" aria-labelledby="prompt-rubrica-title">
+                <h2 id="prompt-rubrica-title" class="toolbox-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Prompt efectivo para rúbrica analítica
+                </h2>
+                <div class="prompt-template">
+                    <strong>Rol:</strong><br>
+                    <span class="token-tag">Eres un especialista en evaluación educativa del Departamento de Educación de Puerto Rico</span>.<br><br>
+                    
+                    <strong>Tarea:</strong><br>
+                    <span class="token-tag">Diseña una rúbrica analítica para evaluar una presentación oral en español de 5to grado sobre “El ciclo del agua”</span>, alineada al estándar [indicar estándar DEPR exacto].<br><br>
+                    
+                    <strong>Requisitos de la rúbrica:</strong><br>
+                    1. <span class="token-tag">Criterios de evaluación: contenido, organización, expresión oral y uso de recursos visuales</span>.<br>
+                    2. <span class="token-tag">Niveles de desempeño: Avanzado, Proficiente, Básico, Por Debajo de lo Básico</span>.<br>
+                    3. <span class="token-tag">Descriptores: claros, específicos y apropiados para el desarrollo cognitivo de 5to grado</span>.<br>
+                    4. <span class="token-tag">Alineación DUA: accesibles y promotores del aprendizaje activo</span>.<br><br>
+                    
+                    <strong>Restricciones:</strong><br>
+                    • <span class="token-tag">Evita la ambigüedad en los niveles de desempeño</span>; cada salto de nivel debe ser observable y medible.<br>
+                    • <span class="token-tag">Mantén la precisión técnica sobre el tema</span> dentro de los descriptores de contenido.<br><br>
+                    
+                    <strong>Formato:</strong><br>
+                    <span class="token-tag">Presenta la información en una tabla de Markdown</span> para facilitar su lectura y transferencia a documentos oficiales.
+                </div>
+            </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <section class="text-section" aria-labelledby="reactivos-title">
+                <h2 id="reactivos-title" class="section-title">Banco de reactivos y niveles de complejidad</h2>
+                <p>Los modelos de lenguaje pueden apoyar la generación de bancos de reactivos (selección múltiple,
+                    cierto/falso, preguntas abiertas) organizados según marcos de complejidad cognitiva como la
+                    Taxonomía de Bloom revisada o la profundidad de conocimiento (DOK). La literatura muestra que la IA
+                    puede generar preguntas alineadas a contenidos específicos y variar su dificultad cuando se le
+                    proporcionan descriptores claros del nivel cognitivo deseado (Kwak, 2025; Yan et al., 2020). Sin
+                    embargo, estos sistemas pueden introducir errores conceptuales sutiles, formulaciones confusas o
+                    distractores mal diseñados, por lo que la revisión humana sigue siendo indispensable.</p>
+                <p>Buenas prácticas para el uso de IA en bancos de reactivos incluyen:</p>
+                <ul class="content-list">
+                    <li>Indicar explícitamente el contenido, el nivel de grado y el nivel cognitivo deseado.</li>
+                    <li>Solicitar que se identifique la respuesta correcta y la explicación, para que el docente
+                        verifique ambos.</li>
+                    <li>Mantener un registro de preguntas validadas y descartadas, construyendo progresivamente un banco
+                        curado.</li>
+                </ul>
+                <p>Experimentos con ChatGPT en contextos de evaluación universitaria han mostrado que, aunque el modelo
+                    es capaz de generar ítems plausibles y de cierto nivel de originalidad, requiere supervisión para
+                    evitar ambigüedades y para asegurar que los reactivos midan las competencias que se desea evaluar y
+                    no solo memorización superficial (Kolade et al., 2024).</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="bloom-webb-title">
+                <h2 id="bloom-webb-title" class="section-title">Niveles de complejidad cognitiva</h2>
+                <p>La Taxonomía de Bloom revisada (Anderson &amp; Krathwohl, 2001) y los Niveles de Conocimiento de
+                    Norman Webb (Webb, 1997) proporcionan marcos para clasificar preguntas por complejidad cognitiva.
+                    Los LLMs pueden generar preguntas en múltiples niveles cuando el prompt especifica el nivel deseado
+                    y proporciona el contexto del contenido.</p>
+
+                <div class="comparison-grid" aria-label="Comparación entre Bloom y Webb DOK">
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">🧠</div>
+                        <h3>Taxonomía de Bloom revisada</h3>
+                        <ul class="content-list">
+                            <li><strong>Recordar</strong> (nivel 1)</li>
+                            <li><strong>Comprender</strong> (nivel 2)</li>
+                            <li><strong>Aplicar</strong> (nivel 3)</li>
+                            <li><strong>Analizar</strong> (nivel 4)</li>
+                            <li><strong>Evaluar</strong> (nivel 5)</li>
+                            <li><strong>Crear</strong> (nivel 6)</li>
+                        </ul>
+                    </article>
+
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">📈</div>
+                        <h3>Niveles de Webb (DOK)</h3>
+                        <ul class="content-list">
+                            <li><strong>DOK 1:</strong> Recordar y reproducir</li>
+                            <li><strong>DOK 2:</strong> Conceptos y destrezas</li>
+                            <li><strong>DOK 3:</strong> Pensamiento estratégico</li>
+                            <li><strong>DOK 4:</strong> Pensamiento extendido</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="quizzes-title">
+                <h2 id="quizzes-title" class="section-title">Generación de exámenes y quizzes</h2>
+                <p>Los LLMs pueden producir reactivos de selección múltiple, cierto/falso y preguntas abiertas cuando se
+                    especifica:</p>
+                <ol class="content-list-ordered">
+                    <li>El contenido o estándar a evaluar.</li>
+                    <li>El nivel de complejidad deseado (Bloom/Webb).</li>
+                    <li>El formato del reactivo.</li>
+                    <li>Restricciones (longitud, vocabulario, ejemplos contextualizados).</li>
+                </ol>
+
+                <div class="highlight-box warning-box">
+                    <h3 class="subsection-title">Advertencia crítica</h3>
+                    <p>La investigación reciente demuestra que aunque los LLMs generan preguntas de alta calidad y
+                        originalidad, presentan dificultades con el formato de referencias y pueden generar contenido
+                        similar si se consultan desde la misma cuenta repetidamente (Abdi &amp; Ng, 2024). Por tanto, el
+                        docente debe:</p>
+                    <ul class="content-list">
+                        <li>Verificar exactitud factual de cada reactivo.</li>
+                        <li>Validar que los distractores, en selección múltiple, sean plausibles pero incorrectos.</li>
+                        <li>Asegurar que las respuestas correctas estén fundamentadas curricularmente.</li>
+                        <li>Revisar el balance de niveles cognitivos en el instrumento completo.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="lms-title">
+                <h2 id="lms-title" class="section-title">Integración con LMS (Learning Management Systems)</h2>
+                <p>La transferencia eficiente de instrumentos generados a plataformas institucionales o apps que
+                    integran LLMs, como Microsoft Teams o Google Classroom, requiere flujos de trabajo estructurados.
+                </p>
+
+                <h3 class="subsection-title">Flujo recomendado</h3>
+                <ol class="content-list-ordered">
+                    <li>Generar el instrumento con el LLM en formato editable (tabla, lista).</li>
+                    <li>Revisar y validar manualmente el contenido.</li>
+                    <li>Exportar a formato compatible con el LMS (CSV para bancos de preguntas, documento para
+                        rúbricas).</li>
+                    <li>Importar a la plataforma institucional.</li>
+                    <li>Configurar parámetros de asignación (fecha, ponderación, retroalimentación automática si
+                        aplica).</li>
+                </ol>
+
+                <h3 class="subsection-title">Consideraciones técnicas</h3>
+                <ul class="content-list">
+                    <li>Google Classroom acepta rúbricas en formato de tabla; se pueden copiar/pegar desde documentos.
+                    </li>
+                    <li>MS Teams permite adjuntar rúbricas como documentos o integrarlas en Assignments.</li>
+                    <li>Para bancos de reactivos, algunas plataformas aceptan importación en formato QTI (Question and
+                        Test Interoperability) o CSV.</li>
+                </ul>
+
+                <p>La literatura sobre diseño de herramientas de aprendizaje basadas en IA enfatiza que la integración
+                    efectiva en ecosistemas digitales requiere no solo compatibilidad técnica, sino también considerar
+                    la experiencia del docente y la facilidad de uso de los flujos de trabajo, de manera que la
+                    tecnología reduzca y no aumente la carga operativa (Luo et al., 2025).</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="figura-title">
+                <h2 id="figura-title" class="sr-only">Figura de flujo de trabajo</h2>
+                <div class="img-container-premium">
+                    <button class="image-zoom-trigger" type="button"
+                        onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+            <section class="text-section" aria-labelledby="reactivos-title">
+                <h2 id="reactivos-title" class="section-title">Banco de reactivos y niveles de complejidad</h2>
+                <p>Los modelos de lenguaje pueden apoyar la generación de bancos de reactivos (selección múltiple,
+                    cierto/falso, preguntas abiertas) organizados según marcos de complejidad cognitiva como la
+                    Taxonomía de Bloom revisada o la profundidad de conocimiento (DOK). La literatura muestra que la IA
+                    puede generar preguntas alineadas a contenidos específicos y variar su dificultad cuando se le
+                    proporcionan descriptores claros del nivel cognitivo deseado (Kwak, 2025; Yan et al., 2020). Sin
+                    embargo, estos sistemas pueden introducir errores conceptuales sutiles, formulaciones confusas o
+                    distractores mal diseñados, por lo que la revisión humana sigue siendo indispensable.</p>
+                <p>Buenas prácticas para el uso de IA en bancos de reactivos incluyen:</p>
+                <ul class="content-list">
+                    <li>Indicar explícitamente el contenido, el nivel de grado y el nivel cognitivo deseado.</li>
+                    <li>Solicitar que se identifique la respuesta correcta y la explicación, para que el docente
+                        verifique ambos.</li>
+                    <li>Mantener un registro de preguntas validadas y descartadas, construyendo progresivamente un banco
+                        curado.</li>
+                </ul>
+                <p>Experimentos con ChatGPT en contextos de evaluación universitaria han mostrado que, aunque el modelo
+                    es capaz de generar ítems plausibles y de cierto nivel de originalidad, requiere supervisión para
+                    evitar ambigüedades y para asegurar que los reactivos midan las competencias que se desea evaluar y
+                    no solo memorización superficial (Kolade et al., 2024).</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="bloom-webb-title">
+                <h2 id="bloom-webb-title" class="section-title">Niveles de complejidad cognitiva</h2>
+                <p>La Taxonomía de Bloom revisada (Anderson &amp; Krathwohl, 2001) y los Niveles de Conocimiento de
+                    Norman Webb (Webb, 1997) proporcionan marcos para clasificar preguntas por complejidad cognitiva.
+                    Los LLMs pueden generar preguntas en múltiples niveles cuando el prompt especifica el nivel deseado
+                    y proporciona el contexto del contenido.</p>
+
+                <div class="comparison-grid" aria-label="Comparación entre Bloom y Webb DOK">
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">🧠</div>
+                        <h3>Taxonomía de Bloom revisada</h3>
+                        <ul class="content-list">
+                            <li><strong>Recordar</strong> (nivel 1)</li>
+                            <li><strong>Comprender</strong> (nivel 2)</li>
+                            <li><strong>Aplicar</strong> (nivel 3)</li>
+                            <li><strong>Analizar</strong> (nivel 4)</li>
+                            <li><strong>Evaluar</strong> (nivel 5)</li>
+                            <li><strong>Crear</strong> (nivel 6)</li>
+                        </ul>
+                    </article>
+
+                    <article class="comp-card">
+                        <div class="comp-icon" aria-hidden="true">📈</div>
+                        <h3>Niveles de Webb (DOK)</h3>
+                        <ul class="content-list">
+                            <li><strong>DOK 1:</strong> Recordar y reproducir</li>
+                            <li><strong>DOK 2:</strong> Conceptos y destrezas</li>
+                            <li><strong>DOK 3:</strong> Pensamiento estratégico</li>
+                            <li><strong>DOK 4:</strong> Pensamiento extendido</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="quizzes-title">
+                <h2 id="quizzes-title" class="section-title">Generación de exámenes y quizzes</h2>
+                <p>Los LLMs pueden producir reactivos de selección múltiple, cierto/falso y preguntas abiertas cuando se
+                    especifica:</p>
+                <ol class="content-list-ordered">
+                    <li>El contenido o estándar a evaluar.</li>
+                    <li>El nivel de complejidad deseado (Bloom/Webb).</li>
+                    <li>El formato del reactivo.</li>
+                    <li>Restricciones (longitud, vocabulario, ejemplos contextualizados).</li>
+                </ol>
+
+                <div class="highlight-box warning-box">
+                    <h3 class="subsection-title">Advertencia crítica</h3>
+                    <p>La investigación reciente demuestra que aunque los LLMs generan preguntas de alta calidad y
+                        originalidad, presentan dificultades con el formato de referencias y pueden generar contenido
+                        similar si se consultan desde la misma cuenta repetidamente (Abdi &amp; Ng, 2024). Por tanto, el
+                        docente debe:</p>
+                    <ul class="content-list">
+                        <li>Verificar exactitud factual de cada reactivo.</li>
+                        <li>Validar que los distractores, en selección múltiple, sean plausibles pero incorrectos.</li>
+                        <li>Asegurar que las respuestas correctas estén fundamentadas curricularmente.</li>
+                        <li>Revisar el balance de niveles cognitivos en el instrumento completo.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="lms-title">
+                <h2 id="lms-title" class="section-title">Integración con LMS (Learning Management Systems)</h2>
+                <p>La transferencia eficiente de instrumentos generados a plataformas institucionales o apps que
+                    integran LLMs, como Microsoft Teams o Google Classroom, requiere flujos de trabajo estructurados.
+                </p>
+
+                <h3 class="subsection-title">Flujo recomendado</h3>
+                <ol class="content-list-ordered">
+                    <li>Generar el instrumento con el LLM en formato editable (tabla, lista).</li>
+                    <li>Revisar y validar manualmente el contenido.</li>
+                    <li>Exportar a formato compatible con el LMS (CSV para bancos de preguntas, documento para
+                        rúbricas).</li>
+                    <li>Importar a la plataforma institucional.</li>
+                    <li>Configurar parámetros de asignación (fecha, ponderación, retroalimentación automática si
+                        aplica).</li>
+                </ol>
+
+                <h3 class="subsection-title">Consideraciones técnicas</h3>
+                <ul class="content-list">
+                    <li>Google Classroom acepta rúbricas en formato de tabla; se pueden copiar/pegar desde documentos.
+                    </li>
+                    <li>MS Teams permite adjuntar rúbricas como documentos o integrarlas en Assignments.</li>
+                    <li>Para bancos de reactivos, algunas plataformas aceptan importación en formato QTI (Question and
+                        Test Interoperability) o CSV.</li>
+                </ul>
+
+                <p>La literatura sobre diseño de herramientas de aprendizaje basadas en IA enfatiza que la integración
+                    efectiva en ecosistemas digitales requiere no solo compatibilidad técnica, sino también considerar
+                    la experiencia del docente y la facilidad de uso de los flujos de trabajo, de manera que la
+                    tecnología reduzca y no aumente la carga operativa (Luo et al., 2025).</p>
+            </section>
+
+            <section class="text-section" aria-labelledby="figura-title">
+                <h2 id="figura-title" class="sr-only">Figura de flujo de trabajo</h2>
+                <div class="img-container-premium">
+                    <button class="image-zoom-trigger" type="button"
+                        onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
+                        aria-label="Ampliar figura sobre diseño automatizado de instrumentos de evaluación">
+                        <img data-asset="LLM_M3_ContenidoA_3.1_Diseño automatizado de instrumentos de evaluación_Rev.png"
+                            src="assets/LLM_M3_ContenidoA_3.1_Diseño automatizado de instrumentos de evaluación_Rev.png"
+                            alt="Esquema de diseño automatizado de instrumentos de evaluación mediado por IA">
+                    </button>
+                    <p class="img-caption">Figura: Flujo de trabajo para el diseño automatizado de instrumentos de
+                        evaluación mediado por IA.</p>
+                </div>
+            </section>
+
+            <section class="interactive-eval-component" aria-labelledby="interactive-title">
+                <div class="eval-container">
+                    <header class="eval-header">
+                        <span class="eval-badge">Co-creación inteligente</span>
+                        <h2 id="interactive-title">IA en la Evaluación Educativa</h2>
+                        <p>Potenciando el diseño de instrumentos con apoyo de LLMs.</p>
+                    </header>
+
+                    <nav class="eval-tabs" aria-label="Secciones del componente interactivo">
+                        <button class="eval-nav-btn active" type="button" onclick="showEvalTab(event, 'rubricas')"
+                            aria-controls="rubricas" aria-selected="true">Instrumentos</button>
+                        <button class="eval-nav-btn" type="button" onclick="showEvalTab(event, 'reactivos')"
+                            aria-controls="reactivos" aria-selected="false">Bancos de Reactivos</button>
+                        <button class="eval-nav-btn" type="button" onclick="showEvalTab(event, 'lms')"
+                            aria-controls="lms" aria-selected="false">Integración LMS</button>
+                    </nav>
+
+                    <section id="rubricas" class="eval-panel active" aria-labelledby="rubricas-title">
+                        <h3 id="rubricas-title">📊 Diseño de Instrumentos</h3>
+                        <p>La IA acelera la creación de rúbricas mapeando resultados de aprendizaje y criterios
+                            específicos. El docente actúa como validador final.</p>
+
+                        <div class="interactive-box">
+                            <span class="eval-badge">Ejemplo: rúbrica analítica (5to grado)</span>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Criterio</th>
+                                            <th>Avanzado</th>
+                                            <th>Proficiente</th>
+                                            <th>Básico</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Contenido</strong></td>
+                                            <td>Explica con precisión científica todas las fases del ciclo del agua.
+                                            </td>
+                                            <td>Identifica las fases principales sin errores conceptuales.</td>
+                                            <td>Menciona algunas fases, pero con imprecisiones.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Organización</strong></td>
+                                            <td>Estructura lógica impecable: inicio, desarrollo y cierre claro.</td>
+                                            <td>Presenta una secuencia clara en la mayoría de la exposición.</td>
+                                            <td>Dificultad para seguir una secuencia lógica.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="concept-ref">Generado mediante Prompt Engineering especializado para el DEPR.</p>
+                        </div>
+
+                        <div class="interactive-box">
+                            <p><strong>Tipos de apoyo:</strong></p>
+                            <ul class="content-list">
+                                <li><strong>Rúbricas analíticas:</strong> desglose detallado por criterios.</li>
+                                <li><strong>Rúbricas holísticas:</strong> evaluación global del desempeño.</li>
+                                <li><strong>Listas de cotejo:</strong> verificación rápida de procesos
+                                    (presente/ausente).</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="reactivos" class="eval-panel" aria-labelledby="reactivos-interactive-title">
+                        <h3 id="reactivos-interactive-title">🧠 Complejidad Cognitiva</h3>
+                        <p>Los LLMs pueden variar la dificultad de los reactivos basándose en marcos como Bloom o DOK.
+                            Selecciona un nivel para ver un ejemplo de reactivo:</p>
+
+                        <div class="bloom-grid">
+                            <button type="button" class="bloom-item"
+                                onclick="updateEvalReactivo('recordar')">Recordar</button>
+                            <button type="button" class="bloom-item"
+                                onclick="updateEvalReactivo('comprender')">Comprender</button>
+                            <button type="button" class="bloom-item"
+                                onclick="updateEvalReactivo('aplicar')">Aplicar</button>
+                            <button type="button" class="bloom-item"
+                                onclick="updateEvalReactivo('analizar')">Analizar</button>
+                        </div>
+
+                        <div class="interactive-box" id="reactivoDisplay" aria-live="polite">
+                            <p>Haz clic en un nivel para generar el reactivo de ejemplo.</p>
+                        </div>
+
+                        <div class="alert-box">
+                            <span aria-hidden="true">⚠️</span>
+                            <div>
+                                <strong>Advertencia crítica:</strong>
+                                <p>Los LLMs pueden introducir errores factuales sutiles. El docente debe validar cada
+                                    distractor y asegurar la base curricular.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="lms" class="eval-panel" aria-labelledby="lms-interactive-title">
+                        <h3 id="lms-interactive-title">🔗 Flujo de Integración LMS</h3>
+                        <p>Transforma la salida de la IA en un recurso funcional para Google Classroom, MS Teams, Moodle u otras plataformas institucionales.</p>
+
+                        <div class="workflow">
+                            <div class="workflow-step">
+                                <span class="step-num">1</span>
+                                <div>
+                                    <strong>Generar:</strong>
+                                    <p>Obtener el instrumento con el LLM en formato editable (tabla o lista).</p>
+                                </div>
+                            </div>
+                            <div class="workflow-step">
+                                <span class="step-num">2</span>
+                                <div>
+                                    <strong>Validar:</strong>
+                                    <p>Revisar y ajustar manualmente el contenido para asegurar rigor pedagógico.</p>
+                                </div>
+                            </div>
+                            <div class="workflow-step">
+                                <span class="step-num">3</span>
+                                <div>
+                                    <strong>Exportar:</strong>
+                                    <p>Guardar en formato compatible con el LMS (CSV o documento).</p>
+                                </div>
+                            </div>
+                            <div class="workflow-step">
+                                <span class="step-num">4</span>
+                                <div>
+                                    <strong>Importar:</strong>
+                                    <p>Cargar el recurso en la plataforma institucional y configurar parámetros.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert-box">
+                            <span aria-hidden="true">💡</span>
+                            <div>
+                                <strong>Tip técnico:</strong>
+                                <p>Plataformas como Google Classroom y MS Teams permiten copiar rúbricas directamente desde tablas generadas por IA.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <details class="concept-review" data-concept-review aria-labelledby="conceptos-title">
+                <summary class="concept-review__summary-main">
+                    <span class="concept-review__icon" aria-hidden="true">📖</span>
+                    <span class="concept-review__meta">
+                        <span class="concept-review__title" id="conceptos-title">Conceptos a repasar</span>
+                        <span class="concept-review__subtitle">Antes de continuar, repasa estas ideas clave.</span>
+                    </span>
+                    <span class="concept-review__count">7 conceptos disponibles</span>
+                </summary>
+
+                <div class="concept-review__panel">
+                    <div class="concept-review__list">
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Evaluación educativa</summary>
+                            <div class="concept-review__body">
+                                <p>La evaluación educativa es un proceso sistemático de recogida, análisis e interpretación de evidencias sobre los conocimientos, habilidades, actitudes y competencias del alumnado, con el propósito de emitir juicios de valor y tomar decisiones fundamentadas para mejorar el aprendizaje, la enseñanza y el currículo. En el contexto de los LLM, este proceso incluye el uso de modelos de lenguaje como apoyo para diseñar instrumentos (rúbricas, bancos de reactivos, listas de cotejo) y analizar respuestas, pero manteniendo siempre el control humano sobre la selección de evidencias, la interpretación de resultados y las decisiones pedagógicas que se derivan.</p>
+                                <cite class="concept-review__citation">Mendiola, M. S., Maldonado, L. D., Hernández, F. F., Leenen, I., & González, A. M. (2015). Evaluación del aprendizaje. Educación Médica: teoría y práctica, 17-39.</cite>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Generación de instrumentos: Rúbricas, listas de cotejo y hojas de evaluación</summary>
+                            <div class="concept-review__body">
+                                <p>Generación de instrumentos (rúbricas, listas de cotejo y hojas de evaluación) con LLM se refiere al uso de modelos de lenguaje grandes para producir, a partir de instrucciones textuales, borradores estructurados de matrices de evaluación (rúbricas analíticas u holísticas), checklists y formularios de valoración que incluyen criterios, niveles de desempeño y descriptores alineados con resultados de aprendizaje y estándares curriculares. En términos técnicos, el LLM actúa como generador de propuestas iniciales de instrumentos que el docente revisa, adapta y valida, aprovechando su capacidad para organizar información en tablas, listas y escalas descriptivas, pero manteniendo el control humano sobre la pertinencia pedagógica, la claridad de los enunciados y la coherencia con el perfil de egreso.</p>
+                            </div>
+                        </details>
+
+                        <details class="concept-review__item">
+                            <summary class="concept-review__summary">Rúbricas analíticas vs. holísticas</summary>
+                            <div class="concept-review__body">
+                                <p>Rúbricas analíticas y rúbricas holísticas son dos tipos de instrumentos de evaluación que pueden ser diseñados tanto de forma tradicional como con apoyo de LLM, pero que organizan la información de manera distinta. Una rúbrica analítica desglosa el desempeño en varios criterios o dimensiones (por ejemplo, contenido, organización, lenguaje), asignando niveles de logro y descriptores específicos a cada criterio; cuando se usa un LLM, este puede generar matrices con criterios y descriptores diferenciados por nivel, que luego el docente ajusta para dar retroalimentación detallada y calificar sumando los puntajes parciales por criterio. En contraste, una rúbrica holística valora el trabajo como un todo integrado, ofreciendo descripciones globales de cada nivel de desempeño sin separar formalmente las partes; en el contexto de LLM, el modelo puede producir descripciones sintéticas para cada nivel (por ejemplo, básico, competente, excelente) centradas en la impresión global de calidad, que el docente utiliza cuando necesita una evaluación más rápida y sumativa, aunque con menor detalle diagnóstico.</p>
+                                <cite class="concept-review__citation">Universidad de Puerto Rico, Oficina de Evaluación del Aprendizaje Estudiantil. (2018). Desarrollo de rúbricas: Tipos de rúbricas y criterios de desempeño. UPR-RP. https://oeae.uprrp.edu/wp-content/uploads/2018/06/5-TALLER-5-DESARROLLO-DE-RUBRICAS.pdf</cite>
+                            </div>
+                        </details>
+
+                        <div class="concept-review__overflow" hidden>
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Listas de cotejo</summary>
+                                <div class="concept-review__body">
+                                    <p>Las listas de cotejo son instrumentos de evaluación estructurados que presentan una serie de criterios o indicadores observables y se registran de forma dicotómica (presente/ausente, logrado/no logrado), permitiendo verificar de manera rápida y objetiva el cumplimiento de determinados pasos, requisitos o desempeños en una tarea. En el contexto de LLM, estos modelos pueden generar borradores de listas de cotejo a partir de la descripción de la actividad, el nivel educativo y los resultados de aprendizaje deseados, pero corresponde al docente revisar los ítems, asegurar que sean claramente observables y pertinentes, y adaptarlos al currículo y al contexto de aula antes de utilizarlos como instrumento formal.</p>
+                                    <cite class="concept-review__citation">Universidad Nacional Autónoma de México. (2024). Lista de cotejo como instrumento de evaluación del y para el aprendizaje (Cap. 14). Centro de Enseñanza y Desarrollo Educativo. https://www.ceide.unam.mx/wp-content/uploads/2024/08/Capitulo-14-LISTA-DE-COTEJO.pdf</cite>
+                                </div>
+                            </details>
+
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Banco de reactivos</summary>
+                                <div class="concept-review__body">
+                                    <p>Un banco de reactivos es un conjunto estructurado y organizado de preguntas o ítems de evaluación (por ejemplo, de opción múltiple, cierto/falso, respuesta corta o casos) almacenados en un espacio físico o virtual junto con su información asociada (contenido, autoría, fecha de alta, estadísticas de uso y parámetros psicométricos), que permite construir pruebas diferentes a partir de un mismo reservorio de ítems y gestionar su calidad técnica. En el contexto de los LLM, estos modelos pueden utilizarse para generar borradores de reactivos y proponer variaciones por nivel cognitivo o dificultad, mientras que el banco funciona como repositorio curado donde el docente selecciona, valida y calibra los ítems antes de administrarlos en plataformas de evaluación o LMS.</p>
+                                    <cite class="concept-review__citation">Admin. (2024, December 2). Construcción del banco de reactivos. Ceneval. https://ceneval.edu.mx/blog/2023/02/28/construccion-del-banco-de-reactivos/</cite>
+                                </div>
+                            </details>
+
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">Generación de exámenes y quizzes</summary>
+                                <div class="concept-review__body">
+                                    <p>La generación de exámenes y quizzes con LLM es el proceso mediante el cual un modelo de lenguaje grande produce, a partir de indicaciones textuales del docente (tema, estándar, nivel de complejidad, número y tipo de preguntas), un conjunto estructurado de ítems de evaluación organizados en una prueba usable (por ejemplo, examen escrito, quiz en línea o prueba de práctica). Técnicamente, el LLM actúa como motor de generación automática de reactivos y versiones de prueba (opción múltiple, cierto/falso, respuesta corta, casos), mientras que la persona docente mantiene el rol de control de calidad: revisa la validez de contenido, ajusta la redacción, equilibra los niveles cognitivos y decide qué ítems se incorporan al instrumento final y cómo se administrará en el LMS o entorno institucional.</p>
+                                    <cite class="concept-review__citation">Hadzhikoleva, S., Rachovski, T., Ivanov, I., Hadzhikolev, E., & Dimitrov, G. (2024). Automated test creation using large language models: A practical application. Applied Sciences, 14(19), 9125.</cite>
+                                </div>
+                            </details>
+
+                            <details class="concept-review__item">
+                                <summary class="concept-review__summary">LMS (Learning Management Systems)</summary>
+                                <div class="concept-review__body">
+                                    <p>Un LMS (Learning Management System) es una plataforma de software que permite administrar, distribuir y hacer seguimiento de actividades de formación en línea, centralizando cursos, recursos, tareas, evaluaciones y registros de progreso del estudiantado en un mismo entorno digital. Alineado con los LLM, el LMS funciona como la infraestructura donde se integran bots o aplicaciones basadas en modelos de lenguaje (por ejemplo, asistentes para generar rúbricas, bancos de reactivos o retroalimentación automática), de modo que el LLM no sustituye al LMS, sino que se incrusta como servicio dentro de este ecosistema para apoyar el diseño, la entrega y el análisis de la evaluación educativa.</p>
+                                    <cite class="concept-review__citation">Colman, H. (2026, January 12). ¿Qué es un LMS y por qué es esencial para el aprendizaje corporativo? Blog De E-learning. https://www.ispring.es/blog/what-is-lms</cite>
+                                </div>
+                            </details>
+                        </div>
+
+                        <button class="concept-review__more" type="button" aria-expanded="false">
+                            Ver todos los conceptos
+                        </button>
+                    </div>
+                </div>
+            </details>
+
+            <section class="completion-card" aria-labelledby="cierre-title">
+                <span class="completion-badge">Meta alcanzada</span>
+                <h2 id="cierre-title" class="section-title">Felicidades</h2>
+                <p>Has culminado la lección 3.1 del programa de formación profesional.</p>
+                <p>Al completar el contenido 3.1, has construido una base sólida para usar los LLM como aliados en el diseño de rúbricas, listas de cotejo y bancos de preguntas, entendiendo sus fortalezas y límites. Este conocimiento te permite aprovechar la automatización para ganar tiempo y consistencia, sin renunciar a tu criterio pedagógico ni al alineamiento con los estándares y el contexto de tu escuela y tus estudiantes.</p>
+            </section>
+
+            <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
+                <div class="genially-checkpoint__content">
+                    <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
+                    <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 3.1</h2>
+                    
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre métodos de evaluación tradicionales vs. apoyados por IA y rúbricas dinámicas. Al completarlo, estarás generando evidencia de tu propio criterio profesional en torno al diseño automatizado de instrumentos con IA, mostrando cómo decides qué propuestas del modelo adoptar, cómo las ajustas a tu contexto y cómo garantizas que la evaluación siga siendo válida, confiable y justa para tus estudiantes.</p>
+                    
+                    <div class="genially-checkpoint__actions">
+                        <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle aria-expanded="false" aria-controls="checkpoint-panel-3-1">
+                            Realizar checkpoint aquí
+                        </button>
+                        
+                        <a href="https://view.genially.com/69addc9d377503787d4f1379" target="_blank" rel="noopener noreferrer" class="genially-checkpoint__fallback">
+                            Abrir en Genially en nueva pestaña
+                        </a>
+                    </div>
+                    
+                    <p class="genially-checkpoint__note">
+                        Si el recurso no carga correctamente, puedes abrirlo en una nueva pestaña.
+                    </p>
+                </div>
+
+                <div id="checkpoint-panel-3-1" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                    <div class="genially-checkpoint__frame-wrap">
+                        <iframe data-src="https://view.genially.com/69addc9d377503787d4f1379" src="about:blank" title="Checkpoint de saberes: Lección 3.1" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-section" aria-labelledby="referencias-title">
+                <hr class="section-separator">
+                <details class="references-compact">
+                    <summary class="references-compact__summary">
+                        <span id="referencias-title" class="references-compact__title">Referencias</span>
+                        <span class="references-compact__count">7 fuentes consultadas</span>
+                        <span class="references-compact__action">Ver referencias</span>
+                    </summary>
+                    <div class="references-compact__body">
+                        <ul class="reference-list">
+
+                    <li>Anderson, L. W., &amp; Krathwohl, D. R. (Eds.). (2001). <em>A taxonomy for learning, teaching, and assessing: A revision of Bloom’s Taxonomy of Educational Objectives</em>. Longman.</li>
+                    <li>Hochstetter-Diez, J., Negrier-Seguel, M., Diéguez-Rebolledo, M., Candia-Garrido, E., &amp; Vidal, E. (2025). From Mapping to Action: SmartRubrics, an AI Tool for Competency-Based Assessment in Engineering Education. <em>Sustainability</em>, 17(13), 6098.</li>
+                    <li>Luo, J., Zheng, C., Yin, J., &amp; Teo, H. H. (2025). Design and assessment of AI-based learning tools in higher education: A systematic review. <em>International Journal of Educational Technology in Higher Education</em>, 22(1), 42.</li>
+                    <li>Kolade, O., Owoseni, A., &amp; Egbetokun, A. (2024). Is AI changing learning and assessment as we know it? Evidence from a ChatGPT experiment and a conceptual framework. <em>Heliyon</em>, 10(4).</li>
+                    <li>Kwak, M. (2025). The Effectiveness of AI-Driven Tools in Improving Student Learning Outcomes Compared to Traditional Methods. <em>Issues in Information Systems</em>, 26(4), 233–247.</li>
+                    <li>Webb, N. L. (1997). <em>Criteria for alignment of expectations and assessments in mathematics and science education</em> (Research Monograph No. 6). Council of Chief State School Officers.</li>
+                    <li>Yan, D., Rupp, A. A., &amp; Foltz, P. W. (Eds.). (2020). <em>Handbook of automated scoring: Theory into practice</em>. CRC Press.</li>
+                                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <div id="completion-section"></div>
+
+            <nav class="footer-nav" aria-label="Navegación de lecciones">
+                <a href="modulo3_intro.html" class="btn-footer btn-back">← Volver a Introducción</a>
+                <a href="leccion3_2.html" class="btn-footer btn-next">Ir a la Lección 3.2 →</a>
+            </nav>
+        </article>
+    </main>
+
+    <a href="#" class="btn-scroll-top" id="scrollTopBtn" aria-label="Subir al inicio de la página">↑</a>
+
+    <div id="zoomModal" class="modal-zoom" role="dialog" aria-modal="true" aria-labelledby="zoom-title" aria-hidden="true">
+        <div class="modal-content">
+            <h2 id="zoom-title" class="sr-only">Imagen ampliada del recurso</h2>
+            <button class="modal-close-btn" type="button" onclick="closeZoom()" aria-label="Cerrar imagen ampliada">×</button>
+            <img id="zoomedImg" alt="Imagen ampliada del recurso">
+        </div>
+    </div>
+
+    <script>
+        function resolveAssetPath(img) {
+            const fileName = img.dataset.asset;
+            if (!fileName) return;
+            const candidates = [`assets/${fileName}`, `./assets/${fileName}`, `/assets/${fileName}`];
+            let index = 0;
+            img.onerror = () => {
+                if (index < candidates.length) {
+                    img.src = candidates[index];
+                    index += 1;
+                } else {
+                    img.onerror = null;
+                    console.warn(`No se pudo cargar la imagen: ${fileName}`);
+                }
+            };
+            img.src = candidates[index];
+            index += 1;
+        }
+        document.querySelectorAll('img[data-asset]').forEach(resolveAssetPath);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.querySelector('.menu-btn');
+        const zoomModal = document.getElementById('zoomModal');
+        const zoomedImg = document.getElementById('zoomedImg');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        let lastFocusedElement = null;
+
+        function openSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            sidebar.setAttribute('aria-hidden', 'false');
+            menuButton.setAttribute('aria-expanded', 'true');
+            menuButton.setAttribute('aria-label', 'Cerrar menú de navegación');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !overlay || !menuButton) return;
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            sidebar.setAttribute('aria-hidden', 'true');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'Abrir menú de navegación');
+        }
+
+        function toggleSidebar() {
+            if (!sidebar) return;
+            sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
+        }
+
+        function openZoom(src) {
+            if (!zoomModal || !zoomedImg) return;
+            lastFocusedElement = document.activeElement;
+            zoomedImg.src = src;
+            zoomModal.classList.add('is-open');
+            zoomModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            const closeButton = zoomModal.querySelector('.modal-close-btn');
+            if (closeButton) closeButton.focus();
+        }
+
+        function closeZoom() {
+            if (!zoomModal || !zoomedImg) return;
+            zoomModal.classList.remove('is-open');
+            zoomModal.setAttribute('aria-hidden', 'true');
+            zoomedImg.removeAttribute('src');
+            document.body.style.overflow = '';
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (zoomModal && zoomModal.classList.contains('is-open')) closeZoom();
+                if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                    menuButton?.focus();
+                }
+            }
+        });
+
+        zoomModal?.addEventListener('click', (event) => {
+            if (event.target === zoomModal) closeZoom();
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+        });
+
+        scrollTopBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        function showEvalTab(event, tabId) {
+            document.querySelectorAll('.eval-panel').forEach((panel) => panel.classList.remove('active'));
+            document.querySelectorAll('.eval-nav-btn').forEach((btn) => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            const selectedPanel = document.getElementById(tabId);
+            if (selectedPanel) selectedPanel.classList.add('active');
+            event.currentTarget.classList.add('active');
+            event.currentTarget.setAttribute('aria-selected', 'true');
+        }
+
+        function updateEvalReactivo(level) {
+            const display = document.getElementById('reactivoDisplay');
+            if (!display) return;
+            const reactivos = {
+                recordar: {
+                    title: 'Nivel Recordar',
+                    prompt: '¿Cuál de las siguientes opciones identifica una fase del ciclo del agua?',
+                    answer: 'Respuesta esperada: evaporación.'
+                },
+                comprender: {
+                    title: 'Nivel Comprender',
+                    prompt: 'Explica con tus propias palabras por qué la evaporación ocurre cuando el agua recibe calor.',
+                    answer: 'Respuesta esperada: el estudiante relaciona calor, cambio de estado y vapor de agua.'
+                },
+                aplicar: {
+                    title: 'Nivel Aplicar',
+                    prompt: 'Observa un día lluvioso en tu comunidad y describe qué partes del ciclo del agua puedes identificar.',
+                    answer: 'Respuesta esperada: identifica precipitación, acumulación y posible evaporación posterior.'
+                },
+                analizar: {
+                    title: 'Nivel Analizar',
+                    prompt: 'Compara cómo una sequía prolongada y una lluvia intensa afectan distintas fases del ciclo del agua en Puerto Rico.',
+                    answer: 'Respuesta esperada: distingue efectos sobre precipitación, acumulación, escorrentía y disponibilidad de agua.'
+                }
+            };
+            const item = reactivos[level];
+            if (!item) return;
+            display.innerHTML = `
+                <h4>${item.title}</h4>
+                <p><strong>Reactivo:</strong> ${item.prompt}</p>
+                <p><strong>Validación docente:</strong> ${item.answer}</p>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+        });
+    </script>
+    <script type="module" src="scripts/progress-tracker.js"></script>
+    <div id="institutional-footer"></div>
+    <script src="scripts/concept-review.js"></script>
+    <script src="scripts/genially-checkpoint.js"></script>
+    <script type="module" src="scripts/institutional-footer.js"></script>
+</body>
+
+</html>

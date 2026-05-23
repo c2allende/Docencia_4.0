@@ -1,0 +1,353 @@
+{
+  "modulo1_intro.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "modulo1_intro_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "Visual",
+      "sev": "Media",
+      "desc": "H1 tiene tamaño 30px, esperado 36px o 48px (tokens text-4xl o text-5xl)",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion1_1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion1_1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion1_2.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion1_2_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion1_3.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion1_3_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "actividad1_1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "actividad1_1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "actividad1_2.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "actividad1_2_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "foro_modulo1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 7 elementos con estilos inline (hardcoded). Ej: <div class=\"alert\" style=\"background-color: #fff3c | <p style=\"margin: 0;\">⚠️ Debes iniciar sesión para | <div id=\"access-blocked-overlay\" role=\"alert\" aria",
+      "evidence": "foro_modulo1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "recursos_m1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "recursos_m1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "modulo2_intro.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "modulo2_intro_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "Visual",
+      "sev": "Media",
+      "desc": "H1 tiene tamaño 30px, esperado 36px o 48px (tokens text-4xl o text-5xl)",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion2_1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion2_1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion2_2.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion2_2_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion2_3.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 6 elementos con estilos inline (hardcoded). Ej: <div id=\"outputContent\" class=\"diff-output-content | <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid",
+      "evidence": "leccion2_3_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "actividad2_1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "actividad2_1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "foro_modulo2.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 7 elementos con estilos inline (hardcoded). Ej: <div class=\"alert\" style=\"background-color: #fff3c | <p style=\"margin: 0;\">⚠️ Debes iniciar sesión para | <div id=\"access-blocked-overlay\" role=\"alert\" aria",
+      "evidence": "foro_modulo2_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "recursos_m2.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "evidence": "recursos_m2_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    }
+  ],
+  "modulo3_intro.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "modulo3_intro_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "Visual",
+      "sev": "Media",
+      "desc": "H1 tiene tamaño 30px, esperado 36px o 48px (tokens text-4xl o text-5xl)",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion3_1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion3_1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion3_2.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 7 elementos con estilos inline (hardcoded). Ej: <textarea class=\"feedback-field\" id=\"achievements\" | <textarea class=\"feedback-field\" id=\"challenges\" r | <div id=\"access-blocked-overlay\" role=\"alert\" aria",
+      "evidence": "leccion3_2_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion3_3.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion3_3_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "leccion3_4.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "leccion3_4_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "actividad3_1.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 5 elementos con estilos inline (hardcoded). Ej: <div id=\"access-blocked-overlay\" role=\"alert\" aria | <div style=\"font-size:3rem;line-height:1\" aria-hid | <h1 style=\"margin:0;font-size:1.5rem;font-weight:8",
+      "evidence": "actividad3_1_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "foro_modulo3.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 7 elementos con estilos inline (hardcoded). Ej: <div class=\"alert\" style=\"background-color: #fff3c | <p style=\"margin: 0;\">⚠️ Debes iniciar sesión para | <div id=\"access-blocked-overlay\" role=\"alert\" aria",
+      "evidence": "foro_modulo3_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    },
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "viewport": "Desktop"
+    }
+  ],
+  "recursos_m3.html": [
+    {
+      "cat": "CSS/tokens",
+      "sev": "Media",
+      "desc": "Se encontraron 2 bloques <style> locales.",
+      "evidence": "recursos_m3_desktop_hallazgo01.png",
+      "viewport": "Desktop"
+    }
+  ]
+}

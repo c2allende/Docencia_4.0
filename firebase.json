@@ -10,7 +10,15 @@
       "**/design/**",
       "**/raw_assets/**",
       "**/*.zip",
-      "**/*.psd"
+      "**/*.psd",
+      "_archivo_no_oficiales/**",
+      "QA_Auditoria_Forense_Diseno/**",
+      "**/*.bak",
+      "**/*.bak.*",
+      "*_prototype.html",
+      "*prototype*.html",
+      "**/docs/**",
+      "**/scratch/**"
     ],
     "headers": [
       {
