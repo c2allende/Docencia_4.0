@@ -14,8 +14,8 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     const body = document.body;
-    const pageId = body.getAttribute('data-page-id');
-    const moduleId = body.getAttribute('data-module-id');
+    const pageId = body.dataset?.pageId || document.documentElement.dataset?.pageId;
+    const moduleId = body.dataset?.moduleId || document.documentElement.dataset?.moduleId;
     const pageType = body.getAttribute('data-page-type');
     const title = body.getAttribute('data-title');
     const url = window.location.pathname.split('/').pop();
@@ -23,7 +23,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log("[ProgressTracker] Datos de página detectados:", { pageId, moduleId, pageType, title });
 
     if (!pageId || !moduleId) {
-        console.error("[ProgressTracker] Error: Faltan metadatos data-page-id o data-module-id en <body>");
+        console.warn("[ProgressTracker] data-page-id o data-module-id no encontrado. El progreso no se registrará para esta página.");
         return;
     }
 

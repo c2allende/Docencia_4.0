@@ -71,7 +71,7 @@ onAuthStateChanged(auth, async (user) => {
         console.log("[AUTH_GUARD] profile result", profile);
 
         if (!profile) {
-            console.error("[AUTH_GUARD] Perfil inaccesible o inexistente. UID:", user.uid);
+            console.warn("[AUTH_GUARD] Perfil inaccesible o inexistente. UID:", user.uid);
             sessionStorage.removeItem("registration_just_completed"); // Limpieza por seguridad
             await signOut(auth);
             sessionStorage.setItem("auth_redirect_message", "No pudimos confirmar tu perfil en este momento. Intenta iniciar sesión nuevamente o comunícate con el administrador.");

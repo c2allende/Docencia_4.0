@@ -1,4 +1,5 @@
-import { auth } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
+import { collection, query, getDocs, writeBatch } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { getAdminForumPosts, getAdminPostReplies, moderatePost, moderateReply, getForumExportData, buildForumExportRows, exportToCSV, logForumExportAction, getArchivedForumRecordsCount, purgeArchivedForumRecords, archiveLiveRepliesForArchivedPosts } from './forum-service.js';
 
 class AdminForosHandler {
@@ -58,6 +59,9 @@ class AdminForosHandler {
         document.getElementById('openPurgeModalBtn')?.addEventListener('click', () => this.openPurgeModal());
         document.getElementById('cancelPurgeBtn')?.addEventListener('click', () => this.closePurgeModal());
         document.getElementById('confirmPurgeBtn')?.addEventListener('click', () => this.executePurge());
+
+        // Board Act 1.1 event
+        document.getElementById('btnCleanBoardAct11')?.addEventListener('click', (e) => this.handleClearBoardAct11(e));
     }
 
     async loadPosts() {
@@ -483,6 +487,54 @@ class AdminForosHandler {
         } finally {
             btn.disabled = false;
             btn.textContent = 'Generar CSV';
+        }
+    }
+
+    async handleClearBoardAct11(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        const confirmed = window.confirm(
+            '¿Confirmas que deseas limpiar el Board de la Actividad 1.1? Esta acción eliminará los comentarios interactivos y no se puede deshacer.'
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const q = query(collection(db, 'sessions/actividad1_1/responses'));
+            const snap = await getDocs(q);
+            
+            if (snap.empty) {
+                const statusEl = document.getElementById('boardAct11Status');
+                if (statusEl) {
+                    statusEl.textContent = 'El Board ya está vacío.';
+                    statusEl.style.color = 'var(--color-feedback-info-on)';
+                }
+                return;
+            }
+
+            const batch = writeBatch(db);
+            snap.docs.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            await batch.commit();
+
+            console.info('[Panel Operativo] Limpieza del Board Act. 1.1 completada.');
+            
+            const statusEl = document.getElementById('boardAct11Status');
+            if (statusEl) {
+                statusEl.textContent = 'Board limpiado correctamente.';
+                statusEl.style.color = 'var(--color-feedback-success-on)';
+            }
+        } catch (error) {
+            console.error('[Panel Operativo] Error al limpiar Board Act. 1.1:', error);
+            const statusEl = document.getElementById('boardAct11Status');
+            if (statusEl) {
+                statusEl.textContent = 'Error al limpiar. Revisa la consola.';
+                statusEl.style.color = 'var(--color-feedback-error)';
+            }
         }
     }
 
