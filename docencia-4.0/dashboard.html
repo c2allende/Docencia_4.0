@@ -671,11 +671,146 @@
   width: 100%;
   max-width: 100%;
 }
+/* =========================================================
+   Dashboard — QA visual: remover sombra solo en secciones principales
+   Aplica únicamente a Programa de Formación y Foro General.
+   Conserva bordes, colores, radios y estructura original.
+   ========================================================= */
+.dashboard-page .intro-container,
+.dashboard-page .forum-general-access {
+  box-shadow: none !important;
+}
+
+/* =========================================================
+   Dashboard — Topbar retraíble sin reflow
+   ========================================================= */
+:root {
+  --dashboard-banner-peek-height: 52px;
+  --dashboard-banner-peek-opacity: 0.92;
+}
+.dashboard-scroll-shell {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  pointer-events: none;
+  /* Absorbe el margen inferior original de dashboard-header para mantener espaciado */
+  margin-bottom: var(--spacing-lg, 24px); 
+}
+
+.dashboard-scroll-banner {
+  pointer-events: auto;
+  position: relative !important;
+  top: auto !important;
+  margin-bottom: 0 !important;
+  transform: translateY(0);
+  transition:
+    transform var(--motion-duration-default, 220ms) var(--motion-easing-standard, ease),
+    box-shadow var(--motion-duration-default, 220ms) var(--motion-easing-standard, ease) !important;
+  will-change: transform;
+}
+
+.dashboard-scroll-banner.is-retracted {
+  transform: translateY(calc(-100% + var(--dashboard-banner-peek-height, 52px)));
+  opacity: var(--dashboard-banner-peek-opacity, 0.92);
+}
+
+.dashboard-scroll-banner.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.dashboard-scroll-banner.is-elevated {
+  box-shadow: var(--shadow-md, 0 10px 24px rgba(15, 23, 42, 0.12)) !important;
+}
+
+.dashboard-banner-peek {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--dashboard-banner-peek-height, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3, 0.75rem);
+  padding: 0 var(--spacing-md, 1rem);
+  color: rgba(255, 255, 255, 0.92);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 96, 116, 0.82),
+      rgba(0, 188, 232, 0.74)
+    );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--motion-duration-default, 220ms) var(--motion-easing-standard, ease),
+    transform var(--motion-duration-default, 220ms) var(--motion-easing-standard, ease);
+  pointer-events: none;
+}
+
+.dashboard-scroll-banner.is-retracted .dashboard-banner-peek {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dashboard-banner-peek-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md, 0.75rem);
+  background: rgba(255, 255, 255, 0.92);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.dashboard-banner-peek-logo img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.dashboard-banner-peek-title {
+  font-family: var(--font-family-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --dashboard-banner-peek-height: 48px;
+  }
+
+  .dashboard-banner-peek-title {
+    font-size: 0.85rem;
+  }
+
+  .dashboard-banner-peek-logo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .dashboard-banner-peek-logo img {
+    width: 20px;
+    height: 20px;
+  }
+}
 </style>
 </head>
 
 <body class="dashboard-page">
-    <header class="dashboard-header">
+    <div class="dashboard-scroll-shell" id="dashboardScrollShell">
+        <header class="dashboard-header dashboard-scroll-banner" id="dashboardScrollBanner">
         <div class="container header-content">
             <div class="brand-block">
                 <img data-assets="LLM_Docencia_4.0_logo.png" src="assets/LLM_Docencia_4.0_logo.png"
@@ -700,7 +835,14 @@
                 <a id="adminDashboardLink" href="admin_dashboard.html" style="display: none; color: var(--color-brand-secondary); font-weight: var(--font-weight-bold); text-decoration: none; font-size: var(--font-size-sm); align-items: center; gap: var(--spacing-2);">🛠 Panel Operativo</a>
             </nav>
         </div>
-    </header>
+        <div class="dashboard-banner-peek" aria-hidden="true">
+          <span class="dashboard-banner-peek-logo">
+            <img src="assets/LLM_Docencia_4.0_logo.png" alt="">
+          </span>
+          <span class="dashboard-banner-peek-title">Academia Docencia 4.0</span>
+        </div>
+        </header>
+    </div>
 
     <nav class="quick-module-nav-wrap" aria-label="Acceso rápido a módulos">
         <div class="quick-module-nav">
@@ -1070,17 +1212,65 @@
             document.querySelectorAll('img[data-assets], img[data-asset]').forEach(resolveAssetPath);
             renderDashboard();
 
-            // Manejo de scroll para header sticky
-            const header = document.querySelector('.dashboard-header');
-            if (header) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 20) {
-                        header.classList.add('is-scrolled');
-                    } else {
-                        header.classList.remove('is-scrolled');
+            // Arquitectura de dos capas: shell estable + banner retraíble
+            (function initDashboardRetractableBanner() {
+                const banner = document.getElementById('dashboardScrollBanner');
+                if (!banner) return;
+
+                let lastScrollY = window.scrollY;
+                let ticking = false;
+                let isRetracted = false;
+
+                const MIN_DELTA = 8;
+                const RETRACT_AFTER = 120;
+                const SHOW_AT_TOP = 32;
+
+                function setRetracted(nextState) {
+                    if (nextState === isRetracted) return;
+                    isRetracted = nextState;
+                    banner.classList.toggle('is-retracted', isRetracted);
+                    banner.classList.toggle('is-visible', !isRetracted);
+                }
+
+                function updateBanner() {
+                    const currentY = window.scrollY;
+                    const delta = currentY - lastScrollY;
+                    const absDelta = Math.abs(delta);
+
+                    banner.classList.toggle('is-elevated', currentY > SHOW_AT_TOP);
+
+                    if (currentY <= SHOW_AT_TOP) {
+                        setRetracted(false);
+                        lastScrollY = currentY;
+                        ticking = false;
+                        return;
+                    }
+
+                    if (absDelta < MIN_DELTA) {
+                        ticking = false;
+                        return;
+                    }
+
+                    if (delta > 0 && currentY > RETRACT_AFTER) {
+                        setRetracted(true);
+                    } else if (delta < 0) {
+                        setRetracted(false);
+                    }
+
+                    lastScrollY = currentY;
+                    ticking = false;
+                }
+
+                window.addEventListener('scroll', function handleDashboardScroll() {
+                    if (!ticking) {
+                        window.requestAnimationFrame(updateBanner);
+                        ticking = true;
                     }
                 }, { passive: true });
-            }
+
+                banner.classList.add('is-visible');
+                updateBanner();
+            })();
 
             // Verificador de acceso administrativo (Carmelo)
             import("./scripts/firebase-config.js").then(config => {
