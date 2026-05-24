@@ -19,6 +19,47 @@ import { httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 // Feature flags obligatorias
 const ENABLE_REAL_EMAIL_BACKEND = false;
 const ENABLE_EMAIL_DRY_RUN_BACKEND = true;
+const MAX_REAL_RECIPIENTS_PER_SEND = 25;
+
+const ADMIN_INTERNAL_EMAIL = 'carmelo.allende@gmail.com';
+
+const ADMIN_INTERNAL_RECIPIENT = {
+  uid: 'admin-carmelo',
+  id: 'admin-carmelo',
+  displayName: 'Administrador',
+  name: 'Administrador',
+  nombre: 'Administrador',
+  email: ADMIN_INTERNAL_EMAIL,
+  role: 'admin',
+  rol: 'admin',
+  isAdminInternal: true,
+  progress: { modulo1: 0, modulo2: 0, modulo3: 0 },
+  forums: { general: false, modulo1: false, modulo2: false, modulo3: false },
+  followUpReason: 'Administrador incluido para pruebas y copia de control'
+};
+
+function getParticipantsWithSingleAdmin(participants = []) {
+  const normalized = Array.isArray(participants) ? [...participants] : [];
+
+  const withoutAdminDuplicates = normalized.filter((participant) => {
+    const email = String(participant.email || '').toLowerCase();
+    const name = String(
+      participant.displayName ||
+      participant.name ||
+      participant.nombre ||
+      ''
+    ).toLowerCase();
+
+    return (
+      email !== ADMIN_INTERNAL_EMAIL &&
+      !name.includes('admin — piloto') &&
+      !name.includes('admin piloto') &&
+      !name.includes('carmelo allende (admin')
+    );
+  });
+
+  return [ADMIN_INTERNAL_RECIPIENT, ...withoutAdminDuplicates];
+}
 
 const LMS_LINK = 'https://docencia-4-lms.web.app/dashboard.html';
 const INVESTIGATOR_EMAIL = 'carmelo.allende@upr.edu';
@@ -127,6 +168,12 @@ Equipo Docencia 4.0`
     }
 };
 
+function extractEmailFromParticipantInput(value = '') {
+  const normalized = String(value || '').trim();
+  const emailMatch = normalized.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+  return emailMatch ? emailMatch[0].toLowerCase() : '';
+}
+
 let allParticipants = [];
 let filteredParticipants = [];
 let adminEmail = "";
@@ -209,6 +256,7 @@ function setupEventListeners() {
     dom.messageTemplate.addEventListener('change', applyMessageTemplate);
     dom.btnPreviewCommunication.addEventListener('click', renderCommunicationPreview);
     dom.btnSimulateCommunication.addEventListener('click', simulateAndLogCommunication);
+    dom.btnSimulateCommunication.innerHTML = '<i class="material-icons">send</i> Enviar Comunicación Real / Simular';
     dom.btnClearCommunicationForm.addEventListener('click', clearCommunicationForm);
     
     dom.communicationMode.addEventListener('change', () => {
@@ -315,6 +363,7 @@ async function loadRegisteredParticipants() {
                 forums: foros
             });
         }
+        allParticipants = getParticipantsWithSingleAdmin(allParticipants);
         populateParticipantDatalist(allParticipants);
         dom.recipientSummary.textContent = `Se cargaron ${allParticipants.length} participantes activos.`;
     } catch (error) {
@@ -328,31 +377,16 @@ function populateParticipantDatalist(participants) {
     if (!datalist) return;
     datalist.innerHTML = '';
 
-    // ── ADMIN VIRTUAL ENTRY ──────────────────────────────────────────────────
-    // Siempre inyectar al administrador como opción para el piloto admin-only.
-    // Este entry no representa un participante real; es para pruebas controladas.
-    const ADMIN_TEST_ENTRY = {
-        uid: 'admin-carmelo-test',
-        email: 'carmelo.allende@gmail.com',
-        displayName: 'Carmelo Allende (Admin — Piloto)'
-    };
-    const adminOption = document.createElement('option');
-    adminOption.value = `${ADMIN_TEST_ENTRY.displayName} — ${ADMIN_TEST_ENTRY.email}`;
-    adminOption.dataset.uid   = ADMIN_TEST_ENTRY.uid;
-    adminOption.dataset.email = ADMIN_TEST_ENTRY.email;
-    adminOption.dataset.name  = ADMIN_TEST_ENTRY.displayName;
-    datalist.appendChild(adminOption);
-    // ─────────────────────────────────────────────────────────────────────────
-
     participants.forEach((participant) => {
         const option = document.createElement('option');
         const displayName = participant.displayName || 'Participante sin nombre visible';
         const email = participant.email || '';
 
         option.value = `${displayName} — ${email}`;
-        option.dataset.uid = participant.uid || '';
+        option.dataset.uid = participant.uid || participant.id || '';
         option.dataset.email = email;
         option.dataset.name = displayName;
+        option.dataset.isAdminInternal = participant.isAdminInternal ? 'true' : 'false';
 
         datalist.appendChild(option);
     });
@@ -360,38 +394,70 @@ function populateParticipantDatalist(participants) {
 
 
 function resolveSelectedParticipant() {
-    const input = dom.participantSearch;
-    const uidInput = dom.selectedParticipantUid;
-    const emailInput = dom.selectedParticipantEmail;
-    const nameInput = dom.selectedParticipantName;
-    const datalist = document.getElementById('participantOptions');
+  const input = dom.participantSearch;
+  const uidInput = dom.selectedParticipantUid;
+  const emailInput = dom.selectedParticipantEmail;
+  const nameInput = dom.selectedParticipantName;
+  const datalist = document.getElementById('participantOptions');
 
-    if (!input || !datalist) return null;
+  if (!input) return null;
 
-    const typedValue = input.value.trim();
+  const typedValue = String(input.value || '').trim();
+  const typedEmail = extractEmailFromParticipantInput(typedValue);
 
+  let resolved = null;
+
+  // Strategy 1: exact match against datalist option value
+  if (datalist) {
     const selectedOption = Array.from(datalist.options).find(
-        (option) => option.value === typedValue
+      (option) => String(option.value || '').trim() === typedValue
     );
-
-    if (!selectedOption) {
-        if (uidInput) uidInput.value = '';
-        if (emailInput) emailInput.value = '';
-        if (nameInput) nameInput.value = '';
-        return null;
+    if (selectedOption) {
+      resolved = {
+        uid: selectedOption.dataset.uid || '',
+        email: String(selectedOption.dataset.email || '').toLowerCase(),
+        displayName: selectedOption.dataset.name || '',
+        isAdminInternal: selectedOption.dataset.isAdminInternal === 'true'
+      };
     }
+  }
 
-    const participant = {
-        uid: selectedOption.dataset.uid,
-        email: selectedOption.dataset.email,
-        displayName: selectedOption.dataset.name
-    };
+  // Strategy 2: resolve by email extracted from input
+  if (!resolved && typedEmail) {
+    if (typedEmail === ADMIN_INTERNAL_EMAIL) {
+      resolved = { ...ADMIN_INTERNAL_RECIPIENT };
+    } else {
+      const byEmail = (allParticipants || []).find(
+        (p) => String(p.email || '').toLowerCase() === typedEmail
+      );
+      if (byEmail) {
+        resolved = {
+          uid: byEmail.uid || '',
+          email: String(byEmail.email || '').toLowerCase(),
+          displayName: byEmail.displayName || '',
+          isAdminInternal: byEmail.isAdminInternal === true
+        };
+      }
+    }
+  }
 
-    if (uidInput) uidInput.value = participant.uid;
-    if (emailInput) emailInput.value = participant.email;
-    if (nameInput) nameInput.value = participant.displayName;
+  // Strategy 3: fuzzy name match for admin
+  if (!resolved && (typedValue.toLowerCase().includes('administrador') || typedValue.toLowerCase() === 'admin')) {
+    resolved = { ...ADMIN_INTERNAL_RECIPIENT };
+  }
 
-    return participant;
+  if (!resolved) {
+    if (uidInput) uidInput.value = '';
+    if (emailInput) emailInput.value = '';
+    if (nameInput) nameInput.value = '';
+    return null;
+  }
+
+  if (uidInput) uidInput.value = resolved.uid || '';
+  if (emailInput) emailInput.value = resolved.email || '';
+  if (nameInput) nameInput.value = resolved.displayName || '';
+
+  return resolved;
 }
 
 function validateIndividualSelectionIfNeeded() {
@@ -495,9 +561,25 @@ async function applyCommunicationFilters() {
 
     const mode = dom.communicationMode.value;
     const selectedUid = dom.selectedParticipantUid.value;
+    const selectedEmail = dom.selectedParticipantEmail.value;
     const progFilter = dom.progressFilter.value;
     const forumFilter = dom.forumFilter.value;
     const padletFilter = dom.padletFilter.value;
+
+    // Direct path for admin: bypass Firestore-based progress/forum filtering
+    if (mode === 'individual' && (
+      selectedUid === ADMIN_INTERNAL_RECIPIENT.uid ||
+      String(selectedEmail || '').toLowerCase() === ADMIN_INTERNAL_EMAIL
+    )) {
+      filteredParticipants = [{ ...ADMIN_INTERNAL_RECIPIENT }];
+      renderRecipientsTable();
+      dom.recipientSummary.textContent = 'Mostrando 1 participante que coincide con los filtros.';
+      if (filteredParticipants.length > 0) {
+        const cb = document.querySelector('.recipient-checkbox');
+        if (cb) cb.checked = true;
+      }
+      return;
+    }
     
     let baseParticipants = allParticipants;
     
@@ -688,24 +770,28 @@ function renderCommunicationPreview() {
 // ==========================================
 
 function requireCommunicationConfirmation(recipientCount) {
-    const isRealEmailEnabled = window.ENABLE_REAL_EMAIL_BACKEND === true;
+    if (recipientCount === 0) {
+        return null;
+    }
 
-    if (isRealEmailEnabled) {
-        const confirmed = window.confirm(
-            `Está a punto de enviar una comunicación REAL (Fase: admin-only test) a ${recipientCount} participante(s).\n\n¿Desea continuar con el envío real al backend?`
-        );
-        if (!confirmed) return false;
+    const typed = window.prompt(
+        `Está a punto de procesar una comunicación para ${recipientCount} participante(s).\n\n` +
+        `Opciones:\n` +
+        `- Para registrar en modo simulado, escriba: COMUNICAR\n` +
+        `- Para enviar los correos por email, escriba: ENVIAR REAL\n\n` +
+        `⚠️ ADVERTENCIA: Esta acción enviará correos reales a los destinatarios seleccionados. Verifique cuidadosamente la lista antes de continuar.`
+    );
 
-        const typed = window.prompt('Para confirmar el envío real, escriba ENVIAR REAL en mayúsculas.');
-        return typed === 'ENVIAR REAL';
+    if (typed === 'ENVIAR REAL') {
+        if (recipientCount > MAX_REAL_RECIPIENTS_PER_SEND) {
+            alert(`Error: No puede enviar correos reales a más de ${MAX_REAL_RECIPIENTS_PER_SEND} participantes a la vez.`);
+            return null;
+        }
+        return 'real';
+    } else if (typed === 'COMUNICAR') {
+        return 'simulated';
     } else {
-        const confirmed = window.confirm(
-            `Está a punto de registrar una comunicación para ${recipientCount} participante(s).\n\nEn este prototipo, NO se enviarán emails reales.\n\n¿Desea continuar con el registro simulado?`
-        );
-        if (!confirmed) return false;
-
-        const typed = window.prompt('Para confirmar, escriba COMUNICAR en mayúsculas.');
-        return typed === 'COMUNICAR';
+        return null;
     }
 }
 
@@ -720,8 +806,9 @@ async function simulateAndLogCommunication() {
     if (selected.length === 0) return alert("Seleccione destinatarios de la tabla.");
     if (!subject || !body) return alert("El asunto y el mensaje son obligatorios.");
 
-    if (!requireCommunicationConfirmation(selected.length)) {
-        alert("Acción cancelada. No se registró ninguna comunicación.");
+    const execMode = requireCommunicationConfirmation(selected.length);
+    if (!execMode) {
+        alert("Acción cancelada. No se registró ninguna comunicación ni se enviaron correos.");
         return;
     }
 
@@ -731,8 +818,9 @@ async function simulateAndLogCommunication() {
 
     const commData = {
         type: dom.communicationMode.value,
-        mode: "simulada",
-        status: "simulated",
+        mode: execMode === 'real' ? "real_participant_send" : "simulada",
+        status: execMode === 'real' ? "real_send_pending" : "simulated",
+        realSendPhase: execMode === 'real' ? "participants_controlled" : null,
         subject: subject,
         messageBodyTemplate: body,
         messageBodyPreview: htmlPersonalizedBody,
@@ -765,17 +853,25 @@ async function simulateAndLogCommunication() {
 
     try {
         const docRef = await addDoc(collection(db, "comunicaciones"), commData);
-        let alertMessage = `Comunicación simulada registrada exitosamente para ${selected.length} participante(s).`;
+        let alertMessage = `Comunicación registrada exitosamente. ID: ${docRef.id}`;
 
-        if (ENABLE_EMAIL_DRY_RUN_BACKEND || window.ENABLE_REAL_EMAIL_BACKEND) {
-            const modeName = window.ENABLE_REAL_EMAIL_BACKEND ? "envío real (admin-only)" : "backend dry-run";
-            alertMessage += `\nLlamando a ${modeName}...`;
+        if (execMode === 'real') {
+            alertMessage += `\nLlamando a envío real de correos...`;
             try {
-                await requestBackendDryRun(docRef.id);
-                alertMessage += `\n✅ ${modeName} procesado correctamente.`;
+                await requestBackendDryRun(docRef.id, false);
+                alertMessage += `\n✅ Envío real procesado correctamente.`;
             } catch (backendError) {
-                console.error(`Error en ${modeName}:`, backendError);
-                alertMessage += `\n❌ Error en ${modeName}: ${backendError.message}`;
+                console.error(`Error en envío real:`, backendError);
+                alertMessage += `\n❌ Error en envío real: ${backendError.message}`;
+            }
+        } else if (ENABLE_EMAIL_DRY_RUN_BACKEND) {
+            alertMessage += `\nLlamando a backend dry-run...`;
+            try {
+                await requestBackendDryRun(docRef.id, true);
+                alertMessage += `\n✅ Backend dry-run procesado correctamente.`;
+            } catch (backendError) {
+                console.error(`Error en backend dry-run:`, backendError);
+                alertMessage += `\n❌ Error en backend dry-run: ${backendError.message}`;
             }
         }
 
@@ -788,19 +884,12 @@ async function simulateAndLogCommunication() {
     }
 }
 
-async function requestBackendDryRun(communicationId) {
-    const isRealEmailEnabled = window.ENABLE_REAL_EMAIL_BACKEND === true;
-
-    if (!isRealEmailEnabled && !ENABLE_EMAIL_DRY_RUN_BACKEND) {
-        console.info('[Comunicaciones] Backend deshabilitado. Manteniendo simulación local únicamente.');
-        return null;
-    }
-
+async function requestBackendDryRun(communicationId, isDryRun) {
     const sendCommunicationEmail = httpsCallable(functionsClient, 'sendCommunicationEmail');
 
     return await sendCommunicationEmail({
         communicationId,
-        dryRun: !isRealEmailEnabled 
+        dryRun: isDryRun 
     });
 }
 

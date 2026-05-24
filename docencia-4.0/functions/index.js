@@ -16,13 +16,15 @@ const db = admin.firestore();
 
 const sgMail = require('@sendgrid/mail');
 
-const REAL_EMAIL_PHASE = 'admin_test_only'; // Fase 6
-const ENABLE_PARTICIPANT_REAL_SEND = false; // Kill switch backend
+const REAL_EMAIL_PHASE = 'participants_controlled';
+const ENABLE_PARTICIPANT_REAL_SEND = true;
+const MAX_REAL_RECIPIENTS_PER_SEND = 25;
 
 async function sendEmailThroughProvider({ to, subject, html, text, replyTo }) {
   const apiKey = SENDGRID_API_KEY.value();
-  const fromAddress = EMAIL_FROM_ADDRESS.value();
-  const fromName = EMAIL_FROM_NAME.value() || 'Docencia 4.0';
+  // Strip whitespace and invisible BOM characters that might have been injected by PowerShell
+  const fromAddress = (EMAIL_FROM_ADDRESS.value() || '').replace(/^\uFEFF/, '').trim();
+  const fromName = (EMAIL_FROM_NAME.value() || 'Docencia 4.0').replace(/^\uFEFF/, '').trim();
 
   if (!apiKey || !fromAddress) {
     throw new Error('Email provider secrets are not configured.');
@@ -38,9 +40,14 @@ async function sendEmailThroughProvider({ to, subject, html, text, replyTo }) {
     },
     subject,
     text,
-    html,
-    replyTo
+    html
   };
+
+  if (replyTo && replyTo.trim() !== '') {
+    message.replyTo = replyTo;
+  }
+
+  console.log("SENDGRID PAYLOAD:", JSON.stringify(message, null, 2));
 
   const response = await sgMail.send(message);
 
@@ -51,47 +58,45 @@ async function sendEmailThroughProvider({ to, subject, html, text, replyTo }) {
   };
 }
 
-function assertAdminOnlyRealTest({ dryRun, recipients, callerEmail }) {
-  if (dryRun) return;
-
-  const allowedAdminEmails = new Set([
-    callerEmail,
-    'carmelo.allende@gmail.com'
-  ].filter(Boolean));
-
-  if (REAL_EMAIL_PHASE !== 'admin_test_only') {
-    throw new HttpsError('failed-precondition', 'Real email phase is not enabled.');
+function assertParticipantRealSendAllowed({ recipients, callerEmail }) {
+  if (!ENABLE_PARTICIPANT_REAL_SEND) {
+    throw new HttpsError(
+      'failed-precondition',
+      'El envío real a participantes no está habilitado.'
+    );
   }
 
-  if (!Array.isArray(recipients) || recipients.length !== 1) {
-    throw new HttpsError('failed-precondition', 'Real email test requires exactly one recipient.');
+  if (REAL_EMAIL_PHASE !== 'participants_controlled') {
+    throw new HttpsError(
+      'failed-precondition',
+      'La fase actual no permite envío real a participantes.'
+    );
   }
 
-  const recipientEmail = String(recipients[0]?.email || '').toLowerCase();
-  const allowed = Array.from(allowedAdminEmails)
-    .map((email) => String(email || '').toLowerCase())
-    .includes(recipientEmail);
-
-  if (!allowed) {
-    throw new HttpsError('permission-denied', 'Real email test is restricted to administrator email only.');
+  if (!Array.isArray(recipients) || recipients.length === 0) {
+    throw new HttpsError(
+      'failed-precondition',
+      'No hay destinatarios válidos para enviar.'
+    );
   }
-}
 
-function assertNoUnexpectedParticipantSend({ recipients, allowParticipantSend }) {
-  if (!allowParticipantSend) {
-    const nonAdminRecipients = recipients.filter((recipient) => {
-      const email = String(recipient.email || '').toLowerCase();
-      return ![
-        'carmelo.allende@gmail.com'
-      ].includes(email);
-    });
+  if (recipients.length > MAX_REAL_RECIPIENTS_PER_SEND) {
+    throw new HttpsError(
+      'failed-precondition',
+      `El máximo permitido por envío es ${MAX_REAL_RECIPIENTS_PER_SEND} destinatarios.`
+    );
+  }
 
-    if (nonAdminRecipients.length > 0) {
-      throw new HttpsError(
-        'failed-precondition',
-        'El envío real a participantes no está autorizado en esta fase.'
-      );
-    }
+  const invalidEmails = recipients.filter((recipient) => {
+    const email = String(recipient.email || '').trim();
+    return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  });
+
+  if (invalidEmails.length > 0) {
+    throw new HttpsError(
+      'failed-precondition',
+      'Hay destinatarios con emails inválidos.'
+    );
   }
 }
 
@@ -172,18 +177,8 @@ exports.sendCommunicationEmail = onCall(
     );
   }
 
-  // Verificación estricta de Fase 9
-  assertAdminOnlyRealTest({
-    dryRun,
-    recipients,
-    callerEmail
-  });
-
   if (!dryRun) {
-    assertNoUnexpectedParticipantSend({
-      recipients,
-      allowParticipantSend: ENABLE_PARTICIPANT_REAL_SEND
-    });
+    assertParticipantRealSendAllowed({ recipients, callerEmail });
   }
 
   const replyToResearcher = process.env.EMAIL_REPLY_TO_RESEARCHER || 'carmelo.allende@upr.edu';
@@ -195,8 +190,7 @@ exports.sendCommunicationEmail = onCall(
   const batch = db.batch();
 
   batch.update(communicationRef, {
-    mode: dryRun ? 'dry_run' : 'real_admin_test',
-    status: dryRun ? 'dry_run_completed' : 'real_admin_test_sent',
+    mode: dryRun ? 'dry_run' : 'real_participant_send',
     realSendPhase: dryRun ? null : REAL_EMAIL_PHASE,
     backendRequestedAt: admin.firestore.FieldValue.serverTimestamp(),
     backendRequestedByUid: callerUid,
@@ -215,41 +209,52 @@ exports.sendCommunicationEmail = onCall(
         status: 'dry_run'
       });
     }
+    batch.update(communicationRef, { status: 'dry_run_completed' });
   } else {
-    // Fase 10 & 11 - Construcción segura del mensaje y envío real
-    const recipient = recipients[0];
-    try {
-      const emailResult = await sendEmailThroughProvider({
-        to: recipient.email,
-        subject: communication.subject || 'Prueba',
-        html: communication.messageBodyPreview || communication.messageBodyTemplate,
-        text: communication.messageBodyRaw || communication.messageBodyTemplate,
-        replyTo: replyTo[0] // SendGrid sólo acepta un solo email o un objeto en v3
-      });
+    let sentCount = 0;
+    let failedCount = 0;
 
-      results.push({
-        uid: recipient.uid || null,
-        email: recipient.email || null,
-        displayName: recipient.displayName || '',
-        status: 'sent_test',
-        provider: emailResult.provider,
-        messageId: emailResult.messageId,
-        sentAt: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error("Email send failed:", error);
-      batch.update(communicationRef, {
-        status: 'real_admin_test_failed'
-      });
-      results.push({
-        uid: recipient.uid || null,
-        email: recipient.email || null,
-        displayName: recipient.displayName || '',
-        status: 'failed',
-        errorCode: 'provider_error',
-        errorMessage: 'El envío real de prueba falló. Revise los secretos.'
-      });
+    for (const recipient of recipients) {
+      try {
+        const emailResult = await sendEmailThroughProvider({
+          to: recipient.email,
+          subject: communication.subject || 'Comunicación Docencia 4.0',
+          html: communication.messageBodyPreview || communication.messageBodyTemplate,
+          text: communication.messageBodyRaw || communication.messageBodyTemplate,
+          replyTo: replyTo[0] 
+        });
+
+        results.push({
+          uid: recipient.uid || null,
+          email: recipient.email || null,
+          displayName: recipient.displayName || '',
+          status: 'sent',
+          provider: emailResult.provider,
+          messageId: emailResult.messageId,
+          sentAt: new Date().toISOString()
+        });
+        sentCount++;
+      } catch (error) {
+        console.error(`Email send failed for ${recipient.email}:`, error);
+        results.push({
+          uid: recipient.uid || null,
+          email: recipient.email || null,
+          displayName: recipient.displayName || '',
+          status: 'failed',
+          errorCode: 'provider_error',
+          errorMessage: error.message
+        });
+        failedCount++;
+      }
     }
+
+    let finalStatus = 'real_send_sent';
+    if (failedCount > 0 && sentCount > 0) finalStatus = 'real_send_partial';
+    else if (failedCount > 0 && sentCount === 0) finalStatus = 'real_send_failed';
+
+    batch.update(communicationRef, {
+      status: finalStatus
+    });
   }
 
   batch.update(communicationRef, {
