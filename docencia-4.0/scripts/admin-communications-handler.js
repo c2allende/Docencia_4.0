@@ -203,6 +203,8 @@ const dom = {
     forumFilter: document.getElementById('forumFilter'),
     padletFilter: document.getElementById('padletFilter'),
     btnApplyCommunicationFilters: document.getElementById('btnApplyCommunicationFilters'),
+    recipientSummary: document.getElementById('recipientSummary'),
+    recipientsTableBody: document.getElementById('recipientsTableBody'),
     btnSelectAllRecipients: document.getElementById('btnSelectAllRecipients'),
     btnClearRecipientSelection: document.getElementById('btnClearRecipientSelection'),
     messageTemplate: document.getElementById('messageTemplate'),
