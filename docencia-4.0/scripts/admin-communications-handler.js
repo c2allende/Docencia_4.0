@@ -13,6 +13,12 @@ import {
     limit 
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAllParticipantsProgress } from "./progress-service.js"; 
+import { functionsClient } from "./firebase-functions-client.js";
+import { httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
+
+// Feature flags obligatorias
+const ENABLE_REAL_EMAIL_BACKEND = false;
+const ENABLE_EMAIL_DRY_RUN_BACKEND = true;
 
 const LMS_LINK = 'https://docencia-4-lms.web.app/dashboard.html';
 const INVESTIGATOR_EMAIL = 'carmelo.allende@upr.edu';
@@ -730,14 +736,41 @@ async function simulateAndLogCommunication() {
     };
 
     try {
-        await addDoc(collection(db, "comunicaciones"), commData);
-        alert(`Comunicación simulada registrada exitosamente para ${selected.length} participante(s).`);
+        const docRef = await addDoc(collection(db, "comunicaciones"), commData);
+        let alertMessage = `Comunicación simulada registrada exitosamente para ${selected.length} participante(s).`;
+
+        if (ENABLE_EMAIL_DRY_RUN_BACKEND) {
+            alertMessage += `\nLlamando a backend dry-run...`;
+            try {
+                await requestBackendDryRun(docRef.id);
+                alertMessage += `\n✅ Backend dry-run procesado correctamente.`;
+            } catch (backendError) {
+                console.error("Error en backend dry-run:", backendError);
+                alertMessage += `\n❌ Error en backend dry-run: ${backendError.message}`;
+            }
+        }
+
+        alert(alertMessage);
         clearCommunicationForm();
         loadRecentCommunicationLogs();
     } catch (error) {
         console.error("Error registrando comunicación:", error);
         alert("Ocurrió un error al registrar la comunicación simulada.");
     }
+}
+
+async function requestBackendDryRun(communicationId) {
+    if (!ENABLE_REAL_EMAIL_BACKEND && !ENABLE_EMAIL_DRY_RUN_BACKEND) {
+        console.info('[Comunicaciones] Backend deshabilitado. Manteniendo simulación local únicamente.');
+        return null;
+    }
+
+    const sendCommunicationEmail = httpsCallable(functionsClient, 'sendCommunicationEmail');
+
+    return await sendCommunicationEmail({
+        communicationId,
+        dryRun: true // Siempre true en esta fase
+    });
 }
 
 function clearCommunicationForm() {
