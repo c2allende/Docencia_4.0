@@ -78,13 +78,23 @@ function getParticipantsWithSingleAdmin(participants = []) {
       participant.nombre ||
       ''
     ).toLowerCase();
+    const role = String(participant.role || participant.rol || '').toLowerCase();
 
-    return (
-      email !== ADMIN_INTERNAL_EMAIL &&
-      !name.includes('admin — piloto') &&
-      !name.includes('admin piloto') &&
-      !name.includes('carmelo allende (admin')
-    );
+    const isAdminRole = role === 'admin' || role === 'administrador';
+    const isExplicitAdminName = name.includes('admin') || name.includes('administrador');
+    
+    // Si es un admin (por rol o nombre) Y usa el correo del admin, lo filtramos 
+    // porque ya inyectamos ADMIN_INTERNAL_RECIPIENT.
+    if ((isAdminRole || isExplicitAdminName) && email === ADMIN_INTERNAL_EMAIL) {
+        return false;
+    }
+    
+    // Si es literalmente el usuario "Carmelo Allende (Admin - Piloto)" lo quitamos.
+    if (name.includes('admin — piloto') || name.includes('admin piloto') || name.includes('carmelo allende (admin')) {
+        return false;
+    }
+
+    return true;
   });
 
   return [ADMIN_INTERNAL_RECIPIENT, ...withoutAdminDuplicates];
