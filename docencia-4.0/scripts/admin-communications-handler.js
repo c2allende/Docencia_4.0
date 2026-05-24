@@ -90,9 +90,6 @@ function getParticipantsWithSingleAdmin(participants = []) {
   return [ADMIN_INTERNAL_RECIPIENT, ...withoutAdminDuplicates];
 }
 
-const LMS_LINK = 'https://docencia-4-lms.web.app/dashboard.html';
-const INVESTIGATOR_EMAIL = 'carmelo.allende@upr.edu';
-
 const MESSAGE_TEMPLATES = {
     progressReminder: {
         subject: "Seguimiento cordial — Docencia 4.0",
