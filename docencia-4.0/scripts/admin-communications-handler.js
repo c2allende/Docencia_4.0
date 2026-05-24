@@ -328,6 +328,22 @@ function populateParticipantDatalist(participants) {
     if (!datalist) return;
     datalist.innerHTML = '';
 
+    // ── ADMIN VIRTUAL ENTRY ──────────────────────────────────────────────────
+    // Siempre inyectar al administrador como opción para el piloto admin-only.
+    // Este entry no representa un participante real; es para pruebas controladas.
+    const ADMIN_TEST_ENTRY = {
+        uid: 'admin-carmelo-test',
+        email: 'carmelo.allende@gmail.com',
+        displayName: 'Carmelo Allende (Admin — Piloto)'
+    };
+    const adminOption = document.createElement('option');
+    adminOption.value = `${ADMIN_TEST_ENTRY.displayName} — ${ADMIN_TEST_ENTRY.email}`;
+    adminOption.dataset.uid   = ADMIN_TEST_ENTRY.uid;
+    adminOption.dataset.email = ADMIN_TEST_ENTRY.email;
+    adminOption.dataset.name  = ADMIN_TEST_ENTRY.displayName;
+    datalist.appendChild(adminOption);
+    // ─────────────────────────────────────────────────────────────────────────
+
     participants.forEach((participant) => {
         const option = document.createElement('option');
         const displayName = participant.displayName || 'Participante sin nombre visible';
@@ -341,6 +357,7 @@ function populateParticipantDatalist(participants) {
         datalist.appendChild(option);
     });
 }
+
 
 function resolveSelectedParticipant() {
     const input = dom.participantSearch;
