@@ -619,7 +619,7 @@
                         <div class="form-field">
                             <label for="messageTemplate">Plantilla de mensaje</label>
                             <select id="messageTemplate" class="input">
-                                <option value="">Redactar desde cero</option>
+                                <option value="blank">Redactar desde cero</option>
                                 <option value="progressReminder">Seguimiento cordial por progreso pendiente</option>
                                 <option value="forumReminder">Recordatorio amistoso de participación en foro</option>
                                 <option value="padletReminder">Seguimiento cordial — Evidencia pendiente en Padlet</option>
@@ -658,11 +658,11 @@
                         </div>
 
                         <div class="communication-actions-row" style="flex-direction: column;">
-                            <button type="button" id="btnSimulateCommunication" class="btn-action btn-primary" style="width: 100%;">
-                                Simular y registrar comunicación
+                            <button type="button" id="btnSimulateCommunication" class="btn-action btn-secondary" style="width: 100%;">
+                                Simular comunicación
                             </button>
-                            <button type="button" class="btn-action btn-secondary" disabled aria-disabled="true" style="width: 100%;">
-                                Envío real pendiente de backend seguro
+                            <button type="button" id="btnRealCommunication" class="btn-action btn-primary" style="width: 100%;">
+                                Enviar comunicación real
                             </button>
                         </div>
                     </aside>
@@ -672,8 +672,8 @@
             <!-- SECCIÓN 4: Historial reciente -->
             <section class="page-card communication-section communication-history-section">
                 <div class="section-heading">
-                    <h2>Historial reciente (Simulaciones locales)</h2>
-                    <p>Consulte las últimas comunicaciones registradas durante esta sesión.</p>
+                    <h2>Historial de comunicaciones</h2>
+                    <p>Consulte las comunicaciones registradas desde el panel administrativo.</p>
                 </div>
                 
                 <div id="communicationsHistory">

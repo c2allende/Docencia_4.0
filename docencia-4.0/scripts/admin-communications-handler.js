@@ -7,7 +7,8 @@ import {
     doc,
     query, 
     where, 
-    addDoc, 
+    addDoc,
+    updateDoc, 
     serverTimestamp,
     orderBy,
     limit 
@@ -165,6 +166,19 @@ Gracias nuevamente por su colaboración.
 
 Cordialmente,
 Equipo Docencia 4.0`
+    },
+    blank: {
+        subject: "",
+        body:
+`Puede acceder al LMS desde el siguiente enlace:
+{{lmsLink}}
+
+Si tiene alguna duda, pregunta o sugerencia, puede comunicarse con el investigador al email carmelo.allende@upr.edu.
+
+Gracias por su tiempo y compromiso.
+
+Cordialmente,
+Equipo Docencia 4.0`
     }
 };
 
@@ -189,21 +203,17 @@ const dom = {
     forumFilter: document.getElementById('forumFilter'),
     padletFilter: document.getElementById('padletFilter'),
     btnApplyCommunicationFilters: document.getElementById('btnApplyCommunicationFilters'),
-    
-    recipientSummary: document.getElementById('recipientSummary'),
-    recipientsTableBody: document.getElementById('recipientsTableBody'),
     btnSelectAllRecipients: document.getElementById('btnSelectAllRecipients'),
     btnClearRecipientSelection: document.getElementById('btnClearRecipientSelection'),
-    
     messageTemplate: document.getElementById('messageTemplate'),
     emailSubject: document.getElementById('emailSubject'),
     emailBody: document.getElementById('emailBody'),
     replyToEmails: document.getElementById('replyToEmails'),
     btnPreviewCommunication: document.getElementById('btnPreviewCommunication'),
-    
-    communicationPreview: document.getElementById('communicationPreview'),
     btnSimulateCommunication: document.getElementById('btnSimulateCommunication'),
+    btnRealCommunication: document.getElementById('btnRealCommunication'),
     btnClearCommunicationForm: document.getElementById('btnClearCommunicationForm'),
+    communicationPreview: document.getElementById('communicationPreview'),
     communicationsHistory: document.getElementById('communicationsHistory'),
     btnLogout: document.getElementById('btnLogout')
 };
@@ -255,8 +265,10 @@ function setupEventListeners() {
     dom.btnClearRecipientSelection.addEventListener('click', clearRecipientSelection);
     dom.messageTemplate.addEventListener('change', applyMessageTemplate);
     dom.btnPreviewCommunication.addEventListener('click', renderCommunicationPreview);
-    dom.btnSimulateCommunication.addEventListener('click', simulateAndLogCommunication);
-    dom.btnSimulateCommunication.innerHTML = '<i class="material-icons">send</i> Enviar Comunicación Real / Simular';
+    dom.btnSimulateCommunication.addEventListener('click', () => processCommunication('simulated'));
+    if (dom.btnRealCommunication) {
+        dom.btnRealCommunication.addEventListener('click', () => processCommunication('real'));
+    }
     dom.btnClearCommunicationForm.addEventListener('click', clearCommunicationForm);
     
     dom.communicationMode.addEventListener('change', () => {
@@ -681,12 +693,36 @@ function clearRecipientSelection() {
 
 function applyMessageTemplate() {
     const tplId = dom.messageTemplate.value;
-    if (tplId && MESSAGE_TEMPLATES[tplId]) {
+    if (tplId === 'blank' || tplId === '') {
+        const messageField = dom.emailBody;
+        if (messageField) {
+            const hasUserText = messageField.value.trim().length > 0;
+            if (hasUserText) {
+                const confirmed = window.confirm(
+                    'El campo mensaje ya tiene contenido. ¿Desea reemplazarlo por la plantilla seleccionada?'
+                );
+                if (!confirmed) {
+                    // Revert selection
+                    dom.messageTemplate.value = dom.messageTemplate.dataset.lastValue || '';
+                    return;
+                }
+            }
+        }
+        if (tplId === 'blank') {
+            dom.emailSubject.value = MESSAGE_TEMPLATES.blank.subject;
+            dom.emailBody.value = MESSAGE_TEMPLATES.blank.body;
+        } else {
+            dom.emailSubject.value = "";
+            dom.emailBody.value = "";
+        }
+    } else if (tplId && MESSAGE_TEMPLATES[tplId]) {
         dom.emailSubject.value = MESSAGE_TEMPLATES[tplId].subject;
         dom.emailBody.value = MESSAGE_TEMPLATES[tplId].body;
-    } else {
-        dom.emailSubject.value = "";
-        dom.emailBody.value = "";
+    }
+    
+    dom.messageTemplate.dataset.lastValue = tplId;
+    if (dom.btnPreviewCommunication) {
+        renderCommunicationPreview();
     }
 }
 
@@ -769,33 +805,34 @@ function renderCommunicationPreview() {
 // SIMULACIÓN Y REGISTRO
 // ==========================================
 
-function requireCommunicationConfirmation(recipientCount) {
-    if (recipientCount === 0) {
-        return null;
-    }
+function requireCommunicationConfirmation(recipientCount, requestedMode) {
+    if (recipientCount === 0) return null;
 
-    const typed = window.prompt(
-        `Está a punto de procesar una comunicación para ${recipientCount} participante(s).\n\n` +
-        `Opciones:\n` +
-        `- Para registrar en modo simulado, escriba: COMUNICAR\n` +
-        `- Para enviar los correos por email, escriba: ENVIAR REAL\n\n` +
-        `⚠️ ADVERTENCIA: Esta acción enviará correos reales a los destinatarios seleccionados. Verifique cuidadosamente la lista antes de continuar.`
-    );
-
-    if (typed === 'ENVIAR REAL') {
-        if (recipientCount > MAX_REAL_RECIPIENTS_PER_SEND) {
-            alert(`Error: No puede enviar correos reales a más de ${MAX_REAL_RECIPIENTS_PER_SEND} participantes a la vez.`);
-            return null;
+    if (requestedMode === 'simulated') {
+        const typed = window.prompt(
+            `Está a punto de registrar una comunicación simulada para ${recipientCount} participante(s).\n\n` +
+            `Para continuar, escriba:\nCOMUNICAR`
+        );
+        return typed === 'COMUNICAR' ? 'simulated' : null;
+    } else if (requestedMode === 'real') {
+        const typed = window.prompt(
+            `Está a punto de enviar una comunicación real por email a ${recipientCount} destinatario(s).\n\n` +
+            `ADVERTENCIA: Esta acción enviará correos reales a los destinatarios seleccionados. Verifique cuidadosamente la lista antes de continuar.\n\n` +
+            `Para continuar, escriba:\nENVIAR REAL`
+        );
+        if (typed === 'ENVIAR REAL') {
+            if (recipientCount > MAX_REAL_RECIPIENTS_PER_SEND) {
+                alert(`Error: No puede enviar correos reales a más de ${MAX_REAL_RECIPIENTS_PER_SEND} participantes a la vez.`);
+                return null;
+            }
+            return 'real';
         }
-        return 'real';
-    } else if (typed === 'COMUNICAR') {
-        return 'simulated';
-    } else {
         return null;
     }
+    return null;
 }
 
-async function simulateAndLogCommunication() {
+async function processCommunication(requestedMode) {
     ensureCollectiveModeHasNoIndividualSearch();
     if (!validateIndividualSelectionIfNeeded()) return;
 
@@ -806,7 +843,7 @@ async function simulateAndLogCommunication() {
     if (selected.length === 0) return alert("Seleccione destinatarios de la tabla.");
     if (!subject || !body) return alert("El asunto y el mensaje son obligatorios.");
 
-    const execMode = requireCommunicationConfirmation(selected.length);
+    const execMode = requireCommunicationConfirmation(selected.length, requestedMode);
     if (!execMode) {
         alert("Acción cancelada. No se registró ninguna comunicación ni se enviaron correos.");
         return;
@@ -905,35 +942,170 @@ function clearCommunicationForm() {
 // HISTORIAL
 // ==========================================
 
-async function loadRecentCommunicationLogs() {
-    try {
-        const q = query(collection(db, "comunicaciones"), orderBy("createdAt", "desc"), limit(10));
-        const snap = await getDocs(q);
-        
-        if (snap.empty) {
-            dom.communicationsHistory.innerHTML = '<p style="color: var(--color-text-secondary); font-style: italic;">No hay comunicaciones registradas en esta sesión.</p>';
-            return;
-        }
+let showArchivedCommunications = false;
+let cachedCommunicationHistory = [];
 
-        let html = '<ul class="communications-history-list">';
-        snap.forEach(doc => {
-            const data = doc.data();
-            const dateStr = data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Reciente';
-            html += `
-                <li class="history-item">
-                    <strong>${data.subject}</strong> <span class="badge" style="background: #e2e8f0; color: #4a5568; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 4px;">${data.mode.toUpperCase()}</span><br>
+window.archiveCommunication = async function(communicationId) {
+    if (!communicationId) return;
+
+    const confirmed = window.confirm(
+        '¿Desea archivar esta comunicación? Podrá conservarse para trazabilidad, pero dejará de aparecer en el historial activo.'
+    );
+
+    if (!confirmed) return;
+
+    try {
+        const ref = doc(db, 'comunicaciones', communicationId);
+        await updateDoc(ref, {
+            archived: true,
+            archivedAt: new Date().toISOString(),
+            archivedBy: auth.currentUser?.email || auth.currentUser?.uid || 'admin'
+        });
+        await loadRecentCommunicationLogs();
+    } catch (e) {
+        console.error("Error archiving communication:", e);
+        alert("Error al archivar la comunicación.");
+    }
+};
+
+window.softDeleteCommunication = async function(communicationId) {
+    if (!communicationId) return;
+
+    const typed = window.prompt(
+        'Esta acción ocultará la comunicación del historial activo. Para confirmar, escriba BORRAR.'
+    );
+
+    if (typed !== 'BORRAR') return;
+
+    try {
+        const ref = doc(db, 'comunicaciones', communicationId);
+        await updateDoc(ref, {
+            deleted: true,
+            deletedAt: new Date().toISOString(),
+            deletedBy: auth.currentUser?.email || auth.currentUser?.uid || 'admin'
+        });
+        await loadRecentCommunicationLogs();
+    } catch (e) {
+        console.error("Error deleting communication:", e);
+        alert("Error al borrar la comunicación.");
+    }
+};
+
+window.toggleArchivedCommunications = function(checkbox) {
+    showArchivedCommunications = checkbox.checked;
+    renderCommunicationHistory(cachedCommunicationHistory);
+};
+
+function isPilotOrTestCommunication(item = {}) {
+    const subject = String(item.subject || item.asunto || '').toLowerCase();
+    const mode = String(item.mode || '').toLowerCase();
+    const status = String(item.status || '').toLowerCase();
+    const phase = String(item.realSendPhase || '').toLowerCase();
+
+    return (
+        mode.includes('dry_run') ||
+        mode.includes('real_admin_test') ||
+        status.includes('dry_run') ||
+        status.includes('real_admin_test') ||
+        phase.includes('admin_test') ||
+        subject.includes('prueba') ||
+        subject.includes('piloto')
+    );
+}
+
+function filterCommunicationHistory(items = []) {
+    return items.filter((item) => {
+        if (item.deleted === true) return false;
+        if (item.archived === true && !showArchivedCommunications) return false;
+        if (isPilotOrTestCommunication(item) && !showArchivedCommunications) return false;
+        return true;
+    });
+}
+
+function getReadableCommunicationStatus(item = {}) {
+    const mode = String(item.mode || '').toLowerCase();
+    const status = String(item.status || '').toLowerCase();
+
+    if (item.deleted) return 'Borrada';
+    if (item.archived) return 'Archivada';
+
+    if (mode === 'real_participant_send' || status === 'real_send_sent') {
+        return 'Enviada';
+    }
+
+    if (status === 'real_send_partial') {
+        return 'Enviada parcialmente';
+    }
+
+    if (status === 'real_send_failed') {
+        return 'Fallida';
+    }
+
+    if (mode.includes('dry_run') || status.includes('dry_run')) {
+        return 'Simulada';
+    }
+
+    return 'Registrada';
+}
+
+function renderCommunicationHistory(items) {
+    const filtered = filterCommunicationHistory(items);
+    
+    let html = `
+        <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end;">
+            <label class="history-toggle" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="showArchivedCommunications" onchange="toggleArchivedCommunications(this)" ${showArchivedCommunications ? 'checked' : ''}>
+                <span style="font-size: 0.9rem; color: var(--color-text-secondary);">Mostrar archivados</span>
+            </label>
+        </div>
+    `;
+
+    if (filtered.length === 0) {
+        html += '<p style="color: var(--color-text-secondary); font-style: italic;">No hay comunicaciones para mostrar.</p>';
+        dom.communicationsHistory.innerHTML = html;
+        return;
+    }
+
+    html += '<ul class="communications-history-list">';
+    filtered.forEach(data => {
+        const dateStr = data.createdAt ? (data.createdAt.toDate ? data.createdAt.toDate().toLocaleString() : new Date(data.createdAt).toLocaleString()) : 'Reciente';
+        const readableStatus = getReadableCommunicationStatus(data);
+        
+        html += `
+            <li class="history-item" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+                <div>
+                    <strong>${data.subject}</strong> <span class="badge" style="background: #e2e8f0; color: #4a5568; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 4px;">${readableStatus}</span>
+                    <br>
                     <small style="color: var(--color-text-secondary);">
                         <strong>Fecha:</strong> ${dateStr} | 
                         <strong>Destinatarios:</strong> ${data.recipientCount} (${data.type}) |
                         <strong>Enviado por:</strong> ${data.createdByEmail}
                     </small>
-                </li>
-            `;
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button aria-label="Archivar comunicación" onclick="archiveCommunication('${data.id}')" title="Archivar" style="background: none; border: none; cursor: pointer; color: var(--color-text-secondary);"><i class="material-icons" style="font-size: 1.2rem;">archive</i></button>
+                    <button aria-label="Borrar comunicación" onclick="softDeleteCommunication('${data.id}')" title="Borrar" style="background: none; border: none; cursor: pointer; color: var(--color-feedback-error);"><i class="material-icons" style="font-size: 1.2rem;">delete</i></button>
+                </div>
+            </li>
+        `;
+    });
+    html += '</ul>';
+    dom.communicationsHistory.innerHTML = html;
+}
+
+async function loadRecentCommunicationLogs() {
+    try {
+        const q = query(collection(db, "comunicaciones"), orderBy("createdAt", "desc"), limit(50));
+        const snap = await getDocs(q);
+        
+        cachedCommunicationHistory = [];
+        snap.forEach(doc => {
+            cachedCommunicationHistory.push({ id: doc.id, ...doc.data() });
         });
-        html += '</ul>';
-        dom.communicationsHistory.innerHTML = html;
+        
+        renderCommunicationHistory(cachedCommunicationHistory);
     } catch (error) {
         console.error("Error cargando historial:", error);
-        dom.communicationsHistory.innerHTML = '<p style="color: var(--color-feedback-error);">Error al cargar el historial. La función de registro simulado sigue disponible.</p>';
+        dom.communicationsHistory.innerHTML = '<p style="color: var(--color-feedback-error);">Error al cargar el historial.</p>';
     }
 }
