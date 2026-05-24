@@ -86,3 +86,37 @@ Corregir únicamente el permiso necesario del service account de Cloud Build par
 - ✅ Confirmo que la prueba fue solo con email del administrador.
 - ✅ Confirmo que no se enviaron emails reales.
 - ✅ Confirmo que ENABLE_REAL_EMAIL_BACKEND sigue en false.
+
+## 12. Fix Cloud Run Invoker
+
+### Hallazgo
+
+La Cloud Function 2nd Gen fue desplegada sobre Cloud Run, pero el servicio subyacente rechazaba la invocación antes de que Firebase Auth pudiera ser procesado por la función.
+
+### Corrección aplicada
+
+Se concedió `roles/run.invoker` a `allUsers` exclusivamente sobre el servicio Cloud Run `sendcommunicationemail`.
+
+### Seguridad
+
+La función mantiene validación interna de autenticación y rol administrador. El acceso público solo permite que la petición llegue al endpoint; no autoriza el envío ni el procesamiento si el usuario no está autenticado y validado.
+
+### QA dry-run admin-only
+
+| Prueba | Resultado |
+|---|---|
+| Destinatario único | ✅ Sí |
+| Email usado | ✅ Solo administrador |
+| Participantes reales usados | ✅ No |
+| dryRun true | ✅ Sí |
+| Firestore actualizado | ✅ Sí |
+| backendResults creado | ✅ Sí |
+| Emails reales enviados | ✅ 0 |
+| Envío real bloqueado | ✅ Sí |
+| Logs sin datos sensibles | ✅ Sí |
+
+### Veredicto
+
+- GO / NO-GO para mantener Cloud Function desplegada: **GO**
+- GO / NO-GO para dry-run en producción: **GO**
+- GO / NO-GO para envío real: **NO-GO**
