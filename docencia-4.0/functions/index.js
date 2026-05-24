@@ -17,6 +17,7 @@ const db = admin.firestore();
 const sgMail = require('@sendgrid/mail');
 
 const REAL_EMAIL_PHASE = 'admin_test_only'; // Fase 6
+const ENABLE_PARTICIPANT_REAL_SEND = false; // Kill switch backend
 
 async function sendEmailThroughProvider({ to, subject, html, text, replyTo }) {
   const apiKey = SENDGRID_API_KEY.value();
@@ -76,9 +77,28 @@ function assertAdminOnlyRealTest({ dryRun, recipients, callerEmail }) {
   }
 }
 
+function assertNoUnexpectedParticipantSend({ recipients, allowParticipantSend }) {
+  if (!allowParticipantSend) {
+    const nonAdminRecipients = recipients.filter((recipient) => {
+      const email = String(recipient.email || '').toLowerCase();
+      return ![
+        'carmelo.allende@gmail.com'
+      ].includes(email);
+    });
+
+    if (nonAdminRecipients.length > 0) {
+      throw new HttpsError(
+        'failed-precondition',
+        'El envío real a participantes no está autorizado en esta fase.'
+      );
+    }
+  }
+}
+
 exports.sendCommunicationEmail = onCall(
   {
     region: 'us-central1',
+    invoker: 'public',
     secrets: [
       SENDGRID_API_KEY,
       EMAIL_FROM_ADDRESS,
@@ -105,8 +125,8 @@ exports.sendCommunicationEmail = onCall(
     );
   }
 
-  const callerUid = context.auth.uid;
-  const callerEmail = context.auth.token.email || '';
+  const callerUid = auth.uid;
+  const callerEmail = auth.token.email || '';
 
   const callerSnap = await db.collection('usuarios').doc(callerUid).get();
 
@@ -159,6 +179,13 @@ exports.sendCommunicationEmail = onCall(
     callerEmail
   });
 
+  if (!dryRun) {
+    assertNoUnexpectedParticipantSend({
+      recipients,
+      allowParticipantSend: ENABLE_PARTICIPANT_REAL_SEND
+    });
+  }
+
   const replyToResearcher = process.env.EMAIL_REPLY_TO_RESEARCHER || 'carmelo.allende@upr.edu';
   const replyTo = [
     callerEmail,
@@ -197,7 +224,7 @@ exports.sendCommunicationEmail = onCall(
         subject: communication.subject || 'Prueba',
         html: communication.messageBodyPreview || communication.messageBodyTemplate,
         text: communication.messageBodyRaw || communication.messageBodyTemplate,
-        replyTo: replyTo.join(', ')
+        replyTo: replyTo[0] // SendGrid sólo acepta un solo email o un objeto en v3
       });
 
       results.push({
@@ -207,7 +234,7 @@ exports.sendCommunicationEmail = onCall(
         status: 'sent_test',
         provider: emailResult.provider,
         messageId: emailResult.messageId,
-        sentAt: admin.firestore.FieldValue.serverTimestamp()
+        sentAt: new Date().toISOString()
       });
     } catch (error) {
       console.error("Email send failed:", error);

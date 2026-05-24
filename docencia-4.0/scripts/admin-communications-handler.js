@@ -278,13 +278,14 @@ async function loadRegisteredParticipants() {
     dom.recipientSummary.textContent = "Cargando participantes, por favor espere...";
     try {
         const usersCol = collection(db, "usuarios");
-        const q = query(usersCol, where("role", "==", "participant"), where("status", "==", "active"));
+        // Remove role restriction to allow admins/investigators to be selected for testing
+        const q = query(usersCol, where("status", "==", "active"));
         const snapshot = await getDocs(q);
         
         allParticipants = [];
         for (const userDoc of snapshot.docs) {
             const data = userDoc.data();
-            if (data.isTest) continue;
+            if (data.isTest && data.role !== "admin" && data.role !== "investigador") continue;
 
             const uid = userDoc.id;
             
@@ -670,15 +671,25 @@ function renderCommunicationPreview() {
 // ==========================================
 
 function requireCommunicationConfirmation(recipientCount) {
-    const confirmed = window.confirm(
-        `Está a punto de registrar una comunicación para ${recipientCount} participante(s).\n\nEn este prototipo, NO se enviarán emails reales.\n\n¿Desea continuar con el registro simulado?`
-    );
+    const isRealEmailEnabled = window.ENABLE_REAL_EMAIL_BACKEND === true;
 
-    if (!confirmed) return false;
+    if (isRealEmailEnabled) {
+        const confirmed = window.confirm(
+            `Está a punto de enviar una comunicación REAL (Fase: admin-only test) a ${recipientCount} participante(s).\n\n¿Desea continuar con el envío real al backend?`
+        );
+        if (!confirmed) return false;
 
-    const typed = window.prompt('Para confirmar, escriba COMUNICAR en mayúsculas.');
+        const typed = window.prompt('Para confirmar el envío real, escriba ENVIAR REAL en mayúsculas.');
+        return typed === 'ENVIAR REAL';
+    } else {
+        const confirmed = window.confirm(
+            `Está a punto de registrar una comunicación para ${recipientCount} participante(s).\n\nEn este prototipo, NO se enviarán emails reales.\n\n¿Desea continuar con el registro simulado?`
+        );
+        if (!confirmed) return false;
 
-    return typed === 'COMUNICAR';
+        const typed = window.prompt('Para confirmar, escriba COMUNICAR en mayúsculas.');
+        return typed === 'COMUNICAR';
+    }
 }
 
 async function simulateAndLogCommunication() {
@@ -739,14 +750,15 @@ async function simulateAndLogCommunication() {
         const docRef = await addDoc(collection(db, "comunicaciones"), commData);
         let alertMessage = `Comunicación simulada registrada exitosamente para ${selected.length} participante(s).`;
 
-        if (ENABLE_EMAIL_DRY_RUN_BACKEND) {
-            alertMessage += `\nLlamando a backend dry-run...`;
+        if (ENABLE_EMAIL_DRY_RUN_BACKEND || window.ENABLE_REAL_EMAIL_BACKEND) {
+            const modeName = window.ENABLE_REAL_EMAIL_BACKEND ? "envío real (admin-only)" : "backend dry-run";
+            alertMessage += `\nLlamando a ${modeName}...`;
             try {
                 await requestBackendDryRun(docRef.id);
-                alertMessage += `\n✅ Backend dry-run procesado correctamente.`;
+                alertMessage += `\n✅ ${modeName} procesado correctamente.`;
             } catch (backendError) {
-                console.error("Error en backend dry-run:", backendError);
-                alertMessage += `\n❌ Error en backend dry-run: ${backendError.message}`;
+                console.error(`Error en ${modeName}:`, backendError);
+                alertMessage += `\n❌ Error en ${modeName}: ${backendError.message}`;
             }
         }
 
@@ -760,7 +772,9 @@ async function simulateAndLogCommunication() {
 }
 
 async function requestBackendDryRun(communicationId) {
-    if (!ENABLE_REAL_EMAIL_BACKEND && !ENABLE_EMAIL_DRY_RUN_BACKEND) {
+    const isRealEmailEnabled = window.ENABLE_REAL_EMAIL_BACKEND === true;
+
+    if (!isRealEmailEnabled && !ENABLE_EMAIL_DRY_RUN_BACKEND) {
         console.info('[Comunicaciones] Backend deshabilitado. Manteniendo simulación local únicamente.');
         return null;
     }
@@ -769,7 +783,7 @@ async function requestBackendDryRun(communicationId) {
 
     return await sendCommunicationEmail({
         communicationId,
-        dryRun: true // Siempre true en esta fase
+        dryRun: !isRealEmailEnabled 
     });
 }
 
