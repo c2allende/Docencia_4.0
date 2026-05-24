@@ -23,6 +23,34 @@ const ENABLE_EMAIL_DRY_RUN_BACKEND = true;
 const MAX_REAL_RECIPIENTS_PER_SEND = 25;
 
 const ADMIN_INTERNAL_EMAIL = 'carmelo.allende@gmail.com';
+const INVESTIGATOR_EMAIL = 'carmelo.allende@upr.edu';
+const LMS_LINK = 'https://docencia-4-lms.web.app/dashboard.html';
+
+const INSTITUTIONAL_COMMUNICATION_FOOTER = 
+`Puede acceder al LMS desde el siguiente enlace:
+{{lmsLink}}
+
+Si tiene alguna duda, pregunta o sugerencia, puede comunicarse con el investigador al email carmelo.allende@upr.edu.
+
+Gracias por su tiempo y compromiso.
+
+Cordialmente,
+Equipo Docencia 4.0`;
+
+function ensureInstitutionalFooter(body = '') {
+    const normalized = String(body || '').trim();
+
+    if (
+        normalized.includes('carmelo.allende@upr.edu') &&
+        normalized.includes('{{lmsLink}}')
+    ) {
+        return normalized;
+    }
+
+    return `${normalized}
+
+${INSTITUTIONAL_COMMUNICATION_FOOTER}`.trim();
+}
 
 const ADMIN_INTERNAL_RECIPIENT = {
   uid: 'admin-carmelo',
@@ -169,16 +197,11 @@ Equipo Docencia 4.0`
     },
     blank: {
         subject: "",
-        body:
-`Puede acceder al LMS desde el siguiente enlace:
-{{lmsLink}}
-
-Si tiene alguna duda, pregunta o sugerencia, puede comunicarse con el investigador al email carmelo.allende@upr.edu.
-
-Gracias por su tiempo y compromiso.
-
-Cordialmente,
-Equipo Docencia 4.0`
+        body: INSTITUTIONAL_COMMUNICATION_FOOTER
+    },
+    custom: {
+        subject: "",
+        body: INSTITUTIONAL_COMMUNICATION_FOOTER
     }
 };
 
@@ -695,7 +718,7 @@ function clearRecipientSelection() {
 
 function applyMessageTemplate() {
     const tplId = dom.messageTemplate.value;
-    if (tplId === 'blank' || tplId === '') {
+    if (tplId === 'blank' || tplId === '' || tplId === 'custom') {
         const messageField = dom.emailBody;
         if (messageField) {
             const hasUserText = messageField.value.trim().length > 0;
@@ -710,16 +733,30 @@ function applyMessageTemplate() {
                 }
             }
         }
-        if (tplId === 'blank') {
+        if (tplId === 'blank' || tplId === 'custom') {
             dom.emailSubject.value = MESSAGE_TEMPLATES.blank.subject;
-            dom.emailBody.value = MESSAGE_TEMPLATES.blank.body;
+            dom.emailBody.value = ensureInstitutionalFooter(MESSAGE_TEMPLATES.blank.body);
         } else {
             dom.emailSubject.value = "";
-            dom.emailBody.value = "";
+            dom.emailBody.value = ensureInstitutionalFooter("");
         }
     } else if (tplId && MESSAGE_TEMPLATES[tplId]) {
+        const messageField = dom.emailBody;
+        if (messageField) {
+            const hasUserText = messageField.value.trim().length > 0;
+            if (hasUserText) {
+                const confirmed = window.confirm(
+                    'El campo mensaje ya tiene contenido. ¿Desea reemplazarlo por la plantilla seleccionada?'
+                );
+                if (!confirmed) {
+                    // Revert selection
+                    dom.messageTemplate.value = dom.messageTemplate.dataset.lastValue || '';
+                    return;
+                }
+            }
+        }
         dom.emailSubject.value = MESSAGE_TEMPLATES[tplId].subject;
-        dom.emailBody.value = MESSAGE_TEMPLATES[tplId].body;
+        dom.emailBody.value = ensureInstitutionalFooter(MESSAGE_TEMPLATES[tplId].body);
     }
     
     dom.messageTemplate.dataset.lastValue = tplId;
@@ -751,7 +788,8 @@ function personalizeMessage(templateBody, participant) {
     const displayName = participant?.displayName || participant?.nombre || participant?.name || 'participante';
     return templateBody
         .replaceAll('{{nombre}}', displayName)
-        .replaceAll('{{lmsLink}}', `<a href="${LMS_LINK}" target="_blank" rel="noopener noreferrer">Acceder al LMS Docencia 4.0</a>`);
+        .replaceAll('{{lmsLink}}', `<a href="${LMS_LINK}" target="_blank" rel="noopener noreferrer">Acceder al LMS Docencia 4.0</a>`)
+        .replaceAll('\n', '<br>');
 }
 
 function personalizeMessageRaw(templateBody, participant) {

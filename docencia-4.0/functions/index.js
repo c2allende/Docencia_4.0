@@ -181,6 +181,14 @@ exports.sendCommunicationEmail = onCall(
     assertParticipantRealSendAllowed({ recipients, callerEmail });
   }
 
+  const rawBodyToCheck = communication.messageBodyTemplate || communication.body || communication.messageBody || communication.bodyRaw || communication.message || '';
+  if (!rawBodyToCheck || !String(rawBodyToCheck).trim()) {
+    throw new HttpsError(
+      'failed-precondition',
+      'La comunicación no tiene cuerpo de mensaje.'
+    );
+  }
+
   const replyToResearcher = process.env.EMAIL_REPLY_TO_RESEARCHER || 'carmelo.allende@upr.edu';
   const replyTo = [
     callerEmail,
@@ -216,11 +224,24 @@ exports.sendCommunicationEmail = onCall(
 
     for (const recipient of recipients) {
       try {
+        const rawBody = communication.messageBodyTemplate || communication.body || communication.messageBody || communication.bodyRaw || communication.message || '';
+        const LMS_LINK = 'https://docencia-4-lms.web.app/dashboard.html';
+        const displayName = recipient.displayName || recipient.nombre || recipient.name || 'participante';
+        
+        let personalizedHtml = rawBody
+          .replaceAll('{{nombre}}', displayName)
+          .replaceAll('{{lmsLink}}', `<a href="${LMS_LINK}" target="_blank" rel="noopener noreferrer">Acceder al LMS Docencia 4.0</a>`)
+          .replaceAll('\n', '<br>');
+          
+        let personalizedText = rawBody
+          .replaceAll('{{nombre}}', displayName)
+          .replaceAll('{{lmsLink}}', LMS_LINK);
+
         const emailResult = await sendEmailThroughProvider({
           to: recipient.email,
           subject: communication.subject || 'Comunicación Docencia 4.0',
-          html: communication.messageBodyPreview || communication.messageBodyTemplate,
-          text: communication.messageBodyRaw || communication.messageBodyTemplate,
+          html: personalizedHtml || communication.messageBodyPreview,
+          text: personalizedText || communication.messageBodyRaw,
           replyTo: replyTo[0] 
         });
 
