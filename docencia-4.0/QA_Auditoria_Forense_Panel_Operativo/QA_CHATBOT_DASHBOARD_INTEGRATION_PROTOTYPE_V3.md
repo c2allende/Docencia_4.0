@@ -63,3 +63,15 @@ http://localhost:5000/dashboard_chatbot_integration_prototype_v3.html
 
 - GO / NO-GO para revisiÃ³n visual: GO
 - GO / NO-GO para migraciÃ³n al dashboard real: GO (pendiente revisiÃ³n final del usuario)
+
+## QA Fix — Respuesta "¿Cómo comienzo?"
+
+| Prueba | Resultado |
+|---|---|
+| Chip "¿Cómo comienzo?" responde correctamente | Completado |
+| Texto "como comienzo" responde correctamente | Completado |
+| Texto "cómo empiezo" responde correctamente | Completado |
+| Texto "por dónde empiezo" responde correctamente | Completado |
+| No cae en fallback | Completado |
+| Respuesta pedagógica y orientadora | Completado |
+

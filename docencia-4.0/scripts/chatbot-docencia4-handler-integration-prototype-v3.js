@@ -8,9 +8,34 @@ const FAQ_KNOWLEDGE_BASE = [
     {
         id: 'comenzar',
         category: 'Comenzar el programa',
-        keywords: ['comenzar', 'inicio', 'empezar', 'primero', 'dashboard', 'donde'],
-        question: '¿Cómo comienzo el programa?',
-        answer: `Para comenzar, acceda al Dashboard del curso y revise la introducción del módulo correspondiente. Luego siga la ruta sugerida: introducción, lecciones, actividades, foro y recursos. Complete cada sección en orden para mantener su progreso organizado.`
+        keywords: [
+            'comenzar',
+            'comienzo',
+            'como comienzo',
+            'cómo comienzo',
+            'empezar',
+            'empiezo',
+            'inicio',
+            'por donde empiezo',
+            'por dónde empiezo',
+            'dashboard',
+            'primer paso',
+            'primeros pasos'
+        ],
+        question: '¿Cómo comienzo?',
+        answer: `Para comenzar en Docencia 4.0, le recomiendo seguir una ruta sencilla y organizada:
+
+1. Primero, ubíquese en el Dashboard del curso. Desde allí podrá ver los módulos disponibles y acceder a las secciones principales del LMS.
+
+2. Luego, entre a la introducción del módulo correspondiente. Esa sección le ofrece el contexto general, el propósito del módulo y la ruta de aprendizaje sugerida.
+
+3. Después, revise las lecciones en orden. Las lecciones le ayudarán a comprender los conceptos antes de completar las actividades.
+
+4. Cuando llegue a una actividad, lea primero el propósito, las instrucciones y los criterios de trabajo. Si la actividad incluye una plantilla, ábrala y úsela como guía para organizar su respuesta.
+
+5. Finalmente, participe en los foros o espacios colaborativos indicados, complete las evidencias solicitadas y marque la sección como completada cuando corresponda.
+
+La idea es avanzar paso a paso: comprender, practicar, reflexionar y documentar su aprendizaje. No tiene que hacerlo todo de una vez; siga la ruta del módulo y use este asistente cuando necesite orientación.`
     },
     {
         id: 'modulos',
@@ -100,8 +125,9 @@ const dom = {
 };
 
 // Normalizar texto para búsqueda
-function normalizeText(text) {
-    return text.toLowerCase()
+function normalizeText(value = '') {
+    return String(value || '')
+               .toLowerCase()
                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remover acentos
                .trim();
 }
@@ -115,6 +141,19 @@ function findBestAnswer(userInput) {
         if (guardrail.keywords.some(kw => query.includes(normalizeText(kw)))) {
             return { answer: guardrail.answer, type: 'warning' };
         }
+    }
+
+    // Explicit override for "comenzar"
+    if (
+        query.includes('como comienzo') ||
+        query.includes('como empiezo') ||
+        query.includes('por donde empiezo') ||
+        query.includes('comienzo') ||
+        query.includes('empezar') ||
+        query.includes('inicio')
+    ) {
+        const item = FAQ_KNOWLEDGE_BASE.find(e => e.id === 'comenzar');
+        if (item) return { answer: item.answer, type: 'bot' };
     }
 
     // 2. Check FAQ
