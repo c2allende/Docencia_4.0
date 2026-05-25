@@ -258,6 +258,7 @@ function handleUserSubmit(text) {
         const response = findBestAnswer(text);
         addMessage(response.answer, 'bot', response.type);
         showFollowUpSuggestions();
+        scrollToLatestAssistantResponse();
     }, 400);
 }
 
@@ -317,6 +318,20 @@ function resetChatbotPanelScroll() {
     }, 80);
 }
 
+function scrollToLatestAssistantResponse() {
+    const latestAssistantMessage = dom.messagesContainer.querySelector('.docencia-chatbot-message.bot:last-of-type');
+    
+    if (!latestAssistantMessage) return;
+
+    requestAnimationFrame(() => {
+        latestAssistantMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    setTimeout(() => {
+        latestAssistantMessage.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }, 120);
+}
+
 function handleScroll() {
     if (!hasShownBubble && window.scrollY > 400) {
         if (dom.bubble) {
@@ -341,6 +356,15 @@ function hideBubble() {
     }
 }
 
+function closeChatbotPanel() {
+    dom.panel.classList.remove('active');
+    dom.panel.setAttribute('aria-hidden', 'true');
+    if (dom.toggleBtn) {
+        dom.toggleBtn.setAttribute('aria-expanded', 'false');
+        dom.toggleBtn.focus?.();
+    }
+}
+
 // Event Listeners
 function initChatbot() {
     if (!dom.toggleBtn) return;
@@ -352,24 +376,28 @@ function initChatbot() {
         dom.bubbleClose.addEventListener('click', hideBubble);
     }
 
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            const isHidden = dom.panel.getAttribute('aria-hidden') === 'true';
+            if (!isHidden) closeChatbotPanel();
+        }
+    });
+
     dom.toggleBtn.addEventListener('click', () => {
         const isHidden = dom.panel.getAttribute('aria-hidden') === 'true';
         if (isHidden) {
             dom.panel.classList.add('active');
             dom.panel.setAttribute('aria-hidden', 'false');
+            dom.toggleBtn.setAttribute('aria-expanded', 'true');
             dom.input.focus();
             hideBubble();
             resetChatbotPanelScroll();
         } else {
-            dom.panel.classList.remove('active');
-            dom.panel.setAttribute('aria-hidden', 'true');
+            closeChatbotPanel();
         }
     });
 
-    dom.closeBtn.addEventListener('click', () => {
-        dom.panel.classList.remove('active');
-        dom.panel.setAttribute('aria-hidden', 'true');
-    });
+    dom.closeBtn.addEventListener('click', closeChatbotPanel);
 
     dom.form.addEventListener('submit', (e) => {
         e.preventDefault();

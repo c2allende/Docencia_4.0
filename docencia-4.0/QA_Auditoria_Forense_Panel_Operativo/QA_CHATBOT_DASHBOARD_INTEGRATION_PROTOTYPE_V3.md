@@ -75,3 +75,18 @@ http://localhost:5000/dashboard_chatbot_integration_prototype_v3.html
 | No cae en fallback | Completado |
 | Respuesta pedagógica y orientadora | Completado |
 
+
+## QA Fix — Scroll de respuestas y versión móvil/tableta
+
+| Prueba | Resultado |
+|---|---|
+| Respuesta aparece desde el inicio | Completado |
+| Chip "¿Cómo comienzo?" muestra respuesta completa correctamente | Completado |
+| No requiere subir/bajar para encontrar inicio | Completado |
+| Botón cerrar visible en móvil | Completado |
+| Escape cierra en desktop | Completado |
+| Panel móvil no ocupa 100vh | Completado |
+| Panel tableta usable | Completado |
+| Input accesible en móvil | Completado |
+| Sin errores de consola | Completado |
+
