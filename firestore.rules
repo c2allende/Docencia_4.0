@@ -64,11 +64,11 @@ service cloud.firestore {
       // Listado: Solo administradores
       allow list: if isAdmin();
 
-      // Creación: Solo el propio usuario y si la matrícula está abierta, o si es un administrador
-      allow create: if (signedIn() && request.auth.uid == userId && enrollmentIsOpen()
+      // Creación: Solo el propio usuario y si la matrícula está abierta
+      allow create: if signedIn() && request.auth.uid == userId && enrollmentIsOpen()
           && request.resource.data.role == "participant"
           && request.resource.data.roleContext == "Participante"
-          && request.resource.data.status == "active") || isAdmin();
+          && request.resource.data.status == "active";
 
       allow update: if signedIn() && (
         // CAMINO 1: Actualización de perfil propio (Campos básicos)
@@ -479,22 +479,6 @@ service cloud.firestore {
 
         allow update, delete: if isAdmin();
       }
-    }
-
-
-    // 7. Accesos Investigación (Dashboard)
-    match /researchAccess/{docId} {
-      allow read: if signedIn();
-      allow write: if isAdmin() && docId == "config";
-    }
-
-    // 6. Comunicaciones (Panel Administrativo)
-    match /comunicaciones/{communicationId} {
-      allow get, list: if isAdmin();
-      allow create: if isAdmin()
-        && request.resource.data.createdByUid == request.auth.uid;
-      allow update: if isAdmin();
-      allow delete: if false;
     }
 
   }
