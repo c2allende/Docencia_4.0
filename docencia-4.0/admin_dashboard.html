@@ -924,7 +924,7 @@
                                 <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-secondary);">Habilita el bloque completo en el Dashboard.</p>
                             </div>
                             <label class="research-access-toggle-switch">
-                                <input type="checkbox" id="toggleSection">
+                                <input type="checkbox" id="researchSectionEnabled">
                                 <span class="research-access-slider"></span>
                             </label>
                         </div>
@@ -939,13 +939,13 @@
                                     <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Sesión inicial</span>
                                 </div>
                                 <label class="research-access-toggle-switch">
-                                    <input type="checkbox" id="toggleConsent">
+                                    <input type="checkbox" id="researchConsentPretestEnabled">
                                     <span class="research-access-slider"></span>
                                 </label>
                             </div>
                             <div style="margin-top: 12px;">
                                 <label class="research-access-url-label" for="urlConsent">URL del formulario:</label>
-                                <input id="urlConsent" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace del formulario">
+                                <input id="researchConsentPretestUrl" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace del formulario">
                             </div>
                         </div>
 
@@ -956,13 +956,13 @@
                                     <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Cierre del proceso formativo</span>
                                 </div>
                                 <label class="research-access-toggle-switch">
-                                    <input type="checkbox" id="togglePosttest">
+                                    <input type="checkbox" id="researchPosttestEnabled">
                                     <span class="research-access-slider"></span>
                                 </label>
                             </div>
                             <div style="margin-top: 12px;">
                                 <label class="research-access-url-label" for="urlPosttest">URL del formulario:</label>
-                                <input id="urlPosttest" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace de la postprueba">
+                                <input id="researchPosttestUrl" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace de la postprueba">
                             </div>
                         </div>
 
@@ -973,29 +973,28 @@
                                     <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Solo participantes convocados</span>
                                 </div>
                                 <label class="research-access-toggle-switch">
-                                    <input type="checkbox" id="toggleFocus">
+                                    <input type="checkbox" id="researchFocusGroupEnabled">
                                     <span class="research-access-slider"></span>
                                 </label>
                             </div>
                             <div style="margin-top: 12px;">
                                 <label class="research-access-url-label" for="urlFocus">URL o documento:</label>
-                                <input id="urlFocus" class="research-access-url-input" type="url" placeholder="Pendiente: pegue aquí el enlace o PDF cuando esté disponible">
+                                <input id="researchFocusGroupUrl" class="research-access-url-input" type="url" placeholder="Pendiente: pegue aquí el enlace o PDF cuando esté disponible">
                                 <p class="research-access-url-help">Puede dejar este campo vacío hasta que el documento o enlace final esté disponible.</p>
                             </div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;">
-                        <button id="btnOffAll" class="btn research-access-danger-btn">Apagar todos</button>
-                        <button id="btnRestore" class="btn btn-secondary">Restaurar enlaces oficiales</button>
-                        <button id="btnSaveConfig" class="btn btn-primary" style="margin-left: auto;">Guardar configuración</button>
+                        <button type="button" id="researchTurnOffAllBtn" class="btn research-access-danger-btn">Apagar todos</button>
+                        <button type="button" id="researchRestoreLinksBtn" class="btn btn-secondary">Restaurar enlaces oficiales</button>
+                        <button type="button" id="researchSaveConfigBtn" class="btn btn-primary" style="margin-left: auto;">Guardar configuración</button>
                     </div>
 
                     <div>
                         <h3 style="font-family: var(--font-family-heading); color: var(--color-text-display); margin-top: 0; margin-bottom: 16px;">Vista previa participante</h3>
-                        <div id="previewContainer" class="research-access-preview">
-                            <!-- Preview injected here -->
-                        </div>
+                        <div id="researchParticipantPreview" class="research-access-preview" aria-live="polite"></div>
+<p id="researchAccessStatus" class="research-access-status" aria-live="polite" style="margin-top: 10px; font-weight: bold;"></p>
                     </div>
                 </section>
     
