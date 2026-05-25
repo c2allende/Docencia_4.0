@@ -64,3 +64,30 @@ Crear un espacio controlado en el dashboard para alojar los enlaces de consentim
 
 - GO / NO-GO para revisión visual: GO
 - GO / NO-GO para integración futura: GO
+
+## Actualización — Tercer acceso para consentimiento de grupo focal
+
+| Acceso | Estado |
+|---|---|
+| Consentimiento informado/preprueba | Incluido con URL real |
+| Postprueba | Incluida con URL real |
+| Consentimiento grupo focal | Incluido como acceso pendiente |
+
+## URLs configuradas
+
+| Instrumento | URL |
+|---|---|
+| Consentimiento informado y preprueba | https://forms.gle/TCx5has4pBDRQQQ57 |
+| Postprueba | https://forms.gle/of3qAs9kYcW4yZS36 |
+| Consentimiento grupo focal | Pendiente |
+
+## QA funcional añadido
+
+| Prueba | Resultado |
+|---|---|
+| Tres accesos controlables desde simulación | Completado |
+| Grupo focal puede quedar pendiente sin romper UI | Completado |
+| Grupo focal se presenta solo para participantes convocados | Completado |
+| Enlaces externos abren en pestaña nueva | Completado |
+| No hay lenguaje coercitivo | Completado |
+
