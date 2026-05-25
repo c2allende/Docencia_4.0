@@ -1910,6 +1910,37 @@
                 border-top: 1px solid var(--color-border, #e2e8f0);
             }
 
+            /* Botón de cierre X en el header */
+            .docencia-chatbot-close-x {
+                position: absolute;
+                top: 14px;
+                right: 14px;
+                width: 36px;
+                height: 36px;
+                border: 0;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.92);
+                color: var(--color-text, #1e293b);
+                font-size: 1.35rem;
+                line-height: 1;
+                cursor: pointer;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 5;
+            }
+            .docencia-chatbot-close-x:hover,
+            .docencia-chatbot-close-x:focus-visible {
+                background: #f1f5f9;
+                outline: 2px solid var(--color-primary);
+                outline-offset: 2px;
+            }
+
+            .docencia-chatbot-header {
+                position: relative;
+            }
+
             .docencia-chatbot-form {
                 display: flex;
                 gap: 10px;
@@ -1985,7 +2016,7 @@
                 .docencia-chatbot-header {
                     position: sticky;
                     top: 0;
-                    z-index: 2;
+                    z-index: 4;
                 }
                 .docencia-chatbot-footer {
                     position: sticky;
@@ -1999,6 +2030,10 @@
                 .docencia-chatbot-bubble {
                     bottom: 90px;
                     right: 0;
+                }
+                .docencia-chatbot-close-x {
+                    top: 12px;
+                    right: 12px;
                 }
             }
 
@@ -2028,6 +2063,7 @@
 
         <div id="chatbotPanel" class="docencia-chatbot-panel" aria-hidden="true">
             <div class="docencia-chatbot-header">
+                <button type="button" class="docencia-chatbot-close-x" aria-label="Cerrar asistente Docencia 4.0">&times;</button>
                 <div class="docencia-chatbot-header-info">
                     <div class="docencia-chatbot-header-avatar">
                         <img src="assets/LLM_Docencia_4.0_logo.png" alt="">

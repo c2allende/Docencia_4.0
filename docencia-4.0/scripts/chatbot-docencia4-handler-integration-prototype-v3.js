@@ -190,11 +190,12 @@ function addMessage(text, sender = 'bot', type = 'bot', save = true) {
     `;
     
     dom.messagesContainer.appendChild(msgDiv);
-    dom.messagesContainer.scrollTop = dom.messagesContainer.scrollHeight;
 
     if (save) {
         saveConversation();
     }
+    
+    return msgDiv;
 }
 
 function showCategories() {
@@ -256,9 +257,9 @@ function handleUserSubmit(text) {
     // Simulate thinking delay
     setTimeout(() => {
         const response = findBestAnswer(text);
-        addMessage(response.answer, 'bot', response.type);
+        const botMsgDiv = addMessage(response.answer, 'bot', response.type);
         showFollowUpSuggestions();
-        scrollToLatestAssistantResponse();
+        scrollResponseStartIntoView(botMsgDiv);
     }, 400);
 }
 
@@ -299,7 +300,9 @@ function loadConversation() {
 
 function clearConversation() {
     sessionStorage.removeItem('chatbot_docencia4_history');
+    if (dom.input) dom.input.value = '';
     renderWelcomeMessage();
+    resetChatbotPanelScroll();
 }
 
 // Bubble logic
@@ -318,18 +321,38 @@ function resetChatbotPanelScroll() {
     }, 80);
 }
 
-function scrollToLatestAssistantResponse() {
-    const latestAssistantMessage = dom.messagesContainer.querySelector('.docencia-chatbot-message.bot:last-of-type');
+function scrollResponseStartIntoView(messageEl) {
+    const panelBody = dom.messagesContainer;
     
-    if (!latestAssistantMessage) return;
+    if (!panelBody || !messageEl) return;
+
+    const topPadding = 16;
 
     requestAnimationFrame(() => {
-        latestAssistantMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const panelRect = panelBody.getBoundingClientRect();
+        const messageRect = messageEl.getBoundingClientRect();
+        const currentScroll = panelBody.scrollTop;
+
+        const targetScroll = currentScroll + (messageRect.top - panelRect.top) - topPadding;
+
+        panelBody.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'smooth'
+        });
     });
 
     setTimeout(() => {
-        latestAssistantMessage.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }, 120);
+        const panelRect = panelBody.getBoundingClientRect();
+        const messageRect = messageEl.getBoundingClientRect();
+        const currentScroll = panelBody.scrollTop;
+
+        const targetScroll = currentScroll + (messageRect.top - panelRect.top) - topPadding;
+
+        panelBody.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'auto'
+        });
+    }, 180);
 }
 
 function handleScroll() {
@@ -398,6 +421,10 @@ function initChatbot() {
     });
 
     dom.closeBtn.addEventListener('click', closeChatbotPanel);
+    const closeXBtn = document.querySelector('.docencia-chatbot-close-x');
+    if (closeXBtn) {
+        closeXBtn.addEventListener('click', closeChatbotPanel);
+    }
 
     dom.form.addEventListener('submit', (e) => {
         e.preventDefault();

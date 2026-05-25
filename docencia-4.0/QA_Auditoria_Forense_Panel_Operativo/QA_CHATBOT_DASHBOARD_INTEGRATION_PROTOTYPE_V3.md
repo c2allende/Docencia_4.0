@@ -90,3 +90,20 @@ http://localhost:5000/dashboard_chatbot_integration_prototype_v3.html
 | Input accesible en móvil | Completado |
 | Sin errores de consola | Completado |
 
+
+## QA Fix V3-B — Inicio de respuesta, limpiar conversación y cierre móvil
+
+| Prueba | Resultado |
+|---|---|
+| Respuesta larga inicia desde el primer renglón | Completado |
+| Chip "¿Cómo comienzo?" no abre a mitad de respuesta | Completado |
+| Limpiar conversación vuelve al inicio | Completado |
+| Mensaje amarillo/informativo visible tras limpiar | Completado |
+| X visible en desktop | Completado |
+| X visible en tableta | Completado |
+| X visible en celular | Completado |
+| X cierra el panel | Completado |
+| Escape sigue cerrando el panel | Completado |
+| Panel móvil no atrapa al usuario | Completado |
+| Sin errores de consola | Completado |
+
