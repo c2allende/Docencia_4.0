@@ -375,6 +375,13 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    
+    // Control de Accesos de Investigación
+    match /researchAccess/{docId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
     // 4. Foros Dinámicos
     match /foros/{foroId} {
       allow get, list: if (signedIn() && resource.data.isActive == true) || isAdmin();
