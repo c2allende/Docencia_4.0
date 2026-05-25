@@ -131,6 +131,46 @@
             outline: 2px solid rgba(255, 122, 89, 0.35);
             outline-offset: 3px;
         }
+    
+                        .research-access-url-label {
+                            display: block;
+                            margin-top: var(--spacing-md, 16px);
+                            margin-bottom: var(--spacing-xs, 4px);
+                            font-size: 0.95rem;
+                            font-weight: 600;
+                            color: var(--color-text-muted, #64748b);
+                        }
+
+                        .research-access-url-input {
+                            width: 100%;
+                            min-height: 48px;
+                            padding: 0.85rem 1rem;
+                            border: 1.5px solid rgba(15, 23, 42, 0.14);
+                            border-radius: var(--radius-md, 0.5rem);
+                            background: #ffffff;
+                            color: var(--color-text-display, #0f172a);
+                            font: inherit;
+                            font-size: 0.98rem;
+                            box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.02);
+                        }
+
+                        .research-access-url-input::placeholder {
+                            color: var(--color-text-muted, #64748b);
+                            opacity: 0.78;
+                        }
+
+                        .research-access-url-input:focus {
+                            outline: 2px solid rgba(0, 186, 230, 0.28);
+                            border-color: var(--color-brand-primary, #00bae6);
+                            box-shadow: 0 0 0 4px rgba(0, 186, 230, 0.08);
+                        }
+
+                        .research-access-url-help {
+                            margin-top: var(--spacing-xs, 4px);
+                            font-size: 0.85rem;
+                            color: var(--color-text-muted, #64748b);
+                        }
+    
     </style>
     
 </head>
@@ -159,8 +199,8 @@
                     </label>
                 </div>
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">URL del formulario:</label>
-                    <input type="url" id="urlConsent" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit;">
+                    <label class="research-access-url-label" for="urlConsent">URL del formulario:</label>
+                                <input id="urlConsent" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace del formulario">
                 </div>
             </div>
 
@@ -177,8 +217,8 @@
                     </label>
                 </div>
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">URL del formulario:</label>
-                    <input type="url" id="urlPosttest" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit;">
+                    <label class="research-access-url-label" for="urlPosttest">URL del formulario:</label>
+                                <input id="urlPosttest" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace de la postprueba">
                 </div>
             </div>
 
@@ -195,8 +235,9 @@
                     </label>
                 </div>
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">URL o documento (dejar vacío si pendiente):</label>
-                    <input type="url" id="urlFocus" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit;">
+                    <label class="research-access-url-label" for="urlFocus">URL o documento:</label>
+                                <input id="urlFocus" class="research-access-url-input" type="url" placeholder="Pendiente: pegue aquí el enlace o PDF cuando esté disponible">
+                                <p class="research-access-url-help">Puede dejar este campo vacío hasta que el documento o enlace final esté disponible.</p>
                 </div>
             </div>
         </section>

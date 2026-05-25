@@ -22,6 +22,21 @@
 - Sin Firestore.
 - Sin producción.
 
+## QA Fix — Campos URL delimitados
+
+| Prueba | Resultado |
+|---|---|
+| Input visible para Consentimiento / Preprueba | Completado |
+| Input visible para Postprueba | Completado |
+| Input visible para Grupo focal | Completado |
+| Placeholder visible si no hay URL | Completado |
+| Apagar todos no borra enlaces | Completado |
+| Restaurar enlaces oficiales funciona | Completado |
+| Vista previa actualiza al editar URL | Completado |
+| Grupo focal pendiente sin URL | Completado |
+| No usa Firestore | Completado |
+| No modifica producción | Completado |
+
 ## QA visual
 
 | Prueba | Resultado |
