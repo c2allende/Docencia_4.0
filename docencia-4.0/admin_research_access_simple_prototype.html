@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo - Control de Accesos de Investigación</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            background: var(--color-background-page);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 var(--spacing-xl);
+        }
+        .header {
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-family: var(--font-family-heading);
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .header p {
+            color: var(--color-text-secondary);
+        }
+        .note {
+            background-color: var(--color-brand-light, #f0f7ff);
+            border-left: 4px solid var(--color-brand-primary);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 16px;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .control-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--color-brand-primary);
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 2px dashed var(--color-border);
+        }
+
+        .preview-section {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-md);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Control de accesos de investigación</h1>
+            <p>Active o desactive los accesos que estarán disponibles para los participantes en el Dashboard.</p>
+            <div class="note">
+                <p style="margin: 0;"><strong>Nota ética:</strong> Estos controles solo habilitan enlaces externos. El LMS no recopila consentimientos, respuestas ni datos de los instrumentos.</p>
+            </div>
+        </header>
+
+        <section class="controls-grid">
+            <!-- Card 1 -->
+            <div class="control-card">
+                <div class="control-header">
+                    <div>
+                        <h3 style="margin: 0 0 4px 0; font-size: 1.1rem;">Consentimiento / Preprueba</h3>
+                        <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Sesión inicial</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleConsent">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">URL del formulario:</label>
+                    <input type="url" id="urlConsent" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit;">
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="control-card">
+                <div class="control-header">
+                    <div>
+                        <h3 style="margin: 0 0 4px 0; font-size: 1.1rem;">Postprueba</h3>
+                        <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Cierre del proceso formativo</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="togglePosttest">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">URL del formulario:</label>
+                    <input type="url" id="urlPosttest" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit;">
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="control-card">
+                <div class="control-header">
+                    <div>
+                        <h3 style="margin: 0 0 4px 0; font-size: 1.1rem;">Grupo focal</h3>
+                        <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Solo participantes convocados</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleFocus">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">URL o documento (dejar vacío si pendiente):</label>
+                    <input type="url" id="urlFocus" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; font-family: inherit;">
+                </div>
+            </div>
+        </section>
+
+        <div class="action-bar">
+            <button id="btnOffAll" class="btn btn-secondary" style="border-color: #ef4444; color: #ef4444;">Apagar todos</button>
+            <button id="btnRestore" class="btn btn-secondary">Restaurar enlaces oficiales</button>
+            <button id="btnUpdatePreview" class="btn btn-primary" style="margin-left: auto;">Actualizar vista previa</button>
+        </div>
+
+        <section>
+            <h2 style="font-family: var(--font-family-heading); color: var(--color-text-display); margin-bottom: 24px;">Vista previa participante</h2>
+            <div id="previewContainer" class="preview-section">
+                <!-- Preview injects here -->
+            </div>
+        </section>
+
+    </div>
+
+    <script src="scripts/admin-research-access-simple-prototype.js"></script>
+</body>
+</html>
