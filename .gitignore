@@ -108,3 +108,5 @@ Thumbs.db
 
 # Firebase cache
 .firebase/
+
+backups/
