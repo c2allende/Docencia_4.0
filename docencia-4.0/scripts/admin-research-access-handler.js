@@ -259,6 +259,8 @@ if (dom.btnRestore) dom.btnRestore.addEventListener('click', restoreOfficial);
 if (dom.btnSaveConfig) dom.btnSaveConfig.addEventListener('click', saveConfig);
 
 // Init
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadConfig);
+} else {
     loadConfig();
-});
+}
