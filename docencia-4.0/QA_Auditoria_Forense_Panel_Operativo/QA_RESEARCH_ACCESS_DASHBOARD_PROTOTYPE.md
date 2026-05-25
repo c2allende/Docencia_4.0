@@ -91,3 +91,31 @@ Crear un espacio controlado en el dashboard para alojar los enlaces de consentim
 | Enlaces externos abren en pestaña nueva | Completado |
 | No hay lenguaje coercitivo | Completado |
 
+
+## QA Final — Accesos Investigación Dashboard
+
+| Prueba | Resultado |
+|---|---|
+| Bloque oculto por defecto | Completado |
+| Consentimiento/preprueba habilitable | Completado |
+| URL consentimiento/preprueba correcta | Completado |
+| Postprueba habilitable | Completado |
+| URL postprueba correcta | Completado |
+| Grupo focal habilitable | Completado |
+| Grupo focal pendiente sin URL | Completado |
+| Tres accesos simultáneos | Completado |
+| Apagado total oculta bloque | Completado |
+| Enlaces abren en pestaña nueva | Completado |
+| Lenguaje no coercitivo | Completado |
+| No recopila datos en LMS | Completado |
+| No usa Firestore | Completado |
+| Responsive desktop | Completado |
+| Responsive tableta | Completado |
+| Responsive celular | Completado |
+| Consola sin errores | Completado |
+
+## Veredicto QA Final
+
+- GO / NO-GO para integración controlada en dashboard real: GO
+- Observaciones: El prototipo cumple con la funcionalidad condicional y el encapsulamiento visual exigido, manejando de forma robusta las URLs externas sin usar la base de datos de producción.
+
