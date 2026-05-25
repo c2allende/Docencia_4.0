@@ -903,6 +903,81 @@
                             font-size: 0.85rem;
                             color: var(--color-text-muted, #64748b);
                         }
+
+                        .research-focus-participants-list {
+                            display: grid;
+                            gap: 0.65rem;
+                            max-height: 260px;
+                            overflow: auto;
+                            margin-top: 0.75rem;
+                            padding: 0.75rem;
+                            border: 1px solid rgba(15, 23, 42, 0.12);
+                            border-radius: 14px;
+                            background: #ffffff;
+                        }
+
+                        .research-focus-participant-row {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.75rem;
+                            padding: 0.7rem 0.75rem;
+                            border: 1px solid rgba(15, 23, 42, 0.08);
+                            border-radius: 12px;
+                            background: var(--color-background-surface-low, #f8fafc);
+                            cursor: pointer;
+                        }
+
+                        .research-focus-participant-row.is-admin {
+                            border-color: rgba(0, 186, 230, 0.35);
+                            background: rgba(0, 186, 230, 0.08);
+                        }
+
+                        .research-focus-participant-row input[type="checkbox"] {
+                            width: 18px;
+                            height: 18px;
+                            flex: 0 0 auto;
+                        }
+
+                        .research-focus-participant-main {
+                            display: grid;
+                            gap: 0.15rem;
+                        }
+
+                        .research-focus-participant-name {
+                            font-weight: 700;
+                            color: var(--color-text-display);
+                        }
+
+                        .research-focus-participant-email {
+                            font-size: 0.9rem;
+                            color: var(--color-text-secondary);
+                        }
+
+                        .research-selected-participants {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 0.5rem;
+                            margin-top: 0.5rem;
+                        }
+
+                        .research-selected-chip {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.4rem;
+                            padding: 0.35rem 0.7rem;
+                            border-radius: 999px;
+                            background: #ecfdf5;
+                            color: #065f46;
+                            border: 1px solid #a7f3d0;
+                            font-size: 0.85rem;
+                            font-weight: 700;
+                        }
+
+                        .research-selected-chip.is-admin {
+                            background: rgba(0, 186, 230, 0.1);
+                            color: var(--color-text-display);
+                            border-color: rgba(0, 186, 230, 0.35);
+                        }
                     </style>
 
                     <header class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 16px;">
@@ -982,13 +1057,38 @@
                                 <input id="urlFocus" class="research-access-url-input" type="url" placeholder="Pendiente: pegue aquí el enlace o PDF cuando esté disponible">
                                 <p class="research-access-url-help">Puede dejar este campo vacío hasta que el documento o enlace final esté disponible.</p>
                             </div>
+                            <div class="research-focus-audience" aria-label="Participantes autorizados para grupo focal">
+                                <h4 style="margin:16px 0 8px;font-size:1.05rem;color:var(--color-text-display);">Participantes autorizados para grupo focal</h4>
+
+                                <p class="research-access-url-help">Seleccione desde la lista de participantes inscritos quienes podran ver el acceso al consentimiento del grupo focal. El administrador se incluye siempre para validacion.</p>
+
+                                <label class="research-access-url-label" for="focusParticipantSearch">Buscar participante registrado</label>
+                                <input id="focusParticipantSearch" class="research-access-url-input" type="search" placeholder="Buscar por nombre o email" autocomplete="off">
+
+                                <div id="focusParticipantsStatus" class="research-access-url-help" aria-live="polite">Cargando participantes inscritos...</div>
+
+                                <div id="focusParticipantsList" class="research-focus-participants-list" aria-label="Lista de participantes disponibles"></div>
+
+                                <div class="research-selected-summary" style="margin-top:12px;">
+                                    <h5 style="margin:0 0 6px;font-size:0.9rem;color:var(--color-text-display);">Seleccionados</h5>
+                                    <div id="focusSelectedParticipants" class="research-selected-participants"></div>
+                                </div>
+
+                                <details class="research-manual-email-fallback" style="margin-top:12px;">
+                                    <summary style="cursor:pointer;font-size:0.85rem;color:var(--color-text-secondary);">Entrada manual de respaldo</summary>
+                                    <div style="margin-top:8px;">
+                                        <label class="research-access-url-label" for="focusAllowedEmails">Emails autorizados</label>
+                                        <textarea id="focusAllowedEmails" class="research-access-url-input" rows="4" placeholder="Emails separados por coma o por linea"></textarea>
+                                        <p class="research-access-url-help">Use esta opcion solo si un participante no aparece todavia en la lista. Evite errores de escritura.</p>
+                                    </div>
+                                </details>
+                            </div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;">
                         <button type="button" id="btnOffAll" class="btn research-access-danger-btn">Apagar todos</button>
                         <button type="button" id="btnRestore" class="btn btn-secondary">Restaurar enlaces oficiales</button>
-<button type="button" id="btnUpdatePreview" class="btn btn-secondary" style="margin-left: 10px;">Actualizar vista previa</button>
                         <button type="button" id="btnSaveResearchConfig" class="btn btn-primary" style="margin-left: auto;">Guardar configuración</button>
                     </div>
 
@@ -1206,11 +1306,13 @@
 
     <script type="module">
         import { db } from './scripts/firebase-config.js';
-        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        import { doc, getDoc, setDoc, serverTimestamp, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
         window.db = db;
         window.doc = doc;
         window.getDoc = getDoc;
         window.setDoc = setDoc;
+        window.collection = collection;
+        window.getDocs = getDocs;
         window.serverTimestamp = serverTimestamp;
     </script>
 

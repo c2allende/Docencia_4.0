@@ -2,18 +2,83 @@ import { auth, db } from './firebase-config.js';
 import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
+var ADMIN_EMAIL = 'carmelo.allende@gmail.com';
 const mountPoint = document.getElementById('researchAccessMount');
+
+var currentUserEmail = '';
+
+function isAdminDashboardUser() {
+  return normalizeEmail(currentUserEmail) === ADMIN_EMAIL;
+}
+
+function normalizeEmail(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function getActiveResearchLabels(config) {
+  var labels = [];
+  if (config && config.consentPretest && config.consentPretest.enabled === true) labels.push('Consentimiento / Preprueba');
+  if (config && config.posttest && config.posttest.enabled === true) labels.push('Postprueba');
+  if (config && config.focusGroupConsent && config.focusGroupConsent.enabled === true) labels.push('Grupo focal');
+  return labels;
+}
+
+function renderAdminResearchAlert(activeLabels) {
+  if (!mountPoint) return;
+  mountPoint.hidden = false;
+  mountPoint.innerHTML = ''
+    + '<section class="research-access-section">'
+    + '  <div style="background:#fff7ed;border-left:4px solid #fb923c;border-radius:12px;padding:18px 20px;margin:24px 0;">'
+    + '    <strong>Aviso administrativo:</strong> '
+    + '    <span>Hay accesos de investigacion activos para participantes: '
+    + escapeHtml(activeLabels.join(', '))
+    + '. Esta alerta es solo informativa para el administrador.</span>'
+    + '  </div>'
+    + '</section>';
+}
+
+function isFocusGroupAllowedForCurrentUser(focusConfig) {
+    if (!focusConfig || focusConfig.enabled !== true) return false;
+
+    var email = currentUserEmail.trim().toLowerCase();
+    if (!email) return false;
+
+    var allowedEmails = (focusConfig.allowedEmails || [])
+        .map(function (item) {
+            return String(item || '').trim().toLowerCase();
+        })
+        .filter(Boolean);
+
+    var allowedUids = (focusConfig.allowedUids || [])
+        .map(function (item) {
+            return String(item || '').trim();
+        })
+        .filter(Boolean);
+
+    if (allowedEmails.length === 0 && allowedUids.length === 0) {
+        return false;
+    }
+
+    return allowedEmails.indexOf(email) >= 0 || allowedUids.indexOf(email) >= 0;
+}
 
 function shouldShowResearchAccess(config) {
     if (!config || config.sectionEnabled !== true) return false;
 
-    const items = [
-        config.consentPretest,
-        config.posttest,
-        config.focusGroupConsent
-    ];
+    if (config.consentPretest && config.consentPretest.enabled) return true;
+    if (config.posttest && config.posttest.enabled) return true;
+    if (isFocusGroupAllowedForCurrentUser(config.focusGroupConsent)) return true;
 
-    return items.some((item) => item && item.enabled === true);
+    return false;
 }
 
 function renderResearchAccess(config) {
@@ -43,7 +108,7 @@ function renderResearchAccess(config) {
         });
     }
     
-    if (config.focusGroupConsent && config.focusGroupConsent.enabled) {
+    if (isFocusGroupAllowedForCurrentUser(config.focusGroupConsent)) {
         itemsToRender.push({
             id: 'focusGroupConsent',
             title: config.focusGroupConsent.title || 'Consentimiento para grupo focal',
@@ -101,7 +166,23 @@ function renderResearchAccess(config) {
 }
 
 async function initResearchAccess(user) {
+    currentUserEmail = (user && user.email) || '';
+
     try {
+        if (isAdminDashboardUser()) {
+            const docRef = doc(db, 'researchAccess', 'config');
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const config = docSnap.data();
+                var labels = getActiveResearchLabels(config);
+                if (config.sectionEnabled === true && labels.length > 0) {
+                    renderAdminResearchAlert(labels);
+                    return;
+                }
+            }
+            if (mountPoint) mountPoint.hidden = true;
+            return;
+        }
         const docRef = doc(db, 'researchAccess', 'config');
         const docSnap = await getDoc(docRef);
         

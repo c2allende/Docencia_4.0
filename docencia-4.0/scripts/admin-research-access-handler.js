@@ -1,293 +1,557 @@
-const OFFICIAL_RESEARCH_LINKS = {
-    consentPretest: 'https://forms.gle/TCx5has4pBDRQQQ57',
+(function () {
+  'use strict';
+
+  var ADMIN_EMAIL_TO_REMOVE = 'carmelo.allende@gmail.com';
+
+  var OFFICIAL_LINKS = {
+    consent: 'https://forms.gle/TCx5has4pBDRQQQ57',
     posttest: 'https://forms.gle/of3qAs9kYcW4yZS36',
-    focusGroupConsent: ''
-};
+    focus: ''
+  };
 
-let researchState = {
-    sectionEnabled: false,
-    consentPretest: {
-        enabled: false,
-        title: 'Consentimiento informado y preprueba',
-        badge: 'Sesión inicial',
-        url: OFFICIAL_RESEARCH_LINKS.consentPretest,
-        buttonLabel: 'Acceder al consentimiento y preprueba'
-    },
-    posttest: {
-        enabled: false,
-        title: 'Postprueba',
-        badge: 'Cierre del proceso formativo',
-        url: OFFICIAL_RESEARCH_LINKS.posttest,
-        buttonLabel: 'Acceder a la postprueba'
-    },
-    focusGroupConsent: {
-        enabled: false,
-        title: 'Consentimiento para grupo focal',
-        badge: 'Solo participantes convocados',
-        url: '',
-        buttonLabel: 'Acceder al consentimiento del grupo focal'
-    }
-};
+  var SELECTORS = {
+    section: 'toggleSection',
+    consent: 'toggleConsent',
+    posttest: 'togglePosttest',
+    focus: 'toggleFocus',
+    urlConsent: 'urlConsent',
+    urlPosttest: 'urlPosttest',
+    urlFocus: 'urlFocus',
+    focusAllowedEmails: 'focusAllowedEmails',
+    focusParticipantSearch: 'focusParticipantSearch',
+    focusParticipantsList: 'focusParticipantsList',
+    focusParticipantsStatus: 'focusParticipantsStatus',
+    focusSelectedParticipants: 'focusSelectedParticipants',
+    offAll: 'btnOffAll',
+    restore: 'btnRestore',
+    save: 'btnSaveResearchConfig',
+    preview: 'previewContainer',
+    status: 'researchAccessStatus'
+  };
 
-function syncStateFromDom() {
-    researchState.sectionEnabled = document.getElementById('toggleSection')?.checked || false;
+  var registeredFocusParticipants = [];
+  var selectedFocusEmails = [];
 
-    researchState.consentPretest.enabled = document.getElementById('toggleConsent')?.checked || false;
-    researchState.consentPretest.url = document.getElementById('urlConsent')?.value.trim() || '';
+  function byId(id) {
+    return document.getElementById(id);
+  }
 
-    researchState.posttest.enabled = document.getElementById('togglePosttest')?.checked || false;
-    researchState.posttest.url = document.getElementById('urlPosttest')?.value.trim() || '';
+  function normalizeEmail(value) {
+    return String(value || '').trim().toLowerCase();
+  }
 
-    researchState.focusGroupConsent.enabled = document.getElementById('toggleFocus')?.checked || false;
-    researchState.focusGroupConsent.url = document.getElementById('urlFocus')?.value.trim() || '';
-}
+  function isAdminEmail(email) {
+    return normalizeEmail(email) === ADMIN_EMAIL_TO_REMOVE;
+  }
 
-function syncDomFromState() {
-    if (document.getElementById('toggleSection')) document.getElementById('toggleSection').checked = researchState.sectionEnabled;
-    
-    if (document.getElementById('toggleConsent')) document.getElementById('toggleConsent').checked = researchState.consentPretest.enabled;
-    if (document.getElementById('urlConsent')) document.getElementById('urlConsent').value = researchState.consentPretest.url;
+  function setStatus(message, type) {
+    var el = byId(SELECTORS.status);
+    if (!el) return;
+    el.textContent = message || '';
+    el.dataset.status = type || 'info';
+  }
 
-    if (document.getElementById('togglePosttest')) document.getElementById('togglePosttest').checked = researchState.posttest.enabled;
-    if (document.getElementById('urlPosttest')) document.getElementById('urlPosttest').value = researchState.posttest.url;
+  function parseEmailList(value) {
+    return String(value || '')
+      .split(/[\n,;]+/)
+      .map(function (email) { return normalizeEmail(email); })
+      .filter(function (email) { return email.length > 0 && email.indexOf('@') > -1; })
+      .filter(function (email, index, arr) { return arr.indexOf(email) === index; });
+  }
 
-    if (document.getElementById('toggleFocus')) document.getElementById('toggleFocus').checked = researchState.focusGroupConsent.enabled;
-    if (document.getElementById('urlFocus')) document.getElementById('urlFocus').value = researchState.focusGroupConsent.url;
-}
+  function isActiveParticipantRecord(data) {
+    var role = String(data.role || data.rol || '').toLowerCase().trim();
+    var status = String(data.status || data.estado || '').toLowerCase().trim();
 
-function getParticipantDescription(title) {
-    if (title.includes('preprueba')) {
-        return 'Acceso al formulario que incluye el consentimiento informado y la preprueba. Debe completarse solo después de la orientación presencial del investigador.';
-    }
+    var isParticipant = role === 'participante' || role === 'participant' || role === 'estudiante' || role === 'student';
+    var isAdmin = role === 'admin' || role === 'administrador' || role === 'investigador';
 
-    if (title.includes('Postprueba')) {
-        return 'Acceso al instrumento posterior que se habilitará al finalizar los talleres, actividades y foros correspondientes.';
-    }
+    var explicitlyInactive = data.active === false ||
+      data.isActive === false ||
+      data.enabled === false ||
+      data.disabled === true ||
+      data.deleted === true ||
+      data.archived === true ||
+      Boolean(data.deletedAt) ||
+      Boolean(data.removedAt) ||
+      status === 'inactive' ||
+      status === 'inactivo' ||
+      status === 'removed' ||
+      status === 'removido' ||
+      status === 'deleted' ||
+      status === 'eliminado' ||
+      status === 'archived' ||
+      status === 'archivado';
 
-    return 'Acceso destinado únicamente a participantes invitados a la fase cualitativa de grupos focales. Requerirá consentimiento aparte y se habilitará cuando el investigador tenga el documento o enlace final.';
-}
+    return isParticipant && !isAdmin && !explicitlyInactive;
+  }
 
-function createAccessCard(item, fallbackText) {
-    const hasUrl = item.url && item.url.trim().length > 0;
+  function removeAdminEmailsFromList(emails) {
+    return (emails || []).filter(function (email) {
+      return email && !isAdminEmail(email);
+    });
+  }
 
-    const actionHtml = hasUrl
-        ? \`<a class="btn btn-primary" href="\${item.url}" target="_blank" rel="noopener noreferrer">\${item.buttonLabel}</a>\`
-        : \`<button class="btn btn-secondary" type="button" disabled>\${fallbackText || 'Documento pendiente'}</button>\`;
-
-    return \`
-      <article class="research-access-preview-card card" style="display: flex; flex-direction: column; padding: 24px; border: 1px solid var(--color-border); border-radius: 12px; background: white; box-shadow: var(--shadow-sm);">
-        <div style="margin-bottom: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
-            <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: bold; border: 1px solid #a7f3d0;">\${item.badge}</span>
-        </div>
-        <h3 style="font-family: var(--font-family-heading); font-size: 1.15rem; color: var(--color-text-display); margin-top: 0; margin-bottom: 12px;">\${item.title}</h3>
-        <p style="color: var(--color-text-body); font-size: 0.95rem; margin-bottom: 24px;">\${getParticipantDescription(item.title)}</p>
-        <div style="margin-top: auto; align-self: flex-start;">\${actionHtml}</div>
-      </article>
-    \`;
-}
-
-function renderPreview() {
-    const preview = document.getElementById('previewContainer');
-    if (!preview) return;
-
-    syncStateFromDom();
-
-    const activeItems = [];
-    if (researchState.consentPretest.enabled) activeItems.push(researchState.consentPretest);
-    if (researchState.posttest.enabled) activeItems.push(researchState.posttest);
-    if (researchState.focusGroupConsent.enabled) activeItems.push(researchState.focusGroupConsent);
-
-    if (!researchState.sectionEnabled || activeItems.length === 0) {
-        preview.innerHTML = \`
-          <div class="research-access-empty-preview" style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 32px; text-align: center; color: #64748b;">
-            El bloque de investigación no estará visible para los participantes.
-          </div>
-        \`;
-        return;
-    }
-
-    const cards = [];
-
-    if (researchState.consentPretest.enabled) {
-        cards.push(createAccessCard(researchState.consentPretest));
-    }
-
-    if (researchState.posttest.enabled) {
-        cards.push(createAccessCard(researchState.posttest));
-    }
-
-    if (researchState.focusGroupConsent.enabled) {
-        cards.push(createAccessCard(researchState.focusGroupConsent, 'Documento pendiente'));
-    }
-
-    preview.innerHTML = \`
-      <section class="research-access-preview-shell">
-        <div class="research-access-header" style="margin-bottom: 24px;">
-            <p class="section-kicker" style="color: var(--color-brand-primary); font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; margin-bottom: 8px;">Investigación</p>
-            <h2 style="font-family: var(--font-family-heading); font-size: 1.5rem; color: var(--color-text-display); margin-top: 0;">Participación en la investigación</h2>
-            <div style="background-color: var(--color-brand-light, #f0f7ff); border-left: 4px solid var(--color-brand-primary); padding: 12px 16px; margin-top: 16px; border-radius: 4px;">
-                <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-display);"><strong>Nota ética:</strong> Complete cada formulario o documento únicamente cuando el investigador lo indique. La participación en la investigación es voluntaria y el LMS no recopila sus respuestas a estos instrumentos.</p>
-            </div>
-        </div>
-        <div class="research-access-preview-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-          \${cards.join('')}
-        </div>
-      </section>
-    \`;
-}
-
-function turnOffAll() {
-    if (document.getElementById('toggleSection')) document.getElementById('toggleSection').checked = false;
-    if (document.getElementById('toggleConsent')) document.getElementById('toggleConsent').checked = false;
-    if (document.getElementById('togglePosttest')) document.getElementById('togglePosttest').checked = false;
-    if (document.getElementById('toggleFocus')) document.getElementById('toggleFocus').checked = false;
-    renderPreview();
-    const status = document.getElementById('researchAccessStatus');
-    if (status) {
-        status.textContent = 'Accesos apagados. Recuerde guardar la configuración.';
-        status.style.color = '#d97706';
-    }
-}
-
-function restoreOfficialLinks() {
-    if (document.getElementById('urlConsent')) document.getElementById('urlConsent').value = OFFICIAL_RESEARCH_LINKS.consentPretest;
-    if (document.getElementById('urlPosttest')) document.getElementById('urlPosttest').value = OFFICIAL_RESEARCH_LINKS.posttest;
-    if (document.getElementById('urlFocus')) document.getElementById('urlFocus').value = '';
-    renderPreview();
-    const status = document.getElementById('researchAccessStatus');
-    if (status) {
-        status.textContent = 'Enlaces oficiales restaurados. Recuerde guardar la configuración.';
-        status.style.color = '#0284c7';
-    }
-}
-
-async function loadResearchConfigFromFirestore() {
-    try {
-        const db = window.db || window.firestoreDb || window.firebaseDB;
-        if (db && window.getDoc && window.doc) {
-            const snap = await window.getDoc(window.doc(db, 'researchAccess', 'config'));
-            if (snap.exists()) {
-                const loadedConfig = snap.data();
-                researchState.sectionEnabled = loadedConfig.sectionEnabled || false;
-                
-                if (loadedConfig.consentPretest) {
-                    researchState.consentPretest.enabled = loadedConfig.consentPretest.enabled || false;
-                    researchState.consentPretest.url = loadedConfig.consentPretest.url || '';
-                }
-                
-                if (loadedConfig.posttest) {
-                    researchState.posttest.enabled = loadedConfig.posttest.enabled || false;
-                    researchState.posttest.url = loadedConfig.posttest.url || '';
-                }
-                
-                if (loadedConfig.focusGroupConsent) {
-                    researchState.focusGroupConsent.enabled = loadedConfig.focusGroupConsent.enabled || false;
-                    researchState.focusGroupConsent.url = loadedConfig.focusGroupConsent.url || '';
-                }
-
-                syncDomFromState();
-                renderPreview();
-                const status = document.getElementById('researchAccessStatus');
-                if (status) {
-                    status.textContent = 'Configuración cargada desde el servidor.';
-                    status.style.color = '#059669';
-                    setTimeout(() => { status.textContent = ''; }, 3000);
-                }
-            }
-        }
-    } catch (error) {
-        console.error('[ResearchAccess] Error al cargar configuración:', error);
-    }
-}
-
-async function saveResearchConfig() {
-    syncStateFromDom();
-    const status = document.getElementById('researchAccessStatus');
-    const btn = document.getElementById('btnSaveResearchConfig');
-    
-    if (btn) btn.disabled = true;
-    if (status) {
-        status.textContent = 'Guardando configuración...';
-        status.style.color = '#2563eb';
-    }
-
-    const payload = {
-        sectionEnabled: researchState.sectionEnabled,
-        consentPretest: researchState.consentPretest,
-        posttest: researchState.posttest,
-        focusGroupConsent: researchState.focusGroupConsent,
-        updatedAt: window.serverTimestamp ? window.serverTimestamp() : new Date().toISOString()
-    };
-
-    try {
-        const db = window.db || window.firestoreDb || window.firebaseDB;
-        if (db && window.setDoc && window.doc) {
-            await window.setDoc(
-                window.doc(db, 'researchAccess', 'config'),
-                payload,
-                { merge: true }
-            );
-            if (status) {
-                status.textContent = 'Configuración guardada correctamente.';
-                status.style.color = '#059669';
-            }
-        } else {
-            throw new Error('Firestore no está disponible.');
-        }
-    } catch (error) {
-        console.error('[ResearchAccess] Error al guardar configuración:', error);
-        if (status) {
-            status.textContent = \`Error al guardar: \${error.message}\`;
-            status.style.color = '#dc2626';
-        }
-        alert(\`No se pudo guardar la configuración: \${error.message}\`);
-    } finally {
-        if (btn) btn.disabled = false;
-    }
-}
-
-function bindResearchEvents() {
-    [
-        'toggleSection',
-        'toggleConsent',
-        'togglePosttest',
-        'toggleFocus',
-        'urlConsent',
-        'urlPosttest',
-        'urlFocus'
-    ].forEach((id) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.addEventListener('input', renderPreview);
-            element.addEventListener('change', renderPreview);
-        } else {
-            console.warn('[ResearchAccess] No se encontró:', id);
-        }
+  function getAllowedEmailsFromSelection() {
+    var activeEmails = registeredFocusParticipants.map(function (user) {
+      return normalizeEmail(user.email);
     });
 
-    if (document.getElementById('btnOffAll')) document.getElementById('btnOffAll').addEventListener('click', turnOffAll);
-    if (document.getElementById('btnRestore')) document.getElementById('btnRestore').addEventListener('click', restoreOfficialLinks);
-    if (document.getElementById('btnUpdatePreview')) document.getElementById('btnUpdatePreview').addEventListener('click', renderPreview);
-    if (document.getElementById('btnSaveResearchConfig')) document.getElementById('btnSaveResearchConfig').addEventListener('click', saveResearchConfig);
-}
+    return selectedFocusEmails
+      .map(function (email) { return normalizeEmail(email); })
+      .filter(function (email) { return email && email.indexOf('@') > -1; })
+      .filter(function (email) { return !isAdminEmail(email); })
+      .filter(function (email) { return activeEmails.indexOf(email) > -1; })
+      .filter(function (email, index, arr) { return arr.indexOf(email) === index; });
+  }
 
-function initResearchAccessAdmin() {
-    console.log('[ResearchAccess] Inicializando control de investigación');
+  function pruneSelectedEmailsToActiveParticipants() {
+    var activeEmails = registeredFocusParticipants.map(function (user) {
+      return normalizeEmail(user.email);
+    });
 
-    const preview = document.getElementById('previewContainer');
+    selectedFocusEmails = selectedFocusEmails
+      .map(function (email) { return normalizeEmail(email); })
+      .filter(function (email) { return activeEmails.indexOf(email) > -1; })
+      .filter(function (email) { return !isAdminEmail(email); });
+  }
 
-    if (!preview) {
-        console.error('[ResearchAccess] No existe #previewContainer');
-        return;
+  function syncTextareaFromSelectedEmails() {
+    var textarea = byId(SELECTORS.focusAllowedEmails);
+    if (!textarea) return;
+    textarea.value = selectedFocusEmails.join('\n');
+  }
+
+  function syncSelectedEmailsFromTextarea() {
+    var textarea = byId(SELECTORS.focusAllowedEmails);
+    if (!textarea) return;
+    selectedFocusEmails = parseEmailList(textarea.value);
+    pruneSelectedEmailsToActiveParticipants();
+    syncTextareaFromSelectedEmails();
+    renderFocusParticipantList();
+    renderSelectedParticipants();
+    renderPreview();
+  }
+
+  function getState() {
+    syncTextareaFromSelectedEmails();
+
+    return {
+      sectionEnabled: !!byId(SELECTORS.section)?.checked,
+
+      consentPretest: {
+        enabled: !!byId(SELECTORS.consent)?.checked,
+        title: 'Consentimiento informado y preprueba',
+        badge: 'Sesion inicial',
+        url: byId(SELECTORS.urlConsent)?.value.trim() || '',
+        buttonLabel: 'Acceder al consentimiento y preprueba'
+      },
+
+      posttest: {
+        enabled: !!byId(SELECTORS.posttest)?.checked,
+        title: 'Postprueba',
+        badge: 'Cierre del proceso formativo',
+        url: byId(SELECTORS.urlPosttest)?.value.trim() || '',
+        buttonLabel: 'Acceder a la postprueba'
+      },
+
+      focusGroupConsent: {
+        enabled: !!byId(SELECTORS.focus)?.checked,
+        title: 'Consentimiento para grupo focal',
+        badge: 'Solo participantes convocados',
+        url: byId(SELECTORS.urlFocus)?.value.trim() || '',
+        buttonLabel: 'Acceder al consentimiento del grupo focal',
+        audienceMode: 'selected_only',
+        allowedEmails: getAllowedEmailsFromSelection(),
+        allowedUids: []
+      }
+    };
+  }
+
+  function setInitialUrlsIfEmpty() {
+    var consentUrl = byId(SELECTORS.urlConsent);
+    var posttestUrl = byId(SELECTORS.urlPosttest);
+    var focusUrl = byId(SELECTORS.urlFocus);
+
+    if (consentUrl && !consentUrl.value.trim()) consentUrl.value = OFFICIAL_LINKS.consent;
+    if (posttestUrl && !posttestUrl.value.trim()) posttestUrl.value = OFFICIAL_LINKS.posttest;
+    if (focusUrl && !focusUrl.value.trim()) focusUrl.value = OFFICIAL_LINKS.focus;
+  }
+
+  function hasActiveInstrument(state) {
+    return Boolean(state.consentPretest.enabled || state.posttest.enabled || state.focusGroupConsent.enabled);
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function descriptionFor(key) {
+    if (key === 'consent') {
+      return 'Acceso al formulario que incluye el consentimiento informado y la preprueba. Debe completarse solo despues de la orientacion presencial del investigador.';
+    }
+    if (key === 'posttest') {
+      return 'Acceso al instrumento posterior que se habilitara al finalizar los talleres, actividades y foros correspondientes.';
+    }
+    return 'Acceso destinado unicamente a participantes invitados a la fase cualitativa de grupos focales. Requerira consentimiento aparte y se habilitara cuando el investigador tenga el documento o enlace final.';
+  }
+
+  function renderCard(item, key) {
+    var url = item.url || '';
+    var hasUrl = url.trim().length > 0;
+    var action = hasUrl
+      ? '<a class="btn btn-primary" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(item.buttonLabel) + '</a>'
+      : '<button class="btn btn-secondary" type="button" disabled>Documento pendiente</button>';
+
+    return ''
+      + '<article class="research-access-preview-card" style="background:#fff;border:1px solid var(--color-border-default, #e5e7eb);border-radius:16px;padding:24px;box-shadow:var(--shadow-sm);">'
+      + '<span class="badge" style="background-color:#ecfdf5;color:#065f46;padding:2px 10px;border-radius:999px;font-size:.75rem;border:1px solid #a7f3d0;text-transform:uppercase;letter-spacing:.08em;font-weight:700;">'
+      + escapeHtml(item.badge)
+      + '</span>'
+      + '<h3 style="font-family:var(--font-family-heading);color:var(--color-text-display);margin:16px 0 12px;">'
+      + escapeHtml(item.title)
+      + '</h3>'
+      + '<p style="color:var(--color-text-secondary);line-height:1.65;margin-bottom:20px;">'
+      + escapeHtml(descriptionFor(key))
+      + '</p>'
+      + action
+      + '</article>';
+  }
+
+  function renderPreview() {
+    var preview = byId(SELECTORS.preview);
+    if (!preview) return;
+
+    var state = getState();
+
+    if (!state.sectionEnabled || !hasActiveInstrument(state)) {
+      preview.innerHTML = '<div style="border:1px dashed var(--color-border-default, #cbd5e1);border-radius:12px;padding:32px;text-align:center;color:var(--color-text-secondary);background:var(--color-background-surface-low, #f8fafc);">El bloque de investigacion no estara visible para los participantes.</div>';
+      return;
     }
 
-    bindResearchEvents();
-    renderPreview();
-    loadResearchConfigFromFirestore();
-}
+    var cards = [];
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initResearchAccessAdmin, { once: true });
-} else {
-    initResearchAccessAdmin();
-}
+    if (state.consentPretest.enabled) cards.push(renderCard(state.consentPretest, 'consent'));
+    if (state.posttest.enabled) cards.push(renderCard(state.posttest, 'posttest'));
+
+    if (state.focusGroupConsent.enabled) {
+      cards.push(renderCard(state.focusGroupConsent, 'focus'));
+      var emailCount = state.focusGroupConsent.allowedEmails.length;
+      if (emailCount === 0) {
+        cards.push(
+          '<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:14px 18px;margin-top:4px;color:#92400e;font-size:0.9rem;">'
+          + '<strong>Atencion:</strong> Grupo focal esta activo, pero no hay participantes autorizados. '
+          + 'Ningun participante vera este acceso.'
+          + '</div>'
+        );
+      } else {
+        cards.push(
+          '<div style="background:#ecfdf5;border:1px solid #10b981;border-radius:8px;padding:14px 18px;margin-top:4px;color:#065f46;font-size:0.9rem;">'
+          + 'Visible solo para ' + emailCount + ' participante(s) seleccionado(s).'
+          + '</div>'
+        );
+      }
+    }
+
+    preview.innerHTML =
+      '<section style="background:#fff;border-radius:18px;padding:28px;border:1px solid var(--color-border-default, #e5e7eb);">'
+      + '<p class="section-kicker" style="margin-bottom:8px;">Investigacion</p>'
+      + '<h3 style="font-family:var(--font-family-heading);color:var(--color-text-display);font-size:1.6rem;margin:0 0 18px;">Participacion en la investigacion</h3>'
+      + '<div style="background:var(--color-background-surface-low, #f1f5f9);border-left:4px solid var(--color-brand-primary);padding:14px 18px;border-radius:8px;margin-bottom:24px;">'
+      + '<strong>Nota importante:</strong> Complete cada formulario o documento unicamente cuando el investigador lo indique. La participacion en la investigacion es voluntaria y el LMS no recopila sus respuestas a estos instrumentos.'
+      + '</div>'
+      + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">'
+      + cards.join('')
+      + '</div>'
+      + '</section>';
+  }
+
+  function renderSelectedParticipants() {
+    var container = byId(SELECTORS.focusSelectedParticipants);
+    if (!container) return;
+
+    if (selectedFocusEmails.length === 0) {
+      container.innerHTML = '<span class="research-access-url-help">No hay participantes seleccionados.</span>';
+      return;
+    }
+
+    container.innerHTML = selectedFocusEmails.map(function (email) {
+      return '<span class="research-selected-chip">' + escapeHtml(email) + '</span>';
+    }).join('');
+  }
+
+  function renderFocusParticipantList() {
+    var list = byId(SELECTORS.focusParticipantsList);
+    if (!list) return;
+
+    var searchValue = normalizeEmail(byId(SELECTORS.focusParticipantSearch)?.value || '');
+
+    var filtered = registeredFocusParticipants.filter(function (user) {
+      if (isAdminEmail(user.email)) return false;
+      var haystack = normalizeEmail((user.name || '') + ' ' + (user.email || ''));
+      return !searchValue || haystack.indexOf(searchValue) > -1;
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="research-access-empty-preview" style="padding:16px;text-align:center;color:var(--color-text-secondary);">No se encontraron participantes.</div>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(function (user) {
+      var email = normalizeEmail(user.email);
+      var checked = selectedFocusEmails.indexOf(email) > -1;
+
+      return ''
+        + '<label class="research-focus-participant-row">'
+        + '<input type="checkbox" class="focus-participant-checkbox" data-email="' + escapeHtml(email) + '" ' + (checked ? 'checked' : '') + ' />'
+        + '<span class="research-focus-participant-main">'
+        + '<span class="research-focus-participant-name">' + escapeHtml(user.name || 'Participante') + '</span>'
+        + '<span class="research-focus-participant-email">' + escapeHtml(email) + '</span>'
+        + '</span>'
+        + '</label>';
+    }).join('');
+
+    Array.prototype.forEach.call(list.querySelectorAll('.focus-participant-checkbox'), function (checkbox) {
+      checkbox.addEventListener('change', function (event) {
+        var email = normalizeEmail(event.target.getAttribute('data-email'));
+        if (!email) return;
+
+        if (event.target.checked) {
+          if (selectedFocusEmails.indexOf(email) === -1) selectedFocusEmails.push(email);
+        } else {
+          selectedFocusEmails = selectedFocusEmails.filter(function (item) { return item !== email; });
+        }
+
+        syncTextareaFromSelectedEmails();
+        renderSelectedParticipants();
+        renderPreview();
+      });
+    });
+  }
+
+  function loadActiveParticipantsFromSnapshot(snap) {
+    var users = [];
+    snap.forEach(function (docSnap) {
+      var data = docSnap.data() || {};
+      users.push({
+        uid: docSnap.id,
+        name: data.displayName || data.nombre || data.name || data.fullName || data.email || 'Participante',
+        email: normalizeEmail(data.email || data.correo || ''),
+        role: String(data.role || data.rol || '').toLowerCase(),
+        isActiveParticipant: isActiveParticipantRecord(data)
+      });
+    });
+
+    registeredFocusParticipants = users
+      .filter(function (user) { return user.email && user.isActiveParticipant === true; })
+      .sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
+
+    if (byId(SELECTORS.focusParticipantsStatus)) {
+      byId(SELECTORS.focusParticipantsStatus).textContent = registeredFocusParticipants.length + ' participante(s) activo(s) disponible(s) para seleccion.';
+    }
+
+    pruneSelectedEmailsToActiveParticipants();
+    renderFocusParticipantList();
+    syncTextareaFromSelectedEmails();
+    renderSelectedParticipants();
+    renderPreview();
+  }
+
+  function loadConfigFromFirestore() {
+    try {
+      var doLoad = function () {
+        if (window.db && window.doc && window.getDoc) {
+          return window.getDoc(window.doc(window.db, 'researchAccess', 'config'))
+            .then(function (snap) {
+              if (snap.exists()) {
+                var config = snap.data();
+                var savedEmails = (config.focusGroupConsent && config.focusGroupConsent.allowedEmails) || [];
+                selectedFocusEmails = removeAdminEmailsFromList(savedEmails);
+                pruneSelectedEmailsToActiveParticipants();
+                renderFocusParticipantList();
+                syncTextareaFromSelectedEmails();
+                renderSelectedParticipants();
+                renderPreview();
+              }
+            });
+        }
+        if (window.firebase && typeof window.firebase.firestore === 'function') {
+          return window.firebase.firestore().collection('researchAccess').doc('config').get()
+            .then(function (snap) {
+              if (snap.exists) {
+                var config = snap.data();
+                var savedEmails = (config.focusGroupConsent && config.focusGroupConsent.allowedEmails) || [];
+                selectedFocusEmails = removeAdminEmailsFromList(savedEmails);
+                pruneSelectedEmailsToActiveParticipants();
+                renderFocusParticipantList();
+                syncTextareaFromSelectedEmails();
+                renderSelectedParticipants();
+                renderPreview();
+              }
+            });
+        }
+      };
+
+      if (doLoad) {
+        doLoad()['catch'](function (error) {
+          console.warn('[ResearchAccess] No se pudo cargar configuracion guardada:', error);
+        });
+      }
+    } catch (error) {
+      console.warn('[ResearchAccess] Error al cargar configuracion:', error);
+    }
+  }
+
+  function loadRegisteredParticipants() {
+    var status = byId(SELECTORS.focusParticipantsStatus);
+    if (status) status.textContent = 'Cargando participantes activos...';
+
+    try {
+      var doLoad = function () {
+        if (window.db && window.collection && window.getDocs) {
+          return window.getDocs(window.collection(window.db, 'usuarios'))
+            .then(function (snap) {
+              loadActiveParticipantsFromSnapshot(snap);
+              loadConfigFromFirestore();
+            });
+        }
+        if (window.firebase && typeof window.firebase.firestore === 'function') {
+          return window.firebase.firestore().collection('usuarios').get()
+            .then(function (snapLegacy) {
+              loadActiveParticipantsFromSnapshot(snapLegacy);
+              loadConfigFromFirestore();
+            });
+        }
+        throw new Error('No hay API Firestore disponible para leer usuarios.');
+      };
+
+      doLoad()['catch'](function (error) {
+        console.error('[ResearchAccess] Error cargando participantes:', error);
+        if (status) status.textContent = 'No se pudo cargar la lista de participantes. Use la entrada manual de respaldo.';
+        loadConfigFromFirestore();
+      });
+    } catch (error) {
+      console.error('[ResearchAccess] Error cargando participantes:', error);
+      if (status) status.textContent = 'No se pudo cargar la lista de participantes. Use la entrada manual de respaldo.';
+      loadConfigFromFirestore();
+    }
+  }
+
+  function turnOffAll() {
+    var section = byId(SELECTORS.section);
+    var consent = byId(SELECTORS.consent);
+    var posttest = byId(SELECTORS.posttest);
+    var focus = byId(SELECTORS.focus);
+
+    if (section) section.checked = false;
+    if (consent) consent.checked = false;
+    if (posttest) posttest.checked = false;
+    if (focus) focus.checked = false;
+
+    renderPreview();
+    setStatus('Accesos apagados. Recuerde guardar la configuracion.', 'warning');
+  }
+
+  function restoreLinks() {
+    var consentUrl = byId(SELECTORS.urlConsent);
+    var posttestUrl = byId(SELECTORS.urlPosttest);
+    var focusUrl = byId(SELECTORS.urlFocus);
+
+    if (consentUrl) consentUrl.value = OFFICIAL_LINKS.consent;
+    if (posttestUrl) posttestUrl.value = OFFICIAL_LINKS.posttest;
+    if (focusUrl) focusUrl.value = OFFICIAL_LINKS.focus;
+
+    renderPreview();
+    setStatus('Enlaces oficiales restaurados. Recuerde guardar la configuracion.', 'info');
+  }
+
+  async function saveConfig() {
+    setStatus('Guardando configuracion...', 'info');
+
+    try {
+      var state = getState();
+      var saved = await trySaveToFirestore(state);
+      if (saved) {
+        setStatus('Configuracion guardada correctamente.', 'success');
+      } else {
+        setStatus('Vista previa funcional. Firestore no esta disponible desde este script.', 'warning');
+        console.warn('[ResearchAccess] UI funciona, pero no se encontro API Firestore compatible para guardar.');
+      }
+    } catch (error) {
+      console.error('[ResearchAccess] Error al guardar:', error);
+      setStatus('Error al guardar configuracion. Revise consola.', 'error');
+      alert('No se pudo guardar la configuracion. Revise la consola.');
+    }
+  }
+
+  async function trySaveToFirestore(state) {
+    var payload = { ...state, updatedAt: new Date().toISOString() };
+
+    if (window.firebase && typeof window.firebase.firestore === 'function') {
+      await window.firebase.firestore().collection('researchAccess').doc('config').set(payload, { merge: true });
+      return true;
+    }
+    if (window.db && window.doc && window.setDoc) {
+      await window.setDoc(window.doc(window.db, 'researchAccess', 'config'), payload, { merge: true });
+      return true;
+    }
+    return false;
+  }
+
+  function bindEvents() {
+    var liveIds = [
+      SELECTORS.section, SELECTORS.consent, SELECTORS.posttest, SELECTORS.focus,
+      SELECTORS.urlConsent, SELECTORS.urlPosttest, SELECTORS.urlFocus,
+      SELECTORS.focusAllowedEmails
+    ];
+
+    liveIds.forEach(function (id) {
+      var el = byId(id);
+      if (!el) { console.warn('[ResearchAccess] No se encontro elemento:', id); return; }
+      el.addEventListener('change', renderPreview);
+      el.addEventListener('input', renderPreview);
+    });
+
+    var searchInput = byId(SELECTORS.focusParticipantSearch);
+    if (searchInput) searchInput.addEventListener('input', renderFocusParticipantList);
+
+    var manualEmails = byId(SELECTORS.focusAllowedEmails);
+    if (manualEmails) {
+      manualEmails.addEventListener('change', syncSelectedEmailsFromTextarea);
+      manualEmails.addEventListener('blur', syncSelectedEmailsFromTextarea);
+    }
+
+    if (byId(SELECTORS.offAll)) byId(SELECTORS.offAll).addEventListener('click', turnOffAll);
+    if (byId(SELECTORS.restore)) byId(SELECTORS.restore).addEventListener('click', restoreLinks);
+    if (byId(SELECTORS.save)) byId(SELECTORS.save).addEventListener('click', saveConfig);
+  }
+
+  function init() {
+    console.log('[ResearchAccess] Inicializando control funcional aprobado.');
+
+    var preview = byId(SELECTORS.preview);
+    if (!preview) {
+      console.error('[ResearchAccess] No se encontro #previewContainer.');
+      return;
+    }
+
+    setInitialUrlsIfEmpty();
+    bindEvents();
+    renderPreview();
+    renderSelectedParticipants();
+    loadRegisteredParticipants();
+
+    setStatus('Control de investigacion listo.', 'success');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
