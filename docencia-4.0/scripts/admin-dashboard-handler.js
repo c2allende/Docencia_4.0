@@ -46,7 +46,11 @@ class AdminDashboardHandler {
                 // 1. Suscribirse a Participantes y Progreso (Tiempo Real)
                 if (this.unsubscribeProgress) this.unsubscribeProgress();
                 this.unsubscribeProgress = subscribeToParticipantsProgress((data) => {
-                    this.participants = data;
+                    var email = '';
+                    this.participants = (data || []).filter(function(p) {
+                      email = (p.email || '').trim().toLowerCase();
+                      return email !== 'test@gmail.com' && (email.indexOf('test') === -1 || email.indexOf('@') === -1);
+                    });
                     this.updateParticipantMetrics();
                     this.renderTopParticipants();
                 });
@@ -57,7 +61,10 @@ class AdminDashboardHandler {
                 // 3. Cargar Métricas de Foros
                 this.loadForumMetrics();
 
-                // 4. Cargar Eventos Reales
+                // 4. Vincular Matrícula Manual
+                this.bindManualEnrollment();
+
+                // 5. Cargar Eventos Reales
                 this.loadRecentEvents();
             } else {
                 console.warn("AdminDashboardHandler: No hay usuario autenticado.");
@@ -292,6 +299,126 @@ class AdminDashboardHandler {
         if (hours > 0) return `Hace ${hours}h`;
         if (minutes > 0) return `Hace ${minutes}m`;
         return "Hace un momento";
+    }
+
+    bindManualEnrollment() {
+        var form = document.getElementById('manualEnrollmentForm');
+        if (!form) return;
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            var firstName = document.getElementById('manualFirstName')?.value.trim() || '';
+            var lastName = document.getElementById('manualLastName')?.value.trim() || '';
+            var email = document.getElementById('manualEmail')?.value.trim() || '';
+            var resultDiv = document.getElementById('manualEnrollmentResult');
+            var btn = document.getElementById('manualEnrollmentSubmit');
+
+            if (!firstName || !lastName || !email) {
+                if (resultDiv) {
+                    resultDiv.className = 'manual-enrollment-result is-visible';
+                    resultDiv.style.background = '#fef2f2';
+                    resultDiv.style.border = '1px solid #fca5a5';
+                    resultDiv.style.color = '#991b1b';
+                    resultDiv.textContent = 'Todos los campos son requeridos.';
+                }
+                return;
+            }
+
+            if (resultDiv) {
+                resultDiv.className = 'manual-enrollment-result is-visible';
+                resultDiv.style.background = '#eff6ff';
+                resultDiv.style.border = '1px solid #93c5fd';
+                resultDiv.style.color = '#1e40af';
+                resultDiv.textContent = 'Creando participante...';
+            }
+            if (btn) btn.disabled = true;
+
+            try {
+                var functionsMod = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js");
+                var { auth } = await import('./firebase-config.js');
+                var functions = functionsMod.getFunctions(auth.app, 'us-central1');
+                var createParticipant = functionsMod.httpsCallable(functions, 'createManualParticipant');
+
+                var result = await createParticipant({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email
+                });
+
+                var data = result.data;
+                console.log('[ManualEnroll] Cloud Function response:', data);
+
+                if (resultDiv) {
+                    resultDiv.className = 'manual-enrollment-result is-visible';
+                    resultDiv.innerHTML =
+                        '<div class="manual-enrollment-success-card">' +
+                        '  <div class="manual-enrollment-success-header">' +
+                        '    <span class="manual-enrollment-success-icon">\u2713</span>' +
+                        '    <div>' +
+                        '      <h3>Participante creado exitosamente</h3>' +
+                        '      <p>La cuenta oficial fue creada en la plataforma.</p>' +
+                        '    </div>' +
+                        '  </div>' +
+
+                        '  <dl class="manual-enrollment-summary">' +
+                        '    <div>' +
+                        '      <dt>Email</dt>' +
+                        '      <dd>' + data.email + '</dd>' +
+                        '    </div>' +
+                        '    <div>' +
+                        '      <dt>Nombre</dt>' +
+                        '      <dd>' + data.displayName + '</dd>' +
+                        '    </div>' +
+                        '  </dl>' +
+
+                        '  <div class="manual-enrollment-password-box">' +
+                        '    <p class="manual-enrollment-password-label">Contrase\u00f1a temporal de primer acceso</p>' +
+                        '    <div class="manual-enrollment-password-row">' +
+                        '      <code class="manual-enrollment-temp-password" id="tempPasswordDisplay">' + data.temporaryPassword + '</code>' +
+                        '      <button type="button" class="btn btn-secondary" id="copyTemporaryPasswordBtn">Copiar contrase\u00f1a</button>' +
+                        '    </div>' +
+                        '    <p class="manual-enrollment-password-warning">Por seguridad, esta contrase\u00f1a no se guardar\u00e1 y no podr\u00e1 consultarse nuevamente desde el panel.</p>' +
+                        '  </div>' +
+
+                        '  <p class="manual-enrollment-instruction">Entregue esta contrase\u00f1a temporal al participante por un canal seguro. Al iniciar sesi\u00f3n, el sistema le solicitar\u00e1 crear su propia contrase\u00f1a.</p>' +
+                        '</div>';
+
+                    var copyBtn = document.getElementById('copyTemporaryPasswordBtn');
+                    if (copyBtn) {
+                        copyBtn.addEventListener('click', function () {
+                            navigator.clipboard.writeText(data.temporaryPassword).then(function () {
+                                copyBtn.textContent = '\u2713 Copiado';
+                                setTimeout(function () { copyBtn.textContent = 'Copiar contrase\u00f1a'; }, 2500);
+                            }).catch(function () {
+                                copyBtn.textContent = 'Error al copiar';
+                            });
+                        });
+                    }
+                }
+
+                document.getElementById('manualFirstName').value = '';
+                document.getElementById('manualLastName').value = '';
+                document.getElementById('manualEmail').value = '';
+            } catch (error) {
+                console.error('[ManualEnroll] Error:', error);
+                var message = error.message || 'Error desconocido';
+                if (error.code === 'unauthenticated') message = 'Debe iniciar sesión como administrador.';
+                else if (error.code === 'permission-denied') message = 'No tiene permisos para matricular participantes.';
+                else if (error.code === 'already-exists') message = 'El email ya está registrado en la plataforma.';
+                else if (error.code === 'invalid-argument') message = error.message || 'Datos inválidos.';
+
+                if (resultDiv) {
+                    resultDiv.className = 'manual-enrollment-result is-visible';
+                    resultDiv.style.background = '#fef2f2';
+                    resultDiv.style.border = '1px solid #fca5a5';
+                    resultDiv.style.color = '#991b1b';
+                    resultDiv.innerHTML = '<strong>Error:</strong> ' + message;
+                }
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        });
     }
 
     destroy() {
