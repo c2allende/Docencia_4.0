@@ -924,7 +924,7 @@
                                 <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-secondary);">Habilita el bloque completo en el Dashboard.</p>
                             </div>
                             <label class="research-access-toggle-switch">
-                                <input type="checkbox" id="researchSectionEnabled">
+                                <input type="checkbox" id="toggleSection">
                                 <span class="research-access-slider"></span>
                             </label>
                         </div>
@@ -939,13 +939,13 @@
                                     <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Sesión inicial</span>
                                 </div>
                                 <label class="research-access-toggle-switch">
-                                    <input type="checkbox" id="researchConsentPretestEnabled">
+                                    <input type="checkbox" id="toggleConsent">
                                     <span class="research-access-slider"></span>
                                 </label>
                             </div>
                             <div style="margin-top: 12px;">
                                 <label class="research-access-url-label" for="urlConsent">URL del formulario:</label>
-                                <input id="researchConsentPretestUrl" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace del formulario">
+                                <input id="urlConsent" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace del formulario">
                             </div>
                         </div>
 
@@ -956,13 +956,13 @@
                                     <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Cierre del proceso formativo</span>
                                 </div>
                                 <label class="research-access-toggle-switch">
-                                    <input type="checkbox" id="researchPosttestEnabled">
+                                    <input type="checkbox" id="togglePosttest">
                                     <span class="research-access-slider"></span>
                                 </label>
                             </div>
                             <div style="margin-top: 12px;">
                                 <label class="research-access-url-label" for="urlPosttest">URL del formulario:</label>
-                                <input id="researchPosttestUrl" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace de la postprueba">
+                                <input id="urlPosttest" class="research-access-url-input" type="url" placeholder="Pegue aquí el enlace de la postprueba">
                             </div>
                         </div>
 
@@ -973,27 +973,28 @@
                                     <span class="badge" style="background-color: #ecfdf5; color: #065f46; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; border: 1px solid #a7f3d0;">Solo participantes convocados</span>
                                 </div>
                                 <label class="research-access-toggle-switch">
-                                    <input type="checkbox" id="researchFocusGroupEnabled">
+                                    <input type="checkbox" id="toggleFocus">
                                     <span class="research-access-slider"></span>
                                 </label>
                             </div>
                             <div style="margin-top: 12px;">
                                 <label class="research-access-url-label" for="urlFocus">URL o documento:</label>
-                                <input id="researchFocusGroupUrl" class="research-access-url-input" type="url" placeholder="Pendiente: pegue aquí el enlace o PDF cuando esté disponible">
+                                <input id="urlFocus" class="research-access-url-input" type="url" placeholder="Pendiente: pegue aquí el enlace o PDF cuando esté disponible">
                                 <p class="research-access-url-help">Puede dejar este campo vacío hasta que el documento o enlace final esté disponible.</p>
                             </div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;">
-                        <button type="button" id="researchTurnOffAllBtn" class="btn research-access-danger-btn">Apagar todos</button>
-                        <button type="button" id="researchRestoreLinksBtn" class="btn btn-secondary">Restaurar enlaces oficiales</button>
-                        <button type="button" id="researchSaveConfigBtn" class="btn btn-primary" style="margin-left: auto;">Guardar configuración</button>
+                        <button type="button" id="btnOffAll" class="btn research-access-danger-btn">Apagar todos</button>
+                        <button type="button" id="btnRestore" class="btn btn-secondary">Restaurar enlaces oficiales</button>
+<button type="button" id="btnUpdatePreview" class="btn btn-secondary" style="margin-left: 10px;">Actualizar vista previa</button>
+                        <button type="button" id="btnSaveResearchConfig" class="btn btn-primary" style="margin-left: auto;">Guardar configuración</button>
                     </div>
 
                     <div>
                         <h3 style="font-family: var(--font-family-heading); color: var(--color-text-display); margin-top: 0; margin-bottom: 16px;">Vista previa participante</h3>
-                        <div id="researchParticipantPreview" class="research-access-preview" aria-live="polite"></div>
+                        <div id="previewContainer" class="research-access-preview" aria-live="polite"></div>
 <p id="researchAccessStatus" class="research-access-status" aria-live="polite" style="margin-top: 10px; font-weight: bold;"></p>
                     </div>
                 </section>
@@ -1202,7 +1203,18 @@
     </script>
     <div id="institutional-footer"></div>
     <script type="module" src="scripts/institutional-footer.js"></script>
-<script src="scripts/admin-research-access-handler.js" type="module"></script>
+
+    <script type="module">
+        import { db } from './scripts/firebase-config.js';
+        import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        window.db = db;
+        window.doc = doc;
+        window.getDoc = getDoc;
+        window.setDoc = setDoc;
+        window.serverTimestamp = serverTimestamp;
+    </script>
+
+    <script src="scripts/admin-research-access-handler.js"></script>
 </body>
 
 </html>
