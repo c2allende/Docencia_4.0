@@ -111,6 +111,49 @@ const GUARDRAILS = [
 
 const DEFAULT_FALLBACK_RESPONSE = `No tengo información suficiente sobre ese tema. Este asistente está diseñado para orientar sobre el uso del LMS Docencia 4.0 y sus actividades. Puede intentar buscar usando otros términos o explorar las categorías rápidas.`;
 
+
+// --- Audio Logic ---
+const DOCENCIA_OWL_SOUND_SRC = 'assets/audio/owl-soft-hoot.mp3';
+let docenciaOwlAudio = null;
+let docenciaOwlSoundEnabled = sessionStorage.getItem('docenciaChatbotSound') !== 'off';
+
+function getDocenciaOwlAudio() {
+  if (!docenciaOwlAudio) {
+    docenciaOwlAudio = new Audio(DOCENCIA_OWL_SOUND_SRC);
+    docenciaOwlAudio.volume = 0.16;
+    docenciaOwlAudio.preload = 'auto';
+  }
+  return docenciaOwlAudio;
+}
+
+function playDocenciaOwlSound() {
+  if (!docenciaOwlSoundEnabled) return;
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+  if (prefersReducedMotion) return;
+
+  try {
+    const audio = getDocenciaOwlAudio();
+    audio.currentTime = 0;
+    const playPromise = audio.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {});
+    }
+  } catch (error) {}
+}
+
+function toggleDocenciaOwlSound() {
+  docenciaOwlSoundEnabled = !docenciaOwlSoundEnabled;
+  sessionStorage.setItem('docenciaChatbotSound', docenciaOwlSoundEnabled ? 'on' : 'off');
+  
+  const button = document.querySelector('.docencia-chatbot-sound-toggle');
+  if (!button) return;
+  
+  button.textContent = docenciaOwlSoundEnabled ? '🔈' : '🔇';
+  button.setAttribute('aria-label', docenciaOwlSoundEnabled ? 'Silenciar sonido del asistente' : 'Activar sonido del asistente');
+  button.setAttribute('title', docenciaOwlSoundEnabled ? 'Silenciar sonido' : 'Activar sonido');
+}
+// -------------------
+
 // Estado del UI
 const dom = {
     toggleBtn: document.getElementById('chatbotToggleBtn'),
@@ -407,6 +450,7 @@ function initChatbot() {
     });
 
     dom.toggleBtn.addEventListener('click', () => {
+        playDocenciaOwlSound();
         const isHidden = dom.panel.getAttribute('aria-hidden') === 'true';
         if (isHidden) {
             dom.panel.classList.add('active');
@@ -419,6 +463,12 @@ function initChatbot() {
             closeChatbotPanel();
         }
     });
+
+        const soundBtn = document.querySelector('.docencia-chatbot-sound-toggle');
+    if (soundBtn) {
+        soundBtn.textContent = docenciaOwlSoundEnabled ? '🔈' : '🔇';
+        soundBtn.addEventListener('click', toggleDocenciaOwlSound);
+    }
 
     dom.closeBtn.addEventListener('click', closeChatbotPanel);
     const closeXBtn = document.querySelector('.docencia-chatbot-close-x');

@@ -614,7 +614,29 @@
                 font-size: var(--font-size-3xl);
             }
         }
-    </style>
+    
+            .docencia-chatbot-sound-toggle {
+                width: 36px;
+                height: 36px;
+                border: 0;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.92);
+                color: var(--color-text-display);
+                cursor: pointer;
+                box-shadow: var(--shadow-sm);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-family: inherit;
+                margin-right: 8px;
+            }
+            .docencia-chatbot-sound-toggle:hover,
+            .docencia-chatbot-sound-toggle:focus-visible {
+                outline: 2px solid var(--color-brand-primary);
+                outline-offset: 2px;
+            }
+
+</style>
     <style id="notification-scoped-styles">
         .notification-wrapper { position: relative; display: flex; align-items: center; }
         .notification-bell-btn { background: transparent; border: none; font-size: var(--font-size-xl); cursor: pointer; position: relative; padding: 0; display: flex; align-items: center; }
@@ -2076,6 +2098,8 @@
                         <p>Guía de apoyo para orientación</p>
                     </div>
                 </div>
+                
+                <button type="button" class="docencia-chatbot-sound-toggle" aria-label="Silenciar sonido del asistente" title="Silenciar sonido">🔈</button>
                 <button type="button" id="chatbotCloseBtn" class="docencia-chatbot-close" aria-label="Cerrar asistente">&times;</button>
             </div>
 
