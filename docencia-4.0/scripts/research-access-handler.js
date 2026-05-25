@@ -4,27 +4,16 @@ import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/f
 
 const mountPoint = document.getElementById('researchAccessMount');
 
-function isResearchAccessAllowedForUser(config, user) {
+function shouldShowResearchAccess(config) {
     if (!config || config.sectionEnabled !== true) return false;
 
-    const mode = config.audienceMode || 'test_only';
+    const items = [
+        config.consentPretest,
+        config.posttest,
+        config.focusGroupConsent
+    ];
 
-    if (mode === 'test_only') {
-        const email = (user.email || '').toLowerCase();
-        const uid = user.uid || '';
-
-        const allowedEmails = (config.testParticipantEmails || [])
-            .map((item) => String(item).toLowerCase().trim())
-            .filter(Boolean);
-
-        const allowedUids = (config.testParticipantUids || [])
-            .map((item) => String(item).trim())
-            .filter(Boolean);
-
-        return allowedEmails.includes(email) || allowedUids.includes(uid);
-    }
-
-    return false;
+    return items.some((item) => item && item.enabled === true);
 }
 
 function renderResearchAccess(config) {
@@ -118,7 +107,7 @@ async function initResearchAccess(user) {
         
         if (docSnap.exists()) {
             const config = docSnap.data();
-            if (isResearchAccessAllowedForUser(config, user)) {
+            if (shouldShowResearchAccess(config)) {
                 renderResearchAccess(config);
             } else {
                 if (mountPoint) mountPoint.hidden = true;

@@ -3,9 +3,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/fi
 
 const researchAccessSimpleState = {
   sectionEnabled: false,
-  audienceMode: 'test_only',
-  testParticipantEmails: [],
-  testParticipantUids: [],
+  
   consentPretest: {
     enabled: false,
     title: 'Consentimiento informado y preprueba',
@@ -34,7 +32,7 @@ const researchAccessSimpleState = {
 
 const dom = {
     toggleSection: document.getElementById('toggleSection'),
-    testParticipantEmail: document.getElementById('researchTestParticipantEmail'),
+    
     toggleConsent: document.getElementById('toggleConsent'),
     togglePosttest: document.getElementById('togglePosttest'),
     toggleFocus: document.getElementById('toggleFocus'),
@@ -55,8 +53,7 @@ async function loadConfig() {
         if (docSnap.exists()) {
             const data = docSnap.data();
             researchAccessSimpleState.sectionEnabled = data.sectionEnabled || false;
-            researchAccessSimpleState.audienceMode = data.audienceMode || 'test_only';
-            researchAccessSimpleState.testParticipantEmails = data.testParticipantEmails || [];
+            
             
             if (data.consentPretest) {
                 researchAccessSimpleState.consentPretest.enabled = data.consentPretest.enabled || false;
@@ -79,13 +76,7 @@ async function loadConfig() {
 }
 
 async function saveConfig() {
-    // Basic validation
-    if (researchAccessSimpleState.sectionEnabled) {
-        if (!researchAccessSimpleState.testParticipantEmails || researchAccessSimpleState.testParticipantEmails.length === 0 || researchAccessSimpleState.testParticipantEmails[0].trim() === '') {
-            alert('Debe indicar el email del participante test antes de habilitar el espacio.');
-            return;
-        }
-    }
+    
 
     dom.btnSaveConfig.disabled = true;
     dom.btnSaveConfig.textContent = 'Guardando...';
@@ -94,9 +85,7 @@ async function saveConfig() {
         const docRef = doc(db, 'researchAccess', 'config');
         await setDoc(docRef, {
             sectionEnabled: researchAccessSimpleState.sectionEnabled,
-            audienceMode: 'test_only',
-            testParticipantEmails: researchAccessSimpleState.testParticipantEmails,
-            testParticipantUids: [],
+            
             consentPretest: {
                 enabled: researchAccessSimpleState.consentPretest.enabled,
                 url: researchAccessSimpleState.consentPretest.url,
@@ -194,8 +183,7 @@ function renderPreview() {
 function updateStateFromInputs() {
     researchAccessSimpleState.sectionEnabled = dom.toggleSection.checked;
     
-    const emails = dom.testParticipantEmail.value.split(',').map(e => e.trim()).filter(e => e.length > 0);
-    researchAccessSimpleState.testParticipantEmails = emails;
+    
 
     researchAccessSimpleState.consentPretest.enabled = dom.toggleConsent.checked;
     researchAccessSimpleState.consentPretest.url = dom.urlConsent.value.trim();
@@ -211,7 +199,7 @@ function updateStateFromInputs() {
 
 function syncInputsWithState() {
     dom.toggleSection.checked = researchAccessSimpleState.sectionEnabled;
-    dom.testParticipantEmail.value = researchAccessSimpleState.testParticipantEmails.join(', ');
+    
 
     dom.toggleConsent.checked = researchAccessSimpleState.consentPretest.enabled;
     dom.urlConsent.value = researchAccessSimpleState.consentPretest.url;
@@ -242,7 +230,7 @@ function restoreOfficial() {
 
 function bindResearchUrlInputs() {
     if (dom.toggleSection) dom.toggleSection.addEventListener('change', updateStateFromInputs);
-    if (dom.testParticipantEmail) dom.testParticipantEmail.addEventListener('input', updateStateFromInputs);
+    
     if (dom.toggleConsent) dom.toggleConsent.addEventListener('change', updateStateFromInputs);
     if (dom.togglePosttest) dom.togglePosttest.addEventListener('change', updateStateFromInputs);
     if (dom.toggleFocus) dom.toggleFocus.addEventListener('change', updateStateFromInputs);
