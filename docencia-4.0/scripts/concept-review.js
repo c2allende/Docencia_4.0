@@ -21,6 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Garantizar que el click en el botón funcione en todos los navegadores
+        if (toggleText) {
+            toggleText.addEventListener('click', (e) => {
+                // Evitamos la doble ejecución del summary nativo
+                e.preventDefault();
+                section.open = !section.open;
+            });
+        }
+
         // Botón "Ver más conceptos" / "Ver todos los conceptos"
         if (moreBtn && overflow) {
             moreBtn.addEventListener('click', (e) => {
