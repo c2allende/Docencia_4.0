@@ -6044,6 +6044,201 @@ details:not([open]) > summary .summary-less {
     font-size: var(--font-size-xl);
     text-align: left;
 }
+
+.concept-review[open] .concept-review__toggle-text--closed {
+  display: none;
+}
+
+.concept-review[open] .concept-review__toggle-text--open {
+  display: inline;
+}
+
+/* --- Panel de contenido (aparece al abrir) --- */
+.concept-review__panel {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+/* --- Lista de conceptos --- */
+.concept-review__list {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+/* --- Ítem individual (acordeón) --- */
+.concept-review__item {
+    padding: var(--spacing-md);
+    border: var(--border-width-1) solid var(--color-border-default);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-surface-low);
+    box-shadow: var(--shadow-flat);
+}
+
+/* --- Summary de ítem --- */
+.concept-review__summary {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-text-display);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-extrabold);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-snug);
+}
+
+.concept-review__item[open] {
+    border-color: var(--color-brand-primary);
+}
+
+.concept-review__summary::-webkit-details-marker {
+    display: none;
+}
+
+.concept-review__summary::before {
+    content: "▸";
+    flex-shrink: 0;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-disabled);
+    transition: transform var(--motion-duration-instant);
+}
+
+.concept-review__item[open] > .concept-review__summary::before {
+    transform: rotate(90deg);
+}
+
+/* --- Cuerpo del ítem --- */
+.concept-review__body {
+    margin-top: var(--spacing-md);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    text-align: left;
+}
+
+.concept-review__body p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Cita --- */
+.concept-review__citation {
+    display: block;
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    border-top: var(--border-width-1) solid var(--color-border-subtle);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    line-height: var(--line-height-relaxed);
+}
+
+/* --- Overflow / Ver más (opcional) --- */
+.concept-review__overflow {
+    display: none;
+}
+
+.concept-review__overflow[style*="display: block"] {
+    display: block;
+}
+
+.concept-review__more {
+    width: 100%;
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-3) var(--spacing-lg);
+    border: var(--border-width-1) dashed var(--color-brand-primary);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-surface);
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: background-color var(--motion-duration-default) var(--motion-easing-standard),
+        color var(--motion-duration-default) var(--motion-easing-standard);
+}
+
+.concept-review__more:hover {
+    background: var(--color-brand-primary);
+    color: var(--color-brand-primary-on);
+}
+
+/* --- Variante: --blue (fondo brand-primary) --- */
+.concept-review--blue {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.concept-review--blue .concept-review__summary-main {
+    background: var(--color-background-surface);
+    border-color: var(--color-border-default);
+    box-shadow: var(--shadow-flat);
+}
+
+.concept-review--blue .concept-review__panel {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    background: var(--color-background-surface);
+    box-shadow: var(--shadow-flat);
+}
+
+.concept-review--blue .concept-review__item {
+    background: var(--color-background-surface-low);
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+    .concept-review__summary-main {
+        grid-template-columns: auto 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .concept-review__count {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .concept-review__panel {
+        padding: var(--spacing-md);
+    }
+
+    .concept-review__item {
+        padding: var(--spacing-sm);
+    }
+}
+
+
+
+
+
+
+
+/* FIX CONCEPTOS A REPASAR */
+.concept-review-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+.concept-review-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+.concept-review-title span:not(.concept-review-icon) {
+    color: var(--color-brand-primary);
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xl);
+    text-align: left;
+}
 .concept-review-icon {
     font-size: var(--font-size-2xl);
     line-height: 1;
@@ -6051,6 +6246,7 @@ details:not([open]) > summary .summary-less {
 .concept-review-toggle {
     white-space: nowrap;
     margin-left: var(--spacing-sm);
+    pointer-events: none;
 }
 
 

@@ -1489,7 +1489,7 @@ Su navegador no soporta la reproducción de audio.
                     </div>
 
                     <aside class="lesson-area-media" aria-label="Imagen sobre razonamiento STEM y Chain of Thought">
-                        <p class="lesson-media-caption">🖼️ Razonamiento STEM y Chain of Thought — esquema visual del desglose lógico de un problema matemático.</p>
+
                         <button class="image-zoom-trigger lesson-media-card" type="button"
                             onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
                             aria-label="Ampliar imagen sobre razonamiento STEM y Chain of Thought">
@@ -1552,7 +1552,7 @@ Su navegador no soporta la reproducción de audio.
                     </div>
 
                     <aside class="lesson-area-media" aria-label="Imagen sobre análisis textual en humanidades">
-                        <p class="lesson-media-caption">🖼️ Análisis textual en Humanidades — ilustración de un texto con anotaciones, preguntas inferenciales y contraste tonal.</p>
+
                         <button class="image-zoom-trigger lesson-media-card" type="button"
                             onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
                             aria-label="Ampliar imagen sobre análisis textual en humanidades">
@@ -1628,7 +1628,7 @@ Su navegador no soporta la reproducción de audio.
                     </div>
 
                     <aside class="lesson-area-media" aria-label="Imagen sobre uso de LLM en enseñanza de idiomas">
-                        <p class="lesson-media-caption">🖼️ Uso de LLM para interacción comunicativa, vocabulario, traducción, cultura y escritura guiada en inglés y otros idiomas.</p>
+
                         <button class="image-zoom-trigger lesson-media-card" type="button"
                             onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
                             aria-label="Ampliar imagen sobre uso de LLM en enseñanza de idiomas">
@@ -1686,7 +1686,7 @@ Su navegador no soporta la reproducción de audio.
                     </div>
 
                     <aside class="lesson-area-media" aria-label="Imagen sobre inclusión y accesibilidad con IA">
-                        <p class="lesson-media-caption">🖼️ Inclusión y accesibilidad con IA — íconos de DUA, niveles de lectura y herramientas asistivas.</p>
+
                         <button class="image-zoom-trigger lesson-media-card" type="button"
                             onclick="openZoom(this.querySelector('img').currentSrc || this.querySelector('img').src)"
                             aria-label="Ampliar imagen sobre inclusión y accesibilidad con IA">
@@ -1722,6 +1722,7 @@ Su navegador no soporta la reproducción de audio.
                             <span class="dot" id="dot0"></span>
                             <span class="dot" id="dot1"></span>
                             <span class="dot" id="dot2"></span>
+                            <span class="dot" id="dot3"></span>
                         </div>
                     </div>
 
@@ -1729,12 +1730,13 @@ Su navegador no soporta la reproducción de audio.
                         <div class="activity-card intro-inner">
                             <span class="big-emoji" aria-hidden="true">🧭</span>
                             <h2 id="activity-intro-title">LLM en el salón de clase: Aplicaciones Estratégicas (Test)</h2>
-                            <p>Explora tres escenarios breves para decidir cómo aplicar modelos de lenguaje de gran
+                            <p>Explora cuatro escenarios breves para decidir cómo aplicar modelos de lenguaje de gran
                                 tamaño con <strong>criterio pedagógico, ético y contextual</strong>.</p>
                             <div class="chips" aria-hidden="true">
                                 <span class="chip chip-stem">STEM</span>
                                 <span class="chip chip-humanities">Humanidades</span>
                                 <span class="chip chip-special">Educación Especial</span>
+                                <span class="chip" style="background: rgba(255,107,107,0.15); color: #FF6B6B;">Idiomas</span>
                             </div>
                             <div class="info-row">
                                 <div class="info-card">
@@ -1752,6 +1754,11 @@ Su navegador no soporta la reproducción de audio.
                                     <div class="ic-icon">♿</div>
                                     <div class="ic-title">Accesibilidad</div>
                                     <div class="ic-body">Diferenciar materiales y apoyar PEI con revisión humana.</div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="ic-icon">🌍</div>
+                                    <div class="ic-title">Idiomas</div>
+                                    <div class="ic-body">Practicar interacción comunicativa y mediación cultural.</div>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary-activity" id="startActivityBtn">Comenzar
@@ -1873,8 +1880,39 @@ Su navegador no soporta la reproducción de audio.
                             <div class="nav-row">
                                 <button type="button" class="btn btn-secondary-activity btn-sm" id="back2">←
                                     Regresar</button>
-                                <button type="button" class="btn btn-primary-activity btn-sm" id="next2" hidden>Ver
-                                    resultados →</button>
+                                <button type="button" class="btn btn-primary-activity btn-sm" id="next2" hidden>Continuar →</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="screen" id="screen3" aria-labelledby="scenario3-title">
+                        <div class="activity-card">
+                            <div class="scenario-head">
+                                <div class="area-icon" style="background: rgba(255,107,107,0.15);" aria-hidden="true">🌍</div>
+                                <div>
+                                    <h3 id="scenario3-title">Inglés y otros idiomas</h3>
+                                    <div class="sub">Interacción comunicativa y escritura guiada</div>
+                                </div>
+                            </div>
+                            <div class="anim-box" aria-hidden="true">
+                                <div class="anim-list">
+                                    <span class="anim-chip">Vocabulario</span>
+                                    <span class="anim-chip">Conversación</span>
+                                    <span class="anim-chip">Borradores</span>
+                                    <span class="anim-chip">Mediación</span>
+                                </div>
+                            </div>
+                            <p class="scenario-text"><strong>Escenario:</strong> Quieres que tus estudiantes practiquen situaciones reales (ej. pedir comida) y usen glosarios bilingües con apoyo de IA.</p>
+                            <div class="opts-label">Selecciona la mejor estrategia</div>
+                            <div class="opts" id="opts3">
+                                <button type="button" class="opt" data-i="0"><span class="oletter">A</span>Permitir que usen la IA como traductor automático para todas sus tareas sin revisión.</button>
+                                <button type="button" class="opt" data-i="1"><span class="oletter">B</span>Requerir que memoricen listas de vocabulario estáticas sin apoyo de tecnología.</button>
+                                <button type="button" class="opt" data-i="2"><span class="oletter">C</span>Usar el bot para simular diálogos y generar modelos de texto, validando precisión y pertinencia cultural en clase.</button>
+                            </div>
+                            <div class="fb" id="fb3" aria-live="polite"></div>
+                            <div class="nav-row">
+                                <button type="button" class="btn btn-secondary-activity btn-sm" id="back3">← Regresar</button>
+                                <button type="button" class="btn btn-primary-activity btn-sm" id="next3" hidden>Ver resultados →</button>
                             </div>
                         </div>
                     </section>
@@ -2258,10 +2296,15 @@ Su navegador no soporta la reproducción de audio.
                     correct: 1,
                     ok: '✅ Correcto. En educación especial se debe trabajar con datos anonimizados y mantener la revisión humana, profesional y familiar.',
                     bad: 'Revisa el principio Human-in-the-Loop: el LLM no debe recibir datos sensibles ni decidir acomodos sin intervención profesional.'
+                },
+                {
+                    correct: 2,
+                    ok: '✅ Correcto. En idiomas, el LLM apoya la simulación y modelaje, pero el docente siempre valida la pertinencia cultural.',
+                    bad: 'Evita la dependencia técnica: el LLM debe usarse para interactuar, no como un mero traductor que limite el esfuerzo cognitivo.'
                 }
             ];
 
-            const answers = [null, null, null];
+            const answers = [null, null, null, null];
             const topbar = document.getElementById('activityTopbar');
             const progbar = document.getElementById('progbar');
             const stepLabel = document.getElementById('stepLabel');
@@ -2276,9 +2319,9 @@ Su navegador no soporta la reproducción de audio.
             function setProgress(step) {
                 if (!topbar || !progbar || !stepLabel) return;
                 topbar.classList.add('is-visible');
-                progbar.style.width = `${Math.round(((step + 1) / 3) * 100)}%`;
-                stepLabel.textContent = `Escenario ${step + 1} de 3`;
-                for (let i = 0; i < 3; i += 1) {
+                progbar.style.width = `${Math.round(((step + 1) / 4) * 100)}%`;
+                stepLabel.textContent = `Escenario ${step + 1} de 4`;
+                for (let i = 0; i < 4; i += 1) {
                     const dot = document.getElementById(`dot${i}`);
                     if (!dot) continue;
                     dot.className = 'dot' + (i < step ? ' done' : i === step ? ' active' : '');
@@ -2338,7 +2381,7 @@ Su navegador no soporta la reproducción de audio.
                 if (next) next.hidden = false;
             }
 
-            [0, 1, 2].forEach((index) => {
+            [0, 1, 2, 3].forEach((index) => {
                 const group = document.getElementById(`opts${index}`);
                 group?.addEventListener('click', (event) => {
                     const target = event.target.closest('.opt');
@@ -2354,11 +2397,15 @@ Su navegador no soporta la reproducción de audio.
 
             document.getElementById('next0')?.addEventListener('click', () => { showScreen('screen1'); setProgress(1); });
             document.getElementById('next1')?.addEventListener('click', () => { showScreen('screen2'); setProgress(2); });
+            document.getElementById('next2')?.addEventListener('click', () => { showScreen('screen3'); setProgress(3); });
+
             document.getElementById('back1')?.addEventListener('click', () => { showScreen('screen0'); setProgress(0); });
             document.getElementById('back2')?.addEventListener('click', () => { showScreen('screen1'); setProgress(1); });
-            document.getElementById('next2')?.addEventListener('click', () => {
+            document.getElementById('back3')?.addEventListener('click', () => { showScreen('screen2'); setProgress(2); });
+
+            document.getElementById('next3')?.addEventListener('click', () => {
                 const score = answers.filter((answer, index) => answer === questions[index].correct).length;
-                const pct = Math.round((score / 3) * 100);
+                const pct = Math.round((score / 4) * 100);
                 const ring = document.getElementById('scoreRing');
                 const scoreNum = document.getElementById('scoreNum');
                 const resultMessage = document.getElementById('resultMessage');
@@ -2366,12 +2413,12 @@ Su navegador no soporta la reproducción de audio.
                 topbar?.classList.remove('is-visible');
                 showScreen('screenResults');
                 if (ring) ring.style.background = `conic-gradient(#00CFD5 0% ${pct}%, rgba(255,255,255,.07) ${pct}% 100%)`;
-                if (scoreNum) scoreNum.textContent = `${score}/3`;
+                if (scoreNum) scoreNum.textContent = `${score}/4`;
                 if (resultMessage) {
-                    resultMessage.textContent = score === 3
+                    resultMessage.textContent = score === 4
                         ? 'Excelente. Reconoces usos estratégicos por área y mantienes el criterio profesional como eje.'
-                        : score === 2
-                            ? 'Buen trabajo. Revisa el escenario que fallaste para reforzar el criterio de uso responsable.'
+                        : score >= 2
+                            ? 'Buen trabajo. Revisa los escenarios que fallaste para reforzar el criterio de uso responsable.'
                             : 'Sigue explorando. El objetivo es distinguir cuándo la IA apoya el aprendizaje y cuándo puede crear riesgos.';
                 }
                 confetti();
