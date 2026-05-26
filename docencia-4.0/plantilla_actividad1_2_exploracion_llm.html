@@ -410,6 +410,8 @@
             }
             .print-mirror {
                 display: block !important;
+                color: #000000 !important; /* Fuerza letra negra en respuestas largas */
+                border-color: #333333 !important;
             }
             body {
                 background: white !important;
@@ -427,15 +429,18 @@
                 border-left: none !important;
             }
             .html2pdf__page-break {
-                display: block;
-                height: 0;
-                margin: 0;
-                padding: 0;
+                display: none !important;
             }
-            .section-block {
-                page-break-inside: avoid;
-                break-inside: avoid;
+            .form-card .section-block {
+                page-break-inside: auto; /* Permitir salto interno */
+                break-inside: auto;
+                page-break-before: always;
+                break-before: page;
                 margin-bottom: var(--spacing-8) !important;
+            }
+            .form-card .section-block:first-of-type {
+                page-break-before: auto;
+                break-before: auto;
             }
             .section-title {
                 break-after: avoid;
@@ -447,13 +452,8 @@
                 height: auto !important;
                 min-height: 0 !important;
             }
-            textarea.form-control {
-                white-space: pre-wrap !important;
-                overflow: visible !important;
-                height: auto !important;
-                min-height: 40px !important;
-                text-align: justify !important;
-                word-wrap: break-word !important;
+            textarea.form-control, textarea.technical-textarea {
+                display: none !important;
             }
             .option-item {
                 background: white !important;
@@ -730,38 +730,15 @@
 
         // Lógica de descarga PDF
         document.getElementById('btn-pdf').addEventListener('click', function () {
-            const fileName = `Plantilla_Actividad1_2_Exploracion_Grupo.pdf`;
-
-            // Asegurar que estamos al inicio de la página para la captura
-            window.scrollTo(0, 0);
-
-            const element = document.getElementById('capture-area');
+            // Actualizar espejos por si acaso antes de imprimir
+            textareas.forEach(textarea => {
+                const mirrorId = 'mirror_' + textarea.id;
+                const mirror = document.getElementById(mirrorId);
+                if (mirror) mirror.innerText = textarea.value;
+            });
             
-            // Configuración de html2pdf mejorada
-            const opt = {
-                margin:       12.7, // 0.5 pulgadas en todos los lados
-                filename:     fileName,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true,
-                    logging: false,
-                    letterRendering: true,
-                    scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: document.documentElement.offsetWidth,
-                    onclone: (clonedDoc) => {
-                        // Forzar visibilidad de espejos y ocultar textareas en el clon
-                        clonedDoc.querySelectorAll('textarea').forEach(el => el.style.display = 'none');
-                        clonedDoc.querySelectorAll('.print-mirror').forEach(el => el.style.display = 'block');
-                    }
-                },
-                jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
-                pagebreak:    { mode: 'css' }
-            };
-
-            // Ejecutar generación
-            html2pdf().set(opt).from(element).save();
+            // Invocar la impresión nativa del navegador (mucho mejor para textos largos y paginación)
+            window.print();
         });
 
         // Botón volver arriba
