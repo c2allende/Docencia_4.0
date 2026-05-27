@@ -199,7 +199,18 @@
             .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
             .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; }
             .criterion-card { page-break-inside: avoid; border: 1px solid #ddd !important; margin-bottom: 20px; }
-            .section-block { page-break-inside: avoid; }
+            .html2pdf__page-break { display: none !important; }
+            .form-card .section-block {
+                page-break-inside: auto;
+                break-inside: auto;
+                page-break-before: always;
+                break-before: page;
+                margin-bottom: var(--spacing-8) !important;
+            }
+            .form-card .section-block:first-of-type {
+                page-break-before: auto;
+                break-before: auto;
+            }
             .val-opt { border-width: 1px !important; padding: 5px !important; font-size: 10px !important; }
             .val-opt:not(.active) { opacity: 0.3; color: #aaa !important; border-color: #eee !important; background: transparent !important; }
             .val-opt.active { background-color: #f0f0f0 !important; color: #000 !important; border-color: #000 !important; }

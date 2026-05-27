@@ -224,7 +224,18 @@
             body { background: white !important; padding: 0 !important; }
             .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
             .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; }
-            .section-block { page-break-inside: avoid; }
+            .html2pdf__page-break { display: none !important; }
+            .form-card .section-block {
+                page-break-inside: auto;
+                break-inside: auto;
+                page-break-before: always;
+                break-before: page;
+                margin-bottom: var(--spacing-8) !important;
+            }
+            .form-card .section-block:first-of-type {
+                page-break-before: auto;
+                break-before: auto;
+            }
             .cycle-box { border: 1px solid var(--color-border-default) !important; }
             .recovery-box { border: 1px solid var(--color-border-default) !important; border-left: 5px solid var(--color-brand-primary) !important; }
         }

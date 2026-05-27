@@ -334,9 +334,20 @@
             .print-mirror { display: block !important; }
             body { background: white !important; padding: 0 !important; }
             .container { max-width: 800px !important; margin: 0 auto !important; }
-            .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; }
-            .section-block { page-break-inside: avoid; margin-bottom: var(--spacing-8) !important; }
-            .html2pdf__page-break { display: block; height: 0; }
+            .form-card { box-shadow: none !important; border: none !important; padding: 0 !important; border-left: none !important; }
+            .html2pdf__page-break { display: none !important; }
+            .form-card .section-block {
+                page-break-inside: auto;
+                break-inside: auto;
+                page-break-before: always;
+                break-before: page;
+                margin-bottom: var(--spacing-8) !important;
+            }
+            .form-card .section-block:first-of-type {
+                page-break-before: auto;
+                break-before: auto;
+            }
+            .section-title { break-after: avoid; page-break-after: avoid; }
         }
 
         @media (max-width: 768px) {

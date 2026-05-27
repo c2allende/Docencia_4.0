@@ -1564,7 +1564,7 @@ Tu navegador no soporta el elemento de audio.
                     </ol>
 
                     <div class="privacy-reminder">
-                        <strong>🔒 Consideración de privacidad:</strong> Nunca ingresar nombres, números SIE, calificaciones asociadas a identidades o cualquier información identificable. El análisis debe ser estrictamente sobre <strong>patrones de contenido</strong>, no sobre individuos.
+                        <strong style="color: inherit;">🔒 Consideración de privacidad:</strong> Nunca ingresar nombres, números SIE, calificaciones asociadas a identidades o cualquier información identificable. El análisis debe ser estrictamente sobre <strong style="color: inherit;">patrones de contenido</strong>, no sobre individuos.
                     </div>
                 </div>
             </details>
@@ -1662,7 +1662,7 @@ Tu navegador no soporta el elemento de audio.
                     </article>
                     <article class="role-mini-card">
                         <h3>Capacitación en pedagogía positiva</h3>
-                        <p>Los cuatro pilares —<strong>confirmación</strong>, <strong>empatía</strong>, <strong>especificidad</strong> y <strong>orientación a la acción</strong>— se convierten en contenido transferible a talleres y MECPA.</p>
+                        <p>Los cuatro pilares —<strong>confirmación</strong>, <strong>empatía</strong>, <strong>especificidad</strong> y <strong>orientación a la acción</strong>— se convierten en contenido transferible a talleres.</p>
                     </article>
                     <article class="role-mini-card">
                         <h3>Diagnóstico pedagógico colaborativo</h3>
@@ -1737,10 +1737,10 @@ Tu navegador no soporta el elemento de audio.
 
             <section class="completion-card" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
-                <h2 id="cierre-title" class="section-title">🎉 Meta alcanzada — ¡Felicidades!</h2>
+                <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
                 <p>Has culminado la <strong>Lección 3.2</strong> del programa de formación profesional.</p>
-                <p>Al completar este contenido, ampliaste tu visión sobre la retroalimentación: ahora sabes que los <strong>LLM</strong> pueden ayudarte a pasar de comentarios escuetos y solo correctivos a mensajes más <strong>claros</strong>, <strong>específicos</strong> y <strong>emocionalmente cuidadosos</strong>, sin perder tu <strong>voz profesional</strong>.</p>
-                <p>Este marco te permite aprovechar la IA para ganar tiempo y consistencia en el feedback, manteniendo siempre tu rol como quien decide el <strong>tono</strong>, el <strong>foco</strong> y el <strong>tipo de apoyo</strong> que cada estudiante necesita.</p>
+                <p>Al completar este contenido, ampliaste tu visión sobre la retroalimentación: ahora sabes que los LLM pueden ayudarte a pasar de comentarios escuetos y solo correctivos a mensajes más claros, específicos y emocionalmente cuidadosos, sin perder tu voz profesional.</p>
+                <p>Este marco te permite aprovechar la IA para ganar tiempo y consistencia en el feedback, manteniendo siempre tu rol como quien decide el tono, el foco y el tipo de apoyo que cada estudiante necesita.</p>
             </section>
 
             <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
@@ -2045,22 +2045,7 @@ Tu navegador no soporta el elemento de audio.
             `).join('');
         }
 
-        document.querySelectorAll('[data-genially-toggle]').forEach((button) => {
-            button.addEventListener('click', () => {
-                const panelId = button.getAttribute('aria-controls');
-                const panel = document.getElementById(panelId);
-                if (!panel) return;
-                const expanded = button.getAttribute('aria-expanded') === 'true';
-                button.setAttribute('aria-expanded', String(!expanded));
-                panel.hidden = expanded;
-                if (!expanded) {
-                    const iframe = panel.querySelector('iframe[data-src]');
-                    if (iframe && iframe.getAttribute('src') === 'about:blank') {
-                        iframe.setAttribute('src', iframe.getAttribute('data-src'));
-                    }
-                }
-            });
-        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             loadFeedbackScenario();
