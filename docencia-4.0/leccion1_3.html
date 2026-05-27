@@ -226,13 +226,13 @@
             font-weight: var(--font-weight-bold);
         }
 
-/* removed local .content-wrapper */
+        /* removed local .content-wrapper */
 
         .lesson-card {
             position: relative;
             overflow: hidden;
             /* removed padding */
-margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
             background: var(--color-background-surface);
             border: var(--border-width-1) solid var(--color-border-default);
             border-radius: var(--radius-xl);
@@ -632,11 +632,11 @@ margin-bottom: var(--spacing-lg);
             display: none;
         }
 
-        details[open] > summary .summary-more {
+        details[open]>summary .summary-more {
             display: none;
         }
 
-        details[open] > summary .summary-less {
+        details[open]>summary .summary-less {
             display: inline;
         }
 
@@ -932,6 +932,7 @@ margin-bottom: var(--spacing-lg);
         }
 
         @media (max-width: 980px) {
+
             .lesson-split,
             .lesson-split--reverse,
             .lesson-check-grid,
@@ -948,11 +949,11 @@ margin-bottom: var(--spacing-lg);
         }
 
         @media (max-width: 900px) {
-/* removed local .content-wrapper */
+            /* removed local .content-wrapper */
 
             .lesson-card {
                 /* removed padding */
-}
+            }
 
             .img-editorial-right,
             .img-editorial-left {
@@ -1053,33 +1054,44 @@ margin-bottom: var(--spacing-lg);
 
     <main class="content-wrapper lesson-page-wrapper">
         <article class="lesson-card" aria-labelledby="lesson-title">
-            <h1 id="lesson-title" class="lesson-title">Lección 1.3: Ética, seguridad y responsabilidad (el "Human in the Loop")</h1>
+            <h1 id="lesson-title" class="lesson-title">Lección 1.3: Ética, seguridad y responsabilidad (el "Human in the
+                Loop")</h1>
 
             <section class="audio-player-container lesson-audio-intro" aria-label="Audio inicial de la Lección 1.3">
-    <label class="lesson-section-kicker audio-label" for="lessonAudio">🎧 ESCUCHAR LECCIÓN 1.3</label>
-    <audio id="lessonAudio" controls class="audio-player">
+                <label class="lesson-section-kicker audio-label" for="lessonAudio">🎧 ESCUCHAR LECCIÓN 1.3</label>
+                <audio id="lessonAudio" controls class="audio-player">
                     <source src="LLM-DEPR/LLM_M1_Leccion1_3_audioedit.mp3" type="audio/mpeg">
-Su navegador no soporta la reproducción de audio.
+                    Su navegador no soporta la reproducción de audio.
                 </audio>
-    <p>Acompaña la lectura con la narración guiada. Esta lección aborda los principios éticos y legales que sustentan un uso responsable de los LLM en educación.</p>
-</section>
+                <p>Acompaña la lectura con la narración guiada. Esta lección aborda los principios éticos y legales que
+                    sustentan un uso responsable de los LLM en educación.</p>
+            </section>
 
             <section class="lesson-summary-card" aria-labelledby="resumen-title">
-    <h2 id="resumen-title" class="lesson-section-kicker">📌 RESUMEN INICIAL</h2>
-    <p>En esta lección comprenderás el marco legal y ético que rige el uso de los Modelos de Lenguaje de Gran Tamaño (LLM) en contextos educativos. Explorarás la protección de datos estudiantiles bajo FERPA y las normativas del DEPR, los sesgos algorítmicos, los riesgos de dependencia tecnológica y el modelo Human in the Loop, que coloca tu juicio profesional en el centro de toda decisión pedagógica.</p>
-</section>
+                <h2 id="resumen-title" class="lesson-section-kicker">📌 RESUMEN INICIAL</h2>
+                <p>En esta lección comprenderás el marco legal y ético que rige el uso de los Modelos de Lenguaje de
+                    Gran Tamaño (LLM) en contextos educativos. Explorarás la protección de datos estudiantiles bajo
+                    FERPA y las normativas del DEPR, los sesgos algorítmicos, los riesgos de dependencia tecnológica y
+                    el modelo Human in the Loop, que coloca tu juicio profesional en el centro de toda decisión
+                    pedagógica.</p>
+            </section>
 
             <section class="lesson-core-callout" aria-label="Concepto central">
-    <p class="lesson-core-callout__label">🎯 CONCEPTO CENTRAL</p>
-    <p>La tecnología asume tareas de apoyo, pero la decisión final recae siempre en la persona profesional. Tu rol no es ser "productor desde cero", sino curador y editor experto: alguien que sabe formular buenas solicitudes (prompts), evaluar el resultado y decidir qué se incorpora y qué no.</p>
-</section>
+                <p class="lesson-core-callout__label">🎯 CONCEPTO CENTRAL</p>
+                <p>La tecnología asume tareas de apoyo, pero la decisión final recae siempre en la persona profesional.
+                    Tu rol no es ser "productor desde cero", sino curador y editor experto: alguien que sabe formular
+                    buenas solicitudes (prompts), evaluar el resultado y decidir qué se incorpora y qué no.</p>
+            </section>
 
             <section class="text-section lesson-editorial-section" aria-labelledby="privacidad-title">
                 <div class="lesson-privacy-layout">
                     <div class="lesson-privacy-main">
-                        <h2 id="privacidad-title" class="section-title">1️⃣ Marco legal básico: privacidad de datos estudiantiles</h2>
+                        <h2 id="privacidad-title" class="section-title">1️⃣ Marco legal básico: privacidad de datos
+                            estudiantiles</h2>
 
-                        <p>Al usar aplicaciones basadas en <strong>LLM</strong> en contextos educativos, uno de los puntos más sensibles es la <strong>protección de la información personal identificable (PII)</strong> de los estudiantes.</p>
+                        <p>Al usar aplicaciones basadas en <strong>LLM</strong> en contextos educativos, uno de los
+                            puntos más sensibles es la <strong>protección de la información personal identificable
+                                (PII)</strong> de los estudiantes.</p>
 
                         <details class="lesson-inline-details">
                             <summary>
@@ -1088,7 +1100,13 @@ Su navegador no soporta la reproducción de audio.
                                 <span class="summary-less">Ocultar</span>
                             </summary>
                             <div class="lesson-inline-details__body">
-                                <p>En Estados Unidos, la normativa clave es la <strong>Family Educational Rights and Privacy Act (FERPA)</strong>, que protege los <strong>expedientes educativos</strong> y regula quién puede acceder a ellos y con qué fines. La discusión sobre <strong>privacidad en entornos digitales</strong> es crítica; Im y Chee (2012) advierten sobre la importancia de proteger la identidad de los sujetos en investigaciones y prácticas mediadas por internet, principio aplicable al <strong>manejo de datos estudiantiles en plataformas de IA</strong>.</p>
+                                <p>En Estados Unidos, la normativa clave es la <strong>Family Educational Rights and
+                                        Privacy Act (FERPA)</strong>, que protege los <strong>expedientes
+                                        educativos</strong> y regula quién puede acceder a ellos y con qué fines. La
+                                    discusión sobre <strong>privacidad en entornos digitales</strong> es crítica; Im y
+                                    Chee (2012) advierten sobre la importancia de proteger la identidad de los sujetos
+                                    en investigaciones y prácticas mediadas por internet, principio aplicable al
+                                    <strong>manejo de datos estudiantiles en plataformas de IA</strong>.</p>
                             </div>
                         </details>
 
@@ -1100,19 +1118,25 @@ Su navegador no soporta la reproducción de audio.
                             </summary>
                             <div class="lesson-inline-details__body">
                                 <h3>El marco puertorriqueño</h3>
-                                <p>En Puerto Rico, además de <strong>FERPA</strong>, el <strong>Departamento de Educación</strong> emite cartas circulares y reglamentos que regulan el manejo de expedientes y datos digitales de estudiantes. Estas políticas suelen exigir:</p>
+                                <p>En Puerto Rico, además de <strong>FERPA</strong>, el <strong>Departamento de
+                                        Educación</strong> emite cartas circulares y reglamentos que regulan el manejo
+                                    de expedientes y datos digitales de estudiantes. Estas políticas suelen exigir:</p>
                                 <ul class="content-list">
                                     <li><strong>Confidencialidad estudiantil.</strong></li>
                                     <li><strong>Uso de canales institucionales.</strong></li>
                                     <li><strong>Protección contra accesos no autorizados.</strong></li>
                                 </ul>
-                                <p>💡 <strong>Síntesis práctica:</strong> Los <strong>LLM</strong> deben verse como <strong>herramientas de redacción y apoyo</strong>, no como <strong>repositorios de datos sensibles</strong>.</p>
+                                <p>💡 <strong>Síntesis práctica:</strong> Los <strong>LLM</strong> deben verse como
+                                    <strong>herramientas de redacción y apoyo</strong>, no como <strong>repositorios de
+                                        datos sensibles</strong>.</p>
                             </div>
                         </details>
 
                         <div class="lesson-practical-rule lesson-practical-rule--compact">
                             <h3>🔒 Regla de privacidad</h3>
-                            <p>Es preferible <strong>anonimizar o generalizar la información</strong>. Por ejemplo: <strong>"Estudiante A con dificultad en lectura"</strong> en lugar de nombre y apellido, incluso cuando la plataforma promete cumplir estándares de seguridad.</p>
+                            <p>Es preferible <strong>anonimizar o generalizar la información</strong>. Por ejemplo:
+                                <strong>"Estudiante A con dificultad en lectura"</strong> en lugar de nombre y apellido,
+                                incluso cuando la plataforma promete cumplir estándares de seguridad.</p>
                         </div>
                     </div>
 
@@ -1129,10 +1153,13 @@ Su navegador no soporta la reproducción de audio.
                         </div>
 
                         <div class="lesson-privacy-action-card" aria-labelledby="implica-docente-title">
-                            <h3 id="implica-docente-title" class="section-title section-title-sm">👩‍🏫 ¿Qué implica esto para el docente?</h3>
-                            <p>🔒 <strong>No se deben introducir</strong> en bots, asistentes o formularios que usen LLM:</p>
+                            <h3 id="implica-docente-title" class="section-title section-title-sm">👩‍🏫 ¿Qué implica
+                                esto para el docente?</h3>
+                            <p>🔒 <strong>No se deben introducir</strong> en bots, asistentes o formularios que usen
+                                LLM:</p>
 
-                            <div class="lesson-check-grid lesson-check-grid--privacy" aria-label="Datos que no deben introducirse en bots con LLM">
+                            <div class="lesson-check-grid lesson-check-grid--privacy"
+                                aria-label="Datos que no deben introducirse en bots con LLM">
                                 <article class="lesson-check-card lesson-check-card--compact">
                                     <h3>Nombres completos</h3>
                                     <p>Evita incluir nombres y apellidos de estudiantes.</p>
@@ -1147,7 +1174,8 @@ Su navegador no soporta la reproducción de audio.
                                 </article>
                             </div>
 
-                            <p>Esto aplica al redactar <strong>informes</strong>, <strong>comentarios</strong> o <strong>planes de intervención</strong>.</p>
+                            <p>Esto aplica al redactar <strong>informes</strong>, <strong>comentarios</strong> o
+                                <strong>planes de intervención</strong>.</p>
                         </div>
                     </aside>
                 </div>
@@ -1157,7 +1185,9 @@ Su navegador no soporta la reproducción de audio.
                 <hr class="section-separator">
                 <h2 id="sesgos-title" class="section-title">2️⃣ Sesgos algorítmicos y dependencia tecnológica</h2>
 
-                <p>La investigación en ética de IA ha mostrado que los <strong>LLM pueden reproducir sesgos</strong> presentes en los datos con los que fueron entrenados, lo que puede reflejar <strong>estereotipos de género, raza, idioma o contexto socioeconómico</strong> (Russell &amp; Norvig, 2020).</p>
+                <p>La investigación en ética de IA ha mostrado que los <strong>LLM pueden reproducir sesgos</strong>
+                    presentes en los datos con los que fueron entrenados, lo que puede reflejar <strong>estereotipos de
+                        género, raza, idioma o contexto socioeconómico</strong> (Russell &amp; Norvig, 2020).</p>
 
                 <details class="lesson-inline-details">
                     <summary>
@@ -1170,7 +1200,8 @@ Su navegador no soporta la reproducción de audio.
                         <ul class="content-list">
                             <li><strong>Ejemplos que privilegian ciertas culturas o realidades.</strong></li>
                             <li><strong>Respuestas que minimizan o distorsionan experiencias de minorías.</strong></li>
-                            <li><strong>Sugerencias de actividades que no encajan en el contexto local de la escuela.</strong></li>
+                            <li><strong>Sugerencias de actividades que no encajan en el contexto local de la
+                                    escuela.</strong></li>
                         </ul>
                     </div>
                 </details>
@@ -1179,19 +1210,30 @@ Su navegador no soporta la reproducción de audio.
                 <div class="lesson-concept-cards">
                     <article class="lesson-concept-card">
                         <h3>⚖️ Sesgo algorítmico</h3>
-                        <p>Presencia de errores sistemáticos o resultados desbalanceados en las salidas de un sistema automatizado, como un LLM, que generan efectos injustos o discriminatorios hacia ciertos grupos, producto de datos de entrenamiento sesgados o decisiones de diseño del algoritmo.</p>
+                        <p>Presencia de errores sistemáticos o resultados desbalanceados en las salidas de un sistema
+                            automatizado, como un LLM, que generan efectos injustos o discriminatorios hacia ciertos
+                            grupos, producto de datos de entrenamiento sesgados o decisiones de diseño del algoritmo.
+                        </p>
                     </article>
 
                     <article class="lesson-concept-card">
                         <h3>🔗 Dependencia tecnológica</h3>
-                        <p>Grado en que una persona, grupo u organización requiere del uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta el punto de ver mermadas su autonomía, juicio o desempeño cuando dichas tecnologías no están disponibles.</p>
+                        <p>Grado en que una persona, grupo u organización requiere del uso continuo de tecnologías
+                            digitales para ejecutar tareas básicas, hasta el punto de ver mermadas su autonomía, juicio
+                            o desempeño cuando dichas tecnologías no están disponibles.</p>
                     </article>
                 </div>
 
                 <div class="lesson-alert-callout">
                     <h3>🔗 El riesgo de la dependencia</h3>
-                    <p>Existe el riesgo de <strong>dependencia tecnológica</strong>, en la que el docente delega cada vez más la <strong>creatividad</strong> y el <strong>juicio pedagógico</strong> al sistema.</p>
-                    <p>Hargreaves y Fullan (2012) discuten la importancia del <strong>capital profesional</strong> y advierten contra la erosión de la <strong>autonomía docente</strong> si las herramientas externas reemplazan el <strong>juicio experto</strong> en lugar de aumentarlo. Valli y Zafiropoulos (2024) añaden que la aceptación de estas herramientas depende de su utilidad percibida, pero debe equilibrarse para evitar una <strong>confianza ciega en la automatización</strong>.</p>
+                    <p>Existe el riesgo de <strong>dependencia tecnológica</strong>, en la que el docente delega cada
+                        vez más la <strong>creatividad</strong> y el <strong>juicio pedagógico</strong> al sistema.</p>
+                    <p>Hargreaves y Fullan (2012) discuten la importancia del <strong>capital profesional</strong> y
+                        advierten contra la erosión de la <strong>autonomía docente</strong> si las herramientas
+                        externas reemplazan el <strong>juicio experto</strong> en lugar de aumentarlo. Valli y
+                        Zafiropoulos (2024) añaden que la aceptación de estas herramientas depende de su utilidad
+                        percibida, pero debe equilibrarse para evitar una <strong>confianza ciega en la
+                            automatización</strong>.</p>
                 </div>
 
                 <div class="lesson-practical-rule">
@@ -1200,7 +1242,8 @@ Su navegador no soporta la reproducción de audio.
                     <ul class="content-list">
                         <li>✅ <strong>Reconocer posibles sesgos</strong> en las respuestas de la IA.</li>
                         <li>✅ <strong>Contrastar con fuentes diversas</strong> y con la realidad del estudiantado.</li>
-                        <li>✅ Mantener un <strong>uso crítico y consciente</strong>, evitando la sustitución total de la <strong>reflexión pedagógica</strong> por sugerencias automáticas.</li>
+                        <li>✅ Mantener un <strong>uso crítico y consciente</strong>, evitando la sustitución total de la
+                            <strong>reflexión pedagógica</strong> por sugerencias automáticas.</li>
                     </ul>
                 </div>
 
@@ -1211,7 +1254,10 @@ Su navegador no soporta la reproducción de audio.
                         <span class="summary-less">Ocultar</span>
                     </summary>
                     <div class="lesson-inline-details__body">
-                        <p>Si solicitas a un LLM ejemplos de <strong>"familias típicas"</strong> para una actividad de Estudios Sociales, revisa que las respuestas reflejen la <strong>diversidad cultural y estructural de las familias puertorriqueñas</strong>, no estereotipos de otros contextos.</p>
+                        <p>Si solicitas a un LLM ejemplos de <strong>"familias típicas"</strong> para una actividad de
+                            Estudios Sociales, revisa que las respuestas reflejen la <strong>diversidad cultural y
+                                estructural de las familias puertorriqueñas</strong>, no estereotipos de otros
+                            contextos.</p>
                     </div>
                 </details>
             </section>
@@ -1230,31 +1276,43 @@ Su navegador no soporta la reproducción de audio.
                     </div>
 
                     <div class="lesson-split__content">
-                        <h2 id="human-title" class="section-title">3️⃣ El docente como "experto validador" (Human in the Loop)</h2>
+                        <h2 id="human-title" class="section-title">3️⃣ El docente como "experto validador" (Human in the
+                            Loop)</h2>
 
-                        <p>Muchos marcos actuales de uso responsable de IA en educación promueven el modelo de <strong>human in the loop</strong> (Alhalthli et al., 2025; Seufert et al., 2022), donde la tecnología asume tareas de apoyo, pero la <strong>decisión final recae siempre en la persona profesional</strong>.</p>
+                        <p>Muchos marcos actuales de uso responsable de IA en educación promueven el modelo de
+                            <strong>human in the loop</strong> (Alhalthli et al., 2025; Seufert et al., 2022), donde la
+                            tecnología asume tareas de apoyo, pero la <strong>decisión final recae siempre en la persona
+                                profesional</strong>.</p>
                     </div>
                 </div>
 
                 <div class="lesson-full-width-block lesson-process-section" aria-labelledby="tareas-human-title">
-                    <h3 id="tareas-human-title" class="section-title section-title-sm">🔄 Las tres tareas del docente "Human in the Loop"</h3>
-                    <p>En el caso de los LLM, esto significa que el docente mantiene el control pedagógico en tres momentos clave:</p>
+                    <h3 id="tareas-human-title" class="section-title section-title-sm">🔄 Las tres tareas del docente
+                        "Human in the Loop"</h3>
+                    <p>En el caso de los LLM, esto significa que el docente mantiene el control pedagógico en tres
+                        momentos clave:</p>
 
                     <div class="lesson-process-grid lesson-process-grid--wide">
                         <article class="lesson-process-card lesson-process-card--compact">
                             <span class="lesson-process-card__step">1</span>
                             <h3>📝 Generar</h3>
-                            <p><strong>Borradores.</strong> Usa bots y asistentes basados en LLM para generar borradores de planificaciones, actividades, rúbricas o retroalimentación.</p>
+                            <p><strong>Borradores.</strong> Usa bots y asistentes basados en LLM para generar borradores
+                                de planificaciones, actividades, rúbricas o retroalimentación.</p>
                         </article>
                         <article class="lesson-process-card lesson-process-card--compact">
                             <span class="lesson-process-card__step">2</span>
                             <h3>🔍 Revisar</h3>
-                            <p><strong>Cuidadosamente el contenido.</strong> Verifica: <strong>exactitud factual</strong>, <strong>alineación curricular</strong>, <strong>pertinencia cultural</strong>, <strong>adecuación al nivel del grupo</strong>, <strong>tono</strong> y <strong>lenguaje</strong>.</p>
+                            <p><strong>Cuidadosamente el contenido.</strong> Verifica: <strong>exactitud
+                                    factual</strong>, <strong>alineación curricular</strong>, <strong>pertinencia
+                                    cultural</strong>, <strong>adecuación al nivel del grupo</strong>,
+                                <strong>tono</strong> y <strong>lenguaje</strong>.</p>
                         </article>
                         <article class="lesson-process-card lesson-process-card--compact">
                             <span class="lesson-process-card__step">3</span>
                             <h3>🎯 Decidir</h3>
-                            <p><strong>Y adaptar.</strong> Corrige, adapta o descarta según su <strong>criterio profesional</strong>, antes de que ese material llegue a estudiantes, familias o documentos oficiales.</p>
+                            <p><strong>Y adaptar.</strong> Corrige, adapta o descarta según su <strong>criterio
+                                    profesional</strong>, antes de que ese material llegue a estudiantes, familias o
+                                documentos oficiales.</p>
                         </article>
                     </div>
                 </div>
@@ -1266,13 +1324,16 @@ Su navegador no soporta la reproducción de audio.
                         <span class="summary-less">Ocultar</span>
                     </summary>
                     <div class="lesson-inline-details__body">
-                        <p>En términos pedagógicos, el rol del maestro pasa de ser solo <strong>"productor desde cero"</strong> a ser <strong>curador y editor experto</strong>, que sabe:</p>
+                        <p>En términos pedagógicos, el rol del maestro pasa de ser solo <strong>"productor desde
+                                cero"</strong> a ser <strong>curador y editor experto</strong>, que sabe:</p>
                         <ul class="content-list">
                             <li><strong>Formular buenas solicitudes (prompts).</strong></li>
                             <li><strong>Evaluar el resultado.</strong></li>
                             <li><strong>Decidir qué se incorpora y qué no.</strong></li>
                         </ul>
-                        <p>Esto preserva la centralidad del <strong>juicio docente</strong>, fortaleciendo su <strong>capital profesional</strong> (Hargreaves &amp; Fullan, 2012), y reduce los riesgos de <strong>dependencia</strong> y <strong>sesgo</strong> descritos antes.</p>
+                        <p>Esto preserva la centralidad del <strong>juicio docente</strong>, fortaleciendo su
+                            <strong>capital profesional</strong> (Hargreaves &amp; Fullan, 2012), y reduce los riesgos
+                            de <strong>dependencia</strong> y <strong>sesgo</strong> descritos antes.</p>
                     </div>
                 </details>
 
@@ -1283,7 +1344,10 @@ Su navegador no soporta la reproducción de audio.
                         <span class="summary-less">Ocultar</span>
                     </summary>
                     <div class="lesson-inline-details__body">
-                        <p>Un facilitador docente solicita a Copilot un borrador de minuta de una reunión de comunidades de aprendizaje profesional. Antes de compartirla, revisa que los acuerdos reflejen fielmente lo discutido, elimina cualquier <strong>dato personal</strong> de los participantes y ajusta el lenguaje al <strong>tono institucional del DEPR</strong>.</p>
+                        <p>Un facilitador docente solicita a Copilot un borrador de minuta de una reunión de comunidades
+                            de aprendizaje profesional. Antes de compartirla, revisa que los acuerdos reflejen fielmente
+                            lo discutido, elimina cualquier <strong>dato personal</strong> de los participantes y ajusta
+                            el lenguaje al <strong>tono institucional del DEPR</strong>.</p>
                     </div>
                 </details>
             </section>
@@ -1291,32 +1355,47 @@ Su navegador no soporta la reproducción de audio.
             <section class="text-section lesson-editorial-section" aria-labelledby="rol-title">
                 <hr class="section-separator">
                 <h2 id="rol-title" class="section-title">Conexión con tu rol como facilitador docente</h2>
-                <p>Como facilitador o facilitadora docente del DEPR, esta lección es especialmente crítica porque manejas <strong>información sensible</strong> y modelas prácticas para otros profesionales:</p>
+                <p>Como facilitador o facilitadora docente del DEPR, esta lección es especialmente crítica porque
+                    manejas <strong>información sensible</strong> y modelas prácticas para otros profesionales:</p>
 
                 <div class="lesson-role-grid">
                     <article class="lesson-role-topic-card">
                         <h3>Custodio de la confidencialidad estudiantil</h3>
-                        <p>En tu rol de acompañamiento —especialmente en Educación Especial, donde manejas <strong>PEI</strong> y <strong>expedientes confidenciales</strong>—, debes liderar con el ejemplo el principio de <strong>nunca introducir PII en plataformas LLM externas</strong>, y enseñar a los docentes que acompañas a hacer lo mismo.</p>
+                        <p>En tu rol de acompañamiento —especialmente en Educación Especial, donde manejas
+                            <strong>PEI</strong> y <strong>expedientes confidenciales</strong>—, debes liderar con el
+                            ejemplo el principio de <strong>nunca introducir PII en plataformas LLM externas</strong>, y
+                            enseñar a los docentes que acompañas a hacer lo mismo.</p>
                     </article>
 
                     <article class="lesson-role-topic-card">
                         <h3>Cumplimiento con la política pública del DEPR</h3>
-                        <p>Tu trabajo se rige por <strong>cartas circulares</strong>, <strong>reglamentos</strong> y <strong>guías oficiales</strong>. Esta lección te equipa para alinear el uso de LLM con esas normativas, manteniendo <strong>canales institucionales</strong> y protegiendo <strong>expedientes digitales</strong>.</p>
+                        <p>Tu trabajo se rige por <strong>cartas circulares</strong>, <strong>reglamentos</strong> y
+                            <strong>guías oficiales</strong>. Esta lección te equipa para alinear el uso de LLM con esas
+                            normativas, manteniendo <strong>canales institucionales</strong> y protegiendo
+                            <strong>expedientes digitales</strong>.</p>
                     </article>
 
                     <article class="lesson-role-topic-card">
                         <h3>Modelaje del Human in the Loop</h3>
-                        <p>En comunidades de aprendizaje profesional y desarrollo profesional, podrás demostrar el flujo de <strong>generar → revisar → decidir</strong>, posicionando a los maestros como <strong>expertos validadores</strong> en lugar de simples usuarios.</p>
+                        <p>En comunidades de aprendizaje profesional y desarrollo profesional, podrás demostrar el flujo
+                            de <strong>generar → revisar → decidir</strong>, posicionando a los maestros como
+                            <strong>expertos validadores</strong> en lugar de simples usuarios.</p>
                     </article>
 
                     <article class="lesson-role-topic-card">
                         <h3>Defensor del capital profesional docente</h3>
-                        <p>Desde tu rol de mentoría, ayudarás a otros docentes a evitar la <strong>dependencia tecnológica</strong>, reforzando que su <strong>juicio experto</strong>, <strong>contexto cultural puertorriqueño</strong> y <strong>conocimiento del estudiantado</strong> son insustituibles.</p>
+                        <p>Desde tu rol de mentoría, ayudarás a otros docentes a evitar la <strong>dependencia
+                                tecnológica</strong>, reforzando que su <strong>juicio experto</strong>,
+                            <strong>contexto cultural puertorriqueño</strong> y <strong>conocimiento del
+                                estudiantado</strong> son insustituibles.</p>
                     </article>
 
                     <article class="lesson-role-topic-card">
                         <h3>Detector de sesgos contextualizados</h3>
-                        <p>Podrás guiar a los docentes para identificar cuándo las respuestas de un LLM no reflejan la <strong>realidad cultural, social y lingüística de Puerto Rico</strong>, y enseñarles estrategias para <strong>adaptar y contrastar</strong> antes de utilizar materiales generados.</p>
+                        <p>Podrás guiar a los docentes para identificar cuándo las respuestas de un LLM no reflejan la
+                            <strong>realidad cultural, social y lingüística de Puerto Rico</strong>, y enseñarles
+                            estrategias para <strong>adaptar y contrastar</strong> antes de utilizar materiales
+                            generados.</p>
                     </article>
                 </div>
             </section>
@@ -1324,48 +1403,70 @@ Su navegador no soporta la reproducción de audio.
             <section class="lesson-remember-card" aria-labelledby="recordar-title">
                 <h2 id="recordar-title" class="section-title">🏁 Qué debes recordar</h2>
                 <ul>
-                    <li>✅ Nunca introduzcas <strong>PII estudiantil</strong> —nombres, IDs, direcciones— en bots o aplicaciones LLM. <strong>Anonimiza siempre</strong>.</li>
-                    <li>✅ Los <strong>LLM</strong> son <strong>herramientas de redacción y apoyo</strong>, no <strong>repositorios de datos sensibles</strong>. Las normativas de <strong>FERPA</strong> y del <strong>DEPR</strong> aplican plenamente.</li>
-                    <li>✅ Los <strong>sesgos algorítmicos</strong> son reales: revisa que los ejemplos, lenguaje y referencias reflejen la <strong>diversidad cultural puertorriqueña</strong>.</li>
-                    <li>✅ La <strong>dependencia tecnológica</strong> erosiona el <strong>capital profesional</strong>. Usa la IA para <strong>aumentar tu juicio</strong>, no para reemplazarlo.</li>
-                    <li>✅ Aplica el modelo <strong>Human in the Loop: Generar → Revisar → Decidir</strong>. La <strong>decisión final siempre es tuya</strong>.</li>
-                    <li>✅ Tu nuevo rol es el de <strong>curador y editor experto</strong>, no de <strong>productor desde cero</strong> ni de <strong>receptor pasivo de la IA</strong>.</li>
+                    <li>✅ Nunca introduzcas <strong>PII estudiantil</strong> —nombres, IDs, direcciones— en bots o
+                        aplicaciones LLM. <strong>Anonimiza siempre</strong>.</li>
+                    <li>✅ Los <strong>LLM</strong> son <strong>herramientas de redacción y apoyo</strong>, no
+                        <strong>repositorios de datos sensibles</strong>. Las normativas de <strong>FERPA</strong> y del
+                        <strong>DEPR</strong> aplican plenamente.</li>
+                    <li>✅ Los <strong>sesgos algorítmicos</strong> son reales: revisa que los ejemplos, lenguaje y
+                        referencias reflejen la <strong>diversidad cultural puertorriqueña</strong>.</li>
+                    <li>✅ La <strong>dependencia tecnológica</strong> erosiona el <strong>capital profesional</strong>.
+                        Usa la IA para <strong>aumentar tu juicio</strong>, no para reemplazarlo.</li>
+                    <li>✅ Aplica el modelo <strong>Human in the Loop: Generar → Revisar → Decidir</strong>. La
+                        <strong>decisión final siempre es tuya</strong>.</li>
+                    <li>✅ Tu nuevo rol es el de <strong>curador y editor experto</strong>, no de <strong>productor desde
+                            cero</strong> ni de <strong>receptor pasivo de la IA</strong>.</li>
                 </ul>
             </section>
 
             <details class="concept-review" data-concept-review>
                 <summary class="concept-review__summary-main">
-  <div class="concept-review-header">
-    <div class="concept-review-title">
-      <span class="concept-review-icon">📖</span>
-      <span class="concept-review-text">Conceptos a repasar</span>
-    </div>
-    <span class="concept-review-toggle btn btn-outline-primary btn-sm" aria-expanded="false">Ver conceptos</span>
-  </div>
-</summary>
+                    <div class="concept-review-header">
+                        <div class="concept-review-title">
+                            <span class="concept-review-icon">📖</span>
+                            <span class="concept-review-text">Conceptos a repasar</span>
+                        </div>
+                        <span class="concept-review-toggle btn btn-outline-primary btn-sm" aria-expanded="false">Ver
+                            conceptos</span>
+                    </div>
+                </summary>
 
                 <div class="concept-review__panel">
                     <details class="concept-review__item">
                         <summary class="concept-review__summary">Privacidad de datos estudiantiles / FERPA</summary>
                         <div class="concept-review__body">
-                            <p>Privacidad de datos estudiantiles / FERPA se refiere al marco legal que protege la confidencialidad de los expedientes educativos y de la información personal identificable de los estudiantes. FERPA otorga a padres y estudiantes elegibles derechos sobre registros educativos y limita la divulgación de información identificable sin consentimiento escrito, salvo excepciones previstas por la norma.</p>
-                            <cite class="concept-review__citation">U.S. Department of Education. (2011). FERPA – Protecting student privacy. Student Privacy Policy Office. https://studentprivacy.ed.gov/ferpa</cite>
+                            <p>Privacidad de datos estudiantiles / FERPA se refiere al marco legal que protege la
+                                confidencialidad de los expedientes educativos y de la información personal
+                                identificable de los estudiantes. FERPA otorga a padres y estudiantes elegibles derechos
+                                sobre registros educativos y limita la divulgación de información identificable sin
+                                consentimiento escrito, salvo excepciones previstas por la norma.</p>
+                            <cite class="concept-review__citation">U.S. Department of Education. (2011). FERPA –
+                                Protecting student privacy. Student Privacy Policy Office.
+                                https://studentprivacy.ed.gov/ferpa</cite>
                         </div>
                     </details>
 
                     <details class="concept-review__item">
                         <summary class="concept-review__summary">Información personal identificable (PII)</summary>
                         <div class="concept-review__body">
-                            <p>La información personal identificable (PII) incluye cualquier dato que pueda usarse para distinguir o rastrear la identidad de una persona, de forma directa o indirecta. En contextos educativos incluye nombre, dirección, número de identificación, registros biométricos u otros datos que permitan identificar razonablemente a un estudiante.</p>
-                            <cite class="concept-review__citation">U.S. Department of Education. (s. f.). Personally identifiable information for education records. Student Privacy Policy Office.</cite>
+                            <p>La información personal identificable (PII) incluye cualquier dato que pueda usarse para
+                                distinguir o rastrear la identidad de una persona, de forma directa o indirecta. En
+                                contextos educativos incluye nombre, dirección, número de identificación, registros
+                                biométricos u otros datos que permitan identificar razonablemente a un estudiante.</p>
+                            <cite class="concept-review__citation">U.S. Department of Education. (s. f.). Personally
+                                identifiable information for education records. Student Privacy Policy Office.</cite>
                         </div>
                     </details>
 
                     <details class="concept-review__item">
                         <summary class="concept-review__summary">Sesgo algorítmico</summary>
                         <div class="concept-review__body">
-                            <p>Sesgo algorítmico es la presencia de errores sistemáticos o resultados desbalanceados en las salidas de un sistema automatizado, como un LLM, que pueden generar efectos injustos o discriminatorios hacia ciertos grupos debido a datos de entrenamiento sesgados, decisiones de diseño o patrones históricos reproducidos por el sistema.</p>
-                            <cite class="concept-review__citation">IBM. (2024). What is algorithmic bias? IBM Think. https://www.ibm.com/think/topics/algorithmic-bias</cite>
+                            <p>Sesgo algorítmico es la presencia de errores sistemáticos o resultados desbalanceados en
+                                las salidas de un sistema automatizado, como un LLM, que pueden generar efectos injustos
+                                o discriminatorios hacia ciertos grupos debido a datos de entrenamiento sesgados,
+                                decisiones de diseño o patrones históricos reproducidos por el sistema.</p>
+                            <cite class="concept-review__citation">IBM. (2024). What is algorithmic bias? IBM Think.
+                                https://www.ibm.com/think/topics/algorithmic-bias</cite>
                         </div>
                     </details>
 
@@ -1373,24 +1474,40 @@ Su navegador no soporta la reproducción de audio.
                         <details class="concept-review__item">
                             <summary class="concept-review__summary">Dependencia tecnológica</summary>
                             <div class="concept-review__body">
-                                <p>Dependencia tecnológica es el grado en que una persona, grupo u organización requiere del uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta ver afectada su autonomía, juicio profesional o desempeño cuando dichas tecnologías no están disponibles o cuando se aceptan sus salidas sin evaluación crítica.</p>
-                                <cite class="concept-review__citation">Hargreaves, A., &amp; Fullan, M. (2012). Professional capital: Transforming teaching in every school. Teachers College Press.</cite>
+                                <p>Dependencia tecnológica es el grado en que una persona, grupo u organización requiere
+                                    del uso continuo de tecnologías digitales para ejecutar tareas básicas, hasta ver
+                                    afectada su autonomía, juicio profesional o desempeño cuando dichas tecnologías no
+                                    están disponibles o cuando se aceptan sus salidas sin evaluación crítica.</p>
+                                <cite class="concept-review__citation">Hargreaves, A., &amp; Fullan, M. (2012).
+                                    Professional capital: Transforming teaching in every school. Teachers College
+                                    Press.</cite>
                             </div>
                         </details>
 
                         <details class="concept-review__item">
                             <summary class="concept-review__summary">Capital profesional</summary>
                             <div class="concept-review__body">
-                                <p>Capital profesional se refiere al conjunto de conocimiento, juicio, experiencia, colaboración y responsabilidad ética que sostiene la calidad del trabajo docente. En el uso de IA, implica que el docente conserva la decisión profesional y utiliza la tecnología para ampliar, no sustituir, su criterio experto.</p>
-                                <cite class="concept-review__citation">Hargreaves, A., &amp; Fullan, M. (2012). Professional capital: Transforming teaching in every school. Teachers College Press.</cite>
+                                <p>Capital profesional se refiere al conjunto de conocimiento, juicio, experiencia,
+                                    colaboración y responsabilidad ética que sostiene la calidad del trabajo docente. En
+                                    el uso de IA, implica que el docente conserva la decisión profesional y utiliza la
+                                    tecnología para ampliar, no sustituir, su criterio experto.</p>
+                                <cite class="concept-review__citation">Hargreaves, A., &amp; Fullan, M. (2012).
+                                    Professional capital: Transforming teaching in every school. Teachers College
+                                    Press.</cite>
                             </div>
                         </details>
 
                         <details class="concept-review__item">
                             <summary class="concept-review__summary">Human in the Loop (HITL)</summary>
                             <div class="concept-review__body">
-                                <p>Human in the Loop (HITL) es un enfoque de diseño y uso de IA en el que la intervención humana se integra de forma explícita para supervisar, validar, corregir o aprobar salidas generadas por modelos antes de que se tomen decisiones o se compartan productos finales. En educación, significa que el docente genera, revisa y decide.</p>
-                                <cite class="concept-review__citation">Google Cloud. (2026). What is Human-in-the-Loop (HITL) in AI &amp; ML? Google Cloud. https://cloud.google.com/discover/human-in-the-loop</cite>
+                                <p>Human in the Loop (HITL) es un enfoque de diseño y uso de IA en el que la
+                                    intervención humana se integra de forma explícita para supervisar, validar, corregir
+                                    o aprobar salidas generadas por modelos antes de que se tomen decisiones o se
+                                    compartan productos finales. En educación, significa que el docente genera, revisa y
+                                    decide.</p>
+                                <cite class="concept-review__citation">Google Cloud. (2026). What is Human-in-the-Loop
+                                    (HITL) in AI &amp; ML? Google Cloud.
+                                    https://cloud.google.com/discover/human-in-the-loop</cite>
                             </div>
                         </details>
                     </div>
@@ -1402,17 +1519,24 @@ Su navegador no soporta la reproducción de audio.
             <section class="completion-card completion-card--clean" aria-labelledby="cierre-title">
                 <span class="completion-badge">Meta alcanzada</span>
                 <h2 id="cierre-title" class="section-title">¡Felicidades!</h2>
-                <p>Has culminado la Lección 1.3 del programa de formación profesional.</p>
-                <p>Al completar este contenido, has dado un paso crucial: no solo comprendes lo que los LLM pueden hacer, sino también lo que no deben hacer en términos de privacidad, sesgos y responsabilidad profesional.</p>
-                <p>Este marco ético fortalece tu rol como docente, porque te permite integrar la IA con mayor seguridad, defendiendo siempre la confidencialidad de tus estudiantes y la calidad de tus decisiones pedagógicas.</p>
+                <p>Has culminado la <strong>Lección 1.3</strong> del programa de formación profesional.</p>
+                <p>Al completar este contenido, has dado un paso crucial: no solo comprendes lo que los LLM pueden
+                    hacer, sino también lo que no deben hacer en términos de privacidad, sesgos y responsabilidad
+                    profesional.</p>
+                <p>Este marco ético fortalece tu rol como docente, porque te permite integrar la IA con mayor seguridad,
+                    defendiendo siempre la confidencialidad de tus estudiantes y la calidad de tus decisiones
+                    pedagógicas.</p>
             </section>
 
             <section class="genially-checkpoint" data-genially-checkpoint aria-labelledby="checkpoint-title">
                 <div class="genially-checkpoint__content">
                     <span class="genially-checkpoint__eyebrow">Cierre de la lección</span>
                     <h2 id="checkpoint-title" class="genially-checkpoint__title">Checkpoint de saberes: Lección 1.3</h2>
-                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu comprensión sobre privacidad de datos, sesgos algorítmicos, dependencia tecnológica y enfoque Human in the Loop.</p>
-                    <p class="genially-checkpoint__note">Completa este checkpoint para consolidar los criterios éticos que guiarán todas las actividades prácticas del resto del curso.</p>
+                    <p class="genially-checkpoint__description">Esta actividad formativa te permitirá revisar tu
+                        comprensión sobre privacidad de datos, sesgos algorítmicos, dependencia tecnológica y enfoque
+                        Human in the Loop.</p>
+                    <p class="genially-checkpoint__note">Completa este checkpoint para consolidar los criterios éticos
+                        que guiarán todas las actividades prácticas del resto del curso.</p>
 
                     <div class="genially-checkpoint__actions">
                         <button type="button" class="btn btn-primary genially-checkpoint__toggle" data-genially-toggle
@@ -1431,7 +1555,8 @@ Su navegador no soporta la reproducción de audio.
                     </p>
                 </div>
 
-                <div id="checkpoint-panel-1-3" class="genially-checkpoint__panel" data-genially-panel role="region" hidden>
+                <div id="checkpoint-panel-1-3" class="genially-checkpoint__panel" data-genially-panel role="region"
+                    hidden>
                     <div class="genially-checkpoint__frame-wrap">
                         <iframe data-src="https://view.genially.com/69adcaa514c7191a9da873a6" src="about:blank"
                             title="Checkpoint de saberes: Lección 1.3" allowfullscreen loading="lazy"></iframe>
@@ -1448,12 +1573,21 @@ Su navegador no soporta la reproducción de audio.
                     </summary>
                     <div class="references-compact__body">
                         <ul class="reference-list">
-                            <li>Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using generative AI in higher education. <em>Computers &amp; Education: Artificial Intelligence</em>, 100157.</li>
-                            <li>Hargreaves, A., &amp; Fullan, M. (2012). <em>Professional capital: Transforming teaching in every school</em>. Teachers College Press.</li>
-                            <li>Im, E., &amp; Chee, W. (2012). Methodological issues in the recruitment of ethnic minority subjects to research via the Internet: A discussion paper. <em>International Journal of Nursing Studies</em>, 49(1), 99–106.</li>
-                            <li>Russell, S. J., &amp; Norvig, P. (2020). <em>Artificial intelligence: A modern approach</em> (4th ed.). Pearson.</li>
-                            <li>Valli, P., &amp; Zafiropoulos, K. (2024). Factors that affect the acceptance of educational AI tools by teachers. <em>Education and Information Technologies</em>, 29, 123–145.</li>
-                            <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023). A survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223.</li>
+                            <li>Damiano, R. F., et al. (2024). Early perceptions of teaching and learning using
+                                generative AI in higher education. <em>Computers &amp; Education: Artificial
+                                    Intelligence</em>, 100157.</li>
+                            <li>Hargreaves, A., &amp; Fullan, M. (2012). <em>Professional capital: Transforming teaching
+                                    in every school</em>. Teachers College Press.</li>
+                            <li>Im, E., &amp; Chee, W. (2012). Methodological issues in the recruitment of ethnic
+                                minority subjects to research via the Internet: A discussion paper. <em>International
+                                    Journal of Nursing Studies</em>, 49(1), 99–106.</li>
+                            <li>Russell, S. J., &amp; Norvig, P. (2020). <em>Artificial intelligence: A modern
+                                    approach</em> (4th ed.). Pearson.</li>
+                            <li>Valli, P., &amp; Zafiropoulos, K. (2024). Factors that affect the acceptance of
+                                educational AI tools by teachers. <em>Education and Information Technologies</em>, 29,
+                                123–145.</li>
+                            <li>Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., ... &amp; Wen, J. R. (2023).
+                                A survey of large language models. <em>arXiv preprint</em> arXiv:2303.18223.</li>
                         </ul>
                     </div>
                 </details>
