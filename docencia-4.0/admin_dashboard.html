@@ -1095,9 +1095,9 @@
 
                     <header class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 16px;">
                         <div>
-                            <span class="section-kicker">CONFIGURACI&Oacute;N GLOBAL</span>
+                            <p class="cea-admin-kicker">CONFIGURACI&Oacute;N GLOBAL</p>
                             <h2 id="cea-control-title">Aviso CEA &mdash; Educaci&oacute;n continua</h2>
-                            <p>Ajuste el mensaje, el enlace y la visibilidad del aviso de registro en el CEA para todos los participantes.</p>
+                            <p>Ajuste el mensaje, los enlaces y la visibilidad del aviso de registro y matr&iacute;cula en el CEA para todos los participantes.</p>
                         </div>
                     </header>
 
@@ -1114,11 +1114,14 @@
                         </div>
 
                         <div style="margin-top: 16px;">
-                            <label class="research-access-url-label" for="ceaNoticeUrl">URL del registro en CEA:</label>
-                            <input id="ceaNoticeUrl" class="research-access-url-input" type="url" placeholder="Pegue aqu&iacute; el enlace del CEA">
+                            <label class="research-access-url-label" for="ceaNoticeUrl">URL de registro o acceso al CEA:</label>
+                            <input id="ceaNoticeUrl" class="research-access-url-input" type="url" value="https://actividadescea.uprrp.edu/index.php" placeholder="Pegue aqu&iacute; el enlace del CEA">
+
+                            <label class="research-access-url-label" for="ceaNoticeWorkshopsUrl" style="margin-top: 16px;">URL directa a Oferta de Talleres:</label>
+                            <input id="ceaNoticeWorkshopsUrl" class="research-access-url-input" type="url" value="https://actividadescea.uprrp.edu/talleres.php" placeholder="https://actividadescea.uprrp.edu/talleres.php">
 
                             <label class="research-access-url-label" for="ceaNoticeMessage" style="margin-top: 16px;">Mensaje del aviso:</label>
-                            <textarea id="ceaNoticeMessage" class="research-access-url-input" rows="3" placeholder="Mensaje que acompa&ntilde;a el aviso..."></textarea>
+                            <textarea id="ceaNoticeMessage" class="research-access-url-input" rows="3"></textarea>
 
                             <p id="ceaNoticeVersionLabel" style="margin-top: 16px; font-size: 0.85rem; color: var(--color-text-secondary); font-weight: bold;">Conteo de reactivaciones: cargando...</p>
                         </div>
@@ -1686,11 +1689,12 @@
       } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
       const DEFAULT_CEA_CONFIG = {
-        enabled: true,
+        enabled: false,
         version: 1,
         url: 'https://actividadescea.uprrp.edu/index.php',
-        title: 'Registro en CEA para horas de educaci\u00f3n continua',
-        message: 'Para recibir las horas de educaci\u00f3n continua profesional, complete tambi\u00e9n el registro del taller en la plataforma del CEA.'
+        workshopsUrl: 'https://actividadescea.uprrp.edu/talleres.php',
+        title: 'Registro y matr\u00edcula en CEA',
+        message: 'Para recibir las horas de educaci\u00f3n continua profesional, primero acceda o cree su cuenta en CEA. Luego entre a la Oferta de Talleres y M\u00f3dulos de Capacitaci\u00f3n, busque LLM y marque las cuatro actividades del programa.'
       };
 
       function safeString(value, fallback) {
@@ -1715,6 +1719,7 @@
       document.addEventListener('DOMContentLoaded', async function () {
         const enabledInput = document.getElementById('ceaNoticeEnabled');
         const urlInput = document.getElementById('ceaNoticeUrl');
+        const workshopsUrlInput = document.getElementById('ceaNoticeWorkshopsUrl');
         const messageInput = document.getElementById('ceaNoticeMessage');
         const versionLabel = document.getElementById('ceaNoticeVersionLabel');
         const statusLabel = document.getElementById('ceaNoticeStatus');
@@ -1722,7 +1727,7 @@
         const reactivateButton = document.getElementById('reactivateCeaNotice');
 
         if (
-          !enabledInput || !urlInput || !messageInput ||
+          !enabledInput || !urlInput || !workshopsUrlInput || !messageInput ||
           !versionLabel || !statusLabel || !saveButton || !reactivateButton
         ) {
           console.error('[CEA Admin] Faltan IDs requeridos en el panel CEA.');
@@ -1761,6 +1766,7 @@
           };
           enabledInput.checked = currentConfig.enabled !== false;
           urlInput.value = currentConfig.url;
+          workshopsUrlInput.value = currentConfig.workshopsUrl || DEFAULT_CEA_CONFIG.workshopsUrl;
           messageInput.value = currentConfig.message;
           versionLabel.textContent = 'Conteo de reactivaciones: ' + currentConfig.version;
         }
@@ -1768,6 +1774,7 @@
         function buildCeaNoticePayload(nextVersion) {
           const enabled = Boolean(enabledInput.checked);
           const url = safeString(urlInput.value, DEFAULT_CEA_CONFIG.url);
+          const workshopsUrl = safeString(workshopsUrlInput.value, DEFAULT_CEA_CONFIG.workshopsUrl);
           const message = safeString(messageInput.value, DEFAULT_CEA_CONFIG.message);
           const version = safeVersion(nextVersion);
           const updatedBy = auth && auth.currentUser && auth.currentUser.email
@@ -1778,6 +1785,7 @@
             enabled: enabled,
             version: version,
             url: url,
+            workshopsUrl: workshopsUrl,
             title: DEFAULT_CEA_CONFIG.title,
             message: message,
             updatedAt: serverTimestamp(),
@@ -1849,7 +1857,12 @@
           const config = buildCeaNoticePayload(currentConfig.version);
 
           if (!isValidHttpsUrl(config.url)) {
-            setStatus('La URL del CEA debe ser v\u00e1lida y comenzar con https://', 'error');
+            setStatus('La URL de registro o acceso al CEA debe ser v\u00e1lida y comenzar con https://', 'error');
+            return;
+          }
+
+          if (!isValidHttpsUrl(config.workshopsUrl)) {
+            setStatus('La URL de Oferta de Talleres debe ser v\u00e1lida y comenzar con https://', 'error');
             return;
           }
 
@@ -1870,7 +1883,12 @@
           const config = buildCeaNoticePayload(nextVersion);
 
           if (!isValidHttpsUrl(config.url)) {
-            setStatus('La URL del CEA debe ser v\u00e1lida y comenzar con https://', 'error');
+            setStatus('La URL de registro o acceso al CEA debe ser v\u00e1lida y comenzar con https://', 'error');
+            return;
+          }
+
+          if (!isValidHttpsUrl(config.workshopsUrl)) {
+            setStatus('La URL de Oferta de Talleres debe ser v\u00e1lida y comenzar con https://', 'error');
             return;
           }
 

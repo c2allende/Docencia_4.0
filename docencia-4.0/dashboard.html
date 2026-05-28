@@ -1156,14 +1156,18 @@
           <div class="cea-compact-icon" aria-hidden="true">🎓</div>
 
           <div class="cea-compact-content">
-            <p class="cea-compact-kicker">TRÁMITE INICIAL</p>
+            <p class="cea-compact-kicker">TRÁMITE INICIAL CEA</p>
 
             <h2 id="ceaNoticeTitle" data-cea-title>
-              Registro en CEA para horas de educación continua
+              Registro y matrícula en CEA
             </h2>
 
             <p data-cea-message>
-              Para recibir las horas de educación continua profesional, complete también el registro del taller en la plataforma del CEA.
+              Para recibir las horas de educación continua profesional, primero acceda o cree su cuenta en CEA. Luego entre a la Oferta de Talleres y Módulos de Capacitación, busque LLM y marque las cuatro actividades del programa.
+            </p>
+
+            <p class="cea-compact-note">
+              Debe seleccionar las 4 actividades relacionadas con LLM antes de presionar “Enviar” en la plataforma del CEA.
             </p>
           </div>
 
@@ -1175,7 +1179,17 @@
               rel="noopener noreferrer"
               data-cea-link
             >
-              Ir al registro del CEA →
+              Acceder al CEA →
+            </a>
+
+            <a
+              class="btn btn-secondary cea-compact-btn"
+              href="https://actividadescea.uprrp.edu/talleres.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cea-workshops-link
+            >
+              Ver oferta de talleres →
             </a>
 
             <button
@@ -1183,7 +1197,7 @@
               class="btn btn-secondary cea-dismiss-btn"
               id="dismissCeaNotice"
             >
-              Ya me registré
+              Ya me matriculé en las 4 actividades
             </button>
           </div>
         </aside>
@@ -2406,6 +2420,20 @@
         return;
       }
 
+      const confirmed = window.confirm(
+        'Antes de ocultar este aviso, confirme que complet\u00f3 estos pasos en la plataforma del CEA:\n\n' +
+        '1. Accedi\u00f3 o cre\u00f3 su cuenta en CEA.\n' +
+        '2. Entr\u00f3 a Oferta de Talleres y M\u00f3dulos de Capacitaci\u00f3n.\n' +
+        '3. Escribi\u00f3 LLM en el buscador de actividades.\n' +
+        '4. Marc\u00f3 las 4 actividades del programa.\n' +
+        '5. Presion\u00f3 Enviar para completar la matr\u00edcula.\n\n' +
+        'Si ya complet\u00f3 estos pasos, presione Aceptar para ocultar el aviso.'
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
       const version = getNoticeVersion(notice);
       const storageKey = getStorageKey(version);
 
@@ -2477,11 +2505,12 @@
       }
 
       const defaultConfig = {
-        enabled: true,
+        enabled: false,
         version: 1,
         url: 'https://actividadescea.uprrp.edu/index.php',
-        title: 'Registro en CEA para horas de educaci\u00f3n continua',
-        message: 'Para recibir las horas de educaci\u00f3n continua profesional, complete tambi\u00e9n el registro del taller en la plataforma del CEA.'
+        workshopsUrl: 'https://actividadescea.uprrp.edu/talleres.php',
+        title: 'Registro y matr\u00edcula en CEA',
+        message: 'Para recibir las horas de educaci\u00f3n continua profesional, primero acceda o cree su cuenta en CEA. Luego entre a la Oferta de Talleres y M\u00f3dulos de Capacitaci\u00f3n, busque LLM y marque las cuatro actividades del programa.'
       };
 
       let config = { ...defaultConfig };
@@ -2522,6 +2551,7 @@
       const titleEl = notice.querySelector('[data-cea-title]');
       const messageEl = notice.querySelector('[data-cea-message]');
       const linkEl = notice.querySelector('[data-cea-link]');
+      const workshopsLinkEl = notice.querySelector('[data-cea-workshops-link]');
 
       if (titleEl) titleEl.textContent = config.title || defaultConfig.title;
       if (messageEl) messageEl.textContent = config.message || defaultConfig.message;
@@ -2530,6 +2560,12 @@
         linkEl.href = config.url || defaultConfig.url;
         linkEl.target = '_blank';
         linkEl.rel = 'noopener noreferrer';
+      }
+
+      if (workshopsLinkEl) {
+        workshopsLinkEl.href = config.workshopsUrl || defaultConfig.workshopsUrl;
+        workshopsLinkEl.target = '_blank';
+        workshopsLinkEl.rel = 'noopener noreferrer';
       }
 
       if (config.enabled === false) {
