@@ -827,6 +827,46 @@
     height: 20px;
   }
 }
+        /* Prototipo: Dashboard Welcome Inline */
+        .dashboard-welcome-inline {
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.12rem;
+            margin-right: 1rem;
+            max-width: 220px;
+            line-height: 1.15;
+            color: rgba(255, 255, 255, 0.96);
+        }
+        .dashboard-welcome-inline .welcome-label {
+            font-family: var(--font-family-body);
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.82);
+            white-space: nowrap;
+        }
+        .dashboard-welcome-inline .welcome-name {
+            font-family: var(--font-family-heading);
+            font-size: 1rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.98);
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @media (max-width: 768px) {
+            .dashboard-welcome-inline {
+                max-width: 180px;
+                margin-right: 0.5rem;
+            }
+            .dashboard-welcome-inline .welcome-label {
+                font-size: 0.74rem;
+            }
+            .dashboard-welcome-inline .welcome-name {
+                font-size: 0.88rem;
+            }
+        }
 </style>
 </head>
 
@@ -839,11 +879,17 @@
                     alt="Logo de Docencia 4.0" class="logo-main">
                 <div class="welcome-text">
                     <h1 class="dashboard-title">Academia Docencia 4.0</h1>
-                    <p class="header-subtitle">Integración estratégica de modelos de lenguaje de gran tamaño (LLM) como
-                        apoyo en la gestión docente</p>
+                    <p class="header-subtitle">
+                        <span>Integración estratégica de modelos de lenguaje de gran tamaño (LLM)</span><br>
+                        <span>como apoyo en la gestión del facilitador docente</span>
+                    </p>
                 </div>
             </div>
-            <nav class="dashboard-nav-links">
+            <nav class="dashboard-nav-links" style="align-items: center; flex-wrap: wrap;">
+                <div class="dashboard-welcome-inline" id="dashboardWelcome">
+                  <span class="welcome-label">Te damos la bienvenida</span>
+                  <strong id="dashboardWelcomeName" class="welcome-name"></strong>
+                </div>
                 <div class="notification-wrapper" id="notificationWrapper">
                     <button id="notificationBellBtn" class="notification-bell-btn" aria-label="Notificaciones">
                         🔔 <span id="notificationBadge" class="notification-badge hidden">0</span>
@@ -1498,6 +1544,50 @@
                         getUserReadStatus(user.uid),
                         getUserProfile(user.uid)
                     ]);
+
+                    // Actualizar Prototipo Welcome Inline
+                    const welcomeContainer = document.getElementById('dashboardWelcome');
+                    const welcomeName = document.getElementById('dashboardWelcomeName');
+
+                    if (welcomeContainer && welcomeName) {
+                        const rawName =
+                            profile?.nombreVisible ||
+                            profile?.displayName ||
+                            profile?.nombre ||
+                            profile?.name ||
+                            user?.displayName ||
+                            "";
+
+                        const cleanedName = rawName
+                            ? rawName.trim().replace(/\s+/g, " ")
+                            : "";
+
+                        function formatWelcomeName(fullName) {
+                            if (!fullName) return "";
+                            const normalized = fullName.trim().replace(/\s+/g, " ");
+                            if (!normalized || normalized.toLowerCase() === "participante") return "";
+                            const parts = normalized.split(" ");
+                            const firstName = parts[0];
+                            const secondPart = parts[1] || "";
+                            const isInitial = /^[A-ZÁÉÍÓÚÑ]\.?$/i.test(secondPart);
+                            if (isInitial) return `${firstName} ${secondPart.endsWith(".") ? secondPart : secondPart + "."}`;
+                            return firstName;
+                        }
+
+                        const displayName = formatWelcomeName(cleanedName);
+
+                        if (displayName) {
+                            welcomeName.textContent = displayName;
+                            welcomeName.title = cleanedName;
+                            welcomeName.style.display = "block";
+                        } else {
+                            welcomeName.textContent = "";
+                            welcomeName.removeAttribute("title");
+                            welcomeName.style.display = "none";
+                        }
+
+                        welcomeContainer.style.display = 'flex';
+                    }
 
                     // Fecha de creación del usuario (para no mostrar anuncios previos al registro - Fase 2.0F-11C)
                     const userCreatedAt = profile?.createdAt?.toMillis() || Date.now();
