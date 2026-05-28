@@ -1058,6 +1058,136 @@
             </div>
         </section>
 
+        <style>
+/* TEMPORAL PROTOTYPE ONLY — CEA COMPACT NOTICE */
+/* No migrar a producción sin aprobación explícita */
+
+.cea-compact-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
+  margin: var(--spacing-5) 0 var(--spacing-6);
+  background: var(--color-background-surface);
+  border: 1px solid rgba(0, 174, 239, 0.22);
+  border-left: 5px solid var(--color-brand-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.cea-compact-icon {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-lg);
+  background: var(--color-background-surface-low);
+  font-size: 1.35rem;
+}
+
+.cea-compact-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.cea-compact-kicker {
+  margin: 0 0 var(--spacing-1);
+  font-family: var(--font-family-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-brand-primary);
+}
+
+.cea-compact-content h2 {
+  margin: 0 0 var(--spacing-1);
+  font-family: var(--font-family-heading);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  color: var(--color-text-display);
+}
+
+.cea-compact-content p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.cea-compact-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.cea-compact-btn,
+.cea-dismiss-btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .cea-compact-notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cea-compact-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .cea-compact-btn,
+  .cea-dismiss-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+
+        <aside
+          class="cea-compact-notice"
+          id="ceaCompactNotice"
+          aria-labelledby="ceaNoticeTitle"
+          data-cea-version="1"
+          hidden
+        >
+          <div class="cea-compact-icon" aria-hidden="true">🎓</div>
+
+          <div class="cea-compact-content">
+            <p class="cea-compact-kicker">TRÁMITE INICIAL</p>
+
+            <h2 id="ceaNoticeTitle" data-cea-title>
+              Registro en CEA para horas de educación continua
+            </h2>
+
+            <p data-cea-message>
+              Para recibir las horas de educación continua profesional, complete también el registro del taller en la plataforma del CEA.
+            </p>
+          </div>
+
+          <div class="cea-compact-actions">
+            <a
+              class="btn btn-primary cea-compact-btn"
+              href="https://actividadescea.uprrp.edu/index.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cea-link
+            >
+              Ir al registro del CEA →
+            </a>
+
+            <button
+              type="button"
+              class="btn btn-secondary cea-dismiss-btn"
+              id="dismissCeaNotice"
+            >
+              Ya me registré
+            </button>
+          </div>
+        </aside>
+
         <section aria-labelledby="modulos-title">
             <h2 id="modulos-title" class="section-title section-title-lg">Módulos de Aprendizaje</h2>
             <div id="modules-grid-container" class="modules-grid" aria-live="polite">
@@ -2225,6 +2355,199 @@
 
     <script src="scripts/chatbot-docencia4-handler.js"></script>
   <script src="scripts/research-access-handler.js" type="module"></script>
+
+  <script>
+  (function () {
+    const STORAGE_PREFIX = 'docencia4_cea_notice_dismissed_v';
+
+    function getNotice() {
+      return document.getElementById('ceaCompactNotice');
+    }
+
+    function getDismissButton() {
+      return document.getElementById('dismissCeaNotice');
+    }
+
+    function getNoticeVersion(notice) {
+      const rawVersion = notice && notice.dataset ? notice.dataset.ceaVersion : '1';
+      const parsedVersion = Number(rawVersion);
+      return Number.isFinite(parsedVersion) && parsedVersion > 0 ? parsedVersion : 1;
+    }
+
+    function getStorageKey(version) {
+      return STORAGE_PREFIX + String(version || 1);
+    }
+
+    function hideNotice(notice) {
+      if (!notice) return;
+
+      notice.classList.add('is-dismissed');
+      notice.setAttribute('hidden', 'hidden');
+      notice.style.setProperty('display', 'none', 'important');
+    }
+
+    function showNotice(notice) {
+      if (!notice) return;
+
+      notice.classList.remove('is-dismissed');
+      notice.removeAttribute('hidden');
+      notice.style.removeProperty('display');
+    }
+
+    function isDismissed(version) {
+      return localStorage.getItem(getStorageKey(version)) === 'true';
+    }
+
+    function dismissNotice() {
+      const notice = getNotice();
+
+      if (!notice) {
+        console.error('[CEA Local] No se encontr\u00f3 #ceaCompactNotice.');
+        return;
+      }
+
+      const version = getNoticeVersion(notice);
+      const storageKey = getStorageKey(version);
+
+      localStorage.setItem(storageKey, 'true');
+      hideNotice(notice);
+
+      console.info('[CEA Local] Aviso CEA ocultado correctamente.', {
+        version,
+        storageKey
+      });
+    }
+
+    window.DocenciaCeaNotice = {
+      getStorageKey,
+      getNoticeVersion,
+      isDismissed,
+      hideNotice,
+      showNotice,
+      dismissNotice
+    };
+
+    document.addEventListener('click', function (event) {
+      const button = event.target.closest('#dismissCeaNotice');
+
+      if (!button) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      dismissNotice();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const notice = getNotice();
+      const button = getDismissButton();
+
+      if (!notice) {
+        console.error('[CEA Local] No existe #ceaCompactNotice al cargar DOM.');
+        return;
+      }
+
+      if (!button) {
+        console.error('[CEA Local] No existe #dismissCeaNotice al cargar DOM.');
+        return;
+      }
+
+      console.info('[CEA Local] Control local del aviso CEA listo.');
+    });
+  })();
+  </script>
+  <script type="module">
+    import { db } from './scripts/firebase-config.js';
+    import {
+      doc,
+      getDoc
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    document.addEventListener('DOMContentLoaded', async function () {
+      const notice = document.getElementById('ceaCompactNotice');
+
+      if (!notice) {
+        console.error('[CEA Firestore] No existe #ceaCompactNotice.');
+        return;
+      }
+
+      if (!window.DocenciaCeaNotice) {
+        console.error('[CEA Firestore] window.DocenciaCeaNotice no est\u00e1 disponible.');
+        return;
+      }
+
+      const defaultConfig = {
+        enabled: true,
+        version: 1,
+        url: 'https://actividadescea.uprrp.edu/index.php',
+        title: 'Registro en CEA para horas de educaci\u00f3n continua',
+        message: 'Para recibir las horas de educaci\u00f3n continua profesional, complete tambi\u00e9n el registro del taller en la plataforma del CEA.'
+      };
+
+      let config = { ...defaultConfig };
+
+      try {
+        console.info('[CEA Firestore] Leyendo configuraci\u00f3n systemConfig/dashboardNotices...');
+
+        const ref = doc(db, 'systemConfig', 'dashboardNotices');
+        const snap = await getDoc(ref);
+
+        if (snap.exists()) {
+          const data = snap.data();
+
+          if (data && data.ceaNotice) {
+            config = {
+              ...defaultConfig,
+              ...data.ceaNotice,
+              version: Number(data.ceaNotice.version || 1)
+            };
+
+            console.info('[CEA Firestore] Configuraci\u00f3n cargada:', {
+              enabled: config.enabled,
+              version: config.version,
+              url: config.url
+            });
+          } else {
+            console.warn('[CEA Firestore] El documento existe, pero no contiene ceaNotice. Usando fallback.');
+          }
+        } else {
+          console.warn('[CEA Firestore] No existe systemConfig/dashboardNotices. Usando fallback.');
+        }
+      } catch (error) {
+        console.error('[CEA Firestore] Error al leer configuraci\u00f3n:', error);
+      }
+
+      notice.dataset.ceaVersion = String(config.version || 1);
+
+      const titleEl = notice.querySelector('[data-cea-title]');
+      const messageEl = notice.querySelector('[data-cea-message]');
+      const linkEl = notice.querySelector('[data-cea-link]');
+
+      if (titleEl) titleEl.textContent = config.title || defaultConfig.title;
+      if (messageEl) messageEl.textContent = config.message || defaultConfig.message;
+
+      if (linkEl) {
+        linkEl.href = config.url || defaultConfig.url;
+        linkEl.target = '_blank';
+        linkEl.rel = 'noopener noreferrer';
+      }
+
+      if (config.enabled === false) {
+        console.info('[CEA Firestore] Aviso desactivado por configuraci\u00f3n admin.');
+        window.DocenciaCeaNotice.hideNotice(notice);
+        return;
+      }
+
+      if (window.DocenciaCeaNotice.isDismissed(config.version)) {
+        console.info('[CEA Firestore] Aviso oculto localmente para esta versi\u00f3n:', config.version);
+        window.DocenciaCeaNotice.hideNotice(notice);
+        return;
+      }
+
+      console.info('[CEA Firestore] Mostrando aviso CEA versi\u00f3n:', config.version);
+      window.DocenciaCeaNotice.showNotice(notice);
+    });
+  </script>
 </body>
 
 </html>

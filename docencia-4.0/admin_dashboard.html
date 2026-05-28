@@ -1053,6 +1053,98 @@
                     </form>
                 </section>
 
+                <section class="panel-card" aria-labelledby="cea-control-title" style="margin-top: 32px; margin-bottom: 32px;">
+                    <style>
+                    .cea-admin-actions {
+                      display: flex;
+                      align-items: center;
+                      gap: var(--spacing-3);
+                      flex-wrap: wrap;
+                      margin-top: var(--spacing-4);
+                    }
+
+                    #reactivateCeaNotice {
+                      border: 1px solid var(--color-brand-primary);
+                      color: var(--color-brand-primary);
+                      background: var(--color-background-surface);
+                    }
+
+                    #reactivateCeaNotice:hover,
+                    #reactivateCeaNotice:focus {
+                      background: var(--color-background-surface-low);
+                    }
+
+                    .cea-admin-status {
+                      margin-top: var(--spacing-3);
+                      font-size: 0.9rem;
+                      color: var(--color-text-secondary);
+                    }
+
+                    .cea-admin-status.is-error {
+                      color: var(--color-error, #b42318);
+                    }
+
+                    .cea-admin-status.is-success {
+                      color: var(--color-brand-primary);
+                    }
+
+                    .cea-admin-status.is-info {
+                      color: var(--color-brand-primary);
+                    }
+                    </style>
+
+                    <header class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 16px;">
+                        <div>
+                            <span class="section-kicker">CONFIGURACI&Oacute;N GLOBAL</span>
+                            <h2 id="cea-control-title">Aviso CEA &mdash; Educaci&oacute;n continua</h2>
+                            <p>Ajuste el mensaje, el enlace y la visibilidad del aviso de registro en el CEA para todos los participantes.</p>
+                        </div>
+                    </header>
+
+                    <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 16px; margin-bottom: 16px;">
+                            <div>
+                                <h3 style="margin: 0 0 4px 0; font-size: 1.1rem;">Mostrar aviso CEA</h3>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-secondary);">Si est&aacute; apagado, nadie ver&aacute; el aviso.</p>
+                            </div>
+                            <label class="research-access-toggle-switch">
+                                <input type="checkbox" id="ceaNoticeEnabled">
+                                <span class="research-access-slider"></span>
+                            </label>
+                        </div>
+
+                        <div style="margin-top: 16px;">
+                            <label class="research-access-url-label" for="ceaNoticeUrl">URL del registro en CEA:</label>
+                            <input id="ceaNoticeUrl" class="research-access-url-input" type="url" placeholder="Pegue aqu&iacute; el enlace del CEA">
+
+                            <label class="research-access-url-label" for="ceaNoticeMessage" style="margin-top: 16px;">Mensaje del aviso:</label>
+                            <textarea id="ceaNoticeMessage" class="research-access-url-input" rows="3" placeholder="Mensaje que acompa&ntilde;a el aviso..."></textarea>
+
+                            <p id="ceaNoticeVersionLabel" style="margin-top: 16px; font-size: 0.85rem; color: var(--color-text-secondary); font-weight: bold;">Conteo de reactivaciones: cargando...</p>
+                        </div>
+                    </div>
+
+                    <div class="cea-admin-actions">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="saveCeaNoticeConfig"
+                      >
+                        Guardar cambios
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="reactivateCeaNotice"
+                      >
+                        Reactivar aviso para todos
+                      </button>
+                    </div>
+
+                    <p id="ceaNoticeStatus" class="cea-admin-status" aria-live="polite"></p>
+                </section>
+
                 <section class="panel-card research-access-embedded" aria-labelledby="research-access-title" style="margin-top: 32px; margin-bottom: 32px;">
                     <style>
                         .research-access-danger-btn {
@@ -1584,6 +1676,213 @@
         window.serverTimestamp = serverTimestamp;
     </script>
 
+    <script type="module">
+      import { db, auth } from './scripts/firebase-config.js';
+      import {
+        doc,
+        getDoc,
+        setDoc,
+        serverTimestamp
+      } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+      const DEFAULT_CEA_CONFIG = {
+        enabled: true,
+        version: 1,
+        url: 'https://actividadescea.uprrp.edu/index.php',
+        title: 'Registro en CEA para horas de educaci\u00f3n continua',
+        message: 'Para recibir las horas de educaci\u00f3n continua profesional, complete tambi\u00e9n el registro del taller en la plataforma del CEA.'
+      };
+
+      function safeString(value, fallback) {
+        const output = typeof value === 'string' ? value.trim() : '';
+        return output || fallback;
+      }
+
+      function safeVersion(value) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+      }
+
+      function isValidHttpsUrl(value) {
+        try {
+          const parsed = new URL(value);
+          return parsed.protocol === 'https:';
+        } catch (error) {
+          return false;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', async function () {
+        const enabledInput = document.getElementById('ceaNoticeEnabled');
+        const urlInput = document.getElementById('ceaNoticeUrl');
+        const messageInput = document.getElementById('ceaNoticeMessage');
+        const versionLabel = document.getElementById('ceaNoticeVersionLabel');
+        const statusLabel = document.getElementById('ceaNoticeStatus');
+        const saveButton = document.getElementById('saveCeaNoticeConfig');
+        const reactivateButton = document.getElementById('reactivateCeaNotice');
+
+        if (
+          !enabledInput || !urlInput || !messageInput ||
+          !versionLabel || !statusLabel || !saveButton || !reactivateButton
+        ) {
+          console.error('[CEA Admin] Faltan IDs requeridos en el panel CEA.');
+          return;
+        }
+
+        let currentConfig = { ...DEFAULT_CEA_CONFIG };
+
+        function setStatus(message, type) {
+          statusLabel.textContent = message || '';
+          statusLabel.className = 'cea-admin-status';
+          if (type === 'error') statusLabel.classList.add('is-error');
+          else if (type === 'success') statusLabel.classList.add('is-success');
+          else statusLabel.classList.add('is-info');
+        }
+
+        function setButtonsLoading(isLoading) {
+          saveButton.disabled = Boolean(isLoading);
+          reactivateButton.disabled = Boolean(isLoading);
+          saveButton.setAttribute('aria-busy', String(Boolean(isLoading)));
+          reactivateButton.setAttribute('aria-busy', String(Boolean(isLoading)));
+        }
+
+        function restoreButtons() {
+          saveButton.disabled = false;
+          reactivateButton.disabled = false;
+          saveButton.removeAttribute('aria-busy');
+          reactivateButton.removeAttribute('aria-busy');
+        }
+
+        function renderConfig(config) {
+          currentConfig = {
+            ...DEFAULT_CEA_CONFIG,
+            ...config,
+            version: safeVersion(config.version)
+          };
+          enabledInput.checked = currentConfig.enabled !== false;
+          urlInput.value = currentConfig.url;
+          messageInput.value = currentConfig.message;
+          versionLabel.textContent = 'Conteo de reactivaciones: ' + currentConfig.version;
+        }
+
+        function buildCeaNoticePayload(nextVersion) {
+          const enabled = Boolean(enabledInput.checked);
+          const url = safeString(urlInput.value, DEFAULT_CEA_CONFIG.url);
+          const message = safeString(messageInput.value, DEFAULT_CEA_CONFIG.message);
+          const version = safeVersion(nextVersion);
+          const updatedBy = auth && auth.currentUser && auth.currentUser.email
+            ? auth.currentUser.email
+            : 'admin';
+
+          return {
+            enabled: enabled,
+            version: version,
+            url: url,
+            title: DEFAULT_CEA_CONFIG.title,
+            message: message,
+            updatedAt: serverTimestamp(),
+            updatedBy: updatedBy
+          };
+        }
+
+        async function loadConfig() {
+          try {
+            setStatus('Cargando configuraci\u00f3n del aviso CEA...', 'info');
+            const ref = doc(db, 'systemConfig', 'dashboardNotices');
+            const snap = await getDoc(ref);
+
+            if (!snap.exists()) {
+              renderConfig(DEFAULT_CEA_CONFIG);
+              setStatus('No exist\u00eda configuraci\u00f3n previa. Usa \u201cGuardar cambios\u201d para crearla.', 'info');
+              return;
+            }
+
+            const data = snap.data();
+            const ceaNotice = data && data.ceaNotice ? data.ceaNotice : DEFAULT_CEA_CONFIG;
+            renderConfig(ceaNotice);
+            setStatus('Configuraci\u00f3n cargada correctamente.', 'success');
+          } catch (error) {
+            console.error('[CEA Admin] Error al cargar configuraci\u00f3n:', error);
+            renderConfig(DEFAULT_CEA_CONFIG);
+            setStatus('Error al cargar configuraci\u00f3n. Revisa consola.', 'error');
+          }
+        }
+
+        async function persistConfig(config, successMessage) {
+          try {
+            setButtonsLoading(true);
+            setStatus('Guardando configuraci\u00f3n...', 'info');
+
+            const ref = doc(db, 'systemConfig', 'dashboardNotices');
+            const payload = { ceaNotice: config };
+
+            console.info('[CEA Admin] Payload:', {
+              ceaNotice: {
+                enabled: config.enabled,
+                version: config.version,
+                url: config.url,
+                updatedBy: config.updatedBy
+              }
+            });
+
+            await setDoc(ref, payload, { merge: true });
+
+            currentConfig = {
+              ...DEFAULT_CEA_CONFIG,
+              ...config,
+              version: safeVersion(config.version)
+            };
+            renderConfig(currentConfig);
+            setStatus(successMessage, 'success');
+          } catch (error) {
+            console.error('[CEA Admin] Error al guardar configuraci\u00f3n:', error);
+            const code = error && error.code ? error.code : 'sin-codigo';
+            const msg = error && error.message ? error.message : 'sin mensaje';
+            setStatus('Error al guardar cambios (' + code + '). ' + msg, 'error');
+          } finally {
+            restoreButtons();
+          }
+        }
+
+        saveButton.addEventListener('click', async function () {
+          restoreButtons();
+          const config = buildCeaNoticePayload(currentConfig.version);
+
+          if (!isValidHttpsUrl(config.url)) {
+            setStatus('La URL del CEA debe ser v\u00e1lida y comenzar con https://', 'error');
+            return;
+          }
+
+          await persistConfig(
+            config,
+            'Cambios guardados correctamente. Conteo de reactivaciones: ' + config.version
+          );
+        });
+
+        reactivateButton.addEventListener('click', async function () {
+          const confirmed = window.confirm(
+            'Esta acci\u00f3n volver\u00e1 a mostrar el aviso CEA a todos los participantes, incluso si ya lo hab\u00edan ocultado. \u00bfDeseas continuar?'
+          );
+          if (!confirmed) return;
+
+          restoreButtons();
+          const nextVersion = safeVersion(currentConfig.version) + 1;
+          const config = buildCeaNoticePayload(nextVersion);
+
+          if (!isValidHttpsUrl(config.url)) {
+            setStatus('La URL del CEA debe ser v\u00e1lida y comenzar con https://', 'error');
+            return;
+          }
+
+          await persistConfig(
+            config,
+            'Aviso reactivado para todos. Nuevo conteo de reactivaciones: ' + config.version
+          );
+        });
+
+        await loadConfig();
+      });
+    </script>
     <script src="scripts/admin-research-access-handler.js"></script>
 </body>
 
