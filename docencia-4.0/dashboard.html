@@ -1063,85 +1063,113 @@
 /* No migrar a producción sin aprobación explícita */
 
 .cea-compact-notice {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-4);
-  padding: var(--spacing-4) var(--spacing-5);
-  margin: var(--spacing-5) 0 var(--spacing-6);
+  display: block;
+  padding: var(--spacing-6);
+  margin: var(--spacing-6) 0 var(--spacing-8);
   background: var(--color-background-surface);
-  border: 1px solid rgba(0, 174, 239, 0.22);
-  border-left: 5px solid var(--color-brand-primary);
+  border: 1px solid rgba(0, 174, 239, 0.24);
+  border-left: 6px solid var(--color-brand-primary);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
 }
 
+.cea-compact-notice[hidden],
+.cea-compact-notice.is-dismissed {
+  display: none !important;
+}
+
+.cea-compact-main {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: var(--spacing-4);
+  align-items: start;
+}
+
 .cea-compact-icon {
-  width: 46px;
-  height: 46px;
-  min-width: 46px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   border-radius: var(--radius-lg);
   background: var(--color-background-surface-low);
-  font-size: 1.35rem;
+  font-size: 1.4rem;
 }
 
 .cea-compact-content {
-  flex: 1;
-  min-width: 0;
+  max-width: 920px;
 }
 
 .cea-compact-kicker {
   margin: 0 0 var(--spacing-1);
   font-family: var(--font-family-heading);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-brand-primary);
 }
 
 .cea-compact-content h2 {
-  margin: 0 0 var(--spacing-1);
+  margin: 0 0 var(--spacing-2);
   font-family: var(--font-family-heading);
-  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.2;
   color: var(--color-text-display);
 }
 
 .cea-compact-content p {
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: 0.92rem;
-  line-height: 1.45;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.cea-compact-note {
+  margin-top: var(--spacing-2) !important;
+  color: var(--color-text-primary);
 }
 
 .cea-compact-actions {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
   flex-wrap: wrap;
-  justify-content: flex-end;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-5);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
 }
 
+.cea-compact-actions .btn,
 .cea-compact-btn,
 .cea-dismiss-btn {
-  white-space: nowrap;
+  min-width: 220px;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
 }
 
 @media (max-width: 768px) {
   .cea-compact-notice {
-    align-items: flex-start;
-    flex-direction: column;
+    padding: var(--spacing-5);
+  }
+
+  .cea-compact-main {
+    grid-template-columns: 1fr;
+  }
+
+  .cea-compact-icon {
+    width: 46px;
+    height: 46px;
   }
 
   .cea-compact-actions {
-    width: 100%;
-    justify-content: flex-start;
+    flex-direction: column;
   }
 
+  .cea-compact-actions .btn,
   .cea-compact-btn,
   .cea-dismiss-btn {
     width: 100%;
-    justify-content: center;
+    min-width: 0;
   }
 }
 </style>
@@ -1153,22 +1181,24 @@
           data-cea-version="1"
           hidden
         >
-          <div class="cea-compact-icon" aria-hidden="true">🎓</div>
+          <div class="cea-compact-main">
+            <div class="cea-compact-icon" aria-hidden="true">🎓</div>
 
-          <div class="cea-compact-content">
-            <p class="cea-compact-kicker">TRÁMITE INICIAL CEA</p>
+            <div class="cea-compact-content">
+              <p class="cea-compact-kicker">TRÁMITE INICIAL CEA</p>
 
-            <h2 id="ceaNoticeTitle" data-cea-title>
-              Registro y matrícula en CEA
-            </h2>
+              <h2 id="ceaNoticeTitle" data-cea-title>
+                Registro y matrícula en CEA
+              </h2>
 
-            <p data-cea-message>
-              Para recibir las horas de educación continua profesional, primero acceda o cree su cuenta en CEA. Luego entre a la Oferta de Talleres y Módulos de Capacitación, busque LLM y marque las cuatro actividades del programa.
-            </p>
+              <p data-cea-message>
+                Para recibir las horas de educación continua profesional, complete también el registro del taller en la plataforma del CEA. Debe seleccionar las 4 actividades relacionadas con LLM antes de presionar “Enviar” en la plataforma del CEA.
+              </p>
 
-            <p class="cea-compact-note">
-              Debe seleccionar las 4 actividades relacionadas con LLM antes de presionar “Enviar” en la plataforma del CEA.
-            </p>
+              <p class="cea-compact-note">
+                En la página de oferta de talleres, escriba <strong>LLM</strong> en el buscador y marque las 4 actividades disponibles.
+              </p>
+            </div>
           </div>
 
           <div class="cea-compact-actions">
