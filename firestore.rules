@@ -498,5 +498,16 @@ service cloud.firestore {
       }
     }
 
+    // 6. Comunicaciones
+    match /comunicaciones/{commId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 7. Evidencias Padlet
+    match /evidenciasPadlet/{document=**} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
   }
 }
